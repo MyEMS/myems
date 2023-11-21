@@ -1352,6 +1352,17 @@ class MicrogridPowerconversionsystemCollection:
             for row in rows_points:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
+        # query command dict
+        query = (" SELECT id, name "
+                 " FROM tbl_commands ")
+        cursor.execute(query)
+        rows_commands = cursor.fetchall()
+
+        command_dict = dict()
+        if rows_commands is not None and len(rows_commands) > 0:
+            for row in rows_commands:
+                command_dict[row[0]] = {"id": row[0],
+                                        "name": row[1]}
 
         query = (" SELECT id, name, uuid, run_state_point_id, capacity, "
                  "        charge_start_time1_point_id, charge_end_time1_point_id, "
@@ -1361,7 +1372,15 @@ class MicrogridPowerconversionsystemCollection:
                  "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
                  "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
                  "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
-                 "        discharge_start_time4_point_id, discharge_end_time4_point_id "
+                 "        discharge_start_time4_point_id, discharge_end_time4_point_id, "
+                 "        charge_start_time1_command_id, charge_end_time1_command_id, "
+                 "        charge_start_time2_command_id, charge_end_time2_command_id, "
+                 "        charge_start_time3_command_id, charge_end_time3_command_id, "
+                 "        charge_start_time4_command_id, charge_end_time4_command_id, "
+                 "        discharge_start_time1_command_id, discharge_end_time1_command_id, "
+                 "        discharge_start_time2_command_id, discharge_end_time2_command_id, "
+                 "        discharge_start_time3_command_id, discharge_end_time3_command_id, "
+                 "        discharge_start_time4_command_id, discharge_end_time4_command_id "
                  " FROM tbl_microgrids_power_conversion_systems "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -1388,6 +1407,22 @@ class MicrogridPowerconversionsystemCollection:
                 discharge_end_time3_point = point_dict.get(row[18])
                 discharge_start_time4_point = point_dict.get(row[19])
                 discharge_end_time4_point = point_dict.get(row[20])
+                charge_start_time1_command = command_dict.get(row[21])
+                charge_end_time1_command = command_dict.get(row[22])
+                charge_start_time2_command = command_dict.get(row[23])
+                charge_end_time2_command = command_dict.get(row[24])
+                charge_start_time3_command = command_dict.get(row[25])
+                charge_end_time3_command = command_dict.get(row[26])
+                charge_start_time4_command = command_dict.get(row[27])
+                charge_end_time4_command = command_dict.get(row[28])
+                discharge_start_time1_command = command_dict.get(row[29])
+                discharge_end_time1_command = command_dict.get(row[30])
+                discharge_start_time2_command = command_dict.get(row[31])
+                discharge_end_time2_command = command_dict.get(row[32])
+                discharge_start_time3_command = command_dict.get(row[33])
+                discharge_end_time3_command = command_dict.get(row[34])
+                discharge_start_time4_command = command_dict.get(row[35])
+                discharge_end_time4_command = command_dict.get(row[36])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -1408,7 +1443,23 @@ class MicrogridPowerconversionsystemCollection:
                                "discharge_start_time3_point": discharge_start_time3_point,
                                "discharge_end_time3_point": discharge_end_time3_point,
                                "discharge_start_time4_point": discharge_start_time4_point,
-                               "discharge_end_time4_point": discharge_end_time4_point}
+                               "discharge_end_time4_point": discharge_end_time4_point,
+                               "charge_start_time1_command": charge_start_time1_command,
+                               "charge_end_time1_command": charge_end_time1_command,
+                               "charge_start_time2_command": charge_start_time2_command,
+                               "charge_end_time2_command": charge_end_time2_command,
+                               "charge_start_time3_command": charge_start_time3_command,
+                               "charge_end_time3_command": charge_end_time3_command,
+                               "charge_start_time4_command": charge_start_time4_command,
+                               "charge_end_time4_command": charge_end_time4_command,
+                               "discharge_start_time1_command": discharge_start_time1_command,
+                               "discharge_end_time1_command": discharge_end_time1_command,
+                               "discharge_start_time2_command": discharge_start_time2_command,
+                               "discharge_end_time2_command": discharge_end_time2_command,
+                               "discharge_start_time3_command": discharge_start_time3_command,
+                               "discharge_end_time3_command": discharge_end_time3_command,
+                               "discharge_start_time4_command": discharge_start_time4_command,
+                               "discharge_end_time4_command": discharge_end_time4_command}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

@@ -189,6 +189,166 @@
                     </ui-select>
                 </div>
             </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME1_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_start_time1_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME1_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_end_time1_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME2_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_start_time2_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME2_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_end_time2_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME3_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_start_time3_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME3_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_end_time3_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME4_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_start_time4_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME4_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.charge_end_time4_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME1_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_start_time1_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME1_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_end_time1_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME2_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_start_time2_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME2_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_end_time2_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME3_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_start_time3_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME3_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_end_time3_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME4_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_start_time4_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME4_COMMAND' | translate}}</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="microgridpowerconversionsystem.discharge_end_time4_command.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
+                            <div ng-bind-html="command.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
