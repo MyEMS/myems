@@ -84,6 +84,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [dischargeEndTime4, setDischargeEndTime4] = useState(null);
 
   //Results
+
+  const [microgridName, setMicrogridName] = useState();
+  const [microgridAddress, setMicrogridAddress] = useState();
+  const [microgridPostalCode, setMicrogridPostalCode] = useState();
+  const [microgridCapacity, setMicrogridCapacity] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -120,7 +125,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-
+        setMicrogridName(json['microgrid']['name']);
+        setMicrogridAddress(json['microgrid']['address']);
+        setMicrogridPostalCode(json['microgrid']['postal_code']);
+        setMicrogridCapacity(json['microgrid']['capacity']);
         setMicrogridSVG({__html: json['microgrid']['svg']});
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
@@ -266,7 +274,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
         <Col lg="4" className="pr-lg-2">
-
+          <Table bordered>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{microgridName}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Address</th>
+                <td> {microgridAddress} </td>
+              </tr>
+              <tr>
+                <th scope="row">Postal Code</th>
+                <td> {microgridPostalCode} </td>
+              </tr>
+              <tr>
+                <th scope="row">Capacity (kW)</th>
+                <td> {microgridCapacity} </td>
+              </tr>
+            </tbody>
+          </Table>
         </Col>
       </Row>
       <MultipleLineChart reportingTitle={t('Related Parameters')}
