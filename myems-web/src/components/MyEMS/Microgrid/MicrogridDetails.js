@@ -266,14 +266,15 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
         <Col lg="4" className="pr-lg-2">
-          <MultipleLineChart reportingTitle={t('Related Parameters')}
+
+        </Col>
+      </Row>
+      <MultipleLineChart reportingTitle={t('Related Parameters')}
             baseTitle=''
             labels={parameterLineChartLabels}
             data={parameterLineChartData}
             options={parameterLineChartOptions}>
-          </MultipleLineChart>
-        </Col>
-      </Row>
+      </MultipleLineChart>
       <MultiTrendChart reportingTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": microgridReportingNames, "VALUE": microgridReportingSubtotals, "UNIT": microgridReportingUnits}}
         baseTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
         reportingTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
