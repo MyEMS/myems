@@ -89,6 +89,8 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridAddress, setMicrogridAddress] = useState();
   const [microgridPostalCode, setMicrogridPostalCode] = useState();
   const [microgridCapacity, setMicrogridCapacity] = useState();
+  const [microgridLatitude, setMicrogridLatitude] = useState();
+  const [microgridLongitude, setMicrogridLongitude] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -129,6 +131,8 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         setMicrogridAddress(json['microgrid']['address']);
         setMicrogridPostalCode(json['microgrid']['postal_code']);
         setMicrogridCapacity(json['microgrid']['capacity']);
+        setMicrogridLatitude(json['microgrid']['latitude']);
+        setMicrogridLongitude(json['microgrid']['longitude']);
         setMicrogridSVG({__html: json['microgrid']['svg']});
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
@@ -277,7 +281,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           <Table bordered>
             <thead>
               <tr>
-                <th>#</th>
+                <th>Name</th>
                 <th>{microgridName}</th>
               </tr>
             </thead>
@@ -293,6 +297,14 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               <tr>
                 <th scope="row">Capacity (kW)</th>
                 <td> {microgridCapacity} </td>
+              </tr>
+              <tr>
+                <th scope="row">Latitude</th>
+                <td> {microgridLatitude} </td>
+              </tr>
+              <tr>
+                <th scope="row">Longitude</th>
+                <td> {microgridLongitude} </td>
               </tr>
             </tbody>
           </Table>
