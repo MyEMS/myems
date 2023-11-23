@@ -33,7 +33,7 @@ class CommandCollection:
         query = (" SELECT id, name, uuid, "
                  "        topic, payload, set_value, description "
                  " FROM tbl_commands "
-                 " ORDER BY name ")
+                 " ORDER BY id ")
         cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()

@@ -30,17 +30,11 @@
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}
 														</th>
-														<th class="text-center">{{'SPACE.AREA' | translate}}</th>
-														<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
-														<th class="text-center">{{'SETTING.TIMEZONE' | translate}}</th>
 														<th class="text-center">
 															{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 														<th class="text-center">
 															{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
-														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}
 														</th>
-														<th class="text-center">{{'SPACE.LATITUDE' | translate}}</th>
-										                <th class="text-center">{{'SPACE.LONGITUDE' | translate}}</th>
 														<th class="text-center">{{'SPACE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 													</tr>
@@ -50,18 +44,12 @@
 														<td class="text-center">{{ currentSpace.id }}</td>
 														<td class="text-center">{{ currentSpace.name }}</td>
 														<td class="text-center">{{ currentSpace.parent_space.name }}</td>
-														<td class="text-center">{{ currentSpace.area }}</td>
-														<td class="text-center">{{ currentSpace.contact.name }}</td>
-														<td class="text-center">{{ currentSpace.timezone.name }}</td>
 														<td class="text-center">
 															{{ currentSpace.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
 														<td class="text-center">
 															{{ currentSpace.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
-														<td class="text-center">{{currentSpace.cost_center.name}}</td>
-														<td class="text-center">{{ currentSpace.latitude }}</td>
-														<td class="text-center">{{ currentSpace.longitude }}</td>
 														<td class="text-center">{{currentSpace.description}}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"
@@ -169,7 +157,7 @@
 										<div class="panel-heading">
 											{{'SETTING.N_S_METER' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -241,7 +229,7 @@
 										<div class="panel-heading">
 											{{'SPACE.N_S_EQUIPMENT' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairEquipment(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -298,7 +286,7 @@
 										<div class="panel-heading">
 											{{'SPACE.N_S_COMBINED_EQUIPMENT' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairCombinedEquipment(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -355,7 +343,7 @@
 										<div class="panel-heading">
 											{{'SETTING.N_S_POINT' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -428,7 +416,7 @@
 										<div class="panel-heading">
 											{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairSensor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -485,7 +473,7 @@
 										<div class="panel-heading">
 											{{'SPACE.N_S_TENANT' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairTenant(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -541,7 +529,7 @@
 										<div class="panel-heading">
 											{{'SPACE.N_S_STORE' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairStore(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -597,7 +585,7 @@
 										<div class="panel-heading">
 											{{'SPACE.N_S_SHOPFLOOR' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairShopfloor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
@@ -654,7 +642,7 @@
 										<div class="panel-heading">
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
-										<div class="panel-body maxheight" 
+										<div class="panel-body maxheight"
 										    x-hjc-drop-target="true"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
