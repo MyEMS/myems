@@ -86,6 +86,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
 
   const [microgridName, setMicrogridName] = useState();
+  const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
   const [microgridAddress, setMicrogridAddress] = useState();
   const [microgridPostalCode, setMicrogridPostalCode] = useState();
   const [microgridCapacity, setMicrogridCapacity] = useState();
@@ -128,6 +129,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       if (isResponseOK) {
         console.log(json);
         setMicrogridName(json['microgrid']['name']);
+        setMicrogridSerialNumber(json['microgrid']['serial_number']);
         setMicrogridAddress(json['microgrid']['address']);
         setMicrogridPostalCode(json['microgrid']['postal_code']);
         setMicrogridCapacity(json['microgrid']['capacity']);
@@ -278,36 +280,35 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
         <Col lg="4" className="pr-lg-2">
-          <Table bordered>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>{microgridName}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Address</th>
-                <td> {microgridAddress} </td>
-              </tr>
-              <tr>
-                <th scope="row">Postal Code</th>
-                <td> {microgridPostalCode} </td>
-              </tr>
-              <tr>
-                <th scope="row">Capacity (kW)</th>
-                <td> {microgridCapacity} </td>
-              </tr>
-              <tr>
-                <th scope="row">Latitude</th>
-                <td> {microgridLatitude} </td>
-              </tr>
-              <tr>
-                <th scope="row">Longitude</th>
-                <td> {microgridLongitude} </td>
-              </tr>
-            </tbody>
-          </Table>
+          <Card className="mb-3 fs--1">
+            <CardBody>
+              <h6>{microgridName}</h6>
+              <h6 className="mt-4">Serial Number</h6>
+              <div className="mb-1">
+                {microgridSerialNumber}
+              </div>
+              <h6 className="mt-4">Address</h6>
+              <div className="mb-1">
+                {microgridAddress}
+              </div>
+              <h6 className="mt-4">Postal Code</h6>
+              <div className="mb-1">
+                {microgridPostalCode}
+              </div>
+              <h6 className="mt-4">Capacity (kW)</h6>
+              <div className="mb-1">
+                {microgridCapacity}
+              </div>
+              <h6 className="mt-4">Latitude</h6>
+              <div className="mb-1">
+                {microgridLatitude}
+              </div>
+              <h6 className="mt-4">Longitude</h6>
+              <div className="mb-1">
+                {microgridLongitude}
+              </div>
+            </CardBody>
+          </Card>
         </Col>
       </Row>
       <MultipleLineChart reportingTitle={t('Related Parameters')}
