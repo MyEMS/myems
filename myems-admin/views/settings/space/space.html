@@ -83,17 +83,10 @@
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}
 														</th>
-														<th class="text-center">{{'SPACE.AREA' | translate}}</th>
-														<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
-														<th class="text-center">{{'SETTING.TIMEZONE' | translate}}</th>
 														<th class="text-center">
 															{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 														<th class="text-center">
 															{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
-														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}
-														</th>
-														<th class="text-center">{{'SPACE.LATITUDE' | translate}}</th>
-										                <th class="text-center">{{'SPACE.LONGITUDE' | translate}}</th>
 														<th class="text-center">{{'SPACE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 														<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 													</tr>
@@ -103,18 +96,12 @@
 														<td class="text-center">{{ space.id }}</td>
 														<td class="text-center">{{ space.name }}</td>
 														<td class="text-center">{{ space.parent_space.name }}</td>
-														<td class="text-center">{{ space.area }}</td>
-														<td class="text-center">{{ space.contact.name }}</td>
-														<td class="text-center">{{ space.timezone.name }}</td>
 														<td class="text-center">
 															{{ space.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
 														<td class="text-center">
 															{{ space.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
-														<td class="text-center">{{space.cost_center.name}}</td>
-														<td class="text-center">{{ space.latitude }}</td>
-														<td class="text-center">{{ space.longitude }}</td>
 														<td class="text-center">{{space.description}}</td>
 														<td class="text-center">
 															<a class="btn btn-primary btn-rounded btn-xs"
