@@ -104,7 +104,7 @@ class Reporting:
         if microgrid_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, capacity, "
-                     "        contact_id, cost_center_id, svg, description "
+                     "        contact_id, cost_center_id, serial_number, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE id = %s ")
             cursor_system.execute(query, (microgrid_id,))
@@ -112,7 +112,7 @@ class Reporting:
         elif microgrid_uuid is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, capacity, "
-                     "        contact_id, cost_center_id, svg, description "
+                     "        contact_id, cost_center_id, serial_number, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE uuid = %s ")
             cursor_system.execute(query, (microgrid_uuid,))
@@ -125,8 +125,8 @@ class Reporting:
                                    description='API.MICROGRID_NOT_FOUND')
         else:
             microgrid_id = row[0]
-            contact = contact_dict.get(row[10], None)
-            cost_center = cost_center_dict.get(row[11], None)
+            contact = contact_dict.get(row[8], None)
+            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -137,8 +137,9 @@ class Reporting:
                            "capacity": row[7],
                            "contact": contact,
                            "cost_center": cost_center,
-                           "svg": row[10],
-                           "description": row[11],
+                           "serial_number": row[10],
+                           "svg": row[11],
+                           "description": row[12],
                            "qrcode": 'microgrid:' + row[2]}
 
         point_list = list()
