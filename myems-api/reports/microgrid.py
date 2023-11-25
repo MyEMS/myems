@@ -407,7 +407,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Buy',
                                "energy_category_id": row_meter[2]})
 
         cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
@@ -417,7 +417,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
+                               "name": row_meter[1] + '.Sell',
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
