@@ -220,7 +220,15 @@ class Reporting:
                               "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
                               "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
                               "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
-                              "        discharge_start_time4_point_id, discharge_end_time4_point_id "
+                              "        discharge_start_time4_point_id, discharge_end_time4_point_id, "
+                              "        charge_start_time1_command_id, charge_end_time1_command_id, "
+                              "        charge_start_time2_command_id, charge_end_time2_command_id, "
+                              "        charge_start_time3_command_id, charge_end_time3_command_id, "
+                              "        charge_start_time4_command_id, charge_end_time4_command_id, "
+                              "        discharge_start_time1_command_id, discharge_end_time1_command_id, "
+                              "        discharge_start_time2_command_id, discharge_end_time2_command_id, "
+                              "        discharge_start_time3_command_id, discharge_end_time3_command_id, "
+                              "        discharge_start_time4_command_id, discharge_end_time4_command_id "
                               " FROM tbl_microgrids_power_conversion_systems "
                               " WHERE id = %s "
                               " ORDER BY id "
@@ -244,6 +252,22 @@ class Reporting:
             discharge_end_time3_point_id = row_point[13]
             discharge_start_time4_point_id = row_point[14]
             discharge_end_time4_point_id = row_point[15]
+            charge_start_time1_command_id = row_point[16]
+            charge_end_time1_command_id = row_point[17]
+            charge_start_time2_command_id = row_point[18]
+            charge_end_time2_command_id = row_point[19]
+            charge_start_time3_command_id = row_point[20]
+            charge_end_time3_command_id = row_point[21]
+            charge_start_time4_command_id = row_point[22]
+            charge_end_time4_command_id = row_point[23]
+            discharge_start_time1_command_id = row_point[24]
+            discharge_end_time1_command_id = row_point[25]
+            discharge_start_time2_command_id = row_point[26]
+            discharge_end_time2_command_id = row_point[27]
+            discharge_start_time3_command_id = row_point[28]
+            discharge_end_time3_command_id = row_point[29]
+            discharge_start_time4_command_id = row_point[30]
+            discharge_end_time4_command_id = row_point[31]
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
@@ -682,6 +706,22 @@ class Reporting:
         result['schedule']['discharge_end_time3'] = discharge_end_time3_value
         result['schedule']['discharge_start_time4'] = discharge_start_time4_value
         result['schedule']['discharge_end_time4'] = discharge_end_time4_value
+        result['schedule']['charge_start_time1_command_id'] = charge_start_time1_command_id
+        result['schedule']['charge_end_time1_command_id'] = charge_end_time1_command_id
+        result['schedule']['charge_start_time2_command_id'] = charge_start_time2_command_id
+        result['schedule']['charge_end_time2_command_id'] = charge_end_time2_command_id
+        result['schedule']['charge_start_time3_command_id'] = charge_start_time3_command_id
+        result['schedule']['charge_end_time3_command_id'] = charge_end_time3_command_id
+        result['schedule']['charge_start_time4_command_id'] = charge_start_time4_command_id
+        result['schedule']['charge_end_time4_command_id'] = charge_end_time4_command_id
+        result['schedule']['discharge_start_time1_command_id'] = discharge_start_time1_command_id
+        result['schedule']['discharge_end_time1_command_id'] = discharge_end_time1_command_id
+        result['schedule']['discharge_start_time2_command_id'] = discharge_start_time2_command_id
+        result['schedule']['discharge_end_time2_command_id'] = discharge_end_time2_command_id
+        result['schedule']['discharge_start_time3_command_id'] = discharge_start_time3_command_id
+        result['schedule']['discharge_end_time3_command_id'] = discharge_end_time3_command_id
+        result['schedule']['discharge_start_time4_command_id'] = discharge_start_time4_command_id
+        result['schedule']['discharge_end_time4_command_id'] = discharge_end_time4_command_id
 
         resp.text = json.dumps(result)
 
