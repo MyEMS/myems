@@ -62,11 +62,17 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)</label>
                 <div class="col-sm-10"><input ng-model="microgridbattery.capacity" type="number" name="microgridbatterycapacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatterycapacity.$invalid && form_microgridbattery.microgridbatterycapacity.$dirty">
                         <small class="text-danger" ng-show="form_microgridbattery.microgridbatterycapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}}(kW)</label>
+                <div class="col-sm-10"><input ng-model="microgridbattery.nominal_voltage" type="number" name="microgridbatterynominal_voltage" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatterynominal_voltage.$invalid && form_microgridbattery.microgridbatterynominal_voltage.$dirty">
+                        <small class="text-danger" ng-show="form_microgridbattery.microgridbatterynominal_voltage.$error.required">{{'MICROGRID.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
                     </div>
                 </div>
             </div>

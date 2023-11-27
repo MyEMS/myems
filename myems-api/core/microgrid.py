@@ -769,7 +769,7 @@ class MicrogridBatteryCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, capacity "
+                 "        charge_meter_id, discharge_meter_id, capacity, nominal_voltage "
                  " FROM tbl_microgrids_batteries "
                  " WHERE microgrid_id = %s "
                  " ORDER BY name ")
@@ -792,7 +792,8 @@ class MicrogridBatteryCollection:
                                "power_point": power_point,
                                "charge_meter": charge_meter,
                                "discharge_meter": discharge_meter,
-                               "capacity": row[8]}
+                               "capacity": row[8],
+                               "nominal_voltage": row[9]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)

@@ -59,7 +59,7 @@ class MicrogridBatteryCollection:
 
         query = (" SELECT id, name, uuid, microgrid_id, "
                  "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, capacity "
+                 "        charge_meter_id, discharge_meter_id, capacity, nominal_voltage "
                  " FROM tbl_microgrids_batteries "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -78,11 +78,13 @@ class MicrogridBatteryCollection:
                                "name": row[1],
                                "uuid": row[2],
                                "microgrid": microgrid,
+                               "battery_state_point": battery_state_point,
                                "soc_point": soc_point,
                                "power_point": power_point,
                                "charge_meter": charge_meter,
                                "discharge_meter": discharge_meter,
-                               "capacity": row[9]}
+                               "capacity": row[9],
+                               "nominal_voltage": row[10]}
                 result.append(meta_result)
 
         cursor.close()
@@ -158,6 +160,13 @@ class MicrogridBatteryCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
+
+        if 'nominal_voltage' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['nominal_voltage'], float) or
+                     isinstance(new_values['data']['nominal_voltage'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NOMINAL_VOLTAGE')
+        nominal_voltage = float(new_values['data']['nominal_voltage'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -235,8 +244,8 @@ class MicrogridBatteryCollection:
         add_values = (" INSERT INTO tbl_microgrids_batteries "
                       "    (name, uuid, microgrid_id, "
                       "     battery_state_point_id, soc_point_id, power_point_id, "
-                      "     charge_meter_id, discharge_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     charge_meter_id, discharge_meter_id, capacity, nominal_voltage) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     microgrid_id,
@@ -245,7 +254,8 @@ class MicrogridBatteryCollection:
                                     power_point_id,
                                     charge_meter_id,
                                     discharge_meter_id,
-                                    capacity))
+                                    capacity,
+                                    nominal_voltage))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -313,7 +323,7 @@ class MicrogridBatteryItem:
 
         query = (" SELECT id, name, uuid, microgrid_id, "
                  "       battery_state_point_id, soc_point_id, power_point_id, "
-                 "       charge_meter_id, discharge_meter_id, capacity "
+                 "       charge_meter_id, discharge_meter_id, capacity, nominal_voltage "
                  " FROM tbl_microgrids_batteries "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -340,7 +350,8 @@ class MicrogridBatteryItem:
                            "power_point": power_point,
                            "charge_meter": charge_meter,
                            "discharge_meter": discharge_meter,
-                           "capacity": row[9]}
+                           "capacity": row[9],
+                           "nominal_voltage": row[10]}
 
         resp.text = json.dumps(meta_result)
 
@@ -446,6 +457,13 @@ class MicrogridBatteryItem:
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
 
+        if 'nominal_voltage' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['nominal_voltage'], float) or
+                     isinstance(new_values['data']['nominal_voltage'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NOMINAL_VOLTAGE')
+        nominal_voltage = float(new_values['data']['nominal_voltage'])
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -531,7 +549,7 @@ class MicrogridBatteryItem:
         update_row = (" UPDATE tbl_microgrids_batteries "
                       " SET name = %s, microgrid_id = %s, "
                       "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
-                      "     charge_meter_id = %s, discharge_meter_id = %s, capacity = %s "
+                      "     charge_meter_id = %s, discharge_meter_id = %s, capacity = %s, nominal_voltage = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     microgrid_id,
@@ -541,6 +559,7 @@ class MicrogridBatteryItem:
                                     charge_meter_id,
                                     discharge_meter_id,
                                     capacity,
+                                    nominal_voltage,
                                     id_))
         cnx.commit()
 
