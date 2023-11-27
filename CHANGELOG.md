@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added charge time and discharge time settings to power conversion system of microgrid
+- added nominal voltage to microgrid battery in database, myems-api and myems-admin
 ### Changed
 -
 ### Fixed
@@ -13,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of space and command views in myems-admin
 - fixed issue of delete on point in myems-api
 ### Removed
-- 
+-
 
 ## [v3.11.0] - 2023-11-03
 ### Added

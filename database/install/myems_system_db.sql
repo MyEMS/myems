@@ -680,6 +680,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_batteries` (
   `charge_meter_id` BIGINT NOT NULL,
   `discharge_meter_id` BIGINT NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
+  `nominal_voltage` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_batteries_index_1` ON  `myems_system_db`.`tbl_microgrids_batteries` (`name`);
 

@@ -228,6 +228,7 @@
 										<th class="text-center">{{'MICROGRID.CHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DISCHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -241,6 +242,7 @@
 										<td class="text-center">{{ microgridbattery.charge_meter.name }}</td>
 										<td class="text-center">{{ microgridbattery.discharge_meter.name }}</td>
 										<td class="text-center">{{ microgridbattery.capacity }}</td>
+										<td class="text-center">{{ microgridbattery.nominal_voltage }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridBattery(microgridbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridBattery(microgridbattery)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
