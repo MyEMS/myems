@@ -41,6 +41,11 @@ ALTER TABLE myems_system_db.tbl_microgrids_power_conversion_systems ADD `charge_
 
 ALTER TABLE `myems_system_db`.`tbl_microgrids_batteries` ADD `nominal_voltage` DECIMAL(18, 3) NOT NULL AFTER `capacity`;
 
+UPDATE myems_system_db.tbl_menus SET parent_menu_id=1300 WHERE id=1301;
+UPDATE myems_system_db.tbl_menus SET parent_menu_id=1400 WHERE id=1401;
+UPDATE myems_system_db.tbl_menus SET parent_menu_id=1500 WHERE id=1501;
+UPDATE myems_system_db.tbl_menus SET parent_menu_id=1600 WHERE id=1601;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.12.0RC', release_date='2023-12-01' WHERE id=1;
 
