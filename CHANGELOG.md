@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of space and command views in myems-admin
 - fixed issue of delete on point in myems-api
 - fixed issue of menus in database
-- 
+- fixed issue of aggregate_hourly_data_by_period in myems-api
 ### Removed
 -
 
