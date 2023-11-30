@@ -84,80 +84,30 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         result_rows_monthly = list()
         # todo: add config.working_day_start_time_local
         # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in the first month in local
+        # calculate the start datetime the first day in the first month in local
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = \
-            start_datetime_local.replace(day=1, hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            # calculate the next datetime in utc
-            if current_datetime_utc.month == 1:
-                temp_day = 28
-                ny = current_datetime_utc.year
-                if (ny % 100 != 0 and ny % 4 == 0) or (ny % 100 == 0 and ny % 400 == 0):
-                    temp_day = 29
-
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=temp_day,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 2:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [3, 5, 8, 10]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=30,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 7:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month in [4, 6, 9, 11]:
-                next_datetime_utc = datetime(year=current_datetime_utc.year,
-                                             month=current_datetime_utc.month + 1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-            elif current_datetime_utc.month == 12:
-                next_datetime_utc = datetime(year=current_datetime_utc.year + 1,
-                                             month=1,
-                                             day=31,
-                                             hour=current_datetime_utc.hour,
-                                             minute=current_datetime_utc.minute,
-                                             second=0,
-                                             microsecond=0,
-                                             tzinfo=None)
-
+        current_datetime_local = start_datetime_local.replace(day=1, hour=0, minute=0,
+                                                              second=0, microsecond=0)
+        end_datetime_local = end_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+        while current_datetime_local <= end_datetime_local:
+            # calculate the next datetime in local
+            if current_datetime_local.month < 12:
+                next_datetime_local = datetime(year=current_datetime_local.year,
+                                               month=current_datetime_local.month + 1,
+                                               day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
+            elif current_datetime_local.month == 12:
+                next_datetime_local = datetime(year=current_datetime_local.year + 1,
+                                               month=1,
+                                               day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
+            current_datetime_utc = current_datetime_local - timedelta(hours=int(config.utc_offset[1:3]))
+            next_datetime_utc = next_datetime_local - timedelta(hours=int(config.utc_offset[1:3]))
             subtotal = Decimal(0.0)
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
                     subtotal += row[1]
 
             result_rows_monthly.append((current_datetime_utc, subtotal))
-            current_datetime_utc = next_datetime_utc
+            current_datetime_local = next_datetime_local
 
         return result_rows_monthly
 
