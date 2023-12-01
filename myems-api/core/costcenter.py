@@ -194,18 +194,6 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
-        # check relation with tariffs
-        cursor.execute(" SELECT id "
-                       " FROM tbl_cost_centers_tariffs "
-                       " WHERE cost_center_id = %s ", (id_,))
-        rows_tariffs = cursor.fetchall()
-        if rows_tariffs is not None and len(rows_tariffs) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TARIFFS')
-
         # check relation with meters
         cursor.execute(" SELECT id "
                        " FROM tbl_meters "
@@ -289,6 +277,9 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+
+        # delete relation with tariffs
+        cursor.execute(" DELETE FROM tbl_cost_centers_tariffs WHERE cost_center_id = %s ", (id_,))
 
         cursor.execute(" DELETE FROM tbl_cost_centers WHERE id = %s ", (id_,))
         cnx.commit()
