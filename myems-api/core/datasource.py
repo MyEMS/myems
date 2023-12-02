@@ -101,7 +101,7 @@ class DataSourceCollection:
                 ('bacnet-ip',
                  'cassandra',
                  'clickhouse',
-                 'coap'
+                 'coap',
                  'controllogix',
                  'dlt645',
                  'elexon-bmrs',
@@ -111,7 +111,8 @@ class DataSourceCollection:
                  'modbus-rtu',
                  'modbus-tcp',
                  'mongodb',
-                 'mqtt-seg'
+                 'mqtt-md4220',
+                 'mqtt-seg',
                  'mqtt',
                  'mysql',
                  'opc-ua',
@@ -325,7 +326,7 @@ class DataSourceItem:
                 ('bacnet-ip',
                  'cassandra',
                  'clickhouse',
-                 'coap'
+                 'coap',
                  'controllogix',
                  'dlt645',
                  'elexon-bmrs',
@@ -335,7 +336,8 @@ class DataSourceItem:
                  'modbus-rtu',
                  'modbus-tcp',
                  'mongodb',
-                 'mqtt-seg'
+                 'mqtt-md4220',
+                 'mqtt-seg',
                  'mqtt',
                  'mysql',
                  'opc-ua',
