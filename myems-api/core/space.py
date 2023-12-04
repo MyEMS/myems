@@ -439,132 +439,41 @@ class SpaceItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_CHILDREN_SPACES')
 
-        # check relation with equipment
-        cursor.execute(" SELECT equipment_id "
-                       " FROM tbl_spaces_equipments "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_equipments = cursor.fetchall()
-        if rows_equipments is not None and len(rows_equipments) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
+        # delete relation with combined equipment
+        cursor.execute(" DELETE FROM tbl_spaces_combined_equipments WHERE space_id = %s ", (id_,))
 
-        # check relation with combined equipment
-        cursor.execute(" SELECT combined_equipment_id "
-                       " FROM tbl_spaces_combined_equipments "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_combined_equipments = cursor.fetchall()
-        if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
+        # delete relation with commands
+        cursor.execute(" DELETE FROM tbl_spaces_commands WHERE space_id = %s ", (id_,))
 
-        # check relation with meter
-        cursor.execute(" SELECT meter_id "
-                       " FROM tbl_spaces_meters "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_meters = cursor.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_METERS')
+        # delete relation with equipments
+        cursor.execute(" DELETE FROM tbl_spaces_equipments WHERE space_id = %s ", (id_,))
 
-        # check relation with offline meter
-        cursor.execute(" SELECT offline_meter_id "
-                       " FROM tbl_spaces_offline_meters "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_offline_meters = cursor.fetchall()
-        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_OFFLINE_METERS')
+        # delete relation with meters
+        cursor.execute(" DELETE FROM tbl_spaces_meters WHERE space_id = %s ", (id_,))
 
-        # check relation with points
-        cursor.execute(" SELECT point_id "
-                       " FROM tbl_spaces_points "
-                       " WHERE space_id = %s ", (id_,))
-        rows_points = cursor.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_POINTS')
+        # delete relation with offline meters
+        cursor.execute(" DELETE FROM tbl_spaces_offline_meters WHERE space_id = %s ", (id_,))
 
-        # check relation with sensor
-        cursor.execute(" SELECT sensor_id "
-                       " FROM tbl_spaces_sensors "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_sensors = cursor.fetchall()
-        if rows_sensors is not None and len(rows_sensors) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SENSORS')
+        # delete relation with points
+        cursor.execute(" DELETE FROM tbl_spaces_points WHERE space_id = %s ", (id_,))
 
-        # check relation with store
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces_stores "
-                       " WHERE space_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
+        # delete relation with sensors
+        cursor.execute(" DELETE FROM tbl_spaces_sensors WHERE space_id = %s ", (id_,))
 
-        # check relation with tenant
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces_tenants "
-                       " WHERE space_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+        # delete relation with shopfloors
+        cursor.execute(" DELETE FROM tbl_spaces_shopfloors WHERE space_id = %s ", (id_,))
 
-        # check relation with virtual meter
-        cursor.execute(" SELECT virtual_meter_id "
-                       " FROM tbl_spaces_virtual_meters "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_virtual_meters = cursor.fetchall()
-        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_VIRTUAL_METERS')
+        # delete relation with stores
+        cursor.execute(" DELETE FROM tbl_spaces_stores WHERE space_id = %s ", (id_,))
 
-        # check relation with command
-        cursor.execute(" SELECT command_id "
-                       " FROM tbl_spaces_commands "
-                       " WHERE space_id = %s ",
-                       (id_,))
-        rows_commands = cursor.fetchall()
-        if rows_commands is not None and len(rows_commands) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COMMANDS')
+        # delete relation with tenants
+        cursor.execute(" DELETE FROM tbl_spaces_tenants WHERE space_id = %s ", (id_,))
+
+        # delete relation with virtual meters
+        cursor.execute(" DELETE FROM tbl_spaces_virtual_meters WHERE space_id = %s ", (id_,))
+
+        # delete relation with working calendars
+        cursor.execute(" DELETE FROM tbl_spaces_working_calendars WHERE space_id = %s ", (id_,))
 
         cursor.execute(" DELETE FROM tbl_spaces WHERE id = %s ", (id_,))
         cnx.commit()

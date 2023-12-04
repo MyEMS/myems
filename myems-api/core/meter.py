@@ -532,31 +532,6 @@ class MeterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS')
 
-        # check relation with points
-        cursor.execute(" SELECT id "
-                       " FROM tbl_meters_points "
-                       " WHERE meter_id = %s ", (id_,))
-        rows_equipments = cursor.fetchall()
-        if rows_equipments is not None and len(rows_equipments) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_POINTS')
-
-        # check relation with command
-        cursor.execute(" SELECT command_id "
-                       " FROM tbl_meters_commands "
-                       " WHERE meter_id = %s ",
-                       (id_,))
-        rows_commands = cursor.fetchall()
-        if rows_commands is not None and len(rows_commands) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COMMANDS')
-
         # check relation with energy flow diagram links
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_flow_diagrams_links "
@@ -568,6 +543,12 @@ class MeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS')
+
+        # delete relation with commands
+        cursor.execute(" DELETE FROM tbl_meters_commands WHERE meter_id = %s ", (id_,))
+
+        # delete relation with points
+        cursor.execute(" DELETE FROM tbl_meters_points WHERE meter_id = %s ", (id_,))
 
         cursor.execute(" DELETE FROM tbl_meters WHERE id = %s ", (id_,))
         cnx.commit()
