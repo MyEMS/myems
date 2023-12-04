@@ -118,10 +118,7 @@ const MicrogridList = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                    onClick={() =>
-                      isOnline
-                        ? favouriteItemsDispatch({ type: 'REMOVE', id })
-                        : favouriteItemsDispatch({ type: 'ADD', payload: { id } })
+                      onClick={() => window.location.href='notification'
                     }
                   >
                     {t('Fault Alarms')}({alarms.length})
