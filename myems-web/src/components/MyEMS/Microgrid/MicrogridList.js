@@ -48,7 +48,7 @@ const MicrogridList = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/microgriddetails?uuid=${uuid}`} target = "_blank">
+              <Link className="d-block h-100" to={`/microgrid/details?uuid=${uuid}`} target = "_blank">
                 <img
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
                       src={files[0]['src']}
@@ -65,7 +65,7 @@ const MicrogridList = ({
             <Row>
               <Col lg={7}>
                 <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/microgriddetails?uuid=${uuid}`} target = "_blank">{name}</Link>
+                  <Link to={`/microgrid/details?uuid=${uuid}`} target = "_blank">{name}</Link>
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">
                     {address}
@@ -111,6 +111,26 @@ const MicrogridList = ({
 
                 </div>
                 <div className="mt-md-2">
+                <ButtonIcon
+                        color="primary"
+                        size="sm"
+                        icon="fa-chart-line"
+                        iconClassName="ml-2 d-none d-md-inline-block"
+                        className="w-lg-100 mt-2"
+                        onClick={() => window.location.href=`microgrid/details?uuid=${uuid}`}
+                    >
+                      {t('Monitoring')}
+                  </ButtonIcon>
+                  <ButtonIcon
+                        color="primary"
+                        size="sm"
+                        icon="fa-chart-line"
+                        iconClassName="ml-2 d-none d-md-inline-block"
+                        className="w-lg-100 mt-2"
+                        onClick={() => window.location.href=`microgrid/report?uuid=${uuid}`}
+                    >
+                      {t('Report')}
+                  </ButtonIcon>
                   <ButtonIcon
                     color={isOnline ? 'outline-danger' : 'outline-secondary'}
                     size="sm"
@@ -118,8 +138,7 @@ const MicrogridList = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                      onClick={() => window.location.href='notification'
-                    }
+                      onClick={() => window.location.href='notification'}
                   >
                     {t('Fault Alarms')}({alarms.length})
                   </ButtonIcon>
