@@ -262,60 +262,23 @@ class CombinedEquipmentItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with meter
-        cursor.execute(" SELECT meter_id "
-                       " FROM tbl_combined_equipments_meters "
-                       " WHERE combined_equipment_id = %s ",
-                       (id_,))
-        rows_meters = cursor.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_METER')
+        # delete relation with commands
+        cursor.execute(" DELETE FROM tbl_combined_equipments_commands WHERE combined_equipment_id = %s ", (id_,))
 
-        # check relation with offline meter
-        cursor.execute(" SELECT offline_meter_id "
-                       " FROM tbl_combined_equipments_offline_meters "
-                       " WHERE combined_equipment_id = %s ",
-                       (id_,))
-        rows_offline_meters = cursor.fetchall()
-        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_OFFLINE_METER')
+        # delete relation with equipments
+        cursor.execute(" DELETE FROM tbl_combined_equipments_equipments WHERE combined_equipment_id = %s ", (id_,))
 
-        # check relation with virtual meter
-        cursor.execute(" SELECT virtual_meter_id "
-                       " FROM tbl_combined_equipments_virtual_meters "
-                       " WHERE combined_equipment_id = %s ",
-                       (id_,))
-        rows_virtual_meters = cursor.fetchall()
-        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_VIRTUAL_METER')
+        # delete relation with meters
+        cursor.execute(" DELETE FROM tbl_combined_equipments_meters WHERE combined_equipment_id = %s ", (id_,))
 
-        # check relation with commands
-        cursor.execute(" SELECT command_id "
-                       " FROM tbl_combined_equipments_commands "
-                       " WHERE combined_equipment_id = %s ",
-                       (id_,))
-        rows_commands = cursor.fetchall()
-        if rows_commands is not None and len(rows_commands) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COMMANDS')
+        # delete relation with offline meters
+        cursor.execute(" DELETE FROM tbl_combined_equipments_offline_meters WHERE combined_equipment_id = %s ", (id_,))
 
         # delete all associated parameters
         cursor.execute(" DELETE FROM tbl_combined_equipments_parameters WHERE combined_equipment_id = %s ", (id_,))
+
+        # delete relation with virtual meter
+        cursor.execute(" DELETE FROM tbl_combined_equipments_virtual_meters WHERE combined_equipment_id = %s ", (id_,))
         cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_combined_equipments WHERE id = %s ", (id_,))

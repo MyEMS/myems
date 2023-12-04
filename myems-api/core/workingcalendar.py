@@ -168,7 +168,7 @@ class WorkingCalendarItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with stores
+        # check relation with tenants
         cursor.execute(" SELECT tenant_id "
                        " FROM tbl_tenants_working_calendars "
                        " WHERE working_calendar_id = %s ", (id_,))

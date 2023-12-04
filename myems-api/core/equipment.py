@@ -276,6 +276,19 @@ class EquipmentItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
+        # check relation with shopfloor
+        cursor.execute(" SELECT shopfloor_id "
+                       " FROM tbl_shopfloors_equipments "
+                       " WHERE equipment_id = %s ",
+                       (id_,))
+        rows_combined_shopfloor = cursor.fetchall()
+        if rows_combined_shopfloor is not None and len(rows_combined_shopfloor) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+
         # delete relation with meter
         cursor.execute(" DELETE FROM tbl_equipments_meters WHERE equipment_id = %s ", (id_,))
 

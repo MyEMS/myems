@@ -201,17 +201,32 @@ class SensorItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
 
-        # check relation with points
+        # check relation with microgrid
         cursor.execute(" SELECT id "
-                       " FROM tbl_sensors_points "
+                       " FROM tbl_microgrids_sensors "
                        " WHERE sensor_id = %s ", (id_,))
-        rows_points = cursor.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
+        rows_microgrid = cursor.fetchall()
+        if rows_microgrid is not None and len(rows_microgrid) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_POINTS')
+                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+
+        # check relation with shopfloors
+        cursor.execute(" SELECT id "
+                       " FROM tbl_shopfloors_sensors "
+                       " WHERE sensor_id = %s ", (id_,))
+        rows_shopfloor = cursor.fetchall()
+        if rows_shopfloor is not None and len(rows_shopfloor) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+
+        # delete relation with points
+        cursor.execute(" DELETE FROM tbl_sensors_points WHERE sensor_id = %s ", (id_,))
 
         cursor.execute(" DELETE FROM tbl_sensors WHERE id = %s ", (id_,))
         cnx.commit()

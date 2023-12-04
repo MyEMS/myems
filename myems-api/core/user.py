@@ -295,6 +295,18 @@ class UserItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
+        # check if this user is being used by microgrid
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_users "
+                       " WHERE user_id = %s ", (id_,))
+        rows_microgrid = cursor.fetchall()
+        if rows_microgrid is not None and len(rows_microgrid) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+
         # TODO: delete associated objects
         cursor.execute(" DELETE FROM tbl_users WHERE id = %s ", (id_,))
         cnx.commit()
