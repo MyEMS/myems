@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of delete on point in myems-api
 - fixed issue of menus in database
 - fixed issue of aggregate_hourly_data_by_period in myems-api
+- fixed issues of on_delete actions in myems-api
 ### Removed
 -
 
