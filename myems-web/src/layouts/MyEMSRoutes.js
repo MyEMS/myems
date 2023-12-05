@@ -195,7 +195,7 @@ import DistributionSystem from '../components/MyEMS/AuxiliarySystem/Distribution
 // Microgrid
 import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
 import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
-import MicrogridReport from '../components/MyEMS/Microgrid/MicrogridReport';
+import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -452,7 +452,7 @@ const MyEMSRoutes = () => (
     {/*Microgrid*/}
     <Route path="/microgrid" exact component={Microgrid} />
     <Route path="/microgrid/details" exact component={MicrogridDetails} />
-    <Route path="/microgrid/report" exact component={MicrogridReport} />
+    <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />

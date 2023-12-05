@@ -888,7 +888,8 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Shopfloor Data')}</BreadcrumbItem><BreadcrumbItem active onClick={ () => window.location.reload() }>
+          <BreadcrumbItem>{t('Shopfloor Data')}</BreadcrumbItem>
+          <BreadcrumbItem active onClick={ () => window.location.reload() }>
             <Link to="/shopfloor/energycategory">{t('Energy Category Data')}</Link>
           </BreadcrumbItem>
         </Breadcrumb>

@@ -29,7 +29,7 @@ import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
 
 
-const MicrogridReport = ({ setRedirect, setRedirectUrl, t }) => {
+const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const microgridUUID = location.search.split('=')[1];
 
@@ -331,4 +331,4 @@ const MicrogridReport = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(MicrogridReport));
+export default withTranslation()(withRedirect(MicrogridReporting));

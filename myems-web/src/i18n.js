@@ -416,6 +416,8 @@ const resources = {
       'Photovoltaic Power': 'Photovoltaic Power',
       'Grid Power': 'Grid Power',
       'Load Power': 'Load Power',
+      'Reporting': 'Reporting',
+      'Maintenance': 'Maintenance',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
@@ -1433,6 +1435,8 @@ const resources = {
       'Photovoltaic Power': '光伏功率',
       'Grid Power': '电网功率',
       'Load Power': '负载功率',
+      'Reporting': '数据报表',
+      'Maintenance': '维护保养',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
@@ -2477,6 +2481,8 @@ const resources = {
       'Photovoltaic Power': 'Photovoltaik',
       'Grid Power': 'Netzleistung',
       'Load Power': 'Lastleistung',
+      'Reporting': 'Berichterstattung',
+      'Maintenance': 'Wartung',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
@@ -3512,6 +3518,8 @@ const resources = {
       'Photovoltaic Power': 'Puissance photovoltaïque',
       'Grid Power': 'Puissance du réseau électrique',
       'Load Power': 'Puissance de charge',
+      'Reporting': 'Rapport',
+      'Maintenance': 'Réparation',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
@@ -4546,6 +4554,8 @@ const resources = {
       'Photovoltaic Power': 'Фотоэлектрическая мощность',
       'Grid Power': 'Potencia de la red eléctrica',
       'Load Power': 'Potencia de carga',
+      'Reporting': 'Informe',
+      'Maintenance': 'Mantenimiento',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -5580,6 +5590,8 @@ const resources = {
       'Photovoltaic Power': 'Фотоэлектрическая мощность',
       'Grid Power': 'Мощность сети',
       'Load Power': 'мощность нагрузки',
+      'Reporting': 'Доклады',
+      'Maintenance': 'Техническое обслуживание',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
@@ -6614,6 +6626,8 @@ const resources = {
       'Photovoltaic Power': 'الطاقة الضوئية',
       'Grid Power': 'قوة الشبكة',
       'Load Power': 'تحميل السلطة',
+      'Reporting': 'تقرير .',
+      'Maintenance': 'صيانة',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -7648,6 +7662,8 @@ const resources = {
       'Photovoltaic Power': 'Công suất PV',
       'Grid Power': 'Điện lưới',
       'Load Power': 'Tải điện',
+      'Reporting': 'Báo cáo',
+      'Maintenance': 'Sửa chữa',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
@@ -8682,6 +8698,8 @@ const resources = {
       'Photovoltaic Power': 'Fotovoltaik gücü',
       'Grid Power': 'พลังงานกริด',
       'Load Power': 'กำลังโหลด',
+      'Reporting': 'รายงาน',
+      'Maintenance': 'การซ่อมแซม',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
@@ -9714,6 +9732,8 @@ const resources = {
       'Photovoltaic Power': 'Fotovoltaik gücü',
       'Grid Power': 'Grid gücü',
       'Load Power': 'Yükleme gücü',
+      'Reporting': 'Rapor',
+      'Maintenance': 'Yedekleme',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -10748,6 +10768,8 @@ const resources = {
       'Photovoltaic Power': 'Kuasa fotovoltaik',
       'Grid Power': 'Kuasa grid',
       'Load Power': 'Muat kuasa',
+      'Reporting': 'Laporan',
+      'Maintenance': 'Kekal',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
@@ -11765,6 +11787,8 @@ const resources = {
       'Photovoltaic Power': 'Kekuatan fotovoltaik',
       'Grid Power': 'Kuasa jaringan',
       'Load Power': 'Kuat muat',
+      'Reporting': 'Laporan',
+      'Maintenance': 'Penjagaan',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',

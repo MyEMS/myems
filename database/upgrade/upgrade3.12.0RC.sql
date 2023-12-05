@@ -48,7 +48,7 @@ UPDATE myems_system_db.tbl_menus SET parent_menu_id=1600 WHERE id=1601;
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
-(1302,'Microgrid Report','/microgrid/report',1300,1);
+(1302,'Microgrid Reporting','/microgrid/reporting',1300,1);
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='3.12.0RC', release_date='2023-12-01' WHERE id=1;
