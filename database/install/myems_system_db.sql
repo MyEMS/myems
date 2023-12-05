@@ -588,7 +588,7 @@ VALUES
 (1200,'Knowledge Base','/knowledgebase',NULL,0),
 (1300,'Microgrid','/microgrid',NULL,1),
 (1301,'Microgrid Details','/microgrid/details',1300,1),
-(1302,'Microgrid Report','/microgrid/report',1300,1),
+(1302,'Microgrid Reporting','/microgrid/reporting',1300,1),
 (1400,'Energy Storage Power Station','/energystoragepowerstation',NULL,1),
 (1401,'Energy Storage Power Station Details','/energystoragepowerstationdetails',1400,1),
 (1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),

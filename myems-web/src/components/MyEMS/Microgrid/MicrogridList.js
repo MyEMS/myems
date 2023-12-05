@@ -111,25 +111,25 @@ const MicrogridList = ({
 
                 </div>
                 <div className="mt-md-2">
-                <ButtonIcon
-                        color="primary"
-                        size="sm"
-                        icon="fa-chart-line"
-                        iconClassName="ml-2 d-none d-md-inline-block"
-                        className="w-lg-100 mt-2"
-                        onClick={() => window.location.href=`microgrid/details?uuid=${uuid}`}
-                    >
-                      {t('Monitoring')}
+                  <ButtonIcon
+                    color="primary"
+                    size="sm"
+                    icon="tv"
+                    iconClassName="ml-2 d-none d-md-inline-block"
+                    className="w-lg-100 mt-2"
+                    onClick={() => window.open(`microgrid/details?uuid=${uuid}`, '_blank')}
+                  >
+                    {t('Monitoring')}
                   </ButtonIcon>
                   <ButtonIcon
-                        color="primary"
-                        size="sm"
-                        icon="fa-chart-line"
-                        iconClassName="ml-2 d-none d-md-inline-block"
-                        className="w-lg-100 mt-2"
-                        onClick={() => window.location.href=`microgrid/report?uuid=${uuid}`}
-                    >
-                      {t('Report')}
+                    color="primary"
+                    size="sm"
+                    icon="chart-pie"
+                    iconClassName="ml-2 d-none d-md-inline-block"
+                    className="w-lg-100 mt-2"
+                    onClick={() => window.open(`microgrid/reporting?uuid=${uuid}`, '_blank')}
+                  >
+                    {t('Reporting')}
                   </ButtonIcon>
                   <ButtonIcon
                     color={isOnline ? 'outline-danger' : 'outline-secondary'}
@@ -138,34 +138,22 @@ const MicrogridList = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                      onClick={() => window.location.href='notification'}
+                      onClick={() => window.open('notification', '_blank')}
                   >
                     {t('Fault Alarms')}({alarms.length})
                   </ButtonIcon>
-                  {cartLoading ? (
-                    <ButtonIcon
-                      color="primary"
-                      size="sm"
-                      icon="circle-notch"
-                      iconClassName="fa-spin ml-2 d-none d-md-inline-block"
-                      className="w-lg-100 mt-2"
-                      style={{ cursor: 'progress' }}
-                      disabled
-                    >
-                      Processing
-                    </ButtonIcon>
-                  ) : (
-                      <ButtonIcon
-                        color="primary"
-                        size="sm"
-                        icon="users"
-                        iconClassName="ml-2 d-none d-md-inline-block"
-                        className="w-lg-100 mt-2"
-                        onClick={handleAddToCart}
-                      >
-                        {t('Run Commands')}
-                      </ButtonIcon>
-                    )}
+
+                  <ButtonIcon
+                    color="primary"
+                    size="sm"
+                    icon="tools"
+                    iconClassName="ml-2 d-none d-md-inline-block"
+                    className="w-lg-100 mt-2"
+                    onClick={handleAddToCart}
+                  >
+                    {t('Maintenance')}
+                  </ButtonIcon>
+
                 </div>
               </Col>
             </Row>
