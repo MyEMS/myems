@@ -350,26 +350,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             data={parameterLineChartData}
             options={parameterLineChartOptions}>
       </MultipleLineChart>
-      <MultiTrendChart reportingTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": microgridReportingNames, "VALUE": microgridReportingSubtotals, "UNIT": microgridReportingUnits}}
-        baseTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": {"a0": (0).toFixed(2)}, "UNIT": {"a0":"()"}}}
-        reportingTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
-        baseTooltipTitle = {{"name": "CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": {"a0":""}, "VALUE": null, "UNIT": {"a0":"()"}}}
-        reportingLabels={microgridReportingLabels}
-        reportingData={microgridReportingData}
-        baseLabels={{"a0": []}}
-        baseData={{"a0": []}}
-        rates={{"a0": []}}
-        options={microgridReportingOptions}>
-      </MultiTrendChart>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-            <CardSummary key={cardSummaryItem['name']}
-              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')' }
-              color="success" >
-              {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>
-        ))}
-      </div>
+
       <Table>
         <thead>
           <tr>
