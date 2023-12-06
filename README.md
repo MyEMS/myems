@@ -2,7 +2,6 @@
 
  [简体中文](./README.md) | [ENGLISH](./README_EN.md) | [DEUTSCH](./README_DE.md)
 
- [![Documentation Status](https://readthedocs.org/projects/myems/badge/?version=latest)](https://myems.readthedocs.io/en/latest/?badge=latest)
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
  [![Test Coverage](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/test_coverage)](https://codeclimate.com/github/MyEMS/myems/test_coverage)
  [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
