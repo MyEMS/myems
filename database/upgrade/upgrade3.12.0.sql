@@ -51,6 +51,6 @@ VALUES
 (1302,'Microgrid Reporting','/microgrid/reporting',1300,1);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='3.12.0RC', release_date='2023-12-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='3.12.0', release_date='2023-12-08' WHERE id=1;
 
 COMMIT;
