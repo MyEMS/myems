@@ -3,7 +3,6 @@ import config
 import mysql.connector
 from datetime import datetime, timedelta
 from decimal import Decimal
-
 import falcon
 from core.useractivity import access_control, api_key_control
 

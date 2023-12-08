@@ -1,12 +1,9 @@
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
-
 import falcon
 import mysql.connector
 import simplejson as json
-import gettext
-
 import config
 import excelexporters.equipmentoutput
 from core import utilities

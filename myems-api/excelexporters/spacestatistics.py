@@ -2,7 +2,6 @@ import base64
 from core.utilities import get_translation
 import os
 import uuid
-
 import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference

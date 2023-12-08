@@ -1,10 +1,8 @@
 from datetime import datetime, timedelta, timezone
-
 import falcon
 import mysql.connector
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
-
 import config
 import excelexporters.offlinemeterbatch
 from core.useractivity import access_control, api_key_control

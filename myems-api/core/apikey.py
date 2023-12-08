@@ -1,13 +1,11 @@
 import os
 import hashlib
 from datetime import datetime, timezone, timedelta
-
 import falcon
 import mysql.connector
 import simplejson as json
-
 import config
-from core.useractivity import user_logger, write_log, admin_control
+from core.useractivity import admin_control
 
 
 class ApiKeyCollection:
