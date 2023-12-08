@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v3.12.0] - 2023-12-08
+
+### Added
 - added charge time and discharge time settings to power conversion system of microgrid
 - added nominal voltage to microgrid battery in database, myems-api and myems-admin
 - added new supported protocol to datasource in myems-api
@@ -1506,7 +1513,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.11.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v3.12.0...HEAD
+[3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
 [3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
 [3.10.0]: https://github.com/MyEMS/myems/compare/v3.10.0...v3.9.0
 [3.9.0]: https://github.com/MyEMS/myems/compare/v3.9.0...v3.8.0
