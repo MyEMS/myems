@@ -2,10 +2,8 @@ import decimal
 import random
 import time
 from datetime import datetime
-
 import paho.mqtt.client as mqtt
 import simplejson as json
-
 import config
 
 # global flag indicates the connectivity with the MQTT broker
@@ -71,7 +69,7 @@ def main():
             except Exception as e:
                 print("MQTT Publish Error : " + str(e))
                 # ignore this exception, does not stop the procedure
-                pass
+
             time.sleep(1)
         else:
             print('MQTT Client Connection error')
