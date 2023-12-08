@@ -1,15 +1,12 @@
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
-
 import falcon
 import mysql.connector
 import simplejson as json
-
 import config
 import excelexporters.shopfloorenergyitem
 from core import utilities
-import gettext
 from core.useractivity import access_control, api_key_control
 
 

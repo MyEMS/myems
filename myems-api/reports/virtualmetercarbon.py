@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
-
-import gettext
 import falcon
 import mysql.connector
 import simplejson as json

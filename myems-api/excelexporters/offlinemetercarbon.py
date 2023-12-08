@@ -3,7 +3,6 @@ from core.utilities import get_translation
 import os
 import re
 import uuid
-
 import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference

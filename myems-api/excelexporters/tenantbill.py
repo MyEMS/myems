@@ -4,7 +4,6 @@ from core.utilities import get_translation
 import os
 import uuid
 from decimal import Decimal
-
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font

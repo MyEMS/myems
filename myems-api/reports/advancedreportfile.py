@@ -1,7 +1,6 @@
 import base64
 import sys
 from datetime import datetime, timedelta, timezone
-
 import falcon
 import mysql.connector
 import simplejson as json

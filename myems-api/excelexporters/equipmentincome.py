@@ -4,7 +4,6 @@ import os
 import re
 import uuid
 from decimal import Decimal
-
 import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
 from openpyxl.chart import PieChart, LineChart, Reference

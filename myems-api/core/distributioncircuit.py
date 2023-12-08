@@ -1,5 +1,4 @@
 import uuid
-
 import falcon
 import mysql.connector
 import simplejson as json

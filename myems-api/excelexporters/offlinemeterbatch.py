@@ -2,7 +2,6 @@ import base64
 from core.utilities import get_translation
 import os
 import uuid
-
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Font

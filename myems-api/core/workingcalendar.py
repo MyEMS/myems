@@ -1,7 +1,7 @@
 import falcon
 import mysql.connector
 import simplejson as json
-from core.useractivity import user_logger, admin_control, access_control, api_key_control
+from core.useractivity import admin_control, access_control, api_key_control
 import config
 
 

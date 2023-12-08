@@ -3,9 +3,7 @@ import falcon
 import simplejson as json
 import mysql.connector
 import config
-import calendar
 from datetime import datetime, timedelta, timezone
-from core import utilities
 from core.useractivity import access_control, api_key_control
 from decimal import Decimal
 
