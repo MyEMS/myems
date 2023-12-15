@@ -20,11 +20,11 @@ const MicrogridList = ({
   postal_code,
   serial_number,
   batteryState,
-  parameter1,
-  parameter2,
-  parameter3,
-  parameter4,
-  parameter5,
+  batterySocPointValue,
+  batteryPowerPointValue,
+  photovoltaicPowerPointValue,
+  loadPowerPointValue,
+  gridPowerPointValue,
   alarms,
   isOnline,
   PCSRunState,
@@ -77,16 +77,16 @@ const MicrogridList = ({
                     {serial_number}
                 </p>
                 <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{parameter2} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{parameter3} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{parameter4} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{parameter5} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong></p>
                   </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
                   <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    SoC: {parameter1} %
+                    SoC: {batterySocPointValue} %
                   </h4>
                   <p className="fs--1 mb-1">
                       {t('Communication Status')}:{' '}
@@ -171,11 +171,11 @@ MicrogridList.propTypes = {
   postal_code: PropTypes.string,
   serial_number: PropTypes.string,
   batteryState: PropTypes.string,
-  parameter1: PropTypes.number,
-  parameter2: PropTypes.number,
-  parameter3: PropTypes.number,
-  parameter4: PropTypes.number,
-  parameter5: PropTypes.number,
+  batterySocPointValue: PropTypes.number,
+  batteryPowerPointValue: PropTypes.number,
+  photovoltaicPowerPointValue: PropTypes.number,
+  loadPowerPointValue: PropTypes.number,
+  gridPowerPointValue: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
   PCSRunState: PropTypes.string
