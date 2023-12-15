@@ -110,11 +110,11 @@ const Microgrid = ({ setRedirect, setRedirectUrl, t }) => {
             microgird['serial_number'] = json[index]['serial_number'];
             microgird['files'] = [{ id: json[index]['uuid'], src: require('./Microgrid.jpeg'), }];
             microgird['batteryState'] = json[index]['battery_state'];
-            microgird['parameter1'] = json[index]['battery_soc_point_value'];
-            microgird['parameter2'] = json[index]['battery_power_point_value'];
-            microgird['parameter3'] = json[index]['photovoltaic_power_point_value'];
-            microgird['parameter4'] = json[index]['load_power_point_value'];
-            microgird['parameter5'] = json[index]['load_power_point_value'];
+            microgird['batterySocPointValue'] = json[index]['battery_soc_point_value'];
+            microgird['batteryPowerPointValue'] = json[index]['battery_power_point_value'];
+            microgird['photovoltaicPowerPointValue'] = json[index]['photovoltaic_power_point_value'];
+            microgird['loadPowerPointValue'] = json[index]['load_power_point_value'];
+            microgird['gridPowerPointValue'] = json[index]['grid_power_point_value'];
             microgird['PCSRunState'] = json[index]['pcs_run_state'];
             microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
             microgird['isOnline'] = json[index]['is_online'];
