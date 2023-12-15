@@ -343,8 +343,8 @@ class Reporting:
                                           discharge_start_time3_point_id, discharge_end_time3_point_id,
                                           discharge_start_time4_point_id, discharge_end_time4_point_id))
         rows = cursor_historical.fetchall()
+        time_value_dict = dict()
         if rows is not None and len(rows) > 0:
-            time_value_dict = dict()
             for row in rows:
                 point_id = row[0]
                 time_value_dict[point_id] = int16_to_hhmm(row[1])

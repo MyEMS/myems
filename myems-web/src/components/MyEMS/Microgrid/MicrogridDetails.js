@@ -304,7 +304,409 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     refreshSVGData();
   }, 1000 * 10);
 
+  // Callback fired when ChargeStartTime1 change
+  const onChargeStartTime1Change = (moment) => {
+    setChargeStartTime1(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeStartTime1 close
+  const onChargeStartTime1Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeStartTime1CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime1.substring(0, 2)) * 256 + parseInt(chargeStartTime1.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when ChargeEndTime1 change
+  const onChargeEndTime1Change = (moment) => {
+    setChargeEndTime1(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeEndTime1 close
+  const onChargeEndTime1Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeEndTime1CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime1.substring(0, 2)) * 256 + parseInt(chargeEndTime1.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeStartTime1 change
+  const onDischargeStartTime1Change = (moment) => {
+    setDischargeStartTime1(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeStartTime1 close
+  const onDischargeStartTime1Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeStartTime1CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime1.substring(0, 2)) * 256 + parseInt(dischargeStartTime1.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeEndTime1 change
+  const onDischargeEndTime1Change = (moment) => {
+    setDischargeEndTime1(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeEndTime1 close
+  const onDischargeEndTime1Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeEndTime1CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime1.substring(0, 2)) * 256 + parseInt(dischargeEndTime1.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
 
+  // Callback fired when ChargeStartTime2 change
+  const onChargeStartTime2Change = (moment) => {
+    setChargeStartTime2(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeStartTime2 close
+  const onChargeStartTime2Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeStartTime2CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime2.substring(0, 2)) * 256 + parseInt(chargeStartTime2.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when ChargeEndTime2 change
+  const onChargeEndTime2Change = (moment) => {
+    setChargeEndTime2(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeEndTime2 close
+  const onChargeEndTime2Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeEndTime2CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime2.substring(0, 2)) * 256 + parseInt(chargeEndTime2.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeStartTime2 change
+  const onDischargeStartTime2Change = (moment) => {
+    setDischargeStartTime2(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeStartTime2 close
+  const onDischargeStartTime2Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeStartTime2CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime2.substring(0, 2)) * 256 + parseInt(dischargeStartTime2.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeEndTime2 change
+  const onDischargeEndTime2Change = (moment) => {
+    setDischargeEndTime2(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeEndTime2 close
+  const onDischargeEndTime2Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeEndTime2CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime2.substring(0, 2)) * 256 + parseInt(dischargeEndTime2.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // Callback fired when ChargeStartTime3 change
+  const onChargeStartTime3Change = (moment) => {
+    setChargeStartTime3(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeStartTime3 close
+  const onChargeStartTime3Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeStartTime3CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime3.substring(0, 2)) * 256 + parseInt(chargeStartTime3.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when ChargeEndTime3 change
+  const onChargeEndTime3Change = (moment) => {
+    setChargeEndTime3(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeEndTime3 close
+  const onChargeEndTime3Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeEndTime3CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime3.substring(0, 2)) * 256 + parseInt(chargeEndTime3.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeStartTime3 change
+  const onDischargeStartTime3Change = (moment) => {
+    setDischargeStartTime3(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeStartTime3 close
+  const onDischargeStartTime3Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeStartTime3CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime3.substring(0, 2)) * 256 + parseInt(dischargeStartTime3.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeEndTime3 change
+  const onDischargeEndTime3Change = (moment) => {
+    setDischargeEndTime3(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeEndTime3 close
+  const onDischargeEndTime3Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeEndTime3CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime3.substring(0, 2)) * 256 + parseInt(dischargeEndTime3.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  // Callback fired when ChargeStartTime4 change
+  const onChargeStartTime4Change = (moment) => {
+    setChargeStartTime4(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeStartTime4 close
+  const onChargeStartTime4Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeStartTime4CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime4.substring(0, 2)) * 256 + parseInt(chargeStartTime4.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when ChargeEndTime4 change
+  const onChargeEndTime4Change = (moment) => {
+    setChargeEndTime4(moment.format('HH:mm'));
+  };
+  // Callback fired when ChargeEndTime4 close
+  const onChargeEndTime4Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + chargeEndTime4CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime4.substring(0, 2)) * 256 + parseInt(chargeEndTime4.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeStartTime4 change
+  const onDischargeStartTime4Change = (moment) => {
+    setDischargeStartTime4(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeStartTime4 close
+  const onDischargeStartTime4Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeStartTime4CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime4.substring(0, 2)) * 256 + parseInt(dischargeStartTime4.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+  // Callback fired when DischargeEndTime4 change
+  const onDischargeEndTime4Change = (moment) => {
+    setDischargeEndTime4(moment.format('HH:mm'));
+  };
+  // Callback fired when DischargeEndTime4 close
+  const onDischargeEndTime4Close = () => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/commands/' + dischargeEndTime4CommandID + '/send', {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
+      body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime4.substring(0, 2)) * 256 + parseInt(dischargeEndTime4.substring(3, ))}}),
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).catch(err => {
+      console.log(err);
+    });
+  };
 
   return (
     <Fragment>
@@ -364,31 +766,31 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={setChargeStartTime1} onClose={setChargeStartTime1} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime1} onChange={setChargeEndTime1}  onClose={setChargeEndTime1} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime1} onChange={setDischargeStartTime1} onClose={setDischargeStartTime1} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime1} onChange={setDischargeEndTime1} onClose={setDischargeEndTime1} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={onChargeStartTime1Change} onClose={onChargeStartTime1Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime1} onChange={onChargeEndTime1Change}  onClose={onChargeEndTime1Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime1} onChange={onDischargeStartTime1Change} onClose={onDischargeStartTime1Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime1} onChange={onDischargeEndTime1Change} onClose={onDischargeEndTime1Close} /></td>
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime2} onChange={setChargeStartTime2} onClose={setChargeStartTime2} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime2} onChange={setChargeEndTime2} onClose={setChargeEndTime2} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime2} onChange={setDischargeStartTime2} onClose={setDischargeStartTime2} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime2} onChange={setDischargeEndTime2} onClose={setDischargeEndTime2} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime2} onChange={onChargeStartTime2Change} onClose={onChargeStartTime2Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime2} onChange={onChargeEndTime2Change} onClose={onChargeEndTime2Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime2} onChange={onDischargeStartTime2Change} onClose={onDischargeStartTime2Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime2} onChange={onDischargeEndTime2Change} onClose={onDischargeEndTime2Close} /></td>
           </tr>
           <tr>
             <th scope="row">3</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime3} onChange={setChargeStartTime3} onClose={setChargeStartTime3} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime3} onChange={setChargeEndTime3} onClose={setChargeEndTime3} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime3} onChange={setDischargeStartTime3} onClose={setDischargeStartTime3} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime3} onChange={setDischargeEndTime3} onClose={setDischargeEndTime3} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime3} onChange={onChargeStartTime3Change} onClose={onChargeStartTime3Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime3} onChange={onChargeEndTime3Change} onClose={onChargeEndTime3Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime3} onChange={onDischargeStartTime3Change} onClose={onDischargeStartTime3Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime3} onChange={onDischargeEndTime3Change} onClose={onDischargeEndTime3Close} /></td>
           </tr>
           <tr>
             <th scope="row">4</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime4} onChange={setChargeStartTime4} onClose={setChargeStartTime4} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime4} onChange={setChargeEndTime4} onClose={setChargeEndTime4} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime4} onChange={setDischargeStartTime4} onClose={setDischargeStartTime4} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime4} onChange={setDischargeEndTime4} onClose={setDischargeEndTime4} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime4} onChange={onChargeStartTime4Change} onClose={onChargeStartTime4Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime4} onChange={onChargeEndTime4Change} onClose={onChargeEndTime4Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime4} onChange={onDischargeStartTime4Change} onClose={onDischargeStartTime4Close} /></td>
+            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime4} onChange={onDischargeEndTime4Change} onClose={onDischargeEndTime4Close} /></td>
           </tr>
         </tbody>
       </Table>

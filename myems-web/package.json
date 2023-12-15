@@ -56,7 +56,7 @@
     "react-captcha-code-custom": "^1.0.0",
     "react-chartjs-2": "^4.3.1",
     "react-countup": "^6.1.0",
-    "react-datetime": "^2.16.3",
+    "react-datetime": "^3.0.0",
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.2",
     "react-es6-progressbar.js": "^1.1.0",
