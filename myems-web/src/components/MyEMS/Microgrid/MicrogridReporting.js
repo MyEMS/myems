@@ -65,42 +65,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
 
 
   // State
-  const [chargeStartTime1, setChargeStartTime1] = useState(null);
-  const [chargeEndTime1, setChargeEndTime1] = useState(null);
-  const [chargeStartTime2, setChargeStartTime2] = useState(null);
-  const [chargeEndTime2, setChargeEndTime2] = useState(null);
-  const [chargeStartTime3, setChargeStartTime3] = useState(null);
-  const [chargeEndTime3, setChargeEndTime3] = useState(null);
-  const [chargeStartTime4, setChargeStartTime4] = useState(null);
-  const [chargeEndTime4, setChargeEndTime4] = useState(null);
-  const [dischargeStartTime1, setDischargeStartTime1] = useState(null);
-  const [dischargeEndTime1, setDischargeEndTime1] = useState(null);
-  const [dischargeStartTime2, setDischargeStartTime2] = useState(null);
-  const [dischargeEndTime2, setDischargeEndTime2] = useState(null);
-  const [dischargeStartTime3, setDischargeStartTime3] = useState(null);
-  const [dischargeEndTime3, setDischargeEndTime3] = useState(null);
-  const [dischargeStartTime4, setDischargeStartTime4] = useState(null);
-  const [dischargeEndTime4, setDischargeEndTime4] = useState(null);
-
-  const [chargeStartTime1CommandID, setChargeStartTime1CommandID] = useState(null);
-  const [chargeEndTime1CommandID, setChargeEndTime1CommandID] = useState(null);
-  const [chargeStartTime2CommandID, setChargeStartTime2CommandID] = useState(null);
-  const [chargeEndTime2CommandID, setChargeEndTime2CommandID] = useState(null);
-  const [chargeStartTime3CommandID, setChargeStartTime3CommandID] = useState(null);
-  const [chargeEndTime3CommandID, setChargeEndTime3CommandID] = useState(null);
-  const [chargeStartTime4CommandID, setChargeStartTime4CommandID] = useState(null);
-  const [chargeEndTime4CommandID, setChargeEndTime4CommandID] = useState(null);
-  const [dischargeStartTime1CommandID, setDischargeStartTime1CommandID] = useState(null);
-  const [dischargeEndTime1CommandID, setDischargeEndTime1CommandID] = useState(null);
-  const [dischargeStartTime2CommandID, setDischargeStartTime2CommandID] = useState(null);
-  const [dischargeEndTime2CommandID, setDischargeEndTime2CommandID] = useState(null);
-  const [dischargeStartTime3CommandID, setDischargeStartTime3CommandID] = useState(null);
-  const [dischargeEndTime3CommandID, setDischargeEndTime3CommandID] = useState(null);
-  const [dischargeStartTime4CommandID, setDischargeStartTime4CommandID] = useState(null);
-  const [dischargeEndTime4CommandID, setDischargeEndTime4CommandID] = useState(null);
 
   //Results
-
   const [microgridName, setMicrogridName] = useState();
   const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
   const [microgridAddress, setMicrogridAddress] = useState();
@@ -221,42 +187,6 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
         });
         setMicrogridReportingOptions(options);
-
-        setChargeStartTime1(json['schedule']['charge_start_time1'])
-        setChargeEndTime1(json['schedule']['charge_end_time1'])
-        setChargeStartTime2(json['schedule']['charge_start_time2'])
-        setChargeEndTime2(json['schedule']['charge_end_time2'])
-        setChargeStartTime3(json['schedule']['charge_start_time3'])
-        setChargeEndTime3(json['schedule']['charge_end_time3'])
-        setChargeStartTime4(json['schedule']['charge_start_time4'])
-        setChargeEndTime4(json['schedule']['charge_end_time4'])
-
-        setDischargeStartTime1(json['schedule']['discharge_start_time1'])
-        setDischargeEndTime1(json['schedule']['discharge_end_time1'])
-        setDischargeStartTime2(json['schedule']['discharge_start_time2'])
-        setDischargeEndTime2(json['schedule']['discharge_end_time2'])
-        setDischargeStartTime3(json['schedule']['discharge_start_time3'])
-        setDischargeEndTime3(json['schedule']['discharge_end_time3'])
-        setDischargeStartTime4(json['schedule']['discharge_start_time4'])
-        setDischargeEndTime4(json['schedule']['discharge_end_time4'])
-
-        setChargeStartTime1CommandID(json['schedule']['charge_start_time1_command_id'])
-        setChargeEndTime1CommandID(json['schedule']['charge_end_time1_command_id'])
-        setChargeStartTime2CommandID(json['schedule']['charge_start_time2_command_id'])
-        setChargeEndTime2CommandID(json['schedule']['charge_end_time2_command_id'])
-        setChargeStartTime3CommandID(json['schedule']['charge_start_time3_command_id'])
-        setChargeEndTime3CommandID(json['schedule']['charge_end_time3_command_id'])
-        setChargeStartTime4CommandID(json['schedule']['charge_start_time4_command_id'])
-        setChargeEndTime4CommandID(json['schedule']['charge_end_time4_command_id'])
-
-        setDischargeStartTime1CommandID(json['schedule']['discharge_start_time1_command_id'])
-        setDischargeEndTime1CommandID(json['schedule']['discharge_end_time1_command_id'])
-        setDischargeStartTime2CommandID(json['schedule']['discharge_start_time2_command_id'])
-        setDischargeEndTime2CommandID(json['schedule']['discharge_end_time2_command_id'])
-        setDischargeStartTime3CommandID(json['schedule']['discharge_start_time3_command_id'])
-        setDischargeEndTime3CommandID(json['schedule']['discharge_end_time3_command_id'])
-        setDischargeStartTime4CommandID(json['schedule']['discharge_start_time4_command_id'])
-        setDischargeEndTime4CommandID(json['schedule']['discharge_end_time4_command_id'])
       }
     })
     .catch(err => {
