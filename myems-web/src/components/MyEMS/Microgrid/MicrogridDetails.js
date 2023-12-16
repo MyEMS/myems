@@ -11,6 +11,7 @@ import {
   Table,
   Spinner,
 } from 'reactstrap';
+import FalconCardHeader from '../../common/FalconCardHeader';
 import CardSummary from '../common/CardSummary';
 import CountUp from 'react-countup';
 import MultipleLineChart from '../common/MultipleLineChart';
@@ -716,29 +717,33 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
         <Col lg="4" className="pr-lg-2">
           <Card className="mb-3 fs--1">
-            <CardBody>
-              <h6>{microgridName}</h6>
-              <h6 className="mt-4">Serial Number</h6>
+            <FalconCardHeader title={t('General Information')} light={false} />
+            <CardBody className="bg-light">
+              <h6 className="mt-4">{t('Name')}</h6>
+              <div className="mb-1">
+                {microgridName}
+              </div>
+              <h6 className="mt-4">{t('Serial Number')}</h6>
               <div className="mb-1">
                 {microgridSerialNumber}
               </div>
-              <h6 className="mt-4">Address</h6>
+              <h6 className="mt-4">{t('Address')}</h6>
               <div className="mb-1">
                 {microgridAddress}
               </div>
-              <h6 className="mt-4">Postal Code</h6>
+              <h6 className="mt-4">{t('Postal Code')}</h6>
               <div className="mb-1">
                 {microgridPostalCode}
               </div>
-              <h6 className="mt-4">Capacity (kW)</h6>
+              <h6 className="mt-4">{t('Capacity')} (kW)</h6>
               <div className="mb-1">
                 {microgridCapacity}
               </div>
-              <h6 className="mt-4">Latitude</h6>
+              <h6 className="mt-4">{t('Latitude')}</h6>
               <div className="mb-1">
                 {microgridLatitude}
               </div>
-              <h6 className="mt-4">Longitude</h6>
+              <h6 className="mt-4">{t('Longitude')}</h6>
               <div className="mb-1">
                 {microgridLongitude}
               </div>
@@ -752,48 +757,52 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             data={parameterLineChartData}
             options={parameterLineChartOptions}>
       </MultipleLineChart>
-
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Charge Start Time</th>
-            <th>Charge End Time</th>
-            <th>Discharge Start Time</th>
-            <th>Discharge End Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={onChargeStartTime1Change} onClose={onChargeStartTime1Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime1} onChange={onChargeEndTime1Change}  onClose={onChargeEndTime1Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime1} onChange={onDischargeStartTime1Change} onClose={onDischargeStartTime1Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime1} onChange={onDischargeEndTime1Change} onClose={onDischargeEndTime1Close} /></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime2} onChange={onChargeStartTime2Change} onClose={onChargeStartTime2Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime2} onChange={onChargeEndTime2Change} onClose={onChargeEndTime2Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime2} onChange={onDischargeStartTime2Change} onClose={onDischargeStartTime2Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime2} onChange={onDischargeEndTime2Change} onClose={onDischargeEndTime2Close} /></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime3} onChange={onChargeStartTime3Change} onClose={onChargeStartTime3Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime3} onChange={onChargeEndTime3Change} onClose={onChargeEndTime3Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime3} onChange={onDischargeStartTime3Change} onClose={onDischargeStartTime3Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime3} onChange={onDischargeEndTime3Change} onClose={onDischargeEndTime3Close} /></td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime4} onChange={onChargeStartTime4Change} onClose={onChargeStartTime4Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime4} onChange={onChargeEndTime4Change} onClose={onChargeEndTime4Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime4} onChange={onDischargeStartTime4Change} onClose={onDischargeStartTime4Close} /></td>
-            <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime4} onChange={onDischargeEndTime4Change} onClose={onDischargeEndTime4Close} /></td>
-          </tr>
-        </tbody>
-      </Table>
+      <Card className="mb-3 fs--1">
+        <FalconCardHeader title={t('Charging Schedule')} light={false} />
+        <CardBody className="bg-light">
+          <Table striped className="border-bottom">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{t('Charge Start Time')}</th>
+                <th>{t('Charge End Time')}</th>
+                <th>{t('Discharge Start Time')}</th>
+                <th>{t('Discharge End Time')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime1} onChange={onChargeStartTime1Change} onClose={onChargeStartTime1Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime1} onChange={onChargeEndTime1Change}  onClose={onChargeEndTime1Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime1} onChange={onDischargeStartTime1Change} onClose={onDischargeStartTime1Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime1} onChange={onDischargeEndTime1Change} onClose={onDischargeEndTime1Close} /></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime2} onChange={onChargeStartTime2Change} onClose={onChargeStartTime2Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime2} onChange={onChargeEndTime2Change} onClose={onChargeEndTime2Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime2} onChange={onDischargeStartTime2Change} onClose={onDischargeStartTime2Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime2} onChange={onDischargeEndTime2Change} onClose={onDischargeEndTime2Close} /></td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime3} onChange={onChargeStartTime3Change} onClose={onChargeStartTime3Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime3} onChange={onChargeEndTime3Change} onClose={onChargeEndTime3Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime3} onChange={onDischargeStartTime3Change} onClose={onDischargeStartTime3Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime3} onChange={onDischargeEndTime3Change} onClose={onDischargeEndTime3Close} /></td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeStartTime4} onChange={onChargeStartTime4Change} onClose={onChargeStartTime4Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={chargeEndTime4} onChange={onChargeEndTime4Change} onClose={onChargeEndTime4Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeStartTime4} onChange={onDischargeStartTime4Change} onClose={onDischargeStartTime4Close} /></td>
+                <td><Datetime dateFormat={false} timeFormat='HH:mm' value={dischargeEndTime4} onChange={onDischargeEndTime4Change} onClose={onDischargeEndTime4Close} /></td>
+              </tr>
+            </tbody>
+          </Table>
+        </CardBody>
+      </Card>
     </Fragment>
   );
 };

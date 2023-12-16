@@ -1733,7 +1733,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '3.12.0', '2023-12-08');
+(1, '4.0.0RC', '2024-01-01');
 
 COMMIT;
 
