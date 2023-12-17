@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 -
 ### Added
--
+- added tables for energy storage power station in database
+- 
 ### Changed
 - changed microgrid monitoring in myems-web
 - changed Related Parameters to Operating Characteristic Curve in myems-web
