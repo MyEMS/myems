@@ -251,7 +251,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
         rates={{"a0": []}}
         options={microgridReportingOptions}>
       </MultiTrendChart>
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
             baseTitle=''
             labels={parameterLineChartLabels}
             data={parameterLineChartData}

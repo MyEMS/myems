@@ -281,7 +281,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton of Standard Coal',
       'Ton of Carbon Dioxide Emissions': 'Ton of Carbon Dioxide Emissions',
-      'Related Parameters': 'Related Parameters',
+      'Operating Characteristic Curve': 'Operating Characteristic Curve',
       'Tariff': 'Tariff',
       'Detailed Data': 'Detailed Data',
       'Child Spaces Data': 'Child Spaces Data',
@@ -1313,7 +1313,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': '吨标准煤',
       'Ton of Carbon Dioxide Emissions': '吨二氧化碳排放',
-      'Related Parameters': '相关参数',
+      'Operating Characteristic Curve': '运行曲线',
       'Tariff': '费率',
       'Detailed Data': '详细数据',
       'Child Spaces Data': '子空间数据',
@@ -2363,7 +2363,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonne Standardkohle',
       'Ton of Carbon Dioxide Emissions': 'Tonne Kohlendioxidemissionen',
-      'Related Parameters': 'Verwandte Parameter',
+      'Operating Characteristic Curve': 'Betriebscharakteristikkurve',
       'Tariff': 'Tarif',
       'Detailed Data': 'Detaillierte Daten',
       'Child Spaces Data': 'Teil Platz Daten',
@@ -3417,7 +3417,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonne de Charbon standard',
       'Ton of Carbon Dioxide Emissions': 'Tonne de Émissions de dioxyde de carbone',
-      'Related Parameters': 'Apparenté Paramètres',
+      'Operating Characteristic Curve': 'Courbe des caractéristiques de travail',
       'Tariff': 'Tarif',
       'Detailed Data': 'Détaillé Données',
       'Child Spaces Data': 'Enfant Espaces Données',
@@ -4464,7 +4464,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonelada de carbón estándar',
       'Ton of Carbon Dioxide Emissions': 'Toneladas de emisiones de dióxido de carbono',
-      'Related Parameters': 'Parámetros relacionados',
+      'Operating Characteristic Curve': 'Curva característica de trabajo',
       'Tariff': 'Arancel',
       'Detailed Data': 'Datos detallados',
       'Child Spaces Data': 'Datos de espacios secundarios',
@@ -5511,7 +5511,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Тонна стандартного угля',
       'Ton of Carbon Dioxide Emissions': 'тонн выбросов углекислого газа',
-      'Related Parameters': 'Связанные параметры',
+      'Operating Characteristic Curve': 'рабочая характеристика',
       'Tariff': 'Тариф',
       'Detailed Data': 'Подробные данные',
       'Child Spaces Data': 'Данные о дочерних пространствах',
@@ -6558,7 +6558,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'طن من الفحم القياسي',
       'Ton of Carbon Dioxide Emissions': 'طن من انبعاثات ثاني أكسيد الكربون',
-      'Related Parameters': 'المعلمات ذات الصلة',
+      'Operating Characteristic Curve': 'عمل منحنى المميزة',
       'Tariff': 'تعريف',
       'Detailed Data': 'بيانات مفصلة',
       'Child Spaces Data': 'بيانات المساحات الفرعية',
@@ -7605,7 +7605,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tấn than tiêu chuẩn',
       'Ton of Carbon Dioxide Emissions': 'Tấn khí thải carbon dioxide',
-      'Related Parameters': 'Thông số liên quan',
+      'Operating Characteristic Curve': 'Đường cong đặc tính làm việc',
       'Tariff': 'Thuế quan',
       'Detailed Data': 'Dữ liệu chi tiết',
       'Child Spaces Data': 'Dữ liệu không gian trẻ em',
@@ -8652,7 +8652,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'ตันของถ่านหินมาตรฐาน',
       'Ton of Carbon Dioxide Emissions': 'ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์',
-      'Related Parameters': 'พารามิเตอร์ที่เกี่ยวข้อง',
+      'Operating Characteristic Curve': 'เส้นโค้งลักษณะการทำงาน',
       'Tariff': 'ภาษี',
       'Detailed Data': 'ข้อมูลรายละเอียด',
       'Child Spaces Data': 'ข้อมูลพื้นที่ย่อย',
@@ -9697,7 +9697,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton Standart Kömür',
       'Ton of Carbon Dioxide Emissions': 'Tonlarca karbondioksit emisyonu',
-      'Related Parameters': 'İlgili Parametreler',
+      'Operating Characteristic Curve': 'işletim karakteristik eğri',
       'Tariff': 'Tarife',
       'Detailed Data': 'Detaylı Veri',
       'Child Spaces Data': 'Alt Alanlar Verileri',
@@ -10744,7 +10744,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tan arang batu standard',
       'Ton of Carbon Dioxide Emissions': 'Tan pelepasan karbon dioksida',
-      'Related Parameters': 'Parameter Berkaitan',
+      'Operating Characteristic Curve': 'Lengkung karakteristik operasi',
       'Tariff': 'Tarif',
       'Detailed Data': 'Data terperinci',
       'Child Spaces Data': 'Data Ruang Kanak-kanak',
@@ -11776,7 +11776,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton Batubara Standar',
       'Ton of Carbon Dioxide Emissions': 'Ton Emisi Dioksida Karbon',
-      'Related Parameters': 'Parameter Terhubung',
+      'Operating Characteristic Curve': 'kurva karakteristik operasi',
       'Tariff': 'Kadar',
       'Detailed Data': 'Data Rincian',
       'Child Spaces Data': 'Data Subspace',

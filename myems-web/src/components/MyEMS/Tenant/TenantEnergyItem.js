@@ -847,7 +847,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         options={tenantReportingOptions}>
       </MultiTrendChart>
 
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}

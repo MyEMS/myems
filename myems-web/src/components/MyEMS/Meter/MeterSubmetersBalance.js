@@ -558,7 +558,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           options={meterLineChartOptions}>
         </LineChart>
 
-        <MultipleLineChart reportingTitle={t('Related Parameters')}
+        <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
           baseTitle=''
           labels={parameterLineChartLabels}
           data={parameterLineChartData}

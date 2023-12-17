@@ -983,7 +983,7 @@ const CombinedEquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         options={combinedEquipmentReportingOptions}>
       </MultiTrendChart>
 
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}

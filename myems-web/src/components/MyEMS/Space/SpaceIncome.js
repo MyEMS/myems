@@ -863,7 +863,7 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
         options={spaceReportingOptions}>
       </MultiTrendChart>
 
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}

@@ -931,7 +931,7 @@ const ShopfloorCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         options={shopfloorReportingOptions}>
       </MultiTrendChart>
 
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
