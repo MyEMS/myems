@@ -511,7 +511,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
         options={meterLineChartOptions}>
       </MultipleLineChart>
 
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
         baseTitle=''
         labels={parameterLineChartLabels}
         data={parameterLineChartData}

@@ -751,7 +751,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </Col>
       </Row>
-      <MultipleLineChart reportingTitle={t('Related Parameters')}
+      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
             baseTitle=''
             labels={parameterLineChartLabels}
             data={parameterLineChartData}
