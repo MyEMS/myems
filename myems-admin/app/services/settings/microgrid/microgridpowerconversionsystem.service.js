@@ -17,25 +17,24 @@ app.factory('MicrogridPowerconversionsystemService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridPowerconversionsystem: function(microgridpowerconversionsystem, headers, callback) {
-            $http.post(getAPI()+'/microgridpowerconversionsystems',{data:microgridpowerconversionsystem}, {headers})
+        addMicrogridPowerconversionsystem: function(id, microgridpowerconversionsystem, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/powerconversionsystems',{data:microgridpowerconversionsystem}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridPowerconversionsystem: function(microgridpowerconversionsystem, headers, callback) {
-            $http.put(getAPI()+'/microgridpowerconversionsystems/'+microgridpowerconversionsystem.id,{data:microgridpowerconversionsystem}, {headers})
+        editMicrogridPowerconversionsystem: function(id, microgridpowerconversionsystem, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/powerconversionsystems/'+microgridpowerconversionsystem.id,{data:microgridpowerconversionsystem}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-
-        deleteMicrogridPowerconversionsystem: function(microgridpowerconversionsystemyID, headers, callback) {
-            $http.delete(getAPI()+'/microgridpowerconversionsystems/'+microgridpowerconversionsystemyID, {headers})
+        deleteMicrogridPowerconversionsystem: function(id, microgridpowerconversionsystemyID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/powerconversionsystems/'+microgridpowerconversionsystemyID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

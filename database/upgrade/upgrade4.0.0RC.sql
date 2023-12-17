@@ -6,7 +6,6 @@
 
 START TRANSACTION;
 
-
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_batteries` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -82,11 +81,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_
   `capacity` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_stations_grids_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations_grids` (`name`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_power_stations_loads`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_loads` ;
 
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_loads` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,

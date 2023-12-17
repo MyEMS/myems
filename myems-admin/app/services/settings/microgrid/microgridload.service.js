@@ -17,25 +17,24 @@ app.factory('MicrogridLoadService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridLoad: function(microgridload, headers, callback) {
-            $http.post(getAPI()+'/microgridloads',{data:microgridload}, {headers})
+        addMicrogridLoad: function(id, microgridload, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/loads',{data:microgridload}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridLoad: function(microgridload, headers, callback) {
-            $http.put(getAPI()+'/microgridloads/'+microgridload.id,{data:microgridload}, {headers})
+        editMicrogridLoad: function(id, microgridload, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/loads/'+microgridload.id,{data:microgridload}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-
-        deleteMicrogridLoad: function(microgridloadyID, headers, callback) {
-            $http.delete(getAPI()+'/microgridloads/'+microgridloadyID, {headers})
+        deleteMicrogridLoad: function(id, microgridloadyID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/loads/'+microgridloadyID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

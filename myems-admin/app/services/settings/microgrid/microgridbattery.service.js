@@ -17,16 +17,16 @@ app.factory('MicrogridBatteryService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridBattery: function(microgridbattery, headers, callback) {
-            $http.post(getAPI()+'/microgridbatteries',{data:microgridbattery}, {headers})
+        addMicrogridBattery: function(id, microgridbattery, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/batteries',{data:microgridbattery}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridBattery: function(microgridbattery, headers, callback) {
-            $http.put(getAPI()+'/microgridbatteries/'+microgridbattery.id,{data:microgridbattery}, {headers})
+        editMicrogridBattery: function(id, microgridbattery, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/batteries/'+microgridbattery.id,{data:microgridbattery}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -34,8 +34,8 @@ app.factory('MicrogridBatteryService', function($http) {
             });
         },
 
-        deleteMicrogridBattery: function(microgridbatteryID, headers, callback) {
-            $http.delete(getAPI()+'/microgridbatteries/'+microgridbatteryID, {headers})
+        deleteMicrogridBattery: function(id, microgridbatteryID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/batteries/'+microgridbatteryID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

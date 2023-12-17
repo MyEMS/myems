@@ -98,7 +98,6 @@ app.controller('MicrogridPowerconversionsystemController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridpowerconversionsystem) {
-        	microgridpowerconversionsystem.microgrid_id = $scope.currentMicrogrid.id;
 			microgridpowerconversionsystem.run_state_point_id = microgridpowerconversionsystem.run_state_point.id;
 			microgridpowerconversionsystem.charge_start_time1_point_id = microgridpowerconversionsystem.charge_start_time1_point.id;
 			microgridpowerconversionsystem.charge_end_time1_point_id = microgridpowerconversionsystem.charge_end_time1_point.id;
@@ -133,7 +132,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			microgridpowerconversionsystem.discharge_start_time4_command_id = microgridpowerconversionsystem.discharge_start_time4_command.id;
 			microgridpowerconversionsystem.discharge_end_time4_command_id = microgridpowerconversionsystem.discharge_end_time4_command.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridPowerconversionsystemService.addMicrogridPowerconversionsystem(microgridpowerconversionsystem, headers, function (response) {
+  			MicrogridPowerconversionsystemService.addMicrogridPowerconversionsystem($scope.currentMicrogrid.id, microgridpowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -176,7 +175,6 @@ app.controller('MicrogridPowerconversionsystemController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridPowerconversionsystem) {
-        	modifiedMicrogridPowerconversionsystem.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridPowerconversionsystem.run_state_point_id = modifiedMicrogridPowerconversionsystem.run_state_point.id;
 			modifiedMicrogridPowerconversionsystem.charge_start_time1_point_id = modifiedMicrogridPowerconversionsystem.charge_start_time1_point.id;
 			modifiedMicrogridPowerconversionsystem.charge_end_time1_point_id = modifiedMicrogridPowerconversionsystem.charge_end_time1_point.id;
@@ -211,7 +209,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
 			modifiedMicrogridPowerconversionsystem.discharge_start_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time4_command.id;
 			modifiedMicrogridPowerconversionsystem.discharge_end_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time4_command.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridPowerconversionsystemService.editMicrogridPowerconversionsystem(modifiedMicrogridPowerconversionsystem, headers, function (response) {
+  			MicrogridPowerconversionsystemService.editMicrogridPowerconversionsystem($scope.currentMicrogrid.id, modifiedMicrogridPowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -251,7 +249,7 @@ app.controller('MicrogridPowerconversionsystemController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridPowerconversionsystemService.deleteMicrogridPowerconversionsystem(microgridpowerconversionsystem.id, headers, function (response) {
+  					MicrogridPowerconversionsystemService.deleteMicrogridPowerconversionsystem($scope.currentMicrogrid.id, microgridpowerconversionsystem.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

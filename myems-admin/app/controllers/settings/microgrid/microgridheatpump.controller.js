@@ -84,13 +84,12 @@ app.controller('MicrogridHeatpumpController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridheatpump) {
-       		microgridheatpump.microgrid_id = $scope.currentMicrogrid.id;
 			microgridheatpump.power_point_id = microgridheatpump.power_point.id;
 			microgridheatpump.electricity_meter_id = microgridheatpump.electricity_meter.id;
 			microgridheatpump.heat_meter_id = microgridheatpump.heat_meter.id;
 			microgridheatpump.cooling_meter_id = microgridheatpump.cooling_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridHeatpumpService.addMicrogridHeatpump(microgridheatpump, headers, function (response) {
+  			MicrogridHeatpumpService.addMicrogridHeatpump($scope.currentMicrogrid.id, microgridheatpump, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -132,13 +131,12 @@ app.controller('MicrogridHeatpumpController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridHeatpump) {
-        	modifiedMicrogridHeatpump.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridHeatpump.power_point_id = modifiedMicrogridHeatpump.power_point.id;
 			modifiedMicrogridHeatpump.electricity_meter_id = modifiedMicrogridHeatpump.electricity_meter.id;
 			modifiedMicrogridHeatpump.heat_meter_id = modifiedMicrogridHeatpump.heat_meter.id;
 			modifiedMicrogridHeatpump.cooling_meter_id = modifiedMicrogridHeatpump.cooling_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridHeatpumpService.editMicrogridHeatpump(modifiedMicrogridHeatpump, headers, function (response) {
+  			MicrogridHeatpumpService.editMicrogridHeatpump($scope.currentMicrogrid.id, modifiedMicrogridHeatpump, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -178,7 +176,7 @@ app.controller('MicrogridHeatpumpController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridHeatpumpService.deleteMicrogridHeatpump(microgridheatpump.id, headers, function (response) {
+  					MicrogridHeatpumpService.deleteMicrogridHeatpump($scope.currentMicrogrid.id, microgridheatpump.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

@@ -83,11 +83,10 @@ app.controller('MicrogridGeneratorController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridgenerator) {
-       		microgridgenerator.microgrid_id = $scope.currentMicrogrid.id;
 			microgridgenerator.power_point_id = microgridgenerator.power_point.id;
 			microgridgenerator.meter_id = microgridgenerator.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridGeneratorService.addMicrogridGenerator(microgridgenerator, headers, function (response) {
+  			MicrogridGeneratorService.addMicrogridGenerator($scope.currentMicrogrid.id, microgridgenerator, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -129,11 +128,10 @@ app.controller('MicrogridGeneratorController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridGenerator) {
-            modifiedMicrogridGenerator.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridGenerator.power_point_id = modifiedMicrogridGenerator.power_point.id;
 			modifiedMicrogridGenerator.meter_id = modifiedMicrogridGenerator.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridGeneratorService.editMicrogridGenerator(modifiedMicrogridGenerator, headers, function (response) {
+  			MicrogridGeneratorService.editMicrogridGenerator($scope.currentMicrogrid.id, modifiedMicrogridGenerator, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -173,7 +171,7 @@ app.controller('MicrogridGeneratorController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridGeneratorService.deleteMicrogridGenerator(microgridgenerator.id, headers, function (response) {
+  					MicrogridGeneratorService.deleteMicrogridGenerator($scope.currentMicrogrid.id, microgridgenerator.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
