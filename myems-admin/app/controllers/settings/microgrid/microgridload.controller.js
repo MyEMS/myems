@@ -83,11 +83,10 @@ app.controller('MicrogridLoadController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridload) {
-        	microgridload.microgrid_id = $scope.currentMicrogrid.id;
 			microgridload.power_point_id = microgridload.power_point.id;
 			microgridload.meter_id = microgridload.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridLoadService.addMicrogridLoad(microgridload, headers, function (response) {
+  			MicrogridLoadService.addMicrogridLoad($scope.currentMicrogrid.id, microgridload, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -129,11 +128,10 @@ app.controller('MicrogridLoadController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridLoad) {
-       		modifiedMicrogridLoad.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridLoad.power_point_id = modifiedMicrogridLoad.power_point.id;
 			modifiedMicrogridLoad.meter_id = modifiedMicrogridLoad.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridLoadService.editMicrogridLoad(modifiedMicrogridLoad, headers, function (response) {
+  			MicrogridLoadService.editMicrogridLoad($scope.currentMicrogrid.id, modifiedMicrogridLoad, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -173,7 +171,7 @@ app.controller('MicrogridLoadController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridLoadService.deleteMicrogridLoad(microgridload.id, headers, function (response) {
+  					MicrogridLoadService.deleteMicrogridLoad($scope.currentMicrogrid.id, microgridload.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

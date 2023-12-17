@@ -84,11 +84,10 @@ app.controller('MicrogridPhotovoltaicController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridphotovoltaic) {
-        	microgridphotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
 			microgridphotovoltaic.power_point_id = microgridphotovoltaic.power_point.id;
 			microgridphotovoltaic.meter_id = microgridphotovoltaic.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridPhotovoltaicService.addMicrogridPhotovoltaic(microgridphotovoltaic, headers, function (response) {
+  			MicrogridPhotovoltaicService.addMicrogridPhotovoltaic($scope.currentMicrogrid.id, microgridphotovoltaic, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -130,11 +129,10 @@ app.controller('MicrogridPhotovoltaicController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridPhotovoltaic) {
-        	modifiedMicrogridPhotovoltaic.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridPhotovoltaic.power_point_id = modifiedMicrogridPhotovoltaic.power_point.id;
 			modifiedMicrogridPhotovoltaic.meter_id = modifiedMicrogridPhotovoltaic.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridPhotovoltaicService.editMicrogridPhotovoltaic(modifiedMicrogridPhotovoltaic, headers, function (response) {
+  			MicrogridPhotovoltaicService.editMicrogridPhotovoltaic($scope.currentMicrogrid.id, modifiedMicrogridPhotovoltaic, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -174,7 +172,7 @@ app.controller('MicrogridPhotovoltaicController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridPhotovoltaicService.deleteMicrogridPhotovoltaic(microgridphotovoltaic.id, headers, function (response) {
+  					MicrogridPhotovoltaicService.deleteMicrogridPhotovoltaic($scope.currentMicrogrid.id, microgridphotovoltaic.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

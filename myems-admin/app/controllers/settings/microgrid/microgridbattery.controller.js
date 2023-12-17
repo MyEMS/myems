@@ -85,14 +85,13 @@ app.controller('MicrogridBatteryController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridbattery) {
-        	microgridbattery.microgrid_id = $scope.currentMicrogrid.id;
-			microgridbattery.battery_state_point_id = microgridbattery.battery_state_point.id;
+        	microgridbattery.battery_state_point_id = microgridbattery.battery_state_point.id;
 			microgridbattery.soc_point_id = microgridbattery.soc_point.id;
 			microgridbattery.power_point_id = microgridbattery.power_point.id;
 			microgridbattery.charge_meter_id = microgridbattery.charge_meter.id;
 			microgridbattery.discharge_meter_id = microgridbattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridBatteryService.addMicrogridBattery(microgridbattery, headers, function (response) {
+  			MicrogridBatteryService.addMicrogridBattery($scope.currentMicrogrid.id, microgridbattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -134,14 +133,13 @@ app.controller('MicrogridBatteryController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridBattery) {
-        	modifiedMicrogridBattery.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridBattery.battery_state_point_id = modifiedMicrogridBattery.battery_state_point.id;
 			modifiedMicrogridBattery.soc_point_id = modifiedMicrogridBattery.soc_point.id;
 			modifiedMicrogridBattery.power_point_id = modifiedMicrogridBattery.power_point.id;
 			modifiedMicrogridBattery.charge_meter_id = modifiedMicrogridBattery.charge_meter.id;
 			modifiedMicrogridBattery.discharge_meter_id = modifiedMicrogridBattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridBatteryService.editMicrogridBattery(modifiedMicrogridBattery, headers, function (response) {
+  			MicrogridBatteryService.editMicrogridBattery($scope.currentMicrogrid.id, modifiedMicrogridBattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -181,7 +179,7 @@ app.controller('MicrogridBatteryController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridBatteryService.deleteMicrogridBattery(microgridbattery.id, headers, function (response) {
+  					MicrogridBatteryService.deleteMicrogridBattery($scope.currentMicrogrid.id, microgridbattery.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

@@ -17,16 +17,16 @@ app.factory('MicrogridEVChargerService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridEVCharger: function(microgridevcharger, headers, callback) {
-            $http.post(getAPI()+'/microgridevchargers',{data:microgridevcharger}, {headers})
+        addMicrogridEVCharger: function(id, microgridevcharger, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/evchargers',{data:microgridevcharger}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridEVCharger: function(microgridevcharger, headers, callback) {
-            $http.put(getAPI()+'/microgridevchargers/'+microgridevcharger.id,{data:microgridevcharger}, {headers})
+        editMicrogridEVCharger: function(id, microgridevcharger, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/evchargers/'+microgridevcharger.id,{data:microgridevcharger}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -34,8 +34,8 @@ app.factory('MicrogridEVChargerService', function($http) {
             });
         },
 
-        deleteMicrogridEVCharger: function(microgridevchargeryID, headers, callback) {
-            $http.delete(getAPI()+'/microgridevchargers/'+microgridevchargeryID, {headers})
+        deleteMicrogridEVCharger: function(id, microgridevchargeryID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/evchargers/'+microgridevchargeryID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

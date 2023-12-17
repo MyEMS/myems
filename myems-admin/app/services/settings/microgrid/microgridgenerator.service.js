@@ -17,25 +17,24 @@ app.factory('MicrogridGeneratorService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridGenerator: function(microgridgenerator, headers, callback) {
-            $http.post(getAPI()+'/microgridgenerators',{data:microgridgenerator}, {headers})
+        addMicrogridGenerator: function(id, microgridgenerator, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/generators',{data:microgridgenerator}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridGenerator: function(microgridgenerator, headers, callback) {
-            $http.put(getAPI()+'/microgridgenerators/'+microgridgenerator.id,{data:microgridgenerator}, {headers})
+        editMicrogridGenerator: function(id, microgridgenerator, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/generators/'+microgridgenerator.id,{data:microgridgenerator}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-
-        deleteMicrogridGenerator: function(microgridgeneratoryID, headers, callback) {
-            $http.delete(getAPI()+'/microgridgenerators/'+microgridgeneratoryID, {headers})
+        deleteMicrogridGenerator: function(id, microgridgeneratoryID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/generators/'+microgridgeneratoryID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

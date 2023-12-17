@@ -17,25 +17,24 @@ app.factory('MicrogridPhotovoltaicService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridPhotovoltaic: function(microgridphotovoltaic, headers, callback) {
-            $http.post(getAPI()+'/microgridphotovoltaics',{data:microgridphotovoltaic}, {headers})
+        addMicrogridPhotovoltaic: function(id, microgridphotovoltaic, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/photovoltaics',{data:microgridphotovoltaic}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridPhotovoltaic: function(microgridphotovoltaic, headers, callback) {
-            $http.put(getAPI()+'/microgridphotovoltaics/'+microgridphotovoltaic.id,{data:microgridphotovoltaic}, {headers})
+        editMicrogridPhotovoltaic: function(id, microgridphotovoltaic, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/photovoltaics/'+microgridphotovoltaic.id,{data:microgridphotovoltaic}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-
-        deleteMicrogridPhotovoltaic: function(microgridphotovoltaicyID, headers, callback) {
-            $http.delete(getAPI()+'/microgridphotovoltaics/'+microgridphotovoltaicyID, {headers})
+        deleteMicrogridPhotovoltaic: function(id, microgridphotovoltaicyID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/photovoltaics/'+microgridphotovoltaicyID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

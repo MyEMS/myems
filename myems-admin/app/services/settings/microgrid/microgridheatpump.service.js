@@ -17,16 +17,16 @@ app.factory('MicrogridHeatpumpService', function($http) {
                 callback(response);
             });
         },
-        addMicrogridHeatpump: function(microgridheatpump, headers, callback) {
-            $http.post(getAPI()+'/microgridheatpumps',{data:microgridheatpump}, {headers})
+        addMicrogridHeatpump: function(id, microgridheatpump, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+id+'/heatpumps',{data:microgridheatpump}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
                 callback(response);
             });
         },
-        editMicrogridHeatpump: function(microgridheatpump, headers, callback) {
-            $http.put(getAPI()+'/microgridheatpumps/'+microgridheatpump.id,{data:microgridheatpump}, {headers})
+        editMicrogridHeatpump: function(id, microgridheatpump, headers, callback) {
+            $http.put(getAPI()+'microgrids/'+id+'/heatpumps/'+microgridheatpump.id,{data:microgridheatpump}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -34,8 +34,8 @@ app.factory('MicrogridHeatpumpService', function($http) {
             });
         },
 
-        deleteMicrogridHeatpump: function(microgridheatpumpyID, headers, callback) {
-            $http.delete(getAPI()+'/microgridheatpumps/'+microgridheatpumpyID, {headers})
+        deleteMicrogridHeatpump: function(id, microgridheatpumpyID, headers, callback) {
+            $http.delete(getAPI()+'microgrids/'+id+'/heatpumps/'+microgridheatpumpyID, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

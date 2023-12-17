@@ -83,11 +83,10 @@ app.controller('MicrogridEVChargerController', function(
   			}
   		});
   		modalInstance.result.then(function(microgridevcharger) {
-        	microgridevcharger.microgrid_id = $scope.currentMicrogrid.id;
 			microgridevcharger.power_point_id = microgridevcharger.power_point.id;
 			microgridevcharger.meter_id = microgridevcharger.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridEVChargerService.addMicrogridEVCharger(microgridevcharger, headers, function (response) {
+  			MicrogridEVChargerService.addMicrogridEVCharger($scope.currentMicrogrid.id, microgridevcharger, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -129,11 +128,10 @@ app.controller('MicrogridEVChargerController', function(
   		});
 
   		modalInstance.result.then(function(modifiedMicrogridEVCharger) {
-        	modifiedMicrogridEVCharger.microgrid_id = $scope.currentMicrogrid.id;
 			modifiedMicrogridEVCharger.power_point_id = modifiedMicrogridEVCharger.power_point.id;
 			modifiedMicrogridEVCharger.meter_id = modifiedMicrogridEVCharger.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			MicrogridEVChargerService.editMicrogridEVCharger(modifiedMicrogridEVCharger, headers, function (response) {
+  			MicrogridEVChargerService.editMicrogridEVCharger($scope.currentMicrogrid.id, modifiedMicrogridEVCharger, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -173,7 +171,7 @@ app.controller('MicrogridEVChargerController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					MicrogridEVChargerService.deleteMicrogridEVCharger(microgridevcharger.id, headers, function (response) {
+  					MicrogridEVChargerService.deleteMicrogridEVCharger($scope.currentMicrogrid.id, microgridevcharger.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",

@@ -2,16 +2,13 @@ import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
-from core import advancedreport, apikey, energyflowdiagram, \
+from core import advancedreport, apikey, command, energyflowdiagram, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
-    workingcalendar, microgrid, microgridbattery, \
-    microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridpowerconversionsystem, command, virtualpowerplant, \
-    energystoragepowerstation, photovoltaicpowerstation, windfarm
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
+    microgrid,  virtualpowerplant, energystoragepowerstation, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -328,64 +325,40 @@ api.add_route('/microgrids/{id_}/sensors/{sid}',
               microgrid.MicrogridSensorItem())
 api.add_route('/microgrids/{id_}/batteries',
               microgrid.MicrogridBatteryCollection())
+api.add_route('/microgrids/{id_}/batteries/{bid}',
+              microgrid.MicrogridBatteryItem())
 api.add_route('/microgrids/{id_}/evchargers',
               microgrid.MicrogridEVChargerCollection())
+api.add_route('/microgrids/{id_}/evchargers/{eid}',
+              microgrid.MicrogridEVChargerItem())
 api.add_route('/microgrids/{id_}/generators',
               microgrid.MicrogridGeneratorCollection())
+api.add_route('/microgrids/{id_}/generators/{gid}',
+              microgrid.MicrogridGeneratorItem())
 api.add_route('/microgrids/{id_}/grids',
               microgrid.MicrogridGridCollection())
+api.add_route('/microgrids/{id_}/grids/{gid}',
+              microgrid.MicrogridGridItem())
 api.add_route('/microgrids/{id_}/heatpumps',
               microgrid.MicrogridHeatpumpCollection())
+api.add_route('/microgrids/{id_}/heatpumps/{hid}',
+              microgrid.MicrogridHeatpumpItem())
 api.add_route('/microgrids/{id_}/loads',
               microgrid.MicrogridLoadCollection())
+api.add_route('/microgrids/{id_}/loads/{lid}',
+              microgrid.MicrogridLoadItem())
 api.add_route('/microgrids/{id_}/photovoltaics',
               microgrid.MicrogridPhotovoltaicCollection())
+api.add_route('/microgrids/{id_}/photovoltaics/{pid}',
+              microgrid.MicrogridPhotovoltaicItem())
 api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
+api.add_route('/microgrids/{id_}/powerconversionsystems/{pid}',
+              microgrid.MicrogridPowerconversionsystemItem())
 api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
               microgrid.MicrogridUserItem())
-
-api.add_route('/microgridbatteries',
-              microgridbattery.MicrogridBatteryCollection())
-api.add_route('/microgridbatteries/{id_}',
-              microgridbattery.MicrogridBatteryItem())
-
-api.add_route('/microgridevchargers',
-              microgridevcharger.MicrogridEVChargerCollection())
-api.add_route('/microgridevchargers/{id_}',
-              microgridevcharger.MicrogridEVChargerItem())
-
-api.add_route('/microgridgenerators',
-              microgridgenerator.MicrogridGeneratorCollection())
-api.add_route('/microgridgenerators/{id_}',
-              microgridgenerator.MicrogridGeneratorItem())
-
-api.add_route('/microgridgrids',
-              microgridgrid.MicrogridGridCollection())
-api.add_route('/microgridgrids/{id_}',
-              microgridgrid.MicrogridGridItem())
-
-api.add_route('/microgridheatpumps',
-              microgridheatpump.MicrogridHeatpumpCollection())
-api.add_route('/microgridheatpumps/{id_}',
-              microgridheatpump.MicrogridHeatpumpItem())
-
-api.add_route('/microgridloads',
-              microgridload.MicrogridLoadCollection())
-api.add_route('/microgridloads/{id_}',
-              microgridload.MicrogridLoadItem())
-
-api.add_route('/microgridphotovoltaics',
-              microgridphotovoltaic.MicrogridPhotovoltaicCollection())
-api.add_route('/microgridphotovoltaics/{id_}',
-              microgridphotovoltaic.MicrogridPhotovoltaicItem())
-
-api.add_route('/microgridpowerconversionsystems',
-              microgridpowerconversionsystem.MicrogridPowerconversionsystemCollection())
-api.add_route('/microgridpowerconversionsystems/{id_}',
-              microgridpowerconversionsystem.MicrogridPowerconversionsystemItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
