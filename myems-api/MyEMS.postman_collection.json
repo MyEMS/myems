@@ -4337,6 +4337,872 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET All Sensors of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind a Sensor to an Energy Storage Power Station",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"sensor_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/sensors",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Sensor from an Energy Storage Power Station",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9a3748fadf64270dd4617594939169d0008a1b713e3a5861af384c68de73442b56b56771ce2be1e51ecd7443ec0fc1fbd6dcc3335a2c7518ca12b7a479ccb2e0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/sensors/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"sensors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Batteries of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "08d9de3ccf860300dc3955a4ed0026dd6f2d71d28713ced3074452fa9eccf23d702d52b1946e0733ada378e0691ccd2a72f4be0af2c9770c6d8f2d031abadd63",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/3/batteries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"3",
+										"batteries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Power Station Battery",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "86b53bdff3dc73ceff0e58570cb0790799b37ac3cc2a787b342507acbc1a89520cdda9efb8c51a5d64d81d2cdb265a392876be729f2fbad62b540157976c48eb",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/batteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"batteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Energy Storage Power Station Battery",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "86b53bdff3dc73ceff0e58570cb0790799b37ac3cc2a787b342507acbc1a89520cdda9efb8c51a5d64d81d2cdb265a392876be729f2fbad62b540157976c48eb",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/batteries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"batteries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Energy Storage Power Station Battery",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08d9de3ccf860300dc3955a4ed0026dd6f2d71d28713ced3074452fa9eccf23d702d52b1946e0733ada378e0691ccd2a72f4be0af2c9770c6d8f2d031abadd63",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/batteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"batteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Power Station Battery",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08d9de3ccf860300dc3955a4ed0026dd6f2d71d28713ced3074452fa9eccf23d702d52b1946e0733ada378e0691ccd2a72f4be0af2c9770c6d8f2d031abadd63",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/batteries/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"batteries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Grids of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/grids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"grids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Power Station Grid",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/grids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"grids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Energy Storage Power Station Grid",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/grids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"grids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Energy Storage Power Station Grid",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/grids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"grids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Power Station Grid",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/grids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"grids",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Loads of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/loads",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"loads"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Power Station Load",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/loads/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"loads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Energy Storage Power Station Load",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/loads/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"loads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Energy Storage Power Station Load",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/loads/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"loads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Power Station Load",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/loads/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"loads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Power Conversion Systems of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "5697392c42fdcec56a010729d9fc4a43fe694c7782bde85861f62605fff463bbbb0453899076a2e033f4193ac2e6f883eb510870e5e97e9ce6fbe84b6079b276",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/powerconversionsystems",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"powerconversionsystems"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Power Station Power Conversion System",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "5697392c42fdcec56a010729d9fc4a43fe694c7782bde85861f62605fff463bbbb0453899076a2e033f4193ac2e6f883eb510870e5e97e9ce6fbe84b6079b276",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/powerconversionsystems/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"powerconversionsystems",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Create new Energy Storage Power Station Power Conversion System",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ac38ab713b8bd9b39c677cf15946ce5abded24f02cc7806acaa9214707f853539ba07d009a375a34acbc8531e8da7d57fa87e5398b0229296d1f02d9a34d3989",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_command_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/powerconversionsystems",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"powerconversionsystems"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update an Energy Storage Power Station Power Conversion System",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ac38ab713b8bd9b39c677cf15946ce5abded24f02cc7806acaa9214707f853539ba07d009a375a34acbc8531e8da7d57fa87e5398b0229296d1f02d9a34d3989",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/powerconversionsystems/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"powerconversionsystems",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Power Station Power Conversion System",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "08c913a4e5eccc96d590c52002b2ed225dbbf0de52b260d41b912bf989fe9c0bd47a09de0ee0a3b527cac427603b28c73450e08d9084289ecedaaf88cdd865db",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/powerconversionsystems/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"powerconversionsystems",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Users of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind an User to an Energy Storage Power Station",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"user_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an User from an Energy Storage Power Station",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -6571,12 +7437,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/batteries/1",
+									"raw": "{{base_url}}/microgrids/1/batteries/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"batteries",
 										"1"
@@ -6608,12 +7474,12 @@
 									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/batteries",
+									"raw": "{{base_url}}/microgrids/1/batteries",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"batteries"
 									]
@@ -6644,12 +7510,12 @@
 									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/batteries/1",
+									"raw": "{{base_url}}/microgrids/1/batteries/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"batteries",
 										"1"
@@ -6677,12 +7543,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/batteries/1",
+									"raw": "{{base_url}}/microgrids/1/batteries/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"batteries",
 										"1"
@@ -6738,12 +7604,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/evchargers/1",
+									"raw": "{{base_url}}/microgrids/1/evchargers/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"evchargers",
 										"1"
@@ -6775,12 +7641,12 @@
 									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/evchargers",
+									"raw": "{{base_url}}/microgrids/1/evchargers",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"evchargers"
 									]
@@ -6811,12 +7677,12 @@
 									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/evchargers/1",
+									"raw": "{{base_url}}/microgrids/1/evchargers/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"evchargers",
 										"1"
@@ -6844,12 +7710,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/evchargers/1",
+									"raw": "{{base_url}}/microgrids/1/evchargers/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"evchargers",
 										"1"
@@ -6905,12 +7771,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/generators/1",
+									"raw": "{{base_url}}/microgrids/1/generators/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"generators",
 										"1"
@@ -6942,12 +7808,12 @@
 									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/generators",
+									"raw": "{{base_url}}/microgrids/1/generators",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"generators"
 									]
@@ -6978,12 +7844,12 @@
 									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/generators/1",
+									"raw": "{{base_url}}/microgrids/1/generators/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"generators",
 										"1"
@@ -7011,12 +7877,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/generators/1",
+									"raw": "{{base_url}}/microgrids/1/generators/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"generators",
 										"1"
@@ -7072,12 +7938,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/grids/1",
+									"raw": "{{base_url}}/microgrids/1/grids/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"grids",
 										"1"
@@ -7109,12 +7975,12 @@
 									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/grids/1",
+									"raw": "{{base_url}}/microgrids/1/grids/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"grids",
 										"1"
@@ -7146,12 +8012,12 @@
 									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/grids/1",
+									"raw": "{{base_url}}/microgrids/1/grids/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"grids",
 										"1"
@@ -7179,12 +8045,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/grids/1",
+									"raw": "{{base_url}}/microgrids/1/grids/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"grids",
 										"1"
@@ -7240,12 +8106,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/heatpumps/1",
+									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"heatpumps",
 										"1"
@@ -7277,12 +8143,12 @@
 									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/heatpumps/1",
+									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"heatpumps",
 										"1"
@@ -7314,12 +8180,12 @@
 									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/heatpumps/1",
+									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"heatpumps",
 										"1"
@@ -7347,12 +8213,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/heatpumps/1",
+									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"heatpumps",
 										"1"
@@ -7408,12 +8274,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/loads/1",
+									"raw": "{{base_url}}/microgrids/1/loads/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"loads",
 										"1"
@@ -7445,12 +8311,12 @@
 									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/loads/1",
+									"raw": "{{base_url}}/microgrids/1/loads/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"loads",
 										"1"
@@ -7482,12 +8348,12 @@
 									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/loads/1",
+									"raw": "{{base_url}}/microgrids/1/loads/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"loads",
 										"1"
@@ -7515,12 +8381,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/loads/1",
+									"raw": "{{base_url}}/microgrids/1/loads/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"loads",
 										"1"
@@ -7576,12 +8442,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/photovoltaics/1",
+									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"photovoltaics",
 										"1"
@@ -7613,12 +8479,12 @@
 									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/photovoltaics/1",
+									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"photovoltaics",
 										"1"
@@ -7650,12 +8516,12 @@
 									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/photovoltaics/1",
+									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"photovoltaics",
 										"1"
@@ -7683,12 +8549,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/photovoltaics/1",
+									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"photovoltaics",
 										"1"
@@ -7744,12 +8610,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/powerconversionsystems/1",
+									"raw": "{{base_url}}/microgrids/1/powerconversionsystems/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"powerconversionsystems",
 										"1"
@@ -7781,12 +8647,12 @@
 									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_command_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/powerconversionsystems",
+									"raw": "{{base_url}}/microgrids/1/powerconversionsystems",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"powerconversionsystems"
 									]
@@ -7817,12 +8683,12 @@
 									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/powerconversionsystems/1",
+									"raw": "{{base_url}}/microgrids/1/powerconversionsystems/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"powerconversionsystems",
 										"1"
@@ -7850,12 +8716,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrid/1/powerconversionsystems/1",
+									"raw": "{{base_url}}/microgrids/1/powerconversionsystems/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"microgrid",
+										"microgrids",
 										"1",
 										"powerconversionsystems",
 										"1"
@@ -7901,7 +8767,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a User to a Microgrid",
+							"name": "POST Bind an User to a Microgrid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -7935,7 +8801,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE a User from a Microgrid",
+							"name": "DELETE an User from a Microgrid",
 							"request": {
 								"method": "DELETE",
 								"header": [

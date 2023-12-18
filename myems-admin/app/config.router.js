@@ -1266,11 +1266,23 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/energystoragepowerstation/energystoragepowerstation.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationbattery.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationgrid.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationload.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationpowerconversionsystem.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationsensor.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationuser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationbattery.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationgrid.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationload.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationpowerconversionsystem.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationsensor.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationuser.controller.js',
                                                 ]
                                             }]);
                                         }

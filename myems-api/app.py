@@ -251,6 +251,30 @@ api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
 api.add_route('/energystoragepowerstations/{id_}',
               energystoragepowerstation.EnergyStoragePowerStationItem())
+api.add_route('/energystoragepowerstations/{id_}/sensors',
+              energystoragepowerstation.EnergyStoragePowerStationSensorCollection())
+api.add_route('/energystoragepowerstations/{id_}/sensors/{sid}',
+              energystoragepowerstation.EnergyStoragePowerStationSensorItem())
+api.add_route('/energystoragepowerstations/{id_}/batteries',
+              energystoragepowerstation.EnergyStoragePowerStationBatteryCollection())
+api.add_route('/energystoragepowerstations/{id_}/batteries/{bid}',
+              energystoragepowerstation.EnergyStoragePowerStationBatteryItem())
+api.add_route('/energystoragepowerstations/{id_}/grids',
+              energystoragepowerstation.EnergyStoragePowerStationGridCollection())
+api.add_route('/energystoragepowerstations/{id_}/grids/{gid}',
+              energystoragepowerstation.EnergyStoragePowerStationGridItem())
+api.add_route('/energystoragepowerstations/{id_}/loads',
+              energystoragepowerstation.EnergyStoragePowerStationLoadCollection())
+api.add_route('/energystoragepowerstations/{id_}/loads/{lid}',
+              energystoragepowerstation.EnergyStoragePowerStationLoadItem())
+api.add_route('/energystoragepowerstations/{id_}/powerconversionsystems',
+              energystoragepowerstation.EnergyStoragePowerStationPowerconversionsystemCollection())
+api.add_route('/energystoragepowerstations/{id_}/powerconversionsystems/{pid}',
+              energystoragepowerstation.EnergyStoragePowerStationPowerconversionsystemItem())
+api.add_route('/energystoragepowerstations/{id_}/users',
+              energystoragepowerstation.EnergyStoragePowerStationUserCollection())
+api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
+              energystoragepowerstation.EnergyStoragePowerStationUserItem())
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())
