@@ -1,0 +1,85 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragepowerstationbattery.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_energystoragepowerstationbattery" novalidate class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}</label>
+                <div class="col-sm-10"><input ng-model="energystoragepowerstationbattery.name" type="text" name="energystoragepowerstationbatteryname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatteryname.$invalid && form_energystoragepowerstationbattery.energystoragepowerstationbatteryname.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatteryname.$error.required">{{'MICROGRID.INPUT_MICROGRID_BATTERY_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.BATTERY_STATE_POINT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstationbattery.battery_state_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.SOC_POINT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstationbattery.soc_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstationbattery.power_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CHARGE_METER' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstationbattery.charge_meter.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
+                            <div ng-bind-html="meter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.DISCHARGE_METER' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstationbattery.discharge_meter.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
+                            <div ng-bind-html="meter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}} (Ah)</label>
+                <div class="col-sm-10"><input ng-model="energystoragepowerstationbattery.capacity" type="number" name="energystoragepowerstationbatterycapacity" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatterycapacity.$invalid && form_energystoragepowerstationbattery.energystoragepowerstationbatterycapacity.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatterycapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}} (V)</label>
+                <div class="col-sm-10"><input ng-model="energystoragepowerstationbattery.nominal_voltage" type="number" name="energystoragepowerstationbatterynominal_voltage" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatterynominal_voltage.$invalid && form_energystoragepowerstationbattery.energystoragepowerstationbatterynominal_voltage.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstationbattery.energystoragepowerstationbatterynominal_voltage.$error.required">{{'MICROGRID.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragepowerstationbattery.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
