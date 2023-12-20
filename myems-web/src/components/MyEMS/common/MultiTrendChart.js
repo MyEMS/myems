@@ -214,7 +214,7 @@ const MultiTrendChart = ({
       <CardBody className="rounded-soft">
         <Row className="text-white align-items-center no-gutters">
           <Col>
-            <h4 className="text-lightSlateGray mb-0">{parseTitleOrTooltipTitle(reportingTitle, option)}</h4>
+            <h5 className="text-lightSlateGray mb-0">{parseTitleOrTooltipTitle(reportingTitle, option)}</h5>
             <p className="fs--1 font-weight-semi-bold">
               {parseTitleOrTooltipTitle(baseTitle, option)}
             </p>
