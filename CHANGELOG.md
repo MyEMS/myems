@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tables for energy storage power station in database
 - added energy storage power station actions to myems-api
 - added energy storage power station UI to myems-admin
+- added realtime data to DistribuitionSystem in myems-web
 - 
 ### Changed
 - changed microgrid monitoring in myems-web

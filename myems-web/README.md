@@ -20,7 +20,7 @@ Download Current Linux Binaries (x64) from https://nodejs.org/en/download/curren
 
 ```bash
 sudo mkdir -p /usr/local/lib/nodejs
-sudo tar -xJvf node-vxx.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs 
+sudo tar -xJvf node-vxx.x.x-linux-x64.tar.xz -C /usr/local/lib/nodejs
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/node /usr/bin/node
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npm /usr/bin/npm
 sudo ln -s /usr/local/lib/nodejs/node-vxx.x.x-linux-x64/bin/npx /usr/bin/npx
@@ -85,7 +85,7 @@ Add a new 'VirtualHost' as below
 <VirtualHost 127.0.0.1:80>
         ServerAdmin MyEMS-web
         DocumentRoot /var/www/myems-web
-        
+
         <Directory "var/www/myems-web">
                 Options FollowSymLinks
                 AllowOverride All
@@ -96,7 +96,7 @@ Add a new 'VirtualHost' as below
         CustomLog ${APACHE_LOG_DIR}/access.log combined
         ProxyRequests Off
 		ProxyPreserveHost On
-		
+
 		<Proxy *>
 			Order Deny,Allow
 			Allow from all
@@ -121,8 +121,8 @@ sudo npm run build
 tar czvf myems-web.tar.gz build
 ```
 
-Install 
-Upload the file myems-web.tar.gz to you web server. 
+Install
+Upload the file myems-web.tar.gz to you web server.
 Note that the following path should be same as that was configured in 000-default.conf
 ```bash
 tar xzf myems-web.tar.gz

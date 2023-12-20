@@ -18,6 +18,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
+import useInterval from '../../../hooks/useInterval';
 import { APIBaseURL } from '../../../config';
 
 
@@ -105,6 +106,44 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+
+  const refreshSVGData =()=> {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/reports/pointrealtime', {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      if (isResponseOK) {
+        console.log(json);
+        json.forEach((currentPoint, circuitIndex) => {
+          let el=document.getElementById("PT"+currentPoint['point_id'])
+          if(el){
+            let val = parseFloat(currentPoint['value'])
+            el.textContent=val.toFixed(2)
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  };
+
+  useInterval(() => {
+    refreshSVGData();
+  }, 1000 * 3);
 
   let onDistributionSystemChange = (event) => {
     setSelectedDistributionSystemID(event.target.value);
