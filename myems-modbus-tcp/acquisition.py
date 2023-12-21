@@ -28,7 +28,7 @@ async def check_connectivity(host, port):
 ########################################################################################################################
 
 
-def process(logger, data_source_id, host, port):
+def process(logger, data_source_id, host, port, interval_in_seconds):
     while True:
         # begin of the outermost while loop
 
@@ -469,8 +469,9 @@ def process(logger, data_source_id, host, port):
                 time.sleep(60)
                 continue
 
-            # sleep interval in seconds and continue the inner while loop
-            time.sleep(config.interval_in_seconds)
+            # Sleep interval in seconds and continue the inner while loop
+            # this argument may be a floating point number for subsecond precision
+            time.sleep(interval_in_seconds)
 
         # end of the inner while loop
 

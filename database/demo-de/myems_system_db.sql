@@ -144,7 +144,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_data_sources`
 (`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
 VALUES
-(1, 'Beispiel ModbusTCP Datenquellenverwaltung', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502}'),
+(1, 'Beispiel ModbusTCP Datenquellenverwaltung', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502, "interval_in_seconds":60}'),
 (2, 'Beispiel ModbusRTU Datenquellenverwaltung', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
 (3, 'Beispiel Bacnet/IP Datenquellenverwaltung', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
 (4, 'Beispiel S7 Datenquellenverwaltung', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
