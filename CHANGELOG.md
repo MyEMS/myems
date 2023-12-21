@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added energy storage power station UI to myems-admin
 - added realtime data to DistribuitionSystem in myems-web
 - added get coordinate links to myems-admin
+- added interval_in_seconds to modbus-tcp data source definition in database and myems-modbus-tcp
 ### Changed
 - changed microgrid monitoring in myems-web
 - changed Related Parameters to Operating Characteristic Curve in myems-web

@@ -104,13 +104,23 @@ def main():
                 or server['port'] is None \
                 or len(server['host']) == 0 \
                 or not isinstance(server['port'], int) \
-                or server['port'] < 1:
+                or server['port'] < 1 \
+                or server['port'] > 65535:
             logger.error("Data Source Connection Invalid.")
             continue
+        if 'interval_in_seconds' not in server.keys() \
+            or (not isinstance(server['interval_in_seconds'], int)
+                and not isinstance(server['interval_in_seconds'], float)) \
+            or server['interval_in_seconds'] < 0 \
+                or server['interval_in_seconds'] > 3600:
+            interval_in_seconds = config.interval_in_seconds
+        else:
+            interval_in_seconds = server['interval_in_seconds']
 
         # fork worker process for each data source
         # todo: how to restart the process if the process terminated unexpectedly
-        Process(target=acquisition.process, args=(logger, data_source[0], server['host'], server['port'])).start()
+        Process(target=acquisition.process,
+                args=(logger, data_source[0], server['host'], server['port'], interval_in_seconds)).start()
 
 
 if __name__ == "__main__":
