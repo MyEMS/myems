@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed microgrid monitoring in myems-web
 - changed Related Parameters to Operating Characteristic Curve in myems-web
 - changed MultiTrendChart in myems-web
+- updated demo tariffs in database
 ### Fixed
 - fixed non-standard actions of microgrid in myems-api and myems-admin
 - 
