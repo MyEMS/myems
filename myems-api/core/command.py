@@ -465,10 +465,10 @@ class CommandSend:
                                    description='API.MQTT_CONNECTION_ERROR')
 
         try:
-            if command['set_value']:
+            if command['set_value'] is not None:
                 payload = Template(command['payload']).substitute(s1=str(command['set_value']))
             else:
-                payload = command['payload']
+                payload = Template(command['payload']).substitute(s1=str(0))
             print('payload=' + str(payload))
             mqc.publish(command['topic'], payload=payload)
         except Exception as e:
