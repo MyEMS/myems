@@ -425,9 +425,10 @@ class CommandSend:
 
         if 'set_value' not in new_values['data'].keys():
             set_value = None
-        elif isinstance(new_values['data']['set_value'], float) or \
-                isinstance(new_values['data']['set_value'], int):
+        elif isinstance(new_values['data']['set_value'], float):
             set_value = float(new_values['data']['set_value'])
+        elif isinstance(new_values['data']['set_value'], int):
+            set_value = int(new_values['data']['set_value'])
         else:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SET_VALUE')
@@ -452,7 +453,7 @@ class CommandSend:
                    "uuid": row[2],
                    "topic": row[3],
                    "payload": row[4],
-                   "set_value": set_value if set_value else row[5]}
+                   "set_value": set_value if set_value is not None else row[5]}
 
         mqc = None
         try:
