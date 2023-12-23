@@ -118,7 +118,7 @@ modbus-tcp
 ```
 Data source connection example:
 ```
-{"host":"10.9.67.99","port":502, "interval_in_seconds":60]}
+{"host":"10.9.67.99","port":502,"interval_in_seconds":60]}
 ```
 
 Point address example:

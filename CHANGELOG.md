@@ -17,9 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed Related Parameters to Operating Characteristic Curve in myems-web
 - changed MultiTrendChart in myems-web
 - updated demo tariffs in database
+- updated view models in myems-admin
 ### Fixed
 - fixed non-standard actions of microgrid in myems-api and myems-admin
-- 
+-
 ### Removed
 -
 
@@ -40,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of aggregate_hourly_data_by_period in myems-api
 - fixed issues of on_delete actions in myems-api
 - fixed unused import issues in myems-api
-- 
+-
 ### Removed
 - Removed google map api from myems-admin
 
