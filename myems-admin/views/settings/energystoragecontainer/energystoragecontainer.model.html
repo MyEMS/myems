@@ -1,0 +1,110 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragecontainer.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_energystoragecontainer" novalidate class="form-horizontal">
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="energystoragecontainer.name" type="text" name="energystoragecontainername" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainername.$invalid && form_energystoragecontainer.energystoragecontainername.$dirty">
+                      <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.ADDRESS' | translate}}</label>
+              <div class="col-sm-10">
+                  <input ng-model="energystoragecontainer.address" type="text" name="energystoragecontaineraddress" class="form-control" required>
+                  <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontaineraddress.$invalid && form_energystoragecontainer.energystoragecontaineraddress.$dirty">
+                      <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontaineraddress.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ADDRESS' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.POSTAL_CODE' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="energystoragecontainer.postal_code" type="text" name="energystoragecontainerpostal_code" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerpostal_code.$invalid && form_energystoragecontainer.energystoragecontainerpostal_code.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerpostal_code.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_POSTAL_CODE' | translate}}</small>
+                    </div>
+                </div>
+              </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.LATITUDE' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="energystoragecontainer.latitude" type="number" name="energystoragecontainerlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerlatitude.$invalid && form_energystoragecontainer.energystoragecontainerlatitude.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerlatitude.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_LATITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.LONGITUDE' | translate}}</label>
+                <div class="col-sm-10">
+                    <input ng-model="energystoragecontainer.longitude" type="number" name="energystoragecontainerlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerlongitude.$invalid && form_energystoragecontainer.energystoragecontainerlongitude.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerlongitude.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_LONGITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerlongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</label>
+                <div class="col-sm-10">
+                    <input ng-model="energystoragecontainer.capacity" type="number" name="energystoragecontainercapacity" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainercapacity.$invalid && form_energystoragecontainer.energystoragecontainercapacity.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainercapacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainercapacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragecontainer.contact.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
+                            <div ng-bind-html="contact.name | highlight: $select.search"></div>
+                            <small>{{contact.email}},{{contact.phone}}</small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainercontact.$invalid && form_energystoragecontainer.energystoragecontainercontact.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainercontact.$error.required">{{'SETTING.SELECT_CONTACT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragecontainer.cost_center.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
+                            <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.SVG' | translate}}</label>
+                <div class="col-sm-10"><textarea ng-model="energystoragecontainer.svg" rows="20" cols="50" name="energystoragecontainersvg" class="form-control" required=""></textarea>
+                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainersvg.$invalid && form_energystoragecontainer.energystoragecontainersvg.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainersvg.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_SVG' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_CONTAINER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+              <div class="col-sm-10">
+                  <input ng-model="energystoragecontainer.description" type="text" name="energystoragecontainerdescription" class="form-control">
+                  <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerdescription.$invalid && form_energystoragecontainer.energystoragecontainerdescription.$dirty">
+                      <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerdescription.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_DESCRIPTION' | translate}}</small>
+                  </div>
+              </div>
+            </div>
+            <div class="form-group" ng-show="energystoragecontainer.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+             <div class="col-sm-10">
+                  <div>
+                       <qrcode data="{{energystoragecontainer.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
+                  </div>
+              </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragecontainer.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

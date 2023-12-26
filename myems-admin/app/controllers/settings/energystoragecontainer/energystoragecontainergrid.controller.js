@@ -1,30 +1,30 @@
 'use strict';
 
-app.controller('EnergyStoragePowerStationGridController', function(
+app.controller('EnergyStorageContainerGridController', function(
 	$scope,
 	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
-	EnergyStoragePowerStationService,
-	EnergyStoragePowerStationGridService,
+	EnergyStorageContainerService,
+	EnergyStorageContainerGridService,
 	PointService,
 	MeterService,
 	toaster,
 	SweetAlert) {
-      $scope.energystoragepowerstations = [];
-      $scope.energystoragepowerstationgrids = [];
+      $scope.energystoragecontainers = [];
+      $scope.energystoragecontainergrids = [];
 	  $scope.points = [];
 	  $scope.meters = [];
-      $scope.currentEnergyStoragePowerStation = null;
+      $scope.currentEnergyStorageContainer = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-      $scope.getAllEnergyStoragePowerStations = function() {
+      $scope.getAllEnergyStorageContainers = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
+  		EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
-  				$scope.energystoragepowerstations = response.data;
+  				$scope.energystoragecontainers = response.data;
   			} else {
-  				$scope.energystoragepowerstations = [];
+  				$scope.energystoragecontainers = [];
   			}
   		});
   	};
@@ -50,29 +50,29 @@ app.controller('EnergyStoragePowerStationGridController', function(
 			}
 		});
 	};
-  	$scope.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID = function(id) {
+  	$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationGridService.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID(id, headers, function (response) {
+  		EnergyStorageContainerGridService.getEnergyStorageContainerGridsByEnergyStorageContainerID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.energystoragepowerstationgrids = response.data;
+				$scope.energystoragecontainergrids = response.data;
 			} else {
-          	$scope.energystoragepowerstationgrids=[];
+          	$scope.energystoragecontainergrids=[];
         }
 			});
   	};
 
-  	$scope.changeEnergyStoragePowerStation=function(item,model){
-    	$scope.currentEnergyStoragePowerStation=item;
-    	$scope.currentEnergyStoragePowerStation.selected=model;
-        $scope.is_show_add_energystoragepowerstation_grid = true;
-    	$scope.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
+  	$scope.changeEnergyStorageContainer=function(item,model){
+    	$scope.currentEnergyStorageContainer=item;
+    	$scope.currentEnergyStorageContainer.selected=model;
+        $scope.is_show_add_energystoragecontainer_grid = true;
+    	$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
   	};
 
-  	$scope.addEnergyStoragePowerStationGrid = function() {
+  	$scope.addEnergyStorageContainerGrid = function() {
 
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationgrid.model.html',
-  			controller: 'ModalAddEnergyStoragePowerStationGridCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainergrid.model.html',
+  			controller: 'ModalAddEnergyStorageContainerGridCtrl',
   			windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
@@ -83,12 +83,12 @@ app.controller('EnergyStoragePowerStationGridController', function(
   				}
   			}
   		});
-  		modalInstance.result.then(function(energystoragepowerstationgrid) {
-			energystoragepowerstationgrid.power_point_id = energystoragepowerstationgrid.power_point.id;
-			energystoragepowerstationgrid.buy_meter_id = energystoragepowerstationgrid.buy_meter.id;
-			energystoragepowerstationgrid.sell_meter_id = energystoragepowerstationgrid.sell_meter.id;
+  		modalInstance.result.then(function(energystoragecontainergrid) {
+			energystoragecontainergrid.power_point_id = energystoragecontainergrid.power_point.id;
+			energystoragecontainergrid.buy_meter_id = energystoragecontainergrid.buy_meter.id;
+			energystoragecontainergrid.sell_meter_id = energystoragecontainergrid.sell_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationGridService.addEnergyStoragePowerStationGrid($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationgrid, headers, function (response) {
+  			EnergyStorageContainerGridService.addEnergyStorageContainerGrid($scope.currentEnergyStorageContainer.id, energystoragecontainergrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -96,8 +96,8 @@ app.controller('EnergyStoragePowerStationGridController', function(
   						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationGridChanged');
+  					$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerGridChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -113,15 +113,15 @@ app.controller('EnergyStoragePowerStationGridController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.editEnergyStoragePowerStationGrid = function(energystoragepowerstationgrid) {
+  	$scope.editEnergyStorageContainerGrid = function(energystoragecontainergrid) {
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationgrid.model.html',
-  			controller: 'ModalEditEnergyStoragePowerStationGridCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainergrid.model.html',
+  			controller: 'ModalEditEnergyStorageContainerGridCtrl',
     		windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
   					return {
-  						energystoragepowerstationgrid: angular.copy(energystoragepowerstationgrid),
+  						energystoragecontainergrid: angular.copy(energystoragecontainergrid),
 						meters: angular.copy($scope.meters),
 						points: angular.copy($scope.points),
   					};
@@ -129,12 +129,12 @@ app.controller('EnergyStoragePowerStationGridController', function(
   			}
   		});
 
-  		modalInstance.result.then(function(modifiedEnergyStoragePowerStationGrid) {
-			modifiedEnergyStoragePowerStationGrid.power_point_id = modifiedEnergyStoragePowerStationGrid.power_point.id;
-			modifiedEnergyStoragePowerStationGrid.buy_meter_id = modifiedEnergyStoragePowerStationGrid.buy_meter.id;
-			modifiedEnergyStoragePowerStationGrid.sell_meter_id = modifiedEnergyStoragePowerStationGrid.sell_meter.id;
+  		modalInstance.result.then(function(modifiedEnergyStorageContainerGrid) {
+			modifiedEnergyStorageContainerGrid.power_point_id = modifiedEnergyStorageContainerGrid.power_point.id;
+			modifiedEnergyStorageContainerGrid.buy_meter_id = modifiedEnergyStorageContainerGrid.buy_meter.id;
+			modifiedEnergyStorageContainerGrid.sell_meter_id = modifiedEnergyStorageContainerGrid.sell_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationGridService.editEnergyStoragePowerStationGrid($scope.currentEnergyStoragePowerStation.id, modifiedEnergyStoragePowerStationGrid, headers, function (response) {
+  			EnergyStorageContainerGridService.editEnergyStorageContainerGrid($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerGrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -142,8 +142,8 @@ app.controller('EnergyStoragePowerStationGridController', function(
   						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationGridChanged');
+  					$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerGridChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -159,7 +159,7 @@ app.controller('EnergyStoragePowerStationGridController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.deleteEnergyStoragePowerStationGrid = function(energystoragepowerstationgrid) {
+  	$scope.deleteEnergyStorageContainerGrid = function(energystoragecontainergrid) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
   				text: $translate.instant("SWEET.TEXT"),
@@ -174,7 +174,7 @@ app.controller('EnergyStoragePowerStationGridController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					EnergyStoragePowerStationGridService.deleteEnergyStoragePowerStationGrid($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationgrid.id, headers, function (response) {
+  					EnergyStorageContainerGridService.deleteEnergyStorageContainerGrid($scope.currentEnergyStorageContainer.id, energystoragecontainergrid.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -182,8 +182,8 @@ app.controller('EnergyStoragePowerStationGridController', function(
 								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
 								showCloseButton: true,
 							});
-							$scope.getEnergyStoragePowerStationGridsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-							$scope.$emit('handleEmitEnergyStoragePowerStationGridChanged');
+							$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+							$scope.$emit('handleEmitEnergyStorageContainerGridChanged');
   						} else {
 							toaster.pop({
 								type: "error",
@@ -197,23 +197,23 @@ app.controller('EnergyStoragePowerStationGridController', function(
   			});
   	};
 
-  	$scope.getAllEnergyStoragePowerStations();
+  	$scope.getAllEnergyStorageContainers();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
-    $scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
-      $scope.getAllEnergyStoragePowerStations();
+    $scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
+      $scope.getAllEnergyStorageContainers();
   	});
 
   });
 
 
-  app.controller('ModalAddEnergyStoragePowerStationGridCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalAddEnergyStorageContainerGridCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_GRID";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationgrid);
+  		$uibModalInstance.close($scope.energystoragecontainergrid);
   	};
 
   	$scope.cancel = function() {
@@ -221,13 +221,13 @@ app.controller('EnergyStoragePowerStationGridController', function(
   	};
   });
 
-  app.controller('ModalEditEnergyStoragePowerStationGridCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalEditEnergyStorageContainerGridCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_GRID";
-  	$scope.energystoragepowerstationgrid = params.energystoragepowerstationgrid;
+  	$scope.energystoragecontainergrid = params.energystoragecontainergrid;
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationgrid);
+  		$uibModalInstance.close($scope.energystoragecontainergrid);
   	};
 
   	$scope.cancel = function() {

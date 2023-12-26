@@ -1,0 +1,474 @@
+<div class="wrapper wrapper-content" ng-controller="EnergyStorageContainerMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerController">
+							<a ng-click="addEnergyStorageContainer()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_ENERGY_STORAGE_CONTAINER' | translate}}</a>
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ADDRESS' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POSTAL_CODE' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.LATITUDE' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.LONGITUDE' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
+										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="energystoragecontainer in energystoragecontainers">
+										<td class="text-center">{{ energystoragecontainer.id }}</td>
+										<td class="text-center">{{ energystoragecontainer.name }}</td>
+										<td class="text-center">{{ energystoragecontainer.address }}</td>
+										<td class="text-center">{{ energystoragecontainer.postal_code }}</td>
+										<td class="text-center">{{ energystoragecontainer.latitude }}</td>
+										<td class="text-center">{{ energystoragecontainer.longitude }}</td>
+										<td class="text-center">{{ energystoragecontainer.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainer.contact.name }}</td>
+										<td class="text-center">{{ energystoragecontainer.cost_center.name }}</td>
+										<td class="text-center">{{ energystoragecontainer.description }}</td>
+										<td class="text-center">
+											<a ng-click="editEnergyStorageContainer(energystoragecontainer)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteEnergyStorageContainer(energystoragecontainer)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerPowerconversionsystemController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+									  <ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search" >
+										  <div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_energystoragecontainer_powerconversionsystem" ng-click="addEnergyStorageContainerPowerconversionsystem()" class="btn btn-primary btn-rounded  btn-outline" href="">
+									<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}
+								  </a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RUN_STATE_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="energystoragecontainerpowerconversionsystem in energystoragecontainerpowerconversionsystems">
+										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.id }}</td>
+										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.name }}</td>
+										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.run_state_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editEnergyStorageContainerPowerconversionsystem(energystoragecontainerpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteEnergyStorageContainerPowerconversionsystem(energystoragecontainerpowerconversionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerBatteryController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+									  <ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search" >
+										  <div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_BATTERY' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_energystoragecontainer_battery" ng-click="addEnergyStorageContainerBattery()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_BATTERY' | translate}}</a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}} (Ah)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="energystoragecontainerbattery in energystoragecontainerbatteries">
+										<td class="text-center">{{ energystoragecontainerbattery.id }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.battery_state_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.soc_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.power_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.charge_meter.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.discharge_meter.name }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.nominal_voltage }}</td>
+										<td class="text-center">
+										  <a ng-click="editEnergyStorageContainerBattery(energystoragecontainerbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteEnergyStorageContainerBattery(energystoragecontainerbattery)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerGridController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+									  <ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search" >
+										  <div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_GRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_energystoragecontainer_grid" ng-click="addEnergyStorageContainerGrid()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_GRID' | translate}}</a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID_NAME' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.BUY_METER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.SELL_METER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="energystoragecontainergrid in energystoragecontainergrids">
+										<td class="text-center">{{ energystoragecontainergrid.id }}</td>
+										<td class="text-center">{{ energystoragecontainergrid.name }}</td>
+										<td class="text-center">{{ energystoragecontainergrid.power_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainergrid.buy_meter.name }}</td>
+										<td class="text-center">{{ energystoragecontainergrid.sell_meter.name }}</td>
+										<td class="text-center">{{ energystoragecontainergrid.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editEnergyStorageContainerGrid(energystoragecontainergrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteEnergyStorageContainerGrid(energystoragecontainergrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerLoadController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+									  <ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search" >
+										  <div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_energystoragecontainer_load" ng-click="addEnergyStorageContainerLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}</a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="energystoragecontainerload in energystoragecontainerloads">
+										<td class="text-center">{{ energystoragecontainerload.id }}</td>
+										<td class="text-center">{{ energystoragecontainerload.name }}</td>
+										<td class="text-center">{{ energystoragecontainerload.power_point.name }}</td>
+										<td class="text-center">{{ energystoragecontainerload.meter.name }}</td>
+										<td class="text-center">{{ energystoragecontainerload.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deleteEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+							<div class="panel-body" ng-controller="EnergyStorageContainerSensorController">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+											</div>
+											<div class="panel-body">
+													<form role="form">
+													<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+														<ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search">
+																<div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+															</ui-select-choices>
+														</ui-select>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												{{currentEnergyStorageContainer.name}}{{'SETTING.N_S_SENSOR' | translate}}
+											</div>
+											<div class="panel-body"
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairSensor(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}:{{energystoragecontainersensor.data_source.name}}"
+												    ng-repeat="energystoragecontainersensor in energystoragecontainersensors"
+												    x-hjc-draggable="true"> {{energystoragecontainersensor.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash" >
+											<img class="trashcan"
+											src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deleteSensorPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SENSOR.SELECT_SENSOR' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="sensor in sensors"
+											x-hjc-draggable="true"> {{sensor.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.BIND_USER' | translate}}">
+							<div class="panel-body" ng-controller="EnergyStorageContainerUserController">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+											</div>
+											<div class="panel-body">
+													<form role="form">
+													<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+														<ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search">
+																<div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+															</ui-select-choices>
+														</ui-select>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												{{currentEnergyStorageContainer.name}}{{'SETTING.N_S_USER' | translate}}
+											</div>
+											<div class="panel-body"
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairUser(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}:{{energystoragecontainerusers.data_source.name}}"
+												    ng-repeat="energystoragecontaineruser in energystoragecontainerusers"
+												    x-hjc-draggable="true"> {{energystoragecontaineruser.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash" >
+											<img class="trashcan"
+											src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deleteUserPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'USER.SELECT_USER' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'USER.USER_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="user in users"
+											x-hjc-draggable="true"> {{user.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

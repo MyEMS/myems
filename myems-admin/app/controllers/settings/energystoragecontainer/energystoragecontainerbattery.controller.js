@@ -1,30 +1,30 @@
 'use strict';
 
-app.controller('EnergyStoragePowerStationBatteryController', function(
+app.controller('EnergyStorageContainerBatteryController', function(
 	$scope,
 	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
-	EnergyStoragePowerStationService,
-	EnergyStoragePowerStationBatteryService,
+	EnergyStorageContainerService,
+	EnergyStorageContainerBatteryService,
 	PointService,
 	MeterService,
 	toaster,
 	SweetAlert) {
-      $scope.energystoragepowerstations = [];
-      $scope.energystoragepowerstationbatteries = [];
+      $scope.energystoragecontainers = [];
+      $scope.energystoragecontainerbatteries = [];
 	  $scope.points = [];
 	  $scope.meters = [];
-      $scope.currentEnergyStoragePowerStation = null;
+      $scope.currentEnergyStorageContainer = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-      $scope.getAllEnergyStoragePowerStations = function() {
+      $scope.getAllEnergyStorageContainers = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
+  		EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
-  				$scope.energystoragepowerstations = response.data;
+  				$scope.energystoragecontainers = response.data;
   			} else {
-  				$scope.energystoragepowerstations = [];
+  				$scope.energystoragecontainers = [];
   			}
   		});
   	};
@@ -51,29 +51,29 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
 		});
 	};
 
-  	$scope.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID = function(id) {
+  	$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationBatteryService.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID(id, headers, function (response) {
+  		EnergyStorageContainerBatteryService.getEnergyStorageContainerBatteriesByEnergyStorageContainerID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.energystoragepowerstationbatteries = response.data;
+				$scope.energystoragecontainerbatteries = response.data;
 			} else {
-          	$scope.energystoragepowerstationbatteries=[];
+          	$scope.energystoragecontainerbatteries=[];
         }
 			});
   	};
 
-  	$scope.changeEnergyStoragePowerStation=function(item,model){
-    	$scope.currentEnergyStoragePowerStation=item;
-    	$scope.currentEnergyStoragePowerStation.selected=model;
-        $scope.is_show_add_energystoragepowerstation_battery = true;
-    	$scope.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
+  	$scope.changeEnergyStorageContainer=function(item,model){
+    	$scope.currentEnergyStorageContainer=item;
+    	$scope.currentEnergyStorageContainer.selected=model;
+        $scope.is_show_add_energystoragecontainer_battery = true;
+    	$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
   	};
 
-  	$scope.addEnergyStoragePowerStationBattery = function() {
+  	$scope.addEnergyStorageContainerBattery = function() {
 
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationbattery.model.html',
-  			controller: 'ModalAddEnergyStoragePowerStationBatteryCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerbattery.model.html',
+  			controller: 'ModalAddEnergyStorageContainerBatteryCtrl',
   			windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
@@ -84,14 +84,14 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   				}
   			}
   		});
-  		modalInstance.result.then(function(energystoragepowerstationbattery) {
-        	energystoragepowerstationbattery.battery_state_point_id = energystoragepowerstationbattery.battery_state_point.id;
-			energystoragepowerstationbattery.soc_point_id = energystoragepowerstationbattery.soc_point.id;
-			energystoragepowerstationbattery.power_point_id = energystoragepowerstationbattery.power_point.id;
-			energystoragepowerstationbattery.charge_meter_id = energystoragepowerstationbattery.charge_meter.id;
-			energystoragepowerstationbattery.discharge_meter_id = energystoragepowerstationbattery.discharge_meter.id;
+  		modalInstance.result.then(function(energystoragecontainerbattery) {
+        	energystoragecontainerbattery.battery_state_point_id = energystoragecontainerbattery.battery_state_point.id;
+			energystoragecontainerbattery.soc_point_id = energystoragecontainerbattery.soc_point.id;
+			energystoragecontainerbattery.power_point_id = energystoragecontainerbattery.power_point.id;
+			energystoragecontainerbattery.charge_meter_id = energystoragecontainerbattery.charge_meter.id;
+			energystoragecontainerbattery.discharge_meter_id = energystoragecontainerbattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationBatteryService.addEnergyStoragePowerStationBattery($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationbattery, headers, function (response) {
+  			EnergyStorageContainerBatteryService.addEnergyStorageContainerBattery($scope.currentEnergyStorageContainer.id, energystoragecontainerbattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -99,8 +99,8 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationBatteryChanged');
+  					$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerBatteryChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -116,15 +116,15 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.editEnergyStoragePowerStationBattery = function(energystoragepowerstationbattery) {
+  	$scope.editEnergyStorageContainerBattery = function(energystoragecontainerbattery) {
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationbattery.model.html',
-  			controller: 'ModalEditEnergyStoragePowerStationBatteryCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerbattery.model.html',
+  			controller: 'ModalEditEnergyStorageContainerBatteryCtrl',
     		windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
   					return {
-  						energystoragepowerstationbattery: angular.copy(energystoragepowerstationbattery),
+  						energystoragecontainerbattery: angular.copy(energystoragecontainerbattery),
 						meters: angular.copy($scope.meters),
 						points: angular.copy($scope.points),
   					};
@@ -132,14 +132,14 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   			}
   		});
 
-  		modalInstance.result.then(function(modifiedEnergyStoragePowerStationBattery) {
-			modifiedEnergyStoragePowerStationBattery.battery_state_point_id = modifiedEnergyStoragePowerStationBattery.battery_state_point.id;
-			modifiedEnergyStoragePowerStationBattery.soc_point_id = modifiedEnergyStoragePowerStationBattery.soc_point.id;
-			modifiedEnergyStoragePowerStationBattery.power_point_id = modifiedEnergyStoragePowerStationBattery.power_point.id;
-			modifiedEnergyStoragePowerStationBattery.charge_meter_id = modifiedEnergyStoragePowerStationBattery.charge_meter.id;
-			modifiedEnergyStoragePowerStationBattery.discharge_meter_id = modifiedEnergyStoragePowerStationBattery.discharge_meter.id;
+  		modalInstance.result.then(function(modifiedEnergyStorageContainerBattery) {
+			modifiedEnergyStorageContainerBattery.battery_state_point_id = modifiedEnergyStorageContainerBattery.battery_state_point.id;
+			modifiedEnergyStorageContainerBattery.soc_point_id = modifiedEnergyStorageContainerBattery.soc_point.id;
+			modifiedEnergyStorageContainerBattery.power_point_id = modifiedEnergyStorageContainerBattery.power_point.id;
+			modifiedEnergyStorageContainerBattery.charge_meter_id = modifiedEnergyStorageContainerBattery.charge_meter.id;
+			modifiedEnergyStorageContainerBattery.discharge_meter_id = modifiedEnergyStorageContainerBattery.discharge_meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationBatteryService.editEnergyStoragePowerStationBattery($scope.currentEnergyStoragePowerStation.id, modifiedEnergyStoragePowerStationBattery, headers, function (response) {
+  			EnergyStorageContainerBatteryService.editEnergyStorageContainerBattery($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerBattery, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -147,8 +147,8 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationBatteryChanged');
+  					$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerBatteryChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -164,7 +164,7 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.deleteEnergyStoragePowerStationBattery = function(energystoragepowerstationbattery) {
+  	$scope.deleteEnergyStorageContainerBattery = function(energystoragecontainerbattery) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
   				text: $translate.instant("SWEET.TEXT"),
@@ -179,7 +179,7 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					EnergyStoragePowerStationBatteryService.deleteEnergyStoragePowerStationBattery($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationbattery.id, headers, function (response) {
+  					EnergyStorageContainerBatteryService.deleteEnergyStorageContainerBattery($scope.currentEnergyStorageContainer.id, energystoragecontainerbattery.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -187,8 +187,8 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
 								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
 								showCloseButton: true,
 							});
-							$scope.getEnergyStoragePowerStationBatteriesByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-							$scope.$emit('handleEmitEnergyStoragePowerStationBatteryChanged');
+							$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+							$scope.$emit('handleEmitEnergyStorageContainerBatteryChanged');
   						} else {
 							toaster.pop({
 								type: "error",
@@ -202,23 +202,23 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   			});
   	};
 
-  	$scope.getAllEnergyStoragePowerStations();
+  	$scope.getAllEnergyStorageContainers();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
-    $scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
-      $scope.getAllEnergyStoragePowerStations();
+    $scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
+      $scope.getAllEnergyStorageContainers();
   	});
 
   });
 
 
-  app.controller('ModalAddEnergyStoragePowerStationBatteryCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalAddEnergyStorageContainerBatteryCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_BATTERY";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationbattery);
+  		$uibModalInstance.close($scope.energystoragecontainerbattery);
   	};
 
   	$scope.cancel = function() {
@@ -226,13 +226,13 @@ app.controller('EnergyStoragePowerStationBatteryController', function(
   	};
   });
 
-  app.controller('ModalEditEnergyStoragePowerStationBatteryCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalEditEnergyStorageContainerBatteryCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_BATTERY";
-  	$scope.energystoragepowerstationbattery = params.energystoragepowerstationbattery;
+  	$scope.energystoragecontainerbattery = params.energystoragecontainerbattery;
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationbattery);
+  		$uibModalInstance.close($scope.energystoragecontainerbattery);
   	};
 
   	$scope.cancel = function() {
