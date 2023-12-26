@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('EnergyStoragePowerStationController', function(
+app.controller('EnergyStorageContainerController', function(
     $scope,
     $rootScope,
     $window,
@@ -8,7 +8,7 @@ app.controller('EnergyStoragePowerStationController', function(
     $uibModal,
     CostCenterService,
     ContactService,
-    EnergyStoragePowerStationService,
+    EnergyStorageContainerService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -34,21 +34,21 @@ app.controller('EnergyStoragePowerStationController', function(
 		});
 	};
 
-	$scope.getAllEnergyStoragePowerStations = function() {
+	$scope.getAllEnergyStorageContainers = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
+		EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.energystoragepowerstations = response.data;
+				$scope.energystoragecontainers = response.data;
 			} else {
-				$scope.energystoragepowerstations = [];
+				$scope.energystoragecontainers = [];
 			}
 		});
 	};
 
-	$scope.addEnergyStoragePowerStation = function() {
+	$scope.addEnergyStorageContainer = function() {
 		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.model.html',
-			controller: 'ModalAddEnergyStoragePowerStationCtrl',
+			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainer.model.html',
+			controller: 'ModalAddEnergyStorageContainerCtrl',
 			windowClass: "animated fadeIn",
 			resolve: {
 				params: function() {
@@ -59,23 +59,23 @@ app.controller('EnergyStoragePowerStationController', function(
 				}
 			}
 		});
-		modalInstance.result.then(function(energystoragepowerstation) {
-			energystoragepowerstation.cost_center_id = energystoragepowerstation.cost_center.id;
-			energystoragepowerstation.contact_id = energystoragepowerstation.contact.id;
+		modalInstance.result.then(function(energystoragecontainer) {
+			energystoragecontainer.cost_center_id = energystoragecontainer.cost_center.id;
+			energystoragecontainer.contact_id = energystoragecontainer.contact.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			EnergyStoragePowerStationService.addEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
+			EnergyStorageContainerService.addEnergyStorageContainer(energystoragecontainer, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
 						showCloseButton: true,
 					});
-					$scope.$emit('handleEmitEnergyStoragePowerStationChanged');
+					$scope.$emit('handleEmitEnergyStorageContainerChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -87,15 +87,15 @@ app.controller('EnergyStoragePowerStationController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
-	$scope.editEnergyStoragePowerStation = function(energystoragepowerstation) {
+	$scope.editEnergyStorageContainer = function(energystoragecontainer) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
-			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.model.html',
-			controller: 'ModalEditEnergyStoragePowerStationCtrl',
+			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainer.model.html',
+			controller: 'ModalEditEnergyStorageContainerCtrl',
 			resolve: {
 				params: function() {
 					return {
-						energystoragepowerstation: angular.copy(energystoragepowerstation),
+						energystoragecontainer: angular.copy(energystoragecontainer),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts)
 					};
@@ -103,24 +103,24 @@ app.controller('EnergyStoragePowerStationController', function(
 			}
 		});
 
-		modalInstance.result.then(function(modifiedEnergyStoragePowerStation) {
-			modifiedEnergyStoragePowerStation.cost_center_id=modifiedEnergyStoragePowerStation.cost_center.id;
-			modifiedEnergyStoragePowerStation.contact_id=modifiedEnergyStoragePowerStation.contact.id;
+		modalInstance.result.then(function(modifiedEnergyStorageContainer) {
+			modifiedEnergyStorageContainer.cost_center_id=modifiedEnergyStorageContainer.cost_center.id;
+			modifiedEnergyStorageContainer.contact_id=modifiedEnergyStorageContainer.contact.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			EnergyStoragePowerStationService.editEnergyStoragePowerStation(modifiedEnergyStoragePowerStation, headers, function(response) {
+			EnergyStorageContainerService.editEnergyStorageContainer(modifiedEnergyStorageContainer, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
 						showCloseButton: true,
 					});
-					$scope.$emit('handleEmitEnergyStoragePowerStationChanged');
+					$scope.$emit('handleEmitEnergyStorageContainerChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -132,7 +132,7 @@ app.controller('EnergyStoragePowerStationController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
-	$scope.deleteEnergyStoragePowerStation=function(energystoragepowerstation){
+	$scope.deleteEnergyStorageContainer=function(energystoragecontainer){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
 		        text: $translate.instant("SWEET.TEXT"),
@@ -146,19 +146,19 @@ app.controller('EnergyStoragePowerStationController', function(
 		    function (isConfirm) {
 		        if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		            EnergyStoragePowerStationService.deleteEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
+		            EnergyStorageContainerService.deleteEnergyStorageContainer(energystoragecontainer, headers, function(response) {
 		            	if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
 								showCloseButton: true,
 							});
-							$scope.$emit('handleEmitEnergyStoragePowerStationChanged');
+							$scope.$emit('handleEmitEnergyStorageContainerChanged');
 						}else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
@@ -167,21 +167,21 @@ app.controller('EnergyStoragePowerStationController', function(
 		        }
 		    });
 	};
-	$scope.getAllEnergyStoragePowerStations();
+	$scope.getAllEnergyStorageContainers();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
-	$scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
-  		$scope.getAllEnergyStoragePowerStations();
+	$scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
+  		$scope.getAllEnergyStorageContainers();
 	});
 });
 
-app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance,params) {
+app.controller('ModalAddEnergyStorageContainerCtrl', function($scope, $uibModalInstance,params) {
 
-	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
+	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_CONTAINER";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
-		$uibModalInstance.close($scope.energystoragepowerstation);
+		$uibModalInstance.close($scope.energystoragecontainer);
 	};
 
     $scope.cancel = function() {
@@ -189,13 +189,13 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	};
 });
 
-app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance, params) {
-	$scope.operation = "SETTING.EDIT_ENERGY_STORAGE_POWER_STATION";
-	$scope.energystoragepowerstation = params.energystoragepowerstation;
+app.controller('ModalEditEnergyStorageContainerCtrl', function($scope, $uibModalInstance, params) {
+	$scope.operation = "SETTING.EDIT_ENERGY_STORAGE_CONTAINER";
+	$scope.energystoragecontainer = params.energystoragecontainer;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.ok = function() {
-		$uibModalInstance.close($scope.energystoragepowerstation);
+		$uibModalInstance.close($scope.energystoragecontainer);
 	};
 
 	$scope.cancel = function() {

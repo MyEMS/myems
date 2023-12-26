@@ -8,7 +8,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
-    microgrid,  virtualpowerplant, energystoragepowerstation, photovoltaicpowerstation, windfarm
+    microgrid,  virtualpowerplant, energystoragecontainer, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -247,34 +247,34 @@ api.add_route('/energyitems',
 api.add_route('/energyitems/{id_}',
               energyitem.EnergyItemItem())
 
-api.add_route('/energystoragepowerstations',
-              energystoragepowerstation.EnergyStoragePowerStationCollection())
-api.add_route('/energystoragepowerstations/{id_}',
-              energystoragepowerstation.EnergyStoragePowerStationItem())
-api.add_route('/energystoragepowerstations/{id_}/sensors',
-              energystoragepowerstation.EnergyStoragePowerStationSensorCollection())
-api.add_route('/energystoragepowerstations/{id_}/sensors/{sid}',
-              energystoragepowerstation.EnergyStoragePowerStationSensorItem())
-api.add_route('/energystoragepowerstations/{id_}/batteries',
-              energystoragepowerstation.EnergyStoragePowerStationBatteryCollection())
-api.add_route('/energystoragepowerstations/{id_}/batteries/{bid}',
-              energystoragepowerstation.EnergyStoragePowerStationBatteryItem())
-api.add_route('/energystoragepowerstations/{id_}/grids',
-              energystoragepowerstation.EnergyStoragePowerStationGridCollection())
-api.add_route('/energystoragepowerstations/{id_}/grids/{gid}',
-              energystoragepowerstation.EnergyStoragePowerStationGridItem())
-api.add_route('/energystoragepowerstations/{id_}/loads',
-              energystoragepowerstation.EnergyStoragePowerStationLoadCollection())
-api.add_route('/energystoragepowerstations/{id_}/loads/{lid}',
-              energystoragepowerstation.EnergyStoragePowerStationLoadItem())
-api.add_route('/energystoragepowerstations/{id_}/powerconversionsystems',
-              energystoragepowerstation.EnergyStoragePowerStationPowerconversionsystemCollection())
-api.add_route('/energystoragepowerstations/{id_}/powerconversionsystems/{pid}',
-              energystoragepowerstation.EnergyStoragePowerStationPowerconversionsystemItem())
-api.add_route('/energystoragepowerstations/{id_}/users',
-              energystoragepowerstation.EnergyStoragePowerStationUserCollection())
-api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
-              energystoragepowerstation.EnergyStoragePowerStationUserItem())
+api.add_route('/energystoragecontainers',
+              energystoragecontainer.EnergyStorageContainerCollection())
+api.add_route('/energystoragecontainers/{id_}',
+              energystoragecontainer.EnergyStorageContainerItem())
+api.add_route('/energystoragecontainers/{id_}/sensors',
+              energystoragecontainer.EnergyStorageContainerSensorCollection())
+api.add_route('/energystoragecontainers/{id_}/sensors/{sid}',
+              energystoragecontainer.EnergyStorageContainerSensorItem())
+api.add_route('/energystoragecontainers/{id_}/batteries',
+              energystoragecontainer.EnergyStorageContainerBatteryCollection())
+api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
+              energystoragecontainer.EnergyStorageContainerBatteryItem())
+api.add_route('/energystoragecontainers/{id_}/grids',
+              energystoragecontainer.EnergyStorageContainerGridCollection())
+api.add_route('/energystoragecontainers/{id_}/grids/{gid}',
+              energystoragecontainer.EnergyStorageContainerGridItem())
+api.add_route('/energystoragecontainers/{id_}/loads',
+              energystoragecontainer.EnergyStorageContainerLoadCollection())
+api.add_route('/energystoragecontainers/{id_}/loads/{lid}',
+              energystoragecontainer.EnergyStorageContainerLoadItem())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems',
+              energystoragecontainer.EnergyStorageContainerPowerconversionsystemCollection())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pid}',
+              energystoragecontainer.EnergyStorageContainerPowerconversionsystemItem())
+api.add_route('/energystoragecontainers/{id_}/users',
+              energystoragecontainer.EnergyStorageContainerUserCollection())
+api.add_route('/energystoragecontainers/{id_}/users/{uid}',
+              energystoragecontainer.EnergyStorageContainerUserItem())
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())

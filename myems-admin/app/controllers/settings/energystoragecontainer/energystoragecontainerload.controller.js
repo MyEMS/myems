@@ -1,30 +1,30 @@
 'use strict';
 
-app.controller('EnergyStoragePowerStationLoadController', function(
+app.controller('EnergyStorageContainerLoadController', function(
 	$scope,
 	$rootScope,
 	$window,
 	$translate,
 	$uibModal,
-	EnergyStoragePowerStationService,
-	EnergyStoragePowerStationLoadService,
+	EnergyStorageContainerService,
+	EnergyStorageContainerLoadService,
 	PointService,
 	MeterService,
 	toaster,
 	SweetAlert) {
-      $scope.energystoragepowerstations = [];
-      $scope.energystoragepowerstationloads = [];
+      $scope.energystoragecontainers = [];
+      $scope.energystoragecontainerloads = [];
 	  $scope.points = [];
 	  $scope.meters = [];
-      $scope.currentEnergyStoragePowerStation = null;
+      $scope.currentEnergyStorageContainer = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-      $scope.getAllEnergyStoragePowerStations = function() {
+      $scope.getAllEnergyStorageContainers = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
+  		EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
   			if (angular.isDefined(response.status) && response.status === 200) {
-  				$scope.energystoragepowerstations = response.data;
+  				$scope.energystoragecontainers = response.data;
   			} else {
-  				$scope.energystoragepowerstations = [];
+  				$scope.energystoragecontainers = [];
   			}
   		});
   	};
@@ -50,28 +50,28 @@ app.controller('EnergyStoragePowerStationLoadController', function(
 			}
 		});
 	};
-  	$scope.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID = function(id) {
+  	$scope.getEnergyStorageContainerLoadsByEnergyStorageContainerID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  		EnergyStoragePowerStationLoadService.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID(id, headers, function (response) {
+  		EnergyStorageContainerLoadService.getEnergyStorageContainerLoadsByEnergyStorageContainerID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.energystoragepowerstationloads = response.data;
+				$scope.energystoragecontainerloads = response.data;
 			} else {
-          	$scope.energystoragepowerstationloads=[];
+          	$scope.energystoragecontainerloads=[];
         }
 			});
   	};
 
-  	$scope.changeEnergyStoragePowerStation=function(item,model){
-    	$scope.currentEnergyStoragePowerStation=item;
-    	$scope.currentEnergyStoragePowerStation.selected=model;
-        $scope.is_show_add_energystoragepowerstation_load = true;
-    	$scope.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
+  	$scope.changeEnergyStorageContainer=function(item,model){
+    	$scope.currentEnergyStorageContainer=item;
+    	$scope.currentEnergyStorageContainer.selected=model;
+        $scope.is_show_add_energystoragecontainer_load = true;
+    	$scope.getEnergyStorageContainerLoadsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
   	};
 
-  	$scope.addEnergyStoragePowerStationLoad = function() {
+  	$scope.addEnergyStorageContainerLoad = function() {
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationload.model.html',
-  			controller: 'ModalAddEnergyStoragePowerStationLoadCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerload.model.html',
+  			controller: 'ModalAddEnergyStorageContainerLoadCtrl',
   			windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
@@ -82,11 +82,11 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   				}
   			}
   		});
-  		modalInstance.result.then(function(energystoragepowerstationload) {
-			energystoragepowerstationload.power_point_id = energystoragepowerstationload.power_point.id;
-			energystoragepowerstationload.meter_id = energystoragepowerstationload.meter.id;
+  		modalInstance.result.then(function(energystoragecontainerload) {
+			energystoragecontainerload.power_point_id = energystoragecontainerload.power_point.id;
+			energystoragecontainerload.meter_id = energystoragecontainerload.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationLoadService.addEnergyStoragePowerStationLoad($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationload, headers, function (response) {
+  			EnergyStorageContainerLoadService.addEnergyStorageContainerLoad($scope.currentEnergyStorageContainer.id, energystoragecontainerload, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
@@ -94,8 +94,8 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_LOAD")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationLoadChanged');
+  					$scope.getEnergyStorageContainerLoadsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerLoadChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -111,15 +111,15 @@ app.controller('EnergyStoragePowerStationLoadController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.editEnergyStoragePowerStationLoad = function(energystoragepowerstationload) {
+  	$scope.editEnergyStorageContainerLoad = function(energystoragecontainerload) {
   		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstationload.model.html',
-  			controller: 'ModalEditEnergyStoragePowerStationLoadCtrl',
+  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerload.model.html',
+  			controller: 'ModalEditEnergyStorageContainerLoadCtrl',
     		windowClass: "animated fadeIn",
   			resolve: {
   				params: function() {
   					return {
-  						energystoragepowerstationload: angular.copy(energystoragepowerstationload),
+  						energystoragecontainerload: angular.copy(energystoragecontainerload),
 						meters: angular.copy($scope.meters),
 						points: angular.copy($scope.points),
   					};
@@ -127,11 +127,11 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   			}
   		});
 
-  		modalInstance.result.then(function(modifiedEnergyStoragePowerStationLoad) {
-			modifiedEnergyStoragePowerStationLoad.power_point_id = modifiedEnergyStoragePowerStationLoad.power_point.id;
-			modifiedEnergyStoragePowerStationLoad.meter_id = modifiedEnergyStoragePowerStationLoad.meter.id;
+  		modalInstance.result.then(function(modifiedEnergyStorageContainerLoad) {
+			modifiedEnergyStorageContainerLoad.power_point_id = modifiedEnergyStorageContainerLoad.power_point.id;
+			modifiedEnergyStorageContainerLoad.meter_id = modifiedEnergyStorageContainerLoad.meter.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStoragePowerStationLoadService.editEnergyStoragePowerStationLoad($scope.currentEnergyStoragePowerStation.id, modifiedEnergyStoragePowerStationLoad, headers, function (response) {
+  			EnergyStorageContainerLoadService.editEnergyStorageContainerLoad($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerLoad, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
@@ -139,8 +139,8 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_LOAD")}),
   						showCloseButton: true,
   					});
-  					$scope.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-            		$scope.$emit('handleEmitEnergyStoragePowerStationLoadChanged');
+  					$scope.getEnergyStorageContainerLoadsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+            		$scope.$emit('handleEmitEnergyStorageContainerLoadChanged');
   				} else {
   					toaster.pop({
   						type: "error",
@@ -156,7 +156,7 @@ app.controller('EnergyStoragePowerStationLoadController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
-  	$scope.deleteEnergyStoragePowerStationLoad = function(energystoragepowerstationload) {
+  	$scope.deleteEnergyStorageContainerLoad = function(energystoragecontainerload) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
   				text: $translate.instant("SWEET.TEXT"),
@@ -171,7 +171,7 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   			function(isConfirm) {
   				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  					EnergyStoragePowerStationLoadService.deleteEnergyStoragePowerStationLoad($scope.currentEnergyStoragePowerStation.id, energystoragepowerstationload.id, headers, function (response) {
+  					EnergyStorageContainerLoadService.deleteEnergyStorageContainerLoad($scope.currentEnergyStorageContainer.id, energystoragecontainerload.id, headers, function (response) {
   						if (angular.isDefined(response.status) && response.status === 204) {
 							toaster.pop({
 								type: "success",
@@ -179,8 +179,8 @@ app.controller('EnergyStoragePowerStationLoadController', function(
 								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_LOAD")}),
 								showCloseButton: true,
 							});
-							$scope.getEnergyStoragePowerStationLoadsByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
-							$scope.$emit('handleEmitEnergyStoragePowerStationLoadChanged');
+							$scope.getEnergyStorageContainerLoadsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+							$scope.$emit('handleEmitEnergyStorageContainerLoadChanged');
   						} else {
 							toaster.pop({
 								type: "error",
@@ -194,23 +194,23 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   			});
   	};
 
-  	$scope.getAllEnergyStoragePowerStations();
+  	$scope.getAllEnergyStorageContainers();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
-    $scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
-      $scope.getAllEnergyStoragePowerStations();
+    $scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
+      $scope.getAllEnergyStorageContainers();
   	});
 
   });
 
 
-  app.controller('ModalAddEnergyStoragePowerStationLoadCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalAddEnergyStorageContainerLoadCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_LOAD";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationload);
+  		$uibModalInstance.close($scope.energystoragecontainerload);
   	};
 
   	$scope.cancel = function() {
@@ -218,13 +218,13 @@ app.controller('EnergyStoragePowerStationLoadController', function(
   	};
   });
 
-  app.controller('ModalEditEnergyStoragePowerStationLoadCtrl', function($scope, $uibModalInstance, params) {
+  app.controller('ModalEditEnergyStorageContainerLoadCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_LOAD";
-  	$scope.energystoragepowerstationload = params.energystoragepowerstationload;
+  	$scope.energystoragecontainerload = params.energystoragecontainerload;
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
-  		$uibModalInstance.close($scope.energystoragepowerstationload);
+  		$uibModalInstance.close($scope.energystoragecontainerload);
   	};
 
   	$scope.cancel = function() {

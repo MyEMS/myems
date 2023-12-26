@@ -1239,11 +1239,11 @@ app
                         }
 
                     })
-                    .state('settings.energystoragepowerstation', {
-                        url: "/energystoragepowerstation",
-                        templateUrl: "views/settings/energystoragepowerstation/energystoragepowerstation.html",
+                    .state('settings.energystoragecontainer', {
+                        url: "/energystoragecontainer",
+                        templateUrl: "views/settings/energystoragecontainer/energystoragecontainer.html",
                         data: {
-                            pageTitle: 'MENU.SETTINGS.ENERGY_STORAGE_POWER_STATION',
+                            pageTitle: 'MENU.SETTINGS.ENERGY_STORAGE_CONTAINER',
                         },
                         resolve: {
                             deps: [
@@ -1265,24 +1265,24 @@ app
                                             }, {
                                                 serie: true,
                                                 files: [
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstation.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationbattery.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationgrid.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationload.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationpowerconversionsystem.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationsensor.service.js',
-                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationuser.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainerbattery.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainergrid.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainerload.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainersensor.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontaineruser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/point.service.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationbattery.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationgrid.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationload.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationpowerconversionsystem.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationsensor.controller.js',
-                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationuser.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainer.master.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainer.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainerbattery.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainergrid.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainerload.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainersensor.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontaineruser.controller.js',
                                                 ]
                                             }]);
                                         }
