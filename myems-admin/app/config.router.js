@@ -1292,6 +1292,50 @@ app
                         }
 
                     })
+                    .state('settings.energystoragepowerstation', {
+                        url: "/energystoragepowerstation",
+                        templateUrl: "views/settings/energystoragepowerstation/energystoragepowerstation.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.ENERGY_STORAGE_POWER_STATION',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstation.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationcontainer.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationcontainer.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('settings.photovoltaicpowerstation', {
                         url: "/photovoltaicpowerstation",
                         templateUrl: "views/settings/photovoltaicpowerstation/photovoltaicpowerstation.html",
