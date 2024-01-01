@@ -43,6 +43,6 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" class="btn btn-primary"
-            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+            ng-click="ok()" ng-disabled="isButtonDisabled()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
