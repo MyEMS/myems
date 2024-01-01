@@ -102,12 +102,9 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
                   <input ng-model="microgrid.description" type="text" name="microgriddescription" class="form-control">
-                  <div class="m-t-xs" ng-show="form_microgrid.microgriddescription.$invalid && form_microgrid.microgriddescription.$dirty">
-                      <small class="text-danger" ng-show="form_microgrid.microgriddescription.$error.required">{{'MICROGRID.INPUT_DESCRIPTION' | translate}}</small>
-                  </div>
               </div>
             </div>
             <div class="form-group" ng-show="microgrid.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>

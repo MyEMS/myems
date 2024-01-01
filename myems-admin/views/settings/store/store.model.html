@@ -97,12 +97,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
                   <input ng-model="store.description" type="text" name="storedescription" class="form-control">
-                  <div class="m-t-xs" ng-show="form_store.storedescription.$invalid && form_store.storedescription.$dirty">
-                      <small class="text-danger" ng-show="form_store.storedescription.$error.required">{{'STORE.INPUT_DESCRIPTION' | translate}}</small>
-                  </div>
               </div>
             </div>
             <div class="form-group" ng-show="store.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>

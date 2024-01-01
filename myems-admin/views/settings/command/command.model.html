@@ -32,11 +32,11 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
                     <input ng-model="command.description" type="text" name="commanddescription" class="form-control">
                     <div class="m-t-xs" ng-show="form_command.commanddescription.$invalid && form_command.commanddescription.$dirty">
-                        <small class="text-danger" ng-show="form_command.commanddescription.$error.required">{{'COMMAND.INPUT_DESCRIPTION' | translate}}</small>
+                        <small class="text-danger" ng-show="form_command.commanddescription.$error.required">{{'SETTING.INPUT_DESCRIPTION' | translate}}</small>
                     </div>
                 </div>
             </div>

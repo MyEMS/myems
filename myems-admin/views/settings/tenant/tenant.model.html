@@ -124,12 +124,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
                   <input ng-model="tenant.description" type="text" name="tenantdescription" class="form-control">
-                  <div class="m-t-xs" ng-show="form_tenant.tenantdescription.$invalid && form_tenant.tenantdescription.$dirty">
-                      <small class="text-danger" ng-show="form_tenant.tenantdescription.$error.required">{{'TENANT.INPUT_DESCRIPTION' | translate}}</small>
-                  </div>
               </div>
             </div>
             <div class="form-group" ng-show="tenant.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
