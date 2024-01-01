@@ -458,6 +458,39 @@ CREATE INDEX `tbl_energy_storage_containers_users_index_1` ON  `myems_system_db`
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_power_stations`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
+  `latitude` DECIMAL(9, 6) NOT NULL,
+  `longitude` DECIMAL(9, 6) NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `contact_id` BIGINT NOT NULL,
+  `cost_center_id` BIGINT NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_stations_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations` (`name`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_power_stations_containers`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_containers` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_containers` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_stations_containers_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations_containers` (`energy_storage_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_equipments`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_equipments` ;

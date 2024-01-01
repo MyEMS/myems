@@ -321,7 +321,26 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers WHERE id = %s ", (id_,))
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_sensors "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_users "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
