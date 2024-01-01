@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated demo tariffs in database
 - updated view models in myems-admin
 - resized svg editor in myems-admin
+- updated translation of 'Description' in myems-admin
 ### Fixed
 - fixed non-standard actions of microgrid in myems-api and myems-admin
 - fixed empty qrcode issue when creating objects in myems-admin
