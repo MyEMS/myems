@@ -8,7 +8,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
-    microgrid,  virtualpowerplant, energystoragecontainer, photovoltaicpowerstation, windfarm
+    microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, windfarm
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -275,6 +275,15 @@ api.add_route('/energystoragecontainers/{id_}/users',
               energystoragecontainer.EnergyStorageContainerUserCollection())
 api.add_route('/energystoragecontainers/{id_}/users/{uid}',
               energystoragecontainer.EnergyStorageContainerUserItem())
+
+api.add_route('/energystoragepowerstations',
+              energystoragepowerstation.EnergyStoragePowerStationCollection())
+api.add_route('/energystoragepowerstations/{id_}',
+              energystoragepowerstation.EnergyStoragePowerStationItem())
+api.add_route('/energystoragepowerstations/{id_}/containers',
+              energystoragepowerstation.EnergyStoragePowerStationContainerCollection())
+api.add_route('/energystoragepowerstations/{id_}/containers/{sid}',
+              energystoragepowerstation.EnergyStoragePowerStationContainerItem())
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())
