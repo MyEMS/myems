@@ -1,6 +1,7 @@
 'use strict';
 app.controller('ApiKeyController', function (
     $scope,
+	$rootScope,
 	$window,
 	$uibModal,
 	ApiKeyService,
@@ -49,6 +50,7 @@ app.controller('ApiKeyController', function (
 		}, function () {
 
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editApiKey = function (apiKey) {
@@ -87,6 +89,7 @@ app.controller('ApiKeyController', function (
 		}, function () {
 			//do nothing;
 		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteApiKey = function (apiKey) {
@@ -127,10 +130,16 @@ app.controller('ApiKeyController', function (
 	};
 
 	$scope.getAllApiKeys();
-
 });
 
 app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
+	$scope.isButtonDisabled = function() {
+		if ($scope.apiKey.name && $scope.apiKey.expires_datetime_utc > $scope.apiKey.created_datetime_utc) {
+			return false;
+		} else {
+			return true;
+		}
+	};
 	$scope.operation = "USER.ADD_API_KEY";
 	$scope.apiKey = {
 		created_datetime_utc:moment(),
@@ -162,6 +171,13 @@ app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
 app.controller('ModalEditApiKeyCtrl', function ($scope, 
 	$uibModalInstance, 
 	params) {
+	$scope.isButtonDisabled = function() {
+		if ($scope.apiKey.name && $scope.apiKey.expires_datetime_utc > $scope.apiKey.created_datetime_utc) {
+			return false;
+		} else {
+			return true;
+		}
+	};
 	$scope.operation = "USER.EDIT_API_KEY";
 	$scope.apiKey = params.apiKey;
 	$scope.flag = false;
