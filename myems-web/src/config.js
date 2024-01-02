@@ -17,6 +17,7 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
-  showOnlineMap: true
+  showOnlineMap: true,
+  mapboxToken: 'GET_MAPBOX_TOKEN_AT_MAPBOX.COM'
 };
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

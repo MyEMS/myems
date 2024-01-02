@@ -38,7 +38,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new supported protocol to datasource in myems-api
 - added microgrid reporting to myems-web
 ### Changed
--
+- moved mapbox access token from hardcoded to config.js in myems-web
+- you can get your own token at https://mapbox.com
+- if you wnat to turn off online map feature, please set showOnlineMap to false
+- 
 ### Fixed
 - fixed issues in on_delete actions of equipment, shopfloor, store and tenant in myems-api
 - fixed issues of space and command views in myems-admin
