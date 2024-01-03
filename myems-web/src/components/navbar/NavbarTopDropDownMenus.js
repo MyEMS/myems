@@ -19,7 +19,7 @@ import routes from '../../routes';
 import { NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import {breakpoints, createCookie, getCookieValue, getPageName, checkEmpty} from '../../helpers/utils';
-import {APIBaseURL, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
+import {APIBaseURL, settings,navbarBreakPoint, topNavbarBreakpoint} from '../../config';
 import AppContext from '../../context/Context';
 import { withTranslation } from 'react-i18next';
 import withRedirect from "../../hoc/withRedirect";
@@ -39,11 +39,11 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
-      createCookie('token', token, 1000 * 60 * 10 * 1);
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
     }
   });
 

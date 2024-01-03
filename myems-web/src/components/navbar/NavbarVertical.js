@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Button, Collapse, Nav, Navbar, NavItem} from 'reactstrap';
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
-import {APIBaseURL, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
+import {APIBaseURL, settings, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
 import AppContext from '../../context/Context';
 import routes from '../../routes';
 import Flex from '../common/Flex';
@@ -30,11 +30,11 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
-      createCookie('token', token, 1000 * 60 * 10 * 1);
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
     }
   });
 
