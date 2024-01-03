@@ -27,7 +27,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import AppContext from '../../../context/Context';
 
 const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
@@ -42,11 +42,11 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
-      createCookie('token', token, 1000 * 60 * 10 * 1);
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
     }
   });
 

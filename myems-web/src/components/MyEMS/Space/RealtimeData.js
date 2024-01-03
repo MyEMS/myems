@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 

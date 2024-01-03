@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added interval_in_seconds to modbus-tcp data source definition in database and myems-modbus-tcp
 - added energy storage container to database, myems-api and myems-admin
 - added baidu map link and google maps link to get coordinate in myems-admin
+- added cookieExpireTime to config.js in myems-web
+- 
 ### Changed
 - changed microgrid monitoring in myems-web
 - changed Related Parameters to Operating Characteristic Curve in myems-web
@@ -22,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated view models in myems-admin
 - resized svg editor in myems-admin
 - updated translation of 'Description' in myems-admin
+- moved mapbox access token from CustomizeMapBox.js to config.js in myems-web, you can get access token at https://mapbox.com, if you wnat to turn off online map feature, please set showOnlineMap to false
+- 
 ### Fixed
 - fixed non-standard actions of microgrid in myems-api and myems-admin
 - fixed empty qrcode issue when creating objects in myems-admin
@@ -38,10 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new supported protocol to datasource in myems-api
 - added microgrid reporting to myems-web
 ### Changed
-- moved mapbox access token from hardcoded to config.js in myems-web
-- you can get your own token at https://mapbox.com
-- if you wnat to turn off online map feature, please set showOnlineMap to false
-- 
+-
 ### Fixed
 - fixed issues in on_delete actions of equipment, shopfloor, store and tenant in myems-api
 - fixed issues of space and command views in myems-admin

@@ -58,7 +58,7 @@ class RealtimeChart extends Component {
               });
             });
           if (this._isMounted) {
-            this.setState({ 
+            this.setState({
               pointList: pointList,
             });
           }
@@ -102,9 +102,9 @@ class RealtimeChart extends Component {
                 pointList.push(pointItem);
               });
             });
-            
+
             if (this._isMounted) {
-              this.setState({ 
+              this.setState({
                 pointList: pointList,
               });
             }
@@ -115,17 +115,17 @@ class RealtimeChart extends Component {
           console.log(err);
         });
       }
-    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests 
+    }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests
   }
 
   render() {
     const { t } = this.props;
-    
+
     return (
       <Card className="h-100 bg-gradient">
         <CardBody className="text-white fs--1">
           <ListGroup flush className="mt-4">
-          
+
             <ListGroupItem
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
               style={{ borderColor: listItemBorderColor }}
