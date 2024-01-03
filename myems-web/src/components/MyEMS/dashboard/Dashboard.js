@@ -100,7 +100,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         setIsFetchDashboard(false);
         toast(
           <Fragment>
-            {t("Welcome to MyEMS")}!<br />
+            {t("Welcome to MyEMS")}<br />
             {t("An Industry Leading Open Source Energy Management System")}
           </Fragment>
         );
