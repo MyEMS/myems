@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap
 import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
-import { APIBaseURL, settings } from '../../../config';
+import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
