@@ -77,7 +77,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     let subject = "Create an account";
     let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
     let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
-    let message = 
+    let message =
     `
     <html>
     <body>
@@ -95,7 +95,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         <tr>
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
-        <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; 
+        <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;
         <b>${t("Your code is")} {verification_code}.</b>
     <br></td></tr>
         </tbody></table>
@@ -104,7 +104,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         </tbody></table>
     </body>
     </html>`;
-    
+
     fetch(APIBaseURL + '/users/emailmessages', {
       method: 'POST',
       body: JSON.stringify({ "data":
@@ -233,9 +233,9 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           </Col>
           <Col xs="6" className='align-items-center d-flex'>
             <Button color="primary"
-            onClick={handleCodeSubmit}  
+            onClick={handleCodeSubmit}
             disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')} 
+              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')}
             </Button>
           </Col>
         </Row>

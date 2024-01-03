@@ -23,7 +23,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import { Map } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
@@ -44,11 +44,11 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 48);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 48);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 48);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 48);
-      createCookie('token', token, 1000 * 60 * 10 * 48);
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
     }
   });
 

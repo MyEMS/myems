@@ -7,7 +7,7 @@ import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label, InputGrou
 import { createCookie, getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import { APIBaseURL } from '../../../config';
+import { APIBaseURL, settings } from '../../../config';
 import {FaEye, FaEyeSlash} from 'react-icons/fa'
 import Captcha from 'react-captcha-code-custom';
 
@@ -48,11 +48,11 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       console.log(json);
       console.log(isResponseOK);
       if (isResponseOK) {
-        createCookie('user_name', json.name, 1000 * 60 * 10 * 1);
-        createCookie('user_display_name', json.display_name, 1000 * 60 * 10 * 1);
-        createCookie('user_uuid', json.uuid, 1000 * 60 * 10 * 1);
-        createCookie('token', json.token, 1000 * 60 * 10 * 1);
-        createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
+        createCookie('user_name', json.name, settings.cookieExpireTime);
+        createCookie('user_display_name', json.display_name, settings.cookieExpireTime);
+        createCookie('user_uuid', json.uuid, settings.cookieExpireTime);
+        createCookie('token', json.token, settings.cookieExpireTime);
+        createCookie('is_logged_in', true, settings.cookieExpireTime);
         console.log("display_name:");
         toast.success(t('Logged in as ') + json.display_name);
         if (remember) {
