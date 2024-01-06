@@ -12,21 +12,13 @@ import {
   Spinner,
 } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import CardSummary from '../common/CardSummary';
-import CountUp from 'react-countup';
 import MultipleLineChart from '../common/MultipleLineChart';
-import MultiTrendChart from '../common/MultiTrendChart';
-import LineChart from '../common/LineChart';
-import BarChart from '../common/BarChart';
-import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
-import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
-import { Map } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
 
@@ -112,20 +104,9 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridLongitude, setMicrogridLongitude] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
 
-  const [cardSummaryList, setCardSummaryList] = useState([]);
-
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
-
-  const [microgridReportingNames, setMicrogridReportingNames] = useState({"a0":""});
-  const [microgridReportingUnits, setMicrogridReportingUnits] = useState({"a0":"()"});
-
-  const [microgridReportingLabels, setMicrogridReportingLabels] = useState({"a0": []});
-  const [microgridReportingData, setMicrogridReportingData] = useState({"a0": []});
-  const [microgridReportingSubtotals, setMicrogridReportingSubtotals] = useState({"a0": (0).toFixed(2)});
-  const [microgridReportingOptions, setMicrogridReportingOptions] = useState([]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -172,57 +153,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           names.push({ 'value': 'a' + index, 'label': currentValue });
         });
         setParameterLineChartOptions(names);
-
-        let cardSummaryArray = []
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {};
-          cardSummaryItem['name'] = json['reporting_period']['names'][index];
-          cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + "%";
-
-          cardSummaryArray.push(cardSummaryItem);
-        });
-        setCardSummaryList(cardSummaryArray);
-
-
-        let base_and_reporting_names = {}
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          base_and_reporting_names['a' + index] = currentValue;
-        });
-        setMicrogridReportingNames(base_and_reporting_names)
-
-        let base_and_reporting_units = {}
-        json['reporting_period']['units'].forEach((currentValue, index) => {
-          base_and_reporting_units['a' + index] = "("+currentValue+")";
-        });
-        setMicrogridReportingUnits(base_and_reporting_units)
-
-
-        let reporting_timestamps = {}
-        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['a' + index] = currentValue;
-        });
-        setMicrogridReportingLabels(reporting_timestamps);
-
-        let reporting_values = {}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          reporting_values['a' + index] = currentValue;
-        });
-        setMicrogridReportingData(reporting_values);
-
-        let reporting_subtotals = {}
-        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-          reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        setMicrogridReportingSubtotals(reporting_subtotals);
-
-        let options = Array();
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
-          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        setMicrogridReportingOptions(options);
 
         setChargeStartTime1(json['schedule']['charge_start_time1'])
         setChargeEndTime1(json['schedule']['charge_end_time1'])

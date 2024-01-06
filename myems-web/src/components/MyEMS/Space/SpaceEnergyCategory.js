@@ -1109,7 +1109,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
       <WorkingDaysConsumptionTable
        data={workingDaysConsumptionTableData}
-       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Working Days') + '/' + t('Non Working Days') })}
        columns={workingDaysConsumptionTableColumns}>
       </WorkingDaysConsumptionTable>
 

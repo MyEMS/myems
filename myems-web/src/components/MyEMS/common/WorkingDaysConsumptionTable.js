@@ -10,13 +10,11 @@ const defaultSorted = [{
   order: 'asc'
 }];
 
-const WorkingDaysConsumptionTable = ({ title, data, columns, t }) => {
+const WorkingDaysConsumptionTable = ({ data, columns, t }) => {
   return (
     <Fragment>
       <Card>
-        <FalconCardHeader title={title} className="bg-light">
-
-        </FalconCardHeader>
+        <FalconCardHeader title={ t('Working Days') + ' & ' + t('Non Working Days')} className="bg-light" />
         <CardBody>
           <Row>
             <Col>

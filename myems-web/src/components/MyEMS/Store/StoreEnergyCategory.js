@@ -1085,7 +1085,6 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       <br />
       <WorkingDaysConsumptionTable
        data={workingDaysConsumptionTableData}
-       title={t('CATEGORY Consumption UNIT', { 'CATEGORY': t('Working Days') + '/' + t('Non Working Days') })}
        columns={workingDaysConsumptionTableColumns}>
       </WorkingDaysConsumptionTable>
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
