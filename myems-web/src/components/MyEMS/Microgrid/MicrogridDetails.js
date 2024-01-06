@@ -647,7 +647,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
         <Col lg="4" className="pr-lg-2">
           <Card className="mb-3 fs--1">
-            <FalconCardHeader title={t('General Information')} light={false} />
+            <FalconCardHeader title={t('General Information')} light={false} titleClass="text-lightSlateGray mb-0" />
             <CardBody className="bg-light">
               <h6 className="mt-4">{t('Name')}</h6>
               <div className="mb-1">
@@ -688,7 +688,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             options={parameterLineChartOptions}>
       </MultipleLineChart>
       <Card className="mb-3 fs--1">
-        <FalconCardHeader title={t('Charging Schedule')} light={false} />
+        <FalconCardHeader title={t('Charging Schedule')} light={false} titleClass="text-lightSlateGray mb-0" />
         <CardBody className="bg-light">
           <Table striped className="border-bottom">
             <thead>

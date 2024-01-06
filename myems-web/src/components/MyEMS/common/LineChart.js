@@ -105,7 +105,7 @@ const LineChart = ({
       <CardBody className="rounded-soft">
         <Row className="text-white align-items-center no-gutters">
           <Col>
-            <h4 className="text-lightSlateGray mb-0">{reportingTitle}</h4>
+            <h6>{reportingTitle}</h6>
             <p className="fs--1 font-weight-semi-bold">
               {baseTitle}
             </p>

@@ -1082,10 +1082,13 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         options={parameterLineChartOptions}>
       </MultipleLineChart>
       <br />
+
       <WorkingDaysConsumptionTable
        data={workingDaysConsumptionTableData}
        columns={workingDaysConsumptionTableColumns}>
       </WorkingDaysConsumptionTable>
+      <br />
+
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>
 

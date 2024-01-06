@@ -766,7 +766,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Card className="mb-3">
         <Spinner color="primary" hidden={spinnerHidden}  />
-        <FalconCardHeader title={t('Notification List')} light={false}>
+        <FalconCardHeader title={t('Notification List')} light={false} titleClass="text-lightSlateGray mb-0" >
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
               <Button color="falcon-default" onClick={() => batchRead()} size="sm" className="ml-2">

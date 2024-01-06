@@ -14,9 +14,7 @@ const AssociatedEquipmentTable = ({ title, data, columns, t }) => {
   return (
     <Fragment>
       <Card>
-        <FalconCardHeader title={title} className="bg-light">
-
-        </FalconCardHeader>
+        <FalconCardHeader title={title} className="bg-light" titleClass="text-lightSlateGray mb-0" />
         <CardBody>
           <Row>
             <Col>

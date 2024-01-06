@@ -338,8 +338,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Fragment>
         <Card>
-          <FalconCardHeader title={t('Daily Value')} className="bg-light">
-          </FalconCardHeader>
+          <FalconCardHeader title={t('Daily Value')} className="bg-light" titleClass="text-lightSlateGray mb-0" />
           <CardBody>
             <BootstrapTable
               bootstrap4

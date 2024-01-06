@@ -86,8 +86,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Card>
-      <FalconCardHeader title={t('Knowledge Base')}>
-      </FalconCardHeader>
+      <FalconCardHeader title={t('Knowledge Base')} titleClass="text-lightSlateGray mb-0" />
       <CardBody className="fs--1">
         <Spinner color="primary" hidden={spinnerHidden}  />
         {isIterableArray(reports) ? (

@@ -19,8 +19,10 @@ import { withTranslation } from 'react-i18next';
 import {v4 as uuid} from 'uuid';
 import { toast } from 'react-toastify';
 import useInterval from '../../../hooks/useInterval';
-import { APIBaseURL } from '../../../config';
-
+import { APIBaseURL, settings } from '../../../config';
+import ScorpioMenu from 'scorpio-menu';
+import param from '../../../global';
+import Dialog from '../common/dialog/dialog';
 
 const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
@@ -35,11 +37,11 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirect(true);
     } else {
       //update expires time of cookies
-      createCookie('is_logged_in', true, 1000 * 60 * 10 * 1);
-      createCookie('user_name', user_name, 1000 * 60 * 10 * 1);
-      createCookie('user_display_name', user_display_name, 1000 * 60 * 10 * 1);
-      createCookie('user_uuid', user_uuid, 1000 * 60 * 10 * 1);
-      createCookie('token', token, 1000 * 60 * 10 * 1);
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
     }
   });
 
@@ -55,6 +57,15 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   // State
+  // Right Click Menu
+  const [display,setDisplay] = useState("none");
+  const [position,setPosition] = useState({x: 0,y: 0,});
+  const [show,setShow] = useState(false);
+  const [pointid,setPointid] = useState("");
+  const [pointname,setPointname] = useState("");
+  const [type,setType] = useState("");
+  const [arr,setArr] = useState({timeArr:[],valueArr:[]});
+
   // Query Parameters
   const [distributionSystemList, setDistributionSystemList] = useState([]);
   const [selectedDistributionSystemID, setSelectedDistributionSystemID] = useState(undefined);
@@ -62,6 +73,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [images, setImages] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [SVGSystemReportDict, setSVGSystemReportDict] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -93,6 +105,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         let images = {};
         json.forEach((currentValue, index) => {
           images[currentValue['value']] = {__html: currentValue['svg']}
+          setSVGSystemReportDict({ __html: currentValue['svg'] });
         });
         setImages(images);
         setSpinnerHidden(true);
@@ -145,6 +158,50 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     refreshSVGData();
   }, 1000 * 3);
 
+
+
+  const onContextMenu = (event) => {
+    event.preventDefault();
+    let position = {
+        x: event.pageX,
+        y: event.pageY,
+    }
+    var element = document.elementFromPoint(position.x, position.y);
+
+    let pt_id=element.getAttribute('id')
+
+    if(!pt_id ||element.tagName!="text"){
+      setPosition(position)
+      setShow(false)
+      return;
+    }
+    param.pointid = pt_id.replace("PT","")
+    setPointid(pt_id.replace("PT",""))
+
+    setPosition(position)
+    setShow(true)
+    if(pt_id !=''){
+      // getChartsData()
+      // getPointName()
+    }
+  }
+
+  const onMenuClick = (e) => {
+    setShow(false)
+    if(e.value == 'charts'){
+      setDisplay('block')
+      setType('charts')
+    }
+  }
+
+  const onClose = (e) => {
+    setShow(false)
+  }
+
+  const hide =()=>{
+    setDisplay("none")
+  }
+
   let onDistributionSystemChange = (event) => {
     setSelectedDistributionSystemID(event.target.value);
   };
@@ -192,10 +249,28 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
 
         <Col lg="8" className="pr-lg-2">
-          <div dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
+          <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
         </Col>
 
       </Row>
+      <Card className="bg-light">
+        <div onContextMenu={onContextMenu}
+          className="demo">
+          <ScorpioMenu
+          data={[{
+              "label": "趋势图",
+              "value": "charts"
+              }]
+          }
+          position={{"x":position.x,"y":position.y}}
+          show={show}
+          onMenuClick={onMenuClick}
+          onClose={onClose} />
+        </div>
+        <div>
+            <Dialog display={display} hide={hide} type={type} data={arr} pointid={pointid} pointname={pointname} />
+        </div>
+      </Card>
     </Fragment>
   );
 };
