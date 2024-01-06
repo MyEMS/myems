@@ -36,7 +36,6 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay} from 'date-fns';
 import AppContext from '../../../context/Context';
 import {useLocation, Link} from "react-router-dom";
-import {number} from "is_js";
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -1111,6 +1110,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
        data={workingDaysConsumptionTableData}
        columns={workingDaysConsumptionTableColumns}>
       </WorkingDaysConsumptionTable>
+      <br />
 
       <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
       </DetailedDataTable>

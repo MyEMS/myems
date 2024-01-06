@@ -14,7 +14,7 @@ const WorkingDaysConsumptionTable = ({ data, columns, t }) => {
   return (
     <Fragment>
       <Card>
-        <FalconCardHeader title={ t('Working Days') + ' & ' + t('Non Working Days')} className="bg-light" />
+        <FalconCardHeader title={ t('Working Days') + ' & ' + t('Non Working Days')} className="bg-light" titleClass="text-lightSlateGray mb-0" />
         <CardBody>
           <Row>
             <Col>

@@ -112,8 +112,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
     return (
         <Fragment>
             <Card className="mb-3">
-            <FalconCardHeader title={title} className="bg-light">
-            </FalconCardHeader>
+            <FalconCardHeader title={title} className="bg-light" titleClass="text-lightSlateGray mb-0" />
             <CardBody className="rounded-soft">
                 <Row className="text-white align-items-center no-gutters">
                 <Col>

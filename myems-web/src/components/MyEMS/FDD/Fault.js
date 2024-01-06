@@ -647,7 +647,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Card className="mb-3">
         <Spinner color="primary" hidden={spinnerHidden}  />
-        <FalconCardHeader title={t('Fault Alarms')} light={false}>
+        <FalconCardHeader title={t('Fault Alarms')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
               <CustomInput type="select" id="bulk-select">

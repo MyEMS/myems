@@ -204,7 +204,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <Card>
-        <FalconCardHeader title={t('Advanced Reporting')}></FalconCardHeader>
+        <FalconCardHeader title={t('Advanced Reporting')} titleClass="text-lightSlateGray mb-0"></FalconCardHeader>
         <CardBody className="fs--1">
           {isIterableArray(reports) ? (
             <Row>

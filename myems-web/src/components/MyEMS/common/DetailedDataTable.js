@@ -36,9 +36,7 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t }) => {
   return (
     <Fragment>
       <Card>
-        <FalconCardHeader title={title} className="bg-light">
-
-        </FalconCardHeader>
+        <FalconCardHeader title={title} className="bg-light"  titleClass="text-lightSlateGray mb-0" />
         <CardBody>
         <PaginationProvider pagination={paginationFactory(options)}>
             {({ paginationProps, paginationTableProps }) => {
