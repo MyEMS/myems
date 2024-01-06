@@ -15,18 +15,11 @@ import CardSummary from '../common/CardSummary';
 import CountUp from 'react-countup';
 import MultipleLineChart from '../common/MultipleLineChart';
 import MultiTrendChart from '../common/MultiTrendChart';
-import LineChart from '../common/LineChart';
-import BarChart from '../common/BarChart';
-import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
-import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
-import { Map } from 'react-leaflet';
 import { useLocation } from 'react-router-dom';
-import Datetime from 'react-datetime';
 
 
 const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
