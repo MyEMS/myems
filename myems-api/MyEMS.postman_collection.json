@@ -5102,107 +5102,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "GET All Users of an Energy Storage Container",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "text"
-									},
-									{
-										"key": "",
-										"value": "",
-										"type": "text",
-										"disabled": true
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/users",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"energystoragecontainers",
-										"1",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Bind an User to an Energy Storage Container",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"user_id\":1}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/users",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"energystoragecontainers",
-										"1",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE an User from an Energy Storage Container",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/users/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"energystoragecontainers",
-										"1",
-										"users",
-										"1"
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -5449,6 +5348,107 @@
 										"energystoragepowerstations",
 										"1",
 										"containers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Users of an Energy Storage Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "30246a03be7716ff6577a8c7f7518661c26f4adef5945a94022ce711f4487eebb303719daa4c5f0d8220d45f254e3c828663cad7377a177edc1d2e29a1d91291",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Bind an User to an Energy Storage Power Station",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "30246a03be7716ff6577a8c7f7518661c26f4adef5945a94022ce711f4487eebb303719daa4c5f0d8220d45f254e3c828663cad7377a177edc1d2e29a1d91291",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"user_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an User from an Energy Storage Power Station",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "30246a03be7716ff6577a8c7f7518661c26f4adef5945a94022ce711f4487eebb303719daa4c5f0d8220d45f254e3c828663cad7377a177edc1d2e29a1d91291",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"users",
 										"1"
 									]
 								}
@@ -18010,7 +18010,7 @@
 			"name": "Reports",
 			"item": [
 				{
-					"name": "GET AdvancedReport Files",
+					"name": "GET AdvancedReport Files Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -18055,7 +18055,7 @@
 					"response": []
 				},
 				{
-					"name": "GET AdvancedReport File by ID",
+					"name": "GET AdvancedReport File by ID Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -18091,7 +18091,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE AdvancedReport File by ID",
+					"name": "DELETE AdvancedReport File by ID Ⓔ",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -19354,7 +19354,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Saving Report",
+					"name": "GET Combined Equipment Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -19423,7 +19423,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Saving Report (Quick Mode)",
+					"name": "GET Combined Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -19786,6 +19786,75 @@
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Energy Storage Power Station Details Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "30246a03be7716ff6577a8c7f7518661c26f4adef5945a94022ce711f4487eebb303719daa4c5f0d8220d45f254e3c828663cad7377a177edc1d2e29a1d91291",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/energystoragepowerstationdetails?energystoragepowerstationid=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"energystoragepowerstationdetails"
+							],
+							"query": [
+								{
+									"key": "energystoragepowerstationuuid",
+									"value": "8854d0d4-384a-4951-a000-854f876bbbcf",
+									"disabled": true
+								},
+								{
+									"key": "energystoragepowerstationid",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Energy Storage Power Station List Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "default"
+							},
+							{
+								"key": "Token",
+								"value": "30246a03be7716ff6577a8c7f7518661c26f4adef5945a94022ce711f4487eebb303719daa4c5f0d8220d45f254e3c828663cad7377a177edc1d2e29a1d91291",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/energystoragepowerstationlist",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"energystoragepowerstationlist"
 							]
 						}
 					},
@@ -20890,7 +20959,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Saving Report",
+					"name": "GET Equipment Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -20959,7 +21028,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Saving Report (Quick Mode)",
+					"name": "GET Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -21850,7 +21919,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Saving Report",
+					"name": "GET Meter Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -21919,7 +21988,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Saving Report (Quick Mode)",
+					"name": "GET Meter Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -22442,7 +22511,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Microgrid Report",
+					"name": "GET Microgrid Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -22482,7 +22551,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Microgrid List Report",
+					"name": "GET Microgrid List Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -22505,13 +22574,6 @@
 							"path": [
 								"reports",
 								"microgridlist"
-							],
-							"query": [
-								{
-									"key": "microgriduuid",
-									"value": "8854d0d4-384a-4951-a000-854f876bbbcf",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -23014,7 +23076,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Saving Report",
+					"name": "GET Offline Meter Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -23076,7 +23138,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Saving Report (Quick Mode)",
+					"name": "GET Offline Meter Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -23850,7 +23912,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Saving Report",
+					"name": "GET Shopfloor Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -23919,7 +23981,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Saving Report (Quick Mode)",
+					"name": "GET Shopfloor Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25128,7 +25190,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Saving Report",
+					"name": "GET Space Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25197,7 +25259,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Saving Report (Quick Mode)",
+					"name": "GET Space Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26084,7 +26146,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Saving Report",
+					"name": "GET Store Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26153,7 +26215,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Saving Report (Quick Mode)",
+					"name": "GET Store Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27095,7 +27157,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Saving Report",
+					"name": "GET Tenant Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27164,7 +27226,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Saving Report (Quick Mode)",
+					"name": "GET Tenant Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [

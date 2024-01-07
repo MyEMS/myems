@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('EnergyStorageContainerUserController', function (
+app.controller('EnergyStoragePowerStationUserController', function (
     $scope,
     $window,
     $translate,
-    EnergyStorageContainerService,
+    EnergyStoragePowerStationService,
     UserService,
-    EnergyStorageContainerUserService,
+    EnergyStoragePowerStationUserService,
     toaster,
     SweetAlert) {
-    $scope.currentEnergyStorageContainer = {selected:undefined};
+    $scope.currentEnergyStoragePowerStation = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.getAllUsers = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -22,39 +22,39 @@ app.controller('EnergyStorageContainerUserController', function (
         });
     };
 
-    $scope.getUsersByEnergyStorageContainerID = function (id) {
+    $scope.getUsersByEnergyStoragePowerStationID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        EnergyStorageContainerUserService.getUsersByEnergyStorageContainerID(id, headers, function (response) {
+        EnergyStoragePowerStationUserService.getUsersByEnergyStoragePowerStationID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.energystoragecontainerusers = response.data;
+                $scope.energystoragepowerstationusers = response.data;
             } else {
-                $scope.energystoragecontainerusers = [];
+                $scope.energystoragepowerstationusers = [];
             }
         });
     };
 
-    $scope.changeEnergyStorageContainer=function(item,model){
-        $scope.currentEnergyStorageContainer=item;
-        $scope.currentEnergyStorageContainer.selected=model;
-        $scope.getUsersByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+    $scope.changeEnergyStoragePowerStation=function(item,model){
+        $scope.currentEnergyStoragePowerStation=item;
+        $scope.currentEnergyStoragePowerStation.selected=model;
+        $scope.getUsersByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
     };
 
-    $scope.getAllEnergyStorageContainers = function () {
+    $scope.getAllEnergyStoragePowerStations = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
+        EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.energystoragecontainers = response.data;
+                $scope.energystoragepowerstations = response.data;
             } else {
-                $scope.energystoragecontainers = [];
+                $scope.energystoragepowerstations = [];
             }
         });
     };
 
     $scope.pairUser = function (dragEl, dropEl) {
         var userid = angular.element('#' + dragEl).scope().user.id;
-        var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
+        var energystoragepowerstationid = $scope.currentEnergyStoragePowerStation.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        EnergyStorageContainerUserService.addPair(energystoragecontainerid, userid, headers, function (response) {
+        EnergyStoragePowerStationUserService.addPair(energystoragepowerstationid, userid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -62,7 +62,7 @@ app.controller('EnergyStorageContainerUserController', function (
                     body: $translate.instant("TOASTER.BIND_USER_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getUsersByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+                $scope.getUsersByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -78,10 +78,10 @@ app.controller('EnergyStorageContainerUserController', function (
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
         }
-        var energystoragecontaineruserid = angular.element('#' + dragEl).scope().energystoragecontaineruser.id;
-        var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
+        var energystoragepowerstationuserid = angular.element('#' + dragEl).scope().energystoragepowerstationuser.id;
+        var energystoragepowerstationid = $scope.currentEnergyStoragePowerStation.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        EnergyStorageContainerUserService.deletePair(energystoragecontainerid, energystoragecontaineruserid, headers, function (response) {
+        EnergyStoragePowerStationUserService.deletePair(energystoragepowerstationid, energystoragepowerstationuserid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -89,7 +89,7 @@ app.controller('EnergyStorageContainerUserController', function (
                     body: $translate.instant("TOASTER.UNBIND_USER_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getUsersByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+                $scope.getUsersByEnergyStoragePowerStationID($scope.currentEnergyStoragePowerStation.id);
             } else {
                 toaster.pop({
                     type: "error",
@@ -102,9 +102,9 @@ app.controller('EnergyStorageContainerUserController', function (
     };
 
     $scope.getAllUsers();
-    $scope.getAllEnergyStorageContainers();
+    $scope.getAllEnergyStoragePowerStations();
 
-  	$scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
-      $scope.getAllEnergyStorageContainers();
+  	$scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
+      $scope.getAllEnergyStoragePowerStations();
   	});
 });

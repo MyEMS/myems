@@ -1271,7 +1271,6 @@ app
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerload.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainersensor.service.js',
-                                                    'app/services/settings/energystoragecontainer/energystoragecontaineruser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -1282,7 +1281,6 @@ app
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerload.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainersensor.controller.js',
-                                                    'app/controllers/settings/energystoragecontainer/energystoragecontaineruser.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1320,6 +1318,7 @@ app
                                                 files: [
                                                     'app/services/settings/energystoragepowerstation/energystoragepowerstation.service.js',
                                                     'app/services/settings/energystoragepowerstation/energystoragepowerstationcontainer.service.js',
+                                                    'app/services/settings/energystoragepowerstation/energystoragepowerstationuser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/point.service.js',
@@ -1327,6 +1326,7 @@ app
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstationcontainer.controller.js',
+                                                    'app/controllers/settings/energystoragepowerstation/energystoragepowerstationuser.controller.js',
                                                 ]
                                             }]);
                                         }

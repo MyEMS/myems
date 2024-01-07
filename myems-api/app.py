@@ -37,6 +37,8 @@ from reports import equipmentoutput
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
+from reports import energystoragepowerstationdetails
+from reports import energystoragepowerstationlist
 from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
@@ -271,10 +273,6 @@ api.add_route('/energystoragecontainers/{id_}/powerconversionsystems',
               energystoragecontainer.EnergyStorageContainerPowerconversionsystemCollection())
 api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pid}',
               energystoragecontainer.EnergyStorageContainerPowerconversionsystemItem())
-api.add_route('/energystoragecontainers/{id_}/users',
-              energystoragecontainer.EnergyStorageContainerUserCollection())
-api.add_route('/energystoragecontainers/{id_}/users/{uid}',
-              energystoragecontainer.EnergyStorageContainerUserItem())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
@@ -284,6 +282,10 @@ api.add_route('/energystoragepowerstations/{id_}/containers',
               energystoragepowerstation.EnergyStoragePowerStationContainerCollection())
 api.add_route('/energystoragepowerstations/{id_}/containers/{sid}',
               energystoragepowerstation.EnergyStoragePowerStationContainerItem())
+api.add_route('/energystoragepowerstations/{id_}/users',
+              energystoragepowerstation.EnergyStoragePowerStationUserCollection())
+api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
+              energystoragepowerstation.EnergyStoragePowerStationUserItem())
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())
@@ -746,6 +748,10 @@ api.add_route('/reports/combinedequipmentstatistics',
               combinedequipmentstatistics.Reporting())
 api.add_route('/reports/dashboard',
               dashboard.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails',
+              energystoragepowerstationdetails.Reporting())
+api.add_route('/reports/energystoragepowerstationlist',
+              energystoragepowerstationlist.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcarbon',
