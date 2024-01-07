@@ -468,6 +468,12 @@ export const microgridRoutes = {
   icon: 'building'
 };
 
+export const energyStoragePowerStationRoutes = {
+  name: 'Energy Storage Power Station',
+  to: '/energystoragepowerstation',
+  icon: 'building'
+};
+
 export const fddRoutes = {
   name: 'Fault Alarm',
   to: '/fdd',
@@ -523,6 +529,7 @@ export default [
   combinedEquipmentRoutes,
   auxiliarySystemRoutes,
   microgridRoutes,
+  energyStoragePowerStationRoutes,
   fddRoutes,
   monitoringRoutes,
   advancedReportingRoutes,

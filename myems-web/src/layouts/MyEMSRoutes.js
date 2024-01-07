@@ -196,6 +196,10 @@ import DistributionSystem from '../components/MyEMS/AuxiliarySystem/Distribution
 import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
 import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
 import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
+// Energy Storage Power Statioin
+import EnergyStoragePowerStation from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStation';
+import EnergyStoragePowerStationDetails from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationDetails';
+import EnergyStoragePowerStationReporting from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReporting';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -453,6 +457,11 @@ const MyEMSRoutes = () => (
     <Route path="/microgrid" exact component={Microgrid} />
     <Route path="/microgrid/details" exact component={MicrogridDetails} />
     <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
+
+    {/*EnergyStoragePowerStation*/}
+    <Route path="/energystoragepowerstation" exact component={EnergyStoragePowerStation} />
+    <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
+    <Route path="/energystoragepowerstation/reporting" exact component={EnergyStoragePowerStationReporting} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />

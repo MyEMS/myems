@@ -6,7 +6,7 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   en: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Dashboard',
       'Space Data': 'Space',
       'Equipment Data': 'Equipment',
@@ -17,6 +17,7 @@ const resources = {
       'Combined Equipment Data': 'Combined Equipment',
       'Auxiliary System': 'Auxiliary System',
       'Microgrid': 'Microgrid',
+      'Energy Storage Power Station': 'Energy Storage Power Station',
       'Fault Alarm': 'Fault Alarm',
       'Monitoring': 'Monitoring',
       'Advanced Reporting': 'Advanced Reporting',
@@ -1053,7 +1054,7 @@ const resources = {
   },
   zh_CN: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': '总览',
       'Space Data': '空间数据',
       'Equipment Data': '设备数据',
@@ -1064,6 +1065,7 @@ const resources = {
       'Combined Equipment Data': '组合设备数据',
       'Auxiliary System': '辅助系统',
       'Microgrid': '微电网',
+      'Energy Storage Power Station': '储能电站',
       'Fault Alarm': '故障报警',
       'Monitoring': '设备监控',
       'Advanced Reporting': '高级报表',
@@ -2081,7 +2083,7 @@ const resources = {
   },
   de: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Instrumententafel',
       'Space Data': 'Platz',
       'Equipment Data': 'Ausrüstung',
@@ -2092,6 +2094,7 @@ const resources = {
       'Combined Equipment Data': 'Kombinierte Ausrüstung',
       'Auxiliary System': 'Hilfssystem',
       'Microgrid': 'Mikronetz',
+      'Energy Storage Power Station': 'Energiespeicherkraftwerk',
       'Fault Alarm': 'Fehleralarm',
       'Monitoring': 'Überwachung',
       'Advanced Reporting': 'Erweiterte Berichterstellung',
@@ -3142,7 +3145,7 @@ const resources = {
   },
   fr: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Tableau de bord',
       'Space Data': 'Espace',
       'Equipment Data': 'Équipement',
@@ -3153,6 +3156,7 @@ const resources = {
       'Combined Equipment Data': 'Équipement combiné',
       'Auxiliary System': 'Système auxiliaire',
       'Microgrid': 'Micro-réseau',
+      'Energy Storage Power Station': 'Centrale de stockage d’énergie',
       'Fault Alarm': 'Alarme de panne',
       'Monitoring': 'Surveillance',
       'Advanced Reporting': 'Rapports avancés',
@@ -4189,7 +4193,7 @@ const resources = {
   },
   es: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Salpicadero',
       'Space Data': 'Espacio',
       'Equipment Data': 'Equipo',
@@ -4200,6 +4204,7 @@ const resources = {
       'Combined Equipment Data': 'Equipos combinados',
       'Auxiliary System': 'Sistema auxiliar',
       'Microgrid': 'Microrred',
+      'Energy Storage Power Station': 'Central eléctrica de almacenamiento de energía',
       'Fault Alarm': 'Alarma de falla',
       'Monitoring': 'Monitorización',
       'Advanced Reporting': 'Informes avanzados',
@@ -5236,7 +5241,7 @@ const resources = {
   },
   ru: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Щиток',
       'Space Data': 'Пространство',
       'Equipment Data': 'Оборудование',
@@ -5247,6 +5252,7 @@ const resources = {
       'Combined Equipment Data': 'Комбинированное оборудование',
       'Auxiliary System': 'Вспомогательная система',
       'Microgrid': 'Микросеть',
+      'Energy Storage Power Station': 'Резервная электростанция',
       'Fault Alarm': 'Сигнализация неисправности',
       'Monitoring': 'Контроль',
       'Advanced Reporting': 'Расширенная отчетность',
@@ -6283,7 +6289,7 @@ const resources = {
   },
   ar: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'لوحه القياده',
       'Space Data': 'فضاء',
       'Equipment Data': 'معدات',
@@ -6294,6 +6300,7 @@ const resources = {
       'Combined Equipment Data': 'المعدات المشتركة',
       'Auxiliary System': 'النظام المساعد',
       'Microgrid': 'الشبكة المصغرة',
+      'Energy Storage Power Station': 'محطة تخزين الطاقة',
       'Fault Alarm': 'إنذار الأعطال',
       'Monitoring': 'رصد',
       'Advanced Reporting': 'التقارير المتقدمة',
@@ -7330,7 +7337,7 @@ const resources = {
   },
   vi: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Bảng điều khiển',
       'Space Data': 'Không gian',
       'Equipment Data': 'Thiết bị',
@@ -7341,6 +7348,7 @@ const resources = {
       'Combined Equipment Data': 'Thiết bị kết hợp',
       'Auxiliary System': 'Hệ thống phụ trợ',
       'Microgrid': 'Lưới điện siêu nhỏ',
+      'Energy Storage Power Station': 'Trạm lưu trữ năng lượng',
       'Fault Alarm': 'Báo động lỗi',
       'Monitoring': 'Giám sát',
       'Advanced Reporting': 'Báo cáo nâng cao',
@@ -8377,7 +8385,7 @@ const resources = {
   },
   th: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'แผงหน้าปัด',
       'Space Data': 'อวกาศ',
       'Equipment Data': 'อุปกรณ์',
@@ -8388,6 +8396,7 @@ const resources = {
       'Combined Equipment Data': 'อุปกรณ์รวม',
       'Auxiliary System': 'ระบบเสริม',
       'Microgrid': 'ไมโครกริด',
+      'Energy Storage Power Station': 'สถานีเก็บพลังงาน',
       'Fault Alarm': 'สัญญาณเตือนความผิดพลาด',
       'Monitoring': 'ตรวจ สอบ',
       'Advanced Reporting': 'การรายงานขั้นสูง',
@@ -9422,7 +9431,7 @@ const resources = {
   },
   tr: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Tablo',
       'Space Data': 'Uzay',
       'Equipment Data': 'Ekipman',
@@ -9433,6 +9442,7 @@ const resources = {
       'Combined Equipment Data': 'Kombine Ekipmanlar',
       'Auxiliary System': 'Yardımcı Sistem',
       'Microgrid': 'Mikro şebeke',
+      'Energy Storage Power Station': 'Enerji depolama güç istasyonu',
       'Fault Alarm': 'Arıza Alarmı',
       'Monitoring': 'Izleme',
       'Advanced Reporting': 'Gelişmiş Raporlama',
@@ -10469,7 +10479,7 @@ const resources = {
   },
   ms: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Dashboard',
       'Space Data': 'Ruang',
       'Equipment Data': 'Peralatan',
@@ -10480,6 +10490,7 @@ const resources = {
       'Combined Equipment Data': 'Peralatan Gabungan',
       'Auxiliary System': 'Sistem Bantuan',
       'Microgrid': 'Microgrid',
+      'Energy Storage Power Station': 'Station Kuasa Storan Energi',
       'Fault Alarm': 'Penggera Kesalahan',
       'Monitoring': 'Pemantauan',
       'Advanced Reporting': 'Laporan Lanjutan',
@@ -11516,7 +11527,7 @@ const resources = {
   },
   id: {
     translation: {
-      // routes
+      // routes & menus
       'Dashboard': 'Overview',
       'Space Data': 'Data Ruang',
       'Equipment Data': 'Data Perangkat',
@@ -11527,6 +11538,7 @@ const resources = {
       'Combined Equipment Data': 'Data Perangkat Kombinasi',
       'Auxiliary System': 'Sistem Bantuan',
       'Microgrid': 'Microgrid',
+      'Energy Storage Power Station': 'Stasiun Power Storage Energi',
       'Fault Alarm': 'Alarm Cacat',
       'Monitoring': 'Monitor Peralatan',
       'Advanced Reporting': 'Laporan Lanjutan',

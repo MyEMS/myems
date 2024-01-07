@@ -671,7 +671,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Power Conversion System (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Add Power Conversion System (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Edit Power Conversion System (PCS)',
-                BIND_USER: 'Bind User',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Address',
@@ -687,6 +686,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Input Latitude',
                 INPUT_LONGITUDE: 'Input Longitude',
                 INPUT_SVG: 'Input SVG',
+                BIND_USER: 'Bind User',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Address',
@@ -2250,7 +2250,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' 功率转换系统(PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: '添加功率转换系统(PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: '编辑功率转换系统(PCS)',
-                BIND_USER: '绑定用户',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: '地址',
@@ -2266,6 +2265,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: '输入经度',
                 INPUT_LONGITUDE: '输入维度',
                 INPUT_SVG: '输入SVG',
+                BIND_USER: '绑定用户',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: '地址',
@@ -3852,7 +3852,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Stromumwandlungssystem (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Stromumwandlungssystem (PCS) hinzufügen',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Stromwandlungssystem (PCS) bearbeiten',
-                BIND_USER: 'BIND-BENUTZER',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Adresse',
@@ -3868,6 +3867,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Breitengrad eingeben',
                 INPUT_LONGITUDE: 'Längengrad eingeben',
                 INPUT_SVG: 'SVG eingeben',
+                BIND_USER: 'BIND-BENUTZER',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Adresse',
@@ -5470,7 +5470,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Système de conversion de puissance (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Ajouter un système de conversion de puissance (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Modifier le système de conversion de puissance (PCS)',
-                BIND_USER: 'Utilisateurs liés',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Adresse',
@@ -5486,6 +5485,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'saisir la latitude',
                 INPUT_LONGITUDE: 'saisir la longitude',
                 INPUT_SVG: 'saisir SVG',
+                BIND_USER: 'Utilisateurs liés',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Adresse',
@@ -7069,7 +7069,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Sistema de conversión de potencia (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Añadir sistema de conversión de energía (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Editar el sistema de conversión de energía',
-                BIND_USER: 'Usuarios vinculados',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Dirección',
@@ -7085,6 +7084,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Introduzca Latitude',
                 INPUT_LONGITUDE: 'Introduzca la longitud',
                 INPUT_SVG: 'Introduzca SVG',
+                BIND_USER: 'Usuarios vinculados',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Dirección',
@@ -8668,7 +8668,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' частотно - следящая переключения мощности (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Добавить систему переключения питания (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Изменить систему переключения питания (PCS)',
-                BIND_USER: 'Связанные пользователи',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Адрес',
@@ -8684,6 +8683,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'введите широту',
                 INPUT_LONGITUDE: 'введите долготу',
                 INPUT_SVG: 'введите SVG',
+                BIND_USER: 'Связанные пользователи',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Адрес',
@@ -10267,7 +10267,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'نظام تحويل الطاقة(PCS) ',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'إضافة نظام تحويل الطاقة(PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' (PCS) تحرير نظام تحويل الطاقة',
-                BIND_USER: 'ربط المستخدم',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'عنوان',
@@ -10283,6 +10282,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'يرجى إدخال خط العرض',
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
                 INPUT_SVG: 'الرجاء إدخال SVG',
+                BIND_USER: 'ربط المستخدم',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'عنوان',
@@ -11866,7 +11866,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Hệ thống chuyển đổi năng lượng(PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Thêm hệ thống chuyển đổi năng lượng(PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Chỉnh sửa hệ thống chuyển đổi điện(PCS)',
-                BIND_USER: 'NGƯỜI DÙNG RÀNG BUỘC',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Địa chỉ',
@@ -11882,6 +11881,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Vui lòng nhập Latitude',
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
                 INPUT_SVG: 'Vui lòng nhập SVG',
+                BIND_USER: 'NGƯỜI DÙNG RÀNG BUỘC',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Địa chỉ',
@@ -13465,7 +13465,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' ระบบแปลงกำลัง(PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'เพิ่มระบบแปลงกำลัง(PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'แก้ไขระบบแปลงกำลัง(PCS)',
-                BIND_USER: 'ผูกผู้ใช้',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'ที่อยู่',
@@ -13481,6 +13480,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'กรุณาใส่ละติจูด',
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
                 INPUT_SVG: 'กรุณาใส่ SVG',
+                BIND_USER: 'ผูกผู้ใช้',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'ที่อยู่',
@@ -15064,7 +15064,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Güç Dönüşüm Sistemi (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Güç Dönüşüm Sistemi Ekle (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Güç Dönüşüm Sistemini Düzenle (PCS)',
-                BIND_USER: 'KULLANICIYI BAĞLA',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Adres',
@@ -15080,6 +15079,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Lütfen Enlemi Girin',
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
                 INPUT_SVG: 'Lütfen SVG girin',
+                BIND_USER: 'KULLANICIYI BAĞLA',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Adres',
@@ -16662,7 +16662,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Sistem Penukaran Kuasa (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Tambah Sistem Penukaran Kuasa (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Edit Sistem Penukaran Kuasa (PCS)',
-                BIND_USER: 'Pengguna Mengikat',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Alamat',
@@ -16678,6 +16677,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Sila masukkan latitud',
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
                 INPUT_SVG: 'Sila masukkan SVG',
+                BIND_USER: 'Pengguna Mengikat',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Alamat',
@@ -18261,7 +18261,6 @@ function config($translateProvider) {
                 N_S_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: ' Sistem Konversi Daya (PCS)',
                 ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Tambahkan Sistem Konversi Daya (PCS)',
                 EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM: 'Edit Sistem Konversi Daya (PCS)',
-                BIND_USER: 'Mengikat Pengguna',
             },
             ENERGY_STORAGE_POWER_STATION: {
                 ADDRESS: 'Alamat',
@@ -18277,6 +18276,7 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Silakan masukkan Latitude',
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
                 INPUT_SVG: 'Silakan masukan SVG',
+                BIND_USER: 'Mengikat Pengguna',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: 'Alamat',
