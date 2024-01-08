@@ -5,7 +5,6 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
 import config
-import random
 
 
 class DataSourceCollection:
@@ -566,13 +565,17 @@ class DataSourceImport:
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         new_values = json.loads(raw_json)
-        print(new_values)
+
         if 'name' not in new_values.keys() or \
                 not isinstance(new_values['name'], str) or \
                 len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_NAME')
-        name = str.strip(new_values['name']) + str(random.randint(0, 1000))
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        name = str.strip(new_values['name']) + \
+            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
         if 'gateway' not in new_values.keys() or \
                 'id' not in new_values['gateway'].keys() or \

@@ -290,6 +290,11 @@ api.add_route('/energystoragepowerstations/{id_}/users',
               energystoragepowerstation.EnergyStoragePowerStationUserCollection())
 api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
               energystoragepowerstation.EnergyStoragePowerStationUserItem())
+api.add_route('/energystoragepowerstations/{id_}/export',
+              energystoragepowerstation.EnergyStoragePowerStationExport())
+api.add_route('/energystoragepowerstations/import',
+              energystoragepowerstation.EnergyStoragePowerStationImport())
+
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())
