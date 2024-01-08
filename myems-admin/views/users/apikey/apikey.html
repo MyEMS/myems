@@ -22,7 +22,10 @@
                                     <tr ng-repeat="apiKey in apiKeys">
                                         <td class="text-center">{{ apiKey.id }}</td>
                                         <td class="text-center">{{ apiKey.name }}</td>
-                                        <td class="text-center" style="max-width: 400px; word-wrap: break-word;">{{ apiKey.token }}</td>
+                                        <td class="text-center" style="max-width: 400px; word-wrap: break-word;">
+                                            {{ apiKey.token }}
+                                            <button class="btn btn-primary btn-rounded btn-xs" ng-click="copyToClipboard(apiKey)">{{'SETTING.COPY' | translate}}</button>
+                                        </td>
                                         <td class="text-center">{{ apiKey.created_datetime_utc }}</td>
                                         <td class="text-center">{{ apiKey.expires_datetime_utc }}</td>
                                         <td class="text-center">

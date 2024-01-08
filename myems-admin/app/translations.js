@@ -157,6 +157,7 @@ function config($translateProvider) {
                 CAPTCHA: 'Captcha',
             },
             SETTING: {
+                COPY: 'Copy',
                 KNOWLEDGEFILE: 'Knowledge File',
                 ID: 'ID',
                 ACTION: 'Action',
@@ -939,6 +940,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Success',
+                SUCCESS_COPY: 'Copy Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
                 LOGOUT_SUCCESS: 'Logout Success',
@@ -1755,6 +1757,7 @@ function config($translateProvider) {
                 CAPTCHA: '验证码',
             },
             SETTING: {
+                COPY: '复制',
                 KNOWLEDGEFILE: '知识文件',
                 ID: 'ID',
                 ACTION: '操作',
@@ -2539,6 +2542,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
+                SUCCESS_COPY: '复制成功',
                 LOGIN_SUCCESS: '登录成功',
                 LOGIN_FAILURE: '登录失败',
                 LOGOUT_SUCCESS: '退出成功',
