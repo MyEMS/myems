@@ -21,7 +21,6 @@ import { toast } from 'react-toastify';
 import useInterval from '../../../hooks/useInterval';
 import { APIBaseURL, settings } from '../../../config';
 import ScorpioMenu from 'scorpio-menu';
-import param from '../../../global';
 import Dialog from '../common/dialog/dialog';
 
 const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
@@ -175,7 +174,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       setShow(false)
       return;
     }
-    param.pointid = pt_id.replace("PT","")
+
     setPointid(pt_id.replace("PT",""))
 
     setPosition(position)
