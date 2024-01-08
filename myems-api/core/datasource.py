@@ -5,6 +5,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
 import config
+import random
 
 
 class DataSourceCollection:
@@ -467,3 +468,200 @@ class DataSourcePointCollection:
         cursor.close()
         cnx.close()
         resp.text = json.dumps(result)
+
+
+class DataSourceExport:
+    @staticmethod
+    def __init__():
+        """"Initializes DataSourceExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_gateways ")
+        cursor.execute(query)
+        rows_gateways = cursor.fetchall()
+        gateway_dict = dict()
+        if rows_gateways is not None and len(rows_gateways) > 0:
+            for row in rows_gateways:
+                gateway_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
+                 " FROM tbl_data_sources "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DATA_SOURCE_NOT_FOUND')
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if isinstance(row[6], datetime):
+            last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
+                                       timedelta(minutes=timezone_offset)
+            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_seen_datetime = None
+
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "gateway": gateway_dict.get(row[3]),
+                  "protocol": row[4],
+                  "connection": row[5],
+                  "last_seen_datetime": last_seen_datetime,
+                  "description": row[7]
+                  }
+
+        resp.text = json.dumps(result)
+
+
+class DataSourceImport:
+    @staticmethod
+    def __init__():
+        """"Initializes DataSourceImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            upload = req.get_param('file')
+            # Read upload file as binary
+            raw_blob = upload.file.read()
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_IMPORT_FILE')
+        try:
+            raw_json = raw_blob.decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+        print(new_values)
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_NAME')
+        name = str.strip(new_values['name']) + str(random.randint(0, 1000))
+
+        if 'gateway' not in new_values.keys() or \
+                'id' not in new_values['gateway'].keys() or \
+                not isinstance(new_values['gateway']['id'], int) or \
+                new_values['gateway']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GATEWAY_ID')
+        gateway_id = new_values['gateway']['id']
+        print(gateway_id)
+        if 'protocol' not in new_values.keys() \
+                or new_values['protocol'] not in \
+                ('bacnet-ip',
+                 'cassandra',
+                 'clickhouse',
+                 'coap',
+                 'controllogix',
+                 'dlt645',
+                 'elexon-bmrs',
+                 'iec104',
+                 'influxdb',
+                 'lora',
+                 'modbus-rtu',
+                 'modbus-tcp',
+                 'mongodb',
+                 'mqtt-md4220',
+                 'mqtt-seg',
+                 'mqtt',
+                 'mysql',
+                 'opc-ua',
+                 'oracle',
+                 'postgresql',
+                 'profibus',
+                 'profinet',
+                 's7',
+                 'simulation',
+                 'sqlserver',
+                 'tdengine',
+                 'weather',):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
+        protocol = new_values['protocol']
+
+        if 'connection' not in new_values.keys() or \
+                not isinstance(new_values['connection'], str) or \
+                len(str.strip(new_values['connection'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONNECTION')
+        connection = str.strip(new_values['connection'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_data_sources "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_gateways "
+                       " WHERE id = %s ", (gateway_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GATEWAY_ID')
+        print('zzz')
+        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    gateway_id,
+                                    protocol,
+                                    connection,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/datasources/' + str(new_id)
