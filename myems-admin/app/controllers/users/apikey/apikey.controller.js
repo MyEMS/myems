@@ -139,11 +139,11 @@ app.controller('ApiKeyController', function (
 		toaster.pop({
 			type: "success",
 			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-			body: $translate.instant("TOASTER.SUCCESS_COPY"),
+			body: $translate.instant("TOASTER.COPY_SUCCESS"),
 			showCloseButton: true,
 		});
-	};	
-	
+	};
+
 	$scope.getAllApiKeys();
 });
 
@@ -183,8 +183,8 @@ app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
 	};
 });
 
-app.controller('ModalEditApiKeyCtrl', function ($scope, 
-	$uibModalInstance, 
+app.controller('ModalEditApiKeyCtrl', function ($scope,
+	$uibModalInstance,
 	params) {
 	$scope.isButtonDisabled = function() {
 		if ($scope.apiKey.name && $scope.apiKey.expires_datetime_utc > $scope.apiKey.created_datetime_utc) {
