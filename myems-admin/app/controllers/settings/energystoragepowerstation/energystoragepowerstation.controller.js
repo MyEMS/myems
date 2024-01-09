@@ -12,7 +12,7 @@ app.controller('EnergyStoragePowerStationController', function(
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.exportdata = JSON.parse('{}');
+    $scope.exportdata = '';
 
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -176,51 +176,45 @@ app.controller('EnergyStoragePowerStationController', function(
 		EnergyStoragePowerStationService.exportEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.exportdata = JSON.stringify(response.data);
+				var modalInstance = $uibModal.open({
+					windowClass: "animated fadeIn",
+					templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.export.html',
+					controller: 'ModalExportEnergyStoragePowerStationCtrl',
+					resolve: {
+						params: function() {
+							return {
+								exportdata: angular.copy($scope.exportdata)
+							};
+						}
+					}
+				});
+				modalInstance.result.then(function() {
+					//do nothing;
+				}, function() {
+					//do nothing;
+				});
+				$rootScope.modalInstance = modalInstance;
 			} else {
 				$scope.exportdata = null;
 			}
 		});
-		var modalInstance = $uibModal.open({
-			windowClass: "animated fadeIn",
-			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.export.html',
-			controller: 'ModalExportEnergyStoragePowerStationCtrl',
-			resolve: {
-				params: function() {
-					return {
-						exportdata: angular.copy($scope.exportdata)
-					};
-				}
-			}
-		});
-
-		modalInstance.result.then(function(modifiedEnergyStoragePowerStation) {
-			modifiedEnergyStoragePowerStation.cost_center_id=modifiedEnergyStoragePowerStation.cost_center.id;
-			modifiedEnergyStoragePowerStation.contact_id=modifiedEnergyStoragePowerStation.contact.id;
-
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			EnergyStoragePowerStationService.editEnergyStoragePowerStation(modifiedEnergyStoragePowerStation, headers, function(response) {
-				if (angular.isDefined(response.status) && response.status === 200) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
-						showCloseButton: true,
-					});
-					$scope.$emit('handleEmitEnergyStoragePowerStationChanged');
-				} else {
-					toaster.pop({
-						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_POWER_STATION")}),
-						body: $translate.instant(response.data.description),
-						showCloseButton: true,
-					});
-				}
-			});
-		}, function() {
-			//do nothing;
-		});
-		$rootScope.modalInstance = modalInstance;
 	};
+
+	$scope.copyToClipboard = function (exportdata) {
+		let tempInput = document.createElement("input");
+		tempInput.value = exportdata;
+		document.body.appendChild(tempInput);
+		tempInput.select();
+		document.execCommand("copy");
+		document.body.removeChild(tempInput);
+		toaster.pop({
+			type: "success",
+			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+			body: $translate.instant("TOASTER.COPY_SUCCESS"),
+			showCloseButton: true,
+		});
+	};
+
 	$scope.cloneEnergyStoragePowerStation = function(energystoragepowerstation){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyStoragePowerStationService.cloneEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
@@ -278,11 +272,22 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	};
 });
 
-
-app.controller('ModalExportEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance, params) {
+app.controller('ModalExportEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance, params, toaster, $translate,) {
 	$scope.operation = "SETTING.EXPORT_ENERGY_STORAGE_POWER_STATION";
 	$scope.exportdata = params.exportdata;
 	$scope.ok = function() {
+		let tempInput = document.createElement("input");
+		tempInput.value = $scope.exportdata;
+		document.body.appendChild(tempInput);
+		tempInput.select();
+		document.execCommand("copy");
+		document.body.removeChild(tempInput);
+		toaster.pop({
+			type: "success",
+			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+			body: $translate.instant("TOASTER.COPY_SUCCESS"),
+			showCloseButton: true,
+		});
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};
 
