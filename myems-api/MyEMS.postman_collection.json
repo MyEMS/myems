@@ -5193,7 +5193,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "24a728a1db350d19d99b7a58bdd4a7092273e27dec7b20a8dbe80897c4b9cdc8fc207451d27466a0eeadc95a01f9e7cd1d65d1a85655418a06405a62dd743ad5",
+										"value": "2ea28e8f10b28c6770b4fc15f6b6ba6e359405d1abc420540e0d59d996453ef46115c2cb54251d4e4b31652e516ff1e9d4903507773af337479819df89cbec69",
 										"type": "text"
 									}
 								],
@@ -5523,6 +5523,99 @@
 										"1",
 										"users",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export an Energy Storage Power Station by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "ba81740369b8fad4ab24d3c04bbfa79597053d3f1bd24798ea86d559a297c320768f5b194e057f6fb5a4c64d04d9144b1b50d5900ee4d5692fa8d67374f4e1c6",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import Energy Storage Power Station from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ea28e8f10b28c6770b4fc15f6b6ba6e359405d1abc420540e0d59d996453ef46115c2cb54251d4e4b31652e516ff1e9d4903507773af337479819df89cbec69",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"id\":1,\"name\":\"Beijing Station\",\"uuid\":\"dec4c44d-469c-4345-a303-23e6048efc94\",\"address\":\"Wangfujing Street, Dongcheng District, Beijing\",\"postal_code\":\"100000\",\"latitude\":39.909429,\"longitude\":116.416993,\"capacity\":600,\"contact\":{\"id\":1,\"name\":\"江工\",\"uuid\":\"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"},\"cost_center\":{\"id\":1,\"name\":\"test\",\"uuid\":\"76d86222-96c5-4653-8162-bfbcd7edd5ad\"},\"svg\":\"<svg></svg>\",\"description\":\"Classic\"}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone an Energy Storage Power Station",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2ea28e8f10b28c6770b4fc15f6b6ba6e359405d1abc420540e0d59d996453ef46115c2cb54251d4e4b31652e516ff1e9d4903507773af337479819df89cbec69",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragepowerstations/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragepowerstations",
+										"1",
+										"clone"
 									]
 								}
 							},

@@ -41,5 +41,29 @@ app.factory('EnergyStoragePowerStationService', function($http) {
                 callback(response);
             });
         },
+        exportEnergyStoragePowerStation: function(energystoragepowerstation, headers, callback) {
+            $http.get(getAPI()+'energystoragepowerstations/'+energystoragepowerstation.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importEnergyStoragePowerStation: function(jsonfile, headers, callback) {
+            $http.post(getAPI()+'energystoragepowerstations/import', {data:jsonfile}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneEnergyStoragePowerStation: function(energystoragepowerstation, headers, callback) {
+            $http.post(getAPI()+'energystoragepowerstations/'+energystoragepowerstation.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });

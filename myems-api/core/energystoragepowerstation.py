@@ -860,22 +860,29 @@ class EnergyStoragePowerStationImport:
     def on_post(req, resp):
         """Handles POST requests"""
         admin_control(req)
+        # try:
+        #     upload = req.get_param('file')
+        #     # Read upload file as binary
+        #     raw_blob = upload.file.read()
+        # except Exception as ex:
+        #     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+        #                            description='API.FAILED_TO_UPLOAD_IMPORT_FILE')
+        #
+        # try:
+        #     raw_json = raw_blob.decode('utf-8')
+        # except Exception as ex:
+        #     raise falcon.HTTPError(status=falcon.HTTP_400,
+        #                            title='API.BAD_REQUEST',
+        #                            description='API.FAILED_TO_READ_REQUEST_STREAM')
         try:
-            upload = req.get_param('file')
-            # Read upload file as binary
-            raw_blob = upload.file.read()
-        except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_IMPORT_FILE')
-
-        try:
-            raw_json = raw_blob.decode('utf-8')
+            raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         new_values = json.loads(raw_json)
+
         print(new_values)
         if 'name' not in new_values.keys() or \
                 not isinstance(new_values['name'], str) or \
@@ -1087,7 +1094,84 @@ class EnergyStoragePowerStationExport:
                            "contact": contact,
                            "cost_center": cost_center,
                            "svg": row[10],
-                           "description": row[11],
-                           "qrcode": 'energystoragepowerstation:' + row[2]}
+                           "description": row[11]}
 
         resp.text = json.dumps(meta_result)
+
+
+class EnergyStoragePowerStationClone:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid, "
+                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        contact_id, cost_center_id, svg, description "
+                 " FROM tbl_energy_storage_power_stations "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+        else:
+            meta_result = {"name": row[1],
+                           "uuid": row[2],
+                           "address": row[3],
+                           "postal_code": row[4],
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "capacity": row[7],
+                           "contact_id": row[8],
+                           "cost_center_id": row[9],
+                           "svg": row[10],
+                           "description": row[11]}
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        new_name = str.strip(meta_result['name']) + \
+            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+
+        add_values = (" INSERT INTO tbl_energy_storage_power_stations "
+                      "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
+                      "     contact_id, cost_center_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (new_name,
+                                    str(uuid.uuid4()),
+                                    meta_result['address'],
+                                    meta_result['postal_code'],
+                                    meta_result['latitude'],
+                                    meta_result['longitude'],
+                                    meta_result['capacity'],
+                                    meta_result['contact_id'],
+                                    meta_result['cost_center_id'],
+                                    meta_result['svg'],
+                                    meta_result['description']))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragepowerstations/' + str(new_id)
