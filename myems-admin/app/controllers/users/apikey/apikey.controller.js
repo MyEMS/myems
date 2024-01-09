@@ -129,6 +129,21 @@ app.controller('ApiKeyController', function (
 		});
 	};
 
+	$scope.copyToClipboard = function (apiKey) {
+		let tempInput = document.createElement("input");
+		tempInput.value = apiKey.token;
+		document.body.appendChild(tempInput);
+		tempInput.select();
+		document.execCommand("copy");
+		document.body.removeChild(tempInput);
+		toaster.pop({
+			type: "success",
+			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+			body: $translate.instant("TOASTER.SUCCESS_COPY"),
+			showCloseButton: true,
+		});
+	};	
+	
 	$scope.getAllApiKeys();
 });
 
