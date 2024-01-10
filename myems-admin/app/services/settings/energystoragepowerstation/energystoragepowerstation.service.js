@@ -49,8 +49,8 @@ app.factory('EnergyStoragePowerStationService', function($http) {
                 callback(response);
             });
         },
-        importEnergyStoragePowerStation: function(jsonfile, headers, callback) {
-            $http.post(getAPI()+'energystoragepowerstations/import', {data:jsonfile}, {headers})
+        importEnergyStoragePowerStation: function(importdata, headers, callback) {
+            $http.post(getAPI()+'energystoragepowerstations/import', JSON.parse(importdata), {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
