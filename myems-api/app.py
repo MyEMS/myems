@@ -363,6 +363,13 @@ api.add_route('/meters/{id_}/commands',
               meter.MeterCommandCollection())
 api.add_route('/meters/{id_}/commands/{cid}',
               meter.MeterCommandItem())
+api.add_route('/meters/{id_}/export',
+              meter.MeterExport())
+api.add_route('/meters/import',
+              meter.MeterImport())
+api.add_route('/meters/{id_}/clone',
+              meter.MeterClone())
+
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())

@@ -6,8 +6,8 @@
 				<uib-tabset>
 					<uib-tab heading="{{'SETTING.METER' | translate}}">
 						<div class="panel-body" ng-controller="MeterController">
-							<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i
-									class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
+							<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
+							<a ng-click="importMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -39,11 +39,10 @@
 										<td class="text-center">{{meter.master_meter.name}}</td>
 										<td class="text-center">{{meter.description}}</td>
 										<td class="text-center">
-											<a class="btn btn-primary btn-rounded btn-xs"
-												ng-click="editMeter(meter)">{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deleteMeter(meter)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editMeter(meter)">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteMeter(meter)" class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportMeter(meter)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneMeter(meter)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

@@ -1069,8 +1069,7 @@ class EnergyStoragePowerStationExport:
         else:
             contact = contact_dict.get(row[8], None)
             cost_center = cost_center_dict.get(row[9], None)
-            meta_result = {"id": row[0],
-                           "name": row[1],
+            meta_result = {"name": row[1],
                            "uuid": row[2],
                            "address": row[3],
                            "postal_code": row[4],

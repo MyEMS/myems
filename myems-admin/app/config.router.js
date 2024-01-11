@@ -341,7 +341,9 @@ app
                                                     'app/controllers/settings/category/energycategory.master.controller.js',
                                                     'app/controllers/settings/category/energycategory.controller.js',
                                                     'app/services/settings/category/energyitem.service.js',
-                                                    'app/controllers/settings/category/energyitem.controller.js'
+                                                    'app/controllers/settings/category/energyitem.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -382,7 +384,9 @@ app
                                                     'app/controllers/settings/costcenter/costcenter.master.controller.js',
                                                     'app/controllers/settings/costcenter/costcenter.controller.js',
                                                     'app/controllers/settings/costcenter/costcentertariff.controller.js',
-                                                    'app/controllers/settings/costcenter/costfile.controller.js'
+                                                    'app/controllers/settings/costcenter/costfile.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -418,7 +422,9 @@ app
                                                 files: [
                                                     'app/services/settings/command/command.service.js',
                                                     'app/controllers/settings/command/command.master.controller.js',
-                                                    'app/controllers/settings/command/command.controller.js'
+                                                    'app/controllers/settings/command/command.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -461,7 +467,9 @@ app
                                                     'app/services/settings/tariff/tariff.service.js',
                                                     'app/services/settings/tariff/tariff.const.js',
                                                     'app/services/settings/category/category.service.js',
-                                                    'app/controllers/settings/tariff/tariff.controller.js'
+                                                    'app/controllers/settings/tariff/tariff.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -496,7 +504,9 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/contact/contact.service.js',
-                                                    'app/controllers/settings/contact/contact.controller.js'
+                                                    'app/controllers/settings/contact/contact.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -533,6 +543,8 @@ app
                                                     'app/services/settings/gateway/gateway.service.js',
                                                     'app/controllers/settings/gateway/gateway.master.controller.js',
                                                     'app/controllers/settings/gateway/gateway.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -628,6 +640,8 @@ app
                                                     'app/controllers/settings/meter/virtualmeter.controller.js',
                                                     'app/controllers/settings/meter/meterpoint.controller.js',
                                                     'app/controllers/settings/meter/metercommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -667,7 +681,9 @@ app
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/controllers/settings/sensor/sensor.master.controller.js',
                                                     'app/controllers/settings/sensor/sensor.controller.js',
-                                                    'app/controllers/settings/sensor/sensorpoint.controller.js'
+                                                    'app/controllers/settings/sensor/sensorpoint.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -716,7 +732,9 @@ app
                                                     'app/controllers/settings/equipment/equipment.controller.js',
                                                     'app/controllers/settings/equipment/equipmentmeter.controller.js',
                                                     'app/controllers/settings/equipment/equipmentparameter.controller.js',
-                                                    'app/controllers/settings/equipment/equipmentcommand.controller.js'
+                                                    'app/controllers/settings/equipment/equipmentcommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -768,7 +786,9 @@ app
                                                     'app/controllers/settings/combinedequipment/combinedequipmentequipment.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentmeter.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipmentparameter.controller.js',
-                                                    'app/controllers/settings/combinedequipment/combinedequipmentcommand.controller.js'
+                                                    'app/controllers/settings/combinedequipment/combinedequipmentcommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -840,6 +860,8 @@ app
                                                     'app/controllers/settings/space/space.master.controller.js',
                                                     'app/controllers/settings/space/spaceworkingcalendar.controller.js',
                                                     'app/controllers/settings/space/spacecommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -904,6 +926,8 @@ app
                                                     'app/controllers/settings/tenant/tenantsensor.controller.js',
                                                     'app/controllers/settings/tenant/tenantworkingcalendar.controller.js',
                                                     'app/controllers/settings/tenant/tenantcommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -968,6 +992,8 @@ app
                                                     'app/controllers/settings/store/storesensor.controller.js',
                                                     'app/controllers/settings/store/storeworkingcalendar.controller.js',
                                                     'app/controllers/settings/store/storecommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1034,6 +1060,8 @@ app
                                                     'app/controllers/settings/shopfloor/shopfloorsensor.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorworkingcalendar.controller.js',
                                                     'app/controllers/settings/shopfloor/shopfloorcommand.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1079,6 +1107,8 @@ app
                                                     'app/controllers/settings/energyflowdiagram/energyflowdiagramnode.controller.js',
                                                     'app/controllers/settings/energyflowdiagram/energyflowdiagramlink.controller.js',
                                                     'app/controllers/settings/energyflowdiagram/energyflowdiagrampreview.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1122,6 +1152,8 @@ app
                                                     'app/controllers/settings/distributionsystem/distributioncircuit.controller.js',
                                                     'app/controllers/settings/distributionsystem/distributioncircuitpoint.controller.js',
                                                     'app/controllers/settings/distributionsystem/distributionsystempreview.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1184,6 +1216,8 @@ app
                                                     'app/controllers/settings/microgrid/microgridpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                     'app/controllers/settings/microgrid/microgriduser.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1232,6 +1266,8 @@ app
                                                     'app/controllers/settings/virtualpowerplant/virtualpowerplant.master.controller.js',
                                                     'app/controllers/settings/virtualpowerplant/virtualpowerplant.controller.js',
                                                     'app/controllers/settings/virtualpowerplant/virtualpowerplantmicrogrid.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1283,6 +1319,8 @@ app
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerload.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainersensor.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1372,6 +1410,8 @@ app
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstation.master.controller.js',
                                                     'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstation.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }
@@ -1413,6 +1453,8 @@ app
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/controllers/settings/windfarm/windfarm.master.controller.js',
                                                     'app/controllers/settings/windfarm/windfarm.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }

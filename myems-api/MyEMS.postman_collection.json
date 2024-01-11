@@ -7177,7 +7177,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
 										"type": "text"
 									},
 									{
@@ -7575,6 +7575,113 @@
 										"1",
 										"commands",
 										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Meter by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Meter by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Meter from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/meters/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"import"
 									]
 								}
 							},

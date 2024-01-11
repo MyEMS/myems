@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added data source export, import and clone functions to myems-api and myems-admin
 - added energy storage power station export, import and clone actions to myems-api and myems-admin
 - added copy api key token function to myems-admin
+- added meter export, import and clone functions to myems-api and myems-admin
 - 
 ### Changed
 - changed microgrid monitoring in myems-web
