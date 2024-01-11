@@ -645,7 +645,7 @@ class DataSourceImport:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GATEWAY_ID')
-        print('zzz')
+
         add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,

@@ -11,7 +11,7 @@ app.controller('DataSourceController', function(
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.exportdata = '';
+	$scope.exportdata = '';
 	$scope.importdata = '';
 
 	$scope.getAllDataSources = function() {
@@ -212,7 +212,7 @@ app.controller('DataSourceController', function(
 	$scope.importDataSource = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
-			controller: 'ModalImportDataSourceCtrl',
+			controller: 'ModalImportCtrl',
 			windowClass: "animated fadeIn",
 			resolve: {
 				params: function() {
