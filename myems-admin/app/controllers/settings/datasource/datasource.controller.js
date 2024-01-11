@@ -1,16 +1,19 @@
 'use strict';
 
 app.controller('DataSourceController', function(
-	$scope, 
+	$scope,
 	$rootScope,
 	$window,
-	$uibModal, 
-	$translate, 
-	DataSourceService, 
-	GatewayService, 
-	toaster, 
+	$uibModal,
+	$translate,
+	DataSourceService,
+	GatewayService,
+	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.exportdata = '';
+	$scope.importdata = '';
+
 	$scope.getAllDataSources = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.getAllDataSources(headers, function (response) {
@@ -56,7 +59,7 @@ app.controller('DataSourceController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY",{template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY",{template: $translate.instant("COMMON.DATA_SOURCE")}),
 						showCloseButton: true,
 					});
 
@@ -64,7 +67,7 @@ app.controller('DataSourceController', function(
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -99,14 +102,14 @@ app.controller('DataSourceController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
 						showCloseButton: true,
 					});
 					$scope.$emit("handleEmitDataSourceChanged");
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -138,14 +141,14 @@ app.controller('DataSourceController', function(
                             toaster.pop({
                                 type: "success",
                                 title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+                                body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
                                 showCloseButton: true,
                             });
 							$scope.$emit("handleEmitDataSourceChanged");
 						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("DATA_SOURCE.DATA_SOURCE")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
@@ -153,6 +156,95 @@ app.controller('DataSourceController', function(
 					});
 				}
 			});
+	};
+
+	$scope.exportDataSource = function(datasource) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DataSourceService.exportDataSource(datasource, headers, function(response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.exportdata = JSON.stringify(response.data);
+				var modalInstance = $uibModal.open({
+					windowClass: "animated fadeIn",
+					templateUrl: 'views/common/export.html',
+					controller: 'ModalExportCtrl',
+					resolve: {
+						params: function() {
+							return {
+								exportdata: angular.copy($scope.exportdata)
+							};
+						}
+					}
+				});
+				modalInstance.result.then(function() {
+					//do nothing;
+				}, function() {
+					//do nothing;
+				});
+				$rootScope.modalInstance = modalInstance;
+			} else {
+				$scope.exportdata = null;
+			}
+		});
+	};
+
+	$scope.cloneDataSource = function(datasource){
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DataSourceService.cloneDataSource(datasource, headers, function(response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					showCloseButton: true,
+				});
+				$scope.$emit('handleEmitDataSourceChanged');
+			}else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
+			}
+		});
+	};
+
+	$scope.importDataSource = function() {
+		var modalInstance = $uibModal.open({
+			templateUrl: 'views/common/import.html',
+			controller: 'ModalImportDataSourceCtrl',
+			windowClass: "animated fadeIn",
+			resolve: {
+				params: function() {
+					return {
+					};
+				}
+			}
+		});
+		modalInstance.result.then(function(importdata) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			DataSourceService.importDataSource(importdata, headers, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						showCloseButton: true,
+					});
+					$scope.$emit('handleEmitDataSourceChanged');
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function() {
+
+		});
+		$rootScope.modalInstance = modalInstance;
 	};
 
 

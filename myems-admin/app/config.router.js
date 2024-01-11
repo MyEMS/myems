@@ -573,7 +573,9 @@ app
                                                     'app/controllers/settings/datasource/datarepairfile.controller.js',
                                                     'app/controllers/settings/datasource/datasource.master.controller.js',
                                                     'app/controllers/settings/datasource/datasource.controller.js',
-                                                    'app/controllers/settings/datasource/point.controller.js'
+                                                    'app/controllers/settings/datasource/point.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js'
                                                 ]
                                             }]);
                                         }
@@ -1327,6 +1329,8 @@ app
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstationcontainer.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstationuser.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js'
                                                 ]
                                             }]);
                                         }

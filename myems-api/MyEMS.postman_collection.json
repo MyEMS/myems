@@ -2343,7 +2343,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "afee8444a1cbba7c1cd92e215a7426c5a63fc3535b5dd36f41d81d4c8022414721bd8769ae3db2a003f961a90d423a7f7bcd62c8b26ef2fef9a339731428535c",
+										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -2524,7 +2524,7 @@
 							"response": []
 						},
 						{
-							"name": "Export Data Source by ID to JSON File",
+							"name": "Export Data Source by ID to JSON",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -2556,7 +2556,7 @@
 							"response": []
 						},
 						{
-							"name": "Import Data Source from JSON File",
+							"name": "Import Data Source from JSON",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -2574,14 +2574,8 @@
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/Users/guangyuzhang/datasource.json"
-										}
-									]
+									"mode": "raw",
+									"raw": "{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\"}"
 								},
 								"url": {
 									"raw": "{{base_url}}/datasources/import",
@@ -2591,6 +2585,36 @@
 									"path": [
 										"datasources",
 										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Data Source",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datasources/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datasources",
+										"1",
+										"clone"
 									]
 								}
 							},
