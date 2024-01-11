@@ -203,6 +203,9 @@ api.add_route('/datasources/{id_}/export',
               datasource.DataSourceExport())
 api.add_route('/datasources/import',
               datasource.DataSourceImport())
+api.add_route('/datasources/{id_}/clone',
+              datasource.DataSourceClone())
+
 
 api.add_route('/distributioncircuits',
               distributioncircuit.DistributionCircuitCollection())

@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added cookieExpireTime to config.js in myems-web
 - added background image to login page in myems-web
 - added energy storage power station reports to myems-api and myems-web
-- added data source export and import actions to myems-api
+- added data source export, import and clone functions to myems-api and myems-admin
 - added energy storage power station export, import and clone actions to myems-api and myems-admin
 - added copy api key token function to myems-admin
 - 

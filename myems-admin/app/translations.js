@@ -421,7 +421,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Edit Gateway',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Data Source',
                 ADD_DATA_SOURCE: 'Add Data Source',
                 EDIT_DATA_SOURCE: 'Edit Data Source',
                 SELECT_DATA_SOURCE: 'Please Select Data Source',
@@ -1621,6 +1620,7 @@ function config($translateProvider) {
                 SPACE: '空间',
                 EQUIPMENT: '设备',
                 COMBINED_EQUIPMENT: '组合设备',
+                DATA_SOURCE: '数据源',
                 TENANT: '租户',
                 STORE: '门店',
                 SHOPFLOOR: '车间',
@@ -2005,7 +2005,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: '编辑网关',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: '数据源',
                 ADD_DATA_SOURCE: '添加数据源',
                 EDIT_DATA_SOURCE: '编辑数据源',
                 SELECT_DATA_SOURCE: '请选择数据源',
@@ -3228,6 +3227,7 @@ function config($translateProvider) {
                 SPACE: 'Raum',
                 EQUIPMENT: 'Ausrüstung',
                 COMBINED_EQUIPMENT: 'Kombinationsausrüstung',
+                DATA_SOURCE: 'Datenquelle',
                 TENANT: 'Mieter',
                 STORE: 'Geschäft',
                 SHOPFLOOR: 'Werkstatt',
@@ -3612,7 +3612,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Gateway bearbeiten',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Datenquelle',
                 ADD_DATA_SOURCE: 'Datenquelle hinzufügen',
                 EDIT_DATA_SOURCE: 'Datenquelle bearbeiten',
                 SELECT_DATA_SOURCE: 'Bitte wählen Sie die Datenquelle',
@@ -5235,7 +5234,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Modifier la passerelle',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Source des données',
                 ADD_DATA_SOURCE: 'Ajouter une source de données',
                 EDIT_DATA_SOURCE: 'Modifier la source de données',
                 SELECT_DATA_SOURCE: 'Veuillez sélectionner la source de données',
@@ -6839,7 +6837,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Editar puerta de enlace',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Origen de datos',
                 ADD_DATA_SOURCE: 'Agregar origen de datos',
                 EDIT_DATA_SOURCE: 'Editar origen de datos',
                 SELECT_DATA_SOURCE: 'Seleccione la fuente de datos',
@@ -8443,7 +8440,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Изменить шлюз',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Источник данных',
                 ADD_DATA_SOURCE: 'Добавление источника данных',
                 EDIT_DATA_SOURCE: 'Изменение источника данных',
                 SELECT_DATA_SOURCE: 'Пожалуйста, выберите источник данных',
@@ -10047,7 +10043,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'تحرير البوابة',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'مصدر البيانات',
                 ADD_DATA_SOURCE: 'إضافة مصدر بيانات',
                 EDIT_DATA_SOURCE: 'تحرير مصدر البيانات',
                 SELECT_DATA_SOURCE: 'الرجاء اختيار مصدر البيانات',
@@ -11651,7 +11646,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Chỉnh sửa Gateway',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Nguồn dữ liệu',
                 ADD_DATA_SOURCE: 'Thêm nguồn dữ liệu',
                 EDIT_DATA_SOURCE: 'Chỉnh sửa nguồn dữ liệu',
                 SELECT_DATA_SOURCE: 'Vui lòng chọn nguồn dữ liệu',
@@ -13255,7 +13249,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'แก้ไขเกตเวย์',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'แหล่งข้อมูล',
                 ADD_DATA_SOURCE: 'เพิ่มแหล่งข้อมูล',
                 EDIT_DATA_SOURCE: 'แก้ไขแหล่งข้อมูล',
                 SELECT_DATA_SOURCE: 'กรุณาเลือกแหล่งข้อมูล',
@@ -14859,7 +14852,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Ağ Geçidini Düzenle',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Veri Kaynağı',
                 ADD_DATA_SOURCE: 'Veri Kaynağı Ekle',
                 EDIT_DATA_SOURCE: 'Veri Kaynağını Düzenle',
                 SELECT_DATA_SOURCE: 'Lütfen Veri Kaynağını Seçin',
@@ -16462,7 +16454,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Edit Get Laluan',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Sumber Data',
                 ADD_DATA_SOURCE: 'Tambah Sumber Data',
                 EDIT_DATA_SOURCE: 'Edit Sumber Data',
                 SELECT_DATA_SOURCE: 'Sila Pilih Sumber Data',
@@ -18066,7 +18057,6 @@ function config($translateProvider) {
                 EDIT_GATEWAY: 'Edit Gateway',
             },
             DATA_SOURCE: {
-                DATA_SOURCE: 'Sumber Data',
                 ADD_DATA_SOURCE: 'Menambahkan Sumber Data',
                 EDIT_DATA_SOURCE: 'Mengedit sumber data',
                 SELECT_DATA_SOURCE: 'Silakan Pilih Sumber Data',

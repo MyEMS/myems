@@ -179,8 +179,8 @@ app.controller('EnergyStoragePowerStationController', function(
 				$scope.exportdata = JSON.stringify(response.data);
 				var modalInstance = $uibModal.open({
 					windowClass: "animated fadeIn",
-					templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.export.html',
-					controller: 'ModalExportEnergyStoragePowerStationCtrl',
+					templateUrl: 'views/common/export.html',
+					controller: 'ModalExportCtrl',
 					resolve: {
 						params: function() {
 							return {
@@ -198,21 +198,6 @@ app.controller('EnergyStoragePowerStationController', function(
 			} else {
 				$scope.exportdata = null;
 			}
-		});
-	};
-
-	$scope.copyToClipboard = function (exportdata) {
-		let tempInput = document.createElement("input");
-		tempInput.value = exportdata;
-		document.body.appendChild(tempInput);
-		tempInput.select();
-		document.execCommand("copy");
-		document.body.removeChild(tempInput);
-		toaster.pop({
-			type: "success",
-			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-			body: $translate.instant("TOASTER.COPY_SUCCESS"),
-			showCloseButton: true,
 		});
 	};
 
@@ -238,11 +223,10 @@ app.controller('EnergyStoragePowerStationController', function(
 		});
 	};
 
-
 	$scope.importEnergyStoragePowerStation = function() {
 		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.import.html',
-			controller: 'ModalImportEnergyStoragePowerStationCtrl',
+			templateUrl: 'views/common/import.html',
+			controller: 'ModalImportCtrl',
 			windowClass: "animated fadeIn",
 			resolve: {
 				params: function() {
@@ -286,7 +270,6 @@ app.controller('EnergyStoragePowerStationController', function(
 });
 
 app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance,params) {
-
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
@@ -309,43 +292,6 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	};
 
 	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-});
-
-app.controller('ModalExportEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance, params, toaster, $translate,) {
-	$scope.operation = "SETTING.EXPORT_ENERGY_STORAGE_POWER_STATION";
-	$scope.exportdata = params.exportdata;
-	$scope.ok = function() {
-		let tempInput = document.createElement("input");
-		tempInput.value = $scope.exportdata;
-		document.body.appendChild(tempInput);
-		tempInput.select();
-		document.execCommand("copy");
-		document.body.removeChild(tempInput);
-		toaster.pop({
-			type: "success",
-			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-			body: $translate.instant("TOASTER.COPY_SUCCESS"),
-			showCloseButton: true,
-		});
-		$uibModalInstance.close($scope.energystoragepowerstation);
-	};
-
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
-});
-
-
-app.controller('ModalImportEnergyStoragePowerStationCtrl', function($scope, $uibModalInstance, params) {
-
-	$scope.operation = "SETTING.IMPORT_ENERGY_STORAGE_POWER_STATION";
-	$scope.ok = function() {
-		$uibModalInstance.close($scope.importdata);
-	};
-
-    $scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
 });
