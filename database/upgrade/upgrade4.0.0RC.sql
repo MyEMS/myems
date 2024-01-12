@@ -109,12 +109,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_sens
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_sensors_index_1` ON  `myems_system_db`.`tbl_energy_storage_containers_sensors` (`energy_storage_container_id`);
 
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_power_stations`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` ;
-
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -130,11 +124,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations`
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_stations_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations` (`name`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_power_stations_containers`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_containers` ;
 
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_containers` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
