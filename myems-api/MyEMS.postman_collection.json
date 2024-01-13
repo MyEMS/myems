@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4fd96845-21ba-400b-b41f-c27e19fc2973",
+		"_postman_id": "65f119cf-bd4b-465f-9af0-adbd6b4f167d",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -4359,7 +4359,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -4391,7 +4391,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1",
@@ -13310,7 +13310,10 @@
 							"name": "New Request",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": ""
+								}
 							},
 							"response": []
 						}
