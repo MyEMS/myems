@@ -145,6 +145,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_
 CREATE INDEX `tbl_energy_storage_power_stations_users_index_1` ON  `myems_system_db`.`tbl_energy_storage_power_stations_users` (`energy_storage_power_station_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.0.0RC', release_date='2024-01-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.0.0', release_date='2024-01-13' WHERE id=1;
 
 COMMIT;

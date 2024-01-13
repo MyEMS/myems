@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
--
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.0.0] - 2024-01-013
+
 ### Added
 - added tables for energy storage power station in database
 - added energy storage power station actions to myems-api
@@ -1546,7 +1552,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.12.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
 [3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
 [3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
 [3.10.0]: https://github.com/MyEMS/myems/compare/v3.10.0...v3.9.0
