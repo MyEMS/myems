@@ -7,6 +7,11 @@
 START TRANSACTION;
 
 RENAME TABLE myems_system_db.tbl_energy_storage_power_stations TO myems_system_db.tbl_energy_storage_containers;
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN address;
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN postal_code;
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN latitude;
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN longitude;
+
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_batteries` ;
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_commands` ;
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_power_stations_grids` ;

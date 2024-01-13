@@ -46,8 +46,7 @@ class EnergyStorageContainerCollection:
                                             "name": row[1],
                                             "uuid": row[2]}
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        capacity, contact_id, cost_center_id, svg, description "
                  " FROM tbl_energy_storage_containers "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -56,21 +55,17 @@ class EnergyStorageContainerCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
+                contact = contact_dict.get(row[4], None)
+                cost_center = cost_center_dict.get(row[5], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "address": row[3],
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "capacity": row[7],
+                               "capacity": row[3],
                                "contact": contact,
                                "cost_center": cost_center,
-                               "svg": row[10],
-                               "description": row[11],
+                               "svg": row[6],
+                               "description": row[7],
                                "qrcode": 'energystoragecontainer:' + row[2]}
                 result.append(meta_result)
 
@@ -98,38 +93,6 @@ class EnergyStorageContainerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_NAME')
         name = str.strip(new_values['data']['name'])
-
-        if 'address' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['address'], str) or \
-                len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ADDRESS_VALUE')
-        address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
-
-        if 'latitude' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['latitude'], float) or
-                     isinstance(new_values['data']['latitude'], int)) or \
-                new_values['data']['latitude'] < -90.0 or \
-                new_values['data']['latitude'] > 90.0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LATITUDE_VALUE')
-        latitude = new_values['data']['latitude']
-
-        if 'longitude' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['longitude'], float) or
-                     isinstance(new_values['data']['longitude'], int)) or \
-                new_values['data']['longitude'] < -180.0 or \
-                new_values['data']['longitude'] > 180.0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LONGITUDE_VALUE')
-        longitude = new_values['data']['longitude']
 
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
@@ -202,15 +165,10 @@ class EnergyStorageContainerCollection:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers "
-                      "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
-                      "     contact_id, cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, capacity, contact_id, cost_center_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    address,
-                                    postal_code,
-                                    latitude,
-                                    longitude,
                                     capacity,
                                     contact_id,
                                     cost_center_id,
@@ -270,8 +228,7 @@ class EnergyStorageContainerItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        capacity, contact_id, cost_center_id, svg, description "
                  " FROM tbl_energy_storage_containers "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -283,20 +240,14 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "capacity": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "svg": row[10],
-                           "description": row[11],
+                           "capacity": row[3],
+                           "contact": contact_dict.get(row[4], None),
+                           "cost_center": cost_center_dict.get(row[5], None),
+                           "svg": row[6],
+                           "description": row[7],
                            "qrcode": 'energystoragecontainer:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -372,38 +323,6 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_NAME')
         name = str.strip(new_values['data']['name'])
-
-        if 'address' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['address'], str) or \
-                len(str.strip(new_values['data']['address'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ADDRESS_VALUE')
-        address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
-
-        if 'latitude' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['latitude'], float) or
-                     isinstance(new_values['data']['latitude'], int)) or \
-                new_values['data']['latitude'] < -90.0 or \
-                new_values['data']['latitude'] > 90.0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LATITUDE_VALUE')
-        latitude = new_values['data']['latitude']
-
-        if 'longitude' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['longitude'], float) or
-                     isinstance(new_values['data']['longitude'], int)) or \
-                new_values['data']['longitude'] < -180.0 or \
-                new_values['data']['longitude'] > 180.0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_LONGITUDE_VALUE')
-        longitude = new_values['data']['longitude']
 
         if 'capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['capacity'], float) or
@@ -485,15 +404,10 @@ class EnergyStorageContainerItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_energy_storage_containers "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, capacity = %s, "
-                      "     contact_id = %s, cost_center_id = %s, "
+                      " SET name = %s, capacity = %s, contact_id = %s, cost_center_id = %s, "
                       "     svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    address,
-                                    postal_code,
-                                    latitude,
-                                    longitude,
                                     capacity,
                                     contact_id,
                                     cost_center_id,
