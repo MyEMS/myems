@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added arrow up or arrow down icon to cardsummary in myems-web
+- 
 ### Changed
 ### Fixed
 ### Removed
