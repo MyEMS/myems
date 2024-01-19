@@ -1,3 +1,4 @@
+from datetime import datetime
 import datetime
 import uuid
 import falcon
@@ -611,61 +612,46 @@ class SensorClone:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_master_sensors = cursor.fetchall()
+
+        master_meter_dict = dict()
+        if rows_master_sensors is not None and len(rows_master_sensors) > 0:
+            for row in rows_master_sensors:
+                master_meter_dict[row[0]] = {"id": row[0],
+                                             "name": row[1],
+                                             "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, description "
                  " FROM tbl_sensors "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {
-                           "name": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            meta_result = {"id":row[0],
+                           "name":row[1],
+                           "uuid":row[2],
                            "description": row[3]}
 
-        resp.text = json.dumps(meta_result)
-        try:
-            raw_json = resp.text
-        except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        new_values = json.loads(raw_json)
-
-        if 'name' not in new_values.keys() or \
-                not isinstance(new_values['name'], str) or \
-                len(str.strip(new_values['name'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SENSOR_NAME')
-        name = str.strip(new_values['name'])
-
-        if 'description' in new_values.keys() and \
-                new_values['description'] is not None and \
-                len(str(new_values['description'])) > 0:
-            description = str.strip(new_values['description'])
-        else:
-            description = None
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        new_name = str.strip(meta_result['name']) + \
+                   (datetime.datetime.now() + datetime.timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
         add_values = (" INSERT INTO tbl_sensors "
                       "    (name, uuid, description) "
                       " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
+        cursor.execute(add_values, (new_name,
                                     str(uuid.uuid4()),
-                                    description))
+                                    meta_result['description']))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
