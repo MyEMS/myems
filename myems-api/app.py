@@ -7,11 +7,9 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
-    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, \
-    workingcalendar, microgrid, microgridbattery, \
-    microgridevcharger, microgridgenerator, microgridgrid, microgridheatpump, microgridload, microgridphotovoltaic, \
-    microgridpowerconversionsystem, command, virtualpowerplant, \
-    energystoragepowerstation, photovoltaicpowerstation, windfarm
+    offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
+    microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, windfarm
+
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
