@@ -1,6 +1,5 @@
-from datetime import datetime
-import datetime
 import uuid
+from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -644,7 +643,7 @@ class SensorClone:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
         new_name = str.strip(meta_result['name']) + \
-                   (datetime.datetime.now() + datetime.timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+                   (datetime.now() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
         add_values = (" INSERT INTO tbl_sensors "
                       "    (name, uuid, description) "
