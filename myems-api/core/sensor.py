@@ -513,7 +513,7 @@ class SensorExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {
+            meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "description": row[3]}
@@ -622,7 +622,6 @@ class SensorClone:
         else:
             meta_result = {
                            "name": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                           "uuid": row[2],
                            "description": row[3]}
 
         resp.text = json.dumps(meta_result)

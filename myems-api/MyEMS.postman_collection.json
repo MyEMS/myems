@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f34a478a-40a5-4e68-a22c-39af9b12d883",
+		"_postman_id": "4f109ab4-492c-4dee-ba26-95e97b93b1aa",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -10736,7 +10736,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"name\": \"传感器1\", \"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\", \"description\": \"sensor description\"}",
+									"raw": "{\"name\": \"传感器123\", \"description\": \"sensor description\"}",
 									"options": {
 										"raw": {
 											"language": "json"
