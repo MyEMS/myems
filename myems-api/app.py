@@ -470,6 +470,12 @@ api.add_route('/sensors/{id_}/points',
               sensor.SensorPointCollection())
 api.add_route('/sensors/{id_}/points/{pid}',
               sensor.SensorPointItem())
+api.add_route('/sensors/{id_}/export',
+              sensor.SensorExport())
+api.add_route('/sensors/import',
+              sensor.SensorImport())
+api.add_route('/sensors/{id_}/clone',
+              sensor.SensorClone())
 
 api.add_route('/shopfloors',
               shopfloor.ShopfloorCollection())

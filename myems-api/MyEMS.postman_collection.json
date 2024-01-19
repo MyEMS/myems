@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "65f119cf-bd4b-465f-9af0-adbd6b4f167d",
+		"_postman_id": "4f109ab4-492c-4dee-ba26-95e97b93b1aa",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -10615,6 +10615,42 @@
 							"response": []
 						},
 						{
+							"name": "Export a Sensor by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/sensors/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New Sensor",
 							"request": {
 								"method": "POST",
@@ -10643,6 +10679,78 @@
 									],
 									"path": [
 										"sensors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Sensor by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/sensors/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Sensor from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"传感器123\", \"description\": \"sensor description\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/sensors/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"import"
 									]
 								}
 							},
