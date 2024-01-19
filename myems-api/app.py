@@ -1,5 +1,5 @@
 import falcon
-from falcon_cors import CORS
+from falcon import CORS
 from falcon_multipart.middleware import MultipartMiddleware
 
 from core import advancedreport, apikey, command, energyflowdiagram, \

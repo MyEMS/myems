@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "40c52113-7738-460f-b13b-39ca6e3d53f7",
+		"_postman_id": "f34a478a-40a5-4e68-a22c-39af9b12d883",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -10621,12 +10621,12 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
 										"type": "default"
 									},
 									{
@@ -10697,15 +10697,11 @@
 									},
 									{
 										"key": "Token",
-										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Sensor10\", \"description\":\"sensor description\"}}"
-								},
 								"url": {
 									"raw": "{{base_url}}/sensors/1/clone",
 									"host": [
@@ -10733,14 +10729,19 @@
 									},
 									{
 										"key": "Token",
-										"value": "e713a4845a2f936eef1dca4314e7fad875b898854c56b4c5176d219f5ee19a0831d2ee67c63b17c2f2a49474d090cccb024f98a797d96571bc61027cbe1995af",
+										"value": "4d5691218a2b662488166d86e44e34bb58fe25e7fab5baed5dfb5fbf41f18454a5c6dbd50eed653c664bbad2d0a82d7b5648ea48f76bbd758c543b301f9c27d5",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Sensor10\", \"description\":\"sensor description\"}}"
+									"raw": "{\"name\": \"传感器1\", \"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\", \"description\": \"sensor description\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
 									"raw": "{{base_url}}/sensors/import",

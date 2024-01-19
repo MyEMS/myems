@@ -513,9 +513,9 @@ class SensorExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-
+                           "uuid": row[2],
                            "description": row[3]}
 
         resp.text = json.dumps(meta_result)
@@ -544,17 +544,17 @@ class SensorImport:
 
         new_values = json.loads(raw_json)
 
-        if 'name' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['name'], str) or \
-                len(str.strip(new_values['data']['name'])) == 0:
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_NAME')
-        name = str.strip(new_values['data']['name'])
+        name = str.strip(new_values['name'])
 
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
         else:
             description = None
 
@@ -620,8 +620,9 @@ class SensorClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                           "uuid": row[2],
                            "description": row[3]}
 
         resp.text = json.dumps(meta_result)
@@ -634,17 +635,17 @@ class SensorClone:
 
         new_values = json.loads(raw_json)
 
-        if 'name' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['name'], str) or \
-                len(str.strip(new_values['data']['name'])) == 0:
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_NAME')
-        name = str.strip(new_values['data']['name'])
+        name = str.strip(new_values['name'])
 
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
         else:
             description = None
 
