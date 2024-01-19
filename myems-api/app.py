@@ -10,7 +10,6 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, windfarm
 
-
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
 from reports import combinedequipmentcarbon
