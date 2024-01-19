@@ -37,6 +37,8 @@ from reports import equipmentoutput
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
+from reports import energystoragepowerstationdetails
+from reports import energystoragepowerstationlist
 from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
@@ -197,6 +199,13 @@ api.add_route('/datasources/{id_}',
               datasource.DataSourceItem())
 api.add_route('/datasources/{id_}/points',
               datasource.DataSourcePointCollection())
+api.add_route('/datasources/{id_}/export',
+              datasource.DataSourceExport())
+api.add_route('/datasources/import',
+              datasource.DataSourceImport())
+api.add_route('/datasources/{id_}/clone',
+              datasource.DataSourceClone())
+
 
 api.add_route('/distributioncircuits',
               distributioncircuit.DistributionCircuitCollection())
@@ -247,10 +256,50 @@ api.add_route('/energyitems',
 api.add_route('/energyitems/{id_}',
               energyitem.EnergyItemItem())
 
+api.add_route('/energystoragecontainers',
+              energystoragecontainer.EnergyStorageContainerCollection())
+api.add_route('/energystoragecontainers/{id_}',
+              energystoragecontainer.EnergyStorageContainerItem())
+api.add_route('/energystoragecontainers/{id_}/sensors',
+              energystoragecontainer.EnergyStorageContainerSensorCollection())
+api.add_route('/energystoragecontainers/{id_}/sensors/{sid}',
+              energystoragecontainer.EnergyStorageContainerSensorItem())
+api.add_route('/energystoragecontainers/{id_}/batteries',
+              energystoragecontainer.EnergyStorageContainerBatteryCollection())
+api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
+              energystoragecontainer.EnergyStorageContainerBatteryItem())
+api.add_route('/energystoragecontainers/{id_}/grids',
+              energystoragecontainer.EnergyStorageContainerGridCollection())
+api.add_route('/energystoragecontainers/{id_}/grids/{gid}',
+              energystoragecontainer.EnergyStorageContainerGridItem())
+api.add_route('/energystoragecontainers/{id_}/loads',
+              energystoragecontainer.EnergyStorageContainerLoadCollection())
+api.add_route('/energystoragecontainers/{id_}/loads/{lid}',
+              energystoragecontainer.EnergyStorageContainerLoadItem())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems',
+              energystoragecontainer.EnergyStorageContainerPowerconversionsystemCollection())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pid}',
+              energystoragecontainer.EnergyStorageContainerPowerconversionsystemItem())
+
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
 api.add_route('/energystoragepowerstations/{id_}',
               energystoragepowerstation.EnergyStoragePowerStationItem())
+api.add_route('/energystoragepowerstations/{id_}/containers',
+              energystoragepowerstation.EnergyStoragePowerStationContainerCollection())
+api.add_route('/energystoragepowerstations/{id_}/containers/{sid}',
+              energystoragepowerstation.EnergyStoragePowerStationContainerItem())
+api.add_route('/energystoragepowerstations/{id_}/users',
+              energystoragepowerstation.EnergyStoragePowerStationUserCollection())
+api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
+              energystoragepowerstation.EnergyStoragePowerStationUserItem())
+api.add_route('/energystoragepowerstations/{id_}/export',
+              energystoragepowerstation.EnergyStoragePowerStationExport())
+api.add_route('/energystoragepowerstations/import',
+              energystoragepowerstation.EnergyStoragePowerStationImport())
+api.add_route('/energystoragepowerstations/{id_}/clone',
+              energystoragepowerstation.EnergyStoragePowerStationClone())
+
 
 api.add_route('/equipments',
               equipment.EquipmentCollection())
@@ -314,6 +363,13 @@ api.add_route('/meters/{id_}/commands',
               meter.MeterCommandCollection())
 api.add_route('/meters/{id_}/commands/{cid}',
               meter.MeterCommandItem())
+api.add_route('/meters/{id_}/export',
+              meter.MeterExport())
+api.add_route('/meters/import',
+              meter.MeterImport())
+api.add_route('/meters/{id_}/clone',
+              meter.MeterClone())
+
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())
@@ -325,64 +381,40 @@ api.add_route('/microgrids/{id_}/sensors/{sid}',
               microgrid.MicrogridSensorItem())
 api.add_route('/microgrids/{id_}/batteries',
               microgrid.MicrogridBatteryCollection())
+api.add_route('/microgrids/{id_}/batteries/{bid}',
+              microgrid.MicrogridBatteryItem())
 api.add_route('/microgrids/{id_}/evchargers',
               microgrid.MicrogridEVChargerCollection())
+api.add_route('/microgrids/{id_}/evchargers/{eid}',
+              microgrid.MicrogridEVChargerItem())
 api.add_route('/microgrids/{id_}/generators',
               microgrid.MicrogridGeneratorCollection())
+api.add_route('/microgrids/{id_}/generators/{gid}',
+              microgrid.MicrogridGeneratorItem())
 api.add_route('/microgrids/{id_}/grids',
               microgrid.MicrogridGridCollection())
+api.add_route('/microgrids/{id_}/grids/{gid}',
+              microgrid.MicrogridGridItem())
 api.add_route('/microgrids/{id_}/heatpumps',
               microgrid.MicrogridHeatpumpCollection())
+api.add_route('/microgrids/{id_}/heatpumps/{hid}',
+              microgrid.MicrogridHeatpumpItem())
 api.add_route('/microgrids/{id_}/loads',
               microgrid.MicrogridLoadCollection())
+api.add_route('/microgrids/{id_}/loads/{lid}',
+              microgrid.MicrogridLoadItem())
 api.add_route('/microgrids/{id_}/photovoltaics',
               microgrid.MicrogridPhotovoltaicCollection())
+api.add_route('/microgrids/{id_}/photovoltaics/{pid}',
+              microgrid.MicrogridPhotovoltaicItem())
 api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
+api.add_route('/microgrids/{id_}/powerconversionsystems/{pid}',
+              microgrid.MicrogridPowerconversionsystemItem())
 api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
               microgrid.MicrogridUserItem())
-
-api.add_route('/microgridbatteries',
-              microgridbattery.MicrogridBatteryCollection())
-api.add_route('/microgridbatteries/{id_}',
-              microgridbattery.MicrogridBatteryItem())
-
-api.add_route('/microgridevchargers',
-              microgridevcharger.MicrogridEVChargerCollection())
-api.add_route('/microgridevchargers/{id_}',
-              microgridevcharger.MicrogridEVChargerItem())
-
-api.add_route('/microgridgenerators',
-              microgridgenerator.MicrogridGeneratorCollection())
-api.add_route('/microgridgenerators/{id_}',
-              microgridgenerator.MicrogridGeneratorItem())
-
-api.add_route('/microgridgrids',
-              microgridgrid.MicrogridGridCollection())
-api.add_route('/microgridgrids/{id_}',
-              microgridgrid.MicrogridGridItem())
-
-api.add_route('/microgridheatpumps',
-              microgridheatpump.MicrogridHeatpumpCollection())
-api.add_route('/microgridheatpumps/{id_}',
-              microgridheatpump.MicrogridHeatpumpItem())
-
-api.add_route('/microgridloads',
-              microgridload.MicrogridLoadCollection())
-api.add_route('/microgridloads/{id_}',
-              microgridload.MicrogridLoadItem())
-
-api.add_route('/microgridphotovoltaics',
-              microgridphotovoltaic.MicrogridPhotovoltaicCollection())
-api.add_route('/microgridphotovoltaics/{id_}',
-              microgridphotovoltaic.MicrogridPhotovoltaicItem())
-
-api.add_route('/microgridpowerconversionsystems',
-              microgridpowerconversionsystem.MicrogridPowerconversionsystemCollection())
-api.add_route('/microgridpowerconversionsystems/{id_}',
-              microgridpowerconversionsystem.MicrogridPowerconversionsystemItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
@@ -743,6 +775,10 @@ api.add_route('/reports/combinedequipmentstatistics',
               combinedequipmentstatistics.Reporting())
 api.add_route('/reports/dashboard',
               dashboard.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails',
+              energystoragepowerstationdetails.Reporting())
+api.add_route('/reports/energystoragepowerstationlist',
+              energystoragepowerstationlist.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcarbon',
