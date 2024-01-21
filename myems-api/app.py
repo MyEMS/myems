@@ -332,6 +332,12 @@ api.add_route('/gateways/{id_}',
               gateway.GatewayItem())
 api.add_route('/gateways/{id_}/datasources',
               gateway.GatewayDataSourceCollection())
+api.add_route('/gateways/{id_}/export',
+              gateway.GatewayExport())
+api.add_route('/gateways/import',
+              gateway.GatewayImport())
+api.add_route('/gateways/{id_}/clone',
+              gateway.GatewayClone())
 
 api.add_route('/knowledgefiles',
               knowledgefile.KnowledgeFileCollection())
