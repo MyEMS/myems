@@ -307,10 +307,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `address` VARCHAR(255) NOT NULL,
-  `postal_code` VARCHAR(255) NOT NULL,
-  `latitude` DECIMAL(9, 6) NOT NULL,
-  `longitude` DECIMAL(9, 6) NOT NULL,
   `capacity` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
@@ -1903,7 +1899,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.0.0RC', '2024-01-01');
+(1, '4.0.0', '2024-01-13');
 
 COMMIT;
 

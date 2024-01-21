@@ -203,6 +203,9 @@ api.add_route('/datasources/{id_}/export',
               datasource.DataSourceExport())
 api.add_route('/datasources/import',
               datasource.DataSourceImport())
+api.add_route('/datasources/{id_}/clone',
+              datasource.DataSourceClone())
+
 
 api.add_route('/distributioncircuits',
               distributioncircuit.DistributionCircuitCollection())
@@ -360,6 +363,13 @@ api.add_route('/meters/{id_}/commands',
               meter.MeterCommandCollection())
 api.add_route('/meters/{id_}/commands/{cid}',
               meter.MeterCommandItem())
+api.add_route('/meters/{id_}/export',
+              meter.MeterExport())
+api.add_route('/meters/import',
+              meter.MeterImport())
+api.add_route('/meters/{id_}/clone',
+              meter.MeterClone())
+
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())
@@ -460,6 +470,12 @@ api.add_route('/sensors/{id_}/points',
               sensor.SensorPointCollection())
 api.add_route('/sensors/{id_}/points/{pid}',
               sensor.SensorPointItem())
+api.add_route('/sensors/{id_}/export',
+              sensor.SensorExport())
+api.add_route('/sensors/import',
+              sensor.SensorImport())
+api.add_route('/sensors/{id_}/clone',
+              sensor.SensorClone())
 
 api.add_route('/shopfloors',
               shopfloor.ShopfloorCollection())

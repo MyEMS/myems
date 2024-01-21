@@ -56,6 +56,30 @@ app.factory('MeterService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        exportMeter: function(meter, headers, callback) {
+            $http.get(getAPI()+'meters/'+meter.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importMeter: function(importdata, headers, callback) {
+            $http.post(getAPI()+'meters/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneMeter: function(meter, headers, callback) {
+            $http.post(getAPI()+'meters/'+meter.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });

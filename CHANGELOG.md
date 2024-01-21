@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
--
+### Added
+- added arrow up or arrow down icon to cardsummary in myems-web
+- added sensor export, import and clone functions to myems-api
+### Changed
+### Fixed
+### Removed
+
+## [v4.0.0] - 2024-01-013
+
 ### Added
 - added tables for energy storage power station in database
 - added energy storage power station actions to myems-api
@@ -17,9 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added cookieExpireTime to config.js in myems-web
 - added background image to login page in myems-web
 - added energy storage power station reports to myems-api and myems-web
-- added data source export and import actions to myems-api
+- added data source export, import and clone functions to myems-api and myems-admin
 - added energy storage power station export, import and clone actions to myems-api and myems-admin
 - added copy api key token function to myems-admin
+- added meter export, import and clone functions to myems-api and myems-admin
 - 
 ### Changed
 - changed microgrid monitoring in myems-web
@@ -1545,7 +1554,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v3.12.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
 [3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
 [3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
 [3.10.0]: https://github.com/MyEMS/myems/compare/v3.10.0...v3.9.0

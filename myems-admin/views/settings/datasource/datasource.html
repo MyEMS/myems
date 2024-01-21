@@ -4,10 +4,10 @@
 			<div class="tabs-container">
 
 				<uib-tabset>
-					<uib-tab heading="{{'DATA_SOURCE.DATA_SOURCE' | translate}}">
+					<uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="DataSourceController">
-							<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
-									class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
+							<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
+							<a ng-click="importDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -31,10 +31,10 @@
 										<td class="text-center">{{ datasource.last_seen_datetime }}</td>
 										<td class="text-center">{{ datasource.description}}</td>
 										<td class="text-center">
-											<a ng-click="editDataSource(datasource)"
-												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deleteDataSource(datasource)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="editDataSource(datasource)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

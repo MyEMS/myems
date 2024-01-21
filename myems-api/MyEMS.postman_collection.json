@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4fd96845-21ba-400b-b41f-c27e19fc2973",
+		"_postman_id": "00794359-be44-428e-ac29-3e40da808af3",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -2343,7 +2343,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "afee8444a1cbba7c1cd92e215a7426c5a63fc3535b5dd36f41d81d4c8022414721bd8769ae3db2a003f961a90d423a7f7bcd62c8b26ef2fef9a339731428535c",
+										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
@@ -2524,7 +2524,7 @@
 							"response": []
 						},
 						{
-							"name": "Export Data Source by ID to JSON File",
+							"name": "Export Data Source by ID to JSON",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -2556,7 +2556,7 @@
 							"response": []
 						},
 						{
-							"name": "Import Data Source from JSON File",
+							"name": "Import Data Source from JSON",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -2574,14 +2574,8 @@
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/Users/guangyuzhang/datasource.json"
-										}
-									]
+									"mode": "raw",
+									"raw": "{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\"}"
 								},
 								"url": {
 									"raw": "{{base_url}}/datasources/import",
@@ -2591,6 +2585,36 @@
 									"path": [
 										"datasources",
 										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Data Source",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/datasources/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"datasources",
+										"1",
+										"clone"
 									]
 								}
 							},
@@ -4335,7 +4359,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -4367,7 +4391,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1",
@@ -7153,7 +7177,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
 										"type": "text"
 									},
 									{
@@ -7551,6 +7575,113 @@
 										"1",
 										"commands",
 										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Meter by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Meter by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/meters/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Meter from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "55eb3a9f71a9d52798bbad692c4c2dd83e25c83901083b8a34c1018cd476c7f553b2b999c16549ac8975655296a0ef2b2fc4209848c49abf0eada8b657c89e00",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/meters/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"meters",
+										"import"
 									]
 								}
 							},
@@ -10421,12 +10552,12 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
+										"value": "bfb9e32d4654f6de78e906da096e2d20cbc8b8464bf7efd412aa2859aad26d81c11788647fd79b7526d8339777c4c67f01869ff7654cf65fc840b7ba92a1014c",
 										"type": "default"
 									},
 									{
@@ -10683,6 +10814,114 @@
 										"1",
 										"points",
 										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Sensor by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "bfb9e32d4654f6de78e906da096e2d20cbc8b8464bf7efd412aa2859aad26d81c11788647fd79b7526d8339777c4c67f01869ff7654cf65fc840b7ba92a1014c",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/sensors/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Sensor from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bfb9e32d4654f6de78e906da096e2d20cbc8b8464bf7efd412aa2859aad26d81c11788647fd79b7526d8339777c4c67f01869ff7654cf65fc840b7ba92a1014c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\": \"传感器123\", \"description\": \"sensor description\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/sensors/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Sensor by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "bfb9e32d4654f6de78e906da096e2d20cbc8b8464bf7efd412aa2859aad26d81c11788647fd79b7526d8339777c4c67f01869ff7654cf65fc840b7ba92a1014c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/sensors/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sensors",
+										"1",
+										"clone"
 									]
 								}
 							},
@@ -13179,7 +13418,10 @@
 							"name": "New Request",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": ""
+								}
 							},
 							"response": []
 						}
