@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "00794359-be44-428e-ac29-3e40da808af3",
+		"_postman_id": "3c959f64-7eb0-4ccf-8b63-744e4066d4a0",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -6672,6 +6672,38 @@
 							"response": []
 						},
 						{
+							"name": "Export a Gateway by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "910ddf7cea8295aecfcd0f60d2ba9b8818b0d6f9ff8df9ae928345cffe59baba00d48e3af63ab4a1763569ce392896608f1e73db0fb2b932be077cd5c3e533ea",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/gateways/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"gateways",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create Gateway",
 							"request": {
 								"method": "POST",
@@ -6700,6 +6732,73 @@
 									],
 									"path": [
 										"gateways"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Gateway from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "910ddf7cea8295aecfcd0f60d2ba9b8818b0d6f9ff8df9ae928345cffe59baba00d48e3af63ab4a1763569ce392896608f1e73db0fb2b932be077cd5c3e533ea",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Gateway10\",\r\n    \"description\": null\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/gateways/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"gateways",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Gateway by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "910ddf7cea8295aecfcd0f60d2ba9b8818b0d6f9ff8df9ae928345cffe59baba00d48e3af63ab4a1763569ce392896608f1e73db0fb2b932be077cd5c3e533ea",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/gateways/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"gateways",
+										"1",
+										"clone"
 									]
 								}
 							},

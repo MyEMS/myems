@@ -328,3 +328,180 @@ class GatewayDataSourceCollection:
         cnx.close()
         resp.text = json.dumps(result)
 
+class GatewayExport:
+    @staticmethod
+    def __init__():
+        """"Initializes GatewayExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GATEWAY_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
+                 " FROM tbl_gateways "
+                 " WHERE id =%s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.GATEWAY_NOT_FOUND')
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if isinstance(row[4], datetime):
+            last_seen_datetime_local = row[4].replace(tzinfo=timezone.utc) + \
+                                       timedelta(minutes=timezone_offset)
+            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_seen_datetime = None
+
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "token": row[3],
+                  "last_seen_datetime": last_seen_datetime,
+                  "description": row[5]}
+
+        resp.text = json.dumps(result)
+
+
+class GatewayImport:
+    @staticmethod
+    def __init__():
+        """"Initializes GatewayImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GATEWAY_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_gateways "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.GATEWAY_NAME_IS_ALREADY_IN_USE')
+
+        add_values = (" INSERT INTO tbl_gateways (name, uuid, token, description) "
+                      " VALUES (%s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    str(uuid.uuid4()),
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/gateways/' + str(new_id)
+class GatewayClone:
+    @staticmethod
+    def __init__():
+        """"Initializes GatewayClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GATEWAY_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
+                 " FROM tbl_gateways "
+                 " WHERE id =%s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.GATEWAY_NOT_FOUND')
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if isinstance(row[4], datetime):
+            last_seen_datetime_local = row[4].replace(tzinfo=timezone.utc) + \
+                                       timedelta(minutes=timezone_offset)
+            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            last_seen_datetime = None
+
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "token": row[3],
+                  "last_seen_datetime": last_seen_datetime,
+                  "description": row[5]}
+        new_name = str.strip(result['name']) + \
+                   (datetime.now() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        add_values = (" INSERT INTO tbl_gateways (name, uuid, token, description) "
+                      " VALUES (%s, %s, %s, %s) ")
+        cursor.execute(add_values, (new_name,
+                                    str(uuid.uuid4()),
+                                    str(uuid.uuid4()),
+                                    result['description']))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/gateways/' + str(new_id)
