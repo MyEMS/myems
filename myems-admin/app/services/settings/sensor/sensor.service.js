@@ -40,6 +40,30 @@ app.factory('SensorService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        exportSensor: function(sensor, headers, callback) {
+            $http.get(getAPI()+'sensors/'+sensor.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importSensor: function(importdata, headers, callback) {
+            $http.post(getAPI()+'sensors/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneSensor: function(sensor, headers, callback) {
+            $http.post(getAPI()+'sensors/'+sensor.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
