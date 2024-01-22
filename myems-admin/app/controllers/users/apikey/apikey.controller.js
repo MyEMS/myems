@@ -130,18 +130,29 @@ app.controller('ApiKeyController', function (
 	};
 
 	$scope.copyToClipboard = function (apiKey) {
-		let tempInput = document.createElement("input");
-		tempInput.value = apiKey.token;
-		document.body.appendChild(tempInput);
-		tempInput.select();
-		document.execCommand("copy");
-		document.body.removeChild(tempInput);
-		toaster.pop({
-			type: "success",
-			title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-			body: $translate.instant("TOASTER.COPY_SUCCESS"),
-			showCloseButton: true,
-		});
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(apiKey.token).then(function() {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.COPY_SUCCESS"),
+					showCloseButton: true,
+				  });
+			})
+		} else {
+			let tempInput = document.createElement("input");
+			tempInput.value = apiKey.token;
+			document.body.appendChild(tempInput);
+			tempInput.select();
+			document.execCommand("copy");
+			document.body.removeChild(tempInput);
+			toaster.pop({
+				type: "success",
+				title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+				body: $translate.instant("TOASTER.COPY_SUCCESS"),
+				showCloseButton: true,
+			});
+		}
 	};
 
 	$scope.getAllApiKeys();
