@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0aa2f9ad-14e3-41f7-bfb0-999a2ab1434e",
+		"_postman_id": "601aa065-d15f-4223-9c7a-d428ee0d35c1",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -5719,6 +5719,78 @@
 							"response": []
 						},
 						{
+							"name": "Clone an Equipment by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "b8523a4d3206e60a5bc296870b18b51ceefe96ef77cfb4bcb094c522ec243f9ef0c2004e9fb42ed427d2003be8660b273b05308190ad8ea75897d9eba3965e7c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/equipments/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import an Equipment from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2860d13ced1ba1e81c2eaeaab04f525dfe04f0ef920a2792dde1ddbd0256510d76e485c7bf324d617773ff7e57f7bc33c8949f82b88aea3be7d5f27afe1be544",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"设备4\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center_id\": 1,\r\n    \"svg\": \"<svg></svg>\",\r\n    \"camera_url\": \"\",\r\n    \"description\": \"description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/equipments/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GET an Equipment by ID",
 							"request": {
 								"method": "GET",
@@ -5748,6 +5820,42 @@
 									"path": [
 										"equipments",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export an Equipment by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2860d13ced1ba1e81c2eaeaab04f525dfe04f0ef920a2792dde1ddbd0256510d76e485c7bf324d617773ff7e57f7bc33c8949f82b88aea3be7d5f27afe1be544",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/equipments/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"equipments",
+										"1",
+										"export"
 									]
 								}
 							},
