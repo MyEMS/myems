@@ -7,6 +7,7 @@
 					<uib-tab heading="{{'COMMON.SENSOR' | translate}}" >
 						<div class="panel-body" ng-controller="SensorController">
 							<a ng-click="addSensor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SENSOR.ADD_SENSOR' | translate}}</a>
+							<a ng-click="importSensor()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -24,6 +25,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editSensor(sensor)" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteSensor(sensor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportSensor(sensor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneSensor(sensor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
