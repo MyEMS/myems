@@ -328,7 +328,9 @@ class GatewayDataSourceCollection:
         cnx.close()
         resp.text = json.dumps(result)
 
+
 class GatewayExport:
+
     @staticmethod
     def __init__():
         """"Initializes GatewayExport"""
@@ -443,6 +445,8 @@ class GatewayImport:
 
         resp.status = falcon.HTTP_201
         resp.location = '/gateways/' + str(new_id)
+
+
 class GatewayClone:
     @staticmethod
     def __init__():
@@ -490,8 +494,9 @@ class GatewayClone:
                   "token": row[3],
                   "last_seen_datetime": last_seen_datetime,
                   "description": row[5]}
-        new_name = str.strip(result['name']) + \
-                   (datetime.now() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        new_name = (str.strip(result['name'])
+                    + (datetime.now()
+                    + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_values = (" INSERT INTO tbl_gateways (name, uuid, token, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (new_name,
