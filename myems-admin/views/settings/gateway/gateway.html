@@ -7,6 +7,7 @@
 					<uib-tab heading="{{'GATEWAY.GATEWAY' | translate}}" >
 						<div class="panel-body" ng-controller="GatewayController">
 							<a ng-click="addGateway()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'GATEWAY.ADD_GATEWAY' | translate}}</a>
+							<a ng-click="importGateway()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -28,6 +29,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editGateway(gateway)" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteGateway(gateway)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportGateway(gateway)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneGateway(gateway)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

@@ -48,6 +48,30 @@ app.factory('GatewayService', function($http) {
             }, function (response) {
                 callback(response);
             }); 
+        },
+        exportGateway: function(gateway, headers, callback) {
+            $http.get(getAPI()+'gateways/'+gateway.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importGateway: function(importdata, headers, callback) {
+            $http.post(getAPI()+'gateways/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneGateway: function(gateway, headers, callback) {
+            $http.post(getAPI()+'gateways/'+gateway.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });  
