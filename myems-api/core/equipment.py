@@ -2101,10 +2101,12 @@ class EquipmentExport:
                                    description='API.EQUIPMENT_NOT_FOUND')
         else:
             cost_center = cost_center_dict.get(row[5], None)
-            meta_result = {"name": row[1],
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
-                           "cost_center_id": cost_center["id"],
+                           "cost_center": cost_center,
                            "svg": row[6],
                            "camera_url": row[7],
                            "description": row[8]}
@@ -2155,12 +2157,12 @@ class EquipmentImport:
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['is_output_counted']
 
-        if 'cost_center_id' not in new_values.keys() or \
-                not isinstance(new_values['cost_center_id'], int) or \
-                new_values['cost_center_id'] <= 0:
+        if 'id' not in new_values['cost_center'].keys() or \
+                not isinstance(new_values['cost_center']['id'], int) or \
+                new_values['cost_center']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
-        cost_center_id = new_values['cost_center_id']
+        cost_center_id = new_values['cost_center']['id']
 
         if 'svg' not in new_values.keys() or \
                 not isinstance(new_values['svg'], str) or \
@@ -2199,7 +2201,7 @@ class EquipmentImport:
             cursor.execute(" SELECT name "
                            " FROM tbl_cost_centers "
                            " WHERE id = %s ",
-                           (new_values['cost_center_id'],))
+                           (new_values['cost_center']['id'],))
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
@@ -2279,10 +2281,12 @@ class EquipmentClone:
                                    description='API.EQUIPMENT_NOT_FOUND')
         else:
             cost_center = cost_center_dict.get(row[5], None)
-            meta_result = {"name": row[1],
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
-                           "cost_center_id": cost_center["id"],
+                           "cost_center": cost_center,
                            "svg": row[6],
                            "camera_url": row[7],
                            "description": row[8]}
@@ -2291,7 +2295,7 @@ class EquipmentClone:
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name'])
                         + (datetime.now()
-                        + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                           + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
                           "     cost_center_id, svg, camera_url, description) "
@@ -2300,7 +2304,7 @@ class EquipmentClone:
                                         str(uuid.uuid4()),
                                         meta_result['is_input_counted'],
                                         meta_result['is_output_counted'],
-                                        meta_result['cost_center_id'],
+                                        meta_result['cost_center']['id'],
                                         meta_result['svg'],
                                         meta_result['camera_url'],
                                         meta_result['description']))
