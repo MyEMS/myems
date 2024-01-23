@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6988f2ba-399c-4a83-b6cc-52219e4d1e62",
+		"_postman_id": "a3c39501-a94c-4644-b74d-9bbaee421e7e",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -5662,7 +5662,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "22ddcd6ff8040e796218674fdf58a8a76624e1aabb2651cef1f46a75c5fde6da612f47e7b080fd1d594bfd1e2381d9698adbfe4b0d1dedb33675af4388955709",
+										"value": "5312c916351c4f6f1bbf535d86e40245f0375ee29cd15e4bfc793c04f8a2b2996cda4b6eee9f572a39d1c76c7ed59870b0749861a1282c6cbe3c1e1a1b1462f3",
 										"type": "text"
 									},
 									{
@@ -6617,7 +6617,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "22ddcd6ff8040e796218674fdf58a8a76624e1aabb2651cef1f46a75c5fde6da612f47e7b080fd1d594bfd1e2381d9698adbfe4b0d1dedb33675af4388955709",
+										"value": "51723fc43fefedc019bc974c1c51f3e411528b73fb7ab95b9a29f3fbe3b28c7d618a7a4a11bf254b3a49b6d4db83ec74f570d89c17961d54c0390bfe7457fdfb",
 										"type": "text"
 									},
 									{
@@ -6654,14 +6654,14 @@
 									},
 									{
 										"key": "Token",
-										"value": "22ddcd6ff8040e796218674fdf58a8a76624e1aabb2651cef1f46a75c5fde6da612f47e7b080fd1d594bfd1e2381d9698adbfe4b0d1dedb33675af4388955709",
+										"value": "5312c916351c4f6f1bbf535d86e40245f0375ee29cd15e4bfc793c04f8a2b2996cda4b6eee9f572a39d1c76c7ed59870b0749861a1282c6cbe3c1e1a1b1462f3",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"设备4\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"CostCenter1\",\r\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"camera_url\": \"\",\r\n    \"description\": \"description\"\r\n}",
+									"raw": "{\"id\": 7, \"name\": \"设备11\", \"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a87\", \"is_input_counted\": true, \"is_output_counted\": false, \"cost_center\": {\"id\": 1, \"name\": \"成本中心\", \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"}, \"svg\": \"<svg></svg>\", \"camera_url\": \"\", \"description\": \"description\"}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6694,7 +6694,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b8523a4d3206e60a5bc296870b18b51ceefe96ef77cfb4bcb094c522ec243f9ef0c2004e9fb42ed427d2003be8660b273b05308190ad8ea75897d9eba3965e7c",
+										"value": "5312c916351c4f6f1bbf535d86e40245f0375ee29cd15e4bfc793c04f8a2b2996cda4b6eee9f572a39d1c76c7ed59870b0749861a1282c6cbe3c1e1a1b1462f3",
 										"type": "text",
 										"description": "Login to get a valid token"
 									}
