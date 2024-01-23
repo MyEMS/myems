@@ -325,6 +325,12 @@ api.add_route('/equipments/{id_}/commands',
               equipment.EquipmentCommandCollection())
 api.add_route('/equipments/{id_}/commands/{cid}',
               equipment.EquipmentCommandItem())
+api.add_route('/equipments/{id_}/export',
+              equipment.EquipmentExport())
+api.add_route('/equipments/import',
+              equipment.EquipmentImport())
+api.add_route('/equipments/{id_}/clone',
+              equipment.EquipmentClone())
 
 api.add_route('/gateways',
               gateway.GatewayCollection())
