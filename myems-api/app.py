@@ -157,6 +157,12 @@ api.add_route('/combinedequipments/{id_}/commands',
               combinedequipment.CombinedEquipmentCommandCollection())
 api.add_route('/combinedequipments/{id_}/commands/{cid}',
               combinedequipment.CombinedEquipmentCommandItem())
+api.add_route('/combinedequipments/{id_}/export',
+              combinedequipment.CombinedEquipmentExport())
+api.add_route('/combinedequipments/import',
+              combinedequipment.CombinedEquipmentImport())
+api.add_route('/combinedequipments/{id_}/clone',
+              combinedequipment.CombinedEquipmentClone())
 
 api.add_route('/commands',
               command.CommandCollection())

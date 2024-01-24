@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -2242,3 +2243,273 @@ class CombinedEquipmentCommandItem:
         cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
+class CombinedEquipmentExport:
+    @staticmethod
+    def __init__():
+        """Initializes CombinedEquipmentExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMBINED_EQUIPMENT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        is_input_counted, is_output_counted, "
+                 "        cost_center_id, svg, camera_url, description "
+                 " FROM tbl_combined_equipments "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+        else:
+            cost_center = cost_center_dict.get(row[5], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "is_input_counted": bool(row[3]),
+                           "is_output_counted": bool(row[4]),
+                           "cost_center": cost_center,
+                           "svg": row[6],
+                           "camera_url": row[7],
+                           "description": row[8]}
+
+        resp.text = json.dumps(meta_result)
+
+
+class CombinedEquipmentImport:
+    @staticmethod
+    def __init__():
+        """ Initializes CombinedEquipmentImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMBINED_EQUIPMENT_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'is_input_counted' not in new_values.keys() or \
+                not isinstance(new_values['is_input_counted'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_INPUT_COUNTED_VALUE')
+        is_input_counted = new_values['is_input_counted']
+
+        if 'is_output_counted' not in new_values.keys() or \
+                not isinstance(new_values['is_output_counted'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
+        is_output_counted = new_values['is_output_counted']
+
+        if 'id' not in new_values['cost_center'].keys() or \
+                not isinstance(new_values['cost_center']['id'], int) or \
+                new_values['cost_center']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+        cost_center_id = new_values['cost_center']['id']
+
+        if 'svg' not in new_values.keys() or \
+                not isinstance(new_values['svg'], str) or \
+                len(str.strip(new_values['svg'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SVG')
+        svg = str.strip(new_values['svg'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        if 'camera_url' in new_values.keys() and \
+                new_values['camera_url'] is not None and \
+                len(str(new_values['camera_url'])) > 0:
+            camera_url = str.strip(new_values['camera_url'])
+        else:
+            camera_url = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_combined_equipments "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.COMBINED_EQUIPMENT_NAME_IS_ALREADY_IN_USE')
+
+        if cost_center_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_cost_centers "
+                           " WHERE id = %s ",
+                           (new_values['cost_center']['id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.COST_CENTER_NOT_FOUND')
+
+        add_values = (" INSERT INTO tbl_combined_equipments "
+                      "    (name, uuid, is_input_counted, is_output_counted, "
+                      "     cost_center_id, svg, camera_url, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    is_input_counted,
+                                    is_output_counted,
+                                    cost_center_id,
+                                    svg,
+                                    camera_url,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/combinedequipments/' + str(new_id)
+
+
+class CombinedEquipmentClone:
+    @staticmethod
+    def __init__():
+        """Initializes CombinedEquipmentClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMBINED_EQUIPMENT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        is_input_counted, is_output_counted, "
+                 "        cost_center_id, svg, camera_url, description "
+                 " FROM tbl_combined_equipments "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+        else:
+            cost_center = cost_center_dict.get(row[5], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "is_input_counted": bool(row[3]),
+                           "is_output_counted": bool(row[4]),
+                           "cost_center": cost_center,
+                           "svg": row[6],
+                           "camera_url": row[7],
+                           "description": row[8]}
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            new_name = (str.strip(meta_result['name'])
+                        + (datetime.now()
+                           + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+            add_values = (" INSERT INTO tbl_combined_equipments "
+                          "    (name, uuid, is_input_counted, is_output_counted, "
+                          "     cost_center_id, svg, camera_url, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+            cursor.execute(add_values, (new_name,
+                                        str(uuid.uuid4()),
+                                        meta_result['is_input_counted'],
+                                        meta_result['is_output_counted'],
+                                        meta_result['cost_center']['id'],
+                                        meta_result['svg'],
+                                        meta_result['camera_url'],
+                                        meta_result['description']))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+
+            resp.status = falcon.HTTP_201
+            resp.location = '/combinedequipments/' + str(new_id)
+
