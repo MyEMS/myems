@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added arrow up or arrow down icon to cardsummary in myems-web
 - added sensor export, import and clone functions to myems-api, myems-admin
 - added gateway export, import and clone functions to myems-api, myems-admin
-- added equipment export, import and clone functions to myems-api
+- added equipment export, import and clone functions to myems-api, myems-admin
 - added combined equipment export, import and clone functions to myems-api
 - added shopfloor export, import and clone functions to myems-api
 - 

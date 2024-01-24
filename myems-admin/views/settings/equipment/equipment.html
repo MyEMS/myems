@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'COMMON.EQUIPMENT' | translate}}">
 						<div class="panel-body" ng-controller="EquipmentController">
 							<a ng-click="addEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'EQUIPMENT.ADD_EQUIPMENT' | translate}}</a>
+							<a ng-click="importEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -33,6 +34,8 @@
 										<td class="text-center">
 											<a ng-click="editEquipment(equipment)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteEquipment(equipment)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportEquipment(equipment)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneEquipment(equipment)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
