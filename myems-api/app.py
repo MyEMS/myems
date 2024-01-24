@@ -531,6 +531,12 @@ api.add_route('/shopfloors/{id_}/commands',
               shopfloor.ShopfloorCommandCollection())
 api.add_route('/shopfloors/{id_}/commands/{cid}',
               shopfloor.ShopfloorCommandItem())
+api.add_route('/shopfloors/{id_}/export',
+              shopfloor.ShopfloorExport())
+api.add_route('/shopfloors/import',
+              shopfloor.ShopfloorImport())
+api.add_route('/shopfloors/{id_}/clone',
+              shopfloor.ShopfloorClone())
 
 api.add_route('/spaces',
               space.SpaceCollection())
