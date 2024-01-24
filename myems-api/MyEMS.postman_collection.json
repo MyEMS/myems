@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a3c39501-a94c-4644-b74d-9bbaee421e7e",
+		"_postman_id": "80e53049-bdd8-4303-bcf6-c90a1ec70e16",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -1257,6 +1257,114 @@
 										"1",
 										"commands",
 										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Combined Equipment from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"组合式设备10\",\r\n    \"uuid\": \"48aab70f-2e32-4518-9986-a6b7395acf58\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"camera_url\": \"\",\r\n    \"description\": \"description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Combined Equipment by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Combined Equipment by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/combinedequipments/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"combinedequipments",
+										"1",
+										"export"
 									]
 								}
 							},
