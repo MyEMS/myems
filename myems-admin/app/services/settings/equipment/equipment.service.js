@@ -40,6 +40,30 @@ app.factory('EquipmentService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        exportEquipment: function(equipment, headers, callback) {
+            $http.get(getAPI()+'equipments/'+equipment.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importEquipment: function(importdata, headers, callback) {
+            $http.post(getAPI()+'equipments/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneEquipment: function(equipment, headers, callback) {
+            $http.post(getAPI()+'equipments/'+equipment.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
