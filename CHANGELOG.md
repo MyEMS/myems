@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added sensor export, import and clone functions to myems-api, myems-admin
 - added gateway export, import and clone functions to myems-api, myems-admin
 - added equipment export, import and clone functions to myems-api
+- added combined equipment export, import and clone functions to myems-api
 ### Changed
 ### Fixed
 ### Removed
