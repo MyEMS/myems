@@ -632,6 +632,12 @@ api.add_route('/stores/{id_}/commands',
               store.StoreCommandCollection())
 api.add_route('/stores/{id_}/commands/{cid}',
               store.StoreCommandItem())
+api.add_route('/stores/{id_}/export',
+              store.StoreExport())
+api.add_route('/stores/import',
+              store.StoreImport())
+api.add_route('/stores/{id_}/clone',
+              store.StoreClone())
 
 api.add_route('/storetypes',
               storetype.StoreTypeCollection())
@@ -675,6 +681,12 @@ api.add_route('/tenants/{id_}/commands',
               tenant.TenantCommandCollection())
 api.add_route('/tenants/{id_}/commands/{cid}',
               tenant.TenantCommandItem())
+api.add_route('/tenants/{id_}/export',
+              tenant.TenantExport())
+api.add_route('/tenants/import',
+              tenant.TenantImport())
+api.add_route('/tenants/{id_}/clone',
+              tenant.TenantClone())
 
 api.add_route('/tenanttypes',
               tenanttype.TenantTypeCollection())
