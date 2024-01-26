@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added equipment export, import and clone functions to myems-api, myems-admin
 - added combined equipment export, import and clone functions to myems-api
 - added shopfloor export, import and clone functions to myems-api
+- added store export, import and clone functions to myems-api
+- added tenant export, import and clone functions to myems-api
 - 
 ### Changed
 ### Fixed

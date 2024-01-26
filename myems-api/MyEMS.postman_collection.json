@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "45ecfcba-f9dc-4eff-b011-024a541bea42",
+		"_postman_id": "2dfc06b5-532e-4baf-9a22-e39775eace9b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -12274,7 +12274,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"车间10\",\r\n    \"uuid\": \"d03837fd-9d30-44fe-9443-154f7c7e15f1\",\r\n    \"area\": 99999.999,\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MyEMS Project\"\r\n}",
+									"raw": "{\r\n    \"name\": \"车间1\",\r\n    \"area\": 99999.999,\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MyEMS Project\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -13919,42 +13919,6 @@
 							"response": []
 						},
 						{
-							"name": "Export a Store by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default",
-										"disabled": true
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/stores/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"stores",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "POST Create New Store",
 							"request": {
 								"method": "POST",
@@ -13981,74 +13945,6 @@
 									],
 									"path": [
 										"stores"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Clone a Store by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/stores/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"stores",
-										"1",
-										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Store from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"麦当劳1\",\r\n    \"uuid\": \"d8a24322-4bab-4ba2-aedc-5d55a84c3db8\",\r\n    \"address\": \"北京市东城区东打磨厂街7号\",\r\n    \"latitude\": 39.899493,\r\n    \"longitude\": 116.412041,\r\n    \"area\": 500.000,\r\n    \"store_type\": {\r\n        \"id\": 1,\r\n        \"name\": \"餐饮\",\r\n        \"uuid\": \"494d7d5e-e139-4629-b957-99ea4caf0401\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MacDonalds\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/stores/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"stores",
-										"import"
 									]
 								}
 							},
@@ -14824,6 +14720,110 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Clone a Store by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/stores/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Store by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/stores/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Store from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2b4f454a08ca33251a898ca10ceb64af92f4b05a47b48459f91b4d42adaef117bff935e8b21b4ac97093742ca1f041cc10df4dcccb222de0e914ac1c7095c351",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"麦当劳1\",\r\n    \"address\": \"北京市东城区东打磨厂街7号\",\r\n    \"latitude\": 39.899493,\r\n    \"longitude\": 116.412041,\r\n    \"area\": 500.000,\r\n    \"store_type\": {\r\n        \"id\": 1,\r\n        \"name\": \"餐饮\",\r\n        \"uuid\": \"494d7d5e-e139-4629-b957-99ea4caf0401\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MacDonalds\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/stores/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"stores",
+										"import"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -15236,42 +15236,6 @@
 							"response": []
 						},
 						{
-							"name": "Export a Tenant by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default",
-										"disabled": true
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/tenants/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tenants",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "POST Create New Tenant",
 							"request": {
 								"method": "POST",
@@ -15298,74 +15262,6 @@
 									],
 									"path": [
 										"tenants"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Clone a Tenant by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/tenants/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tenants",
-										"1",
-										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Tenant from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"id\": 1,\n    \"name\": \"Starbucks星巴克1\",\n    \"uuid\": \"6b0da806-a4cd-431a-8116-2915e90aaf8b\",\n    \"buildings\": \"Building #1\",\n    \"floors\": \"L1 L2 L3\",\n    \"rooms\": \"1201b+2247+3F\",\n    \"area\": 418.800,\n    \"tenant_type\": {\n        \"id\": 9,\n        \"name\": \"非整层办公租户\",\n        \"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n    },\n    \"is_key_tenant\": true,\n    \"is_input_counted\": true,\n    \"lease_number\": \"6b0da806\",\n    \"lease_start_datetime\": \"2020-01-01T00:00:00\",\n    \"lease_end_datetime\": \"2023-01-01T00:00:00\",\n    \"is_in_lease\": true,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"description\": \"my description\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/tenants/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tenants",
-										"import"
 									]
 								}
 							},
@@ -16137,6 +16033,110 @@
 										"1",
 										"commands",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Tenant by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Tenant from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "2b4f454a08ca33251a898ca10ceb64af92f4b05a47b48459f91b4d42adaef117bff935e8b21b4ac97093742ca1f041cc10df4dcccb222de0e914ac1c7095c351",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Starbucks星巴克1\",\n    \"buildings\": \"Building #1\",\n    \"floors\": \"L1 L2 L3\",\n    \"rooms\": \"1201b+2247+3F\",\n    \"area\": 418.800,\n    \"tenant_type\": {\n        \"id\": 9,\n        \"name\": \"非整层办公租户\",\n        \"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n    },\n    \"is_key_tenant\": true,\n    \"is_input_counted\": true,\n    \"lease_number\": \"6b0da806\",\n    \"lease_start_datetime\": \"2020-01-01T00:00:00\",\n    \"lease_end_datetime\": \"2023-01-01T00:00:00\",\n    \"is_in_lease\": true,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"description\": \"my description\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tenants/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Tenant by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "d9aa3c75505330c3dfda02faf2cf136166f99975eef44e09fce028c04ff23d1de9b1d10880cd4758626d01951885227cc6a98b169c0f7996b83de6140fdd08ff",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tenants/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tenants",
+										"1",
+										"clone"
 									]
 								}
 							},
