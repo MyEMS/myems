@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "feaf0ebb-480a-4df1-948f-23a8190709c7",
+		"_postman_id": "137916b7-4417-4778-8e9c-d333b6161549",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -10022,7 +10022,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"离线表101\",\r\n    \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"hourly_low_limit\": 0.000,\r\n    \"hourly_high_limit\": 999.999,\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"offlinemeter1\"\r\n}",
+									"raw": "{\r\n    \"name\": \"离线表101\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"hourly_low_limit\": 0.000,\r\n    \"hourly_high_limit\": 999.999,\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"offlinemeter1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
