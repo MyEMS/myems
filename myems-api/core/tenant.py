@@ -1980,3 +1980,459 @@ class TenantCommandItem:
         cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
+class TenantExport:
+    @staticmethod
+    def __init__():
+        """"Initializes TenantExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TENANT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_tenant_types ")
+        cursor.execute(query)
+        rows_tenant_types = cursor.fetchall()
+
+        tenant_type_dict = dict()
+        if rows_tenant_types is not None and len(rows_tenant_types) > 0:
+            for row in rows_tenant_types:
+                tenant_type_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        buildings, floors, rooms, area, tenant_type_id,"
+                 "        is_key_tenant, is_input_counted, "
+                 "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
+                 "        contact_id, cost_center_id, description "
+                 " FROM tbl_tenants "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.TENANT_NOT_FOUND')
+        else:
+            tenant_type = tenant_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[14], None)
+            cost_center = cost_center_dict.get(row[15], None)
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "buildings": row[3],
+                           "floors": row[4],
+                           "rooms": row[5],
+                           "area": row[6],
+                           "tenant_type": tenant_type,
+                           "is_key_tenant": bool(row[8]),
+                           "is_input_counted": bool(row[9]),
+                           "lease_number": row[10],
+                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "is_in_lease": bool(row[13]),
+                           "contact": contact,
+                           "cost_center": cost_center,
+                           "description": row[16],
+                           }
+
+        resp.text = json.dumps(meta_result)
+
+
+class TenantImport:
+    @staticmethod
+    def __init__():
+        """"Initializes TenantImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TENANT_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'buildings' not in new_values.keys() or \
+                not isinstance(new_values['buildings'], str) or \
+                len(str.strip(new_values['buildings'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BUILDINGS_VALUE')
+        buildings = str.strip(new_values['buildings'])
+
+        if 'floors' not in new_values.keys() or \
+                not isinstance(new_values['floors'], str) or \
+                len(str.strip(new_values['floors'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_FLOORS_VALUE')
+        floors = str.strip(new_values['floors'])
+
+        if 'rooms' not in new_values.keys() or \
+                not isinstance(new_values['rooms'], str) or \
+                len(str.strip(new_values['rooms'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ROOMS_VALUE')
+        rooms = str.strip(new_values['rooms'])
+
+        if 'area' not in new_values.keys() or \
+                not (isinstance(new_values['area'], float) or
+                     isinstance(new_values['area'], int)) or \
+                new_values['area'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_AREA_VALUE')
+        area = new_values['area']
+
+        if 'id' not in new_values['tenant_type'].keys() or \
+                not isinstance(new_values['tenant_type']['id'], int) or \
+                new_values['tenant_type']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TENANT_TYPE_ID')
+        tenant_type_id = new_values['tenant_type']['id']
+
+        if 'is_input_counted' not in new_values.keys() or \
+                not isinstance(new_values['is_input_counted'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_INPUT_COUNTED_VALUE')
+        is_input_counted = new_values['is_input_counted']
+
+        if 'is_key_tenant' not in new_values.keys() or \
+                not isinstance(new_values['is_key_tenant'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_KEY_TENANT_VALUE')
+        is_key_tenant = new_values['is_key_tenant']
+
+        if 'lease_number' not in new_values.keys() or \
+                not isinstance(new_values['lease_number'], str) or \
+                len(str.strip(new_values['lease_number'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LEASE_NUMBER_VALUE')
+        lease_number = str.strip(new_values['lease_number'])
+
+        if 'is_in_lease' not in new_values.keys() or \
+                not isinstance(new_values['is_in_lease'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_IN_LEASE_VALUE')
+        is_in_lease = new_values['is_in_lease']
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        # todo: validate datetime values
+        lease_start_datetime_utc = datetime.strptime(new_values['lease_start_datetime'],
+                                                     '%Y-%m-%dT%H:%M:%S')
+        lease_start_datetime_utc = lease_start_datetime_utc.replace(tzinfo=timezone.utc)
+        lease_start_datetime_utc -= timedelta(minutes=timezone_offset)
+
+        lease_end_datetime_utc = datetime.strptime(new_values['lease_end_datetime'],
+                                                   '%Y-%m-%dT%H:%M:%S')
+        lease_end_datetime_utc = lease_end_datetime_utc.replace(tzinfo=timezone.utc)
+        lease_end_datetime_utc -= timedelta(minutes=timezone_offset)
+
+        if 'id' not in new_values['contact'].keys() or \
+                not isinstance(new_values['contact']['id'], int) or \
+                new_values['contact']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTACT_ID')
+        contact_id = new_values['contact']['id']
+
+        if 'id' not in new_values['cost_center'].keys() or \
+                not isinstance(new_values['cost_center']['id'], int) or \
+                new_values['cost_center']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+        cost_center_id = new_values['cost_center']['id']
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_tenants "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.TENANT_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_tenant_types "
+                       " WHERE id = %s ",
+                       (tenant_type_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.TENANT_TYPE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_contacts "
+                       " WHERE id = %s ",
+                       (new_values['contact']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.CONTACT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_cost_centers "
+                       " WHERE id = %s ",
+                       (new_values['cost_center']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COST_CENTER_NOT_FOUND')
+
+        add_values = (" INSERT INTO tbl_tenants "
+                      "    (name, uuid, buildings, floors, rooms, area, tenant_type_id, "
+                      "     is_input_counted, is_key_tenant, "
+                      "     lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
+                      "     contact_id, cost_center_id, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    buildings,
+                                    floors,
+                                    rooms,
+                                    area,
+                                    tenant_type_id,
+                                    is_input_counted,
+                                    is_key_tenant,
+                                    lease_number,
+                                    lease_start_datetime_utc,
+                                    lease_end_datetime_utc,
+                                    is_in_lease,
+                                    contact_id,
+                                    cost_center_id,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/tenants/' + str(new_id)
+
+
+class TenantClone:
+    @staticmethod
+    def __init__():
+        """"Initializes TenantClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_TENANT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_tenant_types ")
+        cursor.execute(query)
+        rows_tenant_types = cursor.fetchall()
+
+        tenant_type_dict = dict()
+        if rows_tenant_types is not None and len(rows_tenant_types) > 0:
+            for row in rows_tenant_types:
+                tenant_type_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        buildings, floors, rooms, area, tenant_type_id,"
+                 "        is_key_tenant, is_input_counted, "
+                 "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
+                 "        contact_id, cost_center_id, description "
+                 " FROM tbl_tenants "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.TENANT_NOT_FOUND')
+        else:
+            tenant_type = tenant_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[14], None)
+            cost_center = cost_center_dict.get(row[15], None)
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
+                timedelta(minutes=timezone_offset)
+
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "buildings": row[3],
+                           "floors": row[4],
+                           "rooms": row[5],
+                           "area": row[6],
+                           "tenant_type": tenant_type,
+                           "is_key_tenant": bool(row[8]),
+                           "is_input_counted": bool(row[9]),
+                           "lease_number": row[10],
+                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "is_in_lease": bool(row[13]),
+                           "contact": contact,
+                           "cost_center": cost_center,
+                           "description": row[16],
+                           }
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            new_name = (str.strip(meta_result['name'])
+                        + (datetime.now()
+                           + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+            add_values = (" INSERT INTO tbl_tenants "
+                          "    (name, uuid, buildings, floors, rooms, area, tenant_type_id, "
+                          "     is_input_counted, is_key_tenant, "
+                          "     lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
+                          "     contact_id, cost_center_id, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+            cursor.execute(add_values, (new_name,
+                                        str(uuid.uuid4()),
+                                        meta_result['buildings'],
+                                        meta_result['floors'],
+                                        meta_result['rooms'],
+                                        meta_result['area'],
+                                        meta_result['tenant_type']['id'],
+                                        meta_result['is_input_counted'],
+                                        meta_result['is_key_tenant'],
+                                        meta_result['lease_number'],
+                                        meta_result['lease_start_datetime'],
+                                        meta_result['lease_end_datetime'],
+                                        meta_result['is_in_lease'],
+                                        meta_result['contact']['id'],
+                                        meta_result['cost_center']['id'],
+                                        meta_result['description']))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+
+            resp.status = falcon.HTTP_201
+            resp.location = '/tenants/' + str(new_id)
+

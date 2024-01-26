@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -1877,3 +1878,389 @@ class StoreCommandItem:
         cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
+class StoreExport:
+    @staticmethod
+    def __init__():
+        """"Initializes StoreExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_store_types ")
+        cursor.execute(query)
+        rows_store_types = cursor.fetchall()
+
+        store_type_dict = dict()
+        if rows_store_types is not None and len(rows_store_types) > 0:
+            for row in rows_store_types:
+                store_type_dict[row[0]] = {"id": row[0],
+                                           "name": row[1],
+                                           "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        address, latitude, longitude, area, store_type_id,"
+                 "        is_input_counted, "
+                 "        contact_id, cost_center_id, description "
+                 " FROM tbl_stores "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_NOT_FOUND')
+        else:
+            store_type = store_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[9], None)
+            cost_center = cost_center_dict.get(row[10], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "address": row[3],
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "area": row[6],
+                           "store_type": store_type,
+                           "is_input_counted": bool(row[8]),
+                           "contact": contact,
+                           "cost_center": cost_center,
+                           "description": row[11],
+                           }
+
+        resp.text = json.dumps(meta_result)
+
+
+class StoreImport:
+    @staticmethod
+    def __init__():
+        """"Initializes StoreImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'address' not in new_values.keys() or \
+                not isinstance(new_values['address'], str) or \
+                len(str.strip(new_values['address'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ADDRESS_VALUE')
+        address = str.strip(new_values['address'])
+
+        if 'latitude' not in new_values.keys() or \
+                not (isinstance(new_values['latitude'], float) or
+                     isinstance(new_values['latitude'], int)) or \
+                new_values['latitude'] < -90.0 or \
+                new_values['latitude'] > 90.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LATITUDE_VALUE')
+        latitude = new_values['latitude']
+
+        if 'longitude' not in new_values.keys() or \
+                not (isinstance(new_values['longitude'], float) or
+                     isinstance(new_values['longitude'], int)) or \
+                new_values['longitude'] < -180.0 or \
+                new_values['longitude'] > 180.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LONGITUDE_VALUE')
+        longitude = new_values['longitude']
+
+        if 'area' not in new_values.keys() or \
+                not (isinstance(new_values['area'], float) or
+                     isinstance(new_values['area'], int)) or \
+                new_values['area'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_AREA_VALUE')
+        area = new_values['area']
+
+        if 'id' not in new_values['store_type'].keys() or \
+                not isinstance(new_values['store_type']['id'], int) or \
+                new_values['store_type']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_TYPE_ID')
+        store_type_id = new_values['store_type']['id']
+
+        if 'is_input_counted' not in new_values.keys() or \
+                not isinstance(new_values['is_input_counted'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_INPUT_COUNTED_VALUE')
+        is_input_counted = new_values['is_input_counted']
+
+        if 'id' not in new_values['contact'].keys() or \
+                not isinstance(new_values['contact']['id'], int) or \
+                new_values['contact']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTACT_ID')
+        contact_id = new_values['contact']['id']
+
+        if 'id' not in new_values['cost_center'].keys() or \
+                not isinstance(new_values['cost_center']['id'], int) or \
+                new_values['cost_center']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+        cost_center_id = new_values['cost_center']['id']
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_stores "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.STORE_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_store_types "
+                       " WHERE id = %s ",
+                       (store_type_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_TYPE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_contacts "
+                       " WHERE id = %s ",
+                       (new_values['contact']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.CONTACT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_cost_centers "
+                       " WHERE id = %s ",
+                       (new_values['cost_center']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COST_CENTER_NOT_FOUND')
+
+        add_values = (" INSERT INTO tbl_stores "
+                      "    (name, uuid, address, latitude, longitude, area, store_type_id, "
+                      "     is_input_counted, "
+                      "     contact_id, cost_center_id, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    address,
+                                    latitude,
+                                    longitude,
+                                    area,
+                                    store_type_id,
+                                    is_input_counted,
+                                    contact_id,
+                                    cost_center_id,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/stores/' + str(new_id)
+
+
+class StoreClone:
+    @staticmethod
+    def __init__():
+        """"Initializes StoreClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_STORE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_store_types ")
+        cursor.execute(query)
+        rows_store_types = cursor.fetchall()
+
+        store_type_dict = dict()
+        if rows_store_types is not None and len(rows_store_types) > 0:
+            for row in rows_store_types:
+                store_type_dict[row[0]] = {"id": row[0],
+                                           "name": row[1],
+                                           "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        address, latitude, longitude, area, store_type_id,"
+                 "        is_input_counted, "
+                 "        contact_id, cost_center_id, description "
+                 " FROM tbl_stores "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.STORE_NOT_FOUND')
+        else:
+            store_type = store_type_dict.get(row[7], None)
+            contact = contact_dict.get(row[9], None)
+            cost_center = cost_center_dict.get(row[10], None)
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "address": row[3],
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "area": row[6],
+                           "store_type": store_type,
+                           "is_input_counted": bool(row[8]),
+                           "contact": contact,
+                           "cost_center": cost_center,
+                           "description": row[11],
+                           }
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            new_name = (str.strip(meta_result['name'])
+                        + (datetime.now()
+                           + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+            add_values = (" INSERT INTO tbl_stores "
+                          "    (name, uuid, address, latitude, longitude, area, store_type_id, "
+                          "     is_input_counted, "
+                          "     contact_id, cost_center_id, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+            cursor.execute(add_values, (new_name,
+                                        str(uuid.uuid4()),
+                                        meta_result['address'],
+                                        meta_result['latitude'],
+                                        meta_result['longitude'],
+                                        meta_result['area'],
+                                        meta_result['store_type']['id'],
+                                        meta_result['is_input_counted'],
+                                        meta_result['contact']['id'],
+                                        meta_result['cost_center']['id'],
+                                        meta_result['description']))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+
+            resp.status = falcon.HTTP_201
+            resp.location = '/stores/' + str(new_id)
+
