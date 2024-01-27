@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "137916b7-4417-4778-8e9c-d333b6161549",
+		"_postman_id": "b8f97703-bbc4-47d8-bb26-9c0c1cb5ee85",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -9935,6 +9935,103 @@
 							"response": []
 						},
 						{
+							"name": "POST Create New Offline Meter",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"OfflinePM21\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/offlinemeters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"offlinemeters"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Offline Meter",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"OfflinePM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/offlinemeters/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"offlinemeters",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Offline Meter by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/offlinemeters/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"offlinemeters",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Export Offline Meter by ID to JSON",
 							"request": {
 								"method": "GET",
@@ -9965,39 +10062,6 @@
 										"offlinemeters",
 										"1",
 										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Create New Offline Meter",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
-										"type": "text",
-										"description": "Any Admin User's UUID"
-									},
-									{
-										"key": "Token",
-										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"OfflinePM21\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/offlinemeters",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinemeters"
 									]
 								}
 							},
@@ -10068,70 +10132,6 @@
 										"offlinemeters",
 										"1",
 										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Offline Meter",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
-										"type": "text",
-										"description": "Any Admin User's UUID"
-									},
-									{
-										"key": "Token",
-										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"OfflinePM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/offlinemeters/3",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinemeters",
-										"3"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE Offline Meter by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
-										"type": "text",
-										"description": "Any Admin User's UUID"
-									},
-									{
-										"key": "Token",
-										"value": "2ac29271a9c58218ba88928dd13bccb3662f2b320152cc5ef52f76f2c2450f48c12bad4fbd4c7b03bd35686c70909894e5e3637b67198108f3e403d4a6ca8f55",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/offlinemeters/3",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"offlinemeters",
-										"3"
 									]
 								}
 							},

@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added shopfloor export, import and clone functions to myems-api
 - added store export, import and clone functions to myems-api
 - added tenant export, import and clone functions to myems-api
-- 
+- added offline meter export, import and clone functions to myems-api
 ### Changed
 ### Fixed
 ### Removed
