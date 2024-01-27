@@ -443,6 +443,12 @@ api.add_route('/offlinemeters',
               offlinemeter.OfflineMeterCollection())
 api.add_route('/offlinemeters/{id_}',
               offlinemeter.OfflineMeterItem())
+api.add_route('/offlinemeters/{id_}/export',
+              offlinemeter.OfflineMeterExport())
+api.add_route('/offlinemeters/import',
+              offlinemeter.OfflineMeterImport())
+api.add_route('/offlinemeters/{id_}/clone',
+              offlinemeter.OfflineMeterClone())
 
 api.add_route('/offlinemeterfiles',
               offlinemeterfile.OfflineMeterFileCollection())
