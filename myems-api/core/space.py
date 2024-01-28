@@ -3341,11 +3341,11 @@ class SpaceImport:
                                    description='API.INVALID_SPACE_NAME')
         name = str.strip(new_values['name'])
 
-        if 'parent_space_id' in new_values.keys():
-            if new_values['parent_space_id'] <= 0:
+        if 'id' in new_values['parent_space'].keys():
+            if new_values['parent_space']['id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PARENT_SPACE_ID')
-            parent_space_id = new_values['parent_space_id']
+            parent_space_id = new_values['parent_space']['id']
         else:
             parent_space_id = None
 
@@ -3437,7 +3437,7 @@ class SpaceImport:
             cursor.execute(" SELECT name "
                            " FROM tbl_spaces "
                            " WHERE id = %s ",
-                           (new_values['parent_space_id'],))
+                           (new_values['parent_space']['id'],))
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
@@ -3525,6 +3525,9 @@ class SpaceClone:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
+        if int(id_) == 1:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.THIS_SPACE_CANNOT_BE_CLONED')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -3619,7 +3622,7 @@ class SpaceClone:
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
-                                        meta_result['parent_space_id'],
+                                        meta_result['parent_space']['id'],
                                         meta_result['area'],
                                         meta_result['timezone']['id'],
                                         meta_result['is_input_counted'],

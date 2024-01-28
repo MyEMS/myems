@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6a2d3854-6a21-4fd6-a0a0-0e5bb80f93b7",
+		"_postman_id": "e311155b-5892-47d4-a9e4-09816b251932",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -12516,7 +12516,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"value": "c6c0da19fa1ff6a68664be7474c186401ec363cf1ac1607e2aeddaf42026adb530ff8c5faa6363a946608e686b5adf322890b05565077bf72d69edf502b1c1c6",
 										"type": "text"
 									},
 									{
@@ -12527,13 +12527,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/export",
+									"raw": "{{base_url}}/spaces/2/export",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
-										"1",
+										"2",
 										"export"
 									]
 								}
@@ -12586,13 +12586,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"value": "c6c0da19fa1ff6a68664be7474c186401ec363cf1ac1607e2aeddaf42026adb530ff8c5faa6363a946608e686b5adf322890b05565077bf72d69edf502b1c1c6",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"MyEMS Headquarter1\",\r\n    \"parent_space_id\": 1,\r\n    \"area\": 999.99,\r\n    \"timezone\": {\r\n        \"id\": 56,\r\n        \"name\": \"China Standard Time\",\r\n        \"utc_offset\": \"+08:00\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"description\": \"MyEMS Project\"\r\n}",
+									"raw": "{\r\n    \"name\": \"1号楼1\",\r\n    \"parent_space_id\": {\r\n        \"id\": 1,\r\n        \"name\": \"MyEMS Headquarter\",\r\n        \"uuid\": \"9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9\"\r\n    },\r\n    \"area\": 88888.888,\r\n    \"timezone\": {\r\n        \"id\": 56,\r\n        \"name\": \"China Standard Time\",\r\n        \"utc_offset\": \"+08:00\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"description\": \"MyEMS Project\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -12625,18 +12625,18 @@
 									},
 									{
 										"key": "Token",
-										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"value": "c6c0da19fa1ff6a68664be7474c186401ec363cf1ac1607e2aeddaf42026adb530ff8c5faa6363a946608e686b5adf322890b05565077bf72d69edf502b1c1c6",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/spaces/1/clone",
+									"raw": "{{base_url}}/spaces/2/clone",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"spaces",
-										"1",
+										"2",
 										"clone"
 									]
 								}
