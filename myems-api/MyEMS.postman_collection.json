@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5f84ea2d-3c33-4796-a9eb-65049746f853",
+		"_postman_id": "6a2d3854-6a21-4fd6-a0a0-0e5bb80f93b7",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -12505,6 +12505,42 @@
 							"response": []
 						},
 						{
+							"name": "Export a Space by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New Space",
 							"request": {
 								"method": "POST",
@@ -12532,6 +12568,76 @@
 									],
 									"path": [
 										"spaces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Space from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"MyEMS Headquarter1\",\r\n    \"parent_space_id\": 1,\r\n    \"area\": 999.99,\r\n    \"timezone\": {\r\n        \"id\": 56,\r\n        \"name\": \"China Standard Time\",\r\n        \"utc_offset\": \"+08:00\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"description\": \"MyEMS Project\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Space by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e850bbdf2967f43c01300453534e96c51bf61c1c635f1db3fefc75f5a336daff2eb0f7956b4cfb0be5ed12554623a32023baff402bc7fab9d6f69aabd7a6ff51",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"clone"
 									]
 								}
 							},

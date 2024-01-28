@@ -562,6 +562,12 @@ api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
               space.SpaceMeterItem())
+api.add_route('/spaces/{id_}/export',
+              space.SpaceExport())
+api.add_route('/spaces/import',
+              space.SpaceImport())
+api.add_route('/spaces/{id_}/clone',
+              space.SpaceClone())
 
 # Get energy categories of all meters in the space tree
 api.add_route('/spaces/{id_}/treemetersenergycategories',
