@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e0cea141-37b8-4bbb-b26e-4f0adb0ea283",
+		"_postman_id": "5f84ea2d-3c33-4796-a9eb-65049746f853",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -17837,42 +17837,6 @@
 							"response": []
 						},
 						{
-							"name": "Export a Virtual Meter by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "b460e65cc24f3688f53f0f5f717596205e58d186a84a9c81a0487d288e61dc9b9a0b2dc5d41dff41675365b154de18f767ab14c664f6e267595faee829a0f50b",
-										"type": "text"
-									},
-									{
-										"key": "API-Key",
-										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-										"type": "default",
-										"disabled": true
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/virtualmeters/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualmeters",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "POST Create New Virtual Meter",
 							"request": {
 								"method": "POST",
@@ -17900,76 +17864,6 @@
 									],
 									"path": [
 										"virtualmeters"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Clone a Virtual Meter by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
-										"type": "text",
-										"description": "Any Admin User's UUID"
-									},
-									{
-										"key": "Token",
-										"value": "4c3e64488fe0b04545917b0663a29fe38419aa68a2e30dcba13dec6bed2ae5ba0f35f97d722ce8e3d0b98e21e59c13d7decfe361a4dbcc43d632bbd61aca0d79",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/virtualmeters/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualmeters",
-										"1",
-										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Virtual Meter from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
-										"type": "text",
-										"description": "Any Admin User's UUID"
-									},
-									{
-										"key": "Token",
-										"value": "4c3e64488fe0b04545917b0663a29fe38419aa68a2e30dcba13dec6bed2ae5ba0f35f97d722ce8e3d0b98e21e59c13d7decfe361a4dbcc43d632bbd61aca0d79",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"虚拟表12\",\r\n    \"equation\": \"x1+x2+x3\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"description\": \"virtual description\",\r\n    \"expression\": {\r\n        \"equation\": \"x1+x2+x3\",\r\n        \"variables\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"x1\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 1,\r\n                \"meter_name\": \"计量表1\"\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"name\": \"x2\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 2,\r\n                \"meter_name\": \"计量表2\"\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"name\": \"x3\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 3,\r\n                \"meter_name\": \"计量表3\"\r\n            }\r\n        ]\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/virtualmeters/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualmeters",
-										"import"
 									]
 								}
 							},
@@ -18034,6 +17928,112 @@
 									"path": [
 										"virtualmeters",
 										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Virtual Meter by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "b460e65cc24f3688f53f0f5f717596205e58d186a84a9c81a0487d288e61dc9b9a0b2dc5d41dff41675365b154de18f767ab14c664f6e267595faee829a0f50b",
+										"type": "text"
+									},
+									{
+										"key": "API-Key",
+										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualmeters/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualmeters",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Virtual Meter from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4c3e64488fe0b04545917b0663a29fe38419aa68a2e30dcba13dec6bed2ae5ba0f35f97d722ce8e3d0b98e21e59c13d7decfe361a4dbcc43d632bbd61aca0d79",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"虚拟表12\",\r\n    \"equation\": \"x1+x2+x3\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"description\": \"virtual description\",\r\n    \"expression\": {\r\n        \"equation\": \"x1+x2+x3\",\r\n        \"variables\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"x1\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 1,\r\n                \"meter_name\": \"计量表1\"\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"name\": \"x2\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 2,\r\n                \"meter_name\": \"计量表2\"\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"name\": \"x3\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 3,\r\n                \"meter_name\": \"计量表3\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualmeters/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualmeters",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Virtual Meter by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "4c3e64488fe0b04545917b0663a29fe38419aa68a2e30dcba13dec6bed2ae5ba0f35f97d722ce8e3d0b98e21e59c13d7decfe361a4dbcc43d632bbd61aca0d79",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualmeters/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualmeters",
+										"1",
+										"clone"
 									]
 								}
 							},
