@@ -740,6 +740,12 @@ api.add_route('/virtualmeters',
               virtualmeter.VirtualMeterCollection())
 api.add_route('/virtualmeters/{id_}',
               virtualmeter.VirtualMeterItem())
+api.add_route('/virtualmeters/{id_}/export',
+              virtualmeter.VirtualMeterExport())
+api.add_route('/virtualmeters/import',
+              virtualmeter.VirtualMeterImport())
+api.add_route('/virtualmeters/{id_}/clone',
+              virtualmeter.VirtualMeterClone())
 
 api.add_route('/virtualpowerplants',
               virtualpowerplant.VirtualPowerPlantCollection())
