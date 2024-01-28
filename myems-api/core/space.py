@@ -3341,11 +3341,11 @@ class SpaceImport:
                                    description='API.INVALID_SPACE_NAME')
         name = str.strip(new_values['name'])
 
-        if 'id' in new_values['parent_space'].keys():
-            if new_values['parent_space']['id'] <= 0:
+        if 'id' in new_values['parent_space_id'].keys():
+            if new_values['parent_space_id']['id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PARENT_SPACE_ID')
-            parent_space_id = new_values['parent_space']['id']
+            parent_space_id = new_values['parent_space_id']['id']
         else:
             parent_space_id = None
 
@@ -3437,7 +3437,7 @@ class SpaceImport:
             cursor.execute(" SELECT name "
                            " FROM tbl_spaces "
                            " WHERE id = %s ",
-                           (new_values['parent_space']['id'],))
+                           (new_values['parent_space_id']['id'],))
             row = cursor.fetchone()
             if row is None:
                 cursor.close()
@@ -3622,7 +3622,7 @@ class SpaceClone:
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
-                                        meta_result['parent_space']['id'],
+                                        meta_result['parent_space_id']['id'],
                                         meta_result['area'],
                                         meta_result['timezone']['id'],
                                         meta_result['is_input_counted'],
@@ -3639,4 +3639,4 @@ class SpaceClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/spaces/' + str(new_id)
-
+            
