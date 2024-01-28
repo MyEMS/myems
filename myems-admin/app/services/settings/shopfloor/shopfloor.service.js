@@ -48,6 +48,30 @@ app.factory('ShopfloorService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportShopfloor: function(shopfloor, headers, callback) {
+            $http.get(getAPI()+'shopfloors/'+shopfloor.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importShopfloor: function(importdata, headers, callback) {
+            $http.post(getAPI()+'shopfloors/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneShopfloor: function(shopfloor, headers, callback) {
+            $http.post(getAPI()+'shopfloors/'+shopfloor.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

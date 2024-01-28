@@ -41,5 +41,29 @@ app.factory('StoreService', function($http) {
                 callback(response);
             });
         },
+        exportStore: function(store, headers, callback) {
+            $http.get(getAPI()+'stores/'+store.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importStore: function(importdata, headers, callback) {
+            $http.post(getAPI()+'stores/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneStore: function(store, headers, callback) {
+            $http.post(getAPI()+'stores/'+store.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
