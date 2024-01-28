@@ -8,6 +8,9 @@
 							<a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}
 							</a>
+							<a ng-click="importShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}
+							</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -37,6 +40,8 @@
 												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteShopfloor(shopfloor)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportShopfloor(shopfloor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneShopfloor(shopfloor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

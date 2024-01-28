@@ -41,5 +41,29 @@ app.factory('TenantService', function($http) {
                 callback(response);
             });
         },
+        exportTenant: function(tenant, headers, callback) {
+            $http.get(getAPI()+'tenants/'+tenant.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importTenant: function(importdata, headers, callback) {
+            $http.post(getAPI()+'tenants/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneTenant: function(tenant, headers, callback) {
+            $http.post(getAPI()+'tenants/'+tenant.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
