@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e311155b-5892-47d4-a9e4-09816b251932",
+		"_postman_id": "a2f3e5df-fb7e-4678-ae49-3b0174826a0b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -1625,6 +1625,42 @@
 							"response": []
 						},
 						{
+							"name": "Export a Command by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/commands/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New Command (without set_value)",
 							"request": {
 								"method": "POST",
@@ -1692,6 +1728,78 @@
 									],
 									"path": [
 										"commands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Command from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"turn_up_light1\",\n    \"topic\": \"myems/point/2\",\n    \"payload\": \"{address:1, slave_id:1, set_value: $s1}\",\n    \"set_value\": 2.000,\n    \"description\": \"turn up light\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/commands/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Command by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
+										"description": "Login to get a valid token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/commands/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"commands",
+										"1",
+										"clone"
 									]
 								}
 							},
