@@ -170,6 +170,12 @@ api.add_route('/commands/{id_}',
               command.CommandItem())
 api.add_route('/commands/{id_}/send',
               command.CommandSend())
+api.add_route('/commands/{id_}/export',
+              command.CommandExport())
+api.add_route('/commands/import',
+              command.CommandImport())
+api.add_route('/commands/{id_}/clone',
+              command.CommandClone())
 
 api.add_route('/contacts',
               contact.ContactCollection())
