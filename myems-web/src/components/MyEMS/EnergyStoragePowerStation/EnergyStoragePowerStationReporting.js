@@ -85,7 +85,7 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstation?energystoragepowerstationuuid=' + energyStoragePowerStationUUID, {
+    fetch(APIBaseURL + '/reports/energystoragepowerstationreporting?uuid=' + energyStoragePowerStationUUID, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",

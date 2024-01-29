@@ -109,7 +109,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstation?energystoragepowerstationuuid=' + energyStoragePowerStationUUID, {
+    fetch(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
@@ -126,13 +126,13 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-        setEnergyStoragePowerStationName(json['energystoragepowerstation']['name']);
-        setEnergyStoragePowerStationAddress(json['energystoragepowerstation']['address']);
-        setEnergyStoragePowerStationPostalCode(json['energystoragepowerstation']['postal_code']);
-        setEnergyStoragePowerStationCapacity(json['energystoragepowerstation']['capacity']);
-        setEnergyStoragePowerStationLatitude(json['energystoragepowerstation']['latitude']);
-        setEnergyStoragePowerStationLongitude(json['energystoragepowerstation']['longitude']);
-        setEnergyStoragePowerStationSVG({__html: json['energystoragepowerstation']['svg']});
+        setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
+        setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
+        setEnergyStoragePowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
+        setEnergyStoragePowerStationCapacity(json['energy_storage_power_station']['capacity']);
+        setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
+        setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
+        setEnergyStoragePowerStationSVG({__html: json['energy_storage_power_station']['svg']});
         let timestamps = {}
         json['parameters']['timestamps'].forEach((currentValue, index) => {
           timestamps['a' + index] = currentValue;
