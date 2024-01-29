@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added offline meter export, import and clone functions to myems-api
 - added virtual meter export, import and clone functions to myems-api
 - added space export, import and clone functions to myems-api
+- added command export, import and clone functions to myems-api
 ### Changed
 ### Fixed
 ### Removed
