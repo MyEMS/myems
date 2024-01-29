@@ -193,7 +193,7 @@ import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/C
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
 // Microgrid
-import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
+import MicrogridList from '../components/MyEMS/Microgrid/MicrogridList';
 import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
 import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
 // Energy Storage Power Statioin
@@ -454,7 +454,7 @@ const MyEMSRoutes = () => (
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
 
     {/*Microgrid*/}
-    <Route path="/microgrid" exact component={Microgrid} />
+    <Route path="/microgrid" exact component={MicrogridList} />
     <Route path="/microgrid/details" exact component={MicrogridDetails} />
     <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
 

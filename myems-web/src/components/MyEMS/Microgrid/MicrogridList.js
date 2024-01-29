@@ -1,186 +1,229 @@
-import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Badge, Col, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  Col,
+  CustomInput,
+  Row,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Spinner,
+} from 'reactstrap';
+import Loader from '../../common/Loader';
 import { isIterableArray } from '../../../helpers/utils';
-import Slider from 'react-slick/lib';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Flex from '../../common/Flex';
 import classNames from 'classnames';
-import ButtonIcon from '../../common/ButtonIcon';
-import AppContext, { ProductContext } from '../../../context/Context';
+import MicrogridListItem from './MicrogridListItem';
+import MicrogridFooter from './MicrogridFooter';
+import usePagination from '../../../hooks/usePagination';
+import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { APIBaseURL, settings } from '../../../config';
+import CustomizeMapBox from '../common/CustomizeMapBox';
 
-const MicrogridList = ({
-  id,
-  uuid,
-  files,
-  name,
-  address,
-  postal_code,
-  serial_number,
-  batteryState,
-  batterySocPointValue,
-  batteryPowerPointValue,
-  photovoltaicPowerPointValue,
-  loadPowerPointValue,
-  gridPowerPointValue,
-  alarms,
-  isOnline,
-  PCSRunState,
-  index,
-  t
-}) => {
-  const { isDark } = useContext(AppContext);
-  const {  favouriteItemsDispatch } = useContext(ProductContext);
-  const [cartLoading, setCartLoading] = useState(false);
 
-  const handleAddToCart = () => {
-    setCartLoading(true);
-    setTimeout(() => {
-      setCartLoading(false);
+const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
+  useEffect(() => {
+    let is_logged_in = getCookieValue('is_logged_in');
+    let user_name = getCookieValue('user_name');
+    let user_display_name = getCookieValue('user_display_name');
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+      setRedirectUrl(`/authentication/basic/login`);
+      setRedirect(true);
+    } else {
+      //update expires time of cookies
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
+    }
+  });
+
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
     }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // State
+  const [microgridArray, setMicrogridArray] = useState([]);
+  const [microgridIds, setMicrogridIds] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [geojson, setGeojson] = useState([]);
+  const [rootLatitude, setRootLatitude] = useState('');
+  const [rootLongitude, setRootLongitude] = useState('');
+
+  useEffect(() => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/reports/microgridlist', {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json",
+        "User-UUID": getCookieValue('user_uuid'),
+        "Token": getCookieValue('token')
+      },
+      body: null,
+
+    }).then(response => {
+      console.log(response);
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      return response.json();
+    }).then(json => {
+      console.log(json);
+      if (isResponseOK) {
+        console.log(json);
+        setMicrogridArray([]);
+        setMicrogridIds([]);
+        let microgridArray = [];
+        let microgridIds = [];
+        let geojsonData = [];
+        if (json.length > 0) {
+          setRootLongitude(json[0]['longitude']);
+          setRootLatitude(json[0]['latitude']);
+          json.forEach((currentValue, index) => {
+            let microgird = {}
+            microgird['id'] = json[index]['id'];
+            microgird['name'] = json[index]['name'];
+            microgird['uuid'] = json[index]['uuid'];
+            microgird['address'] = json[index]['address'];
+            microgird['postal_code'] = json[index]['postal_code'];
+            microgird['latitude'] = json[index]['latitude'];
+            microgird['longitude'] = json[index]['longitude'];
+            microgird['serial_number'] = json[index]['serial_number'];
+            microgird['files'] = [{ id: json[index]['uuid'], src: require('./Microgrid.jpeg'), }];
+            microgird['batteryState'] = json[index]['battery_state'];
+            microgird['batterySocPointValue'] = json[index]['battery_soc_point_value'];
+            microgird['batteryPowerPointValue'] = json[index]['battery_power_point_value'];
+            microgird['photovoltaicPowerPointValue'] = json[index]['photovoltaic_power_point_value'];
+            microgird['loadPowerPointValue'] = json[index]['load_power_point_value'];
+            microgird['gridPowerPointValue'] = json[index]['grid_power_point_value'];
+            microgird['PCSRunState'] = json[index]['pcs_run_state'];
+            microgird['alarms'] = ['supply temperature is high', 'return temperature is low'];
+            microgird['isOnline'] = json[index]['is_online'];
+
+            microgridArray.push(microgird);
+            microgridIds.push(microgird['id']);
+            geojsonData.push({
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [json[index]['longitude'], json[index]['latitude']]
+                },
+              'properties': {
+                'title': json[index]['name'],
+                'description': json[index]['description'],
+                'uuid': json[index]['uuid'],
+                'url': '/microgrid/details'
+                }
+            })
+          });
+        }
+        setMicrogridArray(microgridArray);
+        setMicrogridIds(microgridIds);
+        console.log('microgridArray:');
+        console.log(microgridArray);
+        console.log('microgridIds:');
+        console.log(microgridIds);
+        setIsLoading(false);
+        setGeojson(geojsonData);
+      } else {
+        toast.error(t(json.description));
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+
+  }, []);
+
+  const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+  const sliderSettings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
   };
 
+  // Hook
+  const { data: paginationData, meta: paginationMeta, handler: paginationHandler } = usePagination(microgridIds);
+  const { total, itemsPerPage, from, to } = paginationMeta;
+  const { perPage } = paginationHandler;
+
+  const isList = true;
+  const isGrid = false;
+
+
   return (
-    <Col xs={12} className={classNames('p-3', { 'bg-100': isDark && index % 2 !== 0 })}>
-      <div className="p-1">
-        <Row>
-          <Col sm={5} md={4}>
-            <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/microgrid/details?uuid=${uuid}`} target = "_blank">
-                <img
-                  className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
-                      src={files[0]['src']}
-                />
-                </Link>
-              {isOnline && (
-                <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
-                </Badge>
+    <Fragment>
+      <Card>
+        <CardBody className={classNames({ 'p-0  overflow-hidden': isList, 'pb-0': isGrid })}>
+          <Row>
+            <Col xs={8}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+                <Row noGutters={isList}>
+                  {isIterableArray(microgridArray) &&
+                    microgridArray
+                      .filter(microgrid => paginationData.includes(microgrid.id))
+                      .map((microgrid, index) => <MicrogridListItem {...microgrid} sliderSettings={sliderSettings} key={microgrid.id} index={index} />)}
+                </Row>
               )}
-            </div>
-          </Col>
-          <Col sm={7} md={8}>
-            <Row>
-              <Col lg={7}>
-                <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/microgrid/details?uuid=${uuid}`} target = "_blank">{name}</Link>
-                </h5>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {address}
-                </p>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {postal_code}
-                </p>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {serial_number}
-                </p>
-                <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong></p>
-                  </div>
-              </Col>
-              <Col lg={5} tag={Flex} justify="between" column>
-                <div>
-                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    SoC: {batterySocPointValue} %
-                  </h4>
-                  <p className="fs--1 mb-1">
-                      {t('Communication Status')}:{' '}
-                      <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
-                        {isOnline ? t('Communication Online') : t('Communication Offline')}
-                      </strong>
-                    </p>
-                    <p className="fs--1 mb-1">
-                      {t('Battery State')}:{' '}
-                      <strong className={classNames({ 'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
-                      'text-danger':  batteryState === 'Unknown' || batteryState === 'Stopped'})}>
-                        {batteryState === 'Charging' ? t('Battery Charging') : batteryState === 'Discharging' ? t('Battery Discharging') : batteryState === 'Stopped' ? t('Battery Stopped'): t('Battery Unknown')}
-                      </strong>
-                    </p>
-                    <p className="fs--1 mb-1">
-                      {t('PCS Run State')}:{' '}
-                      <strong className={classNames({ 'text-success': PCSRunState === 'Running',
-                      'text-danger':  PCSRunState === 'Unknown' || PCSRunState === 'Initializing' || PCSRunState === 'Standby' || PCSRunState === 'Shutdown' || PCSRunState === 'Fault'})}>
-                        {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
-                      </strong>
-                    </p>
-
-                </div>
-                <div className="mt-md-2">
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tv"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`microgrid/details?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Monitoring')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="chart-pie"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`microgrid/reporting?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Reporting')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color={isOnline ? 'outline-danger' : 'outline-secondary'}
-                    size="sm"
-                    className={classNames('w-lg-100 mt-2 mr-2 mr-lg-0', {
-                      'border-300': !isOnline
-                    })}
-                    icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                      onClick={() => window.open('notification', '_blank')}
-                  >
-                    {t('Fault Alarms')}({alarms.length})
-                  </ButtonIcon>
-
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tools"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={handleAddToCart}
-                  >
-                    {t('Maintenance')}
-                  </ButtonIcon>
-
-                </div>
-              </Col>
+            </Col>
+            <Col>
+              <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={10} Geojson={geojson}></CustomizeMapBox>
+            </Col>
             </Row>
-          </Col>
-        </Row>
-      </div>
-    </Col>
+        </CardBody>
+        <MicrogridFooter meta={paginationMeta} handler={paginationHandler} />
+      </Card>
+      <Card className="mb-3">
+        <CardBody>
+          <Row className="justify-content-between align-items-center">
+            <Col sm="auto" className="mb-2 mb-sm-0" tag={Flex} align="center">
+              <h6 className="mb-0 text-nowrap ml-2">
+                {t('Show Up to')}
+              </h6>
+              <CustomInput
+                id="itemsPerPage"
+                type="select"
+                bsSize="sm"
+                value={itemsPerPage}
+                onChange={({ target }) => perPage(Number(target.value))}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={total}>{t('All')}</option>
+              </CustomInput>
+              <h6 className="mb-0 text-nowrap ml-2">
+                {t('FROM - TO of TOTAL', { 'FROM': from, 'TO': to, 'TOTAL': total })}
+              </h6>
+            </Col>
+
+          </Row>
+        </CardBody>
+      </Card>
+    </Fragment>
   );
 };
 
-MicrogridList.propTypes = {
-  name: PropTypes.string.isRequired,
-  files: PropTypes.array,
-  address: PropTypes.string,
-  postal_code: PropTypes.string,
-  serial_number: PropTypes.string,
-  batteryState: PropTypes.string,
-  batterySocPointValue: PropTypes.number,
-  batteryPowerPointValue: PropTypes.number,
-  photovoltaicPowerPointValue: PropTypes.number,
-  loadPowerPointValue: PropTypes.number,
-  gridPowerPointValue: PropTypes.number,
-  alarms: PropTypes.array,
-  isOnline: PropTypes.bool,
-  PCSRunState: PropTypes.string
-};
-
-MicrogridList.defaultProps = { isOnline: false, files: [] };
-
-export default withTranslation()(MicrogridList);
+export default withTranslation()(withRedirect(MicrogridList));
