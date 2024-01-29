@@ -197,7 +197,7 @@ import Microgrid from '../components/MyEMS/Microgrid/Microgrid';
 import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
 import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
 // Energy Storage Power Statioin
-import EnergyStoragePowerStation from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStation';
+import EnergyStoragePowerStationList from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationList';
 import EnergyStoragePowerStationDetails from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationDetails';
 import EnergyStoragePowerStationReporting from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReporting';
 // FDD
@@ -459,7 +459,7 @@ const MyEMSRoutes = () => (
     <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
 
     {/*EnergyStoragePowerStation*/}
-    <Route path="/energystoragepowerstation" exact component={EnergyStoragePowerStation} />
+    <Route path="/energystoragepowerstation" exact component={EnergyStoragePowerStationList} />
     <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
     <Route path="/energystoragepowerstation/reporting" exact component={EnergyStoragePowerStationReporting} />
 
