@@ -110,7 +110,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgrid?microgriduuid=' + microgridUUID, {
+    fetch(APIBaseURL + '/reports/microgriddetails?uuid=' + microgridUUID, {
       method: 'GET',
       headers: {
         "Content-type": "application/json",
