@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -1411,13 +1411,13 @@ class EnergyFlowDiagramImport:
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4())))
         new_id = cursor.lastrowid
-        for value in new_values['nodes']:
-            if 'name' not in value.keys() or \
-                    not isinstance(value['name'], str) or \
-                    len(str.strip(value['name'])) == 0:
+        for node in new_values['nodes']:
+            if 'name' not in node.keys() or \
+                    not isinstance(node['name'], str) or \
+                    len(str.strip(node['name'])) == 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME')
-            name = str.strip(value['name'])
+            name = str.strip(node['name'])
 
             cursor.execute(" SELECT name "
                            " FROM tbl_energy_flow_diagrams "
@@ -1442,29 +1442,29 @@ class EnergyFlowDiagramImport:
                           " VALUES (%s, %s) ")
             cursor.execute(add_values, (new_id,
                                         name))
-        for value in new_values['links']:
+        for link in new_values['links']:
             source_node_id = None
-            if 'id' in value['source_node'].keys():
-                if value['source_node']['id'] is not None and \
-                        value['source_node']['id'] <= 0:
+            if 'id' in link['source_node'].keys():
+                if link['source_node']['id'] is not None and \
+                        link['source_node']['id'] <= 0:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_SOURCE_NODE_ID')
-                source_node_id = value['source_node']['id']
+                source_node_id = link['source_node']['id']
 
             target_node_id = None
-            if 'id' in value['target_node'].keys():
-                if value['target_node']['id'] is not None and \
-                        value['target_node']['id'] <= 0:
+            if 'id' in link['target_node'].keys():
+                if link['target_node']['id'] is not None and \
+                        link['target_node']['id'] <= 0:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_TARGET_NODE_ID')
-                target_node_id = value['target_node']['id']
+                target_node_id = link['target_node']['id']
 
             meter_uuid = None
-            if 'uuid' in value['meter'].keys():
-                if value['meter']['uuid'] is not None and \
-                        isinstance(value['meter']['uuid'], str) and \
-                        len(str.strip(value['meter']['uuid'])) > 0:
-                    meter_uuid = str.strip(value['meter']['uuid'])
+            if 'uuid' in link['meter'].keys():
+                if link['meter']['uuid'] is not None and \
+                        isinstance(link['meter']['uuid'], str) and \
+                        len(str.strip(link['meter']['uuid'])) > 0:
+                    meter_uuid = str.strip(link['meter']['uuid'])
 
             cursor.execute(" SELECT name "
                            " FROM tbl_energy_flow_diagrams "
@@ -1702,20 +1702,24 @@ class EnergyFlowDiagramClone:
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4())))
             new_id = cursor.lastrowid
-            for value in meta_result['nodes']:
-                add_values = (" INSERT INTO tbl_energy_flow_diagrams_nodes "
-                              "    (energy_flow_diagram_id, name) "
-                              " VALUES (%s, %s) ")
-                cursor.execute(add_values, (new_id,
-                                            value['name']))
-            for value in meta_result['links']:
-                add_values = (" INSERT INTO tbl_energy_flow_diagrams_links "
-                              "    (energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid) "
-                              " VALUES (%s, %s, %s, %s) ")
-                cursor.execute(add_values, (new_id,
-                                            value['source_node']['id'],
-                                            value['target_node']['id'],
-                                            value['meter']['id']))
+            if meta_result['nodes'] is not None and len(meta_result['nodes']) > 0:
+                for node in meta_result['nodes']:
+                    add_values = (" INSERT INTO tbl_energy_flow_diagrams_nodes "
+                                  "    (energy_flow_diagram_id, name) "
+                                  " VALUES (%s, %s) ")
+                    cursor.execute(add_values, (new_id,
+                                                node['name']))
+            if meta_result['links'] is not None and len(meta_result['links']) > 0:
+                for link in meta_result['links']:
+                    if link['meter'] is None:
+                        continue
+                    add_values = (" INSERT INTO tbl_energy_flow_diagrams_links "
+                                  "    (energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid) "
+                                  " VALUES (%s, %s, %s, %s) ")
+                    cursor.execute(add_values, (new_id,
+                                                link['source_node']['id'],
+                                                link['target_node']['id'],
+                                                link['meter']['uuid']))
             cnx.commit()
             cursor.close()
             cnx.close()

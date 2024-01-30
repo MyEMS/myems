@@ -405,7 +405,7 @@ INSERT INTO `myems_system_db`.`tbl_meters`
 (`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
 VALUES
 (1, 'Beispiel Meter1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, 1, 0.000, 999.999, 1, 1, null, 'meter1'),
-(2, 'Beispiel Meter2', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter2'),
+(2, 'Beispiel Meter2', 'd6f3f56b-10ee-4d22-ad47-5acc1353a6f4', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter2'),
 (3, 'Beispiel Meter3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter3');
 
 COMMIT;
