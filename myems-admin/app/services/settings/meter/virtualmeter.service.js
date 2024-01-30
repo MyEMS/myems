@@ -40,6 +40,30 @@ app.factory('VirtualMeterService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportVirtualMeter: function(virtualmeter, headers, callback) {
+            $http.get(getAPI()+'virtualmeters/'+virtualmeter.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importVirtualMeter: function(importdata, headers, callback) {
+            $http.post(getAPI()+'virtualmeters/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneVirtualMeter: function(virtualmeter, headers, callback) {
+            $http.post(getAPI()+'virtualmeters/'+virtualmeter.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

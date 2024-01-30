@@ -214,8 +214,10 @@
 
 					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}">
 						<div class="panel-body" ng-controller="VirtualMeterController">
-							<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i
-									class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
+							<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
+							<a ng-click="importVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<!-- <div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div>
 									<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
@@ -247,7 +249,8 @@
 												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteVirtualMeter(virtualmeter)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-
+											<a ng-click="exportVirtualMeter(virtualmeter)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneVirtualMeter(virtualmeter)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
