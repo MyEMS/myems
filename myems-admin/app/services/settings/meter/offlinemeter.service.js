@@ -48,6 +48,30 @@ app.factory('OfflineMeterService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportOfflineMeter: function(offlinemeter, headers, callback) {
+            $http.get(getAPI()+'offlinemeters/'+offlinemeter.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importOfflineMeter: function(importdata, headers, callback) {
+            $http.post(getAPI()+'offlinemeters/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneOfflineMeter: function(offlinemeter, headers, callback) {
+            $http.post(getAPI()+'offlinemeters/'+offlinemeter.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
