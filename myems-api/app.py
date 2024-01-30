@@ -264,6 +264,12 @@ api.add_route('/energyflowdiagrams/{id_}/nodes',
               energyflowdiagram.EnergyFlowDiagramNodeCollection())
 api.add_route('/energyflowdiagrams/{id_}/nodes/{nid}',
               energyflowdiagram.EnergyFlowDiagramNodeItem())
+api.add_route('/energyflowdiagrams/{id_}/export',
+              energyflowdiagram.EnergyFlowDiagramExport())
+api.add_route('/energyflowdiagrams/import',
+              energyflowdiagram.EnergyFlowDiagramImport())
+api.add_route('/energyflowdiagrams/{id_}/clone',
+              energyflowdiagram.EnergyFlowDiagramClone())
 
 api.add_route('/energyitems',
               energyitem.EnergyItemCollection())

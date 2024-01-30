@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -1233,4 +1234,492 @@ class EnergyFlowDiagramNodeItem:
         cnx.close()
 
         resp.status = falcon.HTTP_200
+
+
+class EnergyFlowDiagramExport:
+    @staticmethod
+    def __init__():
+        """"Initializes EnergyFlowDiagramExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[2]] = {"type": 'meter',
+                                      "id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_offline_meters ")
+        cursor.execute(query)
+        rows_offline_meters = cursor.fetchall()
+
+        offline_meter_dict = dict()
+        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+            for row in rows_offline_meters:
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_virtual_meters ")
+        cursor.execute(query)
+        rows_virtual_meters = cursor.fetchall()
+
+        virtual_meter_dict = dict()
+        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+            for row in rows_virtual_meters:
+                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+
+        query = (" SELECT id, energy_flow_diagram_id, name "
+                 " FROM tbl_energy_flow_diagrams_nodes")
+        cursor.execute(query)
+        rows_nodes = cursor.fetchall()
+
+        node_dict = dict()
+        node_list_dict = dict()
+        if rows_nodes is not None and len(rows_nodes) > 0:
+            for row in rows_nodes:
+                node_dict[row[0]] = row[2]
+                if node_list_dict.get(row[1]) is None:
+                    node_list_dict[row[1]] = list()
+                node_list_dict[row[1]].append({"id": row[0], "name": row[2]})
+
+        query = (" SELECT id, energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid "
+                 " FROM tbl_energy_flow_diagrams_links")
+        cursor.execute(query)
+        rows_links = cursor.fetchall()
+
+        link_list_dict = dict()
+        if rows_links is not None and len(rows_links) > 0:
+            for row in rows_links:
+                # find meter by uuid
+                meter = meter_dict.get(row[4], None)
+                if meter is None:
+                    meter = virtual_meter_dict.get(row[4], None)
+                if meter is None:
+                    meter = offline_meter_dict.get(row[4], None)
+
+                if link_list_dict.get(row[1]) is None:
+                    link_list_dict[row[1]] = list()
+                link_list_dict[row[1]].append({"id": row[0],
+                                               "source_node": {
+                                                   "id": row[2],
+                                                   "name": node_dict.get(row[2])},
+                                               "target_node": {
+                                                   "id": row[3],
+                                                   "name": node_dict.get(row[3])},
+                                               "meter": meter})
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_flow_diagrams "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "nodes": node_list_dict.get(row[0], None),
+                           "links": link_list_dict.get(row[0], None),
+                           }
+
+        resp.text = json.dumps(meta_result)
+
+
+class EnergyFlowDiagramImport:
+    @staticmethod
+    def __init__():
+        """"Initializes EnergyFlowDiagramImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_FLOW_DIAGRAM_NAME')
+        name = str.strip(new_values['name'])
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_flow_diagrams "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
+
+        add_values = (" INSERT INTO tbl_energy_flow_diagrams "
+                      "    (name, uuid) "
+                      " VALUES (%s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4())))
+        new_id = cursor.lastrowid
+        for value in new_values['nodes']:
+            if 'name' not in value.keys() or \
+                    not isinstance(value['name'], str) or \
+                    len(str.strip(value['name'])) == 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME')
+            name = str.strip(value['name'])
+
+            cursor.execute(" SELECT name "
+                           " FROM tbl_energy_flow_diagrams "
+                           " WHERE id = %s ", (new_id,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                       description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
+
+            cursor.execute(" SELECT name "
+                           " FROM tbl_energy_flow_diagrams_nodes "
+                           " WHERE name = %s AND energy_flow_diagram_id = %s ", (name, new_id))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE')
+
+            add_values = (" INSERT INTO tbl_energy_flow_diagrams_nodes "
+                          "    (energy_flow_diagram_id, name) "
+                          " VALUES (%s, %s) ")
+            cursor.execute(add_values, (new_id,
+                                        name))
+        for value in new_values['links']:
+            source_node_id = None
+            if 'id' in value['source_node'].keys():
+                if value['source_node']['id'] is not None and \
+                        value['source_node']['id'] <= 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SOURCE_NODE_ID')
+                source_node_id = value['source_node']['id']
+
+            target_node_id = None
+            if 'id' in value['target_node'].keys():
+                if value['target_node']['id'] is not None and \
+                        value['target_node']['id'] <= 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_TARGET_NODE_ID')
+                target_node_id = value['target_node']['id']
+
+            meter_uuid = None
+            if 'uuid' in value['meter'].keys():
+                if value['meter']['uuid'] is not None and \
+                        isinstance(value['meter']['uuid'], str) and \
+                        len(str.strip(value['meter']['uuid'])) > 0:
+                    meter_uuid = str.strip(value['meter']['uuid'])
+
+            cursor.execute(" SELECT name "
+                           " FROM tbl_energy_flow_diagrams "
+                           " WHERE id = %s ", (new_id,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                       description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
+
+            cursor.execute(" SELECT id "
+                           " FROM tbl_energy_flow_diagrams_links "
+                           " WHERE energy_flow_diagram_id = %s AND "
+                           "       source_node_id = %s AND target_node_id = %s ",
+                           (new_id, source_node_id, target_node_id,))
+            row = cursor.fetchone()
+            if row is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.NOT_FOUND',
+                                       description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
+
+            query = (" SELECT id, name "
+                     " FROM tbl_energy_flow_diagrams_nodes "
+                     " WHERE id = %s ")
+            cursor.execute(query, (source_node_id,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.SOURCE_NODE_NOT_FOUND')
+
+            query = (" SELECT id, name "
+                     " FROM tbl_energy_flow_diagrams_nodes "
+                     " WHERE id = %s ")
+            cursor.execute(query, (target_node_id,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.TARGET_NODE_NOT_FOUND')
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_meters ")
+            cursor.execute(query)
+            rows_meters = cursor.fetchall()
+
+            meter_dict = dict()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row in rows_meters:
+                    meter_dict[row[2]] = {"type": 'meter',
+                                          "id": row[0],
+                                          "name": row[1],
+                                          "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_offline_meters ")
+            cursor.execute(query)
+            rows_offline_meters = cursor.fetchall()
+
+            offline_meter_dict = dict()
+            if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                for row in rows_offline_meters:
+                    offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_virtual_meters ")
+            cursor.execute(query)
+            rows_virtual_meters = cursor.fetchall()
+
+            virtual_meter_dict = dict()
+            if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                for row in rows_virtual_meters:
+                    virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            # validate meter uuid
+            if meter_dict.get(meter_uuid) is None and \
+                    virtual_meter_dict.get(meter_uuid) is None and \
+                    offline_meter_dict.get(meter_uuid) is None:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_METER_UUID')
+
+            add_values = (" INSERT INTO tbl_energy_flow_diagrams_links "
+                          "    (energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid) "
+                          " VALUES (%s, %s, %s, %s) ")
+            cursor.execute(add_values, (new_id,
+                                        source_node_id,
+                                        target_node_id,
+                                        meter_uuid))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energyflowdiagrams/' + str(new_id)
+
+
+class EnergyFlowDiagramClone:
+    @staticmethod
+    def __init__():
+        """"Initializes EnergyFlowDiagramClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[2]] = {"type": 'meter',
+                                      "id": row[0],
+                                      "name": row[1],
+                                      "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_offline_meters ")
+        cursor.execute(query)
+        rows_offline_meters = cursor.fetchall()
+
+        offline_meter_dict = dict()
+        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+            for row in rows_offline_meters:
+                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_virtual_meters ")
+        cursor.execute(query)
+        rows_virtual_meters = cursor.fetchall()
+
+        virtual_meter_dict = dict()
+        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+            for row in rows_virtual_meters:
+                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+
+        query = (" SELECT id, energy_flow_diagram_id, name "
+                 " FROM tbl_energy_flow_diagrams_nodes")
+        cursor.execute(query)
+        rows_nodes = cursor.fetchall()
+
+        node_dict = dict()
+        node_list_dict = dict()
+        if rows_nodes is not None and len(rows_nodes) > 0:
+            for row in rows_nodes:
+                node_dict[row[0]] = row[2]
+                if node_list_dict.get(row[1]) is None:
+                    node_list_dict[row[1]] = list()
+                node_list_dict[row[1]].append({"id": row[0], "name": row[2]})
+
+        query = (" SELECT id, energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid "
+                 " FROM tbl_energy_flow_diagrams_links")
+        cursor.execute(query)
+        rows_links = cursor.fetchall()
+
+        link_list_dict = dict()
+        if rows_links is not None and len(rows_links) > 0:
+            for row in rows_links:
+                # find meter by uuid
+                meter = meter_dict.get(row[4], None)
+                if meter is None:
+                    meter = virtual_meter_dict.get(row[4], None)
+                if meter is None:
+                    meter = offline_meter_dict.get(row[4], None)
+
+                if link_list_dict.get(row[1]) is None:
+                    link_list_dict[row[1]] = list()
+                link_list_dict[row[1]].append({"id": row[0],
+                                               "source_node": {
+                                                   "id": row[2],
+                                                   "name": node_dict.get(row[2])},
+                                               "target_node": {
+                                                   "id": row[3],
+                                                   "name": node_dict.get(row[3])},
+                                               "meter": meter})
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_flow_diagrams "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "nodes": node_list_dict.get(row[0], None),
+                           "links": link_list_dict.get(row[0], None),
+                           }
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            new_name = (str.strip(meta_result['name'])
+                        + (datetime.now()
+                           + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+            add_values = (" INSERT INTO tbl_energy_flow_diagrams "
+                          "    (name, uuid) "
+                          " VALUES (%s, %s) ")
+            cursor.execute(add_values, (new_name,
+                                        str(uuid.uuid4())))
+            new_id = cursor.lastrowid
+            for value in meta_result['nodes']:
+                add_values = (" INSERT INTO tbl_energy_flow_diagrams_nodes "
+                              "    (energy_flow_diagram_id, name) "
+                              " VALUES (%s, %s) ")
+                cursor.execute(add_values, (new_id,
+                                            value['name']))
+            for value in meta_result['links']:
+                add_values = (" INSERT INTO tbl_energy_flow_diagrams_links "
+                              "    (energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid) "
+                              " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_values, (new_id,
+                                            value['source_node']['id'],
+                                            value['target_node']['id'],
+                                            value['meter']['id']))
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+
+            resp.status = falcon.HTTP_201
+            resp.location = '/energyflowdiagrams/' + str(new_id)
 
