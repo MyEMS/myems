@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "45591528-c5a2-43dd-9620-daf4eefa7ca8",
+		"_postman_id": "e20a6567-ec5a-4b84-b98e-845269f55726",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -15584,6 +15584,110 @@
 									"path": [
 										"tariffs",
 										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Tariff by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "6e8b2dc0b4c9c182636d5aede041dd11dc4b4187d3288d49b7cf97fe1cf3af4072227de877ea7997544e78a8cafaedbfd3e053b3a00fb28d4eba26ea6362225c",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tariffs/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Tariff from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6e8b2dc0b4c9c182636d5aede041dd11dc4b4187d3288d49b7cf97fe1cf3af4072227de877ea7997544e78a8cafaedbfd3e053b3a00fb28d4eba26ea6362225c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"2024分时电价1-7\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\"\r\n    },\r\n    \"tariff_type\": \"timeofuse\",\r\n    \"unit_of_price\": \"元/千瓦时\",\r\n    \"valid_from\": \"2024-01-01T00:00:00\",\r\n    \"valid_through\": \"2024-06-30T23:59:59\",\r\n    \"timeofuse\": [\r\n        {\r\n            \"start_time_of_day\": \"0:00:00\",\r\n            \"end_time_of_day\": \"5:59:59\",\r\n            \"peak_type\": \"offpeak\",\r\n            \"price\": 0.345\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"6:00:00\",\r\n            \"end_time_of_day\": \"7:59:59\",\r\n            \"peak_type\": \"midpeak\",\r\n            \"price\": 0.708\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"8:00:00\",\r\n            \"end_time_of_day\": \"10:59:59\",\r\n            \"peak_type\": \"onpeak\",\r\n            \"price\": 1.159\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"11:00:00\",\r\n            \"end_time_of_day\": \"17:59:59\",\r\n            \"peak_type\": \"midpeak\",\r\n            \"price\": 0.708\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"18:00:00\",\r\n            \"end_time_of_day\": \"20:59:59\",\r\n            \"peak_type\": \"onpeak\",\r\n            \"price\": 1.159\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"21:00:00\",\r\n            \"end_time_of_day\": \"21:59:59\",\r\n            \"peak_type\": \"midpeak\",\r\n            \"price\": 0.708\r\n        },\r\n        {\r\n            \"start_time_of_day\": \"22:00:00\",\r\n            \"end_time_of_day\": \"23:59:59\",\r\n            \"peak_type\": \"offpeak\",\r\n            \"price\": 0.345\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tariffs/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Tariff by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "6e8b2dc0b4c9c182636d5aede041dd11dc4b4187d3288d49b7cf97fe1cf3af4072227de877ea7997544e78a8cafaedbfd3e053b3a00fb28d4eba26ea6362225c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tariffs/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs",
+										"1",
+										"clone"
 									]
 								}
 							},

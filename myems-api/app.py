@@ -674,6 +674,12 @@ api.add_route('/tariffs',
               tariff.TariffCollection())
 api.add_route('/tariffs/{id_}',
               tariff.TariffItem())
+api.add_route('/tariffs/{id_}/export',
+              tariff.TariffExport())
+api.add_route('/tariffs/import',
+              tariff.TariffImport())
+api.add_route('/tariffs/{id_}/clone',
+              tariff.TariffClone())
 
 api.add_route('/tenants',
               tenant.TenantCollection())
