@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "43b865ee-6fcc-4fbe-b169-972bd88de205",
+		"_postman_id": "e20a6567-ec5a-4b84-b98e-845269f55726",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -15496,6 +15496,100 @@
 							"response": []
 						},
 						{
+							"name": "POST Create a Tariff (Time of Use)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"new2020分时电价1-6\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"timeofuse\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2020-07-01T00:00:00\", \"timeofuse\":[{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"05:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}, {\"start_time_of_day\":\"06:00:00\", \"end_time_of_day\":\"07:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"08:00:00\", \"end_time_of_day\":\"10:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"11:00:00\", \"end_time_of_day\":\"17:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"18:00:00\", \"end_time_of_day\":\"20:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"21:00:00\", \"end_time_of_day\":\"21:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"22:00:00\", \"end_time_of_day\":\"23:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}]}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tariffs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Tariff (time of use)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"new2020分时电价1-6\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"timeofuse\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2020-07-01T00:00:00\", \"timeofuse\":[{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"05:59:59\", \"peak_type\":\"offpeak\", \"price\":0.456}, {\"start_time_of_day\":\"06:00:00\", \"end_time_of_day\":\"07:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"08:00:00\", \"end_time_of_day\":\"10:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"11:00:00\", \"end_time_of_day\":\"17:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"18:00:00\", \"end_time_of_day\":\"20:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"21:00:00\", \"end_time_of_day\":\"21:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"22:00:00\", \"end_time_of_day\":\"23:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}]}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tariffs/18",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Tariff",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tariffs/18",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tariffs",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Export a Tariff by ID to JSON",
 							"request": {
 								"method": "GET",
@@ -15526,38 +15620,6 @@
 										"tariffs",
 										"1",
 										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Create a Tariff (Time of Use)",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new2020分时电价1-6\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"timeofuse\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2020-07-01T00:00:00\", \"timeofuse\":[{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"05:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}, {\"start_time_of_day\":\"06:00:00\", \"end_time_of_day\":\"07:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"08:00:00\", \"end_time_of_day\":\"10:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"11:00:00\", \"end_time_of_day\":\"17:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"18:00:00\", \"end_time_of_day\":\"20:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"21:00:00\", \"end_time_of_day\":\"21:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"22:00:00\", \"end_time_of_day\":\"23:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs"
 									]
 								}
 							},
@@ -15626,68 +15688,6 @@
 										"tariffs",
 										"1",
 										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Tariff (time of use)",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new2020分时电价1-6\",\"energy_category\":{\"id\":1}, \"tariff_type\":\"timeofuse\", \"unit_of_price\":\"元/千瓦时\", \"valid_from\":\"2020-01-01T00:00:00\", \"valid_through\":\"2020-07-01T00:00:00\", \"timeofuse\":[{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"05:59:59\", \"peak_type\":\"offpeak\", \"price\":0.456}, {\"start_time_of_day\":\"06:00:00\", \"end_time_of_day\":\"07:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"08:00:00\", \"end_time_of_day\":\"10:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"11:00:00\", \"end_time_of_day\":\"17:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"18:00:00\", \"end_time_of_day\":\"20:59:59\", \"peak_type\":\"onpeak\", \"price\":1.159}, {\"start_time_of_day\":\"21:00:00\", \"end_time_of_day\":\"21:59:59\", \"peak_type\":\"midpeak\", \"price\":0.708}, {\"start_time_of_day\":\"22:00:00\", \"end_time_of_day\":\"23:59:59\", \"peak_type\":\"offpeak\", \"price\":0.345}]}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/tariffs/18",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs",
-										"18"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Tariff",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/tariffs/18",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"tariffs",
-										"18"
 									]
 								}
 							},
