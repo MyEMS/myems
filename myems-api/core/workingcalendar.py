@@ -1,4 +1,5 @@
 import falcon
+from datetime import datetime, timezone, timedelta
 import mysql.connector
 import simplejson as json
 from core.useractivity import admin_control, access_control, api_key_control
@@ -526,3 +527,332 @@ class NonWorkingDayItem:
         cnx.close()
 
         resp.status = falcon.HTTP_200
+
+
+class WorkingCalendarExport:
+    @staticmethod
+    def __init__():
+        """"Initializes WorkingCalendarExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WORKING_CALENDAR_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id, name, description"
+                       " FROM tbl_working_calendars "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        meta_result = {}
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "description": row[2]}
+        resp.text = json.dumps(meta_result)
+
+
+class WorkingCalendarImport:
+    @staticmethod
+    def __init__():
+        """"Initializes WorkingCalendarImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WORKING_CALENDAR_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_working_calendars "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
+
+        add_values = (" INSERT INTO tbl_working_calendars "
+                      " (name, description) "
+                      " VALUES (%s, %s) ")
+        cursor.execute(add_values, (name,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/workingcalendar/' + str(new_id)
+
+
+class WorkingCalendarClone:
+    @staticmethod
+    def __init__():
+        """"Initializes WorkingCalendarClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_post(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_WORKING_CALENDAR_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id, name, description"
+                       " FROM tbl_working_calendars "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+
+        meta_result = {}
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "description": row[2]}
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        new_name = (str.strip(meta_result['name'])
+                    + (datetime.now()
+                       + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        add_values = (" INSERT INTO tbl_working_calendars "
+                      " (name, description) "
+                      " VALUES (%s, %s) ")
+        cursor.execute(add_values, (new_name,
+                                    meta_result['description']))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/workingcalendar/' + str(new_id)
+
+
+class NonWorkingDayExport:
+    @staticmethod
+    def __init__():
+        """"Initializes NonWorkingDayExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NON_WORKING_DAY_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.NON_WORKING_DAY_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "working_calendar_id": row[1],
+                           "date_local": row[2].strftime('%Y-%m-%d'),
+                           "description": row[3]}
+        resp.text = json.dumps(meta_result)
+
+
+class NonWorkingDayImport:
+    @staticmethod
+    def __init__():
+        """"Initializes NonWorkingDayExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+            new_values = json.loads(raw_json)
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if 'working_calendar_id' not in new_values.keys() or \
+                new_values['working_calendar_id'] is None or \
+                (new_values['working_calendar_id']) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATE_LOCAL')
+        working_calendar_id = new_values['working_calendar_id']
+
+        if 'date_local' not in new_values.keys() or \
+                new_values['date_local'] is None or \
+                len(str(new_values['date_local'])) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATE_LOCAL')
+        date_local = str.strip(new_values['date_local'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE working_calendar_id = %s AND date_local = %s ",
+                       (working_calendar_id, date_local))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
+
+        add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                      " (working_calendar_id, date_local, description) "
+                      " VALUES (%s, %s, %s) ")
+        cursor.execute(add_values, (working_calendar_id, date_local, description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/nonworkingday/' + str(new_id)
+
+
+class NonWorkingDayClone:
+    @staticmethod
+    def __init__():
+        """"Initializes NonWorkingDayExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_post(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NON_WORKING_DAY_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.NON_WORKING_DAY_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "working_calendar_id": row[1],
+                           "date_local": row[2].strftime('%Y-%m-%d'),
+                           "description": row[3]}
+            add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                          " (working_calendar_id, date_local, description) "
+                          " VALUES (%s, %s, %s) ")
+            cursor.execute(add_values, (meta_result['working_calendar_id'],
+                                        meta_result['date_local'],
+                                        meta_result['description']))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+
+            resp.status = falcon.HTTP_201
+            resp.location = '/nonworkingday/' + str(new_id)
+

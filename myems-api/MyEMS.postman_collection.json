@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e20a6567-ec5a-4b84-b98e-845269f55726",
+		"_postman_id": "496acada-ffbd-4781-8ec4-1238320a721d",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -19258,6 +19258,42 @@
 							"response": []
 						},
 						{
+							"name": "Export a Working Calendar by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create New Working Calendar",
 							"request": {
 								"method": "POST",
@@ -19284,6 +19320,74 @@
 									],
 									"path": [
 										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Working Calendar by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Working Calendar from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"new_working_calendar_1\",\n    \"description\": \"test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"import"
 									]
 								}
 							},
@@ -19420,6 +19524,36 @@
 							"response": []
 						},
 						{
+							"name": "Export a Non Working Day by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create New Non Working Day  by Working Calendar ID",
 							"request": {
 								"method": "POST",
@@ -19431,7 +19565,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
+										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
 										"type": "text"
 									}
 								],
@@ -19440,14 +19574,82 @@
 									"raw": "{\n    \"data\": {\n        \"date_local\": \"2023-03-01\",\n        \"description\":\"test\"\n    }\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/workingcalendars/2/nonworkingdays",
+									"raw": "{{base_url}}/workingcalendars/1/nonworkingdays",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"workingcalendars",
-										"2",
+										"1",
 										"nonworkingdays"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Non Working Day from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"working_calendar_id\": 2,\n    \"date_local\": \"2023-03-06\",\n    \"description\": \"test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Non Working Day by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/nonworkingdays/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"nonworkingdays",
+										"1",
+										"clone"
 									]
 								}
 							},
