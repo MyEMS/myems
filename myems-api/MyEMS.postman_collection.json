@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "496acada-ffbd-4781-8ec4-1238320a721d",
+		"_postman_id": "24e74e60-a999-4348-87a6-ab3e24113b75",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -19269,7 +19269,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"value": "bc6f3346423f243f26c8656a3dc4ecb2a4dc0d306140108e09b8cf4734429bc6835e072ce8b3dfe1ab51b09669d1393d61b2a724fde5475597db8d51231155d6",
 										"type": "default"
 									},
 									{
@@ -19337,7 +19337,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"value": "bc6f3346423f243f26c8656a3dc4ecb2a4dc0d306140108e09b8cf4734429bc6835e072ce8b3dfe1ab51b09669d1393d61b2a724fde5475597db8d51231155d6",
 										"type": "text"
 									}
 								],
@@ -19367,13 +19367,13 @@
 									},
 									{
 										"key": "Token",
-										"value": "4d0ecc1d51df85cf719f89b6db8746252db63835d21a7b3443a566afafb2969a254f72759bb24216df4bf5410536c950c9fcb70f41f6aa2a214f081a62f117fc",
+										"value": "bc6f3346423f243f26c8656a3dc4ecb2a4dc0d306140108e09b8cf4734429bc6835e072ce8b3dfe1ab51b09669d1393d61b2a724fde5475597db8d51231155d6",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"new_working_calendar_1\",\n    \"description\": \"test\"\n}",
+									"raw": "{\n    \"name\": \"new_working_calendar_3\",\n    \"description\": \"test\",\n    \"non_working_days\": [\n        {\n            \"id\": 2,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 3,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 4,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 5,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 6,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-08\",\n            \"description\": \"test\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"

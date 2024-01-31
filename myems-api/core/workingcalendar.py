@@ -558,8 +558,6 @@ class WorkingCalendarExport:
                        " FROM tbl_working_calendars "
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         meta_result = {}
         if row is None:
@@ -568,7 +566,25 @@ class WorkingCalendarExport:
 
         meta_result = {"id": row[0],
                        "name": row[1],
-                       "description": row[2]}
+                       "description": row[2],
+                       "non_working_days": None}
+
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE working_calendar_id = %s ", (id_,))
+        rows_date_local = cursor.fetchall()
+
+        result = list()
+        if rows_date_local is not None and len(rows_date_local) > 0:
+            for row in rows_date_local:
+                date_local_dict = {'id': row[0],
+                                   'working_calendar_id': row[1],
+                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'description': row[3]}
+                result.append(date_local_dict)
+        meta_result['non_working_days'] = result
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
 
@@ -626,6 +642,39 @@ class WorkingCalendarImport:
         cursor.execute(add_values, (name,
                                     description))
         new_id = cursor.lastrowid
+        working_calendar_id = new_id
+        for values in new_values['non_working_days']:
+            if 'date_local' not in values or \
+                    values['date_local'] is None or \
+                    len(str(values['date_local'])) <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_DATE_LOCAL')
+            date_local = str.strip(values['date_local'])
+
+            if 'description' in values and \
+                    values['description'] is not None and \
+                    len(str(values['description'])) > 0:
+                description = str.strip(values['description'])
+            else:
+                description = None
+
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            cursor = cnx.cursor()
+
+            cursor.execute(" SELECT id "
+                           " FROM tbl_working_calendars_non_working_days "
+                           " WHERE working_calendar_id = %s AND date_local = %s ",
+                           (working_calendar_id, date_local))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
+
+            add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                          " (working_calendar_id, date_local, description) "
+                          " VALUES (%s, %s, %s) ")
+            cursor.execute(add_values, (working_calendar_id, date_local, description))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -671,7 +720,22 @@ class WorkingCalendarClone:
 
         meta_result = {"id": row[0],
                        "name": row[1],
-                       "description": row[2]}
+                       "description": row[2],
+                       "non_working_days": None}
+        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                       " FROM tbl_working_calendars_non_working_days "
+                       " WHERE working_calendar_id = %s ", (id_,))
+        rows_date_local = cursor.fetchall()
+
+        result = list()
+        if rows_date_local is not None and len(rows_date_local) > 0:
+            for row in rows_date_local:
+                date_local_dict = {'id': row[0],
+                                   'working_calendar_id': row[1],
+                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'description': row[3]}
+                result.append(date_local_dict)
+        meta_result['non_working_days'] = result
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -683,6 +747,11 @@ class WorkingCalendarClone:
                       " VALUES (%s, %s) ")
         cursor.execute(add_values, (new_name,
                                     meta_result['description']))
+        for values in meta_result['non_working_days']:
+            add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                          " (working_calendar_id, date_local, description) "
+                          " VALUES (%s, %s, %s) ")
+            cursor.execute(add_values, (id_, values['date_local'], values['description']))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
