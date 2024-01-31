@@ -19524,36 +19524,6 @@
 							"response": []
 						},
 						{
-							"name": "Export a Non Working Day by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
-										"type": "default"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/nonworkingdays/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"nonworkingdays",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Create New Non Working Day  by Working Calendar ID",
 							"request": {
 								"method": "POST",
@@ -19582,74 +19552,6 @@
 										"workingcalendars",
 										"1",
 										"nonworkingdays"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Non Working Day from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"working_calendar_id\": 2,\n    \"date_local\": \"2023-03-06\",\n    \"description\": \"test\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/nonworkingdays/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"nonworkingdays",
-										"import"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Clone a Non Working Day by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "5d5549814756003044cdac7639b02b229c0e96005f73b60b7540f7fe80c314100328af2b66cc0a5c0f3cc4df317f04f289d9231b11f37c01258cc8f24a581570",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/nonworkingdays/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"nonworkingdays",
-										"1",
-										"clone"
 									]
 								}
 							},
