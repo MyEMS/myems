@@ -24,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unkonwn meter uuid of energy flow diagram links in demo database
 ### Removed
 
-## [v4.0.0] - 2024-01-013
+## [v4.0.0] - 2024-01-13
 
 ### Added
 - added tables for energy storage power station in database
