@@ -815,12 +815,6 @@ api.add_route('/workingcalendars/import',
               workingcalendar.WorkingCalendarImport())
 api.add_route('/workingcalendars/{id_}/clone',
               workingcalendar.WorkingCalendarClone())
-api.add_route('/nonworkingdays/{id_}/export',
-              workingcalendar.NonWorkingDayExport())
-api.add_route('/nonworkingdays/import',
-              workingcalendar.NonWorkingDayImport())
-api.add_route('/nonworkingdays/{id_}/clone',
-              workingcalendar.NonWorkingDayClone())
 
 api.add_route('/version',
               version.VersionItem())
