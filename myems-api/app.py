@@ -781,6 +781,12 @@ api.add_route('/virtualpowerplants/{id_}/microgrids',
               virtualpowerplant.VirtualPowerPlantMicrogridCollection())
 api.add_route('/virtualpowerplants/{id_}/microgrids/{mid}',
               virtualpowerplant.VirtualPowerPlantMicrogridItem())
+api.add_route('/virtualpowerplants/{id_}/export',
+              virtualpowerplant.VirtualPowerPlantExport())
+api.add_route('/virtualpowerplants/import',
+              virtualpowerplant.VirtualPowerPlantImport())
+api.add_route('/virtualpowerplants/{id_}/clone',
+              virtualpowerplant.VirtualPowerPlantClone())
 
 api.add_route('/webmessages',
               webmessage.WebMessageCollection())
