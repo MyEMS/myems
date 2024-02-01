@@ -658,9 +658,6 @@ class WorkingCalendarImport:
             else:
                 description = None
 
-            cnx = mysql.connector.connect(**config.myems_system_db)
-            cursor = cnx.cursor()
-
             cursor.execute(" SELECT id "
                            " FROM tbl_working_calendars_non_working_days "
                            " WHERE working_calendar_id = %s AND date_local = %s ",
@@ -747,12 +744,12 @@ class WorkingCalendarClone:
                       " VALUES (%s, %s) ")
         cursor.execute(add_values, (new_name,
                                     meta_result['description']))
+        new_id = cursor.lastrowid
         for values in meta_result['non_working_days']:
             add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
                           " (working_calendar_id, date_local, description) "
                           " VALUES (%s, %s, %s) ")
-            cursor.execute(add_values, (id_, values['date_local'], values['description']))
-        new_id = cursor.lastrowid
+            cursor.execute(add_values, (new_id, values['date_local'], values['description']))
         cnx.commit()
         cursor.close()
         cnx.close()
