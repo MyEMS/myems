@@ -56,6 +56,30 @@ app.factory('SpaceService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportSpace: function(space, headers, callback) {
+            $http.get(getAPI()+'spaces/'+space.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importSpace: function(importdata, headers, callback) {
+            $http.post(getAPI()+'spaces/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneSpace: function(space, headers, callback) {
+            $http.post(getAPI()+'spaces/'+space.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
