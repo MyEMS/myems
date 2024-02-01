@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f0f95e02-1e8d-4946-b33b-34590ae51a80",
+		"_postman_id": "dae58f8f-84dd-46b6-9a50-7a4289bde9d4",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -17995,142 +17995,6 @@
 							"response": []
 						},
 						{
-							"name": "Export a Virtual Power Plant by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
-										"type": "default"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"type": "default",
-										"disabled": true
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/virtualpowerplants/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualpowerplants",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Create New Virtual Power Plant",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "9b063ac76e20a0dd27b94336c667d90f4573816339eb6f6e628a0b58ef7354978e105771e47656d993f1268a5b1dacd62df8e719c0993b8e2b8109038eea560f",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/virtualpowerplants",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualpowerplants"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Virtual Power Plant from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing VPP_1\",\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"balancing_price_point\": {\r\n        \"id\": 1,\r\n        \"name\": \"Active Energy Import Tariff 1\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/virtualpowerplants/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualpowerplants",
-										"import"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Clone a Virtual Power Plant by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/virtualpowerplants/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualpowerplants",
-										"1",
-										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "PUT Update a Virtual Power Plant",
 							"request": {
 								"method": "PUT",
@@ -18262,6 +18126,38 @@
 							"response": []
 						},
 						{
+							"name": "POST Create New Virtual Power Plant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "9b063ac76e20a0dd27b94336c667d90f4573816339eb6f6e628a0b58ef7354978e105771e47656d993f1268a5b1dacd62df8e719c0993b8e2b8109038eea560f",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "DELETE a Microgrid from Virtual Power Plant",
 							"request": {
 								"method": "DELETE",
@@ -18287,6 +18183,110 @@
 										"1",
 										"microgrids",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Virtual Power Plant by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Virtual Power Plant from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Beijing VPP_1\",\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"balancing_price_point\": {\r\n        \"id\": 1,\r\n        \"name\": \"Active Energy Import Tariff 1\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Virtual Power Plant by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "4b4a07d12cbfd3bdb8eba07ed632ee2ab721850f14cb6f345dae273005eee936d795a3be2c55a8dfac78fd8ab2afd2245bbd24e7ceee563c7b948f8b71d5eaec",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants",
+										"1",
+										"clone"
 									]
 								}
 							},
