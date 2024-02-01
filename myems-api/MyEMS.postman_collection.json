@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "24e74e60-a999-4348-87a6-ab3e24113b75",
+		"_postman_id": "32ce7864-80e4-4600-9e4b-152efcb36031",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -19373,7 +19373,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"new_working_calendar_3\",\n    \"description\": \"test\",\n    \"non_working_days\": [\n        {\n            \"id\": 2,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 3,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 4,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 5,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"id\": 6,\n            \"working_calendar_id\": 1,\n            \"date_local\": \"2023-03-08\",\n            \"description\": \"test\"\n        }\n    ]\n}",
+									"raw": "{\n    \"name\": \"new_working_calendar_3\",\n    \"description\": \"test\",\n    \"non_working_days\": [\n        {\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"date_local\": \"2023-03-01\",\n            \"description\": \"test\"\n        },\n        {\n            \"date_local\": \"2023-03-04\",\n            \"description\": \"test\"\n        },\n        {\n            \"date_local\": \"2023-03-08\",\n            \"description\": \"test\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"

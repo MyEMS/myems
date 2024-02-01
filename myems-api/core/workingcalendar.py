@@ -658,19 +658,6 @@ class WorkingCalendarImport:
             else:
                 description = None
 
-            cnx = mysql.connector.connect(**config.myems_system_db)
-            cursor = cnx.cursor()
-
-            cursor.execute(" SELECT id "
-                           " FROM tbl_working_calendars_non_working_days "
-                           " WHERE working_calendar_id = %s AND date_local = %s ",
-                           (working_calendar_id, date_local))
-            if cursor.fetchone() is not None:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
-
             add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
                           " (working_calendar_id, date_local, description) "
                           " VALUES (%s, %s, %s) ")
