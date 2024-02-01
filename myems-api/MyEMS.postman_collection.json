@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4729e54c-b23f-476b-b553-0f35455343e7",
+		"_postman_id": "8205cf8a-f8fb-4872-998c-6a70367589fd",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -19258,6 +19258,104 @@
 							"response": []
 						},
 						{
+							"name": "Create New Working Calendar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"name\": \"new_working_calendar\",\n        \"description\":\"test\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Update a Working Calendar",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"data\": {\n        \"name\": \"测试日历\",\n        \"description\":\"test_update\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Working Calendar by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/workingcalendars/8",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"workingcalendars",
+										"8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Export a Working Calendar by ID to JSON",
 							"request": {
 								"method": "GET",
@@ -19288,38 +19386,6 @@
 										"workingcalendars",
 										"1",
 										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create New Working Calendar",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "cb0c43bc302b478e938395f8a135239dd3a1e14668bbde0efc8f91e3648c55f1321b4ac1abe9fa8572e33544aacb70f1a1102d220d6092c91ced0b87fa4f651c",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"data\": {\n        \"name\": \"new_working_calendar\",\n        \"description\":\"test\"\n    }\n}"
-								},
-								"url": {
-									"raw": "{{base_url}}/workingcalendars",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"workingcalendars"
 									]
 								}
 							},
@@ -19388,72 +19454,6 @@
 									"path": [
 										"workingcalendars",
 										"import"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Working Calendar",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"data\": {\n        \"name\": \"测试日历\",\n        \"description\":\"test_update\"\n    }\n}"
-								},
-								"url": {
-									"raw": "{{base_url}}/workingcalendars/2",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"workingcalendars",
-										"2"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE a Working Calendar by ID",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "5d1b5f4e71b230b4153ebffd326670da37a937c89c596acb167db1989d69bf188d96f4204290b9ccfe16510d83a6daee9ce1e683ca69eb5f67ddce298236431c",
-										"type": "text",
-										"description": "Login to get a valid token"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/workingcalendars/8",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"workingcalendars",
-										"8"
 									]
 								}
 							},
