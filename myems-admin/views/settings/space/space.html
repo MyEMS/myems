@@ -72,6 +72,9 @@
 												href=""><i class="fa fa-plus-circle"></i>
 												{{'SETTING.ADD_SPACE' | translate}}
 											</a>
+											<a ng-click="importSpace()" class="btn btn-primary btn-rounded  btn-outline" href="">
+												<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}
+											</a>
 											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr >
@@ -101,6 +104,8 @@
 																ng-click="editSpace(space)">{{'SETTING.EDIT' | translate}}</a>
 															<a ng-click="deleteSpace(space)"
 																class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+															<a ng-click="exportSpace(space)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+															<a ng-click="cloneSpace(space)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 														</td>
 													</tr>
 												</tbody>
