@@ -184,7 +184,7 @@ class SpaceCollection:
         else:
             cost_center_id = None
 
-        if 'latitude' in new_values['data'].keys():
+        if 'latitude' in new_values['data'].keys() and new_values['data']['latitude'] is not None:
             if not (isinstance(new_values['data']['latitude'], float) or
                     isinstance(new_values['data']['latitude'], int)) or \
                     new_values['data']['latitude'] < -90.0 or \
@@ -195,7 +195,7 @@ class SpaceCollection:
         else:
             latitude = None
 
-        if 'longitude' in new_values['data'].keys():
+        if 'longitude' in new_values['data'].keys() and new_values['data']['longitude'] is not None:
             if not (isinstance(new_values['data']['longitude'], float) or
                     isinstance(new_values['data']['longitude'], int)) or \
                     new_values['data']['longitude'] < -180.0 or \
@@ -3289,20 +3289,16 @@ class SpaceExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            parent_space = space_dict.get(row[3], None)
-            timezone = timezone_dict.get(row[5], None)
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "parent_space_id": parent_space,
+                           "parent_space_id": space_dict.get(row[3], None),
                            "area": row[4],
-                           "timezone": timezone,
+                           "timezone": timezone_dict.get(row[5], None),
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "latitude": row[10],
                            "longitude": row[11],
                            "description": row[12],
@@ -3392,7 +3388,7 @@ class SpaceImport:
         else:
             cost_center_id = None
 
-        if 'latitude' in new_values.keys():
+        if 'latitude' in new_values.keys() and new_values['latitude'] is not None:
             if not (isinstance(new_values['latitude'], float) or
                     isinstance(new_values['latitude'], int)) or \
                     new_values['latitude'] < -90.0 or \
@@ -3403,7 +3399,7 @@ class SpaceImport:
         else:
             latitude = None
 
-        if 'longitude' in new_values.keys():
+        if 'longitude' in new_values.keys() and new_values['longitude'] is not None:
             if not (isinstance(new_values['longitude'], float) or
                     isinstance(new_values['longitude'], int)) or \
                     new_values['longitude'] < -180.0 or \
