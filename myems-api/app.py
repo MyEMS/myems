@@ -806,6 +806,12 @@ api.add_route('/windfarms',
               windfarm.WindFarmCollection())
 api.add_route('/windfarms/{id_}',
               windfarm.WindFarmItem())
+api.add_route('/windfarms/{id_}/export',
+              windfarm.WindFarmExport())
+api.add_route('/windfarms/import',
+              windfarm.WindFarmImport())
+api.add_route('/windfarms/{id_}/clone',
+              windfarm.WindFarmClone())
 
 api.add_route('/workingcalendars',
               workingcalendar.WorkingCalendarCollection())
