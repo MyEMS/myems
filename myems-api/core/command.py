@@ -572,7 +572,7 @@ class CommandImport:
                                    description='API.INVALID_PAYLOAD')
         payload = str.strip(new_values['payload'])
 
-        if 'set_value' not in new_values.keys():
+        if 'set_value' not in new_values.keys() or new_values['set_value'] is None:
             set_value = None
         elif isinstance(new_values['set_value'], float) or \
                 isinstance(new_values['set_value'], int):
