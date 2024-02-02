@@ -7,7 +7,11 @@
 					<uib-tab heading="{{'SETTING.COMMAND' | translate}}">
 						<div class="panel-body" ng-controller="CommandController">
 							<a ng-click="addCommand()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_COMMAND' | translate}}</a>
+								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_COMMAND' | translate}}
+							</a>
+								<a ng-click="importCommand()" class="btn btn-primary btn-rounded  btn-outline" href="">
+									<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}
+								</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -35,6 +39,8 @@
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
 											<a ng-click="sendCommand(command)"
 												class="btn btn-danger btn-rounded btn-xs">{{'COMMAND.SEND' | translate}}</a>
+											<a ng-click="exportCommand(command)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneCommand(command)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
