@@ -101,8 +101,120 @@ class Reporting:
                 energy_storage_power_station_id = row[0]
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
-                # todo: determine if it is online
-                is_online = True
+                # get gateway latest seen datetime to determine if it is online
+                query = (" SELECT tds.last_seen_datetime_utc   "
+                         " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                         "      tbl_energy_storage_containers_power_conversion_systems tescpcs, "
+                         "      tbl_points tp, tbl_data_sources tds  "
+                         " WHERE tespsesc.energy_storage_power_station_id  = %s "
+                         "        AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id  "
+                         "        AND tescpcs.run_state_point_id = tp.id  "
+                         "        AND tp.data_source_id = tds.id  "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                row_datetime = cursor_system_db.fetchone()
+
+                is_online = False
+                if row_datetime is not None and len(row_datetime) > 0:
+                    if isinstance(row_datetime[0], datetime):
+                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            is_online = True
+
+                # get PCS run state point
+                pcs_run_state_point_value = None
+                if is_online:
+                    query = (" SELECT tescpcs.run_state_point_id "
+                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             "     tbl_energy_storage_containers_power_conversion_systems tescpcs "
+                             " WHERE tespsesc.energy_storage_power_station_id  = %s "
+                             "       AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row_point = cursor_system_db.fetchone()
+                    print('run_state_point_id:' + str(row_point))
+                    if row_point is not None and len(row_point) > 0:
+                        if digital_value_latest_dict.get(row_point[0]) is not None:
+                            pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+
+                # 0：关闭 Shutdown
+                # 1：软启动中 Soft Starting
+                # 2：并网充电 On Grid Charging
+                # 3：并网放电 On Grid DisCharging
+                # 4：离网放电 Off Grid DisCharging
+                # 5：降额并网 Derating On Grid
+                # 6：待机 Standby
+                # 7：离网充电 Off Grid Charging
+
+                if pcs_run_state_point_value is None:
+                    pcs_run_state = 'Unknown'
+                elif pcs_run_state_point_value == 0:
+                    pcs_run_state = 'Shutdown'
+                elif pcs_run_state_point_value == 1:
+                    pcs_run_state = 'Running'
+                elif pcs_run_state_point_value == 2:
+                    pcs_run_state = 'Running'
+                elif pcs_run_state_point_value == 3:
+                    pcs_run_state = 'Running'
+                elif pcs_run_state_point_value == 4:
+                    pcs_run_state = 'Running'
+                elif pcs_run_state_point_value == 5:
+                    pcs_run_state = 'Running'
+                elif pcs_run_state_point_value == 6:
+                    pcs_run_state = 'Standby'
+                elif pcs_run_state_point_value == 7:
+                    pcs_run_state = 'Running'
+                else:
+                    pcs_run_state = 'Running'
+
+                # get battery state point
+                battery_state_point_value = None
+                if is_online:
+                    query = (" SELECT tescb.battery_state_point_id "
+                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             "      tbl_energy_storage_containers_batteries tescb "
+                             " WHERE tespsesc.energy_storage_power_station_id = %s "
+                             "       AND tespsesc.energy_storage_container_id = tescb.energy_storage_container_id "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row_point = cursor_system_db.fetchone()
+                    print(str(row_point))
+                    if row_point is not None and len(row_point) > 0:
+                        if digital_value_latest_dict.get(row_point[0]) is not None:
+                            battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+
+                # 0: 无电池, No Battery
+                # 1: 故障, Fault
+                # 2: 休眠, Sleep
+                # 3: 起动, Starting
+                # 4: 运行充电, Charging
+                # 5: 运行放电, Discharging
+                # 6: 运行停止, Stopped
+                print(battery_state_point_value)
+                if battery_state_point_value is None:
+                    battery_state = 'Unknown'
+                elif battery_state_point_value == 4:
+                    battery_state = 'Charging'
+                elif battery_state_point_value == 5:
+                    battery_state = 'Discharging'
+                else:
+                    battery_state = 'Stopped'
+
+                # get battery soc point, power point
+                battery_soc_point_value = None
+                battery_power_point_value = None
+                if is_online:
+                    query = (" SELECT tescb.soc_point_id, tescb.power_point_id "
+                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             "      tbl_energy_storage_containers_batteries tescb "
+                             " WHERE tespsesc.energy_storage_power_station_id = %s "
+                             "       AND tespsesc.energy_storage_container_id = tescb.energy_storage_container_id "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                            battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
 
                 meta_result = {"id": energy_storage_power_station_id,
                                "name": row[1],
@@ -116,7 +228,10 @@ class Reporting:
                                "cost_center": cost_center,
                                "description": row[10],
                                "qrcode": 'energystoragepowerstation:' + row[2],
-                               "is_online": is_online}
+                               "is_online": is_online,
+                               "pcs_run_state": pcs_run_state,
+                               "battery_soc_point_value": battery_soc_point_value,
+                               "battery_power_point_value": battery_power_point_value}
 
                 result.append(meta_result)
 
