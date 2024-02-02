@@ -499,6 +499,12 @@ api.add_route('/rules/{id_}',
               rule.RuleItem())
 api.add_route('/rules/{id_}/run',
               rule.RuleRun())
+api.add_route('/rules/{id_}/export',
+              rule.RuleExport())
+api.add_route('/rules/import',
+              rule.RuleImport())
+api.add_route('/rules/{id_}/clone',
+              rule.RuleClone())
 
 api.add_route('/sensors',
               sensor.SensorCollection())
