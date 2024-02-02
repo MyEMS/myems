@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added offline meter export, import and clone functions to myems-api, myems-admin
 - added virtual meter export, import and clone functions to myems-api, myems-admin
 - added space export, import and clone functions to myems-api, myems-admin
-- added command export, import and clone functions to myems-api
+- added command export, import and clone functions to myems-api, myems-admin
 - added energy flow diagram export, import and clone functions to myems-api
 - added tariff export, import and clone functions to myems-api
 - added working calendar export, import and clone functions to myems-api
