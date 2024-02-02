@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "dae58f8f-84dd-46b6-9a50-7a4289bde9d4",
+		"_postman_id": "b8d730d4-d9f9-4341-8287-56408d41c1e2",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -19194,6 +19194,36 @@
 							"response": []
 						},
 						{
+							"name": "Export a Wind Farm by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "1c1a038d8a3d7c8f7e6ec4cbf9c6180614f4fa7815a87083b4bf38868c040bf91ffb67a3b7b84c070d694ed91dfa8749684efde2dbb501c096d06bc2866282e0",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/windfarms/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"windfarms",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New Wind Farm",
 							"request": {
 								"method": "POST",
@@ -19220,6 +19250,74 @@
 									],
 									"path": [
 										"windfarms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Wind Farm by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1c1a038d8a3d7c8f7e6ec4cbf9c6180614f4fa7815a87083b4bf38868c040bf91ffb67a3b7b84c070d694ed91dfa8749684efde2dbb501c096d06bc2866282e0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/windfarms/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"windfarms",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Wind Farm from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1c1a038d8a3d7c8f7e6ec4cbf9c6180614f4fa7815a87083b4bf38868c040bf91ffb67a3b7b84c070d694ed91dfa8749684efde2dbb501c096d06bc2866282e0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/windfarms/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"windfarms",
+										"import"
 									]
 								}
 							},
