@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_rules` (
   `is_enabled` BOOL NOT NULL,
   `last_run_datetime_utc` DATETIME,
   `next_run_datetime_utc` DATETIME,
+  `is_run_immediately` BOOL NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_rules_index_1` ON  `myems_fdd_db`.`tbl_rules`  (`name`);
 
