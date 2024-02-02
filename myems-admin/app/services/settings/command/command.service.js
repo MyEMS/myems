@@ -49,5 +49,29 @@ app.factory('CommandService', function($http) {
                 callback(response);
             });
         },
+        exportCommand: function(command, headers, callback) {
+            $http.get(getAPI()+'commands/'+command.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importCommand: function(importdata, headers, callback) {
+            $http.post(getAPI()+'commands/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneCommand: function(command, headers, callback) {
+            $http.post(getAPI()+'commands/'+command.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
