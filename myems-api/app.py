@@ -475,6 +475,12 @@ api.add_route('/photovoltaicpowerstations',
               photovoltaicpowerstation.PhotovoltaicPowerStationCollection())
 api.add_route('/photovoltaicpowerstations/{id_}',
               photovoltaicpowerstation.PhotovoltaicPowerStationItem())
+api.add_route('/photovoltaicpowerstations/{id_}/export',
+              photovoltaicpowerstation.PhotovoltaicPowerStationExport())
+api.add_route('/photovoltaicpowerstations/import',
+              photovoltaicpowerstation.PhotovoltaicPowerStationImport())
+api.add_route('/photovoltaicpowerstations/{id_}/clone',
+              photovoltaicpowerstation.PhotovoltaicPowerStationClone())
 
 api.add_route('/points',
               point.PointCollection())
