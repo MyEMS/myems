@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ffc63408-e093-4e55-89c9-4f6e1cd1aca3",
+		"_postman_id": "e984450c-47b4-4649-8674-d44838747020",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -11081,6 +11081,36 @@
 							"response": []
 						},
 						{
+							"name": "Export a Rule by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "ba3f73740665f3160c33242ecefe1cae62e8abbbf310d6903ed8be40da5305b16571e5aa52204715704a7d04908b09c6b66b6b83f81d1e42beb1aaaa9155db6e",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/rules/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"rules",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create New Rule",
 							"request": {
 								"method": "POST",
@@ -11108,6 +11138,76 @@
 									],
 									"path": [
 										"rules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Rule from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ba3f73740665f3160c33242ecefe1cae62e8abbbf310d6903ed8be40da5305b16571e5aa52204715704a7d04908b09c6b66b6b83f81d1e42beb1aaaa9155db6e",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Space Energy Consumption Over Limit_1\",\r\n    \"category\": \"SPACE\",\r\n    \"fdd_code\": \"SPACE01\",\r\n    \"priority\": \"HIGH\",\r\n    \"channel\": \"WEB\",\r\n    \"expression\": \"{\\\"space_id\\\":1, \\\"high_limit\\\":1000.000}\",\r\n    \"message_template\": \"%s截止到目前电耗%s，超标%s。\",\r\n    \"is_enabled\": true,\r\n    \"last_run_datetime\": null,\r\n    \"next_run_datetime\": null,\r\n    \"is_run_immediately\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/rules/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"rules",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Rule by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any Admin User's UUID"
+									},
+									{
+										"key": "Token",
+										"value": "ba3f73740665f3160c33242ecefe1cae62e8abbbf310d6903ed8be40da5305b16571e5aa52204715704a7d04908b09c6b66b6b83f81d1e42beb1aaaa9155db6e",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/rules/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"rules",
+										"1",
+										"clone"
 									]
 								}
 							},
