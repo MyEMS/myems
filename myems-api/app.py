@@ -506,6 +506,12 @@ api.add_route('/points/{id_}',
               point.PointItem())
 api.add_route('/pointlimits/{id_}',
               point.PointLimit())
+api.add_route('/points/{id_}/export',
+              point.PointExport())
+api.add_route('/points/import',
+              point.PointImport())
+api.add_route('/points/{id_}/clone',
+              point.PointClone())
 
 api.add_route('/apikeys',
               apikey.ApiKeyCollection())
