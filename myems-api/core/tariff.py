@@ -699,13 +699,6 @@ class TariffClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TARIFF_NOT_FOUND')
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-
-        valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-        valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-
         result = {"id": row[0],
                   "name": row[1],
                   "uuid": row[2],
@@ -713,8 +706,8 @@ class TariffClone:
                                       "name": row[4]},
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
-                  "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
+                  "valid_from": row[7].strftime('%Y-%m-%dT%H:%M:%S'),
+                  "valid_through": row[8].strftime('%Y-%m-%dT%H:%M:%S')}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
