@@ -40,6 +40,30 @@ app.factory('TariffService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportTariff: function(tariff, headers, callback) {
+            $http.get(getAPI()+'tariffs/'+tariff.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importTariff: function(importdata, headers, callback) {
+            $http.post(getAPI()+'tariffs/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneTariff: function(tariff, headers, callback) {
+            $http.post(getAPI()+'tariffs/'+tariff.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}">
 						<div class="panel-body" ng-controller="EnergyFlowDiagramController">
 							<a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
+              <a ng-click="importEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -21,6 +22,8 @@
 										<td class="text-center">
 											<a ng-click="editEnergyFlowDiagram(energyflowdiagram)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteEnergyFlowDiagram(energyflowdiagram)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                      <a ng-click="exportEnergyFlowDiagram(energyflowdiagram)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneEnergyFlowDiagram(energyflowdiagram)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
