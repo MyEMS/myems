@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5dd119dc-78ce-4af3-be32-a219ab672e04",
+		"_postman_id": "4f6343c5-6c8a-48da-9e7d-c9eafd412650",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -3009,6 +3009,42 @@
 							"response": []
 						},
 						{
+							"name": "Export a Distribution System by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "83212279cfa5fd41349b249a39edb16aa3e67bd5c12e31374d8c81fae3d3006ec1bf52e09d9bad20a1e89390a46bc99cfd2baca91433d0bdcbf62f2f19920286",
+										"type": "default"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Create Distribution System",
 							"request": {
 								"method": "POST",
@@ -3037,6 +3073,78 @@
 									],
 									"path": [
 										"distributionsystems"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Distribution System from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "83212279cfa5fd41349b249a39edb16aa3e67bd5c12e31374d8c81fae3d3006ec1bf52e09d9bad20a1e89390a46bc99cfd2baca91433d0bdcbf62f2f19920286",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"示例配电系统_1\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo distribution system\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Distribution System by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "83212279cfa5fd41349b249a39edb16aa3e67bd5c12e31374d8c81fae3d3006ec1bf52e09d9bad20a1e89390a46bc99cfd2baca91433d0bdcbf62f2f19920286",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"1",
+										"clone"
 									]
 								}
 							},

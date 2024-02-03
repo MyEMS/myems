@@ -242,6 +242,12 @@ api.add_route('/distributionsystems/{id_}',
               distributionsystem.DistributionSystemItem())
 api.add_route('/distributionsystems/{id_}/distributioncircuits',
               distributionsystem.DistributionSystemDistributionCircuitCollection())
+api.add_route('/distributionsystems/{id_}/export',
+              distributionsystem.DistributionSystemExport())
+api.add_route('/distributionsystems/import',
+              distributionsystem.DistributionSystemImport())
+api.add_route('/distributionsystems/{id_}/clone',
+              distributionsystem.DistributionSystemClone())
 
 api.add_route('/emailmessages',
               emailmessage.EmailMessageCollection())
