@@ -1,4 +1,5 @@
 import falcon
+from datetime import datetime, timezone, timedelta
 import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
@@ -860,3 +861,332 @@ class PointLimit:
         cnx.close()
 
         resp.status = falcon.HTTP_200
+
+
+class PointExport:
+    @staticmethod
+    def __init__():
+        """"Initializes PointExport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        """Handles GET requests"""
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_data_sources ")
+        cursor.execute(query)
+        rows_data_sources = cursor.fetchall()
+
+        data_source_dict = dict()
+        if rows_data_sources is not None and len(rows_data_sources) > 0:
+            for row in rows_data_sources:
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, data_source_id, object_type, units, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        is_trend, is_virtual, address, description "
+                 " FROM tbl_points "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        data_source = data_source_dict.get(row[2], None)
+        result = {"id": row[0],
+                  "name": row[1],
+                  "data_source": data_source,
+                  "object_type": row[3],
+                  "units": row[4],
+                  "high_limit": row[5],
+                  "low_limit": row[6],
+                  "higher_limit": row[7],
+                  "lower_limit": row[8],
+                  "ratio": float(row[9]),
+                  "is_trend": bool(row[10]),
+                  "is_virtual": bool(row[11]),
+                  "address": row[12],
+                  "description": row[13]}
+        resp.text = json.dumps(result)
+
+
+class PointImport:
+    @staticmethod
+    def __init__():
+        """"Initializes PointImport"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_NAME')
+        name = str.strip(new_values['name'])
+
+        if 'id' not in new_values['data_source'].keys() or \
+                not isinstance(new_values['data_source']['id'], int) or \
+                new_values['data_source']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_ID')
+        data_source_id = new_values['data_source']['id']
+
+        if 'object_type' not in new_values.keys() \
+                or str.strip(new_values['object_type']) not in (
+                'ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_OBJECT_TYPE')
+        object_type = str.strip(new_values['object_type'])
+
+        if 'units' not in new_values.keys() or \
+                not isinstance(new_values['units'], str) or \
+                len(str.strip(new_values['units'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_UNITS')
+        units = str.strip(new_values['units'])
+
+        if 'high_limit' not in new_values.keys() or \
+                not (isinstance(new_values['high_limit'], float) or
+                     isinstance(new_values['high_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGH_LIMIT_VALUE')
+        high_limit = new_values['high_limit']
+
+        if 'low_limit' not in new_values.keys() or \
+                not (isinstance(new_values['low_limit'], float) or
+                     isinstance(new_values['low_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOW_LIMIT_VALUE')
+        low_limit = new_values['low_limit']
+
+        # the higher_limit is optional
+        if 'higher_limit' not in new_values.keys() or \
+                new_values['higher_limit'] is None:
+            higher_limit = None
+        elif not (isinstance(new_values['higher_limit'], float) or
+                  isinstance(new_values['higher_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_HIGHER_LIMIT_VALUE')
+        else:
+            higher_limit = new_values['higher_limit']
+
+        # the lower_limit is optional
+        if 'lower_limit' not in new_values.keys() or \
+                new_values['lower_limit'] is None:
+            lower_limit = None
+        elif not (isinstance(new_values['lower_limit'], float) or
+                  isinstance(new_values['lower_limit'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_LOWER_LIMIT_VALUE')
+        else:
+            lower_limit = new_values['lower_limit']
+
+        if 'ratio' not in new_values.keys() or \
+                not (isinstance(new_values['ratio'], float) or
+                     isinstance(new_values['ratio'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATIO_VALUE')
+        ratio = new_values['ratio']
+
+        if 'is_trend' not in new_values.keys() or \
+                not isinstance(new_values['is_trend'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_TREND_VALUE')
+        is_trend = new_values['is_trend']
+
+        if 'is_virtual' not in new_values.keys() or \
+                not isinstance(new_values['is_virtual'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_VIRTUAL_VALUE')
+        if new_values['is_virtual'] is True and object_type != 'ANALOG_VALUE':
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_SHOULD_BE_ANALOG_VALUE')
+        is_virtual = new_values['is_virtual']
+
+        if 'address' not in new_values.keys() or \
+                not isinstance(new_values['address'], str) or \
+                len(str.strip(new_values['address'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ADDRESS')
+        address = str.strip(new_values['address'])
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.POINT_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_data_sources "
+                       " WHERE id = %s ", (data_source_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_ID')
+
+        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                     "                         is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_value, (name,
+                                   data_source_id,
+                                   object_type,
+                                   units,
+                                   high_limit,
+                                   low_limit,
+                                   higher_limit,
+                                   lower_limit,
+                                   ratio,
+                                   is_trend,
+                                   is_virtual,
+                                   address,
+                                   description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/points/' + str(new_id)
+
+
+class PointClone:
+    @staticmethod
+    def __init__():
+        """"Initializes PointClone"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_data_sources ")
+        cursor.execute(query)
+        rows_data_sources = cursor.fetchall()
+
+        data_source_dict = dict()
+        if rows_data_sources is not None and len(rows_data_sources) > 0:
+            for row in rows_data_sources:
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, data_source_id, object_type, units, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        is_trend, is_virtual, address, description "
+                 " FROM tbl_points "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        data_source = data_source_dict.get(row[2], None)
+        result = {"id": row[0],
+                  "name": row[1],
+                  "data_source": data_source,
+                  "object_type": row[3],
+                  "units": row[4],
+                  "high_limit": row[5],
+                  "low_limit": row[6],
+                  "higher_limit": row[7],
+                  "lower_limit": row[8],
+                  "ratio": float(row[9]),
+                  "is_trend": bool(row[10]),
+                  "is_virtual": bool(row[11]),
+                  "address": row[12],
+                  "description": row[13]}
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        new_name = (str.strip(result['name'])
+                    + (datetime.now()
+                       + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                     "                         is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_value, (new_name,
+                                   result['data_source']['id'],
+                                   result['object_type'],
+                                   result['units'],
+                                   result['high_limit'],
+                                   result['low_limit'],
+                                   result['higher_limit'],
+                                   result['lower_limit'],
+                                   result['ratio'],
+                                   result['is_trend'],
+                                   result['is_virtual'],
+                                   result['address'],
+                                   result['description']))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/points/' + str(new_id)
+
+        
