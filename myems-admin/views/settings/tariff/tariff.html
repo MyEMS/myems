@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'SETTING.TARIFF_LIST' | translate}}" >
 						<div class="panel-body" ng-controller="TariffController">
 							<a ng-click="addTariff()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TARIFF' | translate}}</a>
+							<a ng-click="importTariff()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -31,6 +32,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editTariff(tariff)" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteTariff(tariff)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportTariff(tariff)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneTariff(tariff)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

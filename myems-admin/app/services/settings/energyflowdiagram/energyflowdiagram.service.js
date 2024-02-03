@@ -40,6 +40,30 @@ app.factory('EnergyFlowDiagramService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
+            $http.get(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importEnergyFlowDiagram: function(importdata, headers, callback) {
+            $http.post(getAPI()+'energyflowdiagrams/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneEnergyFlowDiagram: function(energyflowdiagram, headers, callback) {
+            $http.post(getAPI()+'energyflowdiagrams/'+energyflowdiagram.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
