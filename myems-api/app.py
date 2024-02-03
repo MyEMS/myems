@@ -130,6 +130,12 @@ api.add_route('/advancedreports/{id_}',
               advancedreport.AdvancedReportItem())
 api.add_route('/advancedreports/{id_}/run',
               advancedreport.AdvancedReportRun())
+api.add_route('/advancedreports/{id_}/export',
+              advancedreport.AdvancedReportExport())
+api.add_route('/advancedreports/import',
+              advancedreport.AdvancedReportImport())
+api.add_route('/advancedreports/{id_}/clone',
+              advancedreport.AdvancedReportClone())
 
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())
