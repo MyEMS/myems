@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "bb5033ff-6290-47c9-ba8f-d145fae1cdad",
+		"_postman_id": "5dd119dc-78ce-4af3-be32-a219ab672e04",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -8333,7 +8333,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "08d9de3ccf860300dc3955a4ed0026dd6f2d71d28713ced3074452fa9eccf23d702d52b1946e0733ada378e0691ccd2a72f4be0af2c9770c6d8f2d031abadd63",
+										"value": "92a4f1c98ecdb1b4ba1bab744ab935bd008578f9bc5366b42c3f80fabb56597ce148a68976de838ce17b35ec47d1139b45e9597f2a73695e5beae16b8847ac53",
 										"type": "default"
 									}
 								],
@@ -8379,37 +8379,7 @@
 							"response": []
 						},
 						{
-							"name": "Export a Microgrid by ID to JSON",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
-									},
-									{
-										"key": "Token",
-										"value": "a285e0b12b6a99ac5a984a7535394c681e5a5e2ec7c94147e52721319cd2250e29b7cf77764f58d938dbad8f246812bff6158571f1629924ea61a82c66627972",
-										"type": "default"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgrids/1/export",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgrids",
-										"1",
-										"export"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Create New Microgrid",
+							"name": "Create New Microgrid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8420,7 +8390,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "7a5a1e145a2e7cd1da0729f96ca2432ad5b2b1fbfaa5ad2951216b5c475b9274ac51afa214de8f71b948626ab6ad057d49c872233357a7778420d4903c1d3517",
+										"value": "92a4f1c98ecdb1b4ba1bab744ab935bd008578f9bc5366b42c3f80fabb56597ce148a68976de838ce17b35ec47d1139b45e9597f2a73695e5beae16b8847ac53",
 										"type": "text"
 									}
 								],
@@ -8441,75 +8411,7 @@
 							"response": []
 						},
 						{
-							"name": "Clone a Microgrid by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "a285e0b12b6a99ac5a984a7535394c681e5a5e2ec7c94147e52721319cd2250e29b7cf77764f58d938dbad8f246812bff6158571f1629924ea61a82c66627972",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/microgrids/1/clone",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgrids",
-										"1",
-										"clone"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Import a Microgrid from JSON",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
-									},
-									{
-										"key": "Token",
-										"value": "a285e0b12b6a99ac5a984a7535394c681e5a5e2ec7c94147e52721319cd2250e29b7cf77764f58d938dbad8f246812bff6158571f1629924ea61a82c66627972",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{base_url}}/microgrids/import",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"microgrids",
-										"import"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Update a Microgrid",
+							"name": "Update a Microgrid",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -8536,6 +8438,104 @@
 									"path": [
 										"microgrids",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Microgrid by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "default"
+									},
+									{
+										"key": "Token",
+										"value": "92a4f1c98ecdb1b4ba1bab744ab935bd008578f9bc5366b42c3f80fabb56597ce148a68976de838ce17b35ec47d1139b45e9597f2a73695e5beae16b8847ac53",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Microgrid from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "92a4f1c98ecdb1b4ba1bab744ab935bd008578f9bc5366b42c3f80fabb56597ce148a68976de838ce17b35ec47d1139b45e9597f2a73695e5beae16b8847ac53",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Microgrid by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "92a4f1c98ecdb1b4ba1bab744ab935bd008578f9bc5366b42c3f80fabb56597ce148a68976de838ce17b35ec47d1139b45e9597f2a73695e5beae16b8847ac53",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"clone"
 									]
 								}
 							},
@@ -8601,7 +8601,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to a Microgrid",
+							"name": "Bind a Sensor to a Microgrid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8727,7 +8727,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Battery",
+							"name": "Create new Microgrid Battery",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8763,7 +8763,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Microgrid Battery",
+							"name": "Update Microgrid Battery",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -8894,7 +8894,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid EVCharger",
+							"name": "Create new Microgrid EVCharger",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8930,7 +8930,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid EVCharger",
+							"name": "Update a Microgrid EVCharger",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9061,7 +9061,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Geratror",
+							"name": "Create new Microgrid Geratror",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9097,7 +9097,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Generator",
+							"name": "Update a Microgrid Generator",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9228,7 +9228,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Grid",
+							"name": "Create new Microgrid Grid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9265,7 +9265,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Grid",
+							"name": "Update a Microgrid Grid",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9396,7 +9396,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Heatpump",
+							"name": "Create new Microgrid Heatpump",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9433,7 +9433,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Heatpump",
+							"name": "Update a Microgrid Heatpump",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9564,7 +9564,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Load",
+							"name": "Create new Microgrid Load",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9732,7 +9732,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Photovoltaic",
+							"name": "Create new Microgrid Photovoltaic",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9769,7 +9769,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Photovoltaic",
+							"name": "Update a Microgrid Photovoltaic",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9900,7 +9900,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Microgrid Power Conversion System",
+							"name": "Create new Microgrid Power Conversion System",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -9936,7 +9936,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Power Conversion System",
+							"name": "Update a Microgrid Power Conversion System",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -10042,7 +10042,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an User to a Microgrid",
+							"name": "Bind an User to a Microgrid",
 							"request": {
 								"method": "POST",
 								"header": [

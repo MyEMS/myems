@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added rule export, import and clone functions to myems-api
 - added photovoltaic power station export, import and clone functions to myems-api
 - added advanced report config export, import and clone functions to myems-api
+- added microgird export, import and clone functions to myems-api
 ### Changed
 ### Fixed
 - fixed unkonwn meter uuid of energy flow diagram links in demo database
