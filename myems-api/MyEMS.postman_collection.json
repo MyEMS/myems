@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5dd119dc-78ce-4af3-be32-a219ab672e04",
+		"_postman_id": "657346e4-2d65-4aa9-b2ac-7012f8207229",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -20,12 +20,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -48,12 +57,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -77,12 +95,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "fa3cf7335c5babc1c90bd2ba1171cb862677d8ea40295e3ee9c8504ef30b7e1aa2d2fe25fdd761353677731289cd1a9ac4e03340568aa29d17359439fa3af9b2",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -100,19 +127,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Create an Advanced Report Config",
+							"name": "Create an Advanced Report Config",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -139,12 +175,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "fa3cf7335c5babc1c90bd2ba1171cb862677d8ea40295e3ee9c8504ef30b7e1aa2d2fe25fdd761353677731289cd1a9ac4e03340568aa29d17359439fa3af9b2",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -177,12 +222,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "fa3cf7335c5babc1c90bd2ba1171cb862677d8ea40295e3ee9c8504ef30b7e1aa2d2fe25fdd761353677731289cd1a9ac4e03340568aa29d17359439fa3af9b2",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -200,19 +254,28 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Advanced Report Config",
+							"name": "Update an Advanced Report Config",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "9366f0439ee9ddd230dfacc94234ec6779f40a8c692baeadabce5dd3bdbeb11315970a9f45c9d212086e8c53a2be1f7f730cd6188b0baf562b24d1a300943f80",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -240,12 +303,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "0c3be0aff40689f0ee5b3d7f10cea8dea3d070bd25ab87c8973e4eeaad1f14bf95d4873353599d46015ba91875614484f8c7cbbed175a21e841db2ddb9101f4f",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -274,12 +346,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "cc9a83698b40ba649fdc8b554639a3fd424c55f861b7edc2901d064de449e5e83f908237efb8cb92e54031348f20d3028cd293d8d570f7338fd2e2b7568cfe29",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -308,17 +389,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -335,7 +419,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Combined Equipment",
+							"name": "Create New Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -347,9 +431,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -376,17 +467,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "111111113c3ec87b7305d8a875b299e0588f75830d1436805c86113b3c5a66c2ca700f945498e466897ec554d1a4fc321e32001082f105b0bc353fc4d467d55f",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -404,7 +498,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Combined Equipment by ID",
+							"name": "Update a Combined Equipment by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -416,9 +510,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -451,9 +552,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "0196ef3251ad46301f9831f41e1ee96f443ed7d20e0e7ddb82ccc0355acbe0e76352104191d337c2bce53da5fa454b73b19ca614f45d68b4aabd7335daf91882",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -488,7 +596,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -505,7 +620,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an Equipment to a Combined Equipment",
+							"name": "Bind an Equipment to a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -519,7 +634,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -548,17 +670,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -591,7 +716,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -617,17 +749,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -646,7 +781,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to a Combined Equipment",
+							"name": "Bind a Meter to a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -660,7 +795,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -696,7 +838,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -715,7 +864,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Offline Meter to a Combined Equipment",
+							"name": "Bind a Offline Meter to a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -729,7 +878,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -758,17 +914,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -801,7 +960,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -827,17 +993,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -863,17 +1032,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -893,7 +1065,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a point Parameter for a Combined Equipment",
+							"name": "Create a point Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -907,7 +1079,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -930,7 +1109,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a point Parameter for a Combined Equipment",
+							"name": "Update a point Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -944,7 +1123,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -968,7 +1154,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a constant Parameter for a Combined Equipment",
+							"name": "Create a constant Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -982,7 +1168,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1005,7 +1198,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a constant Parameter for a Combined Equipment",
+							"name": "Update a constant Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -1019,7 +1212,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1043,7 +1243,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a fraction Parameter for a Combined Equipment",
+							"name": "Create a fraction Parameter for a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -1057,7 +1257,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1080,7 +1287,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a fraction Parameter for a Combined Equipment",
+							"name": "Update a fraction Parameter for a Combined Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -1094,7 +1301,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1132,7 +1346,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1151,7 +1372,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to a Combined Equipment",
+							"name": "Bind a Virtual Meter to a Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -1165,7 +1386,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1194,17 +1422,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1237,7 +1468,14 @@
 										"key": "Token",
 										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1263,17 +1501,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "96df45542155d4fd65c8234a98fe076232dc09e89238fc2ae3f47cae78960f941e789c72c1ff11b2ba2c2b937631661287150cb1d753b011b7a5500524445b01",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1292,21 +1533,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Command to Combined Equipment",
+							"name": "Bind Command to Combined Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "text",
 										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "053d50fc67f6abac052883728fef670b96b472c692ef412452cb990ffc4a4e985be89dc971f6be34236338238ede3ee405f43861823c4b5cefed6dbfd3e41ed2",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1328,21 +1576,28 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Command from Combined Equipment",
+							"name": "Unbind Command from Combined Equipment",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4 ",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "text",
 										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "053d50fc67f6abac052883728fef670b96b472c692ef412452cb990ffc4a4e985be89dc971f6be34236338238ede3ee405f43861823c4b5cefed6dbfd3e41ed2",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1373,9 +1628,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1413,9 +1675,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1440,17 +1709,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "1cfdf8faf15b07b4d0ba47721f02eb9b6ce79db6c953ca043d4d046d9d81fe7445b12ca4036a7f44aa31aa10999e314c37f95046dec47488458eb451dab85139",
-										"type": "text"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1483,7 +1755,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -1517,7 +1789,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -1546,21 +1818,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Contact",
+							"name": "Create New Contact",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1580,21 +1859,28 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Contact",
+							"name": "Update a Contact",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1622,14 +1908,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "835aa13a4bc4af4ca2f47cac03d186bc49c13a30a025e9d983cc52238027f2eb7bd323784ee53a3833109ce1234acf9c8cb6754ba602b84049bb9244e3df6aeb",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1660,18 +1953,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1694,18 +1990,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1723,21 +2022,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Command (without set_value)",
+							"name": "Create New Command (without set_value)",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aaaaa27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1757,21 +2063,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Command (with set_value)",
+							"name": "Create New Command (with set_value)",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aaaaa27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1796,21 +2109,28 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Command (without set_value)",
+							"name": "Update a Command (without set_value)",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1831,21 +2151,28 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Command (with set_value)",
+							"name": "Update a Command (with set_value)",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1873,14 +2200,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "b472e27328292c4f5b6367a6d0f4db5c627a1231877f23cf80659956ddf96ad89ff06bfa804feff04cf3dafebab8ae165b23a887264a8ade69d689b7df8526c4",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -1904,12 +2238,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "bdf165755fdd709153b2496a876f1382fc83808ba8cb63144359fadfe58c64fb0f318687052c342b882753a4d360fe2a75ac2928a71521ad59433d06f8d31643",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -1938,17 +2281,20 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "default"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -1974,14 +2320,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2014,14 +2367,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "3c6122f0b2fd5e74446463ed2b733630c703df75e57b173bc520cd9c02125a31a4def416544c2bbcd19cbb2d686ce4334e57b4b68e829096597b3737b1e9f043",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2050,18 +2410,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -2084,18 +2447,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -2120,12 +2486,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2145,19 +2520,28 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Cost Center",
+							"name": "Update a Cost Center",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2185,12 +2569,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2207,19 +2600,28 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind  Tariff to Cost Center",
+							"name": "Bind  Tariff to Cost Center",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2247,13 +2649,22 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2271,19 +2682,28 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Tariff from Cost Center",
+							"name": "Unbind Tariff from Cost Center",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "dca233ce58b2bf881e862e994f392dd27dd286c6135eff14da111137023b6c5625864300b269048036dcec310d4f61fa89021e5a3462512de2852493227187a0",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2314,14 +2734,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2344,14 +2771,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2380,9 +2814,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2415,14 +2856,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2446,14 +2894,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "aad10e8cd48a3b8719860fed577033098cbc6caeb1454986189b0018bb76c6abc3a0b0600d0bec2fefb2c9cc5147aab23f50c4a4c8a64aaad0b7e4a7054905b8",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2483,14 +2938,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
-										"description": "Login to get a valid token",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2518,9 +2980,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2549,9 +3018,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2589,9 +3065,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "d167591fd6c23457b3e19084df234578ede8ab02eb896ff8864974b4116d0af3661c9b9b5e793f6ca609a484a79a1fdbe7677a30dedbc2fcd6def346e303e492",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2620,9 +3103,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "b339501802112dcf79dcb85faaa8f7c998b87583932e0814b598f7aa59fd4bee208e039ce38b3cf9265a4e33bf3224914563d8976fd7196c84e0d0c680d4c31a",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2657,9 +3147,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2687,9 +3184,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2706,7 +3210,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create Data Source",
+							"name": "Create Data Source",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -2718,9 +3222,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2752,9 +3263,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2771,7 +3289,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Data Source by ID",
+							"name": "Update Data Source by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -2783,9 +3301,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "ce8adcab80f37322487df375c3e3923e6febbcfb26d2b654a5814db6874f2b072fb40a85199efa725af7f3aa4f490f9cc833422b793fa85266237dc5278dff9f",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2818,9 +3343,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "8b609f8325aaa56d75791f2e25b03bb1c1c43309b47fd04c2b7dfa38cadfa7b6542ed35a1bc700a46938bc1d2c1af311cf7d591e357bada7b6a83eb923e44824",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2850,9 +3382,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "afee8444a1cbba7c1cd92e215a7426c5a63fc3535b5dd36f41d81d4c8022414721bd8769ae3db2a003f961a90d423a7f7bcd62c8b26ef2fef9a339731428535c",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2882,9 +3421,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "afee8444a1cbba7c1cd92e215a7426c5a63fc3535b5dd36f41d81d4c8022414721bd8769ae3db2a003f961a90d423a7f7bcd62c8b26ef2fef9a339731428535c",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -2912,12 +3458,21 @@
 									{
 										"key": "User-UUID",
 										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"type": "text"
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "ff7fb0ba25d1fbdab41a460dfebed8ac1d16d1fb1683a4c9b3a914de4a95b78b70fd7c8848a99be5ca7efa6fc3c9896dc58bb22295c07c72a44f46683a6cfd56",
-										"type": "text"
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -2946,18 +3501,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -2980,18 +3538,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -3009,7 +3570,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create Distribution System",
+							"name": "Create Distribution System",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3021,9 +3582,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -3055,9 +3623,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -3074,7 +3649,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Distribution System by ID",
+							"name": "Update Distribution System by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -3086,9 +3661,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -3115,18 +3697,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -3139,6 +3724,131 @@
 										"distributionsystems",
 										"1",
 										"distributioncircuits"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Distribution System by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Distribution System from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"示例配电系统_1\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo distribution system\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Distribution System by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/distributionsystems/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"distributionsystems",
+										"1",
+										"clone"
 									]
 								}
 							},
@@ -3156,18 +3866,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -3190,18 +3903,21 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
-										"type": "default"
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
 									},
 									{
 										"key": "Token",
-										"value": "831f86c46eaa946be6450097c2ecfc2966fecea18853d00ae3147b11123899438fd5394f1bcfc165d0a3d0604baa93eb14f29d0d88c3f75b3bcaa807029e410c",
-										"type": "default"
-									},
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									}
 									{
 										"key": "API-Key",
 										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
 										"type": "default",
+										"description": "Create API Key at myems-admin",
 										"disabled": true
 									}
 								],
@@ -3219,7 +3935,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Distribution Circuit",
+							"name": "Create new Distribution Circuit",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3231,9 +3947,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -3265,9 +3988,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"url": {
@@ -3284,7 +4014,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Distribution Circuit by ID",
+							"name": "Update Distribution Circuit by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -3296,9 +4026,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "d4af151d182e325bda23f89cef3a385e519f601b40ed3158d0b306c2dcaa1b0b190f3a5945b39e9534a25f891270bbe250a38872920f975949ef33becb908198",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -3319,7 +4056,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Point to Distribution Circuit",
+							"name": "Bind Point to Distribution Circuit",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3331,9 +4068,16 @@
 									},
 									{
 										"key": "Token",
-										"value": "bd16461ce31dca5c026ee17b1e6e10167d7558230fc6387b4149819a1a2b0d19b87b72687fa488ee41b358b7d229ab44f1011968308c0cf3e9d379e6ae6b2565",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
 										"type": "text",
-										"description": "Login to get a valid token"
+										"description": "Login first to get a valid token"
+									}
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -3361,7 +4105,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -3391,7 +4135,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Point from Distribution Circuit",
+							"name": "Unbind Point from Distribution Circuit",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -3459,7 +4203,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Email Server",
+							"name": "Create New Email Server",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3524,7 +4268,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Email Server",
+							"name": "Update an Email Server",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -3666,7 +4410,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Email Message",
+							"name": "Create New Email Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3711,7 +4455,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Email Message",
+							"name": "Update an Email Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -3799,7 +4543,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -3833,7 +4577,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -3862,7 +4606,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create an Energy Category",
+							"name": "Create an Energy Category",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -3896,7 +4640,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Category",
+							"name": "Update an Energy Category",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4007,7 +4751,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4036,7 +4780,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create an Energy Flow Diagram",
+							"name": "Create an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -4070,7 +4814,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Flow Diagram",
+							"name": "Update an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4142,7 +4886,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4172,7 +4916,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Node of an Energy Flow Diagram",
+							"name": "Create new Node of an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -4208,7 +4952,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Node of an Energy Flow Diagram",
+							"name": "Update an Node of an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4284,7 +5028,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4314,7 +5058,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Link of an Energy Flow Diagram",
+							"name": "Create new Link of an Energy Flow Diagram",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -4350,7 +5094,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Link of an Energy Flow Diagram",
+							"name": "Update a Link of an Energy Flow Diagram",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4539,7 +5283,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4573,7 +5317,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4602,7 +5346,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create an Energy Item",
+							"name": "Create an Energy Item",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -4636,7 +5380,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Item",
+							"name": "Update an Energy Item",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4764,7 +5508,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Energy Storage Container",
+							"name": "Create New Energy Storage Container",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -4796,7 +5540,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Container",
+							"name": "Update an Energy Storage Container",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -4864,7 +5608,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -4888,7 +5632,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to an Energy Storage Container",
+							"name": "Bind a Sensor to an Energy Storage Container",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5014,7 +5758,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Energy Storage Container Battery",
+							"name": "Create new Energy Storage Container Battery",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5050,7 +5794,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Container Battery",
+							"name": "Update an Energy Storage Container Battery",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -5126,7 +5870,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -5156,7 +5900,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -5181,7 +5925,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Energy Storage Container Grid",
+							"name": "Create new Energy Storage Container Grid",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5218,7 +5962,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Container Grid",
+							"name": "Update an Energy Storage Container Grid",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -5294,7 +6038,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -5324,7 +6068,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -5349,7 +6093,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Energy Storage Container Load",
+							"name": "Create new Energy Storage Container Load",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5386,7 +6130,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Container Load",
+							"name": "Update an Energy Storage Container Load",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -5517,7 +6261,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create new Energy Storage Container Power Conversion System",
+							"name": "Create new Energy Storage Container Power Conversion System",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5553,7 +6297,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Container Power Conversion System",
+							"name": "Update an Energy Storage Container Power Conversion System",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -5685,7 +6429,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Energy Storage Power Station",
+							"name": "Create New Energy Storage Power Station",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5717,7 +6461,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Energy Storage Power Station",
+							"name": "Update an Energy Storage Power Station",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -5809,7 +6553,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an Energy Storage Container to an Energy Storage Power Station",
+							"name": "Bind an Energy Storage Container to an Energy Storage Power Station",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -5910,7 +6654,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an User to an Energy Storage Power Station",
+							"name": "Bind an User to an Energy Storage Power Station",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6107,7 +6851,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Equipment",
+							"name": "Create New Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6176,7 +6920,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Equipment by ID",
+							"name": "Update an Equipment by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -6277,7 +7021,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to an Equipment",
+							"name": "Bind a Meter to an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6382,7 +7126,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Offline Meter to an Equipment",
+							"name": "Bind a Offline Meter to an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6560,7 +7304,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a point Parameter for an Equipment",
+							"name": "Create a point Parameter for an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6597,7 +7341,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a point Parameter for an Equipment",
+							"name": "Update a point Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -6635,7 +7379,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a constant Parameter for an Equipment",
+							"name": "Create a constant Parameter for an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6672,7 +7416,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a constant Parameter for an Equipment",
+							"name": "Update a constant Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -6710,7 +7454,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a fraction Parameter for an Equipment",
+							"name": "Create a fraction Parameter for an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6747,7 +7491,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a fraction Parameter for an Equipment",
+							"name": "Update a fraction Parameter for an Equipment",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -6818,7 +7562,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to an Equipment",
+							"name": "Bind a Virtual Meter to an Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6959,7 +7703,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Command to Equipment",
+							"name": "Bind Command to Equipment",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -6995,7 +7739,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Command from Equipment",
+							"name": "Unbind Command from Equipment",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -7202,7 +7946,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create Gateway",
+							"name": "Create Gateway",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -7267,7 +8011,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Gateway by ID",
+							"name": "Update Gateway by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -7444,7 +8188,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7478,7 +8222,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7621,7 +8365,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7655,7 +8399,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7684,7 +8428,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Menu",
+							"name": "Update a Menu",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -7725,7 +8469,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7761,7 +8505,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -7864,7 +8608,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Meter",
+							"name": "Create New Meter",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -7898,7 +8642,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Meter",
+							"name": "Update a Meter",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -8000,7 +8744,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Point to Meter",
+							"name": "Bind Point to Meter",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8072,7 +8816,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Point from Meter",
+							"name": "Unbind Point from Meter",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -8141,7 +8885,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Command to Meter",
+							"name": "Bind Command to Meter",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -8177,7 +8921,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Command from Meter",
+							"name": "Unbind Command from Meter",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -8356,7 +9100,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -8577,7 +9321,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -8839,7 +9583,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -8869,7 +9613,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9006,7 +9750,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9036,7 +9780,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9173,7 +9917,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9203,7 +9947,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9341,7 +10085,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9371,7 +10115,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9509,7 +10253,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9539,7 +10283,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9601,7 +10345,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Microgrid Load",
+							"name": "Update a Microgrid Load",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -9677,7 +10421,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -9707,7 +10451,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -10200,7 +10944,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Notification",
+							"name": "Update a Notification",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -10347,7 +11091,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Offline Meter",
+							"name": "Create New Offline Meter",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -10380,7 +11124,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Offline Meter",
+							"name": "Update a Offline Meter",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -10787,7 +11531,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Photovoltaic Power Station",
+							"name": "Create New Photovoltaic Power Station",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -10819,7 +11563,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Photovoltaic Power Station",
+							"name": "Update a Photovoltaic Power Station",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11045,7 +11789,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create Point",
+							"name": "Create Point",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -11110,7 +11854,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Point by ID",
+							"name": "Update Point by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11145,7 +11889,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Point Limits by ID",
+							"name": "Update Point Limits by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11191,7 +11935,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -11213,7 +11957,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Privilege Data",
+							"name": "Update Privilege Data",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11279,7 +12023,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create Privilege",
+							"name": "Create Privilege",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -11405,7 +12149,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Rule",
+							"name": "Create New Rule",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -11508,7 +12252,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Rule",
+							"name": "Update a Rule",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11617,7 +12361,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -11646,7 +12390,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Sensor",
+							"name": "Create New Sensor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -11680,7 +12424,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Sensor",
+							"name": "Update a Sensor",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -11746,7 +12490,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind Point to Sensor",
+							"name": "Bind Point to Sensor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -11788,7 +12532,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -11818,7 +12562,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind Point from Sensor",
+							"name": "Unbind Point from Sensor",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -12033,7 +12777,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Shopfloor",
+							"name": "Create New Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12065,7 +12809,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Shopfloor",
+							"name": "Update a Shopfloor",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -12163,7 +12907,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an Equipment to a Shopfloor",
+							"name": "Bind an Equipment to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12264,7 +13008,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to a Shopfloor",
+							"name": "Bind a Meter to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12365,7 +13109,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an OfflineMeter to a Shopfloor",
+							"name": "Bind an OfflineMeter to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12466,7 +13210,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Point to a Shopfloor",
+							"name": "Bind a Point to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12567,7 +13311,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to a Shopfloor",
+							"name": "Bind a Sensor to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12668,7 +13412,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to a Shopfloor",
+							"name": "Bind a Virtual Meter to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12769,7 +13513,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Working Calendar to a Shopfloor",
+							"name": "Bind a Working Calendar to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12834,7 +13578,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Command to a Shopfloor",
+							"name": "Bind a Command to a Shopfloor",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12905,7 +13649,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Command from Shopfloor",
+							"name": "Unbind a Command from Shopfloor",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -13151,7 +13895,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Space",
+							"name": "Create New Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13254,7 +13998,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Space",
+							"name": "Update a Space",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -13390,7 +14134,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Combined Equipment to a Space",
+							"name": "Bind a Combined Equipment to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13493,7 +14237,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an Equipment to a Space",
+							"name": "Bind an Equipment to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13596,7 +14340,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to a Space",
+							"name": "Bind a Meter to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13630,7 +14374,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Meter from Space",
+							"name": "Unbind a Meter from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -13698,7 +14442,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an OfflineMeter to a Space",
+							"name": "Bind an OfflineMeter to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13733,7 +14477,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind an Offline Meter from Space",
+							"name": "Unbind an Offline Meter from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -13801,7 +14545,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Point to a Space",
+							"name": "Bind a Point to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13836,7 +14580,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Point from Space",
+							"name": "Unbind a Point from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -13904,7 +14648,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to a Space",
+							"name": "Bind a Sensor to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -13939,7 +14683,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Sensor from Space",
+							"name": "Unbind a Sensor from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14007,7 +14751,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Shopfloor to a Space",
+							"name": "Bind a Shopfloor to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14042,7 +14786,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Shopfloor from a Space",
+							"name": "Unbind a Shopfloor from a Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14110,7 +14854,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Store to a Space",
+							"name": "Bind a Store to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14145,7 +14889,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Store from Space",
+							"name": "Unbind a Store from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14213,7 +14957,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Tenant to a Space",
+							"name": "Bind a Tenant to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14248,7 +14992,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Tenant from Space",
+							"name": "Unbind a Tenant from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14316,7 +15060,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to a Space",
+							"name": "Bind a Virtual Meter to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14351,7 +15095,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Virtual Meter from Space",
+							"name": "Unbind a Virtual Meter from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14486,7 +15230,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Working Calendar to a Space",
+							"name": "Bind a Working Calendar to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14521,7 +15265,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Working Calendar from Space",
+							"name": "Unbind a Working Calendar from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14589,7 +15333,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Command to a Space",
+							"name": "Bind a Command to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14624,7 +15368,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Command from Space",
+							"name": "Unbind a Command from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -14651,17 +15395,6 @@
 										"commands",
 										"1"
 									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "New Request",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
 								}
 							},
 							"response": []
@@ -14741,7 +15474,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Store",
+							"name": "Create New Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14773,7 +15506,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Store",
+							"name": "Update a Store",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -14871,7 +15604,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to a Store",
+							"name": "Bind a Meter to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -14972,7 +15705,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an OfflineMeter to a Store",
+							"name": "Bind an OfflineMeter to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15073,7 +15806,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Point to a Store",
+							"name": "Bind a Point to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15174,7 +15907,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to a Store",
+							"name": "Bind a Sensor to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15275,7 +16008,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to a Store",
+							"name": "Bind a Virtual Meter to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15376,7 +16109,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Working Calendar to a Store",
+							"name": "Bind a Working Calendar to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15477,7 +16210,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Command to a Store",
+							"name": "Bind a Command to a Store",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15512,7 +16245,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Command from Store",
+							"name": "Unbind a Command from Store",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -15722,7 +16455,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Store Type",
+							"name": "Create New Store Type",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15754,7 +16487,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Store Type",
+							"name": "Update a Store Type",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -15827,7 +16560,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -15861,7 +16594,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -15890,7 +16623,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create a Tariff (Time of Use)",
+							"name": "Create a Tariff (Time of Use)",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15922,7 +16655,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Tariff (time of use)",
+							"name": "Update a Tariff (time of use)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -16162,7 +16895,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Tenant",
+							"name": "Create New Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16194,7 +16927,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Tenant",
+							"name": "Update a Tenant",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -16292,7 +17025,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Meter to a Tenant",
+							"name": "Bind a Meter to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16393,7 +17126,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind an OfflineMeter to a Tenant",
+							"name": "Bind an OfflineMeter to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16494,7 +17227,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Point to a Tenant",
+							"name": "Bind a Point to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16595,7 +17328,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Sensor to a Tenant",
+							"name": "Bind a Sensor to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16696,7 +17429,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Virtual Meter to a Tenant",
+							"name": "Bind a Virtual Meter to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16797,7 +17530,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Working Calendar to a Tenant",
+							"name": "Bind a Working Calendar to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16898,7 +17631,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Command to a Tenant",
+							"name": "Bind a Command to a Tenant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -16933,7 +17666,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Unbind a Command from Tenant",
+							"name": "Unbind a Command from Tenant",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -17143,7 +17876,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Tenant Type",
+							"name": "Create New Tenant Type",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -17177,7 +17910,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Tenant Type",
+							"name": "Update a Tenant Type",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -17324,7 +18057,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Text Message",
+							"name": "Create New Text Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -17358,7 +18091,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an Text Message",
+							"name": "Update an Text Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -17440,7 +18173,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -17474,7 +18207,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -17503,7 +18236,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Timezone",
+							"name": "Update a Timezone",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -17610,7 +18343,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New User (by Administrator)",
+							"name": "Create New User (by Administrator)",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -17697,7 +18430,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update User Profile",
+							"name": "Update User Profile",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -17847,7 +18580,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT User Login by Email",
+							"name": "User Login by Email",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -17980,7 +18713,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Forgot Password Email Message",
+							"name": "Create New Forgot Password Email Message",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -18002,7 +18735,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update Forgot Password Email Message",
+							"name": "Update Forgot Password Email Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -18135,7 +18868,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Register User",
+							"name": "Create New Register User",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -18216,7 +18949,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a New Register User",
+							"name": "Update a New Register User",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -18389,7 +19122,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Virtual Power Plant",
+							"name": "Update a Virtual Power Plant",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -18486,7 +19219,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Bind a Microgrid to a Virtual Power Plant",
+							"name": "Bind a Microgrid to a Virtual Power Plant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -18520,7 +19253,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Virtual Power Plant",
+							"name": "Create New Virtual Power Plant",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -18761,7 +19494,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Virtual Meter",
+							"name": "Create New Virtual Meter",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -18794,7 +19527,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Virtual Meter by ID",
+							"name": "Update a Virtual Meter by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19051,7 +19784,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update All New Web Messages (Mark All As Read)",
+							"name": "Update All New Web Messages (Mark All As Read)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19085,7 +19818,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update All New Web Messages (Acknowledge All)",
+							"name": "Update All New Web Messages (Acknowledge All)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19150,7 +19883,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Web Message TODO",
+							"name": "Create New Web Message TODO",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -19180,7 +19913,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Web Message (Acknowledge)",
+							"name": "Update a Web Message (Acknowledge)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19215,7 +19948,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Web Message (Mark As Read)",
+							"name": "Update a Web Message (Mark As Read)",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19426,7 +20159,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Wechat Message",
+							"name": "Create New Wechat Message",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -19460,7 +20193,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Wechat Message",
+							"name": "Update a Wechat Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19588,7 +20321,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Create New Wind Farm",
+							"name": "Create New Wind Farm",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -19620,7 +20353,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Wind Farm",
+							"name": "Update a Wind Farm",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -19825,7 +20558,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -19886,7 +20619,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Working Calendar",
+							"name": "Update a Working Calendar",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -20097,7 +20830,7 @@
 								"header": [
 									{
 										"key": "User-UUID",
-										"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 										"type": "default"
 									},
 									{
@@ -20154,7 +20887,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update a Non Working Day by ID",
+							"name": "Update a Non Working Day by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -20225,7 +20958,7 @@
 					"name": "API KEY",
 					"item": [
 						{
-							"name": "POST Create New API Key",
+							"name": "Create New API Key",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -20314,7 +21047,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT Update an API Key by ID",
+							"name": "Update an API Key by ID",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -25583,7 +26316,7 @@
 						"header": [
 							{
 								"key": "User-UUID",
-								"value": "3a7acfe1-f3c3-4561-a985-8a4d23ef54d0",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
 								"type": "default",
 								"disabled": true
 							},
