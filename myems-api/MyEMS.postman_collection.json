@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "657346e4-2d65-4aa9-b2ac-7012f8207229",
+		"_postman_id": "f28f778d-45d4-4e43-901c-1f5f3536cd9b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -11918,6 +11918,110 @@
 									"path": [
 										"pointlimits",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export Point by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0e4e3eb652b72f85c7280e340a37dfc5ba03e6038dccb6ad9e1fe9432086e2f1782c493b43a99cdc4e6af3e9bb6da7ff66f2aa021a92617b1542a0ca0d89b38c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/points/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"points",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import Point from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0e4e3eb652b72f85c7280e340a37dfc5ba03e6038dccb6ad9e1fe9432086e2f1782c493b43a99cdc4e6af3e9bb6da7ff66f2aa021a92617b1542a0ca0d89b38c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/points/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"points",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone Point by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0e4e3eb652b72f85c7280e340a37dfc5ba03e6038dccb6ad9e1fe9432086e2f1782c493b43a99cdc4e6af3e9bb6da7ff66f2aa021a92617b1542a0ca0d89b38c",
+										"type": "text",
+										"description": "Login to get a valid token"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/points/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"points",
+										"1",
+										"clone"
 									]
 								}
 							},
