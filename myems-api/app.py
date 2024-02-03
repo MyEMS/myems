@@ -453,6 +453,12 @@ api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',
               microgrid.MicrogridUserItem())
+api.add_route('/microgrids/{id_}/export',
+              microgrid.MicrogridExport())
+api.add_route('/microgrids/import',
+              microgrid.MicrogridImport())
+api.add_route('/microgrids/{id_}/clone',
+              microgrid.MicrogridClone())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
