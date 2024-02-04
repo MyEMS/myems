@@ -182,24 +182,24 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
-                # 0: 无电池, No Battery
-                # 1: 故障, Fault
-                # 2: 休眠, Sleep
-                # 3: 起动, Starting
-                # 4: 运行充电, Charging
-                # 5: 运行放电, Discharging
-                # 6: 运行停止, Stopped
-
                 # 1故障  2预警  3待机  4禁放  5禁充  6正常
                 print(battery_state_point_value)
                 if battery_state_point_value is None:
-                    battery_state = 'Unknown'
+                    battery_operating_state = 'Unknown'
+                elif battery_state_point_value == 1:
+                    battery_operating_state = 'Fault'
+                elif battery_state_point_value == 2:
+                    battery_operating_state = 'Warning'
+                elif battery_state_point_value == 3:
+                    battery_operating_state = 'Standby'
                 elif battery_state_point_value == 4:
-                    battery_state = 'Charging'
+                    battery_operating_state = 'ProhibitDisCharging'
                 elif battery_state_point_value == 5:
-                    battery_state = 'Discharging'
+                    battery_operating_state = 'ProhibitCharging'
+                elif battery_state_point_value == 6:
+                    battery_operating_state = 'Normal'
                 else:
-                    battery_state = 'Stopped'
+                    battery_operating_state = 'Unknown'
 
                 # get battery soc point, power point
                 battery_soc_point_value = None
@@ -262,6 +262,7 @@ class Reporting:
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,
+                               "battery_operating_state": battery_operating_state,
                                "battery_soc_point_value": battery_soc_point_value,
                                "battery_power_point_value": battery_power_point_value,
                                "grid_power_point_value": grid_power_point_value,

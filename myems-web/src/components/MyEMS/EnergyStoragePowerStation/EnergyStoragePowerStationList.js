@@ -109,7 +109,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
             energyStoragePowerStation['longitude'] = json[index]['longitude'];
             energyStoragePowerStation['serial_number'] = json[index]['serial_number'];
             energyStoragePowerStation['files'] = [{ id: json[index]['uuid'], src: require('./EnergyStoragePowerStation.jpeg'), }];
-            energyStoragePowerStation['batteryState'] = json[index]['battery_state'];
+            energyStoragePowerStation['batteryOperatingState'] = json[index]['battery_operating_state'];
             energyStoragePowerStation['batterySocPointValue'] = json[index]['battery_soc_point_value'];
             energyStoragePowerStation['batteryPowerPointValue'] = json[index]['battery_power_point_value'];
             energyStoragePowerStation['photovoltaicPowerPointValue'] = json[index]['photovoltaic_power_point_value'];
