@@ -19,8 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added command export, import and clone functions to myems-api, myems-admin
 - added energy flow diagram export, import and clone functions to myems-api, myems-admin
 - added tariff export, import and clone functions to myems-api, myems-admin
-- added working calendar export, import and clone functions to myems-api
-- added virtual power plant export, import and clone functions to myems-api
+- added working calendar export, import and clone functions to myems-api, myems-admin
+- added virtual power plant export, import and clone functions to myems-api, myems-admin
 - added wind farm export, import and clone functions to myems-api
 - added rule export, import and clone functions to myems-api
 - added photovoltaic power station export, import and clone functions to myems-api

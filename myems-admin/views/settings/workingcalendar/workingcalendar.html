@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'COMMON.WORKING_CALENDAR' | translate}}" >
 						<div class="panel-body" ng-controller="WorkingCalendarController">
 							<a ng-click="addWorkingCalendar()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'WORKING_CALENDAR.ADD_WORKING_CALENDAR' | translate}}</a>
+							<a ng-click="importWorkingCalendar()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -23,6 +24,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editWorkingCalendar(workingcalendar)" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteWorkingCalendar(workingcalendar)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportWorkingCalendar(workingcalendar)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneWorkingCalendar(workingcalendar)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
