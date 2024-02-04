@@ -32,6 +32,30 @@ app.factory('WorkingCalendarService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportWorkingCalendar: function(workingcalendar, headers, callback) {
+            $http.get(getAPI()+'workingcalendars/'+workingcalendar.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importWorkingCalendar: function(importdata, headers, callback) {
+            $http.post(getAPI()+'workingcalendars/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneWorkingCalendar: function(workingcalendar, headers, callback) {
+            $http.post(getAPI()+'workingcalendars/'+workingcalendar.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
