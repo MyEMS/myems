@@ -431,6 +431,16 @@ const resources = {
       'Discharge Start Time': 'Discharge Start Time',
       'Discharge End Time': 'Discharge End Time',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'Battery Operating State',
+      'Battery Unknown': 'Unknown',
+      'Battery Fault': 'Fault',
+      'Battery Warning': 'Warning',
+      'Battery Standby': 'Standby',
+      'Battery Prohibit DisCharging': 'Prohibit DisCharging',
+      'Battery Prohibit Charging': 'Prohibit Charging',
+      'Battery Normal': 'Normal',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
       'File Format': 'File Format',
@@ -1463,6 +1473,16 @@ const resources = {
       'Charge End Time': '充电结束时间',
       'Discharge Start Time': '放电开始时间',
       'Discharge End Time': '放电结束时间',
+
+      // Energy Storage Power Station
+      'Battery Operating State': '电池运行状态',
+      'Battery Unknown': '未知',
+      'Battery Fault': '故障',
+      'Battery Warning': '预警',
+      'Battery Standby': '待机',
+      'Battery Prohibit DisCharging': '禁放',
+      'Battery Prohibit Charging': '禁充',
+      'Battery Normal': '正常',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
@@ -2523,6 +2543,16 @@ const resources = {
       'Discharge Start Time': 'Startzeit der Entladung',
       'Discharge End Time': 'Endzeit der Entladung',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'Batteriebetriebszustand',
+      'Battery Unknown': 'Unbekannt',
+      'Battery Fault': 'Fehler',
+      'Battery Warning': 'Warnung',
+      'Battery Standby': 'Standby',
+      'Battery Prohibit DisCharging': 'Deaktivieren verbieten',
+      'Battery Prohibit Charging': 'Gebühren verbieten',
+      'Battery Normal': 'Normal',
+
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
       'File Format': 'Datei Format',
@@ -3573,6 +3603,16 @@ const resources = {
       'Discharge Start Time': 'Le Discharge start time',
       'Discharge End Time': 'Le Discharge end Time',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'État de fonctionnement de la batterie',
+      'Battery Unknown': 'Inconnu',
+      'Battery Fault': 'La faute',
+      'Battery Warning': 'Avertissement',
+      'Battery Standby': 'Articles de rechange',
+      'Battery Prohibit DisCharging': 'Interdiction de désinstaller',
+      'Battery Prohibit Charging': 'Interdiction de charger',
+      'Battery Normal': 'Typiquement',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
       'File Format': 'Lime Format',
@@ -4621,6 +4661,16 @@ const resources = {
       'Charge End Time': 'Temps de fin de charge',
       'Discharge Start Time': 'Heure de début de décharge',
       'Discharge End Time': 'Temps de fin de décharge',
+
+      // Energy Storage Power Station
+      'Battery Operating State': 'Estado de funcionamiento de la batería',
+      'Battery Unknown': 'Desconocido',
+      'Battery Fault': 'Culpa',
+      'Battery Warning': 'Aviso',
+      'Battery Standby': 'Artículos de repuesto',
+      'Battery Prohibit DisCharging': 'Prohibición de descargar',
+      'Battery Prohibit Charging': 'Está prohibido cargar',
+      'Battery Normal': 'Típico',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -5671,6 +5721,16 @@ const resources = {
       'Discharge Start Time': 'Время начала разряда',
       'Discharge End Time': 'Время окончания разряда',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'режим работы батареи',
+      'Battery Unknown': 'Неизвестный',
+      'Battery Fault': 'Ошибка',
+      'Battery Warning': 'предупреждение',
+      'Battery Standby': 'Запасные материалы',
+      'Battery Prohibit DisCharging': 'Запрещается выгрузка',
+      'Battery Prohibit Charging': 'Зарядка запрещена.',
+      'Battery Normal': 'Типичный',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
       'File Format': 'Формат файла',
@@ -6719,6 +6779,16 @@ const resources = {
       'Charge End Time': 'شحن نهاية الوقت',
       'Discharge Start Time': 'وقت بدء التفريغ',
       'Discharge End Time': 'أداء نهاية الوقت',
+
+      // Energy Storage Power Station
+      'Battery Operating State': 'حالة البطارية',
+      'Battery Unknown': 'غير معروف',
+      'Battery Fault': 'خطأ',
+      'Battery Warning': 'حذر',
+      'Battery Standby': 'المواد الاحتياطية',
+      'Battery Prohibit DisCharging': 'تعطيل إلغاء',
+      'Battery Prohibit Charging': 'حظر شحن',
+      'Battery Normal': 'نموذجي',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -7769,6 +7839,16 @@ const resources = {
       'Discharge Start Time': 'Thời gian bắt đầu xả',
       'Discharge End Time': 'Thời gian kết thúc xả',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'Trạng thái hoạt động của pin',
+      'Battery Unknown': 'Không rõ',
+      'Battery Fault': 'Lỗi',
+      'Battery Warning': 'Cảnh báo',
+      'Battery Standby': 'Phụ tùng',
+      'Battery Prohibit DisCharging': 'Không gỡ cài đặt',
+      'Battery Prohibit Charging': 'Không sạc',
+      'Battery Normal': 'Đặc trưng',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
       'File Format': 'Định dạng tệp',
@@ -8818,6 +8898,16 @@ const resources = {
       'Discharge Start Time': 'เวลาเริ่มต้นของการปลดปล่อย',
       'Discharge End Time': 'เวลาสิ้นสุดการปลดปล่อย',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
+      'Battery Unknown': 'ไม่ทราบ',
+      'Battery Fault': 'ความผิด',
+      'Battery Warning': 'คำเตือน',
+      'Battery Standby': 'รายการสำรอง',
+      'Battery Prohibit DisCharging': 'ห้ามขนถ่าย',
+      'Battery Prohibit Charging': 'ห้ามชาร์จ',
+      'Battery Normal': 'ทั่วไป',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
       'File Format': 'รูปแบบไฟล์',
@@ -9864,6 +9954,16 @@ const resources = {
       'Charge End Time': 'Charge End Time',
       'Discharge Start Time': 'Başlangıç Zamanını Aç',
       'Discharge End Time': 'Discharge End Time',
+
+      // Energy Storage Power Station
+      'Battery Operating State': 'Batarya İşlemi Durumu',
+      'Battery Unknown': 'Bilinmemiş',
+      'Battery Fault': 'Hata',
+      'Battery Warning': 'Uyarı',
+      'Battery Standby': 'Standby',
+      'Battery Prohibit DisCharging': 'Yüklemeyi yasakla',
+      'Battery Prohibit Charging': 'Yüklemeyi yasakla',
+      'Battery Normal': 'Normal',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -10914,6 +11014,16 @@ const resources = {
       'Discharge Start Time': 'Masa Mula Buang',
       'Discharge End Time': 'Masa Akhir Buang',
 
+      // Energy Storage Power Station
+      'Battery Operating State': 'Keadaan Operasi Bateri',
+      'Battery Unknown': 'Tidak diketahui',
+      'Battery Fault': 'Gagal',
+      'Battery Warning': 'Amaran',
+      'Battery Standby': 'Bersedia',
+      'Battery Prohibit DisCharging': 'Melarangkan Nyahmuat',
+      'Battery Prohibit Charging': 'Melarang Memuatkan',
+      'Battery Normal': 'Normal',
+
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
       'File Format': 'Format Fail',
@@ -11945,6 +12055,16 @@ const resources = {
       'Charge End Time': 'Waktu Akhir Muat',
       'Discharge Start Time': 'Buang Waktu Mula',
       'Discharge End Time': 'Waktu Akhir Buang',
+
+      // Energy Storage Power Station
+      'Battery Operating State': 'Status Operasi Bateri',
+      'Battery Unknown': 'Tidak diketahui',
+      'Battery Fault': 'Gagal',
+      'Battery Warning': 'Peringatan',
+      'Battery Standby': 'Bersiap',
+      'Battery Prohibit DisCharging': 'Melarangkan Memotong',
+      'Battery Prohibit Charging': 'Melarangkan Memuatkan',
+      'Battery Normal': 'Normal',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',

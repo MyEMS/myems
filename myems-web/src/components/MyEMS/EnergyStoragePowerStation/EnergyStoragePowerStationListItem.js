@@ -19,7 +19,7 @@ const EnergyStoragePowerStationListItem = ({
   address,
   postal_code,
   serial_number,
-  batteryState,
+  batteryOperatingState,
   batterySocPointValue,
   batteryPowerPointValue,
   photovoltaicPowerPointValue,
@@ -95,10 +95,10 @@ const EnergyStoragePowerStationListItem = ({
                       </strong>
                     </p>
                     <p className="fs--1 mb-1">
-                      {t('Battery State')}:{' '}
-                      <strong className={classNames({ 'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
-                      'text-danger':  batteryState === 'Unknown' || batteryState === 'Stopped'})}>
-                        {batteryState === 'Charging' ? t('Battery Charging') : batteryState === 'Discharging' ? t('Battery Discharging') : batteryState === 'Stopped' ? t('Battery Stopped'): t('Battery Unknown')}
+                      {t('Battery Operating State')}:{' '}
+                      <strong className={classNames({ 'text-success': batteryOperatingState === 'Normal' || batteryOperatingState === 'Standby'  || batteryOperatingState === 'ProhibitDisCharging' || batteryOperatingState === 'ProhibitCharging',
+                      'text-danger':  batteryOperatingState === 'Unknown' || batteryOperatingState === 'Fault' || batteryOperatingState === 'Warning'})}>
+                        {batteryOperatingState === 'Normal' ? t('Battery Normal') : batteryOperatingState === 'Standby' ? t('Battery Standby') : batteryOperatingState === 'ProhibitDisCharging' ? t('Battery Prohibit DisCharging') : batteryOperatingState === 'ProhibitCharging' ? t('Battery Prohibit Charging') : batteryOperatingState === 'Fault' ? t('Battery Fault') : batteryOperatingState === 'Warning' ? t('Battery Warning') : t('Battery Unknown')}
                       </strong>
                     </p>
                     <p className="fs--1 mb-1">
@@ -170,7 +170,7 @@ EnergyStoragePowerStationListItem.propTypes = {
   address: PropTypes.string,
   postal_code: PropTypes.string,
   serial_number: PropTypes.string,
-  batteryState: PropTypes.string,
+  batteryOperatingState: PropTypes.string,
   batterySocPointValue: PropTypes.number,
   batteryPowerPointValue: PropTypes.number,
   photovoltaicPowerPointValue: PropTypes.number,
