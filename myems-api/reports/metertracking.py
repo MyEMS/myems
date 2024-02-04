@@ -241,13 +241,13 @@ class Reporting:
                                      " where point_id in ("
                                      + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
                                      " AND utc_date_time BETWEEN %s AND %s "
-                                     " order by utc_date_time DESC LIMIT 0,1")
+                                     " ORDER BY utc_date_time DESC LIMIT 0,1")
                 query_end_value = (" SELECT actual_value "
                                    " FROM tbl_energy_value "
                                    " where point_id in ("
                                    + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
                                    " AND utc_date_time BETWEEN %s AND %s "
-                                   " order by utc_date_time DESC LIMIT 0,1")
+                                   " ORDER BY utc_date_time DESC LIMIT 0,1")
                 cursor_historical.execute(query_start_value,
                                           (reporting_start_datetime_utc - timedelta(minutes=15),
                                            reporting_start_datetime_utc, ))
