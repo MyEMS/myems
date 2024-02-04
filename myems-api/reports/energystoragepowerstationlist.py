@@ -189,6 +189,8 @@ class Reporting:
                 # 4: 运行充电, Charging
                 # 5: 运行放电, Discharging
                 # 6: 运行停止, Stopped
+
+                # 1故障  2预警  3待机  4禁放  5禁充  6正常
                 print(battery_state_point_value)
                 if battery_state_point_value is None:
                     battery_state = 'Unknown'
@@ -216,6 +218,36 @@ class Reporting:
                             battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
                             battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
 
+                # get grid power point
+                grid_power_point_value = None
+                if is_online:
+                    query = (" SELECT tescg.power_point_id "
+                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             "      tbl_energy_storage_containers_grids tescg "
+                             " WHERE tespsesc.energy_storage_power_station_id = %s "
+                             "       AND tespsesc.energy_storage_container_id = tescg.energy_storage_container_id "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            grid_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+
+                # get load power point
+                load_power_point_value = None
+                if is_online:
+                    query = (" SELECT tescl.power_point_id "
+                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             "      tbl_energy_storage_containers_loads tescl "
+                             " WHERE tespsesc.energy_storage_power_station_id = %s "
+                             "       AND tespsesc.energy_storage_container_id = tescl.energy_storage_container_id "
+                             " LIMIT 1 ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row_point = cursor_system_db.fetchone()
+                    if row_point is not None and len(row_point) > 0:
+                        if analog_value_latest_dict.get(row_point[0]) is not None:
+                            load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+
                 meta_result = {"id": energy_storage_power_station_id,
                                "name": row[1],
                                "uuid": row[2],
@@ -231,7 +263,10 @@ class Reporting:
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,
                                "battery_soc_point_value": battery_soc_point_value,
-                               "battery_power_point_value": battery_power_point_value}
+                               "battery_power_point_value": battery_power_point_value,
+                               "grid_power_point_value": grid_power_point_value,
+                               "load_power_point_value": load_power_point_value,
+                               }
 
                 result.append(meta_result)
 
