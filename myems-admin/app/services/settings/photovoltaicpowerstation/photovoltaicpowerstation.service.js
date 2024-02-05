@@ -41,5 +41,29 @@ app.factory('PhotovoltaicPowerStationService', function($http) {
                 callback(response);
             });
         },
+        exportPhotovoltaicPowerStation: function(photovoltaicpowerstation, headers, callback) {
+            $http.get(getAPI()+'photovoltaicpowerstations/'+photovoltaicpowerstation.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importPhotovoltaicPowerStation: function(importdata, headers, callback) {
+            $http.post(getAPI()+'photovoltaicpowerstations/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        clonePhotovoltaicPowerStation: function(photovoltaicpowerstation, headers, callback) {
+            $http.post(getAPI()+'photovoltaicpowerstations/'+photovoltaicpowerstation.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
