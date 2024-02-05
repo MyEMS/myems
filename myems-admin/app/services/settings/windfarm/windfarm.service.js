@@ -41,5 +41,29 @@ app.factory('WindFarmService', function($http) {
                 callback(response);
             });
         },
+        exportWindFarm: function(windfarm, headers, callback) {
+            $http.get(getAPI()+'windfarms/'+windfarm.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importWindFarm: function(importdata, headers, callback) {
+            $http.post(getAPI()+'windfarms/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneWindFarm: function(windfarm, headers, callback) {
+            $http.post(getAPI()+'windfarms/'+windfarm.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
