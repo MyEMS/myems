@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'MENU.SETTINGS.ADVANCED_REPORT' | translate}}" >
 						<div class="panel-body" ng-controller="AdvancedReportController">
 							<a ng-click="addAdvancedReport()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ADVANCED_REPORT.ADD_ADVANCED_REPORT' | translate}}</a>
+							<a ng-click="importAdvancedReport()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -31,6 +32,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editAdvancedReport(advancedReport)" >{{'SETTING.EDIT' | translate}}</a>
 											<a class="btn btn-danger btn-rounded btn-xs" ng-click="deleteAdvancedReport(advancedReport)" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportAdvancedReport(advancedReport)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneAdvancedReport(advancedReport)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 											<a class="btn btn-danger btn-rounded btn-xs" ng-click="runAdvancedReport(advancedReport)" >{{'ADVANCED_REPORT.IS_RUN_IMMEDIATELY' | translate}}</a>
 										</td>
 									</tr>

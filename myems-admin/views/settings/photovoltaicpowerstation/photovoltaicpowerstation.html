@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationController">
 							<a ng-click="addPhotovoltaicPowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_PHOTOVOLTAIC_POWER_STATION' | translate}}</a>
+							<a ng-click="importPhotovoltaicPowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -37,6 +38,8 @@
 										<td class="text-center">
 											<a ng-click="editPhotovoltaicPowerStation(photovoltaicpowerstation)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deletePhotovoltaicPowerStation(photovoltaicpowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportPhotovoltaicPowerStation(photovoltaicpowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="clonePhotovoltaicPowerStation(photovoltaicpowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>

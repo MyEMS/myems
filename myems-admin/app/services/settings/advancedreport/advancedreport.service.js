@@ -56,6 +56,30 @@ app.factory('AdvancedReportService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportAdvancedReport: function(advancedreport, headers, callback) {
+            $http.get(getAPI()+'advancedreports/'+advancedreport.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importAdvancedReport: function(importdata, headers, callback) {
+            $http.post(getAPI()+'advancedreports/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneAdvancedReport: function(advancedreport, headers, callback) {
+            $http.post(getAPI()+'advancedreports/'+advancedreport.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
