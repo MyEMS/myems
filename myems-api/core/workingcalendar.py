@@ -144,7 +144,7 @@ class WorkingCalendarItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
-        
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -205,17 +205,9 @@ class WorkingCalendarItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        # check relation with non working days
-        cursor.execute(" SELECT id FROM tbl_working_calendars_non_working_days"
+        cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days "
                        " WHERE working_calendar_id = %s ", (id_,))
-                
-        rows_non_working_days = cursor.fetchall()
-        if rows_non_working_days is not None and len(rows_non_working_days) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_NON_WORKING_DAYS')
+        cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_working_calendars WHERE id = %s ", (id_,))
         cnx.commit()
@@ -316,7 +308,8 @@ class NonWorkingDayCollection:
 
         cursor.execute(" SELECT id, working_calendar_id, date_local, description"
                        " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s ", (id_,))
+                       " WHERE working_calendar_id = %s "
+                       " ORDER BY date_local DESC ", (id_,))
         rows_date_local = cursor.fetchall()
 
         meta_result = list()
@@ -472,16 +465,9 @@ class NonWorkingDayItem:
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.NON_WORKING_DAY_NOT_FOUND')
+                                   description='API.INVALID_NON_WORKING_DAY_ID')
 
         new_values = json.loads(raw_json)
-
-        if 'working_calendar_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['working_calendar_id'], int) or \
-                new_values['data']['working_calendar_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_WORKING_CALENDAR_ID')
-        working_calendar_id = new_values['data']['working_calendar_id']
 
         if 'date_local' in new_values['data'].keys() and \
                 new_values['data']['date_local'] is not None and \
@@ -509,8 +495,8 @@ class NonWorkingDayItem:
 
         cursor.execute(" SELECT id "
                        " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s AND date_local = %s AND description = %s",
-                       (working_calendar_id, date_local, description))
+                       " WHERE id != %s AND date_local = %s ",
+                       (id_, date_local))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -518,9 +504,9 @@ class NonWorkingDayItem:
                                    description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
 
         update_row = (" UPDATE tbl_working_calendars_non_working_days "
-                      " SET working_calendar_id = %s, date_local = %s, description = %s "
+                      " SET date_local = %s, description = %s "
                       " WHERE id = %s ")
-        cursor.execute(update_row, (working_calendar_id, date_local, description, id_))
+        cursor.execute(update_row, (date_local, description, id_))
         cnx.commit()
 
         cursor.close()
