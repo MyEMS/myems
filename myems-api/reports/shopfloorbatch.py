@@ -146,7 +146,8 @@ class Reporting:
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
 
-        cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
+        cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
+                                 "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, shopfloor.description "
                                  " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
                                  " tbl_shopfloors shopfloor, tbl_cost_centers cc "
