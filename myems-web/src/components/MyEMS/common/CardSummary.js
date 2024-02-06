@@ -38,9 +38,6 @@ const getContentClassNames = color => {
 };
 
 const CardSummary = ({ title, rate, color, children, footnote, footvalue, footunit }) => {
-
-
-
   return (
     <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem' }}>
       <Background image={getImage(color)} className="bg-card" />

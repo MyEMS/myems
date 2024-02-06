@@ -242,7 +242,7 @@ class UserItem:
                  "        u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
-                 " WHERE u.id =%s ")
+                 " WHERE u.id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()

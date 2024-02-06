@@ -161,7 +161,7 @@ class EnergyItemItem:
 
         query = (" SELECT id, name, uuid, energy_category_id "
                  " FROM tbl_energy_items "
-                 " WHERE id =%s ")
+                 " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()

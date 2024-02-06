@@ -1259,7 +1259,7 @@ class EquipmentParameterItem:
 
         add_values = (" UPDATE tbl_equipments_parameters "
                       " SET name = %s , parameter_type = %s, constant = %s, "
-                      "     point_id = %s, numerator_meter_uuid = %s, denominator_meter_uuid =%s "
+                      "     point_id = %s, numerator_meter_uuid = %s, denominator_meter_uuid = %s "
                       " WHERE id = %s ")
         cursor.execute(add_values, (name,
                                     parameter_type,

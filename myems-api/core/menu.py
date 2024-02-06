@@ -75,7 +75,7 @@ class MenuItem:
 
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
-                 " WHERE id=%s ")
+                 " WHERE id= %s ")
         cursor.execute(query, (id_,))
         rows_menu = cursor.fetchone()
 
