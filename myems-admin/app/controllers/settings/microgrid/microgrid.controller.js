@@ -12,6 +12,9 @@ app.controller('MicrogridController', function(
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.exportdata = '';
+	$scope.importdata = '';
+
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -167,6 +170,98 @@ app.controller('MicrogridController', function(
 		        }
 		    });
 	};
+
+	$scope.exportMicrogrid = function(microgrid) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MicrogridService.exportMicrogrid(microgrid, headers, function(response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.exportdata = JSON.stringify(response.data);
+				var modalInstance = $uibModal.open({
+					windowClass: "animated fadeIn",
+					templateUrl: 'views/common/export.html',
+					controller: 'ModalExportCtrl',
+					resolve: {
+						params: function() {
+							return {
+								exportdata: angular.copy($scope.exportdata)
+							};
+						}
+					}
+				});
+				modalInstance.result.then(function() {
+					//do nothing;
+				}, function() {
+					//do nothing;
+				});
+				$rootScope.modalInstance = modalInstance;
+			} else {
+				$scope.exportdata = null;
+			}
+		});
+	};
+
+	$scope.cloneMicrogrid = function(microgrid){
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		MicrogridService.cloneMicrogrid(microgrid, headers, function(response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					showCloseButton: true,
+				});
+				$scope.getAllMicrogrids();
+				$scope.$emit('handleEmitMicrogridChanged');
+			}else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
+			}
+		});
+	};
+
+	$scope.importMicrogrid = function() {
+		var modalInstance = $uibModal.open({
+			templateUrl: 'views/common/import.html',
+			controller: 'ModalImportCtrl',
+			windowClass: "animated fadeIn",
+			resolve: {
+				params: function() {
+					return {
+					};
+				}
+			}
+		});
+		modalInstance.result.then(function(importdata) {
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			MicrogridService.importMicrogrid(importdata, headers, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						showCloseButton: true,
+					});
+					$scope.getAllMicrogrids();
+					$scope.$emit('handleEmitMicrogridChanged');
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function() {
+
+		});
+		$rootScope.modalInstance = modalInstance;
+	};
+
 	$scope.getAllMicrogrids();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();

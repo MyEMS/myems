@@ -22,11 +22,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added working calendar export, import and clone functions to myems-api, myems-admin
 - added virtual power plant export, import and clone functions to myems-api, myems-admin
 - added wind farm export, import and clone functions to myems-api, myems-admin
-- added rule export, import and clone functions to myems-api
+- added rule export, import and clone functions to myems-api, myems-admin
 - added photovoltaic power station export, import and clone functions to myems-api, myems-admin
 - added advanced report config export, import and clone functions to myems-api, myems-admin
-- added microgird export, import and clone functions to myems-api
-- added distribution system export, import and clone functions to myems-api
+- added microgird export, import and clone functions to myems-api, myems-admin
+- added distribution system export, import and clone functions to myems-api, myems-admin
 - added point export, import and clone functions to myems-api
 ### Changed
 ### Fixed

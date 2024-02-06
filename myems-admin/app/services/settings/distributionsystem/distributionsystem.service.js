@@ -40,6 +40,30 @@ app.factory('DistributionSystemService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportDistributionSystem: function(distributionsystem, headers, callback) {
+            $http.get(getAPI()+'distributionsystems/'+distributionsystem.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importDistributionSystem: function(importdata, headers, callback) {
+            $http.post(getAPI()+'distributionsystems/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneDistributionSystem: function(distributionsystem, headers, callback) {
+            $http.post(getAPI()+'distributionsystems/'+distributionsystem.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

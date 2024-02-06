@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'FDD.RULE_LIST' | translate}}" >
 						<div class="panel-body" ng-controller="RuleController">
 							<a ng-click="addRule()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'FDD.ADD_RULE' | translate}}</a>
+							<a ng-click="importRule()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -41,6 +42,8 @@
 										<td class="text-center">
 											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editRule(rule)" >{{'SETTING.EDIT' | translate}}</a>
 											<a class="btn btn-danger btn-rounded btn-xs" ng-click="deleteRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 											<a class="btn btn-danger btn-rounded btn-xs" ng-click="runRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'FDD.IS_RUN_IMMEDIATELY' | translate}}</a>
 										</td>
 									</tr>
