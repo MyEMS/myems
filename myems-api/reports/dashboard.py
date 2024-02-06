@@ -313,10 +313,10 @@ class Reporting:
                 sensor_dict[row[0]]['point_id_list'] = list()
         if sensor_id_list is not None and len(sensor_id_list) > 0:
             cursor_system.execute(" SELECT sp.sensor_id, p.id, p.name, p.units "
-                                " FROM tbl_sensors_points sp, tbl_points p "
-                                " WHERE sp.sensor_id in ({}) "
-                                " AND sp.point_id = p.id "
-                                " ORDER BY p.id ".format(','.join("{0}".format(x) for x in sensor_id_list)))
+                                  " FROM tbl_sensors_points sp, tbl_points p "
+                                  " WHERE sp.sensor_id in ({}) "
+                                  " AND sp.point_id = p.id "
+                                  " ORDER BY p.id ".format(','.join("{0}".format(x) for x in sensor_id_list)))
             rows_sensor_points = cursor_system.fetchall()
             if rows_sensor_points is not None and len(rows_sensor_points) > 0:
                 for row in rows_sensor_points:
@@ -328,18 +328,20 @@ class Reporting:
         for key in sensor_dict:
             if sensor_dict[key]['point_id_list'] is not None and len(sensor_dict[key]['point_id_list']) > 0:
                 cursor_historical.execute(" SELECT point_id, actual_value "
-                                        " FROM tbl_analog_value_latest "
-                                        " WHERE point_id in ({}) "
-                                        " ORDER BY point_id ".format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
+                                          " FROM tbl_analog_value_latest "
+                                          " WHERE point_id in ({}) "
+                                          " ORDER BY point_id ".
+                                          format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
                 rows_analog_values = cursor_historical.fetchall()
                 if rows_analog_values is not None and len(rows_analog_values) > 0:
                     for row in rows_analog_values:
                         point_data_dict[row[0]] = row[1]
                 
                 cursor_historical.execute(" SELECT point_id, actual_value "
-                                        " FROM tbl_digital_value_latest "
-                                        " WHERE point_id in ({}) "
-                                        " ORDER BY point_id ".format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
+                                          " FROM tbl_digital_value_latest "
+                                          " WHERE point_id in ({}) "
+                                          " ORDER BY point_id ".
+                                          format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
                 rows_digital_values = cursor_historical.fetchall()
                 if rows_digital_values is not None and len(rows_digital_values) > 0:
                     for row in rows_digital_values:
