@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f28f778d-45d4-4e43-901c-1f5f3536cd9b",
+		"_postman_id": "f7b17d56-68f2-4e2a-a174-f96b40d0f8ff",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -14486,7 +14486,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "d5cca8934b9dfb63ae6a621519c582f539af9cbb110450086c584b39645ef2d844c4b1a069d19b9274c77b4d9e853dfbefeb8798be41fc348db056b041841bba",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -14500,7 +14500,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"name\": \"传感器123\", \"description\": \"sensor description\"}",
+									"raw": "{\"name\": \"传感器123\", \"description\": \"sensor description\", \n\"points\": [{\"id\": 1, \"name\": \"Active Energy Import Tariff 1\"},\n           {\"id\": 2, \"name\": \"Working hours counter\"}]}",
 									"options": {
 										"raw": {
 											"language": "json"
