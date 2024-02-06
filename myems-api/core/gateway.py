@@ -129,7 +129,7 @@ class GatewayItem:
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
                  " FROM tbl_gateways "
-                 " WHERE id =%s ")
+                 " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
@@ -352,7 +352,7 @@ class GatewayExport:
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
                  " FROM tbl_gateways "
-                 " WHERE id =%s ")
+                 " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         cursor.close()
@@ -470,7 +470,7 @@ class GatewayClone:
 
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
                  " FROM tbl_gateways "
-                 " WHERE id =%s ")
+                 " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:

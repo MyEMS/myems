@@ -2731,7 +2731,7 @@ class SpaceTreeCollection:
         else:
             query = (" SELECT data "
                      " FROM tbl_privileges "
-                     " WHERE id =%s ")
+                     " WHERE id = %s ")
             cursor.execute(query, (privilege_id,))
             row = cursor.fetchone()
             cursor.close()

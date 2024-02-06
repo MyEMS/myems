@@ -232,7 +232,7 @@ class TariffItem:
                  "        t.unit_of_price, "
                  "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
                  " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id =%s ")
+                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:
@@ -262,7 +262,7 @@ class TariffItem:
             result['timeofuse'] = list()
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id =%s ")
+                     " WHERE tariff_id = %s ")
             cursor.execute(query, (result['id'],))
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
@@ -487,7 +487,7 @@ class TariffExport:
                  "        t.unit_of_price, "
                  "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
                  " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id =%s ")
+                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:
@@ -517,7 +517,7 @@ class TariffExport:
             result['timeofuse'] = list()
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id =%s ")
+                     " WHERE tariff_id = %s ")
             cursor.execute(query, (result['id'],))
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
@@ -690,7 +690,7 @@ class TariffClone:
                  "        t.unit_of_price, "
                  "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
                  " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id =%s ")
+                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
         if row is None:
@@ -713,7 +713,7 @@ class TariffClone:
             result['timeofuse'] = list()
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id =%s ")
+                     " WHERE tariff_id = %s ")
             cursor.execute(query, (result['id'],))
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
