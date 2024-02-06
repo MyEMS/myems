@@ -41,5 +41,29 @@ app.factory('MicrogridService', function($http) {
                 callback(response);
             });
         },
+        exportMicrogrid: function(microgrid, headers, callback) {
+            $http.get(getAPI()+'microgrids/'+microgrid.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importMicrogrid: function(importdata, headers, callback) {
+            $http.post(getAPI()+'microgrids/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneMicrogrid: function(microgrid, headers, callback) {
+            $http.post(getAPI()+'microgrids/'+microgrid.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

@@ -56,6 +56,30 @@ app.factory('RuleService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        }
+        },
+        exportRule: function(rule, headers, callback) {
+            $http.get(getAPI()+'rules/'+rule.id+'/export', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        importRule: function(importdata, headers, callback) {
+            $http.post(getAPI()+'rules/import', JSON.parse(importdata), {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        cloneRule: function(rule, headers, callback) {
+            $http.post(getAPI()+'rules/'+rule.id+'/clone', {data:null}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });  

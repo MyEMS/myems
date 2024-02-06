@@ -6,6 +6,7 @@
 					<uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_SYSTEM' | translate}}">
 						<div class="panel-body" ng-controller="DistributionSystemController">
 							<a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
+              <a ng-click="importDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -25,6 +26,8 @@
 										<td class="text-center">
 											<a ng-click="editDistributionSystem(distributionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 											<a ng-click="deleteDistributionSystem(distributionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                      <a ng-click="exportDistributionSystem(distributionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneDistributionSystem(distributionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
