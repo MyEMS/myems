@@ -147,10 +147,10 @@ class Reporting:
             space_dict[node.id] = node.name
 
         cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
-                                 "e.uuid AS equipment_uuid, s.name AS space_name, "
+                                 "        e.uuid AS equipment_uuid, s.name AS space_name, "
                                  "        cc.name AS cost_center_name, e.description "
                                  " FROM tbl_spaces s, tbl_spaces_equipments se, "
-                                 " tbl_equipments e, tbl_cost_centers cc "
+                                 "      tbl_equipments e, tbl_cost_centers cc "
                                  " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
                                  "       AND se.space_id = s.id AND se.equipment_id = e.id "
                                  "       AND e.cost_center_id = cc.id  ", )
