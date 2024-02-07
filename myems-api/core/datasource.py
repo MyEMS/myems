@@ -5,6 +5,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
 import config
+from decimal import Decimal
 
 
 class DataSourceCollection:
@@ -551,7 +552,7 @@ class DataSourceExport:
                                "low_limit": row[5],
                                "higher_limit": row[6],
                                "lower_limit": row[7],
-                               "ratio": float(row[8]),
+                               "ratio": Decimal(row[8]),
                                "is_trend": bool(row[9]),
                                "is_virtual": bool(row[10]),
                                "address": row[11],
@@ -775,7 +776,7 @@ class DataSourceClone:
                           "low_limit": row[5],
                           "higher_limit": row[6],
                           "lower_limit": row[7],
-                          "ratio": float(row[8]),
+                          "ratio": Decimal(row[8]),
                           "is_trend": bool(row[9]),
                           "is_virtual": bool(row[10]),
                           "address": row[11],
