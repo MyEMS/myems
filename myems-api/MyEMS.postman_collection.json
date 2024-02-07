@@ -3147,7 +3147,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9e8155a851ef6f8febd84db13d84d2dd63f7a380a3f62cdf29c816b8c9b6a40233aa6b8e0d2d9085e98bdb59b44803c12aca8ce801b9c7f1a05c4c6f78e357de",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -3382,7 +3382,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9e8155a851ef6f8febd84db13d84d2dd63f7a380a3f62cdf29c816b8c9b6a40233aa6b8e0d2d9085e98bdb59b44803c12aca8ce801b9c7f1a05c4c6f78e357de",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -3395,13 +3395,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/datasources/1/export",
+									"raw": "{{base_url}}/datasources/16/export",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"datasources",
-										"1",
+										"16",
 										"export"
 									]
 								}
@@ -3421,7 +3421,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9e8155a851ef6f8febd84db13d84d2dd63f7a380a3f62cdf29c816b8c9b6a40233aa6b8e0d2d9085e98bdb59b44803c12aca8ce801b9c7f1a05c4c6f78e357de",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -3435,7 +3435,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"name\":\"Modbus1\", \"gateway_id\": 1, \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\"}"
+									"raw": "{\"name\":\"Modbus1\",\n \"gateway\": {\n        \"id\": 1,\n        \"name\": \"Gateway1\",\n        \"uuid\": \"dc681938-5053-8660-98ed-266c58227231\"\n    },\n \"protocol\":\"modbus-tcp\", \"connection\":\"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\", \"description\":\"Modbus1\", \n \"points\": [\n    {\n        \"name\": \"Active Energy Import 1\",\n        \"object_type\": \"ENERGY_VALUE\",\n        \"units\": \"kWh\",\n        \"high_limit\": 99999999999.000,\n        \"low_limit\": 0.000,\n        \"higher_limit\": null,\n        \"lower_limit\": null,\n        \"ratio\": 1.000,\n        \"is_trend\": true,\n        \"is_virtual\": false,\n        \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\n        \"description\": null\n    },\n    {\n        \"name\": \"Active Power  2\",\n        \"object_type\": \"ANALOG_VALUE\",\n        \"units\": \"kW\",\n        \"high_limit\": 999999999.000,\n        \"low_limit\": 0.000,\n        \"higher_limit\": null,\n        \"lower_limit\": null,\n        \"ratio\": 1.000,\n        \"is_trend\": true,\n        \"is_virtual\": false,\n        \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":209, \\\"number_of_registers\\\":2, \\\"format\\\":\\\"=L\\\", \\\"byte_swap\\\":true}\",\n        \"description\": null\n    }]\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/datasources/import",
@@ -3463,7 +3463,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9e8155a851ef6f8febd84db13d84d2dd63f7a380a3f62cdf29c816b8c9b6a40233aa6b8e0d2d9085e98bdb59b44803c12aca8ce801b9c7f1a05c4c6f78e357de",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},

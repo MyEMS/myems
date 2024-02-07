@@ -594,11 +594,7 @@ class DataSourceImport:
                 len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_NAME')
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        name = str.strip(new_values['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        name = str.strip(new_values['name'])
 
         if 'gateway' not in new_values.keys() or \
                 'id' not in new_values['gateway'].keys() or \
@@ -607,7 +603,7 @@ class DataSourceImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GATEWAY_ID')
         gateway_id = new_values['gateway']['id']
-        print(gateway_id)
+
         if 'protocol' not in new_values.keys() \
                 or new_values['protocol'] not in \
                 ('bacnet-ip',
@@ -685,25 +681,26 @@ class DataSourceImport:
                                     connection,
                                     description))
         new_id = cursor.lastrowid
-        if new_values['points'] is not None:
-            for values in new_values['points']:
+        if new_values['points'] is not None and len(new_values['points']) > 0:
+            for point in new_values['points']:
+                # todo: validate point properties
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
                              "                         is_trend, is_virtual, address, description) "
                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                cursor.execute(add_value, (values['name'],
+                cursor.execute(add_value, (point['name'],
                                            new_id,
-                                           values['object_type'],
-                                           values['units'],
-                                           values['high_limit'],
-                                           values['low_limit'],
-                                           values['higher_limit'],
-                                           values['lower_limit'],
-                                           values['ratio'],
-                                           values['is_trend'],
-                                           values['is_virtual'],
-                                           values['address'],
-                                           values['description']))
+                                           point['object_type'],
+                                           point['units'],
+                                           point['high_limit'],
+                                           point['low_limit'],
+                                           point['higher_limit'],
+                                           point['lower_limit'],
+                                           point['ratio'],
+                                           point['is_trend'],
+                                           point['is_virtual'],
+                                           point['address'],
+                                           point['description']))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -800,24 +797,24 @@ class DataSourceClone:
                                     meta_result['description']))
         new_id = cursor.lastrowid
         if meta_result['points'] is not None:
-            for values in meta_result['points']:
+            for point in meta_result['points']:
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
                              "                         is_trend, is_virtual, address, description) "
                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                cursor.execute(add_value, (values['name'],
+                cursor.execute(add_value, (point['name'],
                                            new_id,
-                                           values['object_type'],
-                                           values['units'],
-                                           values['high_limit'],
-                                           values['low_limit'],
-                                           values['higher_limit'],
-                                           values['lower_limit'],
-                                           values['ratio'],
-                                           values['is_trend'],
-                                           values['is_virtual'],
-                                           values['address'],
-                                           values['description']))
+                                           point['object_type'],
+                                           point['units'],
+                                           point['high_limit'],
+                                           point['low_limit'],
+                                           point['higher_limit'],
+                                           point['lower_limit'],
+                                           point['ratio'],
+                                           point['is_trend'],
+                                           point['is_virtual'],
+                                           point['address'],
+                                           point['description']))
         cnx.commit()
         cursor.close()
         cnx.close()
