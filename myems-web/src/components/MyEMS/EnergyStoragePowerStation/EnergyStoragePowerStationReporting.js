@@ -206,11 +206,16 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
     }).then(json => {
       if (isResponseOK) {
         console.log(json);
-        json.forEach((currentPoint, circuitIndex) => {
-          let el=document.getElementById("PT"+currentPoint['point_id'])
-          if(el){
-            let val = parseFloat(currentPoint['value'])
-            el.textContent=val.toFixed(2)
+        json.forEach((currentPoint) => {
+          let textElement=document.getElementById("PT"+currentPoint['point_id'])
+          if(textElement){
+            let tspanList = textElement.getElementsByTagName('tspan')
+            if (tspanList && tspanList.length > 0) {
+              let tspanElement = tspanList[tspanList.length - 1]
+              tspanElement.textContent = parseFloat(currentPoint['value']).toFixed(2)
+            } else {
+              textElement.textContent=parseFloat(currentPoint['value']).toFixed(2)
+            }
           }
         });
       }
