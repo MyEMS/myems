@@ -684,6 +684,25 @@ class DataSourceImport:
                                     connection,
                                     description))
         new_id = cursor.lastrowid
+        if new_values['points'] is not None:
+            for values in new_values['points']:
+                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                             "                         is_trend, is_virtual, address, description) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_value, (values['name'],
+                                           new_id,
+                                           values['object_type'],
+                                           values['units'],
+                                           values['high_limit'],
+                                           values['low_limit'],
+                                           values['higher_limit'],
+                                           values['lower_limit'],
+                                           values['ratio'],
+                                           values['is_trend'],
+                                           values['is_virtual'],
+                                           values['address'],
+                                           values['description']))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -731,8 +750,38 @@ class DataSourceClone:
                        "gateway_id": row[3],
                        "protocol": row[4],
                        "connection": row[5],
-                       "description": row[6]
+                       "description": row[6],
+                       "points": None
                        }
+        point_result = list()
+        # Get points of the data source
+        # NOTE: there is no uuid in tbl_points
+        query_point = (" SELECT id, name, object_type, "
+                       "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                       "        is_trend, is_virtual, address, description "
+                       " FROM tbl_points "
+                       " WHERE data_source_id = %s "
+                       " ORDER BY id ")
+        cursor.execute(query_point, (id_,))
+        rows_point = cursor.fetchall()
+
+        if rows_point is not None and len(rows_point) > 0:
+            for row in rows_point:
+                result = {"id": row[0],
+                          "name": row[1],
+                          "object_type": row[2],
+                          "units": row[3],
+                          "high_limit": row[4],
+                          "low_limit": row[5],
+                          "higher_limit": row[6],
+                          "lower_limit": row[7],
+                          "ratio": float(row[8]),
+                          "is_trend": bool(row[9]),
+                          "is_virtual": bool(row[10]),
+                          "address": row[11],
+                          "description": row[12]}
+                point_result.append(result)
+            meta_result['points'] = point_result
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -749,6 +798,25 @@ class DataSourceClone:
                                     meta_result['connection'],
                                     meta_result['description']))
         new_id = cursor.lastrowid
+        if meta_result['points'] is not None:
+            for values in meta_result['points']:
+                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                             "                         is_trend, is_virtual, address, description) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_value, (values['name'],
+                                           new_id,
+                                           values['object_type'],
+                                           values['units'],
+                                           values['high_limit'],
+                                           values['low_limit'],
+                                           values['higher_limit'],
+                                           values['lower_limit'],
+                                           values['ratio'],
+                                           values['is_trend'],
+                                           values['is_virtual'],
+                                           values['address'],
+                                           values['description']))
         cnx.commit()
         cursor.close()
         cnx.close()
