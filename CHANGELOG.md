@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- None
+### Changed
+- None
+### Fixed
+- None
+### Removed
+- None
+
+## [v4.1.0] - 2024-02-08
+
+### Added
 - added arrow up or arrow down icon to cardsummary in myems-web
 - added sensor export, import and clone functions to myems-api, myems-admin
 - added gateway export, import and clone functions to myems-api, myems-admin
@@ -29,9 +40,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added distribution system export, import and clone functions to myems-api, myems-admin
 - added point export, import and clone functions to myems-api, myems-admin
 ### Changed
+- None
 ### Fixed
 - fixed unkonwn meter uuid of energy flow diagram links in demo database
 ### Removed
+- None
 
 ## [v4.0.0] - 2024-01-13
 
@@ -1576,7 +1589,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.1.0...HEAD
+[4.1.0]: https://github.com/MyEMS/myems/compare/v4.1.0...v4.0.0
 [4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
 [3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
 [3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
