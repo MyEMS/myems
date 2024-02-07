@@ -505,8 +505,6 @@ class DataSourceExport:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
@@ -528,8 +526,40 @@ class DataSourceExport:
                   "protocol": row[4],
                   "connection": row[5],
                   "last_seen_datetime": last_seen_datetime,
-                  "description": row[7]
+                  "description": row[7],
+                  "points": None
                   }
+        point_result = list()
+        # Get points of the data source
+        # NOTE: there is no uuid in tbl_points
+        query_point = (" SELECT id, name, object_type, "
+                       "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                       "        is_trend, is_virtual, address, description "
+                       " FROM tbl_points "
+                       " WHERE data_source_id = %s "
+                       " ORDER BY id ")
+        cursor.execute(query_point, (id_,))
+        rows_point = cursor.fetchall()
+
+        if rows_point is not None and len(rows_point) > 0:
+            for row in rows_point:
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "object_type": row[2],
+                               "units": row[3],
+                               "high_limit": row[4],
+                               "low_limit": row[5],
+                               "higher_limit": row[6],
+                               "lower_limit": row[7],
+                               "ratio": float(row[8]),
+                               "is_trend": bool(row[9]),
+                               "is_virtual": bool(row[10]),
+                               "address": row[11],
+                               "description": row[12]}
+                point_result.append(meta_result)
+            result['points'] = point_result
+        cursor.close()
+        cnx.close()
 
         resp.text = json.dumps(result)
 
