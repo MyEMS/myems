@@ -1639,6 +1639,48 @@ class MeterImport:
                                     master_meter_id,
                                     description))
         new_id = cursor.lastrowid
+        if 'points' in new_values.keys() and \
+                new_values['points'] is not None and \
+                len(new_values['points']) > 0:
+            for point in new_values['points']:
+                if 'id' in point and isinstance(point['id'], int):
+                    cursor.execute(" SELECT name, object_type "
+                                   " FROM tbl_points "
+                                   " WHERE id = %s ", (point['id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.POINT_NOT_FOUND')
+                    elif row[1] == 'ENERGY_VALUE':
+                        query = (" SELECT p.id "
+                                 " FROM tbl_meters_points mp, tbl_points p "
+                                 " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+                        cursor.execute(query, (new_id,))
+                        rows_points = cursor.fetchall()
+                        if rows_points is not None and len(rows_points) > 0:
+                            cursor.close()
+                            cnx.close()
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                   description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+
+                    query = (" SELECT id "
+                             " FROM tbl_meters_points "
+                             " WHERE meter_id = %s AND point_id = %s")
+                    cursor.execute(query, (new_id, point['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.METER_POINT_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_meters_points (meter_id, point_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, point['id'],))
+                else:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                           description='API.INVALID_POINT_ID')
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -1705,7 +1747,23 @@ class MeterClone:
                            "cost_center_id": row[7],
                            "energy_item_id": row[8],
                            "master_meter_id": row[9],
-                           "description": row[10]}
+                           "description": row[10],
+                           "points": None}
+            query = (" SELECT p.id, p.name, "
+                     "        ds.id, ds.name, ds.uuid, "
+                     "        p.address "
+                     " FROM tbl_points p, tbl_meters_points mp, tbl_data_sources ds "
+                     " WHERE mp.meter_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                     " ORDER BY p.name ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    point_result = {"id": row[0], "name": row[1]}
+                    result.append(point_result)
+                meta_result['points'] = result
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -1727,6 +1785,45 @@ class MeterClone:
                                     meta_result['master_meter_id'],
                                     meta_result['description']))
         new_id = cursor.lastrowid
+        if 'points' in meta_result.keys() and \
+                meta_result['points'] is not None and \
+                len(meta_result['points']) > 0:
+            for point in meta_result['points']:
+                if 'id' in point and isinstance(point['id'], int):
+                    cursor.execute(" SELECT name, object_type "
+                                   " FROM tbl_points "
+                                   " WHERE id = %s ", (point['id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.POINT_NOT_FOUND')
+                    elif row[1] == 'ENERGY_VALUE':
+                        query = (" SELECT p.id "
+                                 " FROM tbl_meters_points mp, tbl_points p "
+                                 " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+                        cursor.execute(query, (new_id,))
+                        rows_points = cursor.fetchall()
+                        if rows_points is not None and len(rows_points) > 0:
+                            cursor.close()
+                            cnx.close()
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                   description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+
+                    query = (" SELECT id "
+                             " FROM tbl_meters_points "
+                             " WHERE meter_id = %s AND point_id = %s")
+                    cursor.execute(query, (new_id, point['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.METER_POINT_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_meters_points (meter_id, point_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, point['id'],))
         cnx.commit()
         cursor.close()
         cnx.close()
