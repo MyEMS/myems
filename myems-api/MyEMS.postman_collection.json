@@ -9965,7 +9965,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "daa36c5a86f12ef64d8db020428c874e522dfbade2b07675a5905902fc0867f4179123c3585caec9f007b3fb1ff5b88d16e26d4029c945c20d100807f33ec6d4",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -9979,7 +9979,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\"\n}"
+									"raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\",\n    \"points\": [\n        {\n            \"id\": 1,\n            \"name\": \"Active Energy Import Tariff 1\"\n        }\n    ]\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/meters/import",
