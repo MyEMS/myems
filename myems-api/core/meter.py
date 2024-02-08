@@ -1412,8 +1412,6 @@ class MeterExport:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -1432,7 +1430,25 @@ class MeterExport:
                            "cost_center": cost_center,
                            "energy_item": energy_item,
                            "master_meter": master_meter,
-                           "description": row[10]}
+                           "description": row[10],
+                           "points": None}
+            query = (" SELECT p.id, p.name, "
+                     "        ds.id, ds.name, ds.uuid, "
+                     "        p.address "
+                     " FROM tbl_points p, tbl_meters_points mp, tbl_data_sources ds "
+                     " WHERE mp.meter_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                     " ORDER BY p.name ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    point_result = {"id": row[0], "name": row[1]}
+                    result.append(point_result)
+                meta_result['points'] = result
+            cursor.close()
+            cnx.close()
 
         resp.text = json.dumps(meta_result)
 
