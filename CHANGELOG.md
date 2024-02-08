@@ -36,13 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added rule export, import and clone functions to myems-api, myems-admin
 - added photovoltaic power station export, import and clone functions to myems-api, myems-admin
 - added advanced report config export, import and clone functions to myems-api, myems-admin
-- added microgird export, import and clone functions to myems-api, myems-admin
+- added microgrid export, import and clone functions to myems-api, myems-admin
 - added distribution system export, import and clone functions to myems-api, myems-admin
 - added point export, import and clone functions to myems-api, myems-admin
 ### Changed
 - None
 ### Fixed
-- fixed unkonwn meter uuid of energy flow diagram links in demo database
+- fixed unknown meter uuid of energy flow diagram links in demo database
 ### Removed
 - None
 
