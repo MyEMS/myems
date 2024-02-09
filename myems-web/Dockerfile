@@ -3,10 +3,10 @@ WORKDIR /opt
 COPY . .
 
 # use this for node v17.x.x or v18.x.x, note that the default command maybe slow at sometime
-# RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
+RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
 
 # use this if above command is slow or unavialiable
-RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps --registry https://registry.npm.taobao.org
+# RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps --registry https://registry.npm.taobao.org
 
 # use this (without --legacy-peer-deps)  for node v16.x.x
 # RUN npm install --unsafe-perm=true --allow-root
