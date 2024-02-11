@@ -76,7 +76,7 @@ class AdvancedReportCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
+        except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -116,7 +116,7 @@ class AdvancedReportCollection:
             try:
                 next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'],
                                                             '%Y-%m-%dT%H:%M:%S')
-            except Exception as ex:
+            except Exception:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NEXT_RUN_DATETIME')
 
@@ -262,7 +262,7 @@ class AdvancedReportItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
+        except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -312,7 +312,7 @@ class AdvancedReportItem:
 
         try:
             next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
-        except Exception as ex:
+        except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NEXT_RUN_DATETIME')
 
@@ -384,7 +384,7 @@ class AdvancedReportRun:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
+        except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -500,7 +500,7 @@ class AdvancedReportImport:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
+        except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

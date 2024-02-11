@@ -225,7 +225,7 @@ class Reporting:
                               "     AND start_datetime_utc < %s ",
                               (store['id'], base_start_datetime_utc, base_end_datetime_utc))
         rows_energy_categories = cursor_carbon.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
+        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row_energy_category in rows_energy_categories:
                 energy_category_set.add(row_energy_category[0])
 
@@ -237,7 +237,7 @@ class Reporting:
                               "     AND start_datetime_utc < %s ",
                               (store['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
         rows_energy_categories = cursor_carbon.fetchall()
-        if rows_energy_categories is not None or len(rows_energy_categories) > 0:
+        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row_energy_category in rows_energy_categories:
                 energy_category_set.add(row_energy_category[0])
 
