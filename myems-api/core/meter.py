@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -1663,7 +1663,8 @@ class MeterImport:
                             cursor.close()
                             cnx.close()
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                   description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+                                                   description=
+                                                   'API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
                     query = (" SELECT id "
                              " FROM tbl_meters_points "
@@ -1809,7 +1810,8 @@ class MeterClone:
                             cursor.close()
                             cnx.close()
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                   description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+                                                   description=
+                                                   'API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
                     query = (" SELECT id "
                              " FROM tbl_meters_points "

@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
@@ -89,7 +89,6 @@ class SpaceCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                timezone = timezone_dict.get(row[5], None)
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
                 parent_space = space_dict.get(row[3], None)
@@ -98,7 +97,7 @@ class SpaceCollection:
                                "uuid": row[2],
                                "parent_space": parent_space,
                                "area": row[4],
-                               "timezone": timezone,
+                               "timezone": timezone_dict.get(row[5], None),
                                "is_input_counted": bool(row[6]),
                                "is_output_counted": bool(row[7]),
                                "contact": contact,
@@ -383,7 +382,6 @@ class SpaceItem:
                                    description='API.SPACE_NOT_FOUND')
         else:
             parent_space = space_dict.get(row[3], None)
-            timezone = timezone_dict.get(row[5], None)
             contact = contact_dict.get(row[8], None)
             cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
@@ -391,7 +389,7 @@ class SpaceItem:
                            "uuid": row[2],
                            "parent_space_id": parent_space,
                            "area": row[4],
-                           "timezone": timezone,
+                           "timezone": timezone_dict.get(row[5], None),
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
                            "contact": contact,
@@ -804,7 +802,6 @@ class SpaceChildrenCollection:
 
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                timezone = timezone_dict.get(row[5], None)
                 contact = contact_dict.get(row[8], None)
                 cost_center = cost_center_dict.get(row[9], None)
                 parent_space = space_dict.get(row[3], None)
@@ -813,7 +810,7 @@ class SpaceChildrenCollection:
                                "uuid": row[2],
                                "parent_space": parent_space,
                                "area": row[4],
-                               "timezone": timezone,
+                               "timezone": timezone_dict.get(row[5], None),
                                "is_input_counted": bool(row[6]),
                                "is_output_counted": bool(row[7]),
                                "contact": contact,
@@ -3589,7 +3586,6 @@ class SpaceClone:
                                    description='API.SPACE_NOT_FOUND')
         else:
             parent_space = space_dict.get(row[3], None)
-            timezone = timezone_dict.get(row[5], None)
             contact = contact_dict.get(row[8], None)
             cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
@@ -3597,7 +3593,7 @@ class SpaceClone:
                            "uuid": row[2],
                            "parent_space_id": parent_space,
                            "area": row[4],
-                           "timezone": timezone,
+                           "timezone": timezone_dict.get(row[5], None),
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
                            "contact": contact,
