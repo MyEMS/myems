@@ -227,7 +227,7 @@ class Reporting:
                               "     AND start_datetime_utc < %s ",
                               (combined_equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
         rows_energy_items = cursor_energy.fetchall()
-        if rows_energy_items is not None or len(rows_energy_items) > 0:
+        if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row_item in rows_energy_items:
                 energy_item_set.add(row_item[0])
 
@@ -239,7 +239,7 @@ class Reporting:
                               "     AND start_datetime_utc < %s ",
                               (combined_equipment['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
         rows_energy_items = cursor_energy.fetchall()
-        if rows_energy_items is not None or len(rows_energy_items) > 0:
+        if rows_energy_items is not None and len(rows_energy_items) > 0:
             for row_item in rows_energy_items:
                 energy_item_set.add(row_item[0])
 
