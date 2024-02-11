@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json

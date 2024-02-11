@@ -1,5 +1,5 @@
 import falcon
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import mysql.connector
 import simplejson as json
 from core.useractivity import admin_control, access_control, api_key_control

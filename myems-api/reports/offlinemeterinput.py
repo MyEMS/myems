@@ -95,11 +95,11 @@ class Reporting:
                 add_values = (" INSERT INTO tbl_offline_meter_hourly "
                               "             (offline_meter_id, start_datetime_utc, actual_value) "
                               " VALUES  ")
-                sum = actual_value * 24
+                sum_24hours = actual_value * 24
                 last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
                 while start_datetime_utc < end_datetime_utc:
-                    if start_datetime_utc == last_date_utc and sum != daily_value:
-                        actual_value = daily_value - sum + actual_value
+                    if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
+                        actual_value = daily_value - sum_24hours + actual_value
                     add_values += " (" + str(offline_meter_id) + ","
                     add_values += "'" + start_datetime_utc.isoformat()[0:19] + "',"
                     add_values += str(actual_value) + "), "
