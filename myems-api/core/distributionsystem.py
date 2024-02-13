@@ -340,8 +340,6 @@ class DistributionSystemExport:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -351,8 +349,46 @@ class DistributionSystemExport:
                            "name": row[1],
                            "uuid": row[2],
                            "svg": row[3],
-                           "description": row[4]}
+                           "description": row[4],
+                           "circuits": None}
+            query = (" SELECT id, name, uuid, "
+                     "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                     " FROM tbl_distribution_circuits "
+                     " WHERE distribution_system_id = %s "
+                     " ORDER BY name ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
 
+            result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    circuit_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                                      "distribution_room": row[3], "switchgear": row[4],
+                                      "peak_load": row[5], "peak_current": row[6],
+                                      "customers": row[7], "meters": row[8],
+                                      "points": None}
+                    query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
+                             "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
+                             "        dc.uuid AS distribution_circuit_uuid "
+                             " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
+                             " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
+                             "       AND dcp.distribution_circuit_id = dc.id "
+                             " ORDER BY p.name ")
+                    cursor.execute(query, (circuit_result['id'],))
+                    rows = cursor.fetchall()
+
+                    points = list()
+                    if rows is not None and len(rows) > 0:
+                        for point_row in rows:
+                            point_result = {"id": point_row[0], "name": point_row[1], "address": point_row[2]}
+                            points.append(point_result)
+                        circuit_result['points'] = points
+
+                    result.append(circuit_result)
+                meta_result['circuits'] = result
+
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
 
@@ -421,6 +457,47 @@ class DistributionSystemImport:
                                     svg,
                                     description))
         new_id = cursor.lastrowid
+        if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
+            for circuit in new_values['circuits']:
+                add_values = (" INSERT INTO tbl_distribution_circuits "
+                              "    (name, uuid, distribution_system_id,"
+                              "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (circuit['name'],
+                                            str(uuid.uuid4()),
+                                            new_id,
+                                            circuit['distribution_room'],
+                                            circuit['switchgear'],
+                                            circuit['peak_load'],
+                                            circuit['peak_current'],
+                                            circuit['customers'],
+                                            circuit['meters']))
+                circuit_id = cursor.lastrowid
+                if circuit['points'] is not None and len(circuit['points']) > 0:
+                    for point in circuit['points']:
+                        cursor.execute(" SELECT name "
+                                       " FROM tbl_points "
+                                       " WHERE id = %s ", (point['id'],))
+                        if cursor.fetchone() is None:
+                            cursor.close()
+                            cnx.close()
+                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                   description='API.POINT_NOT_FOUND')
+
+                        query = (" SELECT id "
+                                 " FROM tbl_distribution_circuits_points "
+                                 " WHERE distribution_circuit_id = %s AND point_id = %s")
+                        cursor.execute(query, (circuit_id, point['id'],))
+                        if cursor.fetchone() is not None:
+                            cursor.close()
+                            cnx.close()
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
+
+                        add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
+                                   " VALUES (%s, %s) ")
+                        cursor.execute(add_row, (circuit_id, point['id'],))
+
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -470,7 +547,43 @@ class DistributionSystemClone:
                            "name": row[1],
                            "uuid": row[2],
                            "svg": row[3],
-                           "description": row[4]}
+                           "description": row[4],
+                           "circuits": None}
+            query = (" SELECT id, name, uuid, "
+                     "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                     " FROM tbl_distribution_circuits "
+                     " WHERE distribution_system_id = %s "
+                     " ORDER BY name ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    circuit_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                                      "distribution_room": row[3], "switchgear": row[4],
+                                      "peak_load": row[5], "peak_current": row[6],
+                                      "customers": row[7], "meters": row[8],
+                                      "points": None}
+                    query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
+                             "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
+                             "        dc.uuid AS distribution_circuit_uuid "
+                             " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
+                             " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
+                             "       AND dcp.distribution_circuit_id = dc.id "
+                             " ORDER BY p.name ")
+                    cursor.execute(query, (circuit_result['id'],))
+                    rows = cursor.fetchall()
+
+                    points = list()
+                    if rows is not None and len(rows) > 0:
+                        for point_row in rows:
+                            point_result = {"id": point_row[0], "name": point_row[1], "address": point_row[2]}
+                            points.append(point_result)
+                        circuit_result['points'] = points
+
+                    result.append(circuit_result)
+                meta_result['circuits'] = result
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
@@ -485,6 +598,50 @@ class DistributionSystemClone:
                                         meta_result['svg'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
+            if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:
+                for circuit in meta_result['circuits']:
+                    add_values = (" INSERT INTO tbl_distribution_circuits "
+                                  "    (name, uuid, distribution_system_id,"
+                                  "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                    circuit_name = (str.strip(circuit['name'])
+                                + (datetime.now()
+                                   + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                    cursor.execute(add_values, (circuit_name,
+                                                str(uuid.uuid4()),
+                                                new_id,
+                                                circuit['distribution_room'],
+                                                circuit['switchgear'],
+                                                circuit['peak_load'],
+                                                circuit['peak_current'],
+                                                circuit['customers'],
+                                                circuit['meters']))
+                    circuit_id = cursor.lastrowid
+                    if circuit['points'] is not None and len(circuit['points']) > 0:
+                        for point in circuit['points']:
+                            cursor.execute(" SELECT name "
+                                           " FROM tbl_points "
+                                           " WHERE id = %s ", (point['id'],))
+                            if cursor.fetchone() is None:
+                                cursor.close()
+                                cnx.close()
+                                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                       description='API.POINT_NOT_FOUND')
+
+                            query = (" SELECT id "
+                                     " FROM tbl_distribution_circuits_points "
+                                     " WHERE distribution_circuit_id = %s AND point_id = %s")
+                            cursor.execute(query, (circuit_id, point['id'],))
+                            if cursor.fetchone() is not None:
+                                cursor.close()
+                                cnx.close()
+                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                       description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
+
+                            add_row = (
+                                " INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
+                                " VALUES (%s, %s) ")
+                            cursor.execute(add_row, (circuit_id, point['id'],))
             cnx.commit()
             cursor.close()
             cnx.close()
