@@ -443,18 +443,11 @@ class RuleRun:
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         admin_control(req)
-        try:
-            raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
-        # ignore the payload
-        new_values = json.loads(raw_json)
+
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 

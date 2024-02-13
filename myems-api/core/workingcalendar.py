@@ -128,7 +128,6 @@ class WorkingCalendarItem:
         cursor.close()
         cnx.close()
 
-        meta_result = {}
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
@@ -545,7 +544,6 @@ class WorkingCalendarExport:
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
 
-        meta_result = {}
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
@@ -696,7 +694,6 @@ class WorkingCalendarClone:
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
 
-        meta_result = {}
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
