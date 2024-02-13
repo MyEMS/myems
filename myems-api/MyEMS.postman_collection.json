@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f7b17d56-68f2-4e2a-a174-f96b40d0f8ff",
+		"_postman_id": "6e36347c-5ac6-43a7-a7c0-27db66c69374",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -3742,7 +3742,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "516e66c500f50a9919328b371cc7ad5092e6255946a04fd1887974a3eec118e54bc809a61b5e914d560fab4caf43aa7f021f467ebf39906596e68a113d0a435d",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -3781,7 +3781,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "516e66c500f50a9919328b371cc7ad5092e6255946a04fd1887974a3eec118e54bc809a61b5e914d560fab4caf43aa7f021f467ebf39906596e68a113d0a435d",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -3795,7 +3795,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"示例配电系统_1\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo distribution system\"\r\n}",
+									"raw": "{\r\n    \"name\": \"示例配电系统_1\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo distribution system\",\r\n    \"circuits\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"AHa01\",\r\n            \"uuid\": \"52f7abe1-ba0e-47a6-a327-4faac42a1d11\",\r\n            \"distribution_room\": \"1ES\",\r\n            \"switchgear\": \"AHa01\",\r\n            \"peak_load\": 5100.000,\r\n            \"peak_current\": 1250.000,\r\n            \"customers\": \"11#电源进线1WHj2\",\r\n            \"meters\": \"AHa01\",\r\n            \"points\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"name\": \"Active Energy Import Tariff 1\",\r\n                    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3828,7 +3828,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "516e66c500f50a9919328b371cc7ad5092e6255946a04fd1887974a3eec118e54bc809a61b5e914d560fab4caf43aa7f021f467ebf39906596e68a113d0a435d",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
