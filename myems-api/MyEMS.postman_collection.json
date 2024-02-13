@@ -10,7 +10,7 @@
 			"name": "Core",
 			"item": [
 				{
-					"name": "AdvancedReportConfig Ⓔ",
+					"name": "Advanced Report Config Ⓔ",
 					"item": [
 						{
 							"name": "Get All Advanced Report Configs",
@@ -248,6 +248,45 @@
 										"advancedreports",
 										"1",
 										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Run an Advanced Report by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "39de0b2e2bb5167d120e356c8c7758d402f1c35008f4849661abfda1ef854e6c4d9dd70fd6e6bc012377afd2ce53d93ca5e92f8f1d738b0e27fc71c4263192ce",
+										"type": "text",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/advancedreports/1/run",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"advancedreports",
+										"1",
+										"run"
 									]
 								}
 							},
@@ -13788,7 +13827,7 @@
 					]
 				},
 				{
-					"name": "Rule",
+					"name": "Rule Ⓔ",
 					"item": [
 						{
 							"name": "GET All Rules",

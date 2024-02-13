@@ -10,7 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None
 ### Fixed
 - updated meter export, import and clone functions in myems-api
-
+- updated run action of rule in myems-api
+- updated run action of advanced report in myems-api
+- 
 ### Removed
 - None
 
