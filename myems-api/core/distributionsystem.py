@@ -367,7 +367,7 @@ class DistributionSystemExport:
                                       "peak_load": row[5], "peak_current": row[6],
                                       "customers": row[7], "meters": row[8],
                                       "points": None}
-                    query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
+                    query = (" SELECT p.id AS point_id, p.name AS point_name, "
                              "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
                              "        dc.uuid AS distribution_circuit_uuid "
                              " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
@@ -380,7 +380,7 @@ class DistributionSystemExport:
                     points = list()
                     if rows is not None and len(rows) > 0:
                         for point_row in rows:
-                            point_result = {"id": point_row[0], "name": point_row[1], "address": point_row[2]}
+                            point_result = {"id": point_row[0], "name": point_row[1]}
                             points.append(point_result)
                         circuit_result['points'] = points
 
