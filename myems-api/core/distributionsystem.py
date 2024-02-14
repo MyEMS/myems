@@ -604,10 +604,7 @@ class DistributionSystemClone:
                                   "    (name, uuid, distribution_system_id,"
                                   "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
                                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                    circuit_name = (str.strip(circuit['name'])
-                                + (datetime.now()
-                                   + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-                    cursor.execute(add_values, (circuit_name,
+                    cursor.execute(add_values, (circuit['name'],
                                                 str(uuid.uuid4()),
                                                 new_id,
                                                 circuit['distribution_room'],
