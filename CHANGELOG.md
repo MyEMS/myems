@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated distribution system export, import and clone functions in myems-api
 - updated meter export, import and clone functions in myems-api
+- updated equipment table in myems-admin
 ### Fixed
 - updated run action of rule in myems-api
 - updated run action of advanced report in myems-api
