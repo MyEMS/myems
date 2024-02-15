@@ -2155,7 +2155,7 @@ class EquipmentExport:
                               "energy_category": energy_category,
                               "is_output": bool(row[4])}
                     meter_result.append(result)
-                meta_result['commands'] = meter_result
+                meta_result['meters'] = meter_result
             query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                      " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
                      " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
@@ -2639,7 +2639,7 @@ class EquipmentImport:
 class EquipmentClone:
     @staticmethod
     def __init__():
-        """Initializes EquipmentExport"""
+        """Initializes EquipmentClone"""
         pass
 
     @staticmethod
@@ -2743,7 +2743,7 @@ class EquipmentClone:
                               "energy_category": energy_category,
                               "is_output": bool(row[4])}
                     meter_result.append(result)
-                meta_result['commands'] = meter_result
+                meta_result['meters'] = meter_result
             query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                      " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
                      " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
