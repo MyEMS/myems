@@ -2093,8 +2093,6 @@ class EquipmentExport:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -2109,8 +2107,190 @@ class EquipmentExport:
                            "cost_center": cost_center,
                            "svg": row[6],
                            "camera_url": row[7],
-                           "description": row[8]}
+                           "description": row[8],
+                           "commands": None,
+                           "meters": None,
+                           "offline_meters": None,
+                           "virtual_meters": None,
+                           "parameters": None}
 
+            query = (" SELECT c.id, c.name, c.uuid "
+                     " FROM tbl_equipments e, tbl_equipments_commands ec, tbl_commands c "
+                     " WHERE ec.equipment_id = e.id AND c.id = ec.command_id AND e.id = %s "
+                     " ORDER BY c.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            command_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    command_result.append(result)
+                meta_result['commands'] = command_result
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_meters em, tbl_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            meter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    meter_result.append(result)
+                meta_result['meters'] = meter_result
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            offlinemeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    offlinemeter_result.append(result)
+                meta_result['offline_meters'] = offlinemeter_result
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_virtual_meters em, tbl_virtual_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            virtualmeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    virtualmeter_result.append(result)
+                meta_result['virtual_meters'] = virtualmeter_result
+            query = (" SELECT id, name "
+                     " FROM tbl_points ")
+            cursor.execute(query)
+            rows_points = cursor.fetchall()
+
+            point_dict = dict()
+            if rows_points is not None and len(rows_points) > 0:
+                for row in rows_points:
+                    point_dict[row[0]] = {"id": row[0],
+                                          "name": row[1]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_meters ")
+            cursor.execute(query)
+            rows_meters = cursor.fetchall()
+
+            meter_dict = dict()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row in rows_meters:
+                    meter_dict[row[2]] = {"type": 'meter',
+                                          "id": row[0],
+                                          "name": row[1],
+                                          "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_offline_meters ")
+            cursor.execute(query)
+            rows_offline_meters = cursor.fetchall()
+
+            offline_meter_dict = dict()
+            if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                for row in rows_offline_meters:
+                    offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_virtual_meters ")
+            cursor.execute(query)
+            rows_virtual_meters = cursor.fetchall()
+
+            virtual_meter_dict = dict()
+            if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                for row in rows_virtual_meters:
+                    virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            query = (" SELECT id, name, parameter_type, "
+                     "        constant, point_id, numerator_meter_uuid, denominator_meter_uuid "
+                     " FROM tbl_equipments_parameters "
+                     " WHERE equipment_id = %s "
+                     " ORDER BY id ")
+            cursor.execute(query, (id_,))
+            rows_parameters = cursor.fetchall()
+
+            parameters_result = list()
+            if rows_parameters is not None and len(rows_parameters) > 0:
+                for row in rows_parameters:
+                    constant = None
+                    point = None
+                    numerator_meter = None
+                    denominator_meter = None
+                    if row[2] == 'point':
+                        point = point_dict.get(row[4], None)
+                        constant = None
+                        numerator_meter = None
+                        denominator_meter = None
+                    elif row[2] == 'constant':
+                        constant = row[3]
+                        point = None
+                        numerator_meter = None
+                        denominator_meter = None
+                    elif row[2] == 'fraction':
+                        constant = None
+                        point = None
+                        # find numerator meter by uuid
+                        numerator_meter = meter_dict.get(row[5], None)
+                        if numerator_meter is None:
+                            numerator_meter = virtual_meter_dict.get(row[5], None)
+                        if numerator_meter is None:
+                            numerator_meter = offline_meter_dict.get(row[5], None)
+                        # find denominator meter by uuid
+                        denominator_meter = meter_dict.get(row[6], None)
+                        if denominator_meter is None:
+                            denominator_meter = virtual_meter_dict.get(row[6], None)
+                        if denominator_meter is None:
+                            denominator_meter = offline_meter_dict.get(row[6], None)
+
+                    result = {"id": row[0],
+                              "name": row[1],
+                              "parameter_type": row[2],
+                              "constant": constant,
+                              "point": point,
+                              "numerator_meter": numerator_meter,
+                              "denominator_meter": denominator_meter}
+                    parameters_result.append(result)
+                meta_result['parameters'] = parameters_result
+
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
 
@@ -2125,7 +2305,6 @@ class EquipmentImport:
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
         admin_control(req)
@@ -2222,6 +2401,233 @@ class EquipmentImport:
                                     camera_url,
                                     description))
         new_id = cursor.lastrowid
+        if new_values['commands'] is not None and len(new_values['commands']) > 0:
+            for command in new_values['commands']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (command['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_equipments_commands "
+                         " WHERE equipment_id = %s AND command_id = %s")
+                cursor.execute(query, (new_id, command['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.EQUIPMENT_COMMAND_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_equipments_commands (equipment_id, command_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, command['id'],))
+        if new_values['meters'] is not None and len(new_values['meters']) > 0:
+            for meter in new_values['meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ", (meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_equipments_meters "
+                         " WHERE equipment_id = %s AND meter_id = %s")
+                cursor.execute(query, (new_id, meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.EQUIPMENT_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_equipments_meters (equipment_id, meter_id, is_output ) "
+                           " VALUES (%s, %s, %s) ")
+                cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
+        if new_values['offline_meters'] is not None and len(new_values['offline_meters']) > 0:
+            for offline_meter in new_values['offline_meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_offline_meters "
+                               " WHERE id = %s ", (offline_meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.OFFLINE_METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_equipments_offline_meters "
+                         " WHERE equipment_id = %s AND offline_meter_id = %s")
+                cursor.execute(query, (new_id, offline_meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_equipments_offline_meters (equipment_id, offline_meter_id, is_output ) "
+                           " VALUES (%s, %s, %s) ")
+                cursor.execute(add_row, (new_id, offline_meter['id'], offline_meter['is_output']))
+        if new_values['virtual_meters'] is not None and len(new_values['virtual_meters']) > 0:
+            for virtual_meter in new_values['virtual_meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_virtual_meters "
+                               " WHERE id = %s ", (virtual_meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_equipments_virtual_meters "
+                         " WHERE equipment_id = %s AND virtual_meter_id = %s")
+                cursor.execute(query, (new_id, virtual_meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_equipments_virtual_meters (equipment_id, virtual_meter_id, is_output ) "
+                           " VALUES (%s, %s, %s) ")
+                cursor.execute(add_row, (new_id, virtual_meter['id'], virtual_meter['is_output']))
+        if new_values['parameters'] is not None and len(new_values['parameters']) > 0:
+            for parameters in new_values['parameters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_equipments_parameters "
+                               " WHERE name = %s AND equipment_id = %s ", (parameters['name'], new_id))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
+                if 'point' in parameters:
+                    if parameters['point'] is None:
+                        point_id = None
+                    elif parameters['point']['id'] is not None and \
+                            parameters['point']['id'] <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_POINT_ID')
+                    else:
+                        point_id = parameters['point']['id']
+                else:
+                    point_id = None
+                numerator_meter_uuid = None
+                if 'numerator_meter' in parameters:
+                    if parameters['numerator_meter'] is not None and \
+                            isinstance(parameters['numerator_meter']['uuid'], str) and \
+                            len(str.strip(parameters['numerator_meter']['uuid'])) > 0:
+                        numerator_meter_uuid = str.strip(parameters['numerator_meter']['uuid'])
+
+                denominator_meter_uuid = None
+                if 'denominator_meter' in parameters:
+                    if parameters['denominator_meter'] is not None and \
+                            isinstance(parameters['denominator_meter']['uuid'], str) and \
+                            len(str.strip(parameters['denominator_meter']['uuid'])) > 0:
+                        denominator_meter_uuid = str.strip(parameters['denominator_meter']['uuid'])
+
+                # validate by parameter type
+                if parameters['parameter_type'] == 'point':
+                    if point_id is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_POINT_ID')
+                    query = (" SELECT id, name "
+                             " FROM tbl_points "
+                             " WHERE id = %s ")
+                    cursor.execute(query, (point_id,))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.POINT_NOT_FOUND')
+
+                elif parameters['parameter_type'] == 'constant':
+                    if parameters['constant'] is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_CONSTANT_VALUE')
+
+                elif parameters['parameter_type'] == 'fraction':
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_meters ")
+                    cursor.execute(query)
+                    rows_meters = cursor.fetchall()
+                    meter_dict = dict()
+                    if rows_meters is not None and len(rows_meters) > 0:
+                        for row in rows_meters:
+                            meter_dict[row[2]] = {"type": 'meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_offline_meters ")
+                    cursor.execute(query)
+                    rows_offline_meters = cursor.fetchall()
+
+                    offline_meter_dict = dict()
+                    if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                        for row in rows_offline_meters:
+                            offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                          "id": row[0],
+                                                          "name": row[1],
+                                                          "uuid": row[2]}
+
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_virtual_meters ")
+                    cursor.execute(query)
+                    rows_virtual_meters = cursor.fetchall()
+
+                    virtual_meter_dict = dict()
+                    if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                        for row in rows_virtual_meters:
+                            virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                          "id": row[0],
+                                                          "name": row[1],
+                                                          "uuid": row[2]}
+
+                    # validate numerator meter uuid
+                    if numerator_meter_uuid is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_NUMERATOR_METER_UUID')
+
+                    if meter_dict.get(numerator_meter_uuid) is None and \
+                            virtual_meter_dict.get(numerator_meter_uuid) is None and \
+                            offline_meter_dict.get(numerator_meter_uuid) is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_NUMERATOR_METER_UUID')
+
+                    # validate denominator meter uuid
+                    if denominator_meter_uuid is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_DENOMINATOR_METER_UUID')
+
+                    if denominator_meter_uuid == numerator_meter_uuid:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_DENOMINATOR_METER_UUID')
+
+                    if denominator_meter_uuid not in meter_dict and \
+                            denominator_meter_uuid not in virtual_meter_dict and \
+                            denominator_meter_uuid not in offline_meter_dict:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_DENOMINATOR_METER_UUID')
+
+                add_values = (" INSERT INTO tbl_equipments_parameters "
+                              "    (equipment_id, name, parameter_type, constant, "
+                              "     point_id, numerator_meter_uuid, denominator_meter_uuid) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (new_id,
+                                            parameters['name'],
+                                            parameters['parameter_type'],
+                                            parameters['constant'],
+                                            point_id,
+                                            numerator_meter_uuid,
+                                            denominator_meter_uuid))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -2233,7 +2639,7 @@ class EquipmentImport:
 class EquipmentClone:
     @staticmethod
     def __init__():
-        """Initializes EquipmentExport"""
+        """Initializes EquipmentClone"""
         pass
 
     @staticmethod
@@ -2289,7 +2695,187 @@ class EquipmentClone:
                            "cost_center": cost_center,
                            "svg": row[6],
                            "camera_url": row[7],
-                           "description": row[8]}
+                           "description": row[8],
+                           "commands": None,
+                           "meters": None,
+                           "offline_meters": None,
+                           "virtual_meters": None,
+                           "parameters": None
+                           }
+            query = (" SELECT c.id, c.name, c.uuid "
+                     " FROM tbl_equipments e, tbl_equipments_commands ec, tbl_commands c "
+                     " WHERE ec.equipment_id = e.id AND c.id = ec.command_id AND e.id = %s "
+                     " ORDER BY c.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            command_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    command_result.append(result)
+                meta_result['commands'] = command_result
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_meters em, tbl_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            meter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    meter_result.append(result)
+                meta_result['meters'] = meter_result
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            offlinemeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    offlinemeter_result.append(result)
+                meta_result['offline_meters'] = offlinemeter_result
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
+                     " FROM tbl_equipments e, tbl_equipments_virtual_meters em, tbl_virtual_meters m "
+                     " WHERE em.equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            virtualmeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category,
+                              "is_output": bool(row[4])}
+                    virtualmeter_result.append(result)
+                meta_result['virtual_meters'] = virtualmeter_result
+            query = (" SELECT id, name "
+                     " FROM tbl_points ")
+            cursor.execute(query)
+            rows_points = cursor.fetchall()
+
+            point_dict = dict()
+            if rows_points is not None and len(rows_points) > 0:
+                for row in rows_points:
+                    point_dict[row[0]] = {"id": row[0],
+                                          "name": row[1]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_meters ")
+            cursor.execute(query)
+            rows_meters = cursor.fetchall()
+
+            meter_dict = dict()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row in rows_meters:
+                    meter_dict[row[2]] = {"type": 'meter',
+                                          "id": row[0],
+                                          "name": row[1],
+                                          "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_offline_meters ")
+            cursor.execute(query)
+            rows_offline_meters = cursor.fetchall()
+
+            offline_meter_dict = dict()
+            if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                for row in rows_offline_meters:
+                    offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_virtual_meters ")
+            cursor.execute(query)
+            rows_virtual_meters = cursor.fetchall()
+
+            virtual_meter_dict = dict()
+            if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                for row in rows_virtual_meters:
+                    virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                  "id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+            query = (" SELECT id, name, parameter_type, "
+                     "        constant, point_id, numerator_meter_uuid, denominator_meter_uuid "
+                     " FROM tbl_equipments_parameters "
+                     " WHERE equipment_id = %s "
+                     " ORDER BY id ")
+            cursor.execute(query, (id_,))
+            rows_parameters = cursor.fetchall()
+
+            parameters_result = list()
+            if rows_parameters is not None and len(rows_parameters) > 0:
+                for row in rows_parameters:
+                    constant = None
+                    point = None
+                    numerator_meter = None
+                    denominator_meter = None
+                    if row[2] == 'point':
+                        point = point_dict.get(row[4], None)
+                        constant = None
+                        numerator_meter = None
+                        denominator_meter = None
+                    elif row[2] == 'constant':
+                        constant = row[3]
+                        point = None
+                        numerator_meter = None
+                        denominator_meter = None
+                    elif row[2] == 'fraction':
+                        constant = None
+                        point = None
+                        # find numerator meter by uuid
+                        numerator_meter = meter_dict.get(row[5], None)
+                        if numerator_meter is None:
+                            numerator_meter = virtual_meter_dict.get(row[5], None)
+                        if numerator_meter is None:
+                            numerator_meter = offline_meter_dict.get(row[5], None)
+                        # find denominator meter by uuid
+                        denominator_meter = meter_dict.get(row[6], None)
+                        if denominator_meter is None:
+                            denominator_meter = virtual_meter_dict.get(row[6], None)
+                        if denominator_meter is None:
+                            denominator_meter = offline_meter_dict.get(row[6], None)
+
+                    result = {"id": row[0],
+                              "name": row[1],
+                              "parameter_type": row[2],
+                              "constant": constant,
+                              "point": point,
+                              "numerator_meter": numerator_meter,
+                              "denominator_meter": denominator_meter}
+                    parameters_result.append(result)
+                meta_result['parameters'] = parameters_result
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
@@ -2309,10 +2895,234 @@ class EquipmentClone:
                                         meta_result['camera_url'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
+            if meta_result['commands'] is not None and len(meta_result['commands']) > 0:
+                for command in meta_result['commands']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_commands "
+                                   " WHERE id = %s ", (command['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.COMMAND_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_equipments_commands "
+                             " WHERE equipment_id = %s AND command_id = %s")
+                    cursor.execute(query, (new_id, command['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.EQUIPMENT_COMMAND_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_equipments_commands (equipment_id, command_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, command['id'],))
+            if meta_result['meters'] is not None and len(meta_result['meters']) > 0:
+                for meter in meta_result['meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_meters "
+                                   " WHERE id = %s ", (meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_equipments_meters "
+                             " WHERE equipment_id = %s AND meter_id = %s")
+                    cursor.execute(query, (new_id, meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.EQUIPMENT_METER_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_equipments_meters (equipment_id, meter_id, is_output ) "
+                               " VALUES (%s, %s, %s) ")
+                    cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
+            if meta_result['offline_meters'] is not None and len(meta_result['offline_meters']) > 0:
+                for offline_meter in meta_result['offline_meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_offline_meters "
+                                   " WHERE id = %s ", (offline_meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.OFFLINE_METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_equipments_offline_meters "
+                             " WHERE equipment_id = %s AND offline_meter_id = %s")
+                    cursor.execute(query, (new_id, offline_meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
+
+                    add_row = (
+                        " INSERT INTO tbl_equipments_offline_meters (equipment_id, offline_meter_id, is_output ) "
+                        " VALUES (%s, %s, %s) ")
+                    cursor.execute(add_row, (new_id, offline_meter['id'], offline_meter['is_output']))
+            if meta_result['virtual_meters'] is not None and len(meta_result['virtual_meters']) > 0:
+                for virtual_meter in meta_result['virtual_meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_virtual_meters "
+                                   " WHERE id = %s ", (virtual_meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.VIRTUAL_METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_equipments_virtual_meters "
+                             " WHERE equipment_id = %s AND virtual_meter_id = %s")
+                    cursor.execute(query, (new_id, virtual_meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
+
+                    add_row = (
+                        " INSERT INTO tbl_equipments_virtual_meters (equipment_id, virtual_meter_id, is_output ) "
+                        " VALUES (%s, %s, %s) ")
+                    cursor.execute(add_row, (new_id, virtual_meter['id'], virtual_meter['is_output']))
+            if meta_result['parameters'] is not None and len(meta_result['parameters']) > 0:
+                for parameters in meta_result['parameters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_equipments_parameters "
+                                   " WHERE name = %s AND equipment_id = %s ", (parameters['name'], new_id))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
+                    if 'point' in parameters:
+                        if parameters['point'] is None:
+                            point_id = None
+                        elif parameters['point']['id'] is not None and \
+                                parameters['point']['id'] <= 0:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_POINT_ID')
+                        else:
+                            point_id = parameters['point']['id']
+                    else:
+                        point_id = None
+                    numerator_meter_uuid = None
+                    if 'numerator_meter' in parameters:
+                        if parameters['numerator_meter'] is not None and \
+                                isinstance(parameters['numerator_meter']['uuid'], str) and \
+                                len(str.strip(parameters['numerator_meter']['uuid'])) > 0:
+                            numerator_meter_uuid = str.strip(parameters['numerator_meter']['uuid'])
+
+                    denominator_meter_uuid = None
+                    if 'denominator_meter' in parameters:
+                        if parameters['denominator_meter'] is not None and \
+                                isinstance(parameters['denominator_meter']['uuid'], str) and \
+                                len(str.strip(parameters['denominator_meter']['uuid'])) > 0:
+                            denominator_meter_uuid = str.strip(parameters['denominator_meter']['uuid'])
+
+                    # validate by parameter type
+                    if parameters['parameter_type'] == 'point':
+                        if point_id is None:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_POINT_ID')
+                        query = (" SELECT id, name "
+                                 " FROM tbl_points "
+                                 " WHERE id = %s ")
+                        cursor.execute(query, (point_id,))
+                        if cursor.fetchone() is None:
+                            cursor.close()
+                            cnx.close()
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.POINT_NOT_FOUND')
+
+                    elif parameters['parameter_type'] == 'constant':
+                        if parameters['constant'] is None:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_CONSTANT_VALUE')
+
+                    elif parameters['parameter_type'] == 'fraction':
+                        query = (" SELECT id, name, uuid "
+                                 " FROM tbl_meters ")
+                        cursor.execute(query)
+                        rows_meters = cursor.fetchall()
+                        meter_dict = dict()
+                        if rows_meters is not None and len(rows_meters) > 0:
+                            for row in rows_meters:
+                                meter_dict[row[2]] = {"type": 'meter',
+                                                      "id": row[0],
+                                                      "name": row[1],
+                                                      "uuid": row[2]}
+
+                        query = (" SELECT id, name, uuid "
+                                 " FROM tbl_offline_meters ")
+                        cursor.execute(query)
+                        rows_offline_meters = cursor.fetchall()
+
+                        offline_meter_dict = dict()
+                        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                            for row in rows_offline_meters:
+                                offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                              "id": row[0],
+                                                              "name": row[1],
+                                                              "uuid": row[2]}
+
+                        query = (" SELECT id, name, uuid "
+                                 " FROM tbl_virtual_meters ")
+                        cursor.execute(query)
+                        rows_virtual_meters = cursor.fetchall()
+
+                        virtual_meter_dict = dict()
+                        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                            for row in rows_virtual_meters:
+                                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                              "id": row[0],
+                                                              "name": row[1],
+                                                              "uuid": row[2]}
+
+                        # validate numerator meter uuid
+                        if numerator_meter_uuid is None:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_NUMERATOR_METER_UUID')
+
+                        if meter_dict.get(numerator_meter_uuid) is None and \
+                                virtual_meter_dict.get(numerator_meter_uuid) is None and \
+                                offline_meter_dict.get(numerator_meter_uuid) is None:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_NUMERATOR_METER_UUID')
+
+                        # validate denominator meter uuid
+                        if denominator_meter_uuid == numerator_meter_uuid:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_DENOMINATOR_METER_UUID')
+
+                        if denominator_meter_uuid not in meter_dict and \
+                                denominator_meter_uuid not in virtual_meter_dict and \
+                                denominator_meter_uuid not in offline_meter_dict:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_DENOMINATOR_METER_UUID')
+
+                    add_values = (" INSERT INTO tbl_equipments_parameters "
+                                  "    (equipment_id, name, parameter_type, constant, "
+                                  "     point_id, numerator_meter_uuid, denominator_meter_uuid) "
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                    cursor.execute(add_values, (new_id,
+                                                parameters['name'],
+                                                parameters['parameter_type'],
+                                                parameters['constant'],
+                                                point_id,
+                                                numerator_meter_uuid,
+                                                denominator_meter_uuid))
             cnx.commit()
             cursor.close()
             cnx.close()
 
             resp.status = falcon.HTTP_201
             resp.location = '/equipments/' + str(new_id)
-
