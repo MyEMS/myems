@@ -111,7 +111,7 @@ const MultiTrendChart = ({
       };
       setLineData(chartData);
     }
-  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates]);
+  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark]);
 
   const config = {
     plugins: [ChartDataLabels],

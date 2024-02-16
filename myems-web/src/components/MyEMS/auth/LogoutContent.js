@@ -14,12 +14,14 @@ const LogoutContent = ({ layout, titleTag: TitleTag, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/users/logout', {
+    fetch(
+      APIBaseURL +
+        '/users/logout', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
     }).then(response => {

@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import AppContext from './context/Context';
 import { settings } from './config';
 import toggleStylesheet from './helpers/toggleStylesheet';
-import { getItemFromStore, setItemToStore, themeColors, createCookie, getCookieValue, checkEmpty } from './helpers/utils';
+import {
+  getItemFromStore,
+  setItemToStore,
+  themeColors,
+  createCookie,
+  getCookieValue,
+  checkEmpty
+} from './helpers/utils';
 import i18n from 'i18next';
 
 const Main = props => {
@@ -113,7 +120,7 @@ const Main = props => {
       let user_display_name = getCookieValue('user_display_name');
       let user_uuid = getCookieValue('user_uuid');
       let token = getCookieValue('token');
-      if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
+      if (checkEmpty(token) || checkEmpty(user_uuid)) return;
       createCookie('is_logged_in', true, settings.cookieExpireTime);
       createCookie('user_name', user_name, settings.cookieExpireTime);
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
@@ -125,19 +132,19 @@ const Main = props => {
       let user_display_name = getCookieValue('user_display_name');
       let user_uuid = getCookieValue('user_uuid');
       let token = getCookieValue('token');
-      if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
+      if (checkEmpty(token) || checkEmpty(user_uuid)) return;
       createCookie('is_logged_in', true, settings.cookieExpireTime);
       createCookie('user_name', user_name, settings.cookieExpireTime);
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     };
-    window.addEventListener("mousemove", mousemove);
-    window.addEventListener("mousedown", mousedown);
+    window.addEventListener('mousemove', mousemove);
+    window.addEventListener('mousedown', mousedown);
     return () => {
-      window.removeEventListener("mousedown", mousedown);
-      window.removeEventListener("mousemove", mousemove);
-    }
+      window.removeEventListener('mousedown', mousedown);
+      window.removeEventListener('mousemove', mousemove);
+    };
   }, []);
 
   if (!isLoaded) {

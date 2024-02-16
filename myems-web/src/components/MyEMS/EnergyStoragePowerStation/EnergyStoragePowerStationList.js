@@ -59,7 +59,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   const [energyStoragePowerStationArray, setEnergyStoragePowerStationArray] = useState([]);
@@ -71,12 +71,14 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstationlist', {
+    fetch(
+      APIBaseURL +
+      '/reports/energystoragepowerstationlist', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -151,7 +153,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
 
-  }, []);
+  }, [t, ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 

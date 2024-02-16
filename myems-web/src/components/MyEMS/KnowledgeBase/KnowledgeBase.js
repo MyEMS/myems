@@ -39,12 +39,14 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) {
-        fetch(APIBaseURL + '/knowledgefiles', {
+        fetch(
+          APIBaseURL +
+          '/knowledgefiles', {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 

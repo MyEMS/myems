@@ -23,7 +23,9 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
      const handleSubmit = e => {
       e.preventDefault();
       let isResponseOK = false;
-      fetch(APIBaseURL + '/users/forgotpassword', {
+      fetch(
+        APIBaseURL +
+          '/users/forgotpassword', {
         method: 'PUT',
         body: JSON.stringify({ "data":
           {
@@ -88,7 +90,9 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
     </body>
     </html>`;
 
-    fetch(APIBaseURL + '/users/emailmessages', {
+    fetch(
+      APIBaseURL +
+        '/users/emailmessages', {
       method: 'POST',
       body: JSON.stringify({ "data":
         { "subject": subject,

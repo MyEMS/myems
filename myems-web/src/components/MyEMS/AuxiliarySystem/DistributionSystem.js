@@ -53,7 +53,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirectUrl, setRedirect]);
 
   // State
   // Right Click Menu
@@ -76,12 +76,14 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/distributionsystems', {
+    fetch(
+      APIBaseURL +
+        '/distributionsystems', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -115,19 +117,21 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
 
-  }, []);
+  }, [t, ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
 
   const refreshSVGData =()=> {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/pointrealtime', {
+    fetch(
+      APIBaseURL +
+        '/reports/pointrealtime', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -236,7 +240,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>

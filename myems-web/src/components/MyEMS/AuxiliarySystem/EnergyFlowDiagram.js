@@ -58,7 +58,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirectUrl, setRedirect]);
 
   // State
   // Query Parameters
@@ -94,12 +94,14 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/energyflowdiagrams', {
+    fetch(
+      APIBaseURL +
+        '/energyflowdiagrams', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -126,7 +128,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
 
-  }, []);
+  }, [t, ]);
 
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
@@ -256,15 +258,20 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energyflowdiagram?' +
-      'energyflowdiagramid=' + selectedEnergyFlowDiagram +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
+    fetch(
+      APIBaseURL +
+        '/reports/energyflowdiagram?' +
+        'energyflowdiagramid=' +
+        selectedEnergyFlowDiagram +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -325,7 +332,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePickerWrapper
-                    id='reportingPeriodDateRangePicker'
+                    id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
@@ -333,13 +340,13 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
@@ -347,7 +354,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>

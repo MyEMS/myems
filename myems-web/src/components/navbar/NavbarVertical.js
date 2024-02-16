@@ -47,7 +47,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   const navBarRef = useRef(null);
 
@@ -144,7 +144,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }, [ ]);
+  }, [t, ]);
 
   return (
     <Navbar

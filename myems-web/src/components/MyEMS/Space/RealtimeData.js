@@ -36,9 +36,9 @@ class RealtimeData extends Component {
     fetch(APIBaseURL + '/reports/spaceenvironmentmonitor?sensorid=' + this.props.sensorId, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -89,9 +89,9 @@ class RealtimeData extends Component {
       fetch(APIBaseURL + '/reports/spaceenvironmentmonitor?sensorid=' + this.props.sensorId, {
         method: 'GET',
         headers: {
-          "Content-type": "application/json",
-          "User-UUID": getCookieValue('user_uuid'),
-          "Token": getCookieValue('token')
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          'Token': getCookieValue('token')
         },
         body: null,
 

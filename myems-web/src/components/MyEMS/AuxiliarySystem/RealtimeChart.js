@@ -29,12 +29,15 @@ class RealtimeChart extends Component {
     // fetch realtime data at the first time
     let isResponseOK = false;
     if (this.props.distributionSystemID != undefined) {
-      fetch(APIBaseURL + '/reports/distributionsystem?distributionsystemid=' + this.props.distributionSystemID, {
+      fetch(
+        APIBaseURL +
+          '/reports/distributionsystem?distributionsystemid=' +
+          this.props.distributionSystemID, {
         method: 'GET',
         headers: {
-          "Content-type": "application/json",
-          "User-UUID": getCookieValue('user_uuid'),
-          "Token": getCookieValue('token')
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          'Token': getCookieValue('token')
         },
         body: null,
 
@@ -74,12 +77,15 @@ class RealtimeChart extends Component {
     this.refreshInterval = setInterval(() => {
       let isResponseOK = false;
       if (typeof this.props.distributionSystemID !== 'undefined') {
-        fetch(APIBaseURL + '/reports/distributionsystem?distributionsystemid=' + this.props.distributionSystemID, {
+        fetch(
+          APIBaseURL +
+            '/reports/distributionsystem?distributionsystemid=' +
+            this.props.distributionSystemID, {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 

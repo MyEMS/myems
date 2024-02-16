@@ -54,7 +54,7 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
 
   // State
@@ -85,12 +85,15 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstationreporting?uuid=' + energyStoragePowerStationUUID, {
+    fetch(
+      APIBaseURL +
+      '/reports/energystoragepowerstationreporting?uuid=' +
+      energyStoragePowerStationUUID, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -183,18 +186,20 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
     .catch(err => {
       console.log(err);
     });
-  }, []);
+  }, [energyStoragePowerStationUUID, ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   const refreshSVGData =()=> {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/pointrealtime', {
+    fetch(
+      APIBaseURL +
+      '/reports/pointrealtime', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 

@@ -67,7 +67,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   //Query Form
@@ -137,12 +137,14 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/tree', {
+    fetch(
+      APIBaseURL +
+      '/spaces/tree', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -162,12 +164,16 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
         setSelectedSpaceID([json[0]].map(o => o.value));
         // get Meters by root Space ID
         let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/meters', {
+        fetch(
+          APIBaseURL +
+          '/spaces/' +
+          [json[0]].map(o => o.value) +
+          '/meters', {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -213,12 +219,16 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceID(value[value.length - 1]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/meters', {
+    fetch(
+      APIBaseURL +
+      '/spaces/' +
+      value[value.length - 1] +
+      '/meters', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -366,19 +376,28 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     setDetailedDataTableData([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/metercost?' +
-      'meterid=' + selectedMeter +
-      '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
+    fetch(
+      APIBaseURL +
+      '/reports/metercost?' +
+      'meterid=' +
+      selectedMeter +
+      '&periodtype=' +
+      periodType +
+      '&baseperiodstartdatetime=' +
+      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&baseperiodenddatetime=' +
+      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -590,7 +609,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
-            var link = window.document.createElement("a");
+            var link = window.document.createElement('a');
             link.href = window.URL.createObjectURL(blob, { type: mimeType });
             link.download = fileName;
             document.body.appendChild(link);
@@ -688,7 +707,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                    />
                 </FormGroup>
               </Col>
@@ -697,7 +716,7 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePickerWrapper
-                    id='reportingPeriodDateRangePicker'
+                    id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
@@ -705,13 +724,13 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
@@ -719,12 +738,12 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br></br>
+                  <br />
                   <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
