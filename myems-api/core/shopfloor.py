@@ -1992,8 +1992,6 @@ class ShopfloorExport:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -2009,8 +2007,186 @@ class ShopfloorExport:
                            "contact": contact,
                            "cost_center": cost_center,
                            "description": row[7],
+                           "equipments": None,
+                           "commands": None,
+                           "meters": None,
+                           "offline_meters": None,
+                           "virtual_meters": None,
+                           "points": None,
+                           "sensors": None,
+                           "working_calendars": None
                            }
+            query = (" SELECT e.id, e.name, e.uuid "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_equipments se, tbl_equipments e "
+                     " WHERE se.shopfloor_id = s.id AND e.id = se.equipment_id AND s.id = %s "
+                     " ORDER BY e.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
 
+            equipment_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    equipment_result.append(result)
+                meta_result['equipments'] = equipment_result
+            query = (" SELECT c.id, c.name, c.uuid "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_commands sc, tbl_commands c "
+                     " WHERE sc.shopfloor_id = s.id AND c.id = sc.command_id AND s.id = %s "
+                     " ORDER BY c.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            command_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    command_result.append(result)
+                meta_result['commands'] = command_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_meters sm, tbl_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            meter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    meter_result.append(result)
+                meta_result['meters'] = meter_result
+            cursor.execute(" SELECT name "
+                           " FROM tbl_shopfloors "
+                           " WHERE id = %s ", (id_,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SHOPFLOOR_NOT_FOUND')
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_offline_meters sm, tbl_offline_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.offline_meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            offlinemeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    offlinemeter_result.append(result)
+                meta_result['offline_meters'] = offlinemeter_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_virtual_meters sm, tbl_virtual_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.virtual_meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            virtualmeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    virtualmeter_result.append(result)
+                meta_result['virtual_meters'] = virtualmeter_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_data_sources ")
+            cursor.execute(query)
+            rows_data_sources = cursor.fetchall()
+
+            data_source_dict = dict()
+            if rows_data_sources is not None and len(rows_data_sources) > 0:
+                for row in rows_data_sources:
+                    data_source_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
+
+            query = (" SELECT p.id, p.name, p.data_source_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
+                     " WHERE sp.shopfloor_id = s.id AND p.id = sp.point_id AND s.id = %s "
+                     " ORDER BY p.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            point_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    data_source = data_source_dict.get(row[2], None)
+                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    point_result.append(result)
+                meta_result['points'] = point_result
+            query = (" SELECT se.id, se.name, se.uuid "
+                     " FROM tbl_shopfloors sp, tbl_shopfloors_sensors ss, tbl_sensors se "
+                     " WHERE ss.shopfloor_id = sp.id AND se.id = ss.sensor_id AND sp.id = %s "
+                     " ORDER BY se.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            sensor_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    sensor_result.append(result)
+                meta_result['sensors'] = sensor_result
+            query = (" SELECT wc.id, wc.name, wc.description "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_working_calendars swc, tbl_working_calendars wc "
+                     " WHERE swc.shopfloor_id = s.id AND wc.id = swc.working_calendar_id AND s.id = %s "
+                     " ORDER BY wc.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            workingcalendar_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "description": row[2]}
+                    workingcalendar_result.append(result)
+                meta_result['working_calendars'] = workingcalendar_result
+
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
 
@@ -2130,6 +2306,198 @@ class ShopfloorImport:
                                     cost_center_id,
                                     description))
         new_id = cursor.lastrowid
+        if new_values['equipments'] is not None and len(new_values['equipments']) > 0:
+            for equipment in new_values['equipments']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_equipments "
+                               " WHERE id = %s ", (equipment['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EQUIPMENT_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_equipments "
+                         " WHERE shopfloor_id = %s AND equipment_id = %s")
+                cursor.execute(query, (new_id, equipment['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_EQUIPMENT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_equipments (shopfloor_id, equipment_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, equipment['id'],))
+        if new_values['commands'] is not None and len(new_values['commands']) > 0:
+            for command in new_values['commands']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (command['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_commands "
+                         " WHERE shopfloor_id = %s AND command_id = %s")
+                cursor.execute(query, (new_id, command['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_COMMAND_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_commands (shopfloor_id, command_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, command['id'],))
+        if new_values['meters'] is not None and len(new_values['meters']) > 0:
+            for meter in new_values['meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ", (meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_meters "
+                         " WHERE shopfloor_id = %s AND meter_id = %s")
+                cursor.execute(query, (new_id, meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_meters (shopfloor_id, meter_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, meter['id'],))
+        if new_values['offline_meters'] is not None and len(new_values['offline_meters']) > 0:
+            for offline_meter in new_values['offline_meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_offline_meters "
+                               " WHERE id = %s ", (offline_meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.OFFLINE_METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_offline_meters "
+                         " WHERE shopfloor_id = %s AND offline_meter_id = %s")
+                cursor.execute(query, (new_id, offline_meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_OFFLINE_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_offline_meters (shopfloor_id, offline_meter_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, offline_meter['id'],))
+        if new_values['virtual_meters'] is not None and len(new_values['virtual_meters']) > 0:
+            for virtual_meter in new_values['virtual_meters']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_virtual_meters "
+                               " WHERE id = %s ", (virtual_meter['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_virtual_meters "
+                         " WHERE shopfloor_id = %s AND virtual_meter_id = %s")
+                cursor.execute(query, (new_id, virtual_meter['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_virtual_meters (shopfloor_id, virtual_meter_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, virtual_meter['id'],))
+        if new_values['points'] is not None and len(new_values['points']) > 0:
+            for point in new_values['points']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (point['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_points "
+                         " WHERE shopfloor_id = %s AND point_id = %s")
+                cursor.execute(query, (new_id, point['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_points (shopfloor_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, point['id'],))
+        if new_values['sensors'] is not None and len(new_values['sensors']) > 0:
+            for sensor in new_values['sensors']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (sensor['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_sensors "
+                         " WHERE shopfloor_id = %s AND sensor_id = %s")
+                cursor.execute(query, (new_id, sensor['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_SENSOR_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_sensors (shopfloor_id, sensor_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, sensor['id'],))
+        if new_values['working_calendars'] is not None and len(new_values['workingcalendars']) > 0:
+            for working_calendar in new_values['working_calendars']:
+                cursor.execute(" SELECT name "
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (working_calendar['id'],))
+                if cursor.fetchone() is None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.WORKING_CALENDAR_NOT_FOUND')
+
+                query = (" SELECT id "
+                         " FROM tbl_shopfloors_working_calendars "
+                         " WHERE shopfloor_id = %s AND working_calendar_id = %s")
+                cursor.execute(query, (new_id, working_calendar['id'],))
+                if cursor.fetchone() is not None:
+                    cursor.close()
+                    cnx.close()
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SHOPFLOOR_WORKING_CALENDAR_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_shopfloors_working_calendars (shopfloor_id, working_calendar_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (new_id, working_calendar['id'],))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -2208,7 +2576,183 @@ class ShopfloorClone:
                            "contact": contact,
                            "cost_center": cost_center,
                            "description": row[7],
+                           "equipments": None,
+                           "commands": None,
+                           "meters": None,
+                           "offline_meters": None,
+                           "virtual_meters": None,
+                           "points": None,
+                           "sensors": None,
+                           "working_calendars": None
                            }
+            query = (" SELECT e.id, e.name, e.uuid "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_equipments se, tbl_equipments e "
+                     " WHERE se.shopfloor_id = s.id AND e.id = se.equipment_id AND s.id = %s "
+                     " ORDER BY e.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            equipment_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    equipment_result.append(result)
+                meta_result['equipments'] = equipment_result
+            query = (" SELECT c.id, c.name, c.uuid "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_commands sc, tbl_commands c "
+                     " WHERE sc.shopfloor_id = s.id AND c.id = sc.command_id AND s.id = %s "
+                     " ORDER BY c.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            command_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    command_result.append(result)
+                meta_result['commands'] = command_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_meters sm, tbl_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            meter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    meter_result.append(result)
+                meta_result['meters'] = meter_result
+            cursor.execute(" SELECT name "
+                           " FROM tbl_shopfloors "
+                           " WHERE id = %s ", (id_,))
+            if cursor.fetchone() is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SHOPFLOOR_NOT_FOUND')
+
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_offline_meters sm, tbl_offline_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.offline_meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            offlinemeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    offlinemeter_result.append(result)
+                meta_result['offline_meters'] = offlinemeter_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_energy_categories ")
+            cursor.execute(query)
+            rows_energy_categories = cursor.fetchall()
+
+            energy_category_dict = dict()
+            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                for row in rows_energy_categories:
+                    energy_category_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_virtual_meters sm, tbl_virtual_meters m "
+                     " WHERE sm.shopfloor_id = s.id AND m.id = sm.virtual_meter_id AND s.id = %s "
+                     " ORDER BY m.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            virtualmeter_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    energy_category = energy_category_dict.get(row[3], None)
+                    result = {"id": row[0], "name": row[1], "uuid": row[2],
+                              "energy_category": energy_category}
+                    virtualmeter_result.append(result)
+                meta_result['virtual_meters'] = virtualmeter_result
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_data_sources ")
+            cursor.execute(query)
+            rows_data_sources = cursor.fetchall()
+
+            data_source_dict = dict()
+            if rows_data_sources is not None and len(rows_data_sources) > 0:
+                for row in rows_data_sources:
+                    data_source_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
+
+            query = (" SELECT p.id, p.name, p.data_source_id "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
+                     " WHERE sp.shopfloor_id = s.id AND p.id = sp.point_id AND s.id = %s "
+                     " ORDER BY p.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            point_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    data_source = data_source_dict.get(row[2], None)
+                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    point_result.append(result)
+                meta_result['points'] = point_result
+            query = (" SELECT se.id, se.name, se.uuid "
+                     " FROM tbl_shopfloors sp, tbl_shopfloors_sensors ss, tbl_sensors se "
+                     " WHERE ss.shopfloor_id = sp.id AND se.id = ss.sensor_id AND sp.id = %s "
+                     " ORDER BY se.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            sensor_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                    sensor_result.append(result)
+                meta_result['sensors'] = sensor_result
+            query = (" SELECT wc.id, wc.name, wc.description "
+                     " FROM tbl_shopfloors s, tbl_shopfloors_working_calendars swc, tbl_working_calendars wc "
+                     " WHERE swc.shopfloor_id = s.id AND wc.id = swc.working_calendar_id AND s.id = %s "
+                     " ORDER BY wc.id ")
+            cursor.execute(query, (id_,))
+            rows = cursor.fetchall()
+
+            workingcalendar_result = list()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    result = {"id": row[0], "name": row[1], "description": row[2]}
+                    workingcalendar_result.append(result)
+                meta_result['working_calendars'] = workingcalendar_result
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
@@ -2227,10 +2771,201 @@ class ShopfloorClone:
                                         meta_result['cost_center']['id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
+            if meta_result['equipments'] is not None and len(meta_result['equipments']) > 0:
+                for equipment in meta_result['equipments']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_equipments "
+                                   " WHERE id = %s ", (equipment['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.EQUIPMENT_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_equipments "
+                             " WHERE shopfloor_id = %s AND equipment_id = %s")
+                    cursor.execute(query, (new_id, equipment['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_EQUIPMENT_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_equipments (shopfloor_id, equipment_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, equipment['id'],))
+            if meta_result['commands'] is not None and len(meta_result['commands']) > 0:
+                for command in meta_result['commands']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_commands "
+                                   " WHERE id = %s ", (command['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.COMMAND_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_commands "
+                             " WHERE shopfloor_id = %s AND command_id = %s")
+                    cursor.execute(query, (new_id, command['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_COMMAND_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_commands (shopfloor_id, command_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, command['id'],))
+            if meta_result['meters'] is not None and len(meta_result['meters']) > 0:
+                for meter in meta_result['meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_meters "
+                                   " WHERE id = %s ", (meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_meters "
+                             " WHERE shopfloor_id = %s AND meter_id = %s")
+                    cursor.execute(query, (new_id, meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_METER_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_meters (shopfloor_id, meter_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, meter['id'],))
+            if meta_result['offline_meters'] is not None and len(meta_result['offline_meters']) > 0:
+                for offline_meter in meta_result['offline_meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_offline_meters "
+                                   " WHERE id = %s ", (offline_meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.OFFLINE_METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_offline_meters "
+                             " WHERE shopfloor_id = %s AND offline_meter_id = %s")
+                    cursor.execute(query, (new_id, offline_meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_OFFLINE_METER_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_offline_meters (shopfloor_id, offline_meter_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, offline_meter['id'],))
+            if meta_result['virtual_meters'] is not None and len(meta_result['virtual_meters']) > 0:
+                for virtual_meter in meta_result['virtual_meters']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_virtual_meters "
+                                   " WHERE id = %s ", (virtual_meter['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.VIRTUAL_METER_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_virtual_meters "
+                             " WHERE shopfloor_id = %s AND virtual_meter_id = %s")
+                    cursor.execute(query, (new_id, virtual_meter['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_virtual_meters (shopfloor_id, virtual_meter_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, virtual_meter['id'],))
+            if meta_result['points'] is not None and len(meta_result['points']) > 0:
+                for point in meta_result['points']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_points "
+                                   " WHERE id = %s ", (point['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.POINT_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_points "
+                             " WHERE shopfloor_id = %s AND point_id = %s")
+                    cursor.execute(query, (new_id, point['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_POINT_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_points (shopfloor_id, point_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, point['id'],))
+            if meta_result['sensors'] is not None and len(meta_result['sensors']) > 0:
+                for sensor in meta_result['sensors']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_sensors "
+                                   " WHERE id = %s ", (sensor['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.SENSOR_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_sensors "
+                             " WHERE shopfloor_id = %s AND sensor_id = %s")
+                    cursor.execute(query, (new_id, sensor['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_SENSOR_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_sensors (shopfloor_id, sensor_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, sensor['id'],))
+            if meta_result['working_calendars'] is not None and len(meta_result['workingcalendars']) > 0:
+                for working_calendar in meta_result['working_calendars']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_working_calendars "
+                                   " WHERE id = %s ", (working_calendar['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.WORKING_CALENDAR_NOT_FOUND')
+
+                    query = (" SELECT id "
+                             " FROM tbl_shopfloors_working_calendars "
+                             " WHERE shopfloor_id = %s AND working_calendar_id = %s")
+                    cursor.execute(query, (new_id, working_calendar['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SHOPFLOOR_WORKING_CALENDAR_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_shopfloors_working_calendars (shopfloor_id, working_calendar_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, working_calendar['id'],))
             cnx.commit()
             cursor.close()
             cnx.close()
 
             resp.status = falcon.HTTP_201
             resp.location = '/shopfloors/' + str(new_id)
-
