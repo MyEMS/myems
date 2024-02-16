@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "204c5f6d-2d4f-4654-aaf2-75a62963bd22",
+		"_postman_id": "2af613a5-87cc-42d2-aad9-14f0e361b3e0",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -14655,7 +14655,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "25413fa240269477ab7884a545bb1d99f311f2f49817273d5b7f8bbfbc0fa1601fe6c30fed0fe66dce7ed099904c912e6f55223ac4610b0109d9bd9063ecef41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -15827,7 +15827,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "25413fa240269477ab7884a545bb1d99f311f2f49817273d5b7f8bbfbc0fa1601fe6c30fed0fe66dce7ed099904c912e6f55223ac4610b0109d9bd9063ecef41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -15866,7 +15866,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "25413fa240269477ab7884a545bb1d99f311f2f49817273d5b7f8bbfbc0fa1601fe6c30fed0fe66dce7ed099904c912e6f55223ac4610b0109d9bd9063ecef41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -15880,7 +15880,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"车间1\",\r\n    \"area\": 99999.999,\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MyEMS Project\"\r\n}",
+									"raw": "{\r\n    \"name\": \"车间_1\",\r\n    \"area\": 99999.999,\r\n    \"is_input_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"MyEMS Project\",\r\n    \"equipments\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"设备1\",\r\n            \"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\r\n        }\r\n    ],\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\r\n        }\r\n    ],\r\n    \"points\": null,\r\n    \"sensors\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"传感器1\",\r\n            \"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\r\n        }\r\n    ],\r\n    \"working_calendars\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -15913,7 +15913,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b7cfa451f44340568523fe324ffc82216406f0b173d40c7fdb70d9adfa44da47a30d6c38eb080227afb5a854df9beed4f7387ad411513b0634cbd0ae83dbf16f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
