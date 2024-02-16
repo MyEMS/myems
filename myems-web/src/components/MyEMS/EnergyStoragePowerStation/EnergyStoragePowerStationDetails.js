@@ -55,7 +55,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
 
   // State
@@ -109,12 +109,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID, {
+    fetch(
+      APIBaseURL +
+        '/reports/energystoragepowerstationdetails?uuid=' +
+        energyStoragePowerStationUUID, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -192,18 +195,20 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     .catch(err => {
       console.log(err);
     });
-  }, []);
+  }, [energyStoragePowerStationUUID, ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   const refreshSVGData =()=> {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/pointrealtime', {
+    fetch(
+      APIBaseURL +
+        '/reports/pointrealtime', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -245,12 +250,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeStartTime1 close
   const onChargeStartTime1Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime1CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+        '/commands/' +
+        chargeStartTime1CommandID +
+        '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime1.substring(0, 2)) * 256 + parseInt(chargeStartTime1.substring(3, ))}}),
@@ -270,12 +279,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeEndTime1 close
   const onChargeEndTime1Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime1CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+        '/commands/' +
+        chargeEndTime1CommandID +
+        '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime1.substring(0, 2)) * 256 + parseInt(chargeEndTime1.substring(3, ))}}),
@@ -295,12 +308,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeStartTime1 close
   const onDischargeStartTime1Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime1CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+        '/commands/' +
+        dischargeStartTime1CommandID +
+        '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime1.substring(0, 2)) * 256 + parseInt(dischargeStartTime1.substring(3, ))}}),
@@ -320,12 +337,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeEndTime1 close
   const onDischargeEndTime1Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime1CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+        '/commands/' +
+        dischargeEndTime1CommandID + '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime1.substring(0, 2)) * 256 + parseInt(dischargeEndTime1.substring(3, ))}}),
@@ -346,12 +366,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeStartTime2 close
   const onChargeStartTime2Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime2CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeStartTime2CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime2.substring(0, 2)) * 256 + parseInt(chargeStartTime2.substring(3, ))}}),
@@ -371,12 +395,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeEndTime2 close
   const onChargeEndTime2Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime2CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeEndTime2CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime2.substring(0, 2)) * 256 + parseInt(chargeEndTime2.substring(3, ))}}),
@@ -396,12 +424,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeStartTime2 close
   const onDischargeStartTime2Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime2CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeStartTime2CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime2.substring(0, 2)) * 256 + parseInt(dischargeStartTime2.substring(3, ))}}),
@@ -421,12 +453,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeEndTime2 close
   const onDischargeEndTime2Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime2CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeEndTime2CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime2.substring(0, 2)) * 256 + parseInt(dischargeEndTime2.substring(3, ))}}),
@@ -447,12 +483,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeStartTime3 close
   const onChargeStartTime3Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime3CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeStartTime3CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime3.substring(0, 2)) * 256 + parseInt(chargeStartTime3.substring(3, ))}}),
@@ -472,12 +512,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeEndTime3 close
   const onChargeEndTime3Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime3CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeEndTime3CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime3.substring(0, 2)) * 256 + parseInt(chargeEndTime3.substring(3, ))}}),
@@ -497,12 +541,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeStartTime3 close
   const onDischargeStartTime3Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime3CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeStartTime3CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime3.substring(0, 2)) * 256 + parseInt(dischargeStartTime3.substring(3, ))}}),
@@ -522,12 +570,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeEndTime3 close
   const onDischargeEndTime3Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime3CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeEndTime3CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime3.substring(0, 2)) * 256 + parseInt(dischargeEndTime3.substring(3, ))}}),
@@ -548,12 +600,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeStartTime4 close
   const onChargeStartTime4Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime4CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeStartTime4CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime4.substring(0, 2)) * 256 + parseInt(chargeStartTime4.substring(3, ))}}),
@@ -573,12 +629,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when ChargeEndTime4 close
   const onChargeEndTime4Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime4CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      chargeEndTime4CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime4.substring(0, 2)) * 256 + parseInt(chargeEndTime4.substring(3, ))}}),
@@ -598,12 +658,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeStartTime4 close
   const onDischargeStartTime4Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime4CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeStartTime4CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime4.substring(0, 2)) * 256 + parseInt(dischargeStartTime4.substring(3, ))}}),
@@ -623,12 +687,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Callback fired when DischargeEndTime4 close
   const onDischargeEndTime4Close = () => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime4CommandID + '/send', {
+    fetch(
+      APIBaseURL +
+      '/commands/' +
+      dischargeEndTime4CommandID +
+      '/send', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime4.substring(0, 2)) * 256 + parseInt(dischargeEndTime4.substring(3, ))}}),

@@ -54,7 +54,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
 
   // State
@@ -89,9 +89,9 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/microgridreporting?uuid=' + microgridUUID, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -194,9 +194,9 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/pointrealtime', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 

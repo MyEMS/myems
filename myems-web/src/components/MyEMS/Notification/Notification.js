@@ -78,9 +78,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             '&status=' + status,  {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -148,9 +148,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       '&status=' + status, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -361,9 +361,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -386,9 +386,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -437,9 +437,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -463,9 +463,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -514,9 +514,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
     }).then(response => {
@@ -535,9 +535,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -589,9 +589,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/webmessagesbatch', {
       method: 'DELETE',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body:  JSON.stringify({
         "ids": rows.join(",")
@@ -618,9 +618,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/webmessagesbatch', {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify({
        "ids": rows.join(",")
@@ -649,9 +649,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       '&status=' + status, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
     }).then(response => {
@@ -748,13 +748,13 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>

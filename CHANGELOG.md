@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - updated run action of rule in myems-api
 - updated run action of advanced report in myems-api
-- 
+- fixed warnings in myems-web
 ### Removed
 - None
 

@@ -58,7 +58,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -69,7 +69,9 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     //begin of getting space tree
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/tree', {
+    fetch(
+      APIBaseURL +
+      '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -102,7 +104,11 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
           let selectedSpaceID = [json[0]].map(o => o.value);
           //begin of getting meters of the default space
           let isSecondResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
+          fetch(
+            APIBaseURL +
+            '/spaces/' +
+            selectedSpaceID +
+            '/meters', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -149,7 +155,11 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     //begin of getting meters of the selected space
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
+    fetch(
+      APIBaseURL +
+      '/spaces/' +
+      selectedSpaceID +
+      '/meters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

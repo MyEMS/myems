@@ -18,7 +18,7 @@ const handleExport = (fileName, fileBytesBase64) => e => {
   fetch(fileUrl)
       .then(response => response.blob())
       .then(blob => {
-          var link = window.document.createElement("a");
+          var link = window.document.createElement('a');
           link.href = window.URL.createObjectURL(blob, { type: mimeType });
           link.download = fileName;
           document.body.appendChild(link);

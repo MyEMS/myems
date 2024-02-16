@@ -33,10 +33,12 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       handleRefreshCaptcha();
       return false;
     }
-    fetch(APIBaseURL + '/users/login', {
+    fetch(
+      APIBaseURL +
+        '/users/login', {
       method: 'PUT',
       body: JSON.stringify({ "data": { "email": email, "password": password } }),
-      headers: { "Content-Type": "application/json" }
+      headers: { 'Content-Type': 'application/json' }
     }).then(response => {
       console.log(response);
       if (response.ok) {

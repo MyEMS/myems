@@ -70,9 +70,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     await fetch(APIBaseURL + '/offlinemeters', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
     }).then(response => {
@@ -115,9 +115,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -259,9 +259,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     await fetch(APIBaseURL + '/reports/offlinemeterinput', {
       method: 'POST',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify(param),
     }).then(response => {
@@ -313,7 +313,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br />
                   <DateRangePicker
-                    id='reportingPeriodDateRangePicker'
+                    id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
@@ -321,12 +321,12 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}/>
+                    placeholder={t('Select Date Range')}/>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Search')}</Button>
                   </ButtonGroup>

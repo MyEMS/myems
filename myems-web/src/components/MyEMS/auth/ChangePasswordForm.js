@@ -42,7 +42,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirectUrl, setRedirect]);
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -58,7 +58,9 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    fetch(APIBaseURL + '/users/changepassword', {
+    fetch(
+      APIBaseURL +
+        '/users/changepassword', {
       method: 'PUT',
       body: JSON.stringify({
         "data": {
@@ -66,9 +68,9 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
         }
       }),
       headers: {
-        "Content-Type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       }
     }).then(response => {
       console.log(response);

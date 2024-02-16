@@ -105,18 +105,26 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </Fragment>
         );
 
-        fetch(APIBaseURL + '/reports/dashboard?' +
-          'useruuid=' + user_uuid +
-          '&periodtype=' + periodType +
-          '&baseperiodstartdatetime=' + (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-          '&baseperiodenddatetime=' + (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-          '&reportingperiodstartdatetime=' + reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&reportingperiodenddatetime=' + reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
+        fetch(
+          APIBaseURL +
+            '/reports/dashboard?' +
+            'useruuid=' +
+            user_uuid +
+            '&periodtype=' +
+            periodType +
+            '&baseperiodstartdatetime=' +
+            (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+            '&baseperiodenddatetime=' +
+            (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+            '&reportingperiodstartdatetime=' +
+            reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&reportingperiodenddatetime=' +
+            reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -428,7 +436,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   useEffect(() => {
     setLanguage(getItemFromStore('myems_web_ui_language'));
@@ -452,12 +460,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      fetch(APIBaseURL + '/spaces/tree', {
+      fetch(
+        APIBaseURL +
+          '/spaces/tree', {
         method: 'GET',
         headers: {
-          "Content-type": "application/json",
-          "User-UUID": getCookieValue('user_uuid'),
-          "Token": getCookieValue('token')
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          'Token': getCookieValue('token')
         },
         body: null,
       }).then(response => {
@@ -472,12 +482,16 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
           // get Combined Equipments by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/children', {
+          fetch(
+            APIBaseURL +
+              '/spaces/' +
+              [json[0]].map(o => o.value) +
+              '/children', {
             method: 'GET',
             headers: {
-              "Content-type": "application/json",
-              "User-UUID": getCookieValue('user_uuid'),
-              "Token": getCookieValue('token')
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              'Token': getCookieValue('token')
             },
             body: null,
 
@@ -527,7 +541,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
     }
-  }, [])
+  }, [setRedirect, setRedirectUrl, t])
 
   return (
     <Fragment>

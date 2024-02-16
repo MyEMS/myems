@@ -251,16 +251,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     setFaults([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages?' +
-      'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' + priority +
-      '&status=' + status, {
+    fetch(
+      APIBaseURL +
+      '/webmessages?' +
+      'startdatetime=' +
+      startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&enddatetime=' +
+      endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+      '&priority=' +
+      priority +
+      '&status=' +
+      status, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -310,12 +316,15 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   const handleRead = (id, ) => {
     console.log('Mark As Read: ', id)
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages/' + id, {
+    fetch(
+      APIBaseURL +
+      '/webmessages/' +
+      id, {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -333,16 +342,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(isResponseOK);
       if (isResponseOK) {
         let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority +
-            '&status=' + status, {
+        fetch(
+          APIBaseURL +
+          '/webmessages?' +
+          'startdatetime=' +
+          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&enddatetime=' +
+          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&priority=' +
+          priority +
+          '&status=' +
+          status, {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -387,12 +402,15 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   const handleAcknowledged = (id, ) => {
     console.log('Mark As Acknowledged: ', id)
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages/' + id, {
+    fetch(
+      APIBaseURL +
+      '/webmessages/' +
+      id, {
       method: 'PUT',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -411,16 +429,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(isResponseOK);
       if (isResponseOK) {
         let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority +
-            '&status=' + status,  {
+        fetch(
+          APIBaseURL +
+          '/webmessages?' +
+          'startdatetime=' +
+          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&enddatetime=' +
+          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&priority=' +
+          priority +
+          '&status=' +
+          status,  {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -465,12 +489,15 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   const handledelete = (id, ) => {
     console.log('Delete: ', id)
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages/' + id, {
+    fetch(
+      APIBaseURL +
+      '/webmessages/' +
+      id, {
       method: 'DELETE',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
     }).then(response => {
@@ -484,16 +511,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(isResponseOK);
       if (isResponseOK) {
         let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority +
-            '&status=' + status,  {
+        fetch(
+          APIBaseURL +
+          '/webmessages?' +
+          'startdatetime=' +
+          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&enddatetime=' +
+          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&priority=' +
+          priority +
+          '&status=' +
+          status,  {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -543,7 +576,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
-            var link = window.document.createElement("a");
+            var link = window.document.createElement('a');
             link.href = window.URL.createObjectURL(blob, { type: mimeType });
             link.download = fileName;
             document.body.appendChild(link);
@@ -621,20 +654,20 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br></br>
+                  <br />
                   <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >

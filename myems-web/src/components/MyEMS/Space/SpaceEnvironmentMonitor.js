@@ -58,7 +58,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);

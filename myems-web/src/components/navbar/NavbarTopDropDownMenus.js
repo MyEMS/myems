@@ -56,7 +56,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [])
+  }, [setRedirect, setRedirectUrl])
 
   const { isCombo, isTopNav } = useContext(AppContext);
   // const components = [componentRoutes, pluginRoutes, utilityRoutes];
@@ -118,7 +118,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
     }).catch(err => {
       console.log(err);
     });
-  }, []);
+  }, [t, ]);
 
   return (
     <>

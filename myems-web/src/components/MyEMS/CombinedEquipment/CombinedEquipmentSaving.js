@@ -31,7 +31,7 @@ import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
+import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
 
@@ -46,7 +46,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -68,7 +68,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   // Query Parameters
@@ -99,7 +99,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(AppContext);
 
   // buttons
@@ -115,18 +115,18 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
 
-  const [combinedEquipmentBaseAndReportingNames, setCombinedEquipmentBaseAndReportingNames] = useState({"a0":""});
-  const [combinedEquipmentBaseAndReportingUnits, setCombinedEquipmentBaseAndReportingUnits] = useState({"a0":"()"});
+  const [combinedEquipmentBaseAndReportingNames, setCombinedEquipmentBaseAndReportingNames] = useState({ "a0": "" });
+  const [combinedEquipmentBaseAndReportingUnits, setCombinedEquipmentBaseAndReportingUnits] = useState({ "a0": "()" });
 
-  const [combinedEquipmentBaseLabels, setCombinedEquipmentBaseLabels] = useState({"a0": []});
-  const [combinedEquipmentBaseData, setCombinedEquipmentBaseData] = useState({"a0": []});
-  const [combinedEquipmentBaseSubtotals, setCombinedEquipmentBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [combinedEquipmentBaseLabels, setCombinedEquipmentBaseLabels] = useState({ "a0": [] });
+  const [combinedEquipmentBaseData, setCombinedEquipmentBaseData] = useState({ "a0": [] });
+  const [combinedEquipmentBaseSubtotals, setCombinedEquipmentBaseSubtotals] = useState({ "a0": (0).toFixed(2) });
 
-  const [combinedEquipmentReportingLabels, setCombinedEquipmentReportingLabels] = useState({"a0": []});
-  const [combinedEquipmentReportingData, setCombinedEquipmentReportingData] = useState({"a0": []});
-  const [combinedEquipmentReportingSubtotals, setCombinedEquipmentReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [combinedEquipmentReportingLabels, setCombinedEquipmentReportingLabels] = useState({ "a0": [] });
+  const [combinedEquipmentReportingData, setCombinedEquipmentReportingData] = useState({ "a0": [] });
+  const [combinedEquipmentReportingSubtotals, setCombinedEquipmentReportingSubtotals] = useState({ "a0": (0).toFixed(2) });
 
-  const [combinedEquipmentReportingRates, setCombinedEquipmentReportingRates] = useState({"a0": []});
+  const [combinedEquipmentReportingRates, setCombinedEquipmentReportingRates] = useState({ "a0": [] });
   const [combinedEquipmentReportingOptions, setCombinedEquipmentReportingOptions] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -134,21 +134,23 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{ dataField: 'startdatetime', text: t('Datetime'), sort: true }]);
 
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
-  const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{dataField: 'name', text: t('Associated Equipment'), sort: true }]);
+  const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([{ dataField: 'name', text: t('Associated Equipment'), sort: true }]);
 
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/tree', {
+    fetch(
+      APIBaseURL +
+        '/spaces/tree', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -168,12 +170,16 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
         setSelectedSpaceID([json[0]].map(o => o.value));
         // get Combined Equipments by root Space ID
         let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/combinedequipments', {
+        fetch(
+          APIBaseURL +
+            '/spaces/' +
+            [json[0]].map(o => o.value) +
+            '/combinedequipments', {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -210,7 +216,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
       console.log(err);
     });
 
-  }, []);
+  }, [t, ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -219,12 +225,16 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceID(value[value.length - 1]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/combinedequipments', {
+    fetch(
+      APIBaseURL +
+        '/spaces/' +
+        value[value.length - 1] +
+        '/combinedequipments', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -261,15 +271,15 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
+      moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
+      moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
       setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate()]);
+      moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate()]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
       setBasePeriodDateRangePickerDisabled(true);
@@ -278,7 +288,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onBasePeriodChange = (DateRange) => {
-    if(DateRange == null) {
+    if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
@@ -291,7 +301,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
@@ -357,19 +367,27 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     setAssociatedEquipmentTableData([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/combinedequipmentsaving?' +
-      'combinedequipmentid=' + selectedCombinedEquipment +
-      '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
+    fetch(
+      APIBaseURL +
+        '/reports/combinedequipmentsaving?' +
+        'combinedequipmentid=' +
+        selectedCombinedEquipment +
+        '&periodtype=' + periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -409,7 +427,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           TCEDataItem['id'] = index;
           TCEDataItem['name'] = currentValue;
           TCEDataItem['value'] = json['reporting_period']['subtotals_in_kgce_saving'][index] / 1000; // convert from kg to t
-          TCEDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
+          TCEDataItem['color'] = "#" + ((1 << 24) * Math.random() | 0).toString(16);
           TCEDataArray.push(TCEDataItem);
         });
         setTCEShareData(TCEDataArray);
@@ -420,7 +438,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           TCO2EDataItem['id'] = index;
           TCO2EDataItem['name'] = currentValue;
           TCO2EDataItem['value'] = json['reporting_period']['subtotals_in_kgco2e_saving'][index] / 1000; // convert from kg to t
-          TCO2EDataItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
+          TCO2EDataItem['color'] = "#" + ((1 << 24) * Math.random() | 0).toString(16);
           TCO2EDataArray.push(TCO2EDataItem);
         });
         setTCO2EShareData(TCO2EDataArray);
@@ -451,7 +469,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
         let base_and_reporting_units = {}
         json['reporting_period']['units'].forEach((currentValue, index) => {
-          base_and_reporting_units['a' + index] = "("+currentValue+")";
+          base_and_reporting_units['a' + index] = "(" + currentValue + ")";
         });
         setCombinedEquipmentBaseAndReportingUnits(base_and_reporting_units)
 
@@ -492,7 +510,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
         let options = Array();
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period']['units'][index];
-          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
+          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')' });
         });
         setCombinedEquipmentReportingOptions(options);
 
@@ -528,7 +546,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           });
         };
 
-        if(!isBasePeriodTimestampExists(json['base_period'])) {
+        if (!isBasePeriodTimestampExists(json['base_period'])) {
           let detailed_value = {};
           detailed_value['id'] = detailed_value_list.length;
           detailed_value['startdatetime'] = t('Subtotal');
@@ -562,7 +580,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
             });
           });
           setDetailedDataTableColumns(detailed_column_list);
-        }else {
+        } else {
           /*
           * Tip:
           *     json['base_period']['names'] ===  json['reporting_period']['names']
@@ -616,18 +634,18 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
           let detailed_value_list = [];
           if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
-            const max_timestamps_length = json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length?
-                json['base_period']['timestamps'][0].length : json['reporting_period']['timestamps'][0].length;
+            const max_timestamps_length = json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length ?
+              json['base_period']['timestamps'][0].length : json['reporting_period']['timestamps'][0].length;
             for (let index = 0; index < max_timestamps_length; index++) {
               let detailed_value = {};
               detailed_value['id'] = index;
-              detailed_value['basePeriodDatetime'] = index < json['base_period']['timestamps'][0].length? json['base_period']['timestamps'][0][index] : null;
+              detailed_value['basePeriodDatetime'] = index < json['base_period']['timestamps'][0].length ? json['base_period']['timestamps'][0][index] : null;
               json['base_period']['values_saving'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['a' + energyCategoryIndex] = index < json['base_period']['values_saving'][energyCategoryIndex].length? json['base_period']['values_saving'][energyCategoryIndex][index] : null;
+                detailed_value['a' + energyCategoryIndex] = index < json['base_period']['values_saving'][energyCategoryIndex].length ? json['base_period']['values_saving'][energyCategoryIndex][index] : null;
               });
-              detailed_value['reportingPeriodDatetime'] = index < json['reporting_period']['timestamps'][0].length? json['reporting_period']['timestamps'][0][index] : null;
+              detailed_value['reportingPeriodDatetime'] = index < json['reporting_period']['timestamps'][0].length ? json['reporting_period']['timestamps'][0][index] : null;
               json['reporting_period']['values_saving'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['b' + energyCategoryIndex] = index < json['reporting_period']['values_saving'][energyCategoryIndex].length? json['reporting_period']['values_saving'][energyCategoryIndex][index] : null;
+                detailed_value['b' + energyCategoryIndex] = index < json['reporting_period']['values_saving'][energyCategoryIndex].length ? json['reporting_period']['values_saving'][energyCategoryIndex][index] : null;
               });
               detailed_value_list.push(detailed_value);
             }
@@ -643,7 +661,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['b' + index] = currentValue;
             });
             detailed_value_list.push(detailed_value);
-            setTimeout( () => {
+            setTimeout(() => {
               setDetailedDataTableData(detailed_value_list);
             }, 0)
           }
@@ -707,19 +725,19 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     const fileName = 'combinedequipmentsaving.xlsx'
     var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement("a");
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
 
 
@@ -809,16 +827,16 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
-                   />
+                    placeholder={t('Select Date Range')}
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <br />
                   <DateRangePickerWrapper
-                    id='reportingPeriodDateRangePicker'
+                    id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
@@ -826,13 +844,13 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
@@ -840,17 +858,17 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <br />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br></br>
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
@@ -888,10 +906,10 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
       </Row>
 
-      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": combinedEquipmentReportingSubtotals, "UNIT": combinedEquipmentBaseAndReportingUnits}}
-        baseTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": combinedEquipmentBaseSubtotals, "UNIT": combinedEquipmentBaseAndReportingUnits}}
-        reportingTooltipTitle = {{"name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": null, "UNIT": combinedEquipmentBaseAndReportingUnits}}
-        baseTooltipTitle = {{"name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": null, "UNIT": combinedEquipmentBaseAndReportingUnits}}
+      <MultiTrendChart reportingTitle={{ "name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": combinedEquipmentReportingSubtotals, "UNIT": combinedEquipmentBaseAndReportingUnits }}
+        baseTitle={{ "name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": combinedEquipmentBaseSubtotals, "UNIT": combinedEquipmentBaseAndReportingUnits }}
+        reportingTooltipTitle={{ "name": "Reporting Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": null, "UNIT": combinedEquipmentBaseAndReportingUnits }}
+        baseTooltipTitle={{ "name": "Base Period Saving CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": combinedEquipmentBaseAndReportingNames, "VALUE": null, "UNIT": combinedEquipmentBaseAndReportingUnits }}
         reportingLabels={combinedEquipmentReportingLabels}
         reportingData={combinedEquipmentReportingData}
         baseLabels={combinedEquipmentBaseLabels}

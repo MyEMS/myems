@@ -59,7 +59,7 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   const [microgridArray, setMicrogridArray] = useState([]);
@@ -74,9 +74,9 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/reports/microgridlist', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 

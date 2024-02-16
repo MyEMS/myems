@@ -66,7 +66,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [setRedirect, setRedirectUrl]);
 
   // State
   // Query Parameters
@@ -135,9 +135,9 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -160,9 +160,9 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
         fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/stores', {
           method: 'GET',
           headers: {
-            "Content-type": "application/json",
-            "User-UUID": getCookieValue('user_uuid'),
-            "Token": getCookieValue('token')
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            'Token': getCookieValue('token')
           },
           body: null,
 
@@ -211,9 +211,9 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/stores', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -356,9 +356,9 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       '&language=' + language, {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        'Token': getCookieValue('token')
       },
       body: null,
 
@@ -648,7 +648,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
-            var link = window.document.createElement("a");
+            var link = window.document.createElement('a');
             link.href = window.URL.createObjectURL(blob, { type: mimeType });
             link.download = fileName;
             document.body.appendChild(link);
@@ -744,7 +744,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                    />
                 </FormGroup>
               </Col>
@@ -753,7 +753,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
                   <br/>
                   <DateRangePickerWrapper
-                    id='reportingPeriodDateRangePicker'
+                    id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
@@ -761,13 +761,13 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t("Select Date Range")}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <ButtonGroup id="submit">
                     <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
                   </ButtonGroup>
@@ -775,12 +775,12 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br></br>
+                  <br />
                   <Spinner color="primary" hidden={spinnerHidden}  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br></br>
+                  <br />
                   <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
                   hidden={exportButtonHidden}
                   onClick={handleExport} >
