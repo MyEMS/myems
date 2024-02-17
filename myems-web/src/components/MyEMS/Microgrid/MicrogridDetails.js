@@ -115,7 +115,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 
@@ -205,7 +205,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 
@@ -252,7 +252,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime1.substring(0, 2)) * 256 + parseInt(chargeStartTime1.substring(3, ))}}),
@@ -277,7 +277,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime1.substring(0, 2)) * 256 + parseInt(chargeEndTime1.substring(3, ))}}),
@@ -302,7 +302,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime1.substring(0, 2)) * 256 + parseInt(dischargeStartTime1.substring(3, ))}}),
@@ -327,7 +327,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime1.substring(0, 2)) * 256 + parseInt(dischargeEndTime1.substring(3, ))}}),
@@ -353,7 +353,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime2.substring(0, 2)) * 256 + parseInt(chargeStartTime2.substring(3, ))}}),
@@ -378,7 +378,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime2.substring(0, 2)) * 256 + parseInt(chargeEndTime2.substring(3, ))}}),
@@ -403,7 +403,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime2.substring(0, 2)) * 256 + parseInt(dischargeStartTime2.substring(3, ))}}),
@@ -428,7 +428,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime2.substring(0, 2)) * 256 + parseInt(dischargeEndTime2.substring(3, ))}}),
@@ -454,7 +454,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime3.substring(0, 2)) * 256 + parseInt(chargeStartTime3.substring(3, ))}}),
@@ -479,7 +479,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime3.substring(0, 2)) * 256 + parseInt(chargeEndTime3.substring(3, ))}}),
@@ -504,7 +504,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime3.substring(0, 2)) * 256 + parseInt(dischargeStartTime3.substring(3, ))}}),
@@ -529,7 +529,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime3.substring(0, 2)) * 256 + parseInt(dischargeEndTime3.substring(3, ))}}),
@@ -555,7 +555,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeStartTime4.substring(0, 2)) * 256 + parseInt(chargeStartTime4.substring(3, ))}}),
@@ -580,7 +580,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(chargeEndTime4.substring(0, 2)) * 256 + parseInt(chargeEndTime4.substring(3, ))}}),
@@ -605,7 +605,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeStartTime4.substring(0, 2)) * 256 + parseInt(dischargeStartTime4.substring(3, ))}}),
@@ -630,7 +630,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
       body: JSON.stringify({"data": {"set_value": parseInt(dischargeEndTime4.substring(0, 2)) * 256 + parseInt(dischargeEndTime4.substring(3, ))}}),
