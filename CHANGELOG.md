@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.2.0] - 2024-02-18
+
+### Added
 - None
 ### Changed
 - updated distribution system export, import and clone functions in myems-api
@@ -16,10 +23,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated shopfloor export, import and clone functions in myems-api
 - updated store export, import and clone functions in myems-api
 - updated tenant export, import and clone functions in myems-api
-- 
-### Fixed
 - updated run action of rule in myems-api
 - updated run action of advanced report in myems-api
+### Fixed
 - fixed warnings in myems-web
 - fixed issue of CardSummary in myems-web
 - fixed issue of demo data in database
@@ -1602,7 +1608,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.1.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.2.0...HEAD
+[4.2.0]: https://github.com/MyEMS/myems/compare/v4.2.0...v4.1.0
 [4.1.0]: https://github.com/MyEMS/myems/compare/v4.1.0...v4.0.0
 [4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
 [3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
