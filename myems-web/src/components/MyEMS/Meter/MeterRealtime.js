@@ -215,13 +215,13 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       document.getElementById("cursor_4").hidden=false;
     }
 
-  }, [meterList]);
+  }, []);
 
   useEffect(() => {
     setSelectMeterList(meterList.slice(cursor * len - 8, cursor * len));
 
 
-  }, [cursor, meterList]);
+  }, []);
 
   function getCursor(location){
     switch (location){

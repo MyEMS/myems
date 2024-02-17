@@ -50,7 +50,7 @@ const CustomizeMap = ({Latitude, Longitude, Zoom,t}) => {
       .catch(e => {
         console.log(e);
       });
-    }, [t, Latitude, Longitude, zoom]);
+    }, []);
 
     return (
       // Initialize map container, use div tag as the map container, and assign an id attribute to the div

@@ -229,7 +229,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         '&language=' + language;
       loadData(url);
     }
-  }, [basePeriodDateRange, language, periodType, reportingPeriodDateRange, t, uuid]);
+  }, []);
 
   const loadData = (url) => {
     // disable submit button

@@ -50,7 +50,7 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
 
       map.current.addControl(mapboxLanguage);
 
-    }, [t, Latitude, Longitude, Zoom, isDark, language, lat, lng, zoom]);
+    }, []);
 
     useEffect(() => {
       var lang = language;
@@ -192,7 +192,7 @@ const CustomizeMapBox = ({Latitude, Longitude, Zoom, Geojson, t}) => {
           });
         });
       }
-    }, [language, Geojson, Latitude, Longitude, Zoom, isDark, lat, lng, zoom])
+    }, [])
 
     return (
       <div id="container" className="map" style={{width:'100%', height: '100%'}} ref={mapContainer} />

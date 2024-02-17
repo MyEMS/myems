@@ -93,7 +93,7 @@ const MixedLineChart = ({
       };
       setLineData(chartData);
     }
-  }, [data, option, labels, options]);
+  }, []);
 
   const config = {
     options: {

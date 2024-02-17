@@ -214,7 +214,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t}) => {
         '&language=' + language;
       loadData(url);
     }
-  }, [t, basePeriodDateRange, language, periodType, reportingPeriodDateRange, uuid]);
+  }, []);
 
   const loadData = (url) => {
     // disable submit button

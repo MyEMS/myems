@@ -154,7 +154,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
 
   useEffect(() => {
     setIsSubmitDisabled(!email || !password || !code);
-  }, [email, password, code]);
+  }, []);
 
   const toggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
@@ -163,7 +163,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
   useEffect(() => {
     setItemToStore('email', email);
     // eslint-disable-next-line
-  }, [email]);
+  }, []);
 
   return (
     <Form className="mt-4" onSubmit={handleSubmit}>

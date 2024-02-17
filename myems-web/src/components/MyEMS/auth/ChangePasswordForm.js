@@ -53,7 +53,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
     if (oldPassword === '' || newPassword === '' || confirmPassword === '') return setIsDisabled(true);
 
     setIsDisabled(newPassword !== confirmPassword);
-  }, [oldPassword, newPassword, confirmPassword]);
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
