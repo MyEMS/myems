@@ -2064,7 +2064,7 @@ class ShopfloorExport:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
+                    energy_category = energy_category_dict.get(row[3], None)git
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
                               "energy_category": energy_category}
                     meter_result.append(result)
