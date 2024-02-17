@@ -591,10 +591,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_shopfloors_points`
 (`shopfloor_id`, `point_id`)
 VALUES
-(3, 2000001),
-(3, 2000002),
-(3, 2000003),
-(3, 2000006);
+(1, 1),
+(1, 2),
+(1, 3);
 
 COMMIT;
 
@@ -740,10 +739,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_spaces_points`
 (`space_id`, `point_id`)
 VALUES
-(3, 2000001),
-(3, 2000002),
-(3, 2000003),
-(3, 2000006);
+(1, 1),
+(1, 2),
+(1, 3);
 
 COMMIT;
 
@@ -956,10 +954,9 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_stores_points`
 (`store_id`, `point_id`)
 VALUES
-(3, 2000001),
-(3, 2000002),
-(3, 2000003),
-(3, 2000006);
+(1, 1),
+(1, 2),
+(1, 3);
 
 COMMIT;
 
@@ -1059,7 +1056,7 @@ USE `myems_system_db`;
 INSERT INTO `myems_system_db`.`tbl_tenants_points`
 (`tenant_id`, `point_id`)
 VALUES
-(3, 2000001),
+(1, 2000001),
 (3, 2000002),
 (3, 2000003),
 (3, 2000006);

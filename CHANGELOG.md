@@ -14,11 +14,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated equipment export, import and clone functions in myems-api
 - updated combined equipment export, import and clone functions in myems-api
 - updated shopfloor export, import and clone functions in myems-api
+- updated store export, import and clone functions in myems-api
+- updated tenant export, import and clone functions in myems-api
 - 
 ### Fixed
 - updated run action of rule in myems-api
 - updated run action of advanced report in myems-api
 - fixed warnings in myems-web
+- fixed issue of CardSummary in myems-web
+- fixed issue of demo data in database
 ### Removed
 - None
 
