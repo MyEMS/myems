@@ -134,7 +134,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 
@@ -283,7 +283,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 

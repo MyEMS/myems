@@ -70,7 +70,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       }
     }).then(response => {
       console.log(response);

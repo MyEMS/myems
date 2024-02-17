@@ -109,7 +109,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 
@@ -195,7 +195,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 

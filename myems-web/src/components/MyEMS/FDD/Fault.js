@@ -266,7 +266,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
 
@@ -324,7 +324,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -357,7 +357,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           headers: {
             'Content-type': 'application/json',
             'User-UUID': getCookieValue('user_uuid'),
-            'Token': getCookieValue('token')
+            Token: getCookieValue('token')
           },
           body: null,
 
@@ -410,7 +410,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: JSON.stringify({
         "data": {
@@ -444,7 +444,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           headers: {
             'Content-type': 'application/json',
             'User-UUID': getCookieValue('user_uuid'),
-            'Token': getCookieValue('token')
+            Token: getCookieValue('token')
           },
           body: null,
 
@@ -497,7 +497,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
-        'Token': getCookieValue('token')
+        Token: getCookieValue('token')
       },
       body: null,
     }).then(response => {
@@ -526,7 +526,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           headers: {
             'Content-type': 'application/json',
             'User-UUID': getCookieValue('user_uuid'),
-            'Token': getCookieValue('token')
+            Token: getCookieValue('token')
           },
           body: null,
 
