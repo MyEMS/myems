@@ -99,7 +99,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
-    [{dataField: 'name', text: t('Name'), formatter: nameFormatter, sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
+    [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
