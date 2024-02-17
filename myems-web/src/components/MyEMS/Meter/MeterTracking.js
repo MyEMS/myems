@@ -514,16 +514,19 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <div className="card-deck">
-        <CardSummary title={t('Start Integrity Rate')}
-          color="success"  >
+        <CardSummary
+          title={t('Start Integrity Rate')}
+          color="success" >
           <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
         </CardSummary>
-        <CardSummary title={t('End Integrity Rate')}
-          color="success"  >
+        <CardSummary
+          title={t('End Integrity Rate')}
+          color="success" >
           <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
         </CardSummary>
-        <CardSummary title={t('Full Integrity Rate')}
-          color="warning"  >
+        <CardSummary
+          title={t('Full Integrity Rate')}
+          color="warning" >
           <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
         </CardSummary>
       </div>
