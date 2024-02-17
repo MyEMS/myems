@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e7405838-fb63-4630-9d4d-331ac664016a",
+		"_postman_id": "664857a0-36a2-4dc2-bd5d-a4029c3082c0",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -20620,7 +20620,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "28e554ca0b687f7721c6b2e7596e2212d6a94ee84797640a2de8a073878b982ee3e618cf155b3abfa0b935f603f5c9648c9b10d646e7977e8b1c4e8e38aa5c41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -20659,7 +20659,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "28e554ca0b687f7721c6b2e7596e2212d6a94ee84797640a2de8a073878b982ee3e618cf155b3abfa0b935f603f5c9648c9b10d646e7977e8b1c4e8e38aa5c41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -20673,7 +20673,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Starbucks星巴克1\",\n    \"buildings\": \"Building #1\",\n    \"floors\": \"L1 L2 L3\",\n    \"rooms\": \"1201b+2247+3F\",\n    \"area\": 418.800,\n    \"tenant_type\": {\n        \"id\": 9,\n        \"name\": \"非整层办公租户\",\n        \"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n    },\n    \"is_key_tenant\": true,\n    \"is_input_counted\": true,\n    \"lease_number\": \"6b0da806\",\n    \"lease_start_datetime\": \"2020-01-01T00:00:00\",\n    \"lease_end_datetime\": \"2023-01-01T00:00:00\",\n    \"is_in_lease\": true,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"description\": \"my description\"\n}",
+									"raw": "{\n    \"name\": \"Starbucks星巴克_1\",\n    \"buildings\": \"Building #1\",\n    \"floors\": \"L1 L2 L3\",\n    \"rooms\": \"1201b+2247+3F\",\n    \"area\": 418.800,\n    \"tenant_type\": {\n        \"id\": 9,\n        \"name\": \"非整层办公租户\",\n        \"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n    },\n    \"is_key_tenant\": true,\n    \"is_input_counted\": true,\n    \"lease_number\": \"6b0da806\",\n    \"lease_start_datetime\": \"2020-01-01T00:00:00\",\n    \"lease_end_datetime\": \"2023-01-01T00:00:00\",\n    \"is_in_lease\": true,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"description\": \"my description\",\n    \"commands\": null,\n    \"meters\": [\n        {\n            \"id\": 1,\n            \"name\": \"计量表1\",\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n        }\n    ],\n    \"offline_meters\": [\n        {\n            \"id\": 1,\n            \"name\": \"离线表1\",\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n        }\n    ],\n    \"virtual_meters\": [\n        {\n            \"id\": 1,\n            \"name\": \"虚拟表1\",\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n        }\n    ],\n    \"points\": null,\n    \"sensors\": [\n        {\n            \"id\": 1,\n            \"name\": \"传感器1\",\n            \"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n        }\n    ],\n    \"working_calendars\": null\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -20706,7 +20706,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "28e554ca0b687f7721c6b2e7596e2212d6a94ee84797640a2de8a073878b982ee3e618cf155b3abfa0b935f603f5c9648c9b10d646e7977e8b1c4e8e38aa5c41",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
