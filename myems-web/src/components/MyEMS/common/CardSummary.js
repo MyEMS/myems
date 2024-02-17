@@ -22,6 +22,7 @@ const getImage = color => {
 };
 
 const getIcon = rate => {
+  if (rate == null) return null;
   let r = parseFloat(rate.substring(0,rate.length-1))
   if (r > 0.0)
     return <FontAwesomeIcon icon="arrow-up"/>;
