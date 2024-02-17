@@ -75,7 +75,7 @@ export const Charts = (props) => {
         const chart = echarts.init(document.getElementById(id));
         chart.clear();
         chart.setOption(option);
-    }, [optionData, namewithid, pointname])
+    }, [])
 
     return (
         <div id={id} style={{height: '500px',marginTop: '30px'}}></div>

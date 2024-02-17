@@ -76,7 +76,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
                 datasets: dataArray
             })
         }
-    }, [labels, inputData, costData, option, colors, isDark, t])
+    }, [])
     const options = {
         scales: {
             x: {

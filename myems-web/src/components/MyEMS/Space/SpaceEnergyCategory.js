@@ -183,7 +183,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     }).catch(err => {
       console.log(err);
     });
-  }, [loadUUID, t]);
+  }, [t]);
 
   const spaceName = (spaceList, spaceID, name, ids) => {
     let newName = name;

@@ -81,7 +81,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     return () => {
       HTMLClassList.remove('navbar-vertical-collapsed-hover');
     };
-  }, [isNavbarVerticalCollapsed, HTMLClassList]);
+  }, []);
 
   //Control mouseEnter event
   let time = null;

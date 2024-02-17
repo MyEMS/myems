@@ -205,11 +205,11 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       document.getElementById("cursor_4").hidden=false;
     }
 
-  }, [sensorList]);
+  }, []);
 
   useEffect(() => {
     setSelectSensorList(sensorList.slice(cursor * len - 8, cursor * len));
-  }, [cursor, sensorList]);
+  }, []);
 
   function getCursor(location){
     switch (location){
