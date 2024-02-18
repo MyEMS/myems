@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "664857a0-36a2-4dc2-bd5d-a4029c3082c0",
+		"_postman_id": "b351ce32-6681-43e1-822a-fde78420681c",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -16032,7 +16032,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "5b6cda17b700e78c70bea76f62b41d544936557797460abf4464dcfb491ca8b93fadef1c7dd81b66e8f5b2dfd935f8da26a0ff12e31f01cc200677d645ad38be",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -16112,7 +16112,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "5b6cda17b700e78c70bea76f62b41d544936557797460abf4464dcfb491ca8b93fadef1c7dd81b66e8f5b2dfd935f8da26a0ff12e31f01cc200677d645ad38be",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -16126,7 +16126,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"1号楼1\",\r\n    \"parent_space_id\": {\r\n        \"id\": 1,\r\n        \"name\": \"MyEMS Headquarter\",\r\n        \"uuid\": \"9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9\"\r\n    },\r\n    \"area\": 88888.888,\r\n    \"timezone\": {\r\n        \"id\": 56,\r\n        \"name\": \"China Standard Time\",\r\n        \"utc_offset\": \"+08:00\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"description\": \"MyEMS Project\"\r\n}",
+									"raw": "{\r\n    \"name\": \"1号楼_1\",\r\n    \"parent_space_id\": {\r\n        \"id\": 1,\r\n        \"name\": \"MyEMS\",\r\n        \"uuid\": \"9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9\"\r\n    },\r\n    \"area\": 88888.888,\r\n    \"timezone\": {\r\n        \"id\": 56,\r\n        \"name\": \"China Standard Time\",\r\n        \"utc_offset\": \"+08:00\"\r\n    },\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": true,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"latitude\": 39.915119,\r\n    \"longitude\": 116.403963,\r\n    \"description\": \"MyEMS Space\",\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\r\n        }\r\n    ],\r\n    \"shopfloors\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"车间1\",\r\n            \"uuid\": \"d03837fd-9d30-44fe-9443-154f7c7e15f1\"\r\n        }\r\n    ],\r\n    \"combined_equipments\": null,\r\n    \"equipments\": null,\r\n    \"points\": null,\r\n    \"sensors\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"传感器1\",\r\n            \"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\r\n        }\r\n    ],\r\n    \"tenants\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"Starbucks星巴克\",\r\n            \"uuid\": \"6b0da806-a4cd-431a-8116-2915e90aaf8b\"\r\n        }\r\n    ],\r\n    \"stores\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"麦当劳\",\r\n            \"uuid\": \"d8a24322-4bab-4ba2-aedc-5d55a84c3db8\"\r\n        }\r\n    ],\r\n    \"working_calendars\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -16159,7 +16159,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "5b6cda17b700e78c70bea76f62b41d544936557797460abf4464dcfb491ca8b93fadef1c7dd81b66e8f5b2dfd935f8da26a0ff12e31f01cc200677d645ad38be",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
