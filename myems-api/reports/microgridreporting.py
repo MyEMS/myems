@@ -4,9 +4,10 @@ from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
-from core.useractivity import access_control, api_key_control
 import config
-from core.utilities import int16_to_hhmm
+import excelexporters.microgridreporting
+from core import utilities
+from core.useractivity import access_control, api_key_control
 
 
 class Reporting:
@@ -48,6 +49,13 @@ class Reporting:
         # this procedure accepts microgrid id or microgrid uuid to identify a microgrid
         microgrid_id = req.params.get('id')
         microgrid_uuid = req.params.get('uuid')
+        period_type = req.params.get('periodtype')
+        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
+        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
+        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
+        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -69,14 +77,110 @@ class Reporting:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_MICROGRID_UUID')
 
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=1)
-        reporting_end_datetime_utc = datetime.utcnow()
+        if period_type is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PERIOD_TYPE')
+        else:
+            period_type = str.strip(period_type)
+            if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PERIOD_TYPE')
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        base_start_datetime_utc = None
+        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
+            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
+            try:
+                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
+            base_start_datetime_utc = \
+                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
+            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
+                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
+            else:
+                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
+
+        base_end_datetime_utc = None
+        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
+            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
+            try:
+                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
+            base_end_datetime_utc = \
+                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+
+        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
+                base_start_datetime_utc >= base_end_datetime_utc:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
+
+        if reporting_period_start_datetime_local is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+        else:
+            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
+            try:
+                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
+                                                                 '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+            reporting_start_datetime_utc = \
+                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
+            if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
+            else:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
+
+        if reporting_period_end_datetime_local is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+        else:
+            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
+            try:
+                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
+                                                               '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+            reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - \
+                timedelta(minutes=timezone_offset)
+
+        if reporting_start_datetime_utc >= reporting_end_datetime_utc:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+                len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
+
+        trans = utilities.get_translation(language)
+        trans.install()
+        _ = trans.gettext
 
         ################################################################################################################
         # Step 2: Step 2: query the microgrid
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
+
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
+
+        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy = cnx_energy.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -213,157 +317,8 @@ class Reporting:
         ################################################################################################################
         # Step 4: query associated power conversion systems
         ################################################################################################################
-        cursor_system.execute(" SELECT charge_start_time1_point_id, charge_end_time1_point_id, "
-                              "        charge_start_time2_point_id, charge_end_time2_point_id, "
-                              "        charge_start_time3_point_id, charge_end_time3_point_id, "
-                              "        charge_start_time4_point_id, charge_end_time4_point_id, "
-                              "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
-                              "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
-                              "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
-                              "        discharge_start_time4_point_id, discharge_end_time4_point_id, "
-                              "        charge_start_time1_command_id, charge_end_time1_command_id, "
-                              "        charge_start_time2_command_id, charge_end_time2_command_id, "
-                              "        charge_start_time3_command_id, charge_end_time3_command_id, "
-                              "        charge_start_time4_command_id, charge_end_time4_command_id, "
-                              "        discharge_start_time1_command_id, discharge_end_time1_command_id, "
-                              "        discharge_start_time2_command_id, discharge_end_time2_command_id, "
-                              "        discharge_start_time3_command_id, discharge_end_time3_command_id, "
-                              "        discharge_start_time4_command_id, discharge_end_time4_command_id "
-                              " FROM tbl_microgrids_power_conversion_systems "
-                              " WHERE id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            charge_start_time1_point_id = row_point[0]
-            charge_end_time1_point_id = row_point[1]
-            charge_start_time2_point_id = row_point[2]
-            charge_end_time2_point_id = row_point[3]
-            charge_start_time3_point_id = row_point[4]
-            charge_end_time3_point_id = row_point[5]
-            charge_start_time4_point_id = row_point[6]
-            charge_end_time4_point_id = row_point[7]
-            discharge_start_time1_point_id = row_point[8]
-            discharge_end_time1_point_id = row_point[9]
-            discharge_start_time2_point_id = row_point[10]
-            discharge_end_time2_point_id = row_point[11]
-            discharge_start_time3_point_id = row_point[12]
-            discharge_end_time3_point_id = row_point[13]
-            discharge_start_time4_point_id = row_point[14]
-            discharge_end_time4_point_id = row_point[15]
-            charge_start_time1_command_id = row_point[16]
-            charge_end_time1_command_id = row_point[17]
-            charge_start_time2_command_id = row_point[18]
-            charge_end_time2_command_id = row_point[19]
-            charge_start_time3_command_id = row_point[20]
-            charge_end_time3_command_id = row_point[21]
-            charge_start_time4_command_id = row_point[22]
-            charge_end_time4_command_id = row_point[23]
-            discharge_start_time1_command_id = row_point[24]
-            discharge_end_time1_command_id = row_point[25]
-            discharge_start_time2_command_id = row_point[26]
-            discharge_end_time2_command_id = row_point[27]
-            discharge_start_time3_command_id = row_point[28]
-            discharge_end_time3_command_id = row_point[29]
-            discharge_start_time4_command_id = row_point[30]
-            discharge_end_time4_command_id = row_point[31]
+        # todo
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time1_point_id, charge_end_time1_point_id,
-                                          charge_start_time2_point_id, charge_end_time2_point_id,
-                                          charge_start_time3_point_id, charge_end_time3_point_id,
-                                          charge_start_time4_point_id, charge_end_time4_point_id,
-                                          discharge_start_time1_point_id, discharge_end_time1_point_id,
-                                          discharge_start_time2_point_id, discharge_end_time2_point_id,
-                                          discharge_start_time3_point_id, discharge_end_time3_point_id,
-                                          discharge_start_time4_point_id, discharge_end_time4_point_id))
-        rows = cursor_historical.fetchall()
-        time_value_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                point_id = row[0]
-                time_value_dict[point_id] = int16_to_hhmm(row[1])
-        charge_start_time1_value = time_value_dict.get(charge_start_time1_point_id)
-        charge_end_time1_value = time_value_dict.get(charge_end_time1_point_id)
-        charge_start_time2_value = time_value_dict.get(charge_start_time2_point_id)
-        charge_end_time2_value = time_value_dict.get(charge_end_time2_point_id)
-        charge_start_time3_value = time_value_dict.get(charge_start_time3_point_id)
-        charge_end_time3_value = time_value_dict.get(charge_end_time3_point_id)
-        charge_start_time4_value = time_value_dict.get(charge_start_time4_point_id)
-        charge_end_time4_value = time_value_dict.get(charge_end_time4_point_id)
-        discharge_start_time1_value = time_value_dict.get(discharge_start_time1_point_id)
-        discharge_end_time1_value = time_value_dict.get(discharge_end_time1_point_id)
-        discharge_start_time2_value = time_value_dict.get(discharge_start_time2_point_id)
-        discharge_end_time2_value = time_value_dict.get(discharge_end_time2_point_id)
-        discharge_start_time3_value = time_value_dict.get(discharge_start_time3_point_id)
-        discharge_end_time3_value = time_value_dict.get(discharge_end_time3_point_id)
-        discharge_start_time4_value = time_value_dict.get(discharge_start_time4_point_id)
-        discharge_end_time4_value = time_value_dict.get(discharge_end_time4_point_id)
         ################################################################################################################
         # Step 5: query associated evchargers
         ################################################################################################################
@@ -545,10 +500,42 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+        meter_base_list = list()
 
-        meter_report_list = list()
+        for meter in meter_list:
+            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                  " FROM tbl_meter_hourly "
+                                  " WHERE meter_id = %s "
+                                  "     AND start_datetime_utc >= %s "
+                                  "     AND start_datetime_utc < %s "
+                                  " ORDER BY start_datetime_utc ",
+                                  (meter['id'],
+                                   base_start_datetime_utc,
+                                   base_end_datetime_utc))
+            rows_meter_hourly = cursor_energy.fetchall()
+            if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                meter_report = dict()
+                meter_report['timestamps'] = list()
+                meter_report['values'] = list()
+                meter_report['subtotal'] = Decimal(0.0)
+
+                for row_meter_hourly in rows_meter_hourly:
+                    current_datetime_local = row_meter_hourly[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+
+                    actual_value = Decimal(0.0) if row_meter_hourly[1] is None else row_meter_hourly[1]
+
+                    meter_report['timestamps'].append(current_datetime)
+                    meter_report['values'].append(actual_value)
+                    meter_report['subtotal'] += actual_value
+                    meter_report['name'] = meter['name']
+                    meter_report['unit_of_measure'] = \
+                        energy_category_dict[meter['energy_category_id']]['unit_of_measure']
+
+                meter_base_list.append(meter_report)
+
+        meter_reporting_list = list()
 
         for meter in meter_list:
             cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
@@ -581,7 +568,7 @@ class Reporting:
                     meter_report['unit_of_measure'] = \
                         energy_category_dict[meter['energy_category_id']]['unit_of_measure']
 
-                meter_report_list.append(meter_report)
+                meter_reporting_list.append(meter_report)
 
         ################################################################################################################
         # Step 13: query associated points data
@@ -659,6 +646,11 @@ class Reporting:
         if cnx_system:
             cnx_system.close()
 
+        if cursor_energy:
+            cursor_energy.close()
+        if cnx_energy:
+            cnx_energy.close()
+
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
@@ -673,6 +665,17 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
+        result['base_period'] = dict()
+        result['base_period']['timestamps'] = list()
+        result['base_period']['values'] = list()
+        result['base_period']['subtotals'] = list()
+
+        if meter_reporting_list is not None and len(meter_reporting_list) > 0:
+            for meter_report in meter_reporting_list:
+                result['base_period']['timestamps'].append(meter_report['timestamps'])
+                result['base_period']['values'].append(meter_report['values'])
+                result['base_period']['subtotals'].append(meter_report['subtotal'])
+
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
         result['reporting_period']['units'] = list()
@@ -681,47 +684,23 @@ class Reporting:
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
 
-        if meter_report_list is not None and len(meter_report_list) > 0:
-            for meter_report in meter_report_list:
+        if meter_reporting_list is not None and len(meter_reporting_list) > 0:
+            for meter_report in meter_reporting_list:
                 result['reporting_period']['names'].append(meter_report['name'])
                 result['reporting_period']['units'].append(meter_report['unit_of_measure'])
                 result['reporting_period']['timestamps'].append(meter_report['timestamps'])
                 result['reporting_period']['values'].append(meter_report['values'])
                 result['reporting_period']['subtotals'].append(meter_report['subtotal'])
 
-        result['schedule'] = dict()
-        result['schedule']['charge_start_time1'] = charge_start_time1_value
-        result['schedule']['charge_end_time1'] = charge_end_time1_value
-        result['schedule']['charge_start_time2'] = charge_start_time2_value
-        result['schedule']['charge_end_time2'] = charge_end_time2_value
-        result['schedule']['charge_start_time3'] = charge_start_time3_value
-        result['schedule']['charge_end_time3'] = charge_end_time3_value
-        result['schedule']['charge_start_time4'] = charge_start_time4_value
-        result['schedule']['charge_end_time4'] = charge_end_time4_value
-        result['schedule']['discharge_start_time1'] = discharge_start_time1_value
-        result['schedule']['discharge_end_time1'] = discharge_end_time1_value
-        result['schedule']['discharge_start_time2'] = discharge_start_time2_value
-        result['schedule']['discharge_end_time2'] = discharge_end_time2_value
-        result['schedule']['discharge_start_time3'] = discharge_start_time3_value
-        result['schedule']['discharge_end_time3'] = discharge_end_time3_value
-        result['schedule']['discharge_start_time4'] = discharge_start_time4_value
-        result['schedule']['discharge_end_time4'] = discharge_end_time4_value
-        result['schedule']['charge_start_time1_command_id'] = charge_start_time1_command_id
-        result['schedule']['charge_end_time1_command_id'] = charge_end_time1_command_id
-        result['schedule']['charge_start_time2_command_id'] = charge_start_time2_command_id
-        result['schedule']['charge_end_time2_command_id'] = charge_end_time2_command_id
-        result['schedule']['charge_start_time3_command_id'] = charge_start_time3_command_id
-        result['schedule']['charge_end_time3_command_id'] = charge_end_time3_command_id
-        result['schedule']['charge_start_time4_command_id'] = charge_start_time4_command_id
-        result['schedule']['charge_end_time4_command_id'] = charge_end_time4_command_id
-        result['schedule']['discharge_start_time1_command_id'] = discharge_start_time1_command_id
-        result['schedule']['discharge_end_time1_command_id'] = discharge_end_time1_command_id
-        result['schedule']['discharge_start_time2_command_id'] = discharge_start_time2_command_id
-        result['schedule']['discharge_end_time2_command_id'] = discharge_end_time2_command_id
-        result['schedule']['discharge_start_time3_command_id'] = discharge_start_time3_command_id
-        result['schedule']['discharge_end_time3_command_id'] = discharge_end_time3_command_id
-        result['schedule']['discharge_start_time4_command_id'] = discharge_start_time4_command_id
-        result['schedule']['discharge_end_time4_command_id'] = discharge_end_time4_command_id
-
+        # export result to Excel file and then encode the file to base64 string
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.microgridreporting.export(result,
+                                                         result['microgrid']['name'],
+                                                         reporting_period_start_datetime_local,
+                                                         reporting_period_end_datetime_local,
+                                                         base_period_start_datetime_local,
+                                                         base_period_end_datetime_local,
+                                                         period_type,
+                                                         language)
         resp.text = json.dumps(result)
-
