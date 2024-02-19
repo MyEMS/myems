@@ -1,10 +1,11 @@
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
+from core.utilities import int16_to_hhmm
 
 
 class Reporting:
@@ -23,13 +24,12 @@ class Reporting:
     # Step 2: query the energy storage power station
     # Step 3: query associated containers
     # Step 4: query associated batteries in containers
-    # Step 5: query associated power conversion systems in containers
-    # Step 6: query associated grids in containers
-    # Step 7: query associated loads in containers
+    # Step 5: query associated grids in containers
+    # Step 6: query associated loads in containers
+    # Step 7: query associated power conversion systems in containers
     # Step 8: query associated sensors in containers
-    # Step 9: query associated meters data in containers
-    # Step 10: query associated points data in containers
-    # Step 11: construct the report
+    # Step 9: query associated points data in containers
+    # Step 10: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -72,6 +72,9 @@ class Reporting:
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
+
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
 
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
@@ -162,56 +165,367 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
-        # todo
+        # todo: query multiple energy storage containers
+        container_list = list()
+        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
+                              " FROM tbl_energy_storage_power_stations_containers sc, "
+                              "      tbl_energy_storage_containers c "
+                              " WHERE sc.energy_storage_power_station_id = %s "
+                              "      AND sc.energy_storage_container_id = c.id"
+                              " LIMIT 1 ",
+                              (energy_storage_power_station_id,))
+        row_container = cursor_system.fetchone()
+        if row_container is not None:
+            container_list.append({"id": row_container[0],
+                                   "name": row_container[1],
+                                   "uuid": row_container[2]})
 
         ################################################################################################################
         # Step 4: query associated batteries in containers
         ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
+                              " WHERE mb.id = %s AND mb.soc_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.SOC',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
+                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.P',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.charge_meter_id = m.id ",
+                              (container_list[0]['id'],))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Charge',
+                               "energy_category_id": row_meter[2]})
+
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
+                              " WHERE mb.id = %s AND mb.discharge_meter_id = m.id ",
+                              (container_list[0]['id'],))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Discharge',
+                               "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 5: query associated power conversion systems in containers
+        # Step 5: query associated grids in containers
         ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_grids mg, tbl_points p "
+                              " WHERE mg.id = %s AND mg.power_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.P',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
+                              " WHERE mg.id = %s AND mg.buy_meter_id = m.id ",
+                              (container_list[0]['id'],))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Buy',
+                               "energy_category_id": row_meter[2]})
+
+        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
+                              " WHERE mg.id = %s AND mg.sell_meter_id = m.id ",
+                              (container_list[0]['id'],))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Sell',
+                               "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 6: query associated grids in containers
+        # Step 6: query associated loads in containers
         ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_loads ml, tbl_points p "
+                              " WHERE ml.id = %s AND ml.power_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.P',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_loads ml, tbl_meters m "
+                              " WHERE ml.id = %s AND ml.meter_id = m.id ",
+                              (container_list[0]['id'],))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1],
+                               "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 7: query associated loads in containers
+        # Step 7: query associated power conversion systems
         ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT charge_start_time1_point_id, charge_end_time1_point_id, "
+                              "        charge_start_time2_point_id, charge_end_time2_point_id, "
+                              "        charge_start_time3_point_id, charge_end_time3_point_id, "
+                              "        charge_start_time4_point_id, charge_end_time4_point_id, "
+                              "        discharge_start_time1_point_id, discharge_end_time1_point_id, "
+                              "        discharge_start_time2_point_id, discharge_end_time2_point_id, "
+                              "        discharge_start_time3_point_id, discharge_end_time3_point_id, "
+                              "        discharge_start_time4_point_id, discharge_end_time4_point_id, "
+                              "        charge_start_time1_command_id, charge_end_time1_command_id, "
+                              "        charge_start_time2_command_id, charge_end_time2_command_id, "
+                              "        charge_start_time3_command_id, charge_end_time3_command_id, "
+                              "        charge_start_time4_command_id, charge_end_time4_command_id, "
+                              "        discharge_start_time1_command_id, discharge_end_time1_command_id, "
+                              "        discharge_start_time2_command_id, discharge_end_time2_command_id, "
+                              "        discharge_start_time3_command_id, discharge_end_time3_command_id, "
+                              "        discharge_start_time4_command_id, discharge_end_time4_command_id "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems "
+                              " WHERE id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            charge_start_time1_point_id = row_point[0]
+            charge_end_time1_point_id = row_point[1]
+            charge_start_time2_point_id = row_point[2]
+            charge_end_time2_point_id = row_point[3]
+            charge_start_time3_point_id = row_point[4]
+            charge_end_time3_point_id = row_point[5]
+            charge_start_time4_point_id = row_point[6]
+            charge_end_time4_point_id = row_point[7]
+            discharge_start_time1_point_id = row_point[8]
+            discharge_end_time1_point_id = row_point[9]
+            discharge_start_time2_point_id = row_point[10]
+            discharge_end_time2_point_id = row_point[11]
+            discharge_start_time3_point_id = row_point[12]
+            discharge_end_time3_point_id = row_point[13]
+            discharge_start_time4_point_id = row_point[14]
+            discharge_end_time4_point_id = row_point[15]
+            charge_start_time1_command_id = row_point[16]
+            charge_end_time1_command_id = row_point[17]
+            charge_start_time2_command_id = row_point[18]
+            charge_end_time2_command_id = row_point[19]
+            charge_start_time3_command_id = row_point[20]
+            charge_end_time3_command_id = row_point[21]
+            charge_start_time4_command_id = row_point[22]
+            charge_end_time4_command_id = row_point[23]
+            discharge_start_time1_command_id = row_point[24]
+            discharge_end_time1_command_id = row_point[25]
+            discharge_start_time2_command_id = row_point[26]
+            discharge_end_time2_command_id = row_point[27]
+            discharge_start_time3_command_id = row_point[28]
+            discharge_end_time3_command_id = row_point[29]
+            discharge_start_time4_command_id = row_point[30]
+            discharge_end_time4_command_id = row_point[31]
+
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s "
+                 " UNION ALL "
+                 " SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest "
+                 " WHERE point_id = %s ")
+        cursor_historical.execute(query, (charge_start_time1_point_id, charge_end_time1_point_id,
+                                          charge_start_time2_point_id, charge_end_time2_point_id,
+                                          charge_start_time3_point_id, charge_end_time3_point_id,
+                                          charge_start_time4_point_id, charge_end_time4_point_id,
+                                          discharge_start_time1_point_id, discharge_end_time1_point_id,
+                                          discharge_start_time2_point_id, discharge_end_time2_point_id,
+                                          discharge_start_time3_point_id, discharge_end_time3_point_id,
+                                          discharge_start_time4_point_id, discharge_end_time4_point_id))
+        rows = cursor_historical.fetchall()
+        time_value_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                point_id = row[0]
+                time_value_dict[point_id] = int16_to_hhmm(row[1])
+        charge_start_time1_value = time_value_dict.get(charge_start_time1_point_id)
+        charge_end_time1_value = time_value_dict.get(charge_end_time1_point_id)
+        charge_start_time2_value = time_value_dict.get(charge_start_time2_point_id)
+        charge_end_time2_value = time_value_dict.get(charge_end_time2_point_id)
+        charge_start_time3_value = time_value_dict.get(charge_start_time3_point_id)
+        charge_end_time3_value = time_value_dict.get(charge_end_time3_point_id)
+        charge_start_time4_value = time_value_dict.get(charge_start_time4_point_id)
+        charge_end_time4_value = time_value_dict.get(charge_end_time4_point_id)
+        discharge_start_time1_value = time_value_dict.get(discharge_start_time1_point_id)
+        discharge_end_time1_value = time_value_dict.get(discharge_end_time1_point_id)
+        discharge_start_time2_value = time_value_dict.get(discharge_start_time2_point_id)
+        discharge_end_time2_value = time_value_dict.get(discharge_end_time2_point_id)
+        discharge_start_time3_value = time_value_dict.get(discharge_start_time3_point_id)
+        discharge_end_time3_value = time_value_dict.get(discharge_end_time3_point_id)
+        discharge_start_time4_value = time_value_dict.get(discharge_start_time4_point_id)
+        discharge_end_time4_value = time_value_dict.get(discharge_end_time4_point_id)
 
         ################################################################################################################
-        # Step 8: query associated sensors in containers
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 9: query associated meters data in containers
+        # Step 8: query associated sensors
         ################################################################################################################
         # todo
 
         ################################################################################################################
         # Step 10: query associated points data in containers
         ################################################################################################################
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
         parameters_data = dict()
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
+
+        for point in point_list:
+            point_values = []
+            point_timestamps = []
+            if point['object_type'] == 'ENERGY_VALUE':
+                query = (" SELECT utc_date_time, actual_value "
+                         " FROM tbl_energy_value "
+                         " WHERE point_id = %s "
+                         "       AND utc_date_time BETWEEN %s AND %s "
+                         " ORDER BY utc_date_time ")
+                cursor_historical.execute(query, (point['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                rows = cursor_historical.fetchall()
+
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        point_timestamps.append(current_datetime)
+                        point_values.append(row[1])
+            elif point['object_type'] == 'ANALOG_VALUE':
+                query = (" SELECT utc_date_time, actual_value "
+                         " FROM tbl_analog_value "
+                         " WHERE point_id = %s "
+                         "       AND utc_date_time BETWEEN %s AND %s "
+                         " ORDER BY utc_date_time ")
+                cursor_historical.execute(query, (point['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                rows = cursor_historical.fetchall()
+
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        point_timestamps.append(current_datetime)
+                        point_values.append(row[1])
+            elif point['object_type'] == 'DIGITAL_VALUE':
+                query = (" SELECT utc_date_time, actual_value "
+                         " FROM tbl_digital_value "
+                         " WHERE point_id = %s "
+                         "       AND utc_date_time BETWEEN %s AND %s "
+                         " ORDER BY utc_date_time ")
+                cursor_historical.execute(query, (point['id'],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                rows = cursor_historical.fetchall()
+
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        point_timestamps.append(current_datetime)
+                        point_values.append(row[1])
+
+            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+            parameters_data['timestamps'].append(point_timestamps)
+            parameters_data['values'].append(point_values)
 
         if cursor_system:
             cursor_system.close()
         if cnx_system:
             cnx_system.close()
 
-        # if cursor_historical:
-        #     cursor_historical.close()
-        # if cnx_historical:
-        #     cnx_historical.close()
-
+        if cursor_historical:
+            cursor_historical.close()
+        if cnx_historical:
+            cnx_historical.close()
         ################################################################################################################
         # Step 11: construct the report
         ################################################################################################################
@@ -230,5 +544,38 @@ class Reporting:
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
 
-        resp.text = json.dumps(result)
+        result['schedule'] = dict()
+        result['schedule']['charge_start_time1'] = charge_start_time1_value
+        result['schedule']['charge_end_time1'] = charge_end_time1_value
+        result['schedule']['charge_start_time2'] = charge_start_time2_value
+        result['schedule']['charge_end_time2'] = charge_end_time2_value
+        result['schedule']['charge_start_time3'] = charge_start_time3_value
+        result['schedule']['charge_end_time3'] = charge_end_time3_value
+        result['schedule']['charge_start_time4'] = charge_start_time4_value
+        result['schedule']['charge_end_time4'] = charge_end_time4_value
+        result['schedule']['discharge_start_time1'] = discharge_start_time1_value
+        result['schedule']['discharge_end_time1'] = discharge_end_time1_value
+        result['schedule']['discharge_start_time2'] = discharge_start_time2_value
+        result['schedule']['discharge_end_time2'] = discharge_end_time2_value
+        result['schedule']['discharge_start_time3'] = discharge_start_time3_value
+        result['schedule']['discharge_end_time3'] = discharge_end_time3_value
+        result['schedule']['discharge_start_time4'] = discharge_start_time4_value
+        result['schedule']['discharge_end_time4'] = discharge_end_time4_value
+        result['schedule']['charge_start_time1_command_id'] = charge_start_time1_command_id
+        result['schedule']['charge_end_time1_command_id'] = charge_end_time1_command_id
+        result['schedule']['charge_start_time2_command_id'] = charge_start_time2_command_id
+        result['schedule']['charge_end_time2_command_id'] = charge_end_time2_command_id
+        result['schedule']['charge_start_time3_command_id'] = charge_start_time3_command_id
+        result['schedule']['charge_end_time3_command_id'] = charge_end_time3_command_id
+        result['schedule']['charge_start_time4_command_id'] = charge_start_time4_command_id
+        result['schedule']['charge_end_time4_command_id'] = charge_end_time4_command_id
+        result['schedule']['discharge_start_time1_command_id'] = discharge_start_time1_command_id
+        result['schedule']['discharge_end_time1_command_id'] = discharge_end_time1_command_id
+        result['schedule']['discharge_start_time2_command_id'] = discharge_start_time2_command_id
+        result['schedule']['discharge_end_time2_command_id'] = discharge_end_time2_command_id
+        result['schedule']['discharge_start_time3_command_id'] = discharge_start_time3_command_id
+        result['schedule']['discharge_end_time3_command_id'] = discharge_end_time3_command_id
+        result['schedule']['discharge_start_time4_command_id'] = discharge_start_time4_command_id
+        result['schedule']['discharge_end_time4_command_id'] = discharge_end_time4_command_id
 
+        resp.text = json.dumps(result)
