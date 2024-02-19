@@ -134,7 +134,7 @@ const MultipleLineChart = ({
     setLinaLabels(labels[values[0]]);
     setValues(['a0']);
     setOldValues(['a0'])
-  }, []);
+  }, [data, labels, options]);
 
   useEffect(() => {
     let tempNodes = [...nodes];
@@ -195,7 +195,7 @@ const MultipleLineChart = ({
     }
     setNodes(tempNodes);
     setLinaLabels(labels[values[0]]);
-  }, []);
+  }, [lastMoment]);
 
   let getOption = () => {
     return {

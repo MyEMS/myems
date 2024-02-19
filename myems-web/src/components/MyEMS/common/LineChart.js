@@ -58,7 +58,7 @@ const LineChart = ({
       };
       setLineData(chartData);
     }
-  }, []);
+  }, [data, option, labels]);
 
   const config = {
     options: {
