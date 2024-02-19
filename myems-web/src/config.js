@@ -18,7 +18,7 @@ export const settings = {
   navbarStyle: 'transparent',
   language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
   showOnlineMap: false, // if you wnat to turn off online map feature, please set showOnlineMap to false
-  mapboxToken: '', // you can get access token at https://mapbox.com
+  mapboxToken: 'GET-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
 };
 export default { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };
