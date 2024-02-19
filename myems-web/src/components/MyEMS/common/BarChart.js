@@ -84,7 +84,7 @@ const BarChart = ({
         datasets: datasets
       });
     }
-  }, []);
+  }, [data, compareData]);
 
   const config = {
     options: {

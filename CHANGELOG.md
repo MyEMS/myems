@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated space export, import and clone functions in myems-api
 
 ### Fixed
-- None
+- fixed chart issues in myems-web
 
 ### Removed
 - None
