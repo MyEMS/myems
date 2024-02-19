@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated space export, import and clone functions in myems-api
 - updated microgrid reporting in myems-api and myems-web
-- 
+- updated energy storage power station reporting in myems-api and myems-web
 ### Fixed
 - fixed chart issues in myems-web
 - fixed warnings in myems-web

@@ -166,7 +166,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
             '/spaces/' +
             [json[0]].map(o => o.value) +
-            '/micgrids', {
+            '/microgrids', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
