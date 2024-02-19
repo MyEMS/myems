@@ -180,6 +180,7 @@ class Reporting:
         cnx_energy = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy = cnx_energy.cursor()
 
+        # query all contacts in system
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor_system.execute(query)
@@ -191,7 +192,7 @@ class Reporting:
                 contact_dict[row[0]] = {"id": row[0],
                                         "name": row[1],
                                         "uuid": row[2]}
-
+        # query all cost centers in system
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor_system.execute(query)
@@ -203,6 +204,27 @@ class Reporting:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        # query all energy categories in system
+        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                              " FROM tbl_energy_categories "
+                              " ORDER BY id ", )
+        rows_energy_categories = cursor_system.fetchall()
+        if rows_energy_categories is None or len(rows_energy_categories) == 0:
+            if cursor_system:
+                cursor_system.close()
+            if cnx_system:
+                cnx_system.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404,
+                                   title='API.NOT_FOUND',
+                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+        energy_category_dict = dict()
+        for row_energy_category in rows_energy_categories:
+            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                            "unit_of_measure": row_energy_category[2],
+                                                            "kgce": row_energy_category[3],
+                                                            "kgco2e": row_energy_category[4]}
+
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, capacity, "
@@ -245,26 +267,6 @@ class Reporting:
 
         point_list = list()
         meter_list = list()
-
-        # query all energy categories in system
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                            "unit_of_measure": row_energy_category[2],
-                                                            "kgce": row_energy_category[3],
-                                                            "kgco2e": row_energy_category[4]}
 
         ################################################################################################################
         # Step 3: query associated energy storage containers
@@ -395,6 +397,7 @@ class Reporting:
         ################################################################################################################
         # Step 8: query associated sensors
         ################################################################################################################
+        # todo
 
         ################################################################################################################
         # Step 9: query associated meters data
