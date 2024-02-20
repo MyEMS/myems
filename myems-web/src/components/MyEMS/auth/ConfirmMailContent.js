@@ -11,7 +11,8 @@ const ConfirmMailContent = ({ email, layout, titleTag: TitleTag, t }) => (
     <img className="d-block mx-auto mb-4" src={envelope} alt="sent" width={70} />
     <TitleTag>{t('Please check your email!')}</TitleTag>
     <p>
-    {t('An email has been sent to ')}<strong>{email}</strong>. 
+      {t('An email has been sent to ')}
+      <strong>{email}</strong>.
     </p>
     <Button tag={Link} color="primary" size="sm" className="mt-3" to={`/authentication/${layout}/login`}>
       <FontAwesomeIcon icon="chevron-left" transform="shrink-4 down-1" className="mr-1" />
