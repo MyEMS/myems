@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import SentForgotPasswordEmailMessageForm from '../SentForgotPasswordEmailMessageForm';
 import { withTranslation } from 'react-i18next';
-import { Alert} from 'reactstrap';
+import { Alert } from 'reactstrap';
 
 const SentForgotPasswordEmailMessage = ({ t }) => {
   const [show, setShow] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     setShow(searchParams.get('expires'));
-  }, [])
+  }, []);
 
   return (
     <div className="text-center">

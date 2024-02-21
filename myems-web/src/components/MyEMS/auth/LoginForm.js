@@ -8,7 +8,7 @@ import { createCookie, getItemFromStore, setItemToStore, themeColors } from '../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
-import {FaEye, FaEyeSlash} from 'react-icons/fa'
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Captcha from 'react-captcha-code-custom';
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
@@ -33,45 +33,45 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       handleRefreshCaptcha();
       return false;
     }
-    fetch(
-      APIBaseURL +
-        '/users/login', {
+    fetch(APIBaseURL + '/users/login', {
       method: 'PUT',
-      body: JSON.stringify({ "data": { "email": email, "password": password } }),
+      body: JSON.stringify({ data: { email: email, password: password } }),
       headers: { 'Content-Type': 'application/json' }
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-        handleRefreshCaptcha();
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        createCookie('user_name', json.name, settings.cookieExpireTime);
-        createCookie('user_display_name', json.display_name, settings.cookieExpireTime);
-        createCookie('user_uuid', json.uuid, settings.cookieExpireTime);
-        createCookie('token', json.token, settings.cookieExpireTime);
-        createCookie('is_logged_in', true, settings.cookieExpireTime);
-        console.log("display_name:");
-        toast.success(t('Logged in as ') + json.display_name);
-        if (remember) {
-          setItemToStore('email', email);
-        } else {
-          setItemToStore('email', '');
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+          handleRefreshCaptcha();
         }
-        setRedirect(true);
-      } else {
-        handleRefreshCaptcha();
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          createCookie('user_name', json.name, settings.cookieExpireTime);
+          createCookie('user_display_name', json.display_name, settings.cookieExpireTime);
+          createCookie('user_uuid', json.uuid, settings.cookieExpireTime);
+          createCookie('token', json.token, settings.cookieExpireTime);
+          createCookie('is_logged_in', true, settings.cookieExpireTime);
+          console.log('display_name:');
+          toast.success(t('Logged in as ') + json.display_name);
+          if (remember) {
+            setItemToStore('email', email);
+          } else {
+            setItemToStore('email', '');
+          }
+          setRedirect(true);
+        } else {
+          handleRefreshCaptcha();
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
-
 
   useEffect(() => {
     setIsDisabled(!email || !password || !code);
@@ -90,7 +90,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
 
   const handleRefreshCaptcha = () => {
     setCode('');
-    captchaRef.current.refresh()
+    captchaRef.current.refresh();
   };
 
   return (
@@ -125,7 +125,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       </FormGroup>
       <FormGroup>
         <Row className="justify-content-between align-items-center">
-          <Col xs="6" className='pr-0'>
+          <Col xs="6" className="pr-0">
             {hasLabel && <Label>{t('CaptchaCode')}</Label>}
             <Input
               placeholder={!hasLabel ? t('CaptchaCode') : ''}
@@ -134,17 +134,16 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
               type="text"
             />
           </Col>
-          <Col xs="6" className='d-flex pr-0 pl-0'>
+          <Col xs="6" className="d-flex pr-0 pl-0">
             <Captcha
               charNum={4}
               width={100}
               height={36}
               bgColor={!isDark ? themeColors.light : themeColors.dark}
-              onChange={(value) => setCaptchaCode(value)}
+              onChange={value => setCaptchaCode(value)}
               ref={captchaRef}
             />
           </Col>
-
         </Row>
       </FormGroup>
       <Row className="justify-content-between align-items-center">
