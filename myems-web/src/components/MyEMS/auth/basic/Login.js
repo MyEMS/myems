@@ -9,9 +9,9 @@ const Login = ({ t }) => (
       <Col xs="auto">
         <h5>{t('Log in')}</h5>
       </Col>
-     </Row>
+    </Row>
     <LoginForm />
   </Fragment>
 );
 
-export default  withTranslation()(Login);
+export default withTranslation()(Login);

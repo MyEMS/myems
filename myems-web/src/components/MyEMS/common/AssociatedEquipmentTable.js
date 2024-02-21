@@ -4,11 +4,12 @@ import FalconCardHeader from '../../common/FalconCardHeader';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 
-
-const defaultSorted = [{
-  dataField: 'name',
-  order: 'asc'
-}];
+const defaultSorted = [
+  {
+    dataField: 'name',
+    order: 'asc'
+  }
+];
 
 const AssociatedEquipmentTable = ({ title, data, columns, t }) => {
   return (
@@ -18,13 +19,7 @@ const AssociatedEquipmentTable = ({ title, data, columns, t }) => {
         <CardBody>
           <Row>
             <Col>
-              <BootstrapTable
-                bootstrap4
-                keyField="id"
-                data={data}
-                columns={columns}
-                defaultSorted={defaultSorted}
-              />
+              <BootstrapTable bootstrap4 keyField="id" data={data} columns={columns} defaultSorted={defaultSorted} />
             </Col>
           </Row>
         </CardBody>
