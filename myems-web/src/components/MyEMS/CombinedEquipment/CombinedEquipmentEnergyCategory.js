@@ -66,7 +66,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
     } else {
       setSpaceCascaderHidden(true);
     }
-  });
+  }, [uuid, setRedirectUrl, setRedirect]);
 
   useEffect(() => {
     let timer = setInterval(() => {
