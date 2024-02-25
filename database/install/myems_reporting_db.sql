@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_email_messages` (
   `scheduled_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_email_messages_index_1` ON  `myems_reporting_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
+CREATE INDEX `tbl_email_messages_index_1`
+ON `myems_reporting_db`.`tbl_email_messages` (`status`, `scheduled_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_reporting_db`.`tbl_reports`
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports` (
   `next_run_datetime_utc` DATETIME,
   `is_run_immediately` BOOL NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_reports_index_1` ON  `myems_reporting_db`.`tbl_reports` (`name`);
+CREATE INDEX `tbl_reports_index_1` ON `myems_reporting_db`.`tbl_reports` (`name`);
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_reports_files` (
   `file_type` VARCHAR(45) NOT NULL COMMENT 'file_type: xlsx, pdf or docx',
   `file_object` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`));
-  CREATE INDEX `tbl_reports_files_index_1` ON  `myems_reporting_db`.`tbl_reports_files`  (`file_name`);
-  CREATE INDEX `tbl_reports_files_index_2` ON  `myems_reporting_db`.`tbl_reports_files`  (`create_datetime_utc`);
+CREATE INDEX `tbl_reports_files_index_1` ON `myems_reporting_db`.`tbl_reports_files` (`file_name`);
+CREATE INDEX `tbl_reports_files_index_2` ON `myems_reporting_db`.`tbl_reports_files` (`create_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_reporting_db`.`tbl_template_files`
@@ -73,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `myems_reporting_db`.`tbl_template_files` (
   `file_type` VARCHAR(45) NOT NULL COMMENT 'file_type: xlsx, pdf or docx',
   `file_object` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`));
-  CREATE INDEX `tbl_template_files_index_1` ON  `myems_reporting_db`.`tbl_template_files`  (`file_name`);
-  CREATE INDEX `tbl_template_files_index_2` ON  `myems_reporting_db`.`tbl_template_files`  (`report_id`);
+CREATE INDEX `tbl_template_files_index_1` ON `myems_reporting_db`.`tbl_template_files` (`file_name`);
+CREATE INDEX `tbl_template_files_index_2` ON `myems_reporting_db`.`tbl_template_files` (`report_id`);
 
 COMMIT;

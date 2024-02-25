@@ -3,14 +3,14 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Schema myems_fdd_db
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP DATABASE IF EXISTS `myems_fdd_db` ;
+DROP DATABASE IF EXISTS `myems_fdd_db`;
 CREATE DATABASE IF NOT EXISTS `myems_fdd_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
-USE `myems_fdd_db` ;
+USE `myems_fdd_db`;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_email_messages`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_messages` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_messages`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -25,19 +25,21 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_messages` (
   `scheduled_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_email_messages_index_1` ON  `myems_fdd_db`.`tbl_email_messages`  (`status`,   `scheduled_datetime_utc`);
+CREATE INDEX `tbl_email_messages_index_1` ON `myems_fdd_db`.`tbl_email_messages` (`status`, `scheduled_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_rules`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_rules` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_rules`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_rules` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `category` VARCHAR(128) NOT NULL COMMENT 'REALTIME, SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
-  `fdd_code` VARCHAR(128) NOT NULL COMMENT 'REALTIME01, REALTIME01... SYSTEM01, SYSTEM02, ... SPACE01, SPACE02, ... METER01, METER02, ...',
+  `category` VARCHAR(128) NOT NULL
+  COMMENT 'REALTIME, SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
+  `fdd_code` VARCHAR(128) NOT NULL
+  COMMENT 'REALTIME01, REALTIME01... SYSTEM01, SYSTEM02, ... SPACE01, SPACE02, ... METER01, METER02, ...',
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `channel` VARCHAR(128) NOT NULL COMMENT 'WEB, EMAIL, SMS, WECHAT, CALL',
   `expression` LONGTEXT NULL COMMENT 'MUST be in JSON format',
@@ -47,12 +49,12 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_rules` (
   `next_run_datetime_utc` DATETIME,
   `is_run_immediately` BOOL NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_rules_index_1` ON  `myems_fdd_db`.`tbl_rules`  (`name`);
+CREATE INDEX `tbl_rules_index_1` ON `myems_fdd_db`.`tbl_rules` (`name`);
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_email_servers`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_servers` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_email_servers`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_servers` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -80,7 +82,7 @@ COMMIT;
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_text_messages_outbox`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_text_messages_outbox` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_text_messages_outbox`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_text_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -93,12 +95,13 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_text_messages_outbox` (
   `acknowledge_code` VARCHAR(32) NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, acknowledged, timeout',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_text_messages_outbox_index_1` ON  `myems_fdd_db`.`tbl_text_messages_outbox`  (`status`,   `scheduled_datetime_utc`);
+CREATE INDEX `tbl_text_messages_outbox_index_1`
+ON `myems_fdd_db`.`tbl_text_messages_outbox` (`status`, `scheduled_datetime_utc`);
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_text_messages_inbox`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_text_messages_inbox` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_text_messages_inbox`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_text_messages_inbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -107,33 +110,35 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_text_messages_inbox` (
   `received_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, done',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_text_messages_inbox_index_1` ON  `myems_fdd_db`.`tbl_text_messages_inbox`  (`status`);
+CREATE INDEX `tbl_text_messages_inbox_index_1` ON `myems_fdd_db`.`tbl_text_messages_inbox` (`status`);
 
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_web_messages`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_web_messages` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_web_messages`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NOT NULL,
   `user_id` BIGINT NOT NULL,
   `subject` VARCHAR(128) NOT NULL,
-  `category` VARCHAR(128) NOT NULL COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
+  `category` VARCHAR(128) NOT NULL
+  COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT',
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `message` LONGTEXT NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, read',
   `reply` LONGTEXT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_web_messages_index_1` ON  `myems_fdd_db`.`tbl_web_messages`  (`user_id`, `status`, `created_datetime_utc`);
+CREATE INDEX `tbl_web_messages_index_1`
+ON `myems_fdd_db`.`tbl_web_messages` (`user_id`, `status`, `created_datetime_utc`);
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_wechat_configs`
 -- refer to https://mp.weixin.qq.com/
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_configs` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_configs`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_configs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -147,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_configs` (
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_wechat_messages_outbox`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -161,12 +166,13 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_messages_outbox` (
   `acknowledge_code` VARCHAR(32) NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, acknowledged, timeout',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_wechat_messages_outbox_index_1` ON  `myems_fdd_db`.`tbl_wechat_messages_outbox`  (`status`, `scheduled_datetime_utc`);
+CREATE INDEX `tbl_wechat_messages_outbox_index_1`
+ON `myems_fdd_db`.`tbl_wechat_messages_outbox` (`status`, `scheduled_datetime_utc`);
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_wechat_messages_inbox`
 -- ----------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_messages_inbox` ;
+DROP TABLE IF EXISTS `myems_fdd_db`.`tbl_wechat_messages_inbox`;
 
 CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_messages_inbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -175,7 +181,6 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_wechat_messages_inbox` (
   `received_datetime_utc` DATETIME NOT NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, done',
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_wechat_messages_inbox_index_1` ON  `myems_fdd_db`.`tbl_wechat_messages_inbox`  (`status`);
-
+CREATE INDEX `tbl_wechat_messages_inbox_index_1` ON `myems_fdd_db`.`tbl_wechat_messages_inbox` (`status`);
 
 COMMIT;

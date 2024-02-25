@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_products` (
   `tag` VARCHAR(128) NOT NULL,
   `standard_product_coefficient` DECIMAL(18, 3) NOT NULL DEFAULT 1.0,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_products_index_1` ON  `myems_production_db`.`tbl_products`  (`name`);
+CREATE INDEX `tbl_products_index_1` ON `myems_production_db`.`tbl_products` (`name`);
 
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_shifts`
@@ -37,10 +37,12 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shifts` (
   `end_datetime_utc` DATETIME NOT NULL,
   `reference_timestamp` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shifts_index_1` ON  `myems_production_db`.`tbl_shifts`  (`shopfloor_id`, `product_id`, `end_datetime_utc` );
-CREATE INDEX `tbl_shifts_index_2` ON  `myems_production_db`.`tbl_shifts`  (`shopfloor_id`, `product_id`,  `start_datetime_utc`, `end_datetime_utc` );
-CREATE INDEX `tbl_shifts_index_3` ON  `myems_production_db`.`tbl_shifts`  (`shopfloor_id`, `reference_timestamp`);
-CREATE INDEX `tbl_shifts_index_4` ON  `myems_production_db`.`tbl_shifts`  (`shopfloor_id`, `team_id`);
+CREATE INDEX `tbl_shifts_index_1`
+ON `myems_production_db`.`tbl_shifts` (`shopfloor_id`, `product_id`, `end_datetime_utc`);
+CREATE INDEX `tbl_shifts_index_2`
+ON `myems_production_db`.`tbl_shifts` (`shopfloor_id`, `product_id`, `start_datetime_utc`, `end_datetime_utc` );
+CREATE INDEX `tbl_shifts_index_3` ON `myems_production_db`.`tbl_shifts` (`shopfloor_id`, `reference_timestamp`);
+CREATE INDEX `tbl_shifts_index_4` ON `myems_production_db`.`tbl_shifts` (`shopfloor_id`, `team_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_shopfloor_hourly`
@@ -54,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shopfloor_hourly` (
   `product_id` BIGINT NOT NULL,
   `product_count` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shopfloor_hourly_index_1` ON  `myems_production_db`.`tbl_shopfloor_hourly`  (`shopfloor_id`,  `product_id`, `start_datetime_utc`);
+CREATE INDEX `tbl_shopfloor_hourly_index_1`
+ON `myems_production_db`.`tbl_shopfloor_hourly` (`shopfloor_id`, `product_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_shopfloors_products`
@@ -89,4 +92,4 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_teams` (
   `uuid` CHAR(36) NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_teams_index_1` ON  `myems_production_db`.`tbl_teams`   (`name`);
+CREATE INDEX `tbl_teams_index_1` ON `myems_production_db`.`tbl_teams`   (`name`);
