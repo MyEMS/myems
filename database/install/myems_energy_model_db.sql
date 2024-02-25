@@ -19,7 +19,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_combined_equipment_input
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_combined_equipment_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_combined_equipment_input_category_8760`   (`combined_equipment_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_combined_equipment_input_category_8760_index_1`
+ON `myems_energy_model_db`.`tbl_combined_equipment_input_category_8760`
+(`combined_equipment_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_combined_equipment_input_item_8760`
@@ -33,7 +35,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_combined_equipment_input
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_combined_equipment_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_combined_equipment_input_item_8760`   (`combined_equipment_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_combined_equipment_input_item_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_combined_equipment_input_item_8760`
+ (`combined_equipment_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_combined_equipment_output_category_8760`
@@ -47,7 +51,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_combined_equipment_outpu
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_combined_equipment_output_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_combined_equipment_output_category_8760`   (`combined_equipment_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_combined_equipment_output_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_combined_equipment_output_category_8760`
+ (`combined_equipment_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_equipment_input_category_8760`
@@ -61,7 +67,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_equipment_input_category
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_equipment_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_equipment_input_category_8760`   (`equipment_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_equipment_input_category_8760_index_1`
+ ON`myems_energy_model_db`.`tbl_equipment_input_category_8760`
+ (`equipment_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_equipment_input_item_8760`
@@ -75,7 +83,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_equipment_input_item_876
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_equipment_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_equipment_input_item_8760`   (`equipment_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_equipment_input_item_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_equipment_input_item_8760`
+ (`equipment_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_equipment_output_category_8760`
@@ -89,7 +99,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_equipment_output_categor
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_equipment_output_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_equipment_output_category_8760`   (`equipment_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_equipment_output_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_equipment_output_category_8760`
+ (`equipment_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_meter_8760`
@@ -102,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_meter_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_meter_8760_index_1` ON  `myems_energy_model_db`.`tbl_meter_8760`   (`meter_id`, `hour_of_year`);
+CREATE INDEX `tbl_meter_8760_index_1` ON `myems_energy_model_db`.`tbl_meter_8760` (`meter_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_offline_meter_8760`
@@ -115,7 +127,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_offline_meter_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_offline_meter_8760_index_1` ON  `myems_energy_model_db`.`tbl_offline_meter_8760`   (`offline_meter_id`, `hour_of_year`);
+CREATE INDEX `tbl_offline_meter_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_offline_meter_8760` (`offline_meter_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_shopfloor_input_category_8760`
@@ -129,7 +142,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_shopfloor_input_category
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shopfloor_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_shopfloor_input_category_8760`   (`shopfloor_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_shopfloor_input_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_shopfloor_input_category_8760`
+ (`shopfloor_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_shopfloor_input_item_8760`
@@ -143,7 +158,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_shopfloor_input_item_876
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_shopfloor_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_shopfloor_input_item_8760`   (`shopfloor_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_shopfloor_input_item_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_shopfloor_input_item_8760`
+ (`shopfloor_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_space_input_category_8760`
@@ -157,7 +174,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_space_input_category_876
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_space_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_space_input_category_8760`   (`space_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_space_input_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_space_input_category_8760`
+ (`space_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_space_input_item_8760`
@@ -171,7 +190,9 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_space_input_item_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_space_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_space_input_item_8760`   (`space_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_space_input_item_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_space_input_item_8760`
+ (`space_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_space_output_category_8760`
@@ -185,7 +206,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_space_output_category_87
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_space_output_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_space_output_category_8760`   (`space_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_space_output_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_space_output_category_8760` (`space_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_store_input_category_8760`
@@ -199,7 +221,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_store_input_category_876
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_store_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_store_input_category_8760`   (`store_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_store_input_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_store_input_category_8760` (`store_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_store_input_item_8760`
@@ -213,7 +236,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_store_input_item_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_store_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_store_input_item_8760`   (`store_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_store_input_item_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_store_input_item_8760` (`store_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_tenant_input_category_8760`
@@ -227,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_tenant_input_category_87
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_tenant_input_category_8760_index_1` ON  `myems_energy_model_db`.`tbl_tenant_input_category_8760`   (`tenant_id`, `energy_category_id`, `hour_of_year`);
+CREATE INDEX `tbl_tenant_input_category_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_tenant_input_category_8760` (`tenant_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_tenant_input_item_8760`
@@ -241,7 +266,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_tenant_input_item_8760` 
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_tenant_input_item_8760_index_1` ON  `myems_energy_model_db`.`tbl_tenant_input_item_8760`   (`tenant_id`, `energy_item_id`, `hour_of_year`);
+CREATE INDEX `tbl_tenant_input_item_8760_index_1`
+ON `myems_energy_model_db`.`tbl_tenant_input_item_8760` (`tenant_id`, `energy_item_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_virtual_meter_8760`
@@ -254,4 +280,5 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_virtual_meter_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_virtual_meter_8760_index_1` ON  `myems_energy_model_db`.`tbl_virtual_meter_8760`   (`virtual_meter_id`, `hour_of_year`);
+CREATE INDEX `tbl_virtual_meter_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_virtual_meter_8760` (`virtual_meter_id`, `hour_of_year`);
