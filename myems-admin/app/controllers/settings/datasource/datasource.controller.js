@@ -38,6 +38,37 @@ app.controller('DataSourceController', function(
 
 	};
 
+	$scope.getAllProtocols = function() {
+		$scope.protocols = [
+			{"id":"modbus-tcp", "name": "Modbus TCP"},
+			{"id":"bacnet-ip", "name": "BACnet/IP"},
+			{"id":"cassandra", "name": "Cassandra"},
+			{"id":"clickhouse", "name": "ClickHouse"},
+			{"id":"coap", "name": "CoAP"},
+			{"id":"controllogix", "name": "ControlLogix"},
+			{"id":"dlt645", "name": "DL/T645"},
+			{"id":"elexon-bmrs", "name": "Elexon BMRS"},
+			{"id":"iec104", "name": "IEC104"},
+			{"id":"influxdb", "name": "InfluxDB"},
+			{"id":"modbus-rtu", "name": "Modbus RTU"},
+			{"id":"mongodb", "name": "MongoDB"},
+			{"id":"mqtt-md4220", "name": "MQTT MD4220"},
+			{"id":"mqtt-seg", "name": "MQTT SEG"},
+			{"id":"mqtt", "name": "MQTT"},
+			{"id":"mysql", "name": "MySQL"},
+			{"id":"opc-ua", "name": "OPC-UA"},
+			{"id":"oracle", "name": "Oracle"},
+			{"id":"postgresql", "name": "PostgreSQL"},
+			{"id":"profibus", "name": "PROFIBUS"},
+			{"id":"profinet", "name": "PROFINET"},
+			{"id":"s7", "name": "S7"},
+			{"id":"simulation", "name": "Simulation"},
+			{"id":"sqlserver", "name": "SQL Server"},
+			{"id":"tdengine", "name": "TDengine"},
+			{"id":"weather", "name": "Weather"}
+		];
+	};
+
 	$scope.addDataSource = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/datasource/datasource.model.html',
@@ -47,6 +78,7 @@ app.controller('DataSourceController', function(
 				params: function() {
 					return {
 						gateways: angular.copy($scope.gateways),
+						protocols: angular.copy($scope.protocols),
 					};
 				}
 			}
@@ -89,6 +121,7 @@ app.controller('DataSourceController', function(
 					return {
 						datasource: angular.copy(datasource),
 						gateways: angular.copy($scope.gateways),
+						protocols: angular.copy($scope.protocols),
 					};
 				}
 			}
@@ -251,6 +284,7 @@ app.controller('DataSourceController', function(
 
 	$scope.getAllDataSources();
 	$scope.getAllGateways();
+	$scope.getAllProtocols();
 	$scope.$on("handleBroadcastDataSourceChanged", function(event) {
 		$scope.getAllDataSources();
 	});
@@ -262,6 +296,7 @@ app.controller('ModalAddDataSourceCtrl', function($scope, $uibModalInstance, par
 
 	$scope.operation = "DATA_SOURCE.ADD_DATA_SOURCE";
 	$scope.gateways = params.gateways;
+	$scope.protocols = params.protocols;
 	$scope.disable = false;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.datasource);
@@ -275,6 +310,7 @@ app.controller('ModalAddDataSourceCtrl', function($scope, $uibModalInstance, par
 app.controller('ModalEditDataSourceCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "DATA_SOURCE.EDIT_DATA_SOURCE";
 	$scope.gateways = params.gateways;
+	$scope.protocols = params.protocols;
 	$scope.disable = false;
 	$scope.datasource = params.datasource;
 
