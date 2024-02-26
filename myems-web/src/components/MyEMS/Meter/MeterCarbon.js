@@ -527,14 +527,14 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setMeterReportingRates(rates);
 
-          let options = Array();
+          let options = [];
           options.push({
             value: 'a0',
             label: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')'
           });
           setMeterReportingOptions(options);
 
-          let names = Array();
+          let names = [];
           json['parameters']['names'].forEach((currentValue, index) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
