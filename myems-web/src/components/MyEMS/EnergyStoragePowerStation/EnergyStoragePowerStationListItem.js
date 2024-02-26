@@ -78,9 +78,9 @@ const EnergyStoragePowerStationListItem = ({
                 </p>
                 <div className="d-none d-lg-block">
                     <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p>
                     <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong></p>
+                    {/* <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
+                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p> */}
                   </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
