@@ -638,7 +638,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     });
   }
 
-  const loadData = () => {
+  const loadData = table => {
     table.current.selectionContext.selected = [];
     onSelect();
     let isResponseOK = false;
