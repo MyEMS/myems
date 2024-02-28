@@ -129,8 +129,8 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [setMeterLineChartOptions1] = useState([]);
-  const [setMeterLineChartOptions2] = useState([]);
+  const [meterLineChartOptions1, setMeterLineChartOptions1] = useState([]);
+  const [meterLineChartOptions2, setMeterLineChartOptions2] = useState([]);
   const [meterLineChartData1, setMeterLineChartData1] = useState({ a0: [] });
   const [meterLineChartData2, setMeterLineChartData2] = useState({ a0: [] });
   const [meterLineChartLabels1, setMeterLineChartLabels1] = useState({ a0: [] });
