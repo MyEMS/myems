@@ -734,9 +734,9 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                       : null;
                 });
                 detailed_value['reportingPeriodDatetime'] =
-                  index < json['reporting_period']['timestamps'][0].length 
-                  ? json['reporting_period']['timestamps'][0][index] 
-                  : null;
+                  index < json['reporting_period']['timestamps'][0].length
+                    ? json['reporting_period']['timestamps'][0][index]
+                    : null;
                 json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
                   detailed_value['b' + energyCategoryIndex * 2] =
                     index < json['reporting_period']['sub_averages'][energyCategoryIndex].length
