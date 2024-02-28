@@ -38,12 +38,12 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 
 ## Features of MyEMS Community Edition
 
-See [https://myems.org/docs/intro#myems-features](https://myems.org/docs/intro#myems-features)
+See [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
 
 
 ## Features of MyEMS Enterprise Edition
 
-See [https://myems.org/docs/enterprise](https://myems.org/docs/enterprise)
+See [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
 
 
 ## MyEMS Downloads (Community Edition)
@@ -60,7 +60,7 @@ See [https://myems.org/docs/enterprise](https://myems.org/docs/enterprise)
 
 ## MyEMS Installation (Community Edition)
 
-See [https://myems.org/docs/category/installation](https://myems.org/docs/category/installation)
+See [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
 
 ## MyEMS Compose of Components:
 
@@ -127,11 +127,11 @@ administrator@myems.io
 
 ### Docker Compose Repaid Deployment
 
-See [https://myems.org/docs/installation/docker-compose)](https://myems.org/docs/installation/docker-compose)
+See [https://myems.io/docs/installation/docker-compose)](https://myems.io/docs/installation/docker-compose)
 
 ## Integration Testing Cooperation Plan
 
-See [https://myems.org/docs/cooperation](https://myems.org/docs/cooperation)
+See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
 
 ## Weixin Official Subscription Account
 
