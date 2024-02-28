@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed chart issues in myems-web
 - fixed warnings in myems-web
 - fixed index issues in database
-- 
+- fixed Duplicate property of translations in myems-admin
 ### Removed
 - None
 

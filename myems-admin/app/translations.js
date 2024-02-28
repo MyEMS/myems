@@ -24,7 +24,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Energy Flow Diagram',
                 MICROGRID: 'Microgrid',
-                VIRTUAL_POWER_PLANT: 'Virtual Power Plant',
                 MENU: 'Menu',
                 DATE: 'Date Range',
                 TARIFF: {
@@ -1618,7 +1617,6 @@ function config($translateProvider) {
                 SENSOR: '传感器',
                 ENERGY_FLOW_DIAGRAM: '能流图',
                 MICROGRID: '微电网',
-                VIRTUAL_POWER_PLANT: '虚拟电厂',
                 MENU: '菜单',
                 DATE: '日期',
                 TARIFF: {
@@ -3216,7 +3214,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Energieflussdiagramm',
                 MICROGRID: 'Mikrogitter',
-                VIRTUAL_POWER_PLANT: 'Virtuelles Kraftwerk',
                 MENU: 'Menü',
                 DATE: 'Datum',
                 TARIFF: {
@@ -4810,7 +4807,6 @@ function config($translateProvider) {
                 SENSOR: 'Capteur',
                 ENERGY_FLOW_DIAGRAM: 'Diagramme de flux d’énergie',
                 MICROGRID: 'Micro-réseau',
-                VIRTUAL_POWER_PLANT: 'Centrale électrique virtuelle',
                 MENU: 'Menu',
                 DATE: 'Plage de dates',
                 TARIFF: {
@@ -6404,7 +6400,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Diagrama de flujo de energía',
                 MICROGRID: 'Microrred',
-                VIRTUAL_POWER_PLANT: 'Central eléctrica virtual',
                 MENU: 'Menú',
                 DATE: 'Intervalo de fechas',
                 TARIFF: {
@@ -7999,7 +7994,6 @@ function config($translateProvider) {
                 SENSOR: 'Датчик',
                 ENERGY_FLOW_DIAGRAM: 'Диаграмма потоков энергии',
                 MICROGRID: 'Микросеть',
-                VIRTUAL_POWER_PLANT: 'Виртуальная электростанция',
                 MENU: 'Меню',
                 DATE: 'Диапазон дат',
                 TARIFF: {
@@ -9593,7 +9587,6 @@ function config($translateProvider) {
                 SENSOR: 'مجس',
                 ENERGY_FLOW_DIAGRAM: 'مخطط تدفق الطاقة',
                 MICROGRID: 'الشبكة المصغرة',
-                VIRTUAL_POWER_PLANT: 'محطة توليد الكهرباء الافتراضية',
                 MENU: 'قائمة',
                 DATE: 'النطاق الزمني',
                 TARIFF: {
@@ -11187,7 +11180,6 @@ function config($translateProvider) {
                 SENSOR: 'Cảm biến',
                 ENERGY_FLOW_DIAGRAM: 'Sơ đồ dòng năng lượng',
                 MICROGRID: 'Lưới điện siêu nhỏ',
-                VIRTUAL_POWER_PLANT: 'Nhà máy điện ảo',
                 MENU: 'Thực đơn',
                 DATE: 'Phạm vi ngày',
                 TARIFF: {
@@ -12781,7 +12773,6 @@ function config($translateProvider) {
                 SENSOR: 'เซน เซอร์',
                 ENERGY_FLOW_DIAGRAM: 'แผนภาพการไหลของพลังงาน',
                 MICROGRID: 'ไมโครกริด',
-                VIRTUAL_POWER_PLANT: 'โรงไฟฟ้าเสมือนจริง',
                 MENU: 'เมนู',
                 DATE: 'ช่วงวันที่',
                 TARIFF: {
@@ -14375,7 +14366,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensör',
                 ENERGY_FLOW_DIAGRAM: 'Enerji Akış Diyagramı',
                 MICROGRID: 'Mikro şebeke',
-                VIRTUAL_POWER_PLANT: 'Sanal Enerji Santrali',
                 MENU: 'Menü',
                 DATE: 'Tarih Aralığı',
                 TARIFF: {
@@ -15969,7 +15959,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Gambar Rajah Aliran Tenaga',
                 MICROGRID: 'Microgrid',
-                VIRTUAL_POWER_PLANT: 'Loji Kuasa Maya',
                 MENU: 'Menu',
                 DATE: 'Julat Tarikh',
                 TARIFF: {
@@ -17562,7 +17551,6 @@ function config($translateProvider) {
                 SENSOR: 'Sensor',
                 ENERGY_FLOW_DIAGRAM: 'Diagram Aliran Energi',
                 MICROGRID: 'Jaringan mikro',
-                VIRTUAL_POWER_PLANT: 'Pembangkit Listrik Virtual',
                 MENU: 'Menu',
                 DATE: 'Rentang Tanggal',
                 TARIFF: {
