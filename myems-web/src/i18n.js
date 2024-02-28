@@ -2452,8 +2452,6 @@ const resources = {
         'Bitte klicken Sie auf den beigefügten Link, um Ihr Konto zu registrieren.',
       'An email with password reset link is sent to ':
         'Eine E-Mail mit einem Link zum Zurücksetzen des Passworts wird an gesendet ',
-      'Please click on the included link to register your account':
-        'Bitte klicken Sie auf den beigefügten Link, um Ihr Konto zu registrieren.',
       'Change Password': 'Ändere das Passwort',
       'Old Password': 'Altes Passwort',
       'New Password': 'Neues Kennwort',

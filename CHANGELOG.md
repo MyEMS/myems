@@ -16,6 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed warnings in myems-web
 - fixed index issues in database
 - fixed Duplicate property of translations in myems-admin
+- fixed Superfluous trailing arguments in myems-web
+- fixed Duplicate property of i18n in myems-web
+- fixed Duplicate HTML element attributes in myems-admin
 ### Removed
 - None
 

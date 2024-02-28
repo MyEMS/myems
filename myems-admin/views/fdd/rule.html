@@ -40,11 +40,11 @@
 										<td class="text-center"> {{'FDD.CLICK_EDIT_FOR_DETAILS' | translate}} </td>
 										<td class="text-center">{{ rule.is_run_immediately==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
 										<td class="text-center">
-											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editRule(rule)" >{{'SETTING.EDIT' | translate}}</a>
-											<a class="btn btn-danger btn-rounded btn-xs" ng-click="deleteRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="editRule(rule)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 											<a ng-click="exportRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
 											<a ng-click="cloneRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
-											<a class="btn btn-danger btn-rounded btn-xs" ng-click="runRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'FDD.IS_RUN_IMMEDIATELY' | translate}}</a>
+											<a ng-click="runRule(rule)" class="btn btn-danger btn-rounded btn-xs" >{{'FDD.IS_RUN_IMMEDIATELY' | translate}}</a>
 										</td>
 									</tr>
 								</tbody>
