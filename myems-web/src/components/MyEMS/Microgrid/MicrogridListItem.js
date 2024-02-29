@@ -32,7 +32,7 @@ const MicrogridListItem = ({
   t
 }) => {
   const { isDark } = useContext(AppContext);
-  const {  favouriteItemsDispatch } = useContext(ProductContext);
+  const { favouriteItemsDispatch } = useContext(ProductContext);
   const [cartLoading, setCartLoading] = useState(false);
 
   const handleAddToCart = () => {
@@ -48,15 +48,25 @@ const MicrogridListItem = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/microgrid/details?uuid=${uuid}`} target = "_blank">
+              <Link className="d-block h-100" to={`/microgrid/details?uuid=${uuid}`} target="_blank">
                 <img
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
-                      src={files[0]['src']}
+                  src={files[0]['src']}
                 />
-                </Link>
+              </Link>
               {isOnline && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
+                  {PCSRunState === 'Running'
+                    ? t('PCS Running')
+                    : PCSRunState === 'Initializing'
+                    ? t('PCS Initializing')
+                    : PCSRunState === 'Standby'
+                    ? t('PCS Standby')
+                    : PCSRunState === 'Shutdown'
+                    ? t('PCS Shutdown')
+                    : PCSRunState === 'Fault'
+                    ? t('PCS Fault')
+                    : t('PCS Unknown')}
                 </Badge>
               )}
             </div>
@@ -65,50 +75,80 @@ const MicrogridListItem = ({
             <Row>
               <Col lg={7}>
                 <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/microgrid/details?uuid=${uuid}`} target = "_blank">{name}</Link>
+                  <Link to={`/microgrid/details?uuid=${uuid}`} target="_blank">
+                    {name}
+                  </Link>
                 </h5>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {address}
-                </p>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {postal_code}
-                </p>
-                <p className="fs--1 mb-2 mb-md-3">
-                    {serial_number}
-                </p>
+                <p className="fs--1 mb-2 mb-md-3">{address}</p>
+                <p className="fs--1 mb-2 mb-md-3">{postal_code}</p>
+                <p className="fs--1 mb-2 mb-md-3">{serial_number}</p>
                 <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong></p>
-                  </div>
+                  <p className="fs--1 mb-1">
+                    {t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong>
+                  </p>
+                  <p className="fs--1 mb-1">
+                    {t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong>
+                  </p>
+                  <p className="fs--1 mb-1">
+                    {t('Load Power')}:<strong>{loadPowerPointValue} kW</strong>
+                  </p>
+                  <p className="fs--1 mb-1">
+                    {t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong>
+                  </p>
+                </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
-                  <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    SoC: {batterySocPointValue} %
-                  </h4>
+                  <h4 className="fs-1 fs-md-2 text-warning mb-0">SoC: {batterySocPointValue} %</h4>
                   <p className="fs--1 mb-1">
-                      {t('Communication Status')}:{' '}
-                      <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
-                        {isOnline ? t('Communication Online') : t('Communication Offline')}
-                      </strong>
-                    </p>
-                    <p className="fs--1 mb-1">
-                      {t('Battery State')}:{' '}
-                      <strong className={classNames({ 'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
-                      'text-danger':  batteryState === 'Unknown' || batteryState === 'Stopped'})}>
-                        {batteryState === 'Charging' ? t('Battery Charging') : batteryState === 'Discharging' ? t('Battery Discharging') : batteryState === 'Stopped' ? t('Battery Stopped'): t('Battery Unknown')}
-                      </strong>
-                    </p>
-                    <p className="fs--1 mb-1">
-                      {t('PCS Run State')}:{' '}
-                      <strong className={classNames({ 'text-success': PCSRunState === 'Running',
-                      'text-danger':  PCSRunState === 'Unknown' || PCSRunState === 'Initializing' || PCSRunState === 'Standby' || PCSRunState === 'Shutdown' || PCSRunState === 'Fault'})}>
-                        {PCSRunState === 'Running' ? t('PCS Running') : PCSRunState === 'Initializing' ? t('PCS Initializing') : PCSRunState === 'Standby' ? t('PCS Standby') : PCSRunState === 'Shutdown' ? t('PCS Shutdown') : PCSRunState === 'Fault' ? t('PCS Fault') : t('PCS Unknown')}
-                      </strong>
-                    </p>
-
+                    {t('Communication Status')}:{' '}
+                    <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
+                      {isOnline ? t('Communication Online') : t('Communication Offline')}
+                    </strong>
+                  </p>
+                  <p className="fs--1 mb-1">
+                    {t('Battery State')}:{' '}
+                    <strong
+                      className={classNames({
+                        'text-success': batteryState === 'Charging' || batteryState === 'Discharging',
+                        'text-danger': batteryState === 'Unknown' || batteryState === 'Stopped'
+                      })}
+                    >
+                      {batteryState === 'Charging'
+                        ? t('Battery Charging')
+                        : batteryState === 'Discharging'
+                        ? t('Battery Discharging')
+                        : batteryState === 'Stopped'
+                        ? t('Battery Stopped')
+                        : t('Battery Unknown')}
+                    </strong>
+                  </p>
+                  <p className="fs--1 mb-1">
+                    {t('PCS Run State')}:{' '}
+                    <strong
+                      className={classNames({
+                        'text-success': PCSRunState === 'Running',
+                        'text-danger':
+                          PCSRunState === 'Unknown' ||
+                          PCSRunState === 'Initializing' ||
+                          PCSRunState === 'Standby' ||
+                          PCSRunState === 'Shutdown' ||
+                          PCSRunState === 'Fault'
+                      })}
+                    >
+                      {PCSRunState === 'Running'
+                        ? t('PCS Running')
+                        : PCSRunState === 'Initializing'
+                        ? t('PCS Initializing')
+                        : PCSRunState === 'Standby'
+                        ? t('PCS Standby')
+                        : PCSRunState === 'Shutdown'
+                        ? t('PCS Shutdown')
+                        : PCSRunState === 'Fault'
+                        ? t('PCS Fault')
+                        : t('PCS Unknown')}
+                    </strong>
+                  </p>
                 </div>
                 <div className="mt-md-2">
                   <ButtonIcon
@@ -138,7 +178,7 @@ const MicrogridListItem = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                      onClick={() => window.open('notification', '_blank')}
+                    onClick={() => window.open('notification', '_blank')}
                   >
                     {t('Fault Alarms')}({alarms.length})
                   </ButtonIcon>
@@ -153,7 +193,6 @@ const MicrogridListItem = ({
                   >
                     {t('Maintenance')}
                   </ButtonIcon>
-
                 </div>
               </Col>
             </Row>
