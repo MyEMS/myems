@@ -230,7 +230,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       setReportingPeriodDateRange([null, null]);
       setSubmitButtonDisabled(true);
     } else {
-      if (moment(DateRange[1]).format('HH:mm:ss') == '00:00:00') {
+      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
         // if the user did not change time value, set the default time to the end of day
         DateRange[1] = endOfDay(DateRange[1]);
       }
