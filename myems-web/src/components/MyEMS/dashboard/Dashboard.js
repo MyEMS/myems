@@ -624,7 +624,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       { settings.showOnlineMap ?
         <div className='mb-3 card' style={{ height: '400px' }}>
-        <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={15} Geojson={geojson['features']}>
+        <CustomizeMapBox Latitude={rootLatitude} Longitude={rootLongitude} Zoom={3} Geojson={geojson['features']}>
         </CustomizeMapBox>
         </div>
       :
