@@ -4,11 +4,10 @@ import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
-
 
 const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
@@ -49,11 +48,11 @@ class RealtimeChart extends Component {
       datasets: [
         {
           label: '',
-          backgroundColor: rgbaColor('#fff', 0.3),
+          backgroundColor: rgbaColor('#fff', 0.3)
         }
       ]
     },
-    pointList: [],
+    pointList: []
   };
 
   componentWillUnmount() {
@@ -74,52 +73,54 @@ class RealtimeChart extends Component {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
-        let length = json['energy_value']['values'].length;
-        let trendLog = length > 60 ? json['energy_value']['values'].slice(length - 60, length)
-            : json['energy_value']['values'];
-        let currentEnergyValue = undefined;
-        let energyValuePointName = json['energy_value']['name'];
-        let pointList = [];
-        let chartData = Object.assign(this.state.chartData);
-        chartData.labels = trendLog.length  > 60 ? range(1, 61) : range(1, trendLog.length + 1);
-        if (trendLog.length > 0) {
-          currentEnergyValue = trendLog[trendLog.length - 1];
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-        json['parameters']['names'].forEach((currentName, index) => {
-          let pointItem = {}
-          pointItem['name'] = currentName;
-          pointItem['value'] = undefined;
-          let currentValues = json['parameters']['values'][index];
-          if (currentValues.length > 0) {
-            pointItem['value'] = currentValues[currentValues.length - 1];
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          let length = json['energy_value']['values'].length;
+          let trendLog =
+            length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
+          let currentEnergyValue = undefined;
+          let energyValuePointName = json['energy_value']['name'];
+          let pointList = [];
+          let chartData = Object.assign(this.state.chartData);
+          chartData.labels = trendLog.length > 60 ? range(1, 61) : range(1, trendLog.length + 1);
+          if (trendLog.length > 0) {
+            currentEnergyValue = trendLog[trendLog.length - 1];
           }
-          pointList.push(pointItem);
-        });
-        if (this._isMounted) {
-          this.setState({
-            chartData: chartData,
-            trendLog: trendLog,
-            currentEnergyValue: floatFormatter(currentEnergyValue),
-            energyValuePointName: energyValuePointName,
-            pointList: pointList,
+          json['parameters']['names'].forEach((currentName, index) => {
+            let pointItem = {};
+            pointItem['name'] = currentName;
+            pointItem['value'] = undefined;
+            let currentValues = json['parameters']['values'][index];
+            if (currentValues.length > 0) {
+              pointItem['value'] = currentValues[currentValues.length - 1];
+            }
+            pointList.push(pointItem);
           });
+          if (this._isMounted) {
+            this.setState({
+              chartData: chartData,
+              trendLog: trendLog,
+              currentEnergyValue: floatFormatter(currentEnergyValue),
+              energyValuePointName: energyValuePointName,
+              pointList: pointList
+            });
+          }
+        } else {
+          toast.error(t(json.description));
         }
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     //fetch meter realtime data at regular intervals
     this.refreshInterval = setInterval(() => {
@@ -131,47 +132,49 @@ class RealtimeChart extends Component {
           'User-UUID': getCookieValue('user_uuid'),
           Token: getCookieValue('token')
         },
-        body: null,
-
-      }).then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      }).then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          let trendLog = json['energy_value']['values'];
-          let currentEnergyValue = undefined;
-          let energyValuePointName = json['energy_value']['name'];
-          let pointList = [];
-          if (trendLog.length > 0) {
-            currentEnergyValue = trendLog[trendLog.length - 1];
+        body: null
+      })
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
           }
-          json['parameters']['names'].forEach((currentName, index) => {
-            let pointItem = {}
-            pointItem['name'] = currentName;
-            pointItem['value'] = undefined;
-            let currentValues = json['parameters']['values'][index];
-            if (currentValues.length > 0) {
-              pointItem['value'] = currentValues[currentValues.length - 1];
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            let trendLog = json['energy_value']['values'];
+            let currentEnergyValue = undefined;
+            let energyValuePointName = json['energy_value']['name'];
+            let pointList = [];
+            if (trendLog.length > 0) {
+              currentEnergyValue = trendLog[trendLog.length - 1];
             }
-            pointList.push(pointItem);
-          });
-          if (this._isMounted) {
-            this.setState({
-              trendLog: trendLog,
-              currentEnergyValue: currentEnergyValue,
-              energyValuePointName: energyValuePointName,
-              pointList: pointList,
+            json['parameters']['names'].forEach((currentName, index) => {
+              let pointItem = {};
+              pointItem['name'] = currentName;
+              pointItem['value'] = undefined;
+              let currentValues = json['parameters']['values'][index];
+              if (currentValues.length > 0) {
+                pointItem['value'] = currentValues[currentValues.length - 1];
+              }
+              pointList.push(pointItem);
             });
+            if (this._isMounted) {
+              this.setState({
+                trendLog: trendLog,
+                currentEnergyValue: currentEnergyValue,
+                energyValuePointName: energyValuePointName,
+                pointList: pointList
+              });
+            }
+          } else {
+            toast.error(t(json.description));
           }
-        } else {
-          toast.error(t(json.description))
-        }
-      }).catch(err => {
-        console.log(err);
-      });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }, (60 + Math.floor(Math.random() * Math.floor(10))) * 1000); // use random interval to avoid paralels requests
   }
 
@@ -199,7 +202,6 @@ class RealtimeChart extends Component {
           </p>
           <Line data={chartData} options={chartOptions} width={10} height={4} />
           <ListGroup flush className="mt-4">
-
             <ListGroupItem
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
               style={{ borderColor: listItemBorderColor }}
@@ -208,7 +210,8 @@ class RealtimeChart extends Component {
               <p className="mb-0">{t('Realtime Value')}</p>
             </ListGroupItem>
             {this.state.pointList.map(pointItem => (
-              <ListGroupItem key={uuid()}
+              <ListGroupItem
+                key={uuid()}
                 className="bg-transparent d-flex justify-content-between px-0 py-1"
                 style={{ borderColor: listItemBorderColor }}
               >
@@ -223,4 +226,4 @@ class RealtimeChart extends Component {
   }
 }
 
-export default  withTranslation()(RealtimeChart);
+export default withTranslation()(RealtimeChart);

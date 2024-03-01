@@ -20,7 +20,7 @@ import RealtimeChart from './RealtimeChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 
@@ -36,7 +36,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -69,9 +69,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     //begin of getting space tree
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/spaces/tree', {
+    fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -104,11 +102,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
           let selectedSpaceID = [json[0]].map(o => o.value);
           //begin of getting meters of the default space
           let isSecondResponseOK = false;
-          fetch(
-            APIBaseURL +
-            '/spaces/' +
-            selectedSpaceID +
-            '/meters', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -155,11 +149,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     //begin of getting meters of the selected space
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/spaces/' +
-      selectedSpaceID +
-      '/meters', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -198,41 +188,37 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
     setCursor(1);
     setMaxCursor(maxCursor);
 
-    document.getElementById("cursor_2").hidden=true;
-    document.getElementById("cursor_3").hidden=true;
-    document.getElementById("cursor_4").hidden=true;
-    if(maxCursor == 2){
-      document.getElementById("cursor_2").hidden=false;
+    document.getElementById('cursor_2').hidden = true;
+    document.getElementById('cursor_3').hidden = true;
+    document.getElementById('cursor_4').hidden = true;
+    if (maxCursor === 2) {
+      document.getElementById('cursor_2').hidden = false;
     }
-    if(maxCursor == 3){
-      document.getElementById("cursor_2").hidden=false;
-      document.getElementById("cursor_3").hidden=false;
+    if (maxCursor === 3) {
+      document.getElementById('cursor_2').hidden = false;
+      document.getElementById('cursor_3').hidden = false;
     }
-    if(maxCursor>=4)
-    {
-      document.getElementById("cursor_2").hidden=false;
-      document.getElementById("cursor_3").hidden=false;
-      document.getElementById("cursor_4").hidden=false;
+    if (maxCursor >= 4) {
+      document.getElementById('cursor_2').hidden = false;
+      document.getElementById('cursor_3').hidden = false;
+      document.getElementById('cursor_4').hidden = false;
     }
-
   }, []);
 
   useEffect(() => {
     setSelectMeterList(meterList.slice(cursor * len - 8, cursor * len));
-
-
   }, []);
 
-  function getCursor(location){
-    switch (location){
+  function getCursor(location) {
+    switch (location) {
       case 1:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor-3 : cursor;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 3 : cursor;
       case 2:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -2 : cursor +1;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 2 : cursor + 1;
       case 3:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -1: cursor +2;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 1 : cursor + 2;
       case 4:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor  : cursor+3;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor : cursor + 3;
     }
   }
 
@@ -290,18 +276,26 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
           <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(1)))}>{getCursor(1)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
+            {getCursor(1)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_2">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(2)))}>{getCursor(2)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
+            {getCursor(2)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_3">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(3)))}>{getCursor(3)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
+            {getCursor(3)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_4">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(4)))}>{getCursor(4)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
+            {getCursor(4)}
+          </PaginationLink>
         </PaginationItem>
-        <PaginationItem >
+        <PaginationItem>
           <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
         </PaginationItem>
         <PaginationItem>

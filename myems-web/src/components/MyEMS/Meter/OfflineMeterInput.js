@@ -12,19 +12,19 @@ import {
   Input,
   Label,
   Row,
-  CustomInput,
+  CustomInput
 } from 'reactstrap';
-import moment from "moment";
-import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
+import moment from 'moment';
+import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import { DateRangePicker } from 'rsuite';
-import { endOfDay,endOfMonth ,startOfMonth} from 'date-fns';
+import { endOfDay, endOfMonth, startOfMonth } from 'date-fns';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import cellEditFactory from "react-bootstrap-table2-editor";
+import cellEditFactory from 'react-bootstrap-table2-editor';
 
 const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -34,7 +34,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -47,12 +47,21 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     }
   });
   const [meterList, setMeterList] = useState([]);
-  const [OfflinemeterName, setOfflinemeterName] = useState([{ value: 0, label: "" }]);
+  const [OfflinemeterName, setOfflinemeterName] = useState([{ value: 0, label: '' }]);
   const [Offlinemeter, setOfflinemeter] = useState('');
   const [selectedRowIndex, setSelectedRowIndex] = useState(0);
 
   //Query From
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.clone().endOf('month').toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment
+      .clone()
+      .endOf('month')
+      .toDate()
+  ]);
 
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
 
@@ -62,7 +71,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
   useEffect(() => {
-    getmeterslist()
+    getmeterslist();
   }, []);
 
   const getmeterslist = async () => {
@@ -74,83 +83,93 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        var typeDatadic = []
-        let tempmeterid=''
-        json.forEach((currentValue, index) => {
-          var type = {}
-          type.value = currentValue.id
-          type.label = currentValue.name
-          typeDatadic.push(type)
-        });
-
-        if (typeDatadic.length >= 1) {
-          tempmeterid = typeDatadic[0].value
-          setOfflinemeter(tempmeterid)
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-        setOfflinemeterName(typeDatadic)
-        setSubmitButtonDisabled(false);
-        setSpinnerHidden(true);
-      } else {
-        toast.error(json.description);
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          var typeDatadic = [];
+          let tempmeterid = '';
+          json.forEach((currentValue, index) => {
+            var type = {};
+            type.value = currentValue.id;
+            type.label = currentValue.name;
+            typeDatadic.push(type);
+          });
 
+          if (typeDatadic.length >= 1) {
+            tempmeterid = typeDatadic[0].value;
+            setOfflinemeter(tempmeterid);
+          }
+          setOfflinemeterName(typeDatadic);
+          setSubmitButtonDisabled(false);
+          setSpinnerHidden(true);
+        } else {
+          toast.error(json.description);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const getmeterslistdata = async () => {
     let isResponseOK = false;
-    await fetch(APIBaseURL + '/reports/offlinemeterdaily?' +
-      'offlinemeterid=' + Offlinemeter +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+    await fetch(
+      APIBaseURL +
+        '/reports/offlinemeterdaily?' +
+        'offlinemeterid=' +
+        Offlinemeter +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        let meters = [];
-        json.forEach((currentValue, index) => {
-          meters.push({
-            'monthdate': currentValue['monthdate'],
-            'daily_value': currentValue['daily_value']
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          let meters = [];
+          json.forEach((currentValue, index) => {
+            meters.push({
+              monthdate: currentValue['monthdate'],
+              daily_value: currentValue['daily_value']
+            });
           });
-        });
-        setMeterList(meters);
+          setMeterList(meters);
 
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-      } else {
-        toast.error(json.description)
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(json.description);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const dateRangePickerLocale = {
     sunday: t('sunday'),
@@ -175,7 +194,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       text: t('Date'),
       classes: 'border-0 py-2 align-middle',
       sort: false,
-      editable: false,
+      editable: false
     },
     {
       dataField: 'daily_value',
@@ -186,20 +205,19 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       editable: true,
       formatter: (cell, row, rowIndex) => {
         if (cell == null) {
-          return (<Input type="text" disabled={false} style={{ width: '20%' }}></Input>);
-        }
-        else {
-          return (<Input type="text" disabled={true} defaultValue={cell} style={{ width: '20%' }}></Input>);
+          return <Input type="text" disabled={false} style={{ width: '20%' }} />;
+        } else {
+          return <Input type="text" disabled={true} defaultValue={cell} style={{ width: '20%' }} />;
         }
       },
-      editorStyle : {width:"20%"}
-    },
+      editorStyle: { width: '20%' }
+    }
   ];
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       DateRange[1] = endOfDay(DateRange[1]);
@@ -213,9 +231,8 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Handler
   const handleSubmit = e => {
-
     e.preventDefault();
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
@@ -223,37 +240,37 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setMeterList([]);
-    getmeterslistdata()
+    getmeterslistdata();
   };
 
   let OfflinemeterChange = ({ target }) => {
     setOfflinemeter(target.value);
-  }
+  };
   const saveChange = async (oldValue, newValue, row, column) => {
-    if(newValue == null || newValue === '' || newValue < 0 || oldValue == newValue) {
-      row.daily_value = oldValue
+    if (newValue == null || newValue === '' || newValue < 0 || oldValue === newValue) {
+      row.daily_value = oldValue;
       return;
     }
     let isNumericInput = /^[0-9]+$/.test(newValue);
-    if (!isNumericInput){
-      row.daily_value = oldValue
+    if (!isNumericInput) {
+      row.daily_value = oldValue;
       return;
     }
     let values = meterList.map(Element => Element['daily_value']);
-    for(let i = 0; i < selectedRowIndex; i++){
-      if(values[i] == undefined || values[i] == null || values[i] === '' || values[i] < 0) {
+    for (let i = 0; i < selectedRowIndex; i++) {
+      if (values[i] === undefined || values[i] == null || values[i] === '' || values[i] < 0) {
         toast.error(t('Previous Data Is Empty'));
-        row.daily_value = oldValue
+        row.daily_value = oldValue;
         return;
       }
     }
     let param = {
-      "meter": Offlinemeter,
-      "value": [[row.monthdate, newValue]]
+      meter: Offlinemeter,
+      value: [[row.monthdate, newValue]]
     };
     let isResponseOK = false;
     await fetch(APIBaseURL + '/reports/offlinemeterinput', {
@@ -263,29 +280,32 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: JSON.stringify(param),
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        toast.success(t('Successfully Saved'));
-        getmeterslistdata()
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }
+      body: JSON.stringify(param)
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          toast.success(t('Successfully Saved'));
+          getmeterslistdata();
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Offline Meter Input')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Offline Meter Input')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -298,10 +318,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Offline Meter')}
                   </Label>
                   <br />
-                  <CustomInput type="select" id='CustomInput'
-                    onChange={OfflinemeterChange}>
+                  <CustomInput type="select" id="CustomInput" onChange={OfflinemeterChange}>
                     {OfflinemeterName.map((Offlinemeter, index) => (
-                      <option value={Offlinemeter.value} key={Offlinemeter.value} >
+                      <option value={Offlinemeter.value} key={Offlinemeter.value}>
                         {t(Offlinemeter.label)}
                       </option>
                     ))}
@@ -310,7 +329,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
                   <br />
                   <DateRangePicker
                     id="reportingPeriodDateRangePicker"
@@ -321,14 +342,17 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
-                    placeholder={t('Select Date Range')}/>
+                    placeholder={t('Select Date Range')}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Search')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Search')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
@@ -343,7 +367,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
             <BootstrapTable
               bootstrap4
               keyField="monthdate"
-              classes='table-hover'
+              classes="table-hover"
               data={meterList}
               bordered
               striped={true}
@@ -351,8 +375,12 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
               cellEdit={cellEditFactory({
                 mode: 'click',
                 blurToSave: true,
-                afterSaveCell: (oldValue, newValue, row, column) => { saveChange(oldValue, newValue, row, column) },
-                onStartEdit: (row, column, rowIndex) => { setSelectedRowIndex(rowIndex) }
+                afterSaveCell: (oldValue, newValue, row, column) => {
+                  saveChange(oldValue, newValue, row, column);
+                },
+                onStartEdit: (row, column, rowIndex) => {
+                  setSelectedRowIndex(rowIndex);
+                }
               })}
             />
           </CardBody>
