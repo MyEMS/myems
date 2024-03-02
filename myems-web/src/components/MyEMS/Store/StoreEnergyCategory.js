@@ -60,11 +60,6 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-    if (uuid === null || !uuid ){
-      setSpaceCascaderHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
-    }
   });
 
   useEffect(() => {
@@ -152,7 +147,8 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-     if(uuid === null || !uuid) {
+    if(uuid === null || !uuid) {
+      setSpaceCascaderHidden(false);
        fetch(APIBaseURL + '/spaces/tree', {
          method: 'GET',
          headers: {
@@ -220,7 +216,8 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
          console.log(err);
        });
      } else {
-       let url = APIBaseURL + '/reports/storeenergycategory?' +
+        setSpaceCascaderHidden(true);
+        let url = APIBaseURL + '/reports/storeenergycategory?' +
         'storeuuid=' + uuid +
         '&periodtype=' + periodType +
         '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +

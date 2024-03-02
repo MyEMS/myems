@@ -59,13 +59,7 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-      setEnergyStoragePowerStationSearchHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
-      setEnergyStoragePowerStationSearchHidden(true);
-    }
+
   });
 
   // State
@@ -155,6 +149,8 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
   useEffect(() => {
     let isResponseOK = false;
     if (uuid === null || !uuid) {
+        setSpaceCascaderHidden(false);
+        setEnergyStoragePowerStationSearchHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -239,6 +235,8 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
           console.log(err);
         });
     } else {
+      setSpaceCascaderHidden(true);
+      setEnergyStoragePowerStationSearchHidden(true);
       let url =
         APIBaseURL +
         '/reports/energystoragepowerstationreporting?' +

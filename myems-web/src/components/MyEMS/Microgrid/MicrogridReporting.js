@@ -59,13 +59,6 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-      setMicrogridSearchHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
-      setMicrogridSearchHidden(true);
-    }
   });
 
   // State
@@ -153,6 +146,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     let isResponseOK = false;
     if (uuid === null || !uuid) {
+      setSpaceCascaderHidden(false);
+      setMicrogridSearchHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -237,6 +232,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           console.log(err);
         });
     } else {
+      setSpaceCascaderHidden(true);
+      setMicrogridSearchHidden(true);
       let url =
         APIBaseURL +
         '/reports/microgridreporting?' +

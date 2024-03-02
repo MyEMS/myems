@@ -58,13 +58,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-      setMeterSearchHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
-      setMeterSearchHidden(true);
-    }
   });
 
   // State
@@ -147,6 +140,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     let isResponseOK = false;
     if (uuid === null || !uuid) {
+      setSpaceCascaderHidden(false);
+      setMeterSearchHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -231,6 +226,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           console.log(err);
         });
     } else {
+      setSpaceCascaderHidden(true);
+      setMeterSearchHidden(true);
       let url =
         APIBaseURL +
         '/reports/meterenergy?' +
