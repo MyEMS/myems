@@ -61,11 +61,6 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
-    }
   }, [uuid, setRedirectUrl, setRedirect]);
 
   useEffect(() => {
@@ -194,6 +189,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
 
   useEffect(() => {
     if (uuid === null || !uuid) {
+      setSpaceCascaderHidden(false);
       let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
@@ -278,6 +274,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           console.log(err);
         });
     } else {
+      setSpaceCascaderHidden(true);
       let url =
         APIBaseURL +
         '/reports/combinedequipmentenergycategory?' +

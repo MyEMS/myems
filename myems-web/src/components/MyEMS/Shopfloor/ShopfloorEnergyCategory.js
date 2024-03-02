@@ -43,6 +43,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();
   const uuid = location.search.split('=')[1];
+
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -59,11 +60,6 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
-    }
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-    } else {
-      setSpaceCascaderHidden(true);
     }
   });
 
@@ -172,7 +168,9 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
+
     if (uuid === null || !uuid) {
+      setSpaceCascaderHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -256,6 +254,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           console.log(err);
         });
     } else {
+      setSpaceCascaderHidden(true);
       let url =
         APIBaseURL +
         '/reports/shopfloorenergycategory?' +
@@ -275,7 +274,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         language;
       loadData(url);
     }
-  }, []);
+  }, [t]);
 
   const loadData = url => {
     // disable submit button
