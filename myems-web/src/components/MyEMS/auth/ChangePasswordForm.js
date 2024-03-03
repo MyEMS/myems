@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Button,
-  Card,
-  CardBody,
-  Form } from 'reactstrap';
+import { Button, Card, CardBody, Form } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import FormGroupInput from '../../common/FormGroupInput';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
-
 
 const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
   useEffect(() => {
@@ -20,7 +16,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -58,13 +54,12 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/users/changepassword', {
+    fetch(APIBaseURL + '/users/changepassword', {
       method: 'PUT',
       body: JSON.stringify({
-        "data": {
-          "old_password": oldPassword, "new_password": newPassword
+        data: {
+          old_password: oldPassword,
+          new_password: newPassword
         }
       }),
       headers: {
@@ -72,23 +67,26 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       }
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        toast.success(t('Password has been changed!'));
-        setRedirect(true);
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          toast.success(t('Password has been changed!'));
+          setRedirect(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { Button, Form, FormGroup, Input, Row, Col, Label, InputGroup, InputGroup
 import withRedirect from '../../../hoc/withRedirect';
 import { getItemFromStore, setItemToStore } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
-import {FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
@@ -19,51 +19,55 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
   const [inputType, setInputType] = useState('password');
   const [number, setNumber] = useState(60);
 
-     // Handler
-     const handleSubmit = e => {
-      e.preventDefault();
-      let isResponseOK = false;
-      fetch(
-        APIBaseURL +
-          '/users/forgotpassword', {
-        method: 'PUT',
-        body: JSON.stringify({ "data":
-          {
-            "email": email,
-            "password": password,
-            "verification_code": code
-          }
-        }),
-        headers: { "Content-Type": "application/json" }
-      }).then(response => {
+  // Handler
+  const handleSubmit = e => {
+    e.preventDefault();
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/users/forgotpassword', {
+      method: 'PUT',
+      body: JSON.stringify({
+        data: {
+          email: email,
+          password: password,
+          verification_code: code
+        }
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => {
         if (response.ok) {
           isResponseOK = true;
-          return null
+          return null;
         } else {
           return response.json();
         }
-      }).then(json => {
+      })
+      .then(json => {
         if (isResponseOK) {
           toast.success(t('Password has been changed!'));
           setRedirect(true);
         } else {
           toast.error(t(json.description));
         }
-      }).catch(err => {
+      })
+      .catch(err => {
         console.log(err);
       });
-    };
+  };
 
   // Handler
   const handleCodeSubmit = e => {
     setIsDisabled(true);
     let isResponseOK = false;
     e.preventDefault();
-    let subject = "Forgot Password";
-    let created_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
-    let scheduled_datetime = moment().clone().format('YYYY-MM-DDTHH:mm:ss');
-    let message =
-    `
+    let subject = 'Forgot Password';
+    let created_datetime = moment()
+      .clone()
+      .format('YYYY-MM-DDTHH:mm:ss');
+    let scheduled_datetime = moment()
+      .clone()
+      .format('YYYY-MM-DDTHH:mm:ss');
+    let message = `
     <html>
     <body>
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -74,14 +78,14 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
         <td style="padding-top: 60px;padding-left: 20px;padding-right: 20px;font-size: 14px;line-height:1.4;color: #525967;" colspan="2">
         <b>
     ${email} :</b><br><br>
-    ${t("Thanks for verifying your account!.")}
+    ${t('Thanks for verifying your account!.')}
     </td>
         </tr>
         <tr>
         <td colspan="2">
         <div style="margin-top: 20px;margin-bottom: 20px;width: 100%;height: 1px;background-color: #acbdd4;"><br></div></td></tr>
         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>${t("Your code is")} {verification_code}.</b>
+        <b>${t('Your code is')} {verification_code}.</b>
     <br></td></tr>
         </tbody></table>
         </td>
@@ -90,67 +94,69 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
     </body>
     </html>`;
 
-    fetch(
-      APIBaseURL +
-        '/users/emailmessages', {
+    fetch(APIBaseURL + '/users/emailmessages', {
       method: 'POST',
-      body: JSON.stringify({ "data":
-        { "subject": subject,
-          "recipient_email": email,
-          "created_datetime": created_datetime,
-          "scheduled_datetime": scheduled_datetime,
-          "message": message,
+      body: JSON.stringify({
+        data: {
+          subject: subject,
+          recipient_email: email,
+          created_datetime: created_datetime,
+          scheduled_datetime: scheduled_datetime,
+          message: message
         }
       }),
-      headers: { "Content-Type": "application/json" }
-    }).then(response => {
-      const interval = setInterval(() => {
-        setNumber((prevNumber) => prevNumber - 1)
-      }, 1000);
-      const timerId = setTimeout(() => {
-        setIsDisabled(false);
-        setNumber(60);
-        clearTimeout(timerId);
-        clearInterval(interval);
-      }, 1000 * 60);
-      if (response.ok) {
-        isResponseOK = true;
-        return null
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      if (isResponseOK) {
-        toast.success(t('An email has been sent to ') + email );
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      const interval = setInterval(() => {
-        setNumber((prevNumber) => prevNumber - 1)
-      }, 1000);
-      const timerId = setTimeout(() => {
-        setIsDisabled(false);
-        setNumber(60);
-        clearTimeout(timerId);
-        clearInterval(interval);
-      }, 1000 * 60);
-      console.log(err);
-    });
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => {
+        const interval = setInterval(() => {
+          setNumber(prevNumber => prevNumber - 1);
+        }, 1000);
+        const timerId = setTimeout(() => {
+          setIsDisabled(false);
+          setNumber(60);
+          clearTimeout(timerId);
+          clearInterval(interval);
+        }, 1000 * 60);
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
+          return response.json();
+        }
+      })
+      .then(json => {
+        if (isResponseOK) {
+          toast.success(t('An email has been sent to ') + email);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        const interval = setInterval(() => {
+          setNumber(prevNumber => prevNumber - 1);
+        }, 1000);
+        const timerId = setTimeout(() => {
+          setIsDisabled(false);
+          setNumber(60);
+          clearTimeout(timerId);
+          clearInterval(interval);
+        }, 1000 * 60);
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     setRedirectUrl(`/authentication/${layout}/login`);
   }, [setRedirectUrl, layout]);
 
-  const validateEmail = (email) => {
+  const validateEmail = email => {
     const regExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (regExp.test(email)) {
       setIsSubmitDisabled(true);
     } else {
       setIsSubmitDisabled(false);
     }
-  }
+  };
 
   useEffect(() => {
     setIsSubmitDisabled(!email || !password || !code);
@@ -172,20 +178,23 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
           className="form-control"
           placeholder={t('Email address')}
           value={email}
-          onChange={({ target }) =>{validateEmail(target.value); setEmail(target.value)}}
+          onChange={({ target }) => {
+            validateEmail(target.value);
+            setEmail(target.value);
+          }}
           type="email"
         />
       </FormGroup>
       <FormGroup>
         <InputGroup>
           <Input
-              id="password"
-              placeholder={!hasLabel ? t('Password') : ''}
-              value={password}
-              maxLength={100}
-              className="password-input"
-              onChange={({ target }) => setPassword(target.value)}
-              type={inputType}
+            id="password"
+            placeholder={!hasLabel ? t('Password') : ''}
+            value={password}
+            maxLength={100}
+            className="password-input"
+            onChange={({ target }) => setPassword(target.value)}
+            type={inputType}
           />
           <InputGroupAddon addonType="append">
             <Button color="secondary" onClick={toggleVisibility}>
@@ -196,7 +205,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
       </FormGroup>
       <FormGroup>
         <Row className="justify-content-between align-items-center">
-          <Col xs="6" className='pr-0'>
+          <Col xs="6" className="pr-0">
             {hasLabel && <Label>{t('CaptchaCode')}</Label>}
             <Input
               placeholder={!hasLabel ? t('CaptchaCode') : ''}
@@ -206,11 +215,9 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
               maxLength={6}
             />
           </Col>
-          <Col xs="6" className='align-items-center d-flex'>
-            <Button color="primary"
-            onClick={handleCodeSubmit}
-            disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', {'NUMBER': number}) : t('Send verification code')}
+          <Col xs="6" className="align-items-center d-flex">
+            <Button color="primary" onClick={handleCodeSubmit} disabled={isdisabled}>
+              {isdisabled ? t('Please wait for NUMBER seconds', { NUMBER: number }) : t('Send verification code')}
             </Button>
           </Col>
         </Row>
