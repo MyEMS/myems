@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const EquipmentList = ({
   id,
@@ -32,7 +32,7 @@ const EquipmentList = ({
   t
 }) => {
   const { isDark } = useContext(AppContext);
-  const {  favouriteItemsDispatch } = useContext(ProductContext);
+  const { favouriteItemsDispatch } = useContext(ProductContext);
   const [cartLoading, setCartLoading] = useState(false);
 
   const handleAddToCart = () => {
@@ -49,9 +49,10 @@ const EquipmentList = ({
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
               <iframe
+                title={uuid()}
                 className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
-                src="http://192.168.2.53:18080/#/play/wasm/ws%3A%2F%2F192.168.2.53%3A6080%2Fapp1%2F34020000001320000011.live.flv?autoplay=1">
-              </iframe>
+                src="http://192.168.2.53:18080/#/play/wasm/ws%3A%2F%2F192.168.2.53%3A6080%2Fapp1%2F34020000001320000011.live.flv?autoplay=1"
+              />
               {isRunning && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
                   运行
@@ -62,9 +63,7 @@ const EquipmentList = ({
           <Col sm={7} md={8}>
             <Row>
               <Col lg={8}>
-                <h5 className="mt-3 mt-sm-0">
-                  {title}
-                </h5>
+                <h5 className="mt-3 mt-sm-0">{title}</h5>
                 <p className="fs--1 mb-2 mb-md-3">
                   <a className="text-500" href="#!">
                     {category}
@@ -84,15 +83,27 @@ const EquipmentList = ({
               <Col lg={4} tag={Flex} justify="between" column>
                 <div>
                   <h4 className="fs-1 fs-md-2 text-warning mb-0">
-                    {t('Instantaneous Efficiency VALUE UNIT', {'VALUE': parameter1, 'UNIT': '(kWh/kWh)'} )}
+                    {t('Instantaneous Efficiency VALUE UNIT', { VALUE: parameter1, UNIT: '(kWh/kWh)' })}
                   </h4>
                   <div className="d-none d-lg-block">
-                    <p className="fs--1 mb-1">累计效率:<strong>{parameter2} kW/kW</strong></p>
-                    <p className="fs--1 mb-1">总瞬时功率:<strong>{parameter3} kW</strong></p>
-                    <p className="fs--1 mb-1">总功率因数:<strong>{parameter4}</strong></p>
-                    <p className="fs--1 mb-1">有功功率:<strong>{parameter5} kW</strong></p>
-                    <p className="fs--1 mb-1">冷冻水出水温度:<strong>{parameter6} degree C</strong></p>
-                    <p className="fs--1 mb-1">冷冻水回水温度:<strong>{parameter7} degree C</strong></p>
+                    <p className="fs--1 mb-1">
+                      累计效率:<strong>{parameter2} kW/kW</strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      总瞬时功率:<strong>{parameter3} kW</strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      总功率因数:<strong>{parameter4}</strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      有功功率:<strong>{parameter5} kW</strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      冷冻水出水温度:<strong>{parameter6} degree C</strong>
+                    </p>
+                    <p className="fs--1 mb-1">
+                      冷冻水回水温度:<strong>{parameter7} degree C</strong>
+                    </p>
                     <p className="fs--1 mb-1">
                       {t('Communication Status')}:{' '}
                       <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
@@ -136,17 +147,17 @@ const EquipmentList = ({
                       Processing
                     </ButtonIcon>
                   ) : (
-                      <ButtonIcon
-                        color="primary"
-                        size="sm"
-                        icon="users"
-                        iconClassName="ml-2 d-none d-md-inline-block"
-                        className="w-lg-100 mt-2"
-                        onClick={handleAddToCart}
-                      >
-                        {t('Run Commands')}
-                      </ButtonIcon>
-                    )}
+                    <ButtonIcon
+                      color="primary"
+                      size="sm"
+                      icon="users"
+                      iconClassName="ml-2 d-none d-md-inline-block"
+                      className="w-lg-100 mt-2"
+                      onClick={handleAddToCart}
+                    >
+                      {t('Run Commands')}
+                    </ButtonIcon>
+                  )}
                 </div>
               </Col>
             </Row>
