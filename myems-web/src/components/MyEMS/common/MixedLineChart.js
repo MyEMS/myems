@@ -11,11 +11,11 @@ import {
   Tooltip,
   Legend,
   LineController,
-  BarController,
+  BarController
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -26,23 +26,16 @@ ChartJS.register(
   Tooltip,
   Legend,
   LineController,
-  BarController,
+  BarController
 );
 
-const MixedLineChart = ({
-  reportingTitle,
-  baseTitle,
-  labels,
-  data,
-  options,
-  t
-}) => {
+const MixedLineChart = ({ reportingTitle, baseTitle, labels, data, options, t }) => {
   const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
-    datasets: [],
+    datasets: []
   });
   const actual = t('Actual');
   const baseline = t('Baseline');
@@ -69,7 +62,7 @@ const MixedLineChart = ({
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             tension: 0.4,
-            type: 'line',
+            type: 'line'
           },
           {
             borderWidth: 2,
@@ -78,7 +71,7 @@ const MixedLineChart = ({
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             tension: 0.4,
-            type: 'line',
+            type: 'line'
           },
           {
             borderWidth: 2,
@@ -86,10 +79,10 @@ const MixedLineChart = ({
             label: label + saving,
             borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.2),
-            tension: 0.4,
+            tension: 0.4
           }
         ],
-        labels: labels[selectedLabel],
+        labels: labels[selectedLabel]
       };
       setLineData(chartData);
     }
@@ -99,7 +92,7 @@ const MixedLineChart = ({
     options: {
       plugins: {
         legend: {
-          display: false,
+          display: false
         }
       },
       scales: {
@@ -119,15 +112,15 @@ const MixedLineChart = ({
           gridLines: {
             color: rgbaColor('#000', 0.1)
           }
-        },
+        }
       },
       tooltips: {
         mode: 'x-axis',
         xPadding: 20,
         yPadding: 10,
-        displayColors: false,
+        displayColors: false
       },
-      hover: { mode: 'label' },
+      hover: { mode: 'label' }
     }
   };
 
@@ -137,11 +130,9 @@ const MixedLineChart = ({
         <Row className="text-white align-items-center no-gutters">
           <Col>
             <h4 className="text-lightSlateGray mb-0">{reportingTitle}</h4>
-            <p className="fs--1 font-weight-semi-bold">
-              {baseTitle}
-            </p>
+            <p className="fs--1 font-weight-semi-bold">{baseTitle}</p>
           </Col>
-          {isIterableArray(options) &&
+          {isIterableArray(options) && (
             <Col xs="auto" className="d-none d-sm-block">
               <CustomInput
                 id="ddd"
@@ -149,20 +140,24 @@ const MixedLineChart = ({
                 bsSize="sm"
                 className="mb-3 shadow"
                 value={option}
-                onChange={({ target }) => {setOption(target.value.slice(1)); setSelectedLabel(target.value);}}
+                onChange={({ target }) => {
+                  setOption(target.value.slice(1));
+                  setSelectedLabel(target.value);
+                }}
               >
                 {options.map(({ value, label }) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
               </CustomInput>
             </Col>
-          }
+          )}
         </Row>
-        <Chart ref={chartRef} data={lineData} options={config.options} width={1618} height={218} type='bar' />
+        <Chart ref={chartRef} data={lineData} options={config.options} width={1618} height={218} type="bar" />
       </CardBody>
     </Card>
   );
 };
 
 export default withTranslation()(MixedLineChart);
-

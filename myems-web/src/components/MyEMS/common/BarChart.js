@@ -14,35 +14,20 @@ import {
 import AppContext from '../../../context/Context';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LogarithmicScale
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LogarithmicScale);
 
-const BarChart = ({
-  labels,
-  data,
-  compareData,
-  title,
-  compareTitle,
-  footnote,
-  footunit,
-}) => {
-
+const BarChart = ({ labels, data, compareData, title, compareTitle, footnote, footunit }) => {
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
-    datasets: [{
-      data: [0, 0, 0, 0, 0, 0],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      borderWidth: 1,
-    }]
+    datasets: [
+      {
+        data: [0, 0, 0, 0, 0, 0],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
   });
 
   useEffect(() => {
@@ -95,7 +80,7 @@ const BarChart = ({
             fontColor: rgbaColor('#fff', 0.8),
             fontStyle: 600,
             color: isDark ? themeColors.light : themeColors.dark
-          },
+          }
         },
         y: {
           display: true,
@@ -106,7 +91,7 @@ const BarChart = ({
           ticks: {
             color: isDark ? themeColors.light : themeColors.dark
           }
-        },
+        }
       },
       plugins: {
         tooltip: {
@@ -132,14 +117,14 @@ const BarChart = ({
               return rate + footnote + perUnit_area + ': ' + arr['unit'] + footunit;
             }
           }
-        },
+        }
       }
     }
   };
   return (
     <Card className="mb-3 overflow-hidden">
       <CardBody className="position-relative">
-        <Bar ref={chartRef} data={chartData} width={160} height={50}  options={config.options} />
+        <Bar ref={chartRef} data={chartData} width={160} height={50} options={config.options} />
       </CardBody>
     </Card>
   );
