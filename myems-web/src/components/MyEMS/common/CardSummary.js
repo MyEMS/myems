@@ -23,13 +23,10 @@ const getImage = color => {
 
 const getIcon = rate => {
   if (rate == null) return null;
-  let r = parseFloat(rate.substring(0,rate.length-1))
-  if (r > 0.0)
-    return <FontAwesomeIcon icon="arrow-up"/>;
-  else if (r < 0.0)
-    return <FontAwesomeIcon icon="arrow-down"/>;
-  else
-    return null;
+  let r = parseFloat(rate.substring(0, rate.length - 1));
+  if (r > 0.0) return <FontAwesomeIcon icon="arrow-up" />;
+  else if (r < 0.0) return <FontAwesomeIcon icon="arrow-down" />;
+  else return null;
 };
 
 const getContentClassNames = color => {
@@ -45,11 +42,16 @@ const CardSummary = ({ title, rate, color, children, footnote, footvalue, footun
       <CardBody className="position-relative">
         <h6>
           {title}
-          <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>{getIcon(rate)}{rate}</span>
+          <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>
+            {getIcon(rate)}
+            {rate}
+          </span>
         </h6>
         <div className={getContentClassNames(color)}>{children}</div>
         <h6 className="font-weight-semi-bold fs--1 text-nowrap">
-          {footnote} {footvalue && <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />} {footunit}
+          {footnote}{' '}
+          {footvalue && <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
+          {footunit}
         </h6>
       </CardBody>
     </Card>
@@ -63,7 +65,7 @@ CardSummary.propTypes = {
   children: PropTypes.node,
   footnote: PropTypes.string,
   footvalue: PropTypes.number,
-  footunit: PropTypes.string,
+  footunit: PropTypes.string
 };
 
 CardSummary.defaultProps = {

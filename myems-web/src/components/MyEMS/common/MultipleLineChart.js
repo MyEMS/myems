@@ -12,75 +12,68 @@ import {
   ToolboxComponent,
   DataZoomComponent,
   MarkLineComponent,
-  MarkPointComponent} from 'echarts/components';
+  MarkPointComponent
+} from 'echarts/components';
 
-echarts.use([
-  LineChart,
-  GridComponent,
-  ToolboxComponent,
-  DataZoomComponent,
-  MarkLineComponent,
-  MarkPointComponent]);
+echarts.use([LineChart, GridComponent, ToolboxComponent, DataZoomComponent, MarkLineComponent, MarkPointComponent]);
 
-const MultipleLineChart = ({
-  reportingTitle,
-  baseTitle,
-  labels,
-  data,
-  options
-}) => {
+const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options }) => {
   const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [values, setValues] = useState(['a0']);
   const [oldValues, setOldValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
-  const [nodes, setNodes] = useState([{
-    name: options.label,
-    borderWidth: 2,
-    data: data['a0'],
-    type: 'line',
-    markPoint: {
-      label:{
-        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-      },
-      itemStyle: {
-        color: colors[0],
-      },
-      data: [
-        {
-          type: 'max',
-          name: 'Max Value',
+  const [nodes, setNodes] = useState([
+    {
+      name: options.label,
+      borderWidth: 2,
+      data: data['a0'],
+      type: 'line',
+      markPoint: {
+        label: {
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
         },
-        {
-          type: 'min',
-          name: 'Min Value',
+        itemStyle: {
+          color: colors[0]
+        },
+        data: [
+          {
+            type: 'max',
+            name: 'Max Value'
+          },
+          {
+            type: 'min',
+            name: 'Min Value'
+          }
+        ]
+      },
+      markLine: {
+        lineStyle: {
+          color: colors[0]
+        },
+        data: [
+          {
+            type: 'average',
+            name: 'Average Value'
+          }
+        ],
+        label: {
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
         }
-      ]
-    },
-    markLine: {
-      lineStyle: {
-        color: colors[0],
-      },
-      data: [{
-          type: 'average',
-          name: 'Average Value'
-      }],
-      label: {
-        color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-      },
-    },
-  }]);
+      }
+    }
+  ]);
   const [lastMoment, setLastMoment] = useState(moment());
   const [lineLabels, setLinaLabels] = useState([]);
 
-  let handleChange = (arr) => {
+  let handleChange = arr => {
     if (arr.length < 1) {
-      return ;
+      return;
     }
     let currentMoment = moment();
     setOldValues(values);
     setValues(arr);
     setLastMoment(currentMoment);
-  }
+  };
 
   useEffect(() => {
     let tempNodes = [...nodes];
@@ -93,47 +86,49 @@ const MultipleLineChart = ({
         smooth: true,
         name: options[index.slice(1)] ? options[index.slice(1)].label : '',
         lineStyle: {
-          color: colors[0],
+          color: colors[0]
         },
         itemStyle: {
-          color: colors[0],
+          color: colors[0]
         },
         markPoint: {
           data: [
-           {
+            {
               type: 'max',
-              name: 'Max Value',
+              name: 'Max Value'
             },
             {
               type: 'min',
-              name: 'Min Value',
+              name: 'Min Value'
             }
           ],
-          label:{
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+          label: {
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
           },
           itemStyle: {
-            color: colors[0],
-          },
+            color: colors[0]
+          }
         },
         markLine: {
           lineStyle: {
-            color: colors[0],
+            color: colors[0]
           },
-          data: [{
+          data: [
+            {
               type: 'average',
               name: 'Average Value'
-          }],
+            }
+          ],
           label: {
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          },
-        },
-      }
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
+          }
+        }
+      };
     }
     setNodes(tempNodes);
     setLinaLabels(labels[values[0]]);
     setValues(['a0']);
-    setOldValues(['a0'])
+    setOldValues(['a0']);
   }, [data, labels, options]);
 
   useEffect(() => {
@@ -146,35 +141,35 @@ const MultipleLineChart = ({
         smooth: true,
         name: options[index.slice(1)].label,
         itemStyle: {
-          color: colors[index.slice(1) % 5],
+          color: colors[index.slice(1) % 5]
         },
         lineStyle: {
-          color: colors[index.slice(1) % 5],
+          color: colors[index.slice(1) % 5]
         },
         markPoint: {
           data: [
             {
               type: 'max',
-              name: 'Max Value',
+              name: 'Max Value'
             },
             {
               type: 'min',
-              name: 'Min Value',
+              name: 'Min Value'
             }
           ],
-          label:{
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+          label: {
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
           },
           itemStyle: {
-            color: colors[index.slice(1) % 5],
-          },
+            color: colors[index.slice(1) % 5]
+          }
         },
         markLine: {
           lineStyle: {
-            color: colors[index.slice(1) % 5],
+            color: colors[index.slice(1) % 5]
           },
           label: {
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
           },
           data: [
             {
@@ -182,12 +177,12 @@ const MultipleLineChart = ({
               name: 'Average Value'
             }
           ]
-        },
-      })
+        }
+      });
     } else {
-      let i = 0
-      for (; i <= oldValues.length; i++ ) {
-        if (i === values.length || oldValues[i] !== values[i]){
+      let i = 0;
+      for (; i <= oldValues.length; i++) {
+        if (i === values.length || oldValues[i] !== values[i]) {
           break;
         }
       }
@@ -203,7 +198,7 @@ const MultipleLineChart = ({
         trigger: 'axis',
         backgroundColor: getGrays(isDark)[100],
         borderColor: getGrays(isDark)[300],
-        color: isDark ? themeColors.light : themeColors.dark,
+        color: isDark ? themeColors.light : themeColors.dark
       },
       grid: {
         left: '5%',
@@ -217,23 +212,23 @@ const MultipleLineChart = ({
         axisLabel: {
           interval: 'auto',
           color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
-          rotate:30
+          rotate: 30
         },
-        axisLine:{
-          lineStyle:{
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+        axisLine: {
+          lineStyle: {
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
           }
         }
       },
       yAxis: {
         type: 'value',
-        splitLine: {show: false},
+        splitLine: { show: false },
         axisLabel: {
-          color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
         },
-        axisLine:{
-          lineStyle:{
-            color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+        axisLine: {
+          lineStyle: {
+            color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
           }
         }
       },
@@ -251,25 +246,25 @@ const MultipleLineChart = ({
         {
           type: 'slider',
           show: true,
-          xAxisIndex: [0],
+          xAxisIndex: [0]
         },
         {
           type: 'slider',
           show: true,
           yAxisIndex: [0],
-          left: '2%',
+          left: '2%'
         },
         {
           type: 'inside',
-          xAxisIndex: [0],
+          xAxisIndex: [0]
         },
         {
           type: 'inside',
-          yAxisIndex: [0],
+          yAxisIndex: [0]
         }
-      ],
+      ]
     };
-  }
+  };
 
   return (
     <Card className="mb-3">
@@ -277,11 +272,9 @@ const MultipleLineChart = ({
         <Row className="text-white align-items-center no-gutters">
           <Col>
             <h5 className="text-lightSlateGray mb-0">{reportingTitle}</h5>
-            <p className="fs--1 font-weight-semi-bold">
-              {baseTitle}
-            </p>
+            <p className="fs--1 font-weight-semi-bold">{baseTitle}</p>
           </Col>
-          {options[0] && isIterableArray(options) &&
+          {options[0] && isIterableArray(options) && (
             <Col xs="auto" className="d-none d-sm-block">
               <CheckPicker
                 data={options}
@@ -291,17 +284,17 @@ const MultipleLineChart = ({
                 searchable={false}
                 countable={false}
                 onSelect={handleChange}
-                style={{ width: 224, borderRadius: '.25rem'}}
-                />
+                style={{ width: 224, borderRadius: '.25rem' }}
+              />
             </Col>
-          }
+          )}
         </Row>
         <ReactEchartsCore
-            echarts={echarts}
-            notMerge={true}
-            option={getOption()}
-            style={{ width: '100%', height: 318 }}
-            />
+          echarts={echarts}
+          notMerge={true}
+          option={getOption()}
+          style={{ width: '100%', height: 318 }}
+        />
       </CardBody>
     </Card>
   );

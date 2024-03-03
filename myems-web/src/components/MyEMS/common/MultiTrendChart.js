@@ -1,30 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend } from 'chart.js';
 import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { number } from 'is_js';
 
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Tooltip,
-  Legend,
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend);
 
 const MultiTrendChart = ({
   reportingTitle,
@@ -43,7 +27,7 @@ const MultiTrendChart = ({
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
-    datasets: [],
+    datasets: []
   });
   useEffect(() => {
     const chart = chartRef.current;
@@ -56,15 +40,16 @@ const MultiTrendChart = ({
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
 
       const chartData = {
-        datasets: [{
+        datasets: [
+          {
             data: undefinedConvertsToEmptyArray(rates[option]),
-            borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8) ,
+            borderColor: rgbaColor(isDark ? themeColors.primary : '#000', 0.8),
             backgroundColor: gradientFill,
             type: 'line',
             yAxisID: 'y1',
             tooltip: {
               callbacks: {
-                label: function(context){
+                label: function(context) {
                   return context.raw + '%';
                 }
               }
@@ -76,38 +61,41 @@ const MultiTrendChart = ({
               color: isDark ? themeColors.light : themeColors.dark,
               align: 'end',
               anchor: 'end',
-              display: function(content){
+              display: function(content) {
                 return content.dataset.data.length <= 20 ? true : false;
               }
             }
-          },{
+          },
+          {
             //label: baseTitle,
             data: undefinedConvertsToEmptyArray(baseData[option]),
             backgroundColor: '#1a3a64',
-            stack: "base",
+            stack: 'base',
             tension: 0.4,
             datalabels: {
-              display: function(context){
+              display: function(context) {
                 return false;
-               }
+              }
             },
             borderWidth: 0.1,
             borderRadius: 4
-          },{
+          },
+          {
             //label: reportingTitle,
             data: undefinedConvertsToEmptyArray(reportingData[option]),
             backgroundColor: '#2c7be5',
-            stack: "reporting",
+            stack: 'reporting',
             tension: 0.4,
             datalabels: {
-              display: function(context){
+              display: function(context) {
                 return false;
-               }
+              }
             },
             borderWidth: 0.1,
             borderRadius: 4
-          },],
-        labels: undefinedConvertsToEmptyArray(reportingLabels[option]),
+          }
+        ],
+        labels: undefinedConvertsToEmptyArray(reportingLabels[option])
       };
       setLineData(chartData);
     }
@@ -118,24 +106,24 @@ const MultiTrendChart = ({
     options: {
       plugins: {
         legend: {
-          display: false,
+          display: false
         },
         tooltip: {
-            xPadding: 20,
-            yPadding: 10,
-            displayColors: false,
-            callbacks: {
-            title: function(context){
+          xPadding: 20,
+          yPadding: 10,
+          displayColors: false,
+          callbacks: {
+            title: function(context) {
               if (context[0].datasetIndex - 1) {
-                  return `${reportingLabels[option][context[0].dataIndex]}`;
+                return `${reportingLabels[option][context[0].dataIndex]}`;
               } else {
-                  return `${baseLabels[option][context[0].dataIndex]}`;
+                return `${baseLabels[option][context[0].dataIndex]}`;
               }
             },
             label: function(context) {
               let raw = Number(context.raw);
-              if (context.raw != null && !isNaN(raw)){
-                raw = raw.toFixed(3)
+              if (context.raw != null && !isNaN(raw)) {
+                raw = raw.toFixed(3);
               } else {
                 raw = null;
               }
@@ -145,66 +133,66 @@ const MultiTrendChart = ({
                 return `${parseTitleOrTooltipTitle(baseTooltipTitle, option)} - ${raw}`;
               }
             }
-            }
-        },
+          }
+        }
       },
       interaction: {
         intersect: false,
-        mode: 'x',
-        },
+        mode: 'x'
+      },
       scales: {
         x: {
-            display: true,
-            ticks: {
-                fontColor: rgbaColor('#fff', 0.8),
-                fontStyle: 600,
-                color: isDark ? themeColors.light : themeColors.dark
-            },
-            stacked: true,
+          display: true,
+          ticks: {
+            fontColor: rgbaColor('#fff', 0.8),
+            fontStyle: 600,
+            color: isDark ? themeColors.light : themeColors.dark
+          },
+          stacked: true
         },
         y: {
-            display: true,
-            gridLines: {
-                color: rgbaColor('#000', 0.1)
-            },
-            ticks: {
-              color: isDark ? themeColors.light : themeColors.dark
-            },
-            stack: true,
+          display: true,
+          gridLines: {
+            color: rgbaColor('#000', 0.1)
+          },
+          ticks: {
+            color: isDark ? themeColors.light : themeColors.dark
+          },
+          stack: true
         },
         y1: {
           type: 'linear',
           display: true,
           position: 'right',
           grid: {
-            drawOnChartArea: false,
+            drawOnChartArea: false
           },
           suggestedMax: 100,
           ticks: {
-            callback: function(value, index, ticks){
+            callback: function(value, index, ticks) {
               return value + '%';
             },
             color: isDark ? themeColors.light : themeColors.dark
           }
-        },
+        }
       },
-      hover: { mode: 'label' },
+      hover: { mode: 'label' }
     }
   };
 
-  const undefinedConvertsToEmptyArray = (value) => {
-    if(value === undefined) {
-        return [];
+  const undefinedConvertsToEmptyArray = value => {
+    if (value === undefined) {
+      return [];
     }
     return value;
   };
 
   const parseTitleOrTooltipTitle = (title, key) => {
-    const name = title["name"];
-    const substitute = title["substitute"];
-    let title_parameter = {}
-    substitute.forEach((currentKey) => {
-        title_parameter[currentKey] = title[currentKey]? title[currentKey][key] : null;
+    const name = title['name'];
+    const substitute = title['substitute'];
+    let title_parameter = {};
+    substitute.forEach(currentKey => {
+      title_parameter[currentKey] = title[currentKey] ? title[currentKey][key] : null;
     });
     return t(name, title_parameter);
   };
@@ -215,11 +203,9 @@ const MultiTrendChart = ({
         <Row className="text-white align-items-center no-gutters">
           <Col>
             <h5 className="text-lightSlateGray mb-0">{parseTitleOrTooltipTitle(reportingTitle, option)}</h5>
-            <p className="fs--1 font-weight-semi-bold">
-              {parseTitleOrTooltipTitle(baseTitle, option)}
-            </p>
+            <p className="fs--1 font-weight-semi-bold">{parseTitleOrTooltipTitle(baseTitle, option)}</p>
           </Col>
-          {isIterableArray(options) &&
+          {isIterableArray(options) && (
             <Col xs="auto" className="d-none d-sm-block">
               <CustomInput
                 id="ddd"
@@ -227,20 +213,32 @@ const MultiTrendChart = ({
                 bsSize="sm"
                 className="mb-3 shadow"
                 value={option}
-                onChange={({ target }) => {setOption(target.value); chartRef.current.update();}}
+                onChange={({ target }) => {
+                  setOption(target.value);
+                  chartRef.current.update();
+                }}
               >
                 {options.map(({ value, label }) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
               </CustomInput>
             </Col>
-          }
+          )}
         </Row>
-        <Chart ref={chartRef} type="bar" data={lineData} options={config.options} plugins={config.plugins} width={1618} height={218} />
+        <Chart
+          ref={chartRef}
+          type="bar"
+          data={lineData}
+          options={config.options}
+          plugins={config.plugins}
+          width={1618}
+          height={218}
+        />
       </CardBody>
     </Card>
   );
 };
 
 export default withTranslation()(MultiTrendChart);
-
