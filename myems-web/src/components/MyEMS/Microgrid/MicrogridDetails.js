@@ -1,5 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Card, CardBody, Col, CustomInput, Form, FormGroup, Label, Row, Table, Spinner } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Col,
+  CustomInput,
+  CardTitle,
+  CardText,
+  Form,
+  FormGroup,
+  Label,
+  Row,
+  Table,
+  Spinner,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
@@ -10,6 +28,7 @@ import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
+import classNames from 'classnames';
 
 const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -44,6 +63,16 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     }, 1000);
     return () => clearInterval(timer);
   }, [setRedirect, setRedirectUrl]);
+
+  const [activeTabRight, setActiveTabRight] = useState('1');
+  const toggleTabRight = tab => {
+    if (activeTabRight !== tab) setActiveTabRight(tab);
+  };
+
+  const [activeTabBottom, setActiveTabBottom] = useState('1');
+  const toggleTabBottom = tab => {
+    if (activeTabBottom !== tab) setActiveTabBottom(tab);
+  };
 
   // State
   const [chargeStartTime1, setChargeStartTime1] = useState(null);
@@ -715,212 +744,376 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   return (
     <Fragment>
       <Row noGutters>
+        <Col lg="2" className="pr-lg-2">
+          <Card>
+            <FalconCardHeader title="数据指标" titleTag="h5" light={false} />
+            <Fragment>
+              <CardBody className="pt-0">
+                <Table borderless className="fs--1 mb-0">
+                  <tbody>
+                    <tr className="border-bottom">
+                      <th className="pl-0">今日充电量</th>
+                      <th className="pr-0 text-right">1000 kWh</th>
+                    </tr>
+                    <tr className="border-bottom">
+                      <th className="pl-0">今日放电量</th>
+                      <th className="pr-0 text-right ">1000 kWh</th>
+                    </tr>
+                    <tr className="border-bottom">
+                      <th className="pl-0 pb-0">今日收益</th>
+                      <th className="pr-0 text-right">1000 kWh</th>
+                    </tr>
+                    <tr className="border-bottom">
+                      <th className="pl-0 pb-0">今日告警</th>
+                      <th className="pr-0 text-right">1000</th>
+                    </tr>
+                    <tr className="border-bottom">
+                      <th className="pl-0 pb-0">综合效率</th>
+                      <th className="pr-0 text-right">100%</th>
+                    </tr>
+                    <tr className="border-bottom">
+                      <th className="pl-0 pb-0">放电达成率</th>
+                      <th className="pr-0 text-right">100%</th>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Fragment>
+          </Card>
+        </Col>
         <Col lg="8" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
-        <Col lg="4" className="pr-lg-2">
-          <Card className="mb-3 fs--1">
-            <FalconCardHeader title={t('General Information')} light={false} titleClass="text-lightSlateGray mb-0" />
-            <CardBody className="bg-light">
-              <h6 className="mt-4">{t('Name')}</h6>
-              <div className="mb-1">{microgridName}</div>
-              <h6 className="mt-4">{t('Serial Number')}</h6>
-              <div className="mb-1">{microgridSerialNumber}</div>
-              <h6 className="mt-4">{t('Address')}</h6>
-              <div className="mb-1">{microgridAddress}</div>
-              <h6 className="mt-4">{t('Postal Code')}</h6>
-              <div className="mb-1">{microgridPostalCode}</div>
-              <h6 className="mt-4">{t('Capacity')} (kW)</h6>
-              <div className="mb-1">{microgridCapacity}</div>
-              <h6 className="mt-4">{t('Latitude')}</h6>
-              <div className="mb-1">{microgridLatitude}</div>
-              <h6 className="mt-4">{t('Longitude')}</h6>
-              <div className="mb-1">{microgridLongitude}</div>
-            </CardBody>
-          </Card>
+        <Col lg="2" className="pr-lg-2">
+          <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '1' })}
+                onClick={() => {
+                  toggleTabRight('1');
+                }}
+              >
+                {t('General Information')}
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '2' })}
+                onClick={() => {
+                  toggleTabRight('2');
+                }}
+              >
+                设备状态
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTabRight}>
+            <TabPane tabId="1">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Name')}</th>
+                          <th className="pr-0 text-right">{microgridName}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Address')}</th>
+                          <th className="pr-0 text-right ">{microgridAddress}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                          <th className="pr-0 text-right">{microgridPostalCode}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Capacity')} </th>
+                          <th className="pr-0 text-right">{microgridCapacity} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Latitude')}</th>
+                          <th className="pr-0 text-right">{microgridLatitude}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Longitude')}</th>
+                          <th className="pr-0 text-right">{microgridLongitude}</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="2" />
+          </TabContent>
         </Col>
       </Row>
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <Card className="mb-3 fs--1">
-        <FalconCardHeader title={t('Charging Schedule')} light={false} titleClass="text-lightSlateGray mb-0" />
-        <CardBody className="bg-light">
-          <Table striped className="border-bottom">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>{t('Charge Start Time')}</th>
-                <th>{t('Charge End Time')}</th>
-                <th>{t('Discharge Start Time')}</th>
-                <th>{t('Discharge End Time')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeStartTime1}
-                    onChange={onChargeStartTime1Change}
-                    onClose={onChargeStartTime1Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeEndTime1}
-                    onChange={onChargeEndTime1Change}
-                    onClose={onChargeEndTime1Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeStartTime1}
-                    onChange={onDischargeStartTime1Change}
-                    onClose={onDischargeStartTime1Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeEndTime1}
-                    onChange={onDischargeEndTime1Change}
-                    onClose={onDischargeEndTime1Close}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeStartTime2}
-                    onChange={onChargeStartTime2Change}
-                    onClose={onChargeStartTime2Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeEndTime2}
-                    onChange={onChargeEndTime2Change}
-                    onClose={onChargeEndTime2Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeStartTime2}
-                    onChange={onDischargeStartTime2Change}
-                    onClose={onDischargeStartTime2Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeEndTime2}
-                    onChange={onDischargeEndTime2Change}
-                    onClose={onDischargeEndTime2Close}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeStartTime3}
-                    onChange={onChargeStartTime3Change}
-                    onClose={onChargeStartTime3Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeEndTime3}
-                    onChange={onChargeEndTime3Change}
-                    onClose={onChargeEndTime3Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeStartTime3}
-                    onChange={onDischargeStartTime3Change}
-                    onClose={onDischargeStartTime3Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeEndTime3}
-                    onChange={onDischargeEndTime3Change}
-                    onClose={onDischargeEndTime3Close}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeStartTime4}
-                    onChange={onChargeStartTime4Change}
-                    onClose={onChargeStartTime4Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={chargeEndTime4}
-                    onChange={onChargeEndTime4Change}
-                    onClose={onChargeEndTime4Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeStartTime4}
-                    onChange={onDischargeStartTime4Change}
-                    onClose={onDischargeStartTime4Close}
-                  />
-                </td>
-                <td>
-                  <Datetime
-                    dateFormat={false}
-                    timeFormat="HH:mm"
-                    value={dischargeEndTime4}
-                    onChange={onDischargeEndTime4Change}
-                    onClose={onDischargeEndTime4Close}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </CardBody>
-      </Card>
+
+      <Nav tabs>
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '1' })}
+            onClick={() => {
+              toggleTabBottom('1');
+            }}
+          >
+            {t('Operating Characteristic Curve')}
+          </NavLink>
+        </NavItem>
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '2' })}
+            onClick={() => {
+              toggleTabBottom('2');
+            }}
+          >
+            策略管理
+          </NavLink>
+        </NavItem>
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '3' })}
+            onClick={() => {
+              toggleTabBottom('3');
+            }}
+          >
+            {t('Fault Alarms')}
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={activeTabBottom}>
+        <TabPane tabId="1">
+          <MultipleLineChart
+            reportingTitle=""
+            baseTitle=""
+            labels={parameterLineChartLabels}
+            data={parameterLineChartData}
+            options={parameterLineChartOptions}
+          />
+        </TabPane>
+        <TabPane tabId="2">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Charge Start Time')}</th>
+                    <th>{t('Charge End Time')}</th>
+                    <th>{t('Discharge Start Time')}</th>
+                    <th>{t('Discharge End Time')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeStartTime1}
+                        onChange={onChargeStartTime1Change}
+                        onClose={onChargeStartTime1Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeEndTime1}
+                        onChange={onChargeEndTime1Change}
+                        onClose={onChargeEndTime1Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeStartTime1}
+                        onChange={onDischargeStartTime1Change}
+                        onClose={onDischargeStartTime1Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeEndTime1}
+                        onChange={onDischargeEndTime1Change}
+                        onClose={onDischargeEndTime1Close}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeStartTime2}
+                        onChange={onChargeStartTime2Change}
+                        onClose={onChargeStartTime2Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeEndTime2}
+                        onChange={onChargeEndTime2Change}
+                        onClose={onChargeEndTime2Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeStartTime2}
+                        onChange={onDischargeStartTime2Change}
+                        onClose={onDischargeStartTime2Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeEndTime2}
+                        onChange={onDischargeEndTime2Change}
+                        onClose={onDischargeEndTime2Close}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeStartTime3}
+                        onChange={onChargeStartTime3Change}
+                        onClose={onChargeStartTime3Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeEndTime3}
+                        onChange={onChargeEndTime3Change}
+                        onClose={onChargeEndTime3Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeStartTime3}
+                        onChange={onDischargeStartTime3Change}
+                        onClose={onDischargeStartTime3Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeEndTime3}
+                        onChange={onDischargeEndTime3Change}
+                        onClose={onDischargeEndTime3Close}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeStartTime4}
+                        onChange={onChargeStartTime4Change}
+                        onClose={onChargeStartTime4Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={chargeEndTime4}
+                        onChange={onChargeEndTime4Change}
+                        onClose={onChargeEndTime4Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeStartTime4}
+                        onChange={onDischargeStartTime4Change}
+                        onClose={onDischargeStartTime4Close}
+                      />
+                    </td>
+                    <td>
+                      <Datetime
+                        dateFormat={false}
+                        timeFormat="HH:mm"
+                        value={dischargeEndTime4}
+                        onChange={onDischargeEndTime4Change}
+                        onClose={onDischargeEndTime4Close}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="3">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>时间</th>
+                    <th>内容</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+      </TabContent>
     </Fragment>
   );
 };
