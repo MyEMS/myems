@@ -236,7 +236,7 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
