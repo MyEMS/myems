@@ -4,9 +4,11 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import createMarkup from '../../helpers/createMarkup';
 
-const Notification = ({ created_datetime, id, status, flush, message, subject}) => (
-    <Link className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
-    to="/notification">
+const Notification = ({ created_datetime, id, status, flush, message, subject }) => (
+  <Link
+    className={classNames('notification', { 'bg-200': status, 'notification-flush': flush }, id)}
+    to="/notification"
+  >
     <div className="notification-body">
       <p className="mb-0">{subject}</p>
       <span className="notification-time">{created_datetime}</span>

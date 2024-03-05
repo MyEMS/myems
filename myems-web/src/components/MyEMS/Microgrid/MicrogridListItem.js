@@ -50,6 +50,7 @@ const MicrogridListItem = ({
             <div className="position-relative h-sm-100">
               <Link className="d-block h-100" to={`/microgrid/details?uuid=${uuid}`} target="_blank">
                 <img
+                  alt=""
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
                   src={files[0]['src']}
                 />

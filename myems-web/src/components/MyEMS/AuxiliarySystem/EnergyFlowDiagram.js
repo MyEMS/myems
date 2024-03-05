@@ -12,7 +12,7 @@ import {
   FormGroup,
   Label,
   CustomInput,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import moment from 'moment';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
@@ -25,7 +25,7 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
+import { endOfDay } from 'date-fns';
 
 echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
@@ -36,7 +36,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -64,7 +64,13 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   // Query Parameters
   const [energyFlowDiagramList, setEnergyFlowDiagramList] = useState([]);
   const [selectedEnergyFlowDiagram, setSelectedEnergyFlowDiagram] = useState(undefined);
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -82,7 +88,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { isDark } = useContext(AppContext);
 
   // buttons
@@ -90,85 +96,87 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
 
   //Results
-  const [energyFlowDiagramData, setEnergyFlowDiagramData] = useState({"nodes": [], "links": []});
+  const [energyFlowDiagramData, setEnergyFlowDiagramData] = useState({ nodes: [], links: [] });
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/energyflowdiagrams', {
+    fetch(APIBaseURL + '/energyflowdiagrams', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify(json).split('"id":').join('"value":').split('"name":').join('"label":'));
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
         console.log(json);
-        setEnergyFlowDiagramList(json);
-        setSelectedEnergyFlowDiagram([json[0]].map(o => o.value));
-        // enable submit button
-        setSubmitButtonDisabled(false);
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }, [ ]);
-
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify(json)
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setEnergyFlowDiagramList(json);
+          setSelectedEnergyFlowDiagram([json[0]].map(o => o.value));
+          // enable submit button
+          setSubmitButtonDisabled(false);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   const getOption = () => {
-    let colorArr = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de',
-      '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
+    let colorArr = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
     let backgroundColor = '#FFFFFF';
     let labelColor = 'rgba(0, 0, 0, 1)';
     let labelTextBorderColor = 'rgba(255, 255, 255, 1)';
 
     if (isDark) {
-      colorArr = ['#4992ff', '#7cffb2', '#fddd60', '#ff6e76', '#58d9f9',
-        '#05c091', '#ff8a45', '#8d48e3', '#dd79ff'];
+      colorArr = ['#4992ff', '#7cffb2', '#fddd60', '#ff6e76', '#58d9f9', '#05c091', '#ff8a45', '#8d48e3', '#dd79ff'];
       backgroundColor = '#100C2A';
       labelColor = 'rgba(255, 255, 255, 1)';
       labelTextBorderColor = 'rgba(0, 0, 0, 1)';
     }
 
     let colorIndex = 0;
-    for(let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
+    for (let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
       let item = energyFlowDiagramData.nodes[i];
-      item.itemStyle = {color: colorArr[colorIndex%9]};
-      colorIndex ++;
+      item.itemStyle = { color: colorArr[colorIndex % 9] };
+      colorIndex++;
     }
 
-    energyFlowDiagramData.links.forEach(function (item) {
-      if(item.value === null) {
-          item.value = 0;
+    energyFlowDiagramData.links.forEach(function(item) {
+      if (item.value === null) {
+        item.value = 0;
       }
       let sourceColor = null;
       let targetColor = null;
-      for(let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
+      for (let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
         if (item.source === energyFlowDiagramData.nodes[i].name) {
           sourceColor = energyFlowDiagramData.nodes[i].itemStyle.color;
         }
         if (item.target === energyFlowDiagramData.nodes[i].name) {
           targetColor = energyFlowDiagramData.nodes[i].itemStyle.color;
         }
-        if(sourceColor != null && targetColor != null) {
+        if (sourceColor != null && targetColor != null) {
           break;
         }
       }
@@ -178,16 +186,21 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
         y: 0,
         x2: 1,
         y2: 0,
-        colorStops: [{
-            offset: 0, color: sourceColor
-        }, {
-            offset: 1, color: targetColor
-        }],
+        colorStops: [
+          {
+            offset: 0,
+            color: sourceColor
+          },
+          {
+            offset: 1,
+            color: targetColor
+          }
+        ],
         globalCoord: false
-      }
+      };
       item.lineStyle = {
         color: color
-      }
+      };
     });
 
     return {
@@ -225,8 +238,8 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     };
   };
 
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
       setSubmitButtonDisabled(true);
     } else {
@@ -266,45 +279,48 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodstartdatetime=' +
         moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'), {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      };
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json)
-        setEnergyFlowDiagramData(json);
-        console.log(energyFlowDiagramData);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-
-      } else {
-        toast.error(t(json.description))
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-    }).catch(err => {
-      console.log(err);
-    });
-  };
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setEnergyFlowDiagramData(json);
+          console.log(energyFlowDiagramData);
 
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Auxiliary System')}</BreadcrumbItem><BreadcrumbItem active>{t('Energy Flow Diagram')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Auxiliary System')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Energy Flow Diagram')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -316,8 +332,12 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="energyFlowDiagramSelect">
                     {t('Energy Flow Diagram')}
                   </Label>
-                  <CustomInput type="select" id="energyFlowDiagramSelect" name="energyFlowDiagramSelect"
-                    value={selectedEnergyFlowDiagram} onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="energyFlowDiagramSelect"
+                    name="energyFlowDiagramSelect"
+                    value={selectedEnergyFlowDiagram}
+                    onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
                   >
                     {energyFlowDiagramList.map((energyFlowDiagram, index) => (
                       <option value={energyFlowDiagram.value} key={index}>
@@ -329,8 +349,10 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
                   <DateRangePickerWrapper
                     id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
@@ -348,14 +370,16 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
             </Row>

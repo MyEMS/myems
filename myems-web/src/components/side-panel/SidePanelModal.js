@@ -21,7 +21,6 @@ import VerticalNavRadioBtn from './VerticalNavStyleRadioBtn';
 import LanguageRadioBtn from './LanguageRadioBtn';
 import { withTranslation } from 'react-i18next';
 
-
 const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, path, t }) => {
   const {
     isCombo,
@@ -237,7 +236,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
           <ButtonGroup className="btn-block">
             <LanguageRadioBtn btnName={'tr'} />
             <LanguageRadioBtn btnName={'ms'} />
-            <LanguageRadioBtn btnName={'id'}/>
+            <LanguageRadioBtn btnName={'id'} />
           </ButtonGroup>
         </div>
         <hr />
@@ -245,10 +244,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
           <img src={settings} alt="settings" width={120} className="mb-4" />
           <h5>{t('Like What You See?')}</h5>
           <p className="fs--1">{t('Get MyEMS now.')}</p>
-          <Button
-            color="primary"
-            href="https://myems.io"
-          >
+          <Button color="primary" href="https://myems.io">
             {t('Purchase')}
           </Button>
         </div>

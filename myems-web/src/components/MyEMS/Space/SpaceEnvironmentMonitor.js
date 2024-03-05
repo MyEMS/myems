@@ -20,7 +20,7 @@ import RealtimeData from './RealtimeData';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 
@@ -36,7 +36,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -139,7 +139,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
     //end of getting space tree
-  }, []);
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -188,39 +188,38 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     setCursor(1);
     setMaxCursor(maxCursor);
 
-    document.getElementById("cursor_2").hidden=true;
-    document.getElementById("cursor_3").hidden=true;
-    document.getElementById("cursor_4").hidden=true;
-    if(maxCursor == 2){
-      document.getElementById("cursor_2").hidden=false;
+    document.getElementById('cursor_2').hidden = true;
+    document.getElementById('cursor_3').hidden = true;
+    document.getElementById('cursor_4').hidden = true;
+    if (maxCursor === 2) {
+      document.getElementById('cursor_2').hidden = false;
     }
-    if(maxCursor == 3){
-      document.getElementById("cursor_2").hidden=false;
-      document.getElementById("cursor_3").hidden=false;
+    if (maxCursor === 3) {
+      document.getElementById('cursor_2').hidden = false;
+      document.getElementById('cursor_3').hidden = false;
     }
-    if(maxCursor>=4)
-    {
-      document.getElementById("cursor_2").hidden=false;
-      document.getElementById("cursor_3").hidden=false;
-      document.getElementById("cursor_4").hidden=false;
+    if (maxCursor >= 4) {
+      document.getElementById('cursor_2').hidden = false;
+      document.getElementById('cursor_3').hidden = false;
+      document.getElementById('cursor_4').hidden = false;
     }
-
-  }, []);
+  }, [sensorList]);
 
   useEffect(() => {
     setSelectSensorList(sensorList.slice(cursor * len - 8, cursor * len));
-  }, []);
+  }, [sensorList, cursor]);
 
-  function getCursor(location){
-    switch (location){
+  function getCursor(location) {
+    switch (location) {
+      default:
       case 1:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor-3 : cursor;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 3 : cursor;
       case 2:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -2 : cursor +1;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 2 : cursor + 1;
       case 3:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor -1: cursor +2;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 1 : cursor + 2;
       case 4:
-            return cursor > maxCursor-3&&maxCursor - 3 >= 0 ? maxCursor  : cursor+3;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor : cursor + 3;
     }
   }
 
@@ -262,9 +261,9 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className='card-deck'>
-      {selectSensorList.map(sensor => (
-            <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
+      <div className="card-deck">
+        {selectSensorList.map(sensor => (
+          <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
         ))}
       </div>
       <Pagination>
@@ -276,18 +275,26 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(1)))}>{getCursor(1)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
+            {getCursor(1)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_2">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(2)))}>{getCursor(2)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
+            {getCursor(2)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_3">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(3)))}>{getCursor(3)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
+            {getCursor(3)}
+          </PaginationLink>
         </PaginationItem>
         <PaginationItem id="cursor_4">
-          <PaginationLink href="#" onClick={() => (setCursor(getCursor(4)))}>{getCursor(4)}</PaginationLink>
+          <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
+            {getCursor(4)}
+          </PaginationLink>
         </PaginationItem>
-        <PaginationItem >
+        <PaginationItem>
           <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
         </PaginationItem>
         <PaginationItem>

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import is from 'is_js';
 import PropTypes from 'prop-types';
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Button, Collapse, Nav, Navbar, NavItem} from 'reactstrap';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button, Collapse, Nav, Navbar, NavItem } from 'reactstrap';
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
-import {APIBaseURL, settings, navbarBreakPoint, topNavbarBreakpoint} from '../../config';
+import { APIBaseURL, settings, navbarBreakPoint, topNavbarBreakpoint } from '../../config';
 import AppContext from '../../context/Context';
 import routes from '../../routes';
 import Flex from '../common/Flex';
@@ -13,19 +13,18 @@ import NavbarTopDropDownMenus from './NavbarTopDropDownMenus';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import ToggleButton from './ToggleButton';
 import { withTranslation } from 'react-i18next';
-import {createCookie, getCookieValue, checkEmpty} from "../../helpers/utils";
-import {toast} from "react-toastify";
-import withRedirect from "../../hoc/withRedirect";
+import { createCookie, getCookieValue, checkEmpty } from '../../helpers/utils';
+import { toast } from 'react-toastify';
+import withRedirect from '../../hoc/withRedirect';
 
 const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
-
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -66,7 +65,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     HTMLClassList.add('navbar-vertical-collapsed');
   }
 
-  const [ showRoutes, setShowRoutes] = useState([routes[0]]);
+  const [showRoutes, setShowRoutes] = useState([routes[0]]);
 
   useEffect(() => {
     if (is.windows()) {
@@ -97,54 +96,55 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     let isResponseOK = false;
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if(checkEmpty(token)|| checkEmpty(user_uuid)) return;
+    if (checkEmpty(token) || checkEmpty(user_uuid)) return;
 
     fetch(APIBaseURL + '/menus/web', {
       method: 'GET',
       headers: {
-        "Content-type": "application/json",
-        "User-UUID": getCookieValue('user_uuid'),
-        "Token": getCookieValue('token')
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      //console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      //console.log(json);
-      if (isResponseOK) {
-        let showRoutes = [routes[0]];
-        for (let i = 0; i < routes.length; i++) {
-          let route = routes[i];
-          if(route.to in json && 'children' in route) {
-            let showChildren = [];
-            for (let j = 0; j < route.children.length; j++) {
-              const child = route.children[j];
-              if(json[route.to].indexOf(child.to) !== -1) {
-                showChildren.push(child);
-              }
-            }
-            route.children = showChildren;
-
-            showRoutes.push(route)
-
-          }else if(route.to in json) {
-            showRoutes.push(route)
-          }
+      body: null
+    })
+      .then(response => {
+        //console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
         }
+        return response.json();
+      })
+      .then(json => {
+        //console.log(json);
+        if (isResponseOK) {
+          let showRoutes = [routes[0]];
+          for (let i = 0; i < routes.length; i++) {
+            let route = routes[i];
+            if (route.to in json && 'children' in route) {
+              let showChildren = [];
+              for (let j = 0; j < route.children.length; j++) {
+                const child = route.children[j];
+                if (json[route.to].indexOf(child.to) !== -1) {
+                  showChildren.push(child);
+                }
+              }
+              route.children = showChildren;
 
-        setShowRoutes(showRoutes);
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }, [t, ]);
+              showRoutes.push(route);
+            } else if (route.to in json) {
+              showRoutes.push(route);
+            }
+          }
+
+          setShowRoutes(showRoutes);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   return (
     <Navbar

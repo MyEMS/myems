@@ -212,15 +212,15 @@ export const copyToClipBoard = textFieldRef => {
   document.execCommand('copy');
 };
 
-export const checkEmpty = (str) => {
-  return str == null || str === '' || str.trim().length === 0
-}
+export const checkEmpty = str => {
+  return str == null || str === '' || str.trim().length === 0;
+};
 
-export const floatFormatter = (temp) => {
-  if(temp == null) return temp; 
-  if(temp > 0) return temp;
-  if(temp == 0) return 0;
+export const floatFormatter = temp => {
+  if (temp == null) return temp;
+  if (temp > 0) return temp;
+  if (temp == 0) return 0;
   temp = Math.floor(temp * 1000) / 1000;
   temp = temp.toFixed(3); // Retain three decimal places
   return parseFloat(temp); // Remove the 0 at the end
-}
+};

@@ -59,7 +59,6 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-
   });
 
   // State
@@ -149,8 +148,8 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
   useEffect(() => {
     let isResponseOK = false;
     if (uuid === null || !uuid) {
-        setSpaceCascaderHidden(false);
-        setEnergyStoragePowerStationSearchHidden(false);
+      setSpaceCascaderHidden(false);
+      setEnergyStoragePowerStationSearchHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -314,7 +313,7 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
           });
           setParameterLineChartData(values);
 
-          let names = Array();
+          let names = [];
           json['parameters']['names'].forEach((currentValue, index) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
@@ -364,7 +363,7 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
           });
           setEnergyStoragePowerStationReportingSubtotals(reporting_subtotals);
 
-          let options = Array();
+          let options = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period']['units'][index];
             options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
