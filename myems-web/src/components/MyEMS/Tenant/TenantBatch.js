@@ -12,7 +12,8 @@ import {
   FormGroup,
   Input,
   Label,
-  Spinner, Media
+  Spinner,
+  Media
 } from 'reactstrap';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -23,15 +24,14 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
-import Appcontext from '../../../context/Context'
+import Appcontext from '../../../context/Context';
 
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
-import {Link} from "react-router-dom";
-import Flex from "../../common/Flex";
+import { endOfDay } from 'date-fns';
+import { Link } from 'react-router-dom';
+import Flex from '../../common/Flex';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
-
 
 const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -41,7 +41,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -71,7 +71,13 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [tenantList, setTenantList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -89,7 +95,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(Appcontext);
 
   // buttons
@@ -98,8 +104,10 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
   //Results
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState(
-    [{dataField: 'name', text: t('Name'), sort: true}, {dataField: 'space', text: t('Space'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
+    { dataField: 'name', text: t('Name'), sort: true },
+    { dataField: 'space', text: t('Space'), sort: true }
+  ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -111,34 +119,41 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          // set the default selected space
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
 
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        // set the default selected space
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        setSelectedSpaceID([json[0]].map(o => o.value));
-
-        setSubmitButtonDisabled(false);
-        setSpinnerHidden(true);
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }, []);
+          setSubmitButtonDisabled(false);
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -150,8 +165,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     setSubmitButtonDisabled(false);
   };
   // Callback fired when value changed
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -172,7 +187,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     e.preventDefault();
     console.log('handleSubmit');
     console.log(selectedSpaceID);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
@@ -180,131 +195,143 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setTenantList([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/tenantbatch?' +
-      'spaceid=' + selectedSpaceID +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      };
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
-        let tenants = [];
-        if (json['tenants'].length > 0) {
-          let detailed_column_list = [];
-          detailed_column_list.push({
-            dataField: 'name',
-            text: t('Name'),
-            formatter: nameFormatter,
-            sort: true
-          });
-          detailed_column_list.push({
-            dataField: 'space',
-            text: t('Space'),
-            sort: true
-          });
-          json['energycategories'].forEach((currentValue, index) => {
-            detailed_column_list.push({
-              dataField: 'a' + 2 * index,
-              text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            },{
-              dataField: 'a' + (2 * index + 1),
-              text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
-          });
-
-          setDetailedDataTableColumns(detailed_column_list);
-          console.log(detailed_column_list);
-
-          json['tenants'].forEach((currentTenant, index) => {
-            let detailed_value = {};
-            detailed_value['id'] = currentTenant['id'];
-            detailed_value['name'] = currentTenant['tenant_name'];
-            detailed_value['uuid'] = currentTenant['tenant_uuid'];
-            detailed_value['space'] = currentTenant['space_name'];
-            detailed_value['costcenter'] = currentTenant['cost_center_name'];
-            currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + 2 * energyCategoryIndex] = currentValue;
-            });
-            currentTenant['maximum'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + (2 * energyCategoryIndex + 1)] = currentValue;
-            });
-            tenants.push(detailed_value);
-          });
-        };
-
-        setTenantList(tenants);
-
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-
-      } else {
-        toast.error(t(json.description));
+    fetch(
+      APIBaseURL +
+        '/reports/tenantbatch?' +
+        'spaceid=' +
+        selectedSpaceID +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-    }).catch(err => {
-      console.log(err);
-    });
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          let tenants = [];
+          if (json['tenants'].length > 0) {
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'name',
+              text: t('Name'),
+              formatter: nameFormatter,
+              sort: true
+            });
+            detailed_column_list.push({
+              dataField: 'space',
+              text: t('Space'),
+              sort: true
+            });
+            json['energycategories'].forEach((currentValue, index) => {
+              detailed_column_list.push(
+                {
+                  dataField: 'a' + 2 * index,
+                  text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                },
+                {
+                  dataField: 'a' + (2 * index + 1),
+                  text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                }
+              );
+            });
+
+            setDetailedDataTableColumns(detailed_column_list);
+            console.log(detailed_column_list);
+
+            json['tenants'].forEach((currentTenant, index) => {
+              let detailed_value = {};
+              detailed_value['id'] = currentTenant['id'];
+              detailed_value['name'] = currentTenant['tenant_name'];
+              detailed_value['uuid'] = currentTenant['tenant_uuid'];
+              detailed_value['space'] = currentTenant['space_name'];
+              detailed_value['costcenter'] = currentTenant['cost_center_name'];
+              currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
+                detailed_value['a' + 2 * energyCategoryIndex] = currentValue;
+              });
+              currentTenant['maximum'].forEach((currentValue, energyCategoryIndex) => {
+                detailed_value['a' + (2 * energyCategoryIndex + 1)] = currentValue;
+              });
+              tenants.push(detailed_value);
+            });
+          }
+
+          setTenantList(tenants);
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'tenantbatch.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'tenantbatch.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
 
   const nameFormatter = (dataField, { name, uuid }) => (
-    <Link to={{pathname:'/tenant/energycategory?uuid=' + uuid}}  target = "_blank">
+    <Link to={{ pathname: '/tenant/energycategory?uuid=' + uuid }} target="_blank">
       <Media tag={Flex} align="center">
         <Media body className="ml-2">
           <h5 className="mb-0 fs--1">{name}</h5>
@@ -317,7 +344,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Batch Analysis')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Batch Analysis')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -330,10 +358,12 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -341,8 +371,10 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
 
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
                   <DateRangePickerWrapper
                     id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
@@ -360,31 +392,40 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
-      <DetailedDataTable data={tenantList} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
-      </DetailedDataTable>
-
+      <DetailedDataTable
+        data={tenantList}
+        title={t('Detailed Data')}
+        columns={detailedDataTableColumns}
+        pagesize={50}
+      />
     </Fragment>
   );
 };
