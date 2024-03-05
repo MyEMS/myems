@@ -29,9 +29,8 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
+import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
-
 
 const formatCurrency = (number, currency) =>
   `${currency}${number.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}`;
@@ -45,9 +44,11 @@ const ProductTr = ({ name, description, startdate, enddate, subtotalinput, unit,
       </td>
       <td className="align-middle text-center">{startdate}</td>
       <td className="align-middle text-center">{enddate}</td>
-      <td className="align-middle text-center">{subtotalinput.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}</td>
+      <td className="align-middle text-center">
+        {subtotalinput.toFixed(3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}
+      </td>
       <td className="align-middle text-right">{unit}</td>
-      <td className="align-middle text-right">{(subtotalcost).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}</td>
+      <td className="align-middle text-right">{subtotalcost.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}</td>
     </tr>
   );
 };
@@ -59,7 +60,7 @@ ProductTr.propTypes = {
   enddate: PropTypes.string.isRequired,
   subtotalinput: PropTypes.number.isRequired,
   unit: PropTypes.string.isRequired,
-  subtotalcost: PropTypes.number.isRequired,
+  subtotalcost: PropTypes.number.isRequired
 };
 
 const InvoiceHeader = ({ institution, logo, address, t }) => (
@@ -92,7 +93,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -126,7 +127,13 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
   const [tenantList, setTenantList] = useState([]);
   const [selectedTenant, setSelectedTenant] = useState(undefined);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -144,7 +151,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -154,7 +161,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
   //Results
   const [invoice, setInvoice] = useState(undefined);
   const [subtotal, setSubtotal] = useState(0);
-  const [taxRate, setTaxRate] = useState(0.00);
+  const [taxRate, setTaxRate] = useState(0.0);
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -168,66 +175,81 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        setSelectedSpaceID([json[0]].map(o => o.value));
-        // get Tenants by root Space ID
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/tenants', {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json);
-            setTenantList(json[0]);
-            if (json[0].length > 0) {
-              setSelectedTenant(json[0][0].value);
-              // enable submit button
-              setSubmitButtonDisabled(false);
-            } else {
-              setSelectedTenant(undefined);
-              // disable submit button
-              setSubmitButtonDisabled(true);
-            }
-          } else {
-            toast.error(t(json.description))
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of get Tenants by root Space ID
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get Tenants by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/tenants', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setTenantList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedTenant(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
+                } else {
+                  setSelectedTenant(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get Tenants by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
@@ -244,39 +266,46 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        setTenantList(json[0]);
-        if (json[0].length > 0) {
-          setSelectedTenant(json[0][0].value);
-          // enable submit button
-          setSubmitButtonDisabled(false);
-        } else {
-          setSelectedTenant(undefined);
-          // disable submit button
-          setSubmitButtonDisabled(true);
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setTenantList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedTenant(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedTenant(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-
   // Callback fired when value changed
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -297,7 +326,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     console.log('handleSubmit');
     console.log(selectedSpaceID);
     console.log(selectedTenant);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
@@ -305,111 +334,125 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/tenantbill?' +
-      'tenantid=' + selectedTenant +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+    fetch(
+      APIBaseURL +
+        '/reports/tenantbill?' +
+        'tenantid=' +
+        selectedTenant +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
 
-        let productArray = []
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let productItem = {}
-          productItem['name'] = json['reporting_period']['names'][index];
-          productItem['unit'] = json['reporting_period']['units'][index];
-          productItem['startdate'] = moment(reportingPeriodDateRange[0]).format('YYYY-MM-DD');
-          productItem['enddate'] = moment(reportingPeriodDateRange[1]).format('YYYY-MM-DD');
-          productItem['subtotalinput'] = json['reporting_period']['subtotals_input'][index];
-          productItem['subtotalcost'] = json['reporting_period']['subtotals_cost'][index];
-          productArray.push(productItem);
-        });
+          let productArray = [];
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let productItem = {};
+            productItem['name'] = json['reporting_period']['names'][index];
+            productItem['unit'] = json['reporting_period']['units'][index];
+            productItem['startdate'] = moment(reportingPeriodDateRange[0]).format('YYYY-MM-DD');
+            productItem['enddate'] = moment(reportingPeriodDateRange[1]).format('YYYY-MM-DD');
+            productItem['subtotalinput'] = json['reporting_period']['subtotals_input'][index];
+            productItem['subtotalcost'] = json['reporting_period']['subtotals_cost'][index];
+            productArray.push(productItem);
+          });
 
-        setInvoice({
-          institution: json['tenant']['name'],
-          logo: logoInvoice,
-          address: json['tenant']['rooms'] + '<br />' + json['tenant']['floors'] + '<br />' + json['tenant']['buildings'],
-          tax: 0.01,
-          currency: json['reporting_period']['currency_unit'],
-          user: {
-            name: json['tenant']['name'],
-            address: json['tenant']['rooms'] + '<br />' + json['tenant']['floors'] + '<br />' + json['tenant']['buildings'],
-            email: json['tenant']['email'],
-            cell: json['tenant']['phone']
-          },
-          summary: {
-            invoice_no: current_moment.format('YYYYMMDDHHmmss'),
-            lease_number: json['tenant']['lease_number'],
-            invoice_date: current_moment.format('YYYY-MM-DD'),
-            payment_due: current_moment.clone().add(7, 'days').format('YYYY-MM-DD'),
-            amount_due: json['reporting_period']['total_cost']
-          },
-          products: productArray
-        });
+          setInvoice({
+            institution: json['tenant']['name'],
+            logo: logoInvoice,
+            address:
+              json['tenant']['rooms'] + '<br />' + json['tenant']['floors'] + '<br />' + json['tenant']['buildings'],
+            tax: 0.01,
+            currency: json['reporting_period']['currency_unit'],
+            user: {
+              name: json['tenant']['name'],
+              address:
+                json['tenant']['rooms'] + '<br />' + json['tenant']['floors'] + '<br />' + json['tenant']['buildings'],
+              email: json['tenant']['email'],
+              cell: json['tenant']['phone']
+            },
+            summary: {
+              invoice_no: current_moment.format('YYYYMMDDHHmmss'),
+              lease_number: json['tenant']['lease_number'],
+              invoice_date: current_moment.format('YYYY-MM-DD'),
+              payment_due: current_moment
+                .clone()
+                .add(7, 'days')
+                .format('YYYY-MM-DD'),
+              amount_due: json['reporting_period']['total_cost']
+            },
+            products: productArray
+          });
 
-        setSubtotal(json['reporting_period']['total_cost']);
+          setSubtotal(json['reporting_period']['total_cost']);
 
-        setTax(json['reporting_period']['total_cost'] * taxRate);
+          setTax(json['reporting_period']['total_cost'] * taxRate);
 
-        setTotal(json['reporting_period']['total_cost'] * (1.00 + taxRate));
+          setTotal(json['reporting_period']['total_cost'] * (1.0 + taxRate));
 
-        setExcelBytesBase64(json['excel_bytes_base64']);
+          setExcelBytesBase64(json['excel_bytes_base64']);
 
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false)
-
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'tenantbill.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'tenantbill.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
-
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Tenant Bill')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Tenant Bill')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -422,10 +465,12 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -435,7 +480,11 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                   <Label className={labelClasses} for="tenantSelect">
                     {t('Tenant')}
                   </Label>
-                  <CustomInput type="select" id="tenantSelect" name="tenantSelect" onChange={({ target }) => setSelectedTenant(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="tenantSelect"
+                    name="tenantSelect"
+                    onChange={({ target }) => setSelectedTenant(target.value)}
                   >
                     {tenantList.map((tenant, index) => (
                       <option value={tenant.value} key={tenant.value}>
@@ -447,8 +496,10 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
                   <DateRangePickerWrapper
                     id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
@@ -466,127 +517,136 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <Card className="mb-3">
-        {invoice !== undefined &&
-        <CardBody>
-          <Row className="justify-content-between align-items-center">
-            <Col md>
-              <h5 className="mb-2 mb-md-0">{t('Lease Contract Number')}: {invoice.summary.lease_number}</h5>
-            </Col>
-          </Row>
-        </CardBody>
-        }
+        {invoice !== undefined && (
+          <CardBody>
+            <Row className="justify-content-between align-items-center">
+              <Col md>
+                <h5 className="mb-2 mb-md-0">
+                  {t('Lease Contract Number')}: {invoice.summary.lease_number}
+                </h5>
+              </Col>
+            </Row>
+          </CardBody>
+        )}
       </Card>
 
       <Card>
-        {invoice !== undefined &&
-        <CardBody>
-          <InvoiceHeader institution={invoice.institution} logo={invoice.logo} address={invoice.address} t={t} />
-          <Row className="justify-content-between align-items-center">
-            <Col>
-              <h6 className="text-500">{t('Bill To')}</h6>
-              <h5>{invoice.user.name}</h5>
-              <p className="fs--1" dangerouslySetInnerHTML={createMarkup(invoice.user.address)} />
-              <p className="fs--1">
-                <a href={`mailto:${invoice.user.email}`}>{invoice.user.email}</a>
-                <br />
-                <a href={`tel:${invoice.user.cell.split('-').join('')}`}>{invoice.user.cell}</a>
-              </p>
-            </Col>
-            <Col sm="auto" className="ml-auto">
-              <div className="table-responsive">
-                <Table size="sm" borderless className="fs--1">
+        {invoice !== undefined && (
+          <CardBody>
+            <InvoiceHeader institution={invoice.institution} logo={invoice.logo} address={invoice.address} t={t} />
+            <Row className="justify-content-between align-items-center">
+              <Col>
+                <h6 className="text-500">{t('Bill To')}</h6>
+                <h5>{invoice.user.name}</h5>
+                <p className="fs--1" dangerouslySetInnerHTML={createMarkup(invoice.user.address)} />
+                <p className="fs--1">
+                  <a href={`mailto:${invoice.user.email}`}>{invoice.user.email}</a>
+                  <br />
+                  <a href={`tel:${invoice.user.cell.split('-').join('')}`}>{invoice.user.cell}</a>
+                </p>
+              </Col>
+              <Col sm="auto" className="ml-auto">
+                <div className="table-responsive">
+                  <Table size="sm" borderless className="fs--1">
+                    <tbody>
+                      <tr>
+                        <th className="text-sm-right">{t('Bill Number')}:</th>
+                        <td>{invoice.summary.invoice_no}</td>
+                      </tr>
+                      <tr>
+                        <th className="text-sm-right">{t('Lease Contract Number')}:</th>
+                        <td>{invoice.summary.lease_number}</td>
+                      </tr>
+                      <tr>
+                        <th className="text-sm-right">{t('Bill Date')}:</th>
+                        <td>{invoice.summary.invoice_date}</td>
+                      </tr>
+                      <tr>
+                        <th className="text-sm-right">{t('Payment Due Date')}:</th>
+                        <td>{invoice.summary.payment_due}</td>
+                      </tr>
+                      <tr className="alert-success font-weight-bold">
+                        <th className="text-sm-right">{t('Amount Payable')}:</th>
+                        <td>{formatCurrency(invoice.summary.amount_due, invoice.currency)}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+              </Col>
+            </Row>
+            <div className="table-responsive mt-4 fs--1">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr className="bg-primary text-white">
+                    <th className="border-0">{t('Energy Category')}</th>
+                    <th className="border-0 text-center">{t('Billing Period Start')}</th>
+                    <th className="border-0 text-center">{t('Billing Period End')}</th>
+                    <th className="border-0 text-center">{t('Quantity')}</th>
+                    <th className="border-0 text-right">{t('Unit')}</th>
+                    <th className="border-0 text-right">{t('Amount')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isIterableArray(invoice.products) &&
+                    invoice.products.map((product, index) => <ProductTr {...product} key={index} />)}
+                </tbody>
+              </Table>
+            </div>
+            <Row noGutters className="justify-content-end">
+              <Col xs="auto">
+                <Table size="sm" borderless className="fs--1 text-right">
                   <tbody>
                     <tr>
-                      <th className="text-sm-right">{t('Bill Number')}:</th>
-                      <td>{invoice.summary.invoice_no}</td>
+                      <th className="text-900">{t('Subtotal')}:</th>
+                      <td className="font-weight-semi-bold">{formatCurrency(subtotal, invoice.currency)}</td>
                     </tr>
                     <tr>
-                      <th className="text-sm-right">{t('Lease Contract Number')}:</th>
-                      <td>{invoice.summary.lease_number}</td>
+                      <th className="text-900">{t('VAT Output Tax')}:</th>
+                      <td className="font-weight-semi-bold">{formatCurrency(tax, invoice.currency)}</td>
                     </tr>
-                    <tr>
-                      <th className="text-sm-right">{t('Bill Date')}:</th>
-                      <td>{invoice.summary.invoice_date}</td>
-                    </tr>
-                    <tr>
-                      <th className="text-sm-right">{t('Payment Due Date')}:</th>
-                      <td>{invoice.summary.payment_due}</td>
-                    </tr>
-                    <tr className="alert-success font-weight-bold">
-                      <th className="text-sm-right">{t('Amount Payable')}:</th>
-                      <td>{formatCurrency(invoice.summary.amount_due, invoice.currency)}</td>
+                    <tr className="border-top">
+                      <th className="text-900">{t('Total Amount Payable')}:</th>
+                      <td className="font-weight-semi-bold">{formatCurrency(total, invoice.currency)}</td>
                     </tr>
                   </tbody>
                 </Table>
-              </div>
-            </Col>
-          </Row>
-          <div className="table-responsive mt-4 fs--1">
-            <Table striped className="border-bottom">
-              <thead>
-                <tr className="bg-primary text-white">
-                  <th className="border-0">{t('Energy Category')}</th>
-                  <th className="border-0 text-center">{t('Billing Period Start')}</th>
-                  <th className="border-0 text-center">{t('Billing Period End')}</th>
-                  <th className="border-0 text-center">{t('Quantity')}</th>
-                  <th className="border-0 text-right">{t('Unit')}</th>
-                  <th className="border-0 text-right">{t('Amount')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {isIterableArray(invoice.products) &&
-                  invoice.products.map((product, index) => <ProductTr {...product} key={index} />)}
-              </tbody>
-            </Table>
-          </div>
-          <Row noGutters className="justify-content-end">
-            <Col xs="auto">
-              <Table size="sm" borderless className="fs--1 text-right">
-                <tbody>
-                  <tr>
-                    <th className="text-900">{t('Subtotal')}:</th>
-                    <td className="font-weight-semi-bold">{formatCurrency(subtotal, invoice.currency)}</td>
-                  </tr>
-                  <tr>
-                    <th className="text-900">{t('VAT Output Tax')}:</th>
-                    <td className="font-weight-semi-bold">{formatCurrency(tax, invoice.currency)}</td>
-                  </tr>
-                  <tr className="border-top">
-                    <th className="text-900">{t('Total Amount Payable')}:</th>
-                    <td className="font-weight-semi-bold">{formatCurrency(total, invoice.currency)}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        </CardBody>
-        }
+              </Col>
+            </Row>
+          </CardBody>
+        )}
 
-        {//todo: get the bank account infomation from API
-        /* <CardFooter className="bg-light">
+        {
+          //todo: get the bank account infomation from API
+          /* <CardFooter className="bg-light">
           <p className="fs--1 mb-0">
             <strong>{t('Please make sure to pay on or before the payment due date above')}, {t('Send money to the following account')}:</strong><br />
             {t('Acount Name')}: MyEMS商场有限公司<br />
@@ -594,7 +654,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([curren
             {t('Bank Address')}: 中国北京市东城区王府井大街<br />
             {t('RMB Account')}: 1188228822882288<br />
           </p>
-        </CardFooter> */}
+        </CardFooter> */
+        }
       </Card>
     </Fragment>
   );

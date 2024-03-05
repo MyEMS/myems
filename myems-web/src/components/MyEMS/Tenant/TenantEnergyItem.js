@@ -31,7 +31,7 @@ import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
+import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
 
@@ -45,7 +45,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -78,9 +78,25 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [basePeriodDateRange, setBasePeriodDateRange] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(), current_moment.clone().subtract(1, 'months').toDate()]);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .startOf('month')
+      .toDate(),
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .toDate()
+  ]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -98,7 +114,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(AppContext);
 
   // buttons
@@ -110,18 +126,18 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [sharePieList, setSharePieList] = useState([]);
 
-  const [tenantBaseAndReportingNames, setTenantBaseAndReportingNames] = useState({"a0":""});
-  const [tenantBaseAndReportingUnits, setTenantBaseAndReportingUnits] = useState({"a0":"()"});
+  const [tenantBaseAndReportingNames, setTenantBaseAndReportingNames] = useState({ a0: '' });
+  const [tenantBaseAndReportingUnits, setTenantBaseAndReportingUnits] = useState({ a0: '()' });
 
-  const [tenantBaseLabels, setTenantBaseLabels] = useState({"a0": []});
-  const [tenantBaseData, setTenantBaseData] = useState({"a0": []});
-  const [tenantBaseSubtotals, setTenantBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [tenantBaseLabels, setTenantBaseLabels] = useState({ a0: [] });
+  const [tenantBaseData, setTenantBaseData] = useState({ a0: [] });
+  const [tenantBaseSubtotals, setTenantBaseSubtotals] = useState({ a0: (0).toFixed(2) });
 
-  const [tenantReportingLabels, setTenantReportingLabels] = useState({"a0": []});
-  const [tenantReportingData, setTenantReportingData] = useState({"a0": []});
-  const [tenantReportingSubtotals, setTenantReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [tenantReportingLabels, setTenantReportingLabels] = useState({ a0: [] });
+  const [tenantReportingData, setTenantReportingData] = useState({ a0: [] });
+  const [tenantReportingSubtotals, setTenantReportingSubtotals] = useState({ a0: (0).toFixed(2) });
 
-  const [tenantReportingRates, setTenantReportingRates] = useState({"a0": []});
+  const [tenantReportingRates, setTenantReportingRates] = useState({ a0: [] });
   const [tenantReportingOptions, setTenantReportingOptions] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -129,7 +145,9 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
+    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
+  ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -141,66 +159,81 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        setSelectedSpaceID([json[0]].map(o => o.value));
-        // get Tenants by root Space ID
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/tenants', {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json);
-            setTenantList(json[0]);
-            if (json[0].length > 0) {
-              setSelectedTenant(json[0][0].value);
-              // enable submit button
-              setSubmitButtonDisabled(false);
-            } else {
-              setSelectedTenant(undefined);
-              // disable submit button
-              setSubmitButtonDisabled(true);
-            }
-          } else {
-            toast.error(t(json.description))
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of get Tenants by root Space ID
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get Tenants by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/tenants', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setTenantList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedTenant(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
+                } else {
+                  setSelectedTenant(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get Tenants by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
@@ -217,33 +250,41 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        setTenantList(json[0]);
-        if (json[0].length > 0) {
-          setSelectedTenant(json[0][0].value);
-          // enable submit button
-          setSubmitButtonDisabled(false);
-        } else {
-          setSelectedTenant(undefined);
-          // disable submit button
-          setSubmitButtonDisabled(true);
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setTenantList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedTenant(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedTenant(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   let onComparisonTypeChange = ({ target }) => {
@@ -251,16 +292,34 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'years')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'years')
+          .toDate()
+      ]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDateRangePickerDisabled(true);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'months')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'months')
+          .toDate()
+      ]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'days')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'days')
+          .toDate()
+      ]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
       setBasePeriodDateRangePickerDisabled(true);
@@ -268,8 +327,8 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // Callback fired when value changed
-  let onBasePeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onBasePeriodChange = DateRange => {
+    if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -281,8 +340,8 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // Callback fired when value changed
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -291,9 +350,27 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
       if (comparisonType === 'year-over-year') {
-        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'years').toDate(), moment(DateRange[1]).clone().subtract(1, 'years').toDate()]);
+        setBasePeriodDateRange([
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'years')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'years')
+            .toDate()
+        ]);
       } else if (comparisonType === 'month-on-month') {
-        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'months').toDate(), moment(DateRange[1]).clone().subtract(1, 'months').toDate()]);
+        setBasePeriodDateRange([
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'months')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'months')
+            .toDate()
+        ]);
       }
     }
   };
@@ -308,7 +385,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
-  const isBasePeriodTimestampExists = (base_period_data) => {
+  const isBasePeriodTimestampExists = base_period_data => {
     const timestamps = base_period_data['timestamps'];
 
     if (timestamps.length === 0) {
@@ -331,9 +408,9 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(selectedTenant);
     console.log(comparisonType);
     console.log(periodType);
-    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null)
-    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null);
+    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null);
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
@@ -341,350 +418,376 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/tenantenergyitem?' +
-      'tenantid=' + selectedTenant +
-      '&periodtype=' + periodType +
-      '&baseperiodstartdatetime=' + (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' + (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' + moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' + moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' + language, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+    fetch(
+      APIBaseURL +
+        '/reports/tenantenergyitem?' +
+        'tenantid=' +
+        selectedTenant +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json)
-
-        let cardSummaryArray = []
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {}
-          cardSummaryItem['name'] = json['reporting_period']['names'][index];
-          cardSummaryItem['energy_category_name'] = json['reporting_period']['energy_category_names'][index];
-          cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-          cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + "%";
-          cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['subtotals_per_unit_area'][index];
-          cardSummaryArray.push(cardSummaryItem);
-        });
-        setCardSummaryList(cardSummaryArray);
-
-        let sharePieDict = {}
-        let energyCategoryDict = {};
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let sharePieSubItem = {}
-          sharePieSubItem['id'] = index;
-          sharePieSubItem['name'] = json['reporting_period']['names'][index];
-          sharePieSubItem['value'] = json['reporting_period']['subtotals'][index];
-          sharePieSubItem['color'] = "#"+((1<<24)*Math.random()|0).toString(16);
-
-          let current_energy_category_id = json['reporting_period']['energy_category_ids'][index]
-          if (current_energy_category_id in sharePieDict) {
-            sharePieDict[current_energy_category_id].push(sharePieSubItem);
-          } else {
-            sharePieDict[current_energy_category_id] = [];
-            sharePieDict[current_energy_category_id].push(sharePieSubItem);
-          }
-
-          if (!(current_energy_category_id in energyCategoryDict)) {
-            energyCategoryDict[current_energy_category_id] =
-            {'name': json['reporting_period']['energy_category_names'][index],
-             'unit': json['reporting_period']['units'][index],
-            }
-          }
-        });
-        let sharePieArray = [];
-        for (let current_energy_category_id in sharePieDict) {
-          let sharePieItem = {}
-          sharePieItem['data'] = sharePieDict[current_energy_category_id];
-          sharePieItem['energy_category_name'] = energyCategoryDict[current_energy_category_id]['name'];
-          sharePieItem['unit'] = energyCategoryDict[current_energy_category_id]['unit'];
-          sharePieArray.push(sharePieItem);
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
 
-        setSharePieList(sharePieArray);
-
-        let base_timestamps = {}
-        json['base_period']['timestamps'].forEach((currentValue, index) => {
-          base_timestamps['a' + index] = currentValue;
-        });
-        setTenantBaseLabels(base_timestamps)
-
-        let base_values = {}
-        json['base_period']['values'].forEach((currentValue, index) => {
-          base_values['a' + index] = currentValue;
-        });
-        setTenantBaseData(base_values)
-
-        /*
-        * Tip:
-        *     base_names === reporting_names
-        *     base_units === reporting_units
-        * */
-
-        let base_and_reporting_names = {}
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          base_and_reporting_names['a' + index] = currentValue;
-        });
-        setTenantBaseAndReportingNames(base_and_reporting_names)
-
-        let base_and_reporting_units = {}
-        json['reporting_period']['units'].forEach((currentValue, index) => {
-          base_and_reporting_units['a' + index] = "("+currentValue+")";
-        });
-        setTenantBaseAndReportingUnits(base_and_reporting_units)
-
-        let base_subtotals = {}
-        json['base_period']['subtotals'].forEach((currentValue, index) => {
-          base_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        setTenantBaseSubtotals(base_subtotals)
-
-        let reporting_timestamps = {}
-        json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['a' + index] = currentValue;
-        });
-        setTenantReportingLabels(reporting_timestamps);
-
-        let reporting_values = {}
-        json['reporting_period']['values'].forEach((currentValue, index) => {
-          reporting_values['a' + index] = currentValue;
-        });
-        setTenantReportingData(reporting_values);
-
-        let reporting_subtotals = {}
-        json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-          reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        setTenantReportingSubtotals(reporting_subtotals);
-
-        let rates = {}
-        json['reporting_period']['rates'].forEach((currentValue, index) => {
-          let currentRate = Array();
-          currentValue.forEach((rate) => {
-            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-          });
-          rates['a' + index] = currentRate;
-        });
-        setTenantReportingRates(rates)
-
-        let options = Array();
-        json['reporting_period']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period']['units'][index];
-          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        setTenantReportingOptions(options);
-
-        let timestamps = {}
-        json['parameters']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
-        setParameterLineChartLabels(timestamps);
-
-        let values = {}
-        json['parameters']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        setParameterLineChartData(values);
-
-        let names = Array();
-        json['parameters']['names'].forEach((currentValue, index) => {
-
-          names.push({ 'value': 'a' + index, 'label': currentValue });
-        });
-        setParameterLineChartOptions(names);
-
-        let detailed_value_list = [];
-        if (json['reporting_period']['timestamps'].length > 0) {
-          json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-            let detailed_value = {};
-            detailed_value['id'] = timestampIndex;
-            detailed_value['startdatetime'] = currentTimestamp;
-            json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-              detailed_value['a' + energyCategoryIndex] = json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
-            });
-            detailed_value_list.push(detailed_value);
-          });
-        };
-
-        if(!isBasePeriodTimestampExists(json['base_period'])) {
-          let detailed_value = {};
-          detailed_value['id'] = detailed_value_list.length;
-          detailed_value['startdatetime'] = t('Subtotal');
-          json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue;
-          });
-          detailed_value_list.push(detailed_value);
-          setTimeout(() => {
-            setDetailedDataTableData(detailed_value_list);
-          }, 0)
-
-          let detailed_column_list = [];
-          detailed_column_list.push({
-            dataField: 'startdatetime',
-            text: t('Datetime'),
-            sort: true
-          })
+          let cardSummaryArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period']['units'][index];
-            detailed_column_list.push({
-              dataField: 'a' + index,
-              text: currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+            let cardSummaryItem = {};
+            cardSummaryItem['name'] = json['reporting_period']['names'][index];
+            cardSummaryItem['energy_category_name'] = json['reporting_period']['energy_category_names'][index];
+            cardSummaryItem['unit'] = json['reporting_period']['units'][index];
+            cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
+            cardSummaryItem['increment_rate'] =
+              parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
+            cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['subtotals_per_unit_area'][index];
+            cardSummaryArray.push(cardSummaryItem);
           });
-          setDetailedDataTableColumns(detailed_column_list);
-        }else {
+          setCardSummaryList(cardSummaryArray);
+
+          let sharePieDict = {};
+          let energyCategoryDict = {};
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let sharePieSubItem = {};
+            sharePieSubItem['id'] = index;
+            sharePieSubItem['name'] = json['reporting_period']['names'][index];
+            sharePieSubItem['value'] = json['reporting_period']['subtotals'][index];
+            sharePieSubItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+
+            let current_energy_category_id = json['reporting_period']['energy_category_ids'][index];
+            if (current_energy_category_id in sharePieDict) {
+              sharePieDict[current_energy_category_id].push(sharePieSubItem);
+            } else {
+              sharePieDict[current_energy_category_id] = [];
+              sharePieDict[current_energy_category_id].push(sharePieSubItem);
+            }
+
+            if (!(current_energy_category_id in energyCategoryDict)) {
+              energyCategoryDict[current_energy_category_id] = {
+                name: json['reporting_period']['energy_category_names'][index],
+                unit: json['reporting_period']['units'][index]
+              };
+            }
+          });
+          let sharePieArray = [];
+          for (let current_energy_category_id in sharePieDict) {
+            let sharePieItem = {};
+            sharePieItem['data'] = sharePieDict[current_energy_category_id];
+            sharePieItem['energy_category_name'] = energyCategoryDict[current_energy_category_id]['name'];
+            sharePieItem['unit'] = energyCategoryDict[current_energy_category_id]['unit'];
+            sharePieArray.push(sharePieItem);
+          }
+
+          setSharePieList(sharePieArray);
+
+          let base_timestamps = {};
+          json['base_period']['timestamps'].forEach((currentValue, index) => {
+            base_timestamps['a' + index] = currentValue;
+          });
+          setTenantBaseLabels(base_timestamps);
+
+          let base_values = {};
+          json['base_period']['values'].forEach((currentValue, index) => {
+            base_values['a' + index] = currentValue;
+          });
+          setTenantBaseData(base_values);
+
           /*
-          * Tip:
-          *     json['base_period']['names'] ===  json['reporting_period']['names']
-          *     json['base_period']['units'] ===  json['reporting_period']['units']
-          * */
-          let detailed_column_list = [];
-          detailed_column_list.push({
-            dataField: 'basePeriodDatetime',
-            text: t('Base Period') + ' - ' + t('Datetime'),
-            sort: true
-          })
+           * Tip:
+           *     base_names === reporting_names
+           *     base_units === reporting_units
+           * */
 
-          json['base_period']['names'].forEach((currentValue, index) => {
-            let unit = json['base_period']['units'][index];
-            detailed_column_list.push({
-              dataField: 'a' + index,
-              text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+          let base_and_reporting_names = {};
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            base_and_reporting_names['a' + index] = currentValue;
           });
+          setTenantBaseAndReportingNames(base_and_reporting_names);
 
-          detailed_column_list.push({
-            dataField: 'reportingPeriodDatetime',
-            text: t('Reporting Period') + ' - ' + t('Datetime'),
-            sort: true
-          })
+          let base_and_reporting_units = {};
+          json['reporting_period']['units'].forEach((currentValue, index) => {
+            base_and_reporting_units['a' + index] = '(' + currentValue + ')';
+          });
+          setTenantBaseAndReportingUnits(base_and_reporting_units);
 
+          let base_subtotals = {};
+          json['base_period']['subtotals'].forEach((currentValue, index) => {
+            base_subtotals['a' + index] = currentValue.toFixed(2);
+          });
+          setTenantBaseSubtotals(base_subtotals);
+
+          let reporting_timestamps = {};
+          json['reporting_period']['timestamps'].forEach((currentValue, index) => {
+            reporting_timestamps['a' + index] = currentValue;
+          });
+          setTenantReportingLabels(reporting_timestamps);
+
+          let reporting_values = {};
+          json['reporting_period']['values'].forEach((currentValue, index) => {
+            reporting_values['a' + index] = currentValue;
+          });
+          setTenantReportingData(reporting_values);
+
+          let reporting_subtotals = {};
+          json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+            reporting_subtotals['a' + index] = currentValue.toFixed(2);
+          });
+          setTenantReportingSubtotals(reporting_subtotals);
+
+          let rates = {};
+          json['reporting_period']['rates'].forEach((currentValue, index) => {
+            let currentRate = [];
+            currentValue.forEach(rate => {
+              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+            });
+            rates['a' + index] = currentRate;
+          });
+          setTenantReportingRates(rates);
+
+          let options = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period']['units'][index];
-            detailed_column_list.push({
-              dataField: 'b' + index,
-              text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+            options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
           });
-          setDetailedDataTableColumns(detailed_column_list);
+          setTenantReportingOptions(options);
+
+          let timestamps = {};
+          json['parameters']['timestamps'].forEach((currentValue, index) => {
+            timestamps['a' + index] = currentValue;
+          });
+          setParameterLineChartLabels(timestamps);
+
+          let values = {};
+          json['parameters']['values'].forEach((currentValue, index) => {
+            values['a' + index] = currentValue;
+          });
+          setParameterLineChartData(values);
+
+          let names = [];
+          json['parameters']['names'].forEach((currentValue, index) => {
+            names.push({ value: 'a' + index, label: currentValue });
+          });
+          setParameterLineChartOptions(names);
 
           let detailed_value_list = [];
-          if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
-            const max_timestamps_length = json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length?
-                json['base_period']['timestamps'][0].length : json['reporting_period']['timestamps'][0].length;
-            for (let index = 0; index < max_timestamps_length; index++) {
+          if (json['reporting_period']['timestamps'].length > 0) {
+            json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
               let detailed_value = {};
-              detailed_value['id'] = index;
-              detailed_value['basePeriodDatetime'] = index < json['base_period']['timestamps'][0].length? json['base_period']['timestamps'][0][index] : null;
-              json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['a' + energyCategoryIndex] = index < json['base_period']['values'][energyCategoryIndex].length? json['base_period']['values'][energyCategoryIndex][index] : null;
-              });
-              detailed_value['reportingPeriodDatetime'] = index < json['reporting_period']['timestamps'][0].length? json['reporting_period']['timestamps'][0][index] : null;
+              detailed_value['id'] = timestampIndex;
+              detailed_value['startdatetime'] = currentTimestamp;
               json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['b' + energyCategoryIndex] = index < json['reporting_period']['values'][energyCategoryIndex].length? json['reporting_period']['values'][energyCategoryIndex][index] : null;
+                detailed_value['a' + energyCategoryIndex] =
+                  json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
               });
               detailed_value_list.push(detailed_value);
-            }
-
-            let detailed_value = {};
-            detailed_value['id'] = detailed_value_list.length;
-            detailed_value['basePeriodDatetime'] = t('Subtotal');
-            json['base_period']['subtotals'].forEach((currentValue, index) => {
-              detailed_value['a' + index] = currentValue;
             });
-            detailed_value['reportingPeriodDatetime'] = t('Subtotal');
-            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-              detailed_value['b' + index] = currentValue;
-            });
-            detailed_value_list.push(detailed_value);
-            setTimeout( () => {
-              setDetailedDataTableData(detailed_value_list);
-            }, 0)
           }
 
+          if (!isBasePeriodTimestampExists(json['base_period'])) {
+            let detailed_value = {};
+            detailed_value['id'] = detailed_value_list.length;
+            detailed_value['startdatetime'] = t('Subtotal');
+            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+              detailed_value['a' + index] = currentValue;
+            });
+            detailed_value_list.push(detailed_value);
+            setTimeout(() => {
+              setDetailedDataTableData(detailed_value_list);
+            }, 0);
+
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'startdatetime',
+              text: t('Datetime'),
+              sort: true
+            });
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'a' + index,
+                text: currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            setDetailedDataTableColumns(detailed_column_list);
+          } else {
+            /*
+             * Tip:
+             *     json['base_period']['names'] ===  json['reporting_period']['names']
+             *     json['base_period']['units'] ===  json['reporting_period']['units']
+             * */
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'basePeriodDatetime',
+              text: t('Base Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            json['base_period']['names'].forEach((currentValue, index) => {
+              let unit = json['base_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'a' + index,
+                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            detailed_column_list.push({
+              dataField: 'reportingPeriodDatetime',
+              text: t('Reporting Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'b' + index,
+                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            setDetailedDataTableColumns(detailed_column_list);
+
+            let detailed_value_list = [];
+            if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
+              const max_timestamps_length =
+                json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
+                  ? json['base_period']['timestamps'][0].length
+                  : json['reporting_period']['timestamps'][0].length;
+              for (let index = 0; index < max_timestamps_length; index++) {
+                let detailed_value = {};
+                detailed_value['id'] = index;
+                detailed_value['basePeriodDatetime'] =
+                  index < json['base_period']['timestamps'][0].length
+                    ? json['base_period']['timestamps'][0][index]
+                    : null;
+                json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['a' + energyCategoryIndex] =
+                    index < json['base_period']['values'][energyCategoryIndex].length
+                      ? json['base_period']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value['reportingPeriodDatetime'] =
+                  index < json['reporting_period']['timestamps'][0].length
+                    ? json['reporting_period']['timestamps'][0][index]
+                    : null;
+                json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['b' + energyCategoryIndex] =
+                    index < json['reporting_period']['values'][energyCategoryIndex].length
+                      ? json['reporting_period']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value_list.push(detailed_value);
+              }
+
+              let detailed_value = {};
+              detailed_value['id'] = detailed_value_list.length;
+              detailed_value['basePeriodDatetime'] = t('Subtotal');
+              json['base_period']['subtotals'].forEach((currentValue, index) => {
+                detailed_value['a' + index] = currentValue;
+              });
+              detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+              json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+                detailed_value['b' + index] = currentValue;
+              });
+              detailed_value_list.push(detailed_value);
+              setTimeout(() => {
+                setDetailedDataTableData(detailed_value_list);
+              }, 0);
+            }
+          }
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(t(json.description));
         }
-
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false)
-
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'tenantenergyitem.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'tenantenergyitem.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
-
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Energy Item Data')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Energy Item Data')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -697,10 +800,12 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -710,7 +815,11 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="tenantSelect">
                     {t('Tenant')}
                   </Label>
-                  <CustomInput type="select" id="tenantSelect" name="tenantSelect" onChange={({ target }) => setSelectedTenant(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="tenantSelect"
+                    name="tenantSelect"
+                    onChange={({ target }) => setSelectedTenant(target.value)}
                   >
                     {tenantList.map((tenant, index) => (
                       <option value={tenant.value} key={tenant.value}>
@@ -725,12 +834,15 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="comparisonType">
                     {t('Comparison Types')}
                   </Label>
-                  <CustomInput type="select" id="comparisonType" name="comparisonType"
+                  <CustomInput
+                    type="select"
+                    id="comparisonType"
+                    name="comparisonType"
                     defaultValue="month-on-month"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
-                      <option value={comparisonType.value} key={comparisonType.value} >
+                      <option value={comparisonType.value} key={comparisonType.value}>
                         {t(comparisonType.label)}
                       </option>
                     ))}
@@ -742,10 +854,15 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="periodType">
                     {t('Period Types')}
                   </Label>
-                  <CustomInput type="select" id="periodType" name="periodType" defaultValue="daily" onChange={({ target }) => setPeriodType(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="periodType"
+                    name="periodType"
+                    defaultValue="daily"
+                    onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
-                      <option value={periodType.value} key={periodType.value} >
+                      <option value={periodType.value} key={periodType.value}>
                         {t(periodType.label)}
                       </option>
                     ))}
@@ -754,9 +871,12 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
+                  <Label className={labelClasses} for="basePeriodDateRangePicker">
+                    {t('Base Period')}
+                    {t('(Optional)')}
+                  </Label>
                   <DateRangePickerWrapper
-                    id='basePeriodDateRangePicker'
+                    id="basePeriodDateRangePicker"
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
@@ -766,13 +886,15 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
                     placeholder={t('Select Date Range')}
-                   />
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
                   <DateRangePickerWrapper
                     id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
@@ -790,23 +912,29 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
@@ -814,49 +942,98 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <div className="card-deck">
         {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary key={cardSummaryItem['name']}
+          <CardSummary
+            key={cardSummaryItem['name']}
             rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Consumption ITEM CATEGORY UNIT', { 'ITEM': cardSummaryItem['name'], 'CATEGORY': cardSummaryItem['energy_category_name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
+            title={t('Reporting Period Consumption ITEM CATEGORY UNIT', {
+              ITEM: cardSummaryItem['name'],
+              CATEGORY: cardSummaryItem['energy_category_name'],
+              UNIT: '(' + cardSummaryItem['unit'] + ')'
+            })}
             color="success"
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={"(" + cardSummaryItem['unit'] + "/M²)"} >
-            {cardSummaryItem['subtotal'] && <CountUp end={cardSummaryItem['subtotal']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+          >
+            {cardSummaryItem['subtotal'] && (
+              <CountUp
+                end={cardSummaryItem['subtotal']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
           </CardSummary>
         ))}
       </div>
       <Row noGutters>
         {sharePieList.map(sharePieItem => (
           <Col key={sharePieItem['energy_category_name']} className="mb-3 pr-lg-2 mb-3">
-            <SharePie key={sharePieItem['energy_category_name']}
+            <SharePie
+              key={sharePieItem['energy_category_name']}
               data={sharePieItem['data']}
-              title={t('CATEGORY UNIT Consumption by Energy Items', { 'CATEGORY': sharePieItem['energy_category_name'], 'UNIT': '(' + sharePieItem['unit'] + ')' })} />
+              title={t('CATEGORY UNIT Consumption by Energy Items', {
+                CATEGORY: sharePieItem['energy_category_name'],
+                UNIT: '(' + sharePieItem['unit'] + ')'
+              })}
+            />
           </Col>
         ))}
       </Row>
 
-      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Consumption ITEM CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": tenantReportingSubtotals, "UNIT": tenantBaseAndReportingUnits}}
-        baseTitle = {{"name": "Base Period Consumption ITEM CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": tenantBaseSubtotals, "UNIT": tenantBaseAndReportingUnits}}
-        reportingTooltipTitle = {{"name": "Reporting Period Consumption ITEM CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": null, "UNIT": tenantBaseAndReportingUnits}}
-        baseTooltipTitle = {{"name": "Base Period Consumption ITEM CATEGORY VALUE UNIT", "substitute": ["CATEGORY", "VALUE", "UNIT"], "CATEGORY": tenantBaseAndReportingNames, "VALUE": null, "UNIT": tenantBaseAndReportingUnits}}
+      <MultiTrendChart
+        reportingTitle={{
+          name: 'Reporting Period Consumption ITEM CATEGORY VALUE UNIT',
+          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+          CATEGORY: tenantBaseAndReportingNames,
+          VALUE: tenantReportingSubtotals,
+          UNIT: tenantBaseAndReportingUnits
+        }}
+        baseTitle={{
+          name: 'Base Period Consumption ITEM CATEGORY VALUE UNIT',
+          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+          CATEGORY: tenantBaseAndReportingNames,
+          VALUE: tenantBaseSubtotals,
+          UNIT: tenantBaseAndReportingUnits
+        }}
+        reportingTooltipTitle={{
+          name: 'Reporting Period Consumption ITEM CATEGORY VALUE UNIT',
+          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+          CATEGORY: tenantBaseAndReportingNames,
+          VALUE: null,
+          UNIT: tenantBaseAndReportingUnits
+        }}
+        baseTooltipTitle={{
+          name: 'Base Period Consumption ITEM CATEGORY VALUE UNIT',
+          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+          CATEGORY: tenantBaseAndReportingNames,
+          VALUE: null,
+          UNIT: tenantBaseAndReportingUnits
+        }}
         reportingLabels={tenantReportingLabels}
         reportingData={tenantReportingData}
         baseLabels={tenantBaseLabels}
         baseData={tenantBaseData}
         rates={tenantReportingRates}
-        options={tenantReportingOptions}>
-      </MultiTrendChart>
+        options={tenantReportingOptions}
+      />
 
-      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=''
+      <MultipleLineChart
+        reportingTitle={t('Operating Characteristic Curve')}
+        baseTitle=""
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
-        options={parameterLineChartOptions}>
-      </MultipleLineChart>
+        options={parameterLineChartOptions}
+      />
       <br />
-      <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
-      </DetailedDataTable>
-
+      <DetailedDataTable
+        data={detailedDataTableData}
+        title={t('Detailed Data')}
+        columns={detailedDataTableColumns}
+        pagesize={50}
+      />
     </Fragment>
   );
 };
