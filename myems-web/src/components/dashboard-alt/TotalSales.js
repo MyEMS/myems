@@ -10,7 +10,7 @@ import Flex from '../common/Flex';
 import AppContext from '../../context/Context';
 
 import { BarChart } from 'echarts/charts';
-import { TooltipComponent, LegendComponent} from 'echarts/components';
+import { TooltipComponent, LegendComponent } from 'echarts/components';
 
 import { totalSalesByMonth } from '../../data/dashboard/topProducts';
 

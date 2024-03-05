@@ -1,4 +1,4 @@
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import product1 from '../../assets/img/products/1.jpg';
 import product12 from '../../assets/img/products/1-2.jpg';

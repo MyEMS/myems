@@ -123,7 +123,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
         fetch(
           APIBaseURL +
-            '/reports/dashboard?' +
+            '/reports/microgriddashboard?' +
             'useruuid=' +
             user_uuid +
             '&periodtype=' +

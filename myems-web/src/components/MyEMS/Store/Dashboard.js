@@ -123,7 +123,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
         fetch(
           APIBaseURL +
-            '/reports/dashboard?' +
+            '/reports/storedashboard?' +
             'useruuid=' +
             user_uuid +
             '&periodtype=' +
