@@ -105,7 +105,6 @@ class ActiveUsersBarChart extends Component {
             Page views per second
           </p>
           <Bar data={chartData} options={chartOptions} width={10} height={4} />
-
         </CardBody>
         <CardFooter className="text-right bg-transparent" style={{ borderTop: dividerBorder }}>
           <Link className="text-white" to="#!">

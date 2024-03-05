@@ -750,7 +750,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <Row noGutters>
         <Col lg="2" className="pr-lg-2">
-        <Nav tabs>
+          <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
                 className={classNames({ active: activeTabLeft === '1' })}
@@ -814,7 +814,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                 <Fragment>
                   <CardBody className="pt-0">
                     <Table borderless className="fs--1 mb-0">
-                    <tbody>
+                      <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">今日成本</th>
                           <th className="pr-0 text-right">100 元</th>
@@ -846,10 +846,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               </Card>
             </TabPane>
           </TabContent>
-          <Card>
-
-
-          </Card>
+          <Card />
         </Col>
         <Col lg="8" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={microgridSVG} />
@@ -915,7 +912,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               </Card>
             </TabPane>
             <TabPane tabId="2">
-            <Card className="mb-3 fs--1">
+              <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">
                     <Table borderless className="fs--1 mb-0">

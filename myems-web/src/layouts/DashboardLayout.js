@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 // import Dashboard from '../components/dashboard/Dashboard';
-import Dashboard from '../components/MyEMS/dashboard/Dashboard';
+import Dashboard from '../components/MyEMS/Store/Dashboard';
 import DashboardAlt from '../components/dashboard-alt/DashboardAlt';
 import NavbarTop from '../components/navbar/NavbarTop';
 import NavbarVertical from '../components/navbar/NavbarVertical';
