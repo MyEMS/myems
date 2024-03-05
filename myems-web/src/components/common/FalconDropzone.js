@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import classNames from 'classnames';
 import { isIterableArray } from '../../helpers/utils';
 import { DropdownItem, DropdownMenu, DropdownToggle, Media, UncontrolledDropdown } from 'reactstrap';

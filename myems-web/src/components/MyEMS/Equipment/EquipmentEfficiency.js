@@ -335,7 +335,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const sortByNumber = (originalArr, key) => {
-    let sortArr = Array();
+    let sortArr = [];
     let index = 0;
     while (sortArr.length < originalArr.length) {
       for (let i = 0; i < originalArr.length; i++) {
@@ -533,21 +533,21 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
         let rates = {}
         json['reporting_period_efficiency']['rates'].forEach((currentValue, index) => {
-          let currentRate = Array();
+          let currentRate = [];
           currentValue.forEach((rate) => {
             currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
           });
           rates['a' + index] = currentRate;
         });
         json['reporting_period_efficiency']['numerator_rates'].forEach((currentValue, index) => {
-          let currentRate = Array();
+          let currentRate = [];
           currentValue.forEach((rate) => {
             currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
           });
           rates['b' + index] = currentRate;
         });
         json['reporting_period_efficiency']['denominator_rates'].forEach((currentValue, index) => {
-          let currentRate = Array();
+          let currentRate = [];
           currentValue.forEach((rate) => {
             currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
           });
@@ -555,7 +555,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setEquipmentReportingRates(rates)
 
-        let options = Array();
+        let options = [];
         json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period_efficiency']['units'][index];
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
@@ -582,7 +582,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setParameterLineChartData(values);
 
-        let names = Array();
+        let names = [];
         json['parameters']['names'].forEach((currentValue, index) => {
 
           names.push({ 'value': 'a' + index, 'label': currentValue });

@@ -20,7 +20,7 @@ import {
   DropdownToggle,
   InputGroup,
   UncontrolledDropdown,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import Badge from 'reactstrap/es/Badge';
@@ -33,9 +33,6 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL, settings } from '../../../config';
-
-
-
 
 const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -72,7 +69,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  }, );
+  });
   // State
   let table = createRef();
 
@@ -91,21 +88,21 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
-  let onStartDatetimeChange = (newDateTime) => {
+  let onStartDatetimeChange = newDateTime => {
     setStartDatetime(newDateTime);
-  }
+  };
 
-  let onEndDatetimeChange = (newDateTime) => {
+  let onEndDatetimeChange = newDateTime => {
     setEndDatetime(newDateTime);
-  }
+  };
 
-  var getStartDatetime = function (currentDate) {
+  var getStartDatetime = function(currentDate) {
     return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
-  var getEndDatetime = function (currentDate) {
+  var getEndDatetime = function(currentDate) {
     return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
   const subjectFormatter = (dataField, { url }) => (
     <Fragment>
@@ -113,11 +110,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     </Fragment>
   );
 
-  const messageFormatter = (dataField,) => (
-    <Fragment>
-      {dataField}
-    </Fragment>
-  );
+  const messageFormatter = dataField => <Fragment>{dataField}</Fragment>;
 
   const statusFormatter = status => {
     let color = '';
@@ -158,7 +151,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         <DropdownItem onClick={() => handleRead(id)}>{t('Notification Mark As Read')}</DropdownItem>
         <DropdownItem onClick={() => handleAcknowledged(id)}>{t('Notification Mark As Acknowledged')}</DropdownItem>
         <DropdownItem divider />
-        <DropdownItem onClick={() => handledelete(id)} className="text-danger">{t('Notification Delete')}</DropdownItem>
+        <DropdownItem onClick={() => handledelete(id)} className="text-danger">
+          {t('Notification Delete')}
+        </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
   );
@@ -211,7 +206,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       <input
         className="custom-control-input"
         {...rest}
-        onChange={() => { }}
+        onChange={() => {}}
         ref={input => {
           if (input) input.indeterminate = indeterminate;
         }}
@@ -231,21 +226,21 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   });
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-// Handler
+  // Handler
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
     console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(priority)
-    console.log(status)
+    console.log(priority);
+    console.log(status);
 
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setFaults([]);
@@ -253,73 +248,74 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/webmessages?' +
-      'startdatetime=' +
-      startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&enddatetime=' +
-      endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' +
-      priority +
-      '&status=' +
-      status, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+        '/webmessages?' +
+        'startdatetime=' +
+        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&enddatetime=' +
+        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&priority=' +
+        priority +
+        '&status=' +
+        status,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      // enable submit button
-      setSubmitButtonDisabled(false);
-      // hide spinner
-      setSpinnerHidden(true);
-      // show export button
-      setExportButtonHidden(false)
-
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-
-        let faultList = []
-
-        if (json.length > 0) {
-          json.forEach((currentValue, index) => {
-            let fault = {}
-            fault['id'] = currentValue['id'];
-            fault['subject'] = currentValue['subject'];
-            fault['created_datetime'] = moment(parseInt(currentValue['created_datetime']))
-                .format("YYYY-MM-DD HH:mm:ss");
-            fault['message'] = currentValue['message'];
-            fault['status'] = currentValue['status'];
-            fault['url'] = currentValue['url'];
-
-            faultList.push(fault);
-          });
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-
-        setFaults(faultList);
-        setExcelBytesBase64(json['excel_bytes_base64']);
+        // enable submit button
+        setSubmitButtonDisabled(false);
+        // hide spinner
         setSpinnerHidden(true);
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+        // show export button
+        setExportButtonHidden(false);
+
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          let faultList = [];
+
+          if (json.length > 0) {
+            json.forEach((currentValue, index) => {
+              let fault = {};
+              fault['id'] = currentValue['id'];
+              fault['subject'] = currentValue['subject'];
+              fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              fault['message'] = currentValue['message'];
+              fault['status'] = currentValue['status'];
+              fault['url'] = currentValue['url'];
+
+              faultList.push(fault);
+            });
+          }
+
+          setFaults(faultList);
+          setExcelBytesBase64(json['excel_bytes_base64']);
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handleRead = (id, ) => {
-    console.log('Mark As Read: ', id)
+  const handleRead = id => {
+    console.log('Mark As Read: ', id);
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/webmessages/' +
-      id, {
+    fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -327,85 +323,89 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         Token: getCookieValue('token')
       },
       body: JSON.stringify({
-        "data": {
-          "status": 'read'
+        data: {
+          status: 'read'
         }
-      }),
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(
-          APIBaseURL +
-          '/webmessages?' +
-          'startdatetime=' +
-          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&enddatetime=' +
-          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&priority=' +
-          priority +
-          '&status=' +
-          status, {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-
-            let faultList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let fault = {}
-                fault['id'] = json[index]['id'];
-                fault['subject'] = json[index]['subject'];
-                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                fault['message'] = json[index]['message'];
-                fault['status'] = json[index]['status'];
-                fault['url'] = json[index]['url'];
-
-                faultList.push(fault);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
 
-            setFaults(faultList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let faultList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let fault = {};
+                    fault['id'] = json[index]['id'];
+                    fault['subject'] = json[index]['subject'];
+                    fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['message'] = json[index]['message'];
+                    fault['status'] = json[index]['status'];
+                    fault['url'] = json[index]['url'];
+
+                    faultList.push(fault);
+                  });
+                }
+
+                setFaults(faultList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handleAcknowledged = (id, ) => {
-    console.log('Mark As Acknowledged: ', id)
+  const handleAcknowledged = id => {
+    console.log('Mark As Acknowledged: ', id);
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/webmessages/' +
-      id, {
+    fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -413,178 +413,188 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         Token: getCookieValue('token')
       },
       body: JSON.stringify({
-        "data": {
-          "status": 'acknowledged',
-          "reply": 'OK'
+        data: {
+          status: 'acknowledged',
+          reply: 'OK'
         }
-      }),
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(
-          APIBaseURL +
-          '/webmessages?' +
-          'startdatetime=' +
-          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&enddatetime=' +
-          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&priority=' +
-          priority +
-          '&status=' +
-          status,  {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-
-            let faultList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let fault = {}
-                fault['id'] = json[index]['id'];
-                fault['subject'] = json[index]['subject'];
-                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                fault['message'] = json[index]['message'];
-                fault['status'] = json[index]['status'];
-                fault['url'] = json[index]['url'];
-
-                faultList.push(fault);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
 
-            setFaults(faultList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let faultList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let fault = {};
+                    fault['id'] = json[index]['id'];
+                    fault['subject'] = json[index]['subject'];
+                    fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['message'] = json[index]['message'];
+                    fault['status'] = json[index]['status'];
+                    fault['url'] = json[index]['url'];
+
+                    faultList.push(fault);
+                  });
+                }
+
+                setFaults(faultList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handledelete = (id, ) => {
-    console.log('Delete: ', id)
+  const handledelete = id => {
+    console.log('Delete: ', id);
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/webmessages/' +
-      id, {
+    fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(
-          APIBaseURL +
-          '/webmessages?' +
-          'startdatetime=' +
-          startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&enddatetime=' +
-          endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-          '&priority=' +
-          priority +
-          '&status=' +
-          status,  {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-
-            let faultList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let fault = {}
-                fault['id'] = json[index]['id'];
-                fault['subject'] = json[index]['subject'];
-                fault['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                fault['message'] = json[index]['message'];
-                fault['status'] = json[index]['status'];
-                fault['url'] = json[index]['url'];
-
-                faultList.push(fault);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
 
-            setFaults(faultList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let faultList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let fault = {};
+                    fault['id'] = json[index]['id'];
+                    fault['subject'] = json[index]['subject'];
+                    fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['message'] = json[index]['message'];
+                    fault['status'] = json[index]['status'];
+                    fault['url'] = json[index]['url'];
+
+                    faultList.push(fault);
+                  });
+                }
+
+                setFaults(faultList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'fddfault.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'fddfault.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
-
 
   return (
     <Fragment>
@@ -602,14 +612,29 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="priority">
                     {t('Notification Priority')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select"
+                  <CustomInput
+                    type="select"
+                    id="bulk-select"
                     value={priority}
-                    onChange={({ target }) => {setPriority(target.value);}}>
-                    <option value="all" key="all" >{t('View all')}</option>
-                    <option value="LOW" key="low" >{t('Notification Low')}</option>
-                    <option value="MEDIUM" key="medium" >{t('Notification Medium')}</option>
-                    <option value="HIGH" key="high" >{t('Notification High')}</option>
-                    <option value="CRITICAL" key="critical" >{t('Notification Critical')}</option>
+                    onChange={({ target }) => {
+                      setPriority(target.value);
+                    }}
+                  >
+                    <option value="all" key="all">
+                      {t('View all')}
+                    </option>
+                    <option value="LOW" key="low">
+                      {t('Notification Low')}
+                    </option>
+                    <option value="MEDIUM" key="medium">
+                      {t('Notification Medium')}
+                    </option>
+                    <option value="HIGH" key="high">
+                      {t('Notification High')}
+                    </option>
+                    <option value="CRITICAL" key="critical">
+                      {t('Notification Critical')}
+                    </option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -618,13 +643,26 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="status">
                     {t('Notification Status')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select"
+                  <CustomInput
+                    type="select"
+                    id="bulk-select"
                     value={status}
-                    onChange={({ target }) => {setStatus(target.value);}}>
-                    <option value="all" key="all" >{t('View all')}</option>
-                    <option value="read" key="read" >{t('Notification Read')}</option>
-                    <option value="new" key="unread" >{t('notification_NEW')}</option>
-                    <option value="acknowledged" key="acknowledged" >{t('Notification Acknowledged')}</option>
+                    onChange={({ target }) => {
+                      setStatus(target.value);
+                    }}
+                  >
+                    <option value="all" key="all">
+                      {t('View all')}
+                    </option>
+                    <option value="read" key="read">
+                      {t('Notification Read')}
+                    </option>
+                    <option value="new" key="unread">
+                      {t('notification_NEW')}
+                    </option>
+                    <option value="acknowledged" key="acknowledged">
+                      {t('Notification Acknowledged')}
+                    </option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -633,11 +671,13 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="startDatetime">
                     {t('Reporting Period Begins')}
                   </Label>
-                  <Datetime id='startDatetime'
+                  <Datetime
+                    id="startDatetime"
                     value={startDatetime}
                     onChange={onStartDatetimeChange}
                     isValidDate={getStartDatetime}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col sm={2}>
@@ -645,41 +685,49 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="endDatetime">
                     {t('Reporting Period Ends')}
                   </Label>
-                  <Datetime id='endDatetime'
+                  <Datetime
+                    id="endDatetime"
                     value={endDatetime}
                     onChange={onEndDatetimeChange}
                     isValidDate={getEndDatetime}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <Card className="mb-3">
-        <Spinner color="primary" hidden={spinnerHidden}  />
+        <Spinner color="primary" hidden={spinnerHidden} />
         <FalconCardHeader title={t('Fault Alarms')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
@@ -690,14 +738,12 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                 <option value="Delete">{t('Notification Delete')}</option>
               </CustomInput>
               <Button color="falcon-default" size="sm" className="ml-2">
-              {t('Notification Apply')}
-                </Button>
+                {t('Notification Apply')}
+              </Button>
             </InputGroup>
           ) : (
-              <Fragment>
-
-              </Fragment>
-            )}
+            <Fragment />
+          )}
         </FalconCardHeader>
         <CardBody className="p-0">
           <PaginationProvider pagination={paginationFactory(options)}>
@@ -759,7 +805,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           </PaginationProvider>
         </CardBody>
       </Card>
-
     </Fragment>
   );
 };

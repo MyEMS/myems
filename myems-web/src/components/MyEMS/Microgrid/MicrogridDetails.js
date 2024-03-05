@@ -169,7 +169,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setParameterLineChartData(values);
 
-          let names = Array();
+          let names = [];
           json['parameters']['names'].forEach((currentValue, index) => {
             names.push({ value: 'a' + index, label: currentValue });
           });

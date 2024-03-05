@@ -309,7 +309,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setParameterLineChartData(values);
 
-          let names = Array();
+          let names = [];
           json['parameters']['names'].forEach((currentValue, index) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
@@ -359,7 +359,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setMicrogridReportingSubtotals(reporting_subtotals);
 
-          let options = Array();
+          let options = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period']['units'][index];
             options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });

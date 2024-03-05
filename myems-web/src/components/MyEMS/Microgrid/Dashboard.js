@@ -344,7 +344,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
               setSpaceCostLineChartData(values);
 
-              names = Array();
+              names = [];
               let thisMonthCostArr = [];
               json['reporting_period_cost']['names'].forEach((currentValue, index) => {
                 let thisMonthItem = {};

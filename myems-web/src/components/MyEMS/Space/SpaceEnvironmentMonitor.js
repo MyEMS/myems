@@ -139,7 +139,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
     //end of getting space tree
-  }, []);
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -203,14 +203,15 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       document.getElementById('cursor_3').hidden = false;
       document.getElementById('cursor_4').hidden = false;
     }
-  }, []);
+  }, [sensorList]);
 
   useEffect(() => {
     setSelectSensorList(sensorList.slice(cursor * len - 8, cursor * len));
-  }, []);
+  }, [sensorList, cursor]);
 
   function getCursor(location) {
     switch (location) {
+      default:
       case 1:
         return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 3 : cursor;
       case 2:

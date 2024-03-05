@@ -6,7 +6,6 @@ import teamavatar from '../../assets/img/team/avatar.png';
 import Avatar from '../common/Avatar';
 import { withTranslation } from 'react-i18next';
 
-
 const ProfileDropdown = ({ t }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -55,4 +54,4 @@ const ProfileDropdown = ({ t }) => {
   );
 };
 
-export default  withTranslation()(ProfileDropdown);
+export default withTranslation()(ProfileDropdown);

@@ -18,14 +18,14 @@ import {
   DropdownToggle,
   InputGroup,
   UncontrolledDropdown,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import Datetime from 'react-datetime';
@@ -33,9 +33,6 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL, settings } from '../../../config';
-
-
-
 
 const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -58,7 +55,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -71,52 +68,62 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) {
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&priority=' + priority +
-            '&status=' + status,  {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
+        fetch(
+          APIBaseURL +
+            '/webmessages?' +
+            'startdatetime=' +
+            startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&enddatetime=' +
+            endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            '&priority=' +
+            priority +
+            '&status=' +
+            status,
+          {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
           }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            setFetchSuccess(true);
-
-            let notificationList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
-
-                notificationList.push(notification);
-              });
+        )
+          .then(response => {
+            if (response.ok) {
+              isResponseOK = true;
             }
+            return response.json();
+          })
+          .then(json => {
+            if (isResponseOK) {
+              setFetchSuccess(true);
 
-            setNotifications(notificationList);
-            setSpinnerHidden(true);
-          }
-        });
+              let notificationList = [];
+
+              if (json.length > 0) {
+                json.forEach((currentValue, index) => {
+                  let notification = {};
+                  notification['id'] = json[index]['id'];
+                  notification['subject'] = json[index]['subject'];
+                  notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                  );
+                  notification['message'] = json[index]['message'];
+                  notification['status'] = json[index]['status'];
+                  notification['url'] = json[index]['url'];
+
+                  notificationList.push(notification);
+                });
+              }
+
+              setNotifications(notificationList);
+              setSpinnerHidden(true);
+            }
+          });
       }
     }
-  }, );
+  });
   // State
   let table = createRef();
 
@@ -127,74 +134,85 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     console.log('handleSubmit');
     console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(priority)
-    console.log(status)
+    console.log(priority);
+    console.log(status);
 
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setNotifications([]);
 
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages?' +
-      'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' + priority +
-      '&status=' + status, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+    fetch(
+      APIBaseURL +
+        '/webmessages?' +
+        'startdatetime=' +
+        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&enddatetime=' +
+        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&priority=' +
+        priority +
+        '&status=' +
+        status,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      // enable submit button
-      setSubmitButtonDisabled(false);
-      // hide spinner
-      setSpinnerHidden(true);
-      // show export button
-      setExportButtonHidden(false)
-
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        setFetchSuccess(true);
-        console.log(json)
-        let notificationList = []
-
-        if (json.length > 0) {
-          json.forEach((currentValue, index) => {
-            let notification = {}
-            notification['id'] = currentValue['id'];
-            notification['subject'] = currentValue['subject'];
-            notification['created_datetime'] = moment(parseInt(currentValue['created_datetime']))
-                .format("YYYY-MM-DD HH:mm:ss");
-            notification['message'] = currentValue['message'];
-            notification['status'] = currentValue['status'];
-            notification['url'] = currentValue['url'];
-
-            notificationList.push(notification);
-          });
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-
-        setNotifications(notificationList);
+        // enable submit button
+        setSubmitButtonDisabled(false);
+        // hide spinner
         setSpinnerHidden(true);
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+        // show export button
+        setExportButtonHidden(false);
+
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setFetchSuccess(true);
+          console.log(json);
+          let notificationList = [];
+
+          if (json.length > 0) {
+            json.forEach((currentValue, index) => {
+              let notification = {};
+              notification['id'] = currentValue['id'];
+              notification['subject'] = currentValue['subject'];
+              notification['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              notification['message'] = currentValue['message'];
+              notification['status'] = currentValue['status'];
+              notification['url'] = currentValue['url'];
+
+              notificationList.push(notification);
+            });
+          }
+
+          setNotifications(notificationList);
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -211,21 +229,21 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
-  let onStartDatetimeChange = (newDateTime) => {
+  let onStartDatetimeChange = newDateTime => {
     setStartDatetime(newDateTime);
-  }
+  };
 
-  let onEndDatetimeChange = (newDateTime) => {
+  let onEndDatetimeChange = newDateTime => {
     setEndDatetime(newDateTime);
-  }
+  };
 
-  var getStartDatetime = function (currentDate) {
+  var getStartDatetime = function(currentDate) {
     return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
-  var getEndDatetime = function (currentDate) {
+  var getEndDatetime = function(currentDate) {
     return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  }
+  };
 
   const subjectFormatter = (dataField, { url }) => (
     <Fragment>
@@ -233,11 +251,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     </Fragment>
   );
 
-  const messageFormatter = (dataField,) => (
-    <Fragment>
-      {dataField}
-    </Fragment>
-  );
+  const messageFormatter = dataField => <Fragment>{dataField}</Fragment>;
 
   const statusFormatter = status => {
     let color = '';
@@ -278,7 +292,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         <DropdownItem onClick={() => handleRead(id)}>{t('Notification Mark As Read')}</DropdownItem>
         <DropdownItem onClick={() => handleAcknowledged(id)}>{t('Notification Mark As Acknowledged')}</DropdownItem>
         <DropdownItem divider />
-        <DropdownItem onClick={() => handledelete(id)} className="text-danger">{t('Notification Delete')}</DropdownItem>
+        <DropdownItem onClick={() => handledelete(id)} className="text-danger">
+          {t('Notification Delete')}
+        </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
   );
@@ -333,7 +349,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       <input
         className="custom-control-input"
         {...rest}
-        onChange={() => { }}
+        onChange={() => {}}
         ref={input => {
           if (input) input.indeterminate = indeterminate;
         }}
@@ -348,15 +364,15 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     clickToSelect: false,
     selectionHeaderRenderer: ({ mode, ...rest }) => <SelectRowInput type="checkbox" {...rest} />,
     selectionRenderer: ({ mode, ...rest }) => {
-      const {rowKey, ...newRest} = rest;
-      return <SelectRowInput type={mode} {...newRest} />
+      const { rowKey, ...newRest } = rest;
+      return <SelectRowInput type={mode} {...newRest} />;
     },
     onSelect: onSelect,
     onSelectAll: onSelect
   });
 
-  const handleRead = (id, ) => {
-    console.log('Mark As Read: ', id)
+  const handleRead = id => {
+    console.log('Mark As Read: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -366,73 +382,84 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         Token: getCookieValue('token')
       },
       body: JSON.stringify({
-        "data": {
-          "status": 'read'
+        data: {
+          status: 'read'
         }
-      }),
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-            setFetchSuccess(true);
-
-            let notificationList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
-
-                notificationList.push(notification);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
+                setFetchSuccess(true);
 
-            setNotifications(notificationList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let notificationList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let notification = {};
+                    notification['id'] = json[index]['id'];
+                    notification['subject'] = json[index]['subject'];
+                    notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['message'] = json[index]['message'];
+                    notification['status'] = json[index]['status'];
+                    notification['url'] = json[index]['url'];
+
+                    notificationList.push(notification);
+                  });
+                }
+
+                setNotifications(notificationList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handleAcknowledged = (id, ) => {
-    console.log('Mark As Acknowledged: ', id)
+  const handleAcknowledged = id => {
+    console.log('Mark As Acknowledged: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -442,74 +469,85 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         Token: getCookieValue('token')
       },
       body: JSON.stringify({
-        "data": {
-          "status": 'acknowledged',
-          "reply": 'OK'
+        data: {
+          status: 'acknowledged',
+          reply: 'OK'
         }
-      }),
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-            setFetchSuccess(true);
-
-            let notificationList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
-
-                notificationList.push(notification);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
+                setFetchSuccess(true);
 
-            setNotifications(notificationList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let notificationList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let notification = {};
+                    notification['id'] = json[index]['id'];
+                    notification['subject'] = json[index]['subject'];
+                    notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['message'] = json[index]['message'];
+                    notification['status'] = json[index]['status'];
+                    notification['url'] = json[index]['url'];
+
+                    notificationList.push(notification);
+                  });
+                }
+
+                setNotifications(notificationList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const handledelete = (id, ) => {
-    console.log('Delete: ', id)
+  const handledelete = id => {
+    console.log('Delete: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
@@ -518,71 +556,82 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-        return null;
-      } else {
-        return response.json();
-      }
-    }).then(json => {
-      console.log(isResponseOK);
-      if (isResponseOK) {
-        let isResponseOK = false;
-        fetch(APIBaseURL + '/webmessages?' +
-            'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss'), {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+          return null;
+        } else {
           return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            console.log(json);
-            setFetchSuccess(true);
-
-            let notificationList = []
-
-            if (json.length > 0) {
-              json.forEach((currentValue, index) => {
-                let notification = {}
-                notification['id'] = json[index]['id'];
-                notification['subject'] = json[index]['subject'];
-                notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                    .format("YYYY-MM-DD HH:mm:ss");
-                notification['message'] = json[index]['message'];
-                notification['status'] = json[index]['status'];
-                notification['url'] = json[index]['url'];
-
-                notificationList.push(notification);
-              });
+        }
+      })
+      .then(json => {
+        console.log(isResponseOK);
+        if (isResponseOK) {
+          let isResponseOK = false;
+          fetch(
+            APIBaseURL +
+              '/webmessages?' +
+              'startdatetime=' +
+              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              '&enddatetime=' +
+              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+            {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
             }
+          )
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                console.log(json);
+                setFetchSuccess(true);
 
-            setNotifications(notificationList);
-            setSpinnerHidden(true);
-          }
-        });
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+                let notificationList = [];
+
+                if (json.length > 0) {
+                  json.forEach((currentValue, index) => {
+                    let notification = {};
+                    notification['id'] = json[index]['id'];
+                    notification['subject'] = json[index]['subject'];
+                    notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['message'] = json[index]['message'];
+                    notification['status'] = json[index]['status'];
+                    notification['url'] = json[index]['url'];
+
+                    notificationList.push(notification);
+                  });
+                }
+
+                setNotifications(notificationList);
+                setSpinnerHidden(true);
+              }
+            });
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const batchDelete = () => {
     let rows = table.current.selectionContext.selected;
-    if(rows.length <= 0) {
+    if (rows.length <= 0) {
       toast.error(t('Select Row'));
       return;
     }
@@ -593,25 +642,27 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body:  JSON.stringify({
-        "ids": rows.join(",")
-      }),
-    }).then(response => {
-      if (response.ok) {
-        loadData(table);
-        return null;
-      } else {
-        let json = response.json();
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }
+      body: JSON.stringify({
+        ids: rows.join(',')
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          loadData(table);
+          return null;
+        } else {
+          let json = response.json();
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const batchRead = () => {
     let rows = table.current.selectionContext.selected;
-    if(rows.length <= 0) {
+    if (rows.length <= 0) {
       toast.error(t('Select Row'));
       return;
     }
@@ -623,67 +674,80 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         Token: getCookieValue('token')
       },
       body: JSON.stringify({
-       "ids": rows.join(",")
-      }),
-    }).then(response => {
-      if (response.ok) {
-        loadData(table);
-        return null;
-      } else {
-        let json = response.json();
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-  }
+        ids: rows.join(',')
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          loadData(table);
+          return null;
+        } else {
+          let json = response.json();
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const loadData = table => {
     table.current.selectionContext.selected = [];
     onSelect();
     let isResponseOK = false;
-    fetch(APIBaseURL + '/webmessages?' +
-      'startdatetime=' + startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&enddatetime=' + endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&priority=' + priority +
-      '&status=' + status, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
+    fetch(
+      APIBaseURL +
+        '/webmessages?' +
+        'startdatetime=' +
+        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&enddatetime=' +
+        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        '&priority=' +
+        priority +
+        '&status=' +
+        status,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        setFetchSuccess(true);
-        let notificationList = []
-        if (json.length > 0) {
-          json.forEach((currentValue, index) => {
-            let notification = {}
-            notification['id'] = json[index]['id'];
-            notification['subject'] = json[index]['subject'];
-            notification['created_datetime'] = moment(parseInt(json[index]['created_datetime']))
-                .format("YYYY-MM-DD HH:mm:ss");
-            notification['message'] = json[index]['message'];
-            notification['status'] = json[index]['status'];
-            notification['url'] = json[index]['url'];
-
-            notificationList.push(notification);
-          });
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
-        setNotifications(notificationList);
-        setSpinnerHidden(true);
-      } else {
-        toast.error(t(json.description))
-      }
-    });
-  }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setFetchSuccess(true);
+          let notificationList = [];
+          if (json.length > 0) {
+            json.forEach((currentValue, index) => {
+              let notification = {};
+              notification['id'] = json[index]['id'];
+              notification['subject'] = json[index]['subject'];
+              notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              notification['message'] = json[index]['message'];
+              notification['status'] = json[index]['status'];
+              notification['url'] = json[index]['url'];
+
+              notificationList.push(notification);
+            });
+          }
+          setNotifications(notificationList);
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      });
+  };
 
   return (
     <Fragment>
@@ -696,14 +760,29 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="priority">
                     {t('Notification Priority')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select"
+                  <CustomInput
+                    type="select"
+                    id="bulk-select"
                     value={priority}
-                    onChange={({ target }) => {setPriority(target.value);}}>
-                    <option value="all" key="all" >{t('View all')}</option>
-                    <option value="LOW" key="low" >{t('Notification Low')}</option>
-                    <option value="MEDIUM" key="medium" >{t('Notification Medium')}</option>
-                    <option value="HIGH" key="high" >{t('Notification High')}</option>
-                    <option value="CRITICAL" key="critical" >{t('Notification Critical')}</option>
+                    onChange={({ target }) => {
+                      setPriority(target.value);
+                    }}
+                  >
+                    <option value="all" key="all">
+                      {t('View all')}
+                    </option>
+                    <option value="LOW" key="low">
+                      {t('Notification Low')}
+                    </option>
+                    <option value="MEDIUM" key="medium">
+                      {t('Notification Medium')}
+                    </option>
+                    <option value="HIGH" key="high">
+                      {t('Notification High')}
+                    </option>
+                    <option value="CRITICAL" key="critical">
+                      {t('Notification Critical')}
+                    </option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -712,13 +791,26 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="status">
                     {t('Notification Status')}
                   </Label>
-                  <CustomInput type="select" id="bulk-select"
+                  <CustomInput
+                    type="select"
+                    id="bulk-select"
                     value={status}
-                    onChange={({ target }) => {setStatus(target.value);}}>
-                    <option value="all" key="all" >{t('View all')}</option>
-                    <option value="read" key="read" >{t('Notification Read')}</option>
-                    <option value="new" key="unread" >{t('notification_NEW')}</option>
-                    <option value="acknowledged" key="acknowledged" >{t('Notification Acknowledged')}</option>
+                    onChange={({ target }) => {
+                      setStatus(target.value);
+                    }}
+                  >
+                    <option value="all" key="all">
+                      {t('View all')}
+                    </option>
+                    <option value="read" key="read">
+                      {t('Notification Read')}
+                    </option>
+                    <option value="new" key="unread">
+                      {t('notification_NEW')}
+                    </option>
+                    <option value="acknowledged" key="acknowledged">
+                      {t('Notification Acknowledged')}
+                    </option>
                   </CustomInput>
                 </FormGroup>
               </Col>
@@ -727,11 +819,13 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="startDatetime">
                     {t('Reporting Period Begins')}
                   </Label>
-                  <Datetime id='startDatetime'
+                  <Datetime
+                    id="startDatetime"
                     value={startDatetime}
                     onChange={onStartDatetimeChange}
                     isValidDate={getStartDatetime}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col sm={2}>
@@ -739,24 +833,28 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="endDatetime">
                     {t('Reporting Period Ends')}
                   </Label>
-                  <Datetime id='endDatetime'
+                  <Datetime
+                    id="endDatetime"
                     value={endDatetime}
                     onChange={onEndDatetimeChange}
                     isValidDate={getEndDatetime}
-                    closeOnSelect={true} />
+                    closeOnSelect={true}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
@@ -765,22 +863,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <Card className="mb-3">
-        <Spinner color="primary" hidden={spinnerHidden}  />
-        <FalconCardHeader title={t('Notification List')} light={false} titleClass="text-lightSlateGray mb-0" >
+        <Spinner color="primary" hidden={spinnerHidden} />
+        <FalconCardHeader title={t('Notification List')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
               <Button color="falcon-default" onClick={() => batchRead()} size="sm" className="ml-2">
-              {t('Notification Mark As Read')}
-                </Button>
-              <Button color="falcon-default" onClick={() => batchDelete()}  size="sm" className="ml-2">
-              {t('Notification Delete')}
-                </Button>
+                {t('Notification Mark As Read')}
+              </Button>
+              <Button color="falcon-default" onClick={() => batchDelete()} size="sm" className="ml-2">
+                {t('Notification Delete')}
+              </Button>
             </InputGroup>
           ) : (
-              <Fragment>
-
-              </Fragment>
-            )}
+            <Fragment />
+          )}
         </FalconCardHeader>
         <CardBody className="p-0">
           <PaginationProvider pagination={paginationFactory(options)}>
@@ -842,7 +938,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           </PaginationProvider>
         </CardBody>
       </Card>
-
     </Fragment>
   );
 };

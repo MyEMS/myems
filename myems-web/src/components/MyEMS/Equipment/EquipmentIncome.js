@@ -476,7 +476,7 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
 
         let rates = {}
         json['reporting_period']['rates'].forEach((currentValue, index) => {
-          let currentRate = Array();
+          let currentRate = [];
           currentValue.forEach((rate) => {
             currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
           });
@@ -484,7 +484,7 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setEquipmentReportingRates(rates)
 
-        let options = Array();
+        let options = [];
         json['reporting_period']['names'].forEach((currentValue, index) => {
           let unit = json['reporting_period']['units'][index];
           options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
@@ -503,7 +503,7 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
         });
         setParameterLineChartData(values);
 
-        let names = Array();
+        let names = [];
         json['parameters']['names'].forEach((currentValue, index) => {
 
           names.push({ 'value': 'a' + index, 'label': currentValue });
