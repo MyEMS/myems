@@ -37,6 +37,7 @@ from reports import equipmentoutput
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
+from reports import energystoragepowerstationdashboard
 from reports import energystoragepowerstationdetails
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreporting
@@ -51,6 +52,7 @@ from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
+from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgridlist
 from reports import microgridreporting
@@ -64,6 +66,7 @@ from reports import offlinemeterinput
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
+from reports import shopfloordashboard
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
 from reports import shopfloorload
@@ -83,6 +86,7 @@ from reports import spacestatistics
 from reports import storebatch
 from reports import storecarbon
 from reports import storecost
+from reports import storedashboard
 from reports import storeenergycategory
 from reports import storeenergyitem
 from reports import storeload
@@ -93,6 +97,7 @@ from reports import tenantbatch
 from reports import tenantbill
 from reports import tenantcarbon
 from reports import tenantcost
+from reports import tenantdashboard
 from reports import tenantenergycategory
 from reports import tenantenergyitem
 from reports import tenantload
@@ -955,6 +960,8 @@ api.add_route('/reports/metertrend',
               metertrend.Reporting())
 api.add_route('/reports/metertracking',
               metertracking.Reporting())
+api.add_route('/reports/microgriddashboard',
+              microgriddashboard.Reporting())
 api.add_route('/reports/microgriddetails',
               microgriddetails.Reporting())
 api.add_route('/reports/microgridlist',
@@ -981,6 +988,8 @@ api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
+api.add_route('/reports/shopfloordashboard',
+              shopfloordashboard.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
               shopfloorenergycategory.Reporting())
 api.add_route('/reports/shopfloorenergyitem',
@@ -1019,6 +1028,8 @@ api.add_route('/reports/storecarbon',
               storecarbon.Reporting())
 api.add_route('/reports/storecost',
               storecost.Reporting())
+api.add_route('/reports/storeendashboard',
+              storedashboard.Reporting())
 api.add_route('/reports/storeenergycategory',
               storeenergycategory.Reporting())
 api.add_route('/reports/storeenergyitem',
@@ -1039,6 +1050,8 @@ api.add_route('/reports/tenantcarbon',
               tenantcarbon.Reporting())
 api.add_route('/reports/tenantcost',
               tenantcost.Reporting())
+api.add_route('/reports/tenantdashboard',
+              tenantdashboard.Reporting())
 api.add_route('/reports/tenantenergycategory',
               tenantenergycategory.Reporting())
 api.add_route('/reports/tenantenergyitem',

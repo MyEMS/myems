@@ -10,7 +10,6 @@ import products from '../../../data/dashboard/products';
 import RecentPurchasesTable from './RecentPuchasesTable';
 import ActiveUsersBarChart from './ActiveUsersBarChart';
 
-
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
@@ -703,7 +702,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           )}
         </Col>
         <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-        <ActiveUsersBarChart />
+          <ActiveUsersBarChart />
         </Col>
       </Row>
       <div className="card-deck">
@@ -740,7 +739,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={costShareData} title={'节约二氧化碳排放量'} />
         </Col>
         <Col className="mb-3 pr-lg-2">
-          <SharePie data={TCEShareData} title={'故障告警统计'}/>
+          <SharePie data={TCEShareData} title={'故障告警统计'} />
         </Col>
         <Col md={6} className="col-xxl-3 mb-3 pl-md-2">
           <Weather data={weather} className="h-md-100" />
