@@ -64,6 +64,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     return () => clearInterval(timer);
   }, [setRedirect, setRedirectUrl]);
 
+  const [activeTabLeft, setActiveTabLeft] = useState('1');
+  const toggleTabLeft = tab => {
+    if (activeTabLeft !== tab) setActiveTabLeft(tab);
+  };
+
   const [activeTabRight, setActiveTabRight] = useState('1');
   const toggleTabRight = tab => {
     if (activeTabRight !== tab) setActiveTabRight(tab);
@@ -743,40 +748,105 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     <Fragment>
       <Row noGutters>
         <Col lg="2" className="pr-lg-2">
+        <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '1' })}
+                onClick={() => {
+                  toggleTabLeft('1');
+                }}
+              >
+                电量指标
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '2' })}
+                onClick={() => {
+                  toggleTabLeft('2');
+                }}
+              >
+                收益指标
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTabLeft}>
+            <TabPane tabId="1">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日充电量</th>
+                          <th className="pr-0 text-right">100 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日放电量</th>
+                          <th className="pr-0 text-right ">100 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计充电量</th>
+                          <th className="pr-0 text-right">1000 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计放电量</th>
+                          <th className="pr-0 text-right">1000 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">综合效率</th>
+                          <th className="pr-0 text-right">99%</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">放电达成率</th>
+                          <th className="pr-0 text-right">150%</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="2">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                    <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日成本</th>
+                          <th className="pr-0 text-right">100 元</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日收入</th>
+                          <th className="pr-0 text-right ">200 元</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计成本</th>
+                          <th className="pr-0 text-right">1000 元</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计收入</th>
+                          <th className="pr-0 text-right">2000 元</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">今日盈利</th>
+                          <th className="pr-0 text-right">100 元</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计盈利</th>
+                          <th className="pr-0 text-right">1000 元</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+          </TabContent>
           <Card>
-            <FalconCardHeader title="数据指标" titleTag="h5" light={false} />
-            <Fragment>
-              <CardBody className="pt-0">
-                <Table borderless className="fs--1 mb-0">
-                  <tbody>
-                    <tr className="border-bottom">
-                      <th className="pl-0">今日充电量</th>
-                      <th className="pr-0 text-right">1000 kWh</th>
-                    </tr>
-                    <tr className="border-bottom">
-                      <th className="pl-0">今日放电量</th>
-                      <th className="pr-0 text-right ">1000 kWh</th>
-                    </tr>
-                    <tr className="border-bottom">
-                      <th className="pl-0 pb-0">今日收益</th>
-                      <th className="pr-0 text-right">1000 kWh</th>
-                    </tr>
-                    <tr className="border-bottom">
-                      <th className="pl-0 pb-0">今日告警</th>
-                      <th className="pr-0 text-right">1000</th>
-                    </tr>
-                    <tr className="border-bottom">
-                      <th className="pl-0 pb-0">综合效率</th>
-                      <th className="pr-0 text-right">100%</th>
-                    </tr>
-                    <tr className="border-bottom">
-                      <th className="pl-0 pb-0">放电达成率</th>
-                      <th className="pr-0 text-right">100%</th>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Fragment>
+
+
           </Card>
         </Col>
         <Col lg="8" className="pr-lg-2" key={uuid()}>
@@ -842,7 +912,42 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 </Fragment>
               </Card>
             </TabPane>
-            <TabPane tabId="2" />
+            <TabPane tabId="2">
+            <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">通信网关</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1#电池堆</th>
+                          <th className="pr-0 text-right ">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#空调</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#网关表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#用户表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
           </TabContent>
         </Col>
       </Row>
