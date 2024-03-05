@@ -24729,7 +24729,7 @@
 			"name": "Reports",
 			"item": [
 				{
-					"name": "GET AdvancedReport Files Ⓔ",
+					"name": "AdvancedReport Files Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -24777,7 +24777,7 @@
 					"response": []
 				},
 				{
-					"name": "GET AdvancedReport File by ID Ⓔ",
+					"name": "AdvancedReport File by ID Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -24855,7 +24855,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Batch Analysis Report",
+					"name": "Combined Equipment Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -24907,7 +24907,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Batch Analysis Report (Quick Mode)",
+					"name": "Combined Equipment Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -24963,7 +24963,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Cost Report",
+					"name": "Combined Equipment Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25034,7 +25034,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Cost Report (Quick Mode)",
+					"name": "Combined Equipment Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25109,7 +25109,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Carbon Dioxide Emission Report",
+					"name": "Combined Equipment Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25180,7 +25180,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Carbon Dioxide Emission Report (Quick Mode)",
+					"name": "Combined Equipment Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25255,7 +25255,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Efficiency Report",
+					"name": "Combined Equipment Efficiency Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25326,7 +25326,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Efficiency Report (Quick Mode)",
+					"name": "Combined Equipment Efficiency Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25401,7 +25401,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Energy Category Report",
+					"name": "Combined Equipment Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25472,7 +25472,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Energy Category Report (Quick Mode)",
+					"name": "Combined Equipment Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25547,7 +25547,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Energy Item Report",
+					"name": "Combined Equipment Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25618,7 +25618,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Energy Item Report (Quick Mode)",
+					"name": "Combined Equipment Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25693,7 +25693,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Income Report",
+					"name": "Combined Equipment Income Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25764,7 +25764,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Income Report (Quick Mode)",
+					"name": "Combined Equipment Income Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25839,7 +25839,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Load Report",
+					"name": "Combined Equipment Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25910,7 +25910,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Load Report (Quick Mode)",
+					"name": "Combined Equipment Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -25985,7 +25985,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Output Report",
+					"name": "Combined Equipment Output Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26056,7 +26056,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Output Report (Quick Mode)",
+					"name": "Combined Equipment Output Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26131,7 +26131,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Saving Report Ⓔ",
+					"name": "Combined Equipment Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26202,7 +26202,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Saving Report (Quick Mode) Ⓔ",
+					"name": "Combined Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26277,7 +26277,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Statistics Report",
+					"name": "Combined Equipment Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26348,7 +26348,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Combined Equipment Statistics Report (Quick Mode)",
+					"name": "Combined Equipment Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26423,7 +26423,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Dashboard",
+					"name": "Dashboard",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26487,7 +26487,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Distribution System Report",
+					"name": "Distribution System Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26531,7 +26531,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Energy Flow Diagram Report",
+					"name": "Energy Flow Diagram Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26583,7 +26583,71 @@
 					"response": []
 				},
 				{
-					"name": "GET Energy Storage Power Station Details Report Ⓔ",
+					"name": "Energy Storage Power Station Dashboard Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/energystoragepowerstationdashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"energystoragepowerstationdashboard"
+							],
+							"query": [
+								{
+									"key": "useruuid",
+									"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Energy Storage Power Station Details Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26632,7 +26696,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Energy Storage Power Station List Report Ⓔ",
+					"name": "Energy Storage Power Station List Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26670,7 +26734,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Batch Analysis Report",
+					"name": "Equipment Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26722,7 +26786,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Batch Analysis Report (Quick Mode)",
+					"name": "Equipment Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26778,7 +26842,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Cost Report",
+					"name": "Equipment Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26849,7 +26913,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Cost Report (Quick Mode)",
+					"name": "Equipment Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26924,7 +26988,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Efficiency Report",
+					"name": "Equipment Efficiency Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -26995,7 +27059,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Efficiency Report (Quick Mode)",
+					"name": "Equipment Efficiency Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27070,7 +27134,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Energy Category Report",
+					"name": "Equipment Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27141,7 +27205,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Energy Category Report (Quick Mode)",
+					"name": "Equipment Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27216,7 +27280,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Energy Item Report",
+					"name": "Equipment Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27287,7 +27351,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Energy Item Report (Quick Mode)",
+					"name": "Equipment Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27362,7 +27426,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Income Report",
+					"name": "Equipment Income Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27433,7 +27497,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Income Report (Quick Mode)",
+					"name": "Equipment Income Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27508,7 +27572,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Load Report",
+					"name": "Equipment Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27579,7 +27643,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Load Report (Quick Mode)",
+					"name": "Equipment Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27654,7 +27718,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Output Report",
+					"name": "Equipment Output Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27725,7 +27789,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Output Report (Quick Mode)",
+					"name": "Equipment Output Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27800,7 +27864,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Saving Report Ⓔ",
+					"name": "Equipment Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27871,7 +27935,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Saving Report (Quick Mode) Ⓔ",
+					"name": "Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -27942,7 +28006,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Statistics Report",
+					"name": "Equipment Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28013,7 +28077,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Equipment Statistics Report (Quick Mode)",
+					"name": "Equipment Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28088,7 +28152,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Batch Analysis Report",
+					"name": "Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28145,7 +28209,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Batch Analysis Report (QuickMode)",
+					"name": "Meter Batch Analysis Report (QuickMode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28206,7 +28270,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Carbon Dioxide Emission Report",
+					"name": "Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28276,7 +28340,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"name": "Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28350,7 +28414,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Comparison",
+					"name": "Meter Comparison",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28422,7 +28486,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Comparison Report (Quick Mode)",
+					"name": "Meter Comparison Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28498,7 +28562,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Cost Report",
+					"name": "Meter Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28569,7 +28633,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Cost Report (Quick Mode)",
+					"name": "Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28644,7 +28708,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Report",
+					"name": "Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28715,7 +28779,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Energy Report (Quick Mode)",
+					"name": "Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28790,7 +28854,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Saving Report Ⓔ",
+					"name": "Meter Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28861,7 +28925,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Saving Report (Quick Mode) Ⓔ",
+					"name": "Meter Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28936,7 +29000,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Realtime Report",
+					"name": "Meter Realtime Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -28987,7 +29051,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Realtime Report (Quick Mode)",
+					"name": "Meter Realtime Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29042,7 +29106,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Submeters Balance Report",
+					"name": "Meter Submeters Balance Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29105,7 +29169,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Submeters Balance Report (Quick Mode)",
+					"name": "Meter Submeters Balance Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29172,7 +29236,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Trend Report",
+					"name": "Meter Trend Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29231,7 +29295,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Trend Report (Quick Mode)",
+					"name": "Meter Trend Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29294,7 +29358,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Tracking Report",
+					"name": "Meter Tracking Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29346,7 +29410,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Meter Tracking Report (Quick Mode)",
+					"name": "Meter Tracking Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29402,7 +29466,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Microgrid Report Ⓔ",
+					"name": "Microgrid Dashboard Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29427,13 +29491,77 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/reports/microgrid?microgridid=1",
+							"raw": "{{base_url}}/reports/microgriddashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"reports",
-								"microgrid"
+								"microgriddashboard"
+							],
+							"query": [
+								{
+									"key": "useruuid",
+									"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Microgrid Details Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/microgriddetails?microgridid=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"microgriddetails"
 							],
 							"query": [
 								{
@@ -29451,7 +29579,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Microgrid List Report Ⓔ",
+					"name": "Microgrid List Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29489,7 +29617,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Batch Analysis Report",
+					"name": "Offline Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29541,7 +29669,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Batch Analysis Report (Quick Mode)",
+					"name": "Offline Meter Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29597,7 +29725,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Carbon Dioxide Emission Report",
+					"name": "Offline Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29661,7 +29789,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"name": "Offline Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29737,7 +29865,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Cost Report",
+					"name": "Offline Meter Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29801,7 +29929,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Cost Report (Quick Mode)",
+					"name": "Offline Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29869,7 +29997,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Energy Report",
+					"name": "Offline Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -29933,7 +30061,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Energy Report (Quick Mode)",
+					"name": "Offline Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30001,7 +30129,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Saving Report Ⓔ",
+					"name": "Offline Meter Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30065,7 +30193,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Saving Report (Quick Mode) Ⓔ",
+					"name": "Offline Meter Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30133,7 +30261,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Point Realtime Report",
+					"name": "Point Realtime Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30171,7 +30299,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Batch Analysis Report",
+					"name": "Shopfloor Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30223,7 +30351,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Batch Analysis Report (Quick Mode)",
+					"name": "Shopfloor Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30279,7 +30407,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Cost Report",
+					"name": "Shopfloor Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30350,7 +30478,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Cost Report (Quick Mode)",
+					"name": "Shopfloor Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30425,7 +30553,71 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Energy Category Report",
+					"name": "Shopfloor Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloordashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloordashboard"
+							],
+							"query": [
+								{
+									"key": "useruuid",
+									"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shopfloor Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30496,7 +30688,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Energy Category Report (Quick Mode)",
+					"name": "Shopfloor Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30571,7 +30763,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Energy Item Report",
+					"name": "Shopfloor Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30642,7 +30834,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Energy Item Report (Quick Mode)",
+					"name": "Shopfloor Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30717,7 +30909,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Load Report",
+					"name": "Shopfloor Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30788,7 +30980,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Load Report (Quick Mode)",
+					"name": "Shopfloor Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30863,7 +31055,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Saving Report Ⓔ",
+					"name": "Shopfloor Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -30934,7 +31126,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Saving Report (Quick Mode) Ⓔ",
+					"name": "Shopfloor Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31009,7 +31201,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Statistics Report",
+					"name": "Shopfloor Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31080,7 +31272,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Shopfloor Statistics Report (Quick Mode)",
+					"name": "Shopfloor Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31155,7 +31347,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Cost Report",
+					"name": "Space Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31226,7 +31418,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Cost Report (Quick Mode)",
+					"name": "Space Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31301,7 +31493,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Efficiency Report",
+					"name": "Space Efficiency Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31372,7 +31564,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Efficiency Report (Quick Mode)",
+					"name": "Space Efficiency Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31447,7 +31639,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Energy Category Report",
+					"name": "Space Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31518,7 +31710,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Energy Category Report (Quick Mode)",
+					"name": "Space Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31593,7 +31785,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Energy Item Report",
+					"name": "Space Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31664,7 +31856,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Energy Item Report (Quick Mode)",
+					"name": "Space Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31739,7 +31931,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Income Report",
+					"name": "Space Income Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31810,7 +32002,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Income Report (Quick Mode)",
+					"name": "Space Income Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31885,7 +32077,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Load Report",
+					"name": "Space Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -31956,7 +32148,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Load Report (Quick Mode)",
+					"name": "Space Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32031,7 +32223,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Output Report",
+					"name": "Space Output Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32102,7 +32294,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Output Report (Quick Mode)",
+					"name": "Space Output Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32177,7 +32369,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Saving Report Ⓔ",
+					"name": "Space Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32248,7 +32440,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Saving Report (Quick Mode) Ⓔ",
+					"name": "Space Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32323,7 +32515,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Statistics Report",
+					"name": "Space Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32394,7 +32586,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Space Statistics Report (Quick Mode)",
+					"name": "Space Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32469,7 +32661,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Batch Analysis Report",
+					"name": "Store Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32521,7 +32713,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Batch Analysis Report (Quick Mode)",
+					"name": "Store Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32577,7 +32769,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Cost Report",
+					"name": "Store Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32648,7 +32840,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Cost Report (Quick Mode)",
+					"name": "Store Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32723,7 +32915,71 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Energy Category Report",
+					"name": "Store Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/storedashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storedashboard"
+							],
+							"query": [
+								{
+									"key": "useruuid",
+									"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32794,7 +33050,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Energy Category Report (Quick Mode)",
+					"name": "Store Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32869,7 +33125,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Energy Item Report",
+					"name": "Store Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -32940,7 +33196,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Energy Item Report (Quick Mode)",
+					"name": "Store Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33015,7 +33271,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Load Report",
+					"name": "Store Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33086,7 +33342,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Load Report (Quick Mode)",
+					"name": "Store Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33161,7 +33417,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Saving Report Ⓔ",
+					"name": "Store Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33232,7 +33488,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Saving Report (Quick Mode) Ⓔ",
+					"name": "Store Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33307,7 +33563,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Statistics Report",
+					"name": "Store Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33378,7 +33634,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Store Statistics Report (Quick Mode)",
+					"name": "Store Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33453,7 +33709,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Batch Analysis Report",
+					"name": "Tenant Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33505,7 +33761,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Batch Analysis Report (Quick Mode)",
+					"name": "Tenant Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33561,7 +33817,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Bill Report",
+					"name": "Tenant Bill Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33620,7 +33876,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Cost Report",
+					"name": "Tenant Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33691,7 +33947,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Cost Report (Quick Mode)",
+					"name": "Tenant Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33766,7 +34022,71 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Energy Category Report",
+					"name": "Tenant Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantdashboard?useruuid=dcdb67d1-6116-4987-916f-6fc6cf2bc0e4&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantdashboard"
+							],
+							"query": [
+								{
+									"key": "useruuid",
+									"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tenant Energy Category Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33837,7 +34157,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Energy Category Report (Quick Mode)",
+					"name": "Tenant Energy Category Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33912,7 +34232,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Energy Item Report",
+					"name": "Tenant Energy Item Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -33983,7 +34303,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Energy Item Report (Quick Mode)",
+					"name": "Tenant Energy Item Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34058,7 +34378,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Load Report",
+					"name": "Tenant Load Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34129,7 +34449,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Load Report (Quick Mode)",
+					"name": "Tenant Load Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34204,7 +34524,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Saving Report Ⓔ",
+					"name": "Tenant Saving Report Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34275,7 +34595,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Saving Report (Quick Mode) Ⓔ",
+					"name": "Tenant Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34350,7 +34670,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Statistics Report",
+					"name": "Tenant Statistics Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34421,7 +34741,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Tenant Statistics Report (Quick Mode)",
+					"name": "Tenant Statistics Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34496,7 +34816,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Vitrual Meter Batch Analysis Report",
+					"name": "Vitrual Meter Batch Analysis Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34548,7 +34868,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Vitrual Meter Batch Analysis Report (Quick Mode)",
+					"name": "Vitrual Meter Batch Analysis Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34604,7 +34924,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Carbon Dioxide Emission Report",
+					"name": "Virtual Meter Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34668,7 +34988,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Carbon Dioxide Emission Report (Quick Mode)",
+					"name": "Virtual Meter Carbon Dioxide Emission Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34736,7 +35056,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Cost Report",
+					"name": "Virtual Meter Cost Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34800,7 +35120,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Cost Report (Quick Mode)",
+					"name": "Virtual Meter Cost Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34868,7 +35188,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Energy Report",
+					"name": "Virtual Meter Energy Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -34932,7 +35252,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Energy Report (Quick Mode)",
+					"name": "Virtual Meter Energy Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -35000,7 +35320,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Saving Report",
+					"name": "Virtual Meter Saving Report",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -35064,7 +35384,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Virtual Meter Saving Report (Quick Mode)",
+					"name": "Virtual Meter Saving Report (Quick Mode)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -35174,7 +35494,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Offline Meter Value List",
+					"name": "Offline Meter Value List",
 					"request": {
 						"method": "GET",
 						"header": [

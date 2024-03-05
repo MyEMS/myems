@@ -663,26 +663,24 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'电站总数'} color="warning">
-          {1 && <CountUp end={26} duration={2} prefix="" separator="," decimal="." decimals={0} />}
-        </CardSummary>
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'装机总功率'} color="warning">
-          {1 && <CountUp end={12.3} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'装机总容量'} color="warning">
-          {1 && <CountUp end={12.3} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'总充电量'} color="warning">
-          {1 && <CountUp end={12.3} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'总放电量'} color="warning">
-          {1 && <CountUp end={12.3} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={totalInTCE['increment_rate'] || ''} title={'累计收益'} color="warning">
-          {1 && <CountUp end={12.3} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
       </div>
-
+      <Row noGutters>
+        <Col className="mb-3 pr-lg-2">
+          <SharePie data={TCEShareData} title={'租户总数'} />
+        </Col>
+        <Col className="mb-3 pr-lg-2">
+          <WeeklySales data={weeklySales} />
+        </Col>
+        <Col className="mb-3 pr-lg-2">
+          <SharePie data={costShareData} title={'节约二氧化碳排放量'} />
+        </Col>
+        <Col className="mb-3 pr-lg-2">
+          <SharePie data={TCEShareData} title={'故障告警统计'} />
+        </Col>
+        <Col md={6} className="col-xxl-3 mb-3 pl-md-2">
+          <Weather data={weather} className="h-md-100" />
+        </Col>
+      </Row>
       <Row noGutters>
         <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
           <BestSellingProducts products={products} />
@@ -710,7 +708,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           labels={barLabels}
           data={lastYearBarList}
           compareData={thisYearBarList}
-          title={'逐月放电量对比 '}
+          title={'逐月用电量对比 '}
           compareTitle={t('This Year')}
           footnote={t('Per Unit Area')}
           footunit={'/M²'}
@@ -722,29 +720,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           data={spaceInputLineChartData}
           options={spaceInputLineChartOptions}
         />
-        <LineChart
-          reportingTitle={'逐月收益趋势'}
-          baseTitle=""
-          labels={spaceCostLineChartLabels}
-          data={spaceCostLineChartData}
-          options={spaceCostLineChartOptions}
-        />
       </div>
       <div className="wrapper" />
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2">
-          <WeeklySales data={weeklySales} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={costShareData} title={'节约二氧化碳排放量'} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={TCEShareData} title={'故障告警统计'} />
-        </Col>
-        <Col md={6} className="col-xxl-3 mb-3 pl-md-2">
-          <Weather data={weather} className="h-md-100" />
-        </Col>
-      </Row>
+
       <RecentPurchasesTable />
     </Fragment>
   );
