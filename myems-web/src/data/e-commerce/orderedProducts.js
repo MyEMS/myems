@@ -1,6 +1,6 @@
 import {v4 as uuid} from 'uuid';
 
-export default [
+const result = [
   {
     id: uuid(),
     title: 'Platinum web hosting package',
@@ -23,3 +23,5 @@ export default [
     price: 500
   }
 ];
+
+export default result;

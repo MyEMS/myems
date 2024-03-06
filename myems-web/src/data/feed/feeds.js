@@ -10,7 +10,7 @@ import generic11 from '../../assets/img/generic/11.jpg';
 import generic12 from '../../assets/img/generic/12.jpg';
 import av4 from '../../assets/img/team/4.jpg';
 
-export default [
+const result = [
   {
     id: uuid(),
     user: {
@@ -184,3 +184,5 @@ export default [
     }
   }
 ];
+
+export default result;

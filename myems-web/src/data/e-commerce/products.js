@@ -15,7 +15,7 @@ import product7 from '../../assets/img/products/7.jpg';
 import product5 from '../../assets/img/products/5.jpg';
 import product9 from '../../assets/img/products/9.jpg';
 
-export default [
+const result = [
   {
     id: uuid(),
     files: [
@@ -210,3 +210,5 @@ export default [
     isInStock: true
   }
 ];
+
+export default result;

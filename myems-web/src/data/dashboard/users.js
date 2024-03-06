@@ -5,7 +5,7 @@ import team4 from '../../assets/img/team/4.jpg';
 import team5 from '../../assets/img/team/5.jpg';
 import team6 from '../../assets/img/team/6.jpg';
 
-export default [
+const result = [
   {
     id: 1,
     name: 'Emma Watson',
@@ -67,3 +67,5 @@ export default [
     role: 'Moderator'
   }
 ];
+
+export default result;

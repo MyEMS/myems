@@ -1,7 +1,7 @@
 import paperPlane from '../../assets/img/illustrations/paper-plane.svg';
 import startup from '../../assets/img/illustrations/startup.svg';
 
-export default [
+const result = [
   {
     type: 'Free',
     price: {
@@ -47,3 +47,5 @@ export default [
     }
   }
 ];
+
+export default result;

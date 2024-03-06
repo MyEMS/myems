@@ -4,7 +4,7 @@ import product11 from '../../assets/img/products/11.jpg';
 import product14 from '../../assets/img/products/14.jpg';
 import product13 from '../../assets/img/products/13.jpg';
 
-export default [
+const result = [
   {
     id: 1,
     img: product12,
@@ -61,3 +61,5 @@ export default [
     color: 'success'
   }
 ];
+
+export default result;

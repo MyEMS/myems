@@ -1,4 +1,4 @@
-export default [
+const result = [
   {
     title: 'New components are ready to publish!',
     date: 'Jan 15',
@@ -21,3 +21,5 @@ export default [
     read: '10min'
   }
 ];
+
+export default result;

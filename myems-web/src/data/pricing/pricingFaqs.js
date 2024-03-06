@@ -1,4 +1,4 @@
-export default [
+const result = [
   {
     question: 'How long do payouts take?',
     answer:
@@ -21,3 +21,5 @@ export default [
       'There are no additional fees for using our mobile SDKs or to accept payments using consumer wallets like Apple Pay or Google Pay.'
   }
 ];
+
+export default result;

@@ -1,4 +1,4 @@
-export default [
+const result = [
   'rande@live.com',
   'jshirley@comcast.net',
   'sartak@hotmail.com',
@@ -1000,3 +1000,5 @@ export default [
   'rnelson@hotmail.com',
   'yxing@mac.com'
 ];
+
+export default result;

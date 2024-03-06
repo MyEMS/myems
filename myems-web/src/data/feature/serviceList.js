@@ -1,4 +1,4 @@
-export default [
+const result = [
   {
     media: { icon: ['fab', 'sass'], color: 'info', className: 'fs-4' },
     title: 'Bootstrap 4.3.1',
@@ -18,3 +18,5 @@ export default [
       'All the painful or time-consuming tasks in your development workflow such as compiling the SCSS or transpiring the JS are automated.'
   }
 ];
+
+export default result;

@@ -4,7 +4,7 @@ import iconZip from '../../assets/img/icons/zip.png';
 import product2 from '../../assets/img/products/2.jpg';
 import iconDocs from '../../assets/img/icons/docs.png';
 
-export default [
+const result = [
   {
     id: 1,
     img: product5,
@@ -43,3 +43,5 @@ export default [
     border: false
   }
 ];
+
+export default result;

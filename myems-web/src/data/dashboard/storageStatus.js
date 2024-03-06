@@ -1,4 +1,4 @@
-export default [
+const result = [
   {
     name: 'Regular',
     size: 895,
@@ -20,3 +20,5 @@ export default [
     color: '200'
   }
 ];
+
+export default result;

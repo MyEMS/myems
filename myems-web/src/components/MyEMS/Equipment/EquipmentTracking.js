@@ -105,7 +105,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           let selectedSpaceID = [json[0]].map(o => o.value);
           // begin of getting equipment list
           let isSecondResponseOK = false;
-          fetch(APIBaseURL + '/reports/equipmenttracking?' + 'spaceid=' + selectedSpaceID, {
+          fetch(APIBaseURL + '/reports/equipmenttracking?spaceid=' + selectedSpaceID, {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -246,7 +246,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     // begin of getting equipment list
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/equipmenttracking?' + 'spaceid=' + selectedSpaceID + '&language=' + language, {
+    fetch(APIBaseURL + '/reports/equipmenttracking?spaceid=' + selectedSpaceID + '&language=' + language, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

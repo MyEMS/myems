@@ -13,7 +13,7 @@ import goodreads from '../../assets/img/logos/goodreads.png';
 import generic1 from '../../assets/img/generic/1.jpg';
 import generic8 from '../../assets/img/generic/8.jpg';
 
-export default [
+const result = [
   {
     id: 1,
     user: 'GitHub',
@@ -204,3 +204,5 @@ export default [
     read: false
   }
 ];
+
+export default result;
