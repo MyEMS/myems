@@ -1,7 +1,7 @@
 import React from 'react';
 import PurchasesTableActions from '../../components/dashboard/PurchasesTableActions';
 
-export default [
+const result = [
   {
     id: 1,
     customer: 'Sylvia Plath',
@@ -111,3 +111,5 @@ export default [
     action: <PurchasesTableActions />
   }
 ];
+
+export default result;

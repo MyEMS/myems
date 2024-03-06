@@ -1,6 +1,6 @@
 import {v4 as uuid} from 'uuid';
 
-export default [
+const result = [
   {
     id: uuid().split('-')[0],
     // id: 181,
@@ -332,3 +332,5 @@ export default [
     amount: 111
   }
 ];
+
+export default result;

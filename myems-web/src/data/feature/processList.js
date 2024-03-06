@@ -2,7 +2,7 @@ import illustration1 from '../../assets/img/illustrations/1.svg';
 import illustration2 from '../../assets/img/illustrations/2.svg';
 import illustration3 from '../../assets/img/illustrations/3.svg';
 
-export default [
+const result = [
   {
     icon: ['far', 'lightbulb'],
     iconText: 'PLAN',
@@ -32,3 +32,5 @@ export default [
     image: illustration3
   }
 ];
+
+export default result;

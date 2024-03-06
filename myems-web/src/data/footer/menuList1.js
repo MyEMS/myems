@@ -1,4 +1,4 @@
-export default [
+const result = [
   { title: 'About', to: '#!' },
   { title: 'Contact', to: '#!' },
   { title: 'Careers', to: '#!' },
@@ -7,3 +7,5 @@ export default [
   { title: 'Privacy', to: '#!' },
   { title: 'Imprint', to: '#!' }
 ];
+
+export default result;

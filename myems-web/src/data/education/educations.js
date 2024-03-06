@@ -2,7 +2,7 @@ import logoStanford from '../../assets/img/logos/stanford.png';
 import logoStaten from '../../assets/img/logos/staten.png';
 import logoTjHeighSchool from '../../assets/img/logos/tj-heigh-school.png';
 
-export default [
+const result = [
   {
     imgSrc: logoStanford,
     institution: 'Stanford University',
@@ -32,3 +32,5 @@ export default [
     divider: false
   }
 ];
+
+export default result;

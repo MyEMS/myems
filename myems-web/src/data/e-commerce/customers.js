@@ -8,7 +8,7 @@ import team14 from '../../assets/img/team/14.jpg';
 import team5 from '../../assets/img/team/5.jpg';
 import team6 from '../../assets/img/team/6.jpg';
 
-export default [
+const result = [
   {
     id: uuid(),
     name: 'Ricky Antony',
@@ -335,3 +335,5 @@ export default [
     address: 'Garry Brainstrow, 13572 Kurt Mews South Merritt, IA 52491'
   }
 ];
+
+export default result;

@@ -24,7 +24,7 @@ import team23 from '../../assets/img/team/23.jpg';
 import team24 from '../../assets/img/team/24.jpg';
 import team25 from '../../assets/img/team/25.jpg';
 
-export default [
+const result = [
   {
     id: 0,
     avatarSrc: team1,
@@ -241,3 +241,5 @@ export default [
     institutionLink: '#!'
   }
 ];
+
+export default result;

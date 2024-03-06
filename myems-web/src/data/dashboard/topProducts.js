@@ -15,7 +15,7 @@ export const totalSalesByMonth = {
   december: [20, 40, 20, 50, 30, 80, 120, 100, 30, 40, 30, 70, 80]
 };
 
-export default [
+const result = [
   ['product', '2019', '2018'],
   ['Boots4', 43, 85],
   ['Reign Pro', 83, 73],
@@ -25,3 +25,5 @@ export default [
   ['Hideaway', 50, 70],
   ['Freya', 80, 90]
 ];
+
+export default result;

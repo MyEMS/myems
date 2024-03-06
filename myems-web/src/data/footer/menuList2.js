@@ -1,4 +1,4 @@
-export default [
+const result = [
   { title: 'Features', to: '#!' },
   { title: 'Roadmap', to: '#!' },
   { title: 'ChangeLog', to: '#!' },
@@ -8,3 +8,5 @@ export default [
   { title: 'Agencies', to: '#!' },
   { title: 'Enterprise', to: '#!' }
 ];
+
+export default result;

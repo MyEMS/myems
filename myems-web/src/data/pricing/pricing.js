@@ -1,4 +1,4 @@
-export default [
+const result = [
   {
     type: 'Single',
     description: 'For teams that need to create project plans with confidence.',
@@ -75,3 +75,5 @@ export default [
     bottomButtonText: 'More about Extended'
   }
 ];
+
+export default result;

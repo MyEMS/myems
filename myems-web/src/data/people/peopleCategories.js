@@ -1,4 +1,4 @@
-export default [
+const result = [
   'All followers',
   'Concert Choir',
   'Clubchem',
@@ -12,3 +12,5 @@ export default [
   'Brain Trust',
   'Other'
 ];
+
+export default result;

@@ -1,4 +1,4 @@
-export default {
+const result = {
   city: 'New York City',
   condition: 'Sunny',
   precipitation: '50%',
@@ -6,3 +6,5 @@ export default {
   highestTemperature: 32,
   lowestTemperature: 25
 };
+
+export default result;

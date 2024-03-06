@@ -1,6 +1,6 @@
 import logoInvoice from '../../assets/img/logos/logo-invoice.png';
 
-export default {
+const result = {
   institution: 'Falcon Design Studio',
   logo: logoInvoice,
   address: '156 University Ave, Toronto<br />On, Canada, M5H 2H7',
@@ -46,3 +46,5 @@ export default {
     }
   ]
 };
+
+export default result;

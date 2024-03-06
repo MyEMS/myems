@@ -2,7 +2,7 @@ import google from '../../assets/img/logos/google.png';
 import netflix from '../../assets/img/logos/netflix.png';
 import amazon from '../../assets/img/logos/paypal.png';
 
-export default [
+const result = [
   {
     description:
       "Falcon is the best option if you are looking for a theme built with Bootstrap. On top of that, Falcon's creators and support staff are very brilliant and attentive to users' needs.",
@@ -28,3 +28,5 @@ export default [
     size: 45
   }
 ];
+
+export default result;
