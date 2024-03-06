@@ -30,7 +30,7 @@ import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay} from 'date-fns';
+import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
 
@@ -44,7 +44,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     let user_display_name = getCookieValue('user_display_name');
     let user_uuid = getCookieValue('user_uuid');
     let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token)|| checkEmpty(user_uuid) || !is_logged_in) {
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
@@ -77,9 +77,25 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [comparisonType, setComparisonType] = useState('month-on-month');
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [basePeriodDateRange, setBasePeriodDateRange] = useState([current_moment.clone().subtract(1, 'months').startOf('month').toDate(), current_moment.clone().subtract(1, 'months').toDate()]);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .startOf('month')
+      .toDate(),
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .toDate()
+  ]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([current_moment.clone().startOf('month').toDate(), current_moment.toDate()]);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
     monday: t('monday'),
@@ -97,7 +113,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     last7Days: t('last7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10};
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(AppContext);
 
   // buttons
@@ -108,18 +124,18 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
 
-  const [equipmentBaseAndReportingNames, setEquipmentBaseAndReportingNames] = useState({"a0":""});
-  const [equipmentBaseAndReportingUnits, setEquipmentBaseAndReportingUnits] = useState({"a0":"()"});
+  const [equipmentBaseAndReportingNames, setEquipmentBaseAndReportingNames] = useState({ a0: '' });
+  const [equipmentBaseAndReportingUnits, setEquipmentBaseAndReportingUnits] = useState({ a0: '()' });
 
-  const [equipmentBaseLabels, setEquipmentBaseLabels] = useState({"a0": []});
-  const [equipmentBaseData, setEquipmentBaseData] = useState({"a0": []});
-  const [equipmentBaseSubtotals, setEquipmentBaseSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [equipmentBaseLabels, setEquipmentBaseLabels] = useState({ a0: [] });
+  const [equipmentBaseData, setEquipmentBaseData] = useState({ a0: [] });
+  const [equipmentBaseSubtotals, setEquipmentBaseSubtotals] = useState({ a0: (0).toFixed(2) });
 
-  const [equipmentReportingLabels, setEquipmentReportingLabels] = useState({"a0": []});
-  const [equipmentReportingData, setEquipmentReportingData] = useState({"a0": []});
-  const [equipmentReportingSubtotals, setEquipmentReportingSubtotals] = useState({"a0": (0).toFixed(2)});
+  const [equipmentReportingLabels, setEquipmentReportingLabels] = useState({ a0: [] });
+  const [equipmentReportingData, setEquipmentReportingData] = useState({ a0: [] });
+  const [equipmentReportingSubtotals, setEquipmentReportingSubtotals] = useState({ a0: (0).toFixed(2) });
 
-  const [equipmentReportingRates, setEquipmentReportingRates] = useState({"a0": []});
+  const [equipmentReportingRates, setEquipmentReportingRates] = useState({ a0: [] });
   const [equipmentReportingOptions, setEquipmentReportingOptions] = useState([]);
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -127,85 +143,96 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([{dataField: 'startdatetime', text: t('Datetime'), sort: true}]);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
+    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
+  ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/spaces/tree', {
+    fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json);
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        setSelectedSpaceID([json[0]].map(o => o.value));
-        // get Equipments by root Space ID
-        let isResponseOK = false;
-        fetch(
-          APIBaseURL +
-          '/spaces/' +
-          [json[0]].map(o => o.value) +
-          '/equipments', {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
-
-        }).then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json);
-            setEquipmentList(json[0]);
-            if (json[0].length > 0) {
-              setSelectedEquipment(json[0][0].value);
-              // enable submit button
-              setSubmitButtonDisabled(false);
-            } else {
-              setSelectedEquipment(undefined);
-              // disable submit button
-              setSubmitButtonDisabled(true);
-            }
-          } else {
-            toast.error(t(json.description))
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of get Equipments by root Space ID
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }, [t, ]);
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get Equipments by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/equipments', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setEquipmentList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedEquipment(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
+                } else {
+                  setSelectedEquipment(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get Equipments by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -214,47 +241,51 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceID(value[value.length - 1]);
 
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/spaces/' +
-      value[value.length - 1] +
-      '/equipments', {
+    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/equipments', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
-
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        setEquipmentList(json[0]);
-        if (json[0].length > 0) {
-          setSelectedEquipment(json[0][0].value);
-          // enable submit button
-          setSubmitButtonDisabled(false);
-        } else {
-          setSelectedEquipment(undefined);
-          // disable submit button
-          setSubmitButtonDisabled(true);
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
         }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setEquipmentList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedEquipment(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedEquipment(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
 
-        // hide export button
-        setExportButtonHidden(true)
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+          // hide export button
+          setExportButtonHidden(true);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   let onComparisonTypeChange = ({ target }) => {
@@ -262,16 +293,34 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'years')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'years')
+          .toDate()
+      ]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDateRangePickerDisabled(true);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'months')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'months')
+          .toDate()
+      ]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
-      setBasePeriodDateRange([moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate()]);
+      setBasePeriodDateRange([
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'days')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'days')
+          .toDate()
+      ]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
       setBasePeriodDateRangePickerDisabled(true);
@@ -279,8 +328,8 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // Callback fired when value changed
-  let onBasePeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onBasePeriodChange = DateRange => {
+    if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -292,8 +341,8 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // Callback fired when value changed
-  let onReportingPeriodChange = (DateRange) => {
-    if(DateRange == null) {
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
@@ -302,9 +351,27 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
       if (comparisonType === 'year-over-year') {
-        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'years').toDate(), moment(DateRange[1]).clone().subtract(1, 'years').toDate()]);
+        setBasePeriodDateRange([
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'years')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'years')
+            .toDate()
+        ]);
       } else if (comparisonType === 'month-on-month') {
-        setBasePeriodDateRange([moment(DateRange[0]).clone().subtract(1, 'months').toDate(), moment(DateRange[1]).clone().subtract(1, 'months').toDate()]);
+        setBasePeriodDateRange([
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'months')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'months')
+            .toDate()
+        ]);
       }
     }
   };
@@ -319,7 +386,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
-  const isBasePeriodTimestampExists = (base_period_data) => {
+  const isBasePeriodTimestampExists = base_period_data => {
     const timestamps = base_period_data['timestamps'];
 
     if (timestamps.length === 0) {
@@ -340,10 +407,10 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     while (sortArr.length < originalArr.length) {
       for (let i = 0; i < originalArr.length; i++) {
         if (originalArr[i][key].substring(1) === index.toString()) {
-          sortArr.push(originalArr[i])
+          sortArr.push(originalArr[i]);
         }
       }
-      index += 1
+      index += 1;
     }
 
     return sortArr;
@@ -357,9 +424,9 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     console.log(selectedEquipment);
     console.log(comparisonType);
     console.log(periodType);
-    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null)
-    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null)
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'))
+    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null);
+    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null);
+    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     // disable submit button
@@ -367,7 +434,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -375,548 +442,594 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/equipmentefficiency?' +
-      'equipmentid=' +
-      selectedEquipment +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null,
+        '/reports/equipmentefficiency?' +
+        'equipmentid=' +
+        selectedEquipment +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      }
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
 
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      };
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        console.log(json);
+          let cardSummaryArray = [];
+          json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
+            let cardSummaryItem = {};
+            cardSummaryItem['name'] = json['reporting_period_efficiency']['names'][index];
+            cardSummaryItem['unit'] = json['reporting_period_efficiency']['units'][index];
+            cardSummaryItem['cumulation'] = json['reporting_period_efficiency']['cumulations'][index];
+            cardSummaryItem['increment_rate'] =
+              parseFloat(json['reporting_period_efficiency']['increment_rates'][index] * 100).toFixed(2) + '%';
 
-        let cardSummaryArray = []
-        json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-          let cardSummaryItem = {};
-          cardSummaryItem['name'] = json['reporting_period_efficiency']['names'][index];
-          cardSummaryItem['unit'] = json['reporting_period_efficiency']['units'][index];
-          cardSummaryItem['cumulation'] = json['reporting_period_efficiency']['cumulations'][index];
-          cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_efficiency']['increment_rates'][index] * 100).toFixed(2) + "%";
+            cardSummaryItem['numerator_names'] = json['reporting_period_efficiency']['numerator_names'][index];
+            cardSummaryItem['numerator_units'] = json['reporting_period_efficiency']['numerator_units'][index];
+            cardSummaryItem['numerator_cumulation'] =
+              json['reporting_period_efficiency']['numerator_cumulation'][index];
+            cardSummaryItem['increment_rates_num'] =
+              parseFloat(json['reporting_period_efficiency']['increment_rates_num'][index] * 100).toFixed(2) + '%';
 
-          cardSummaryItem['numerator_names'] = json['reporting_period_efficiency']['numerator_names'][index];
-          cardSummaryItem['numerator_units'] = json['reporting_period_efficiency']['numerator_units'][index];
-          cardSummaryItem['numerator_cumulation'] = json['reporting_period_efficiency']['numerator_cumulation'][index];
-          cardSummaryItem['increment_rates_num'] = parseFloat(json['reporting_period_efficiency']['increment_rates_num'][index] * 100).toFixed(2) + "%";
+            cardSummaryItem['denominator_names'] = json['reporting_period_efficiency']['denominator_names'][index];
+            cardSummaryItem['denominator_units'] = json['reporting_period_efficiency']['denominator_units'][index];
+            cardSummaryItem['denominator_cumulation'] =
+              json['reporting_period_efficiency']['denominator_cumulation'][index];
+            cardSummaryItem['increment_rates_den'] =
+              parseFloat(json['reporting_period_efficiency']['increment_rates_den'][index] * 100).toFixed(2) + '%';
 
-          cardSummaryItem['denominator_names'] = json['reporting_period_efficiency']['denominator_names'][index];
-          cardSummaryItem['denominator_units'] = json['reporting_period_efficiency']['denominator_units'][index];
-          cardSummaryItem['denominator_cumulation'] = json['reporting_period_efficiency']['denominator_cumulation'][index];
-          cardSummaryItem['increment_rates_den'] = parseFloat(json['reporting_period_efficiency']['increment_rates_den'][index] * 100).toFixed(2) + "%";
-
-          cardSummaryArray.push(cardSummaryItem);
-        });
-        setCardSummaryList(cardSummaryArray);
-
-        let base_timestamps = {}
-        json['base_period_efficiency']['timestamps'].forEach((currentValue, index) => {
-          base_timestamps['a' + index] = currentValue;
-        });
-        json['base_period_efficiency']['numerator_timestamps'].forEach((currentValue, index) => {
-          base_timestamps['b' + index] = currentValue;
-        });
-        json['base_period_efficiency']['denominator_timestamps'].forEach((currentValue, index) => {
-          base_timestamps['c' + index] = currentValue;
-        });
-        setEquipmentBaseLabels(base_timestamps)
-
-        let base_values = {}
-        json['base_period_efficiency']['values'].forEach((currentValue, index) => {
-          base_values['a' + index] = currentValue;
-        });
-        json['base_period_efficiency']['numerator_values'].forEach((currentValue, index) => {
-          base_values['b' + index] = currentValue;
-        });
-        json['base_period_efficiency']['denominator_values'].forEach((currentValue, index) => {
-          base_values['c' + index] = currentValue;
-        });
-        setEquipmentBaseData(base_values)
-
-        /*
-        * Tip:
-        *     base_names === reporting_names
-        *     base_units === reporting_units
-        * */
-
-        let base_and_reporting_names = {}
-        json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-          base_and_reporting_names['a' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
-          base_and_reporting_names['b' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
-          base_and_reporting_names['c' + index] = currentValue;
-        });
-        setEquipmentBaseAndReportingNames(base_and_reporting_names)
-
-        let base_and_reporting_units = {}
-        json['reporting_period_efficiency']['units'].forEach((currentValue, index) => {
-          base_and_reporting_units['a' + index] = "("+currentValue+")";
-        });
-        json['reporting_period_efficiency']['numerator_units'].forEach((currentValue, index) => {
-          base_and_reporting_units['b' + index] = "("+currentValue+")";
-        });
-        json['reporting_period_efficiency']['denominator_units'].forEach((currentValue, index) => {
-          base_and_reporting_units['c' + index] = "("+currentValue+")";
-        });
-        setEquipmentBaseAndReportingUnits(base_and_reporting_units)
-
-        let base_subtotals = {}
-        json['base_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-          base_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        json['base_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
-          base_subtotals['b' + index] = currentValue.toFixed(2);
-        });
-        json['base_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
-          base_subtotals['c' + index] = currentValue.toFixed(2);
-        });
-        setEquipmentBaseSubtotals(base_subtotals)
-
-        let reporting_timestamps = {}
-        json['reporting_period_efficiency']['timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['a' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['numerator_timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['b' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['denominator_timestamps'].forEach((currentValue, index) => {
-          reporting_timestamps['c' + index] = currentValue;
-        });
-        setEquipmentReportingLabels(reporting_timestamps);
-
-        let reporting_values = {}
-        json['reporting_period_efficiency']['values'].forEach((currentValue, index) => {
-          reporting_values['a' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, index) => {
-          reporting_values['b' + index] = currentValue;
-        });
-        json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, index) => {
-          reporting_values['c' + index] = currentValue;
-        });
-        setEquipmentReportingData(reporting_values);
-
-        let reporting_subtotals = {}
-        json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-          reporting_subtotals['a' + index] = currentValue.toFixed(2);
-        });
-        json['reporting_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
-          reporting_subtotals['b' + index] = currentValue.toFixed(2);
-        });
-        json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
-          reporting_subtotals['c' + index] = currentValue.toFixed(2);
-        });
-        setEquipmentReportingSubtotals(reporting_subtotals);
-
-        let rates = {}
-        json['reporting_period_efficiency']['rates'].forEach((currentValue, index) => {
-          let currentRate = [];
-          currentValue.forEach((rate) => {
-            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+            cardSummaryArray.push(cardSummaryItem);
           });
-          rates['a' + index] = currentRate;
-        });
-        json['reporting_period_efficiency']['numerator_rates'].forEach((currentValue, index) => {
-          let currentRate = [];
-          currentValue.forEach((rate) => {
-            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+          setCardSummaryList(cardSummaryArray);
+
+          let base_timestamps = {};
+          json['base_period_efficiency']['timestamps'].forEach((currentValue, index) => {
+            base_timestamps['a' + index] = currentValue;
           });
-          rates['b' + index] = currentRate;
-        });
-        json['reporting_period_efficiency']['denominator_rates'].forEach((currentValue, index) => {
-          let currentRate = [];
-          currentValue.forEach((rate) => {
-            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+          json['base_period_efficiency']['numerator_timestamps'].forEach((currentValue, index) => {
+            base_timestamps['b' + index] = currentValue;
           });
-          rates['c' + index] = currentRate;
-        });
-        setEquipmentReportingRates(rates)
+          json['base_period_efficiency']['denominator_timestamps'].forEach((currentValue, index) => {
+            base_timestamps['c' + index] = currentValue;
+          });
+          setEquipmentBaseLabels(base_timestamps);
 
-        let options = [];
-        json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period_efficiency']['units'][index];
-          options.push({ 'value': 'a' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period_efficiency']['numerator_units'][index];
-          options.push({ 'value': 'b' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
-          let unit = json['reporting_period_efficiency']['denominator_units'][index];
-          options.push({ 'value': 'c' + index, 'label': currentValue + ' (' + unit + ')'});
-        });
-        setEquipmentReportingOptions(sortByNumber(options, "value"));
+          let base_values = {};
+          json['base_period_efficiency']['values'].forEach((currentValue, index) => {
+            base_values['a' + index] = currentValue;
+          });
+          json['base_period_efficiency']['numerator_values'].forEach((currentValue, index) => {
+            base_values['b' + index] = currentValue;
+          });
+          json['base_period_efficiency']['denominator_values'].forEach((currentValue, index) => {
+            base_values['c' + index] = currentValue;
+          });
+          setEquipmentBaseData(base_values);
 
-        let timestamps = {}
-        json['parameters']['timestamps'].forEach((currentValue, index) => {
-          timestamps['a' + index] = currentValue;
-        });
-        setParameterLineChartLabels(timestamps);
+          /*
+           * Tip:
+           *     base_names === reporting_names
+           *     base_units === reporting_units
+           * */
 
-        let values = {}
-        json['parameters']['values'].forEach((currentValue, index) => {
-          values['a' + index] = currentValue;
-        });
-        setParameterLineChartData(values);
+          let base_and_reporting_names = {};
+          json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
+            base_and_reporting_names['a' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
+            base_and_reporting_names['b' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
+            base_and_reporting_names['c' + index] = currentValue;
+          });
+          setEquipmentBaseAndReportingNames(base_and_reporting_names);
 
-        let names = [];
-        json['parameters']['names'].forEach((currentValue, index) => {
+          let base_and_reporting_units = {};
+          json['reporting_period_efficiency']['units'].forEach((currentValue, index) => {
+            base_and_reporting_units['a' + index] = '(' + currentValue + ')';
+          });
+          json['reporting_period_efficiency']['numerator_units'].forEach((currentValue, index) => {
+            base_and_reporting_units['b' + index] = '(' + currentValue + ')';
+          });
+          json['reporting_period_efficiency']['denominator_units'].forEach((currentValue, index) => {
+            base_and_reporting_units['c' + index] = '(' + currentValue + ')';
+          });
+          setEquipmentBaseAndReportingUnits(base_and_reporting_units);
 
-          names.push({ 'value': 'a' + index, 'label': currentValue });
-        });
-        setParameterLineChartOptions(names);
+          let base_subtotals = {};
+          json['base_period_efficiency']['cumulations'].forEach((currentValue, index) => {
+            base_subtotals['a' + index] = currentValue.toFixed(2);
+          });
+          json['base_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
+            base_subtotals['b' + index] = currentValue.toFixed(2);
+          });
+          json['base_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
+            base_subtotals['c' + index] = currentValue.toFixed(2);
+          });
+          setEquipmentBaseSubtotals(base_subtotals);
 
-        if(!isBasePeriodTimestampExists(json['base_period_efficiency'])) {
-          let detailed_value_list = [];
-          if (json['reporting_period_efficiency']['timestamps'].length > 0) {
-            json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-              let detailed_value = {};
-              detailed_value['id'] = timestampIndex;
-              detailed_value['startdatetime'] = currentTimestamp;
-              json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
-                if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
-                  detailed_value['a' + parameterIndex] = json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex];
-                } else {
-                  detailed_value['a' + parameterIndex] = null;
-                }
-                ;
-              });
-              json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, parameterIndex) => {
-                if (json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex] != null) {
-                  detailed_value['b' + parameterIndex] = json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex];
-                } else {
-                  detailed_value['b' + parameterIndex] = null;
-                }
-                ;
-              });
-              json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, parameterIndex) => {
-                if (json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex] != null) {
-                  detailed_value['c' + parameterIndex] = json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex];
-                } else {
-                  detailed_value['c' + parameterIndex] = null;
-                }
-                ;
-              });
-              detailed_value_list.push(detailed_value);
-            });
-          }
-          ;
+          let reporting_timestamps = {};
+          json['reporting_period_efficiency']['timestamps'].forEach((currentValue, index) => {
+            reporting_timestamps['a' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['numerator_timestamps'].forEach((currentValue, index) => {
+            reporting_timestamps['b' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['denominator_timestamps'].forEach((currentValue, index) => {
+            reporting_timestamps['c' + index] = currentValue;
+          });
+          setEquipmentReportingLabels(reporting_timestamps);
 
-          let detailed_value = {};
-          detailed_value['id'] = detailed_value_list.length;
-          detailed_value['startdatetime'] = t('Subtotal');
+          let reporting_values = {};
+          json['reporting_period_efficiency']['values'].forEach((currentValue, index) => {
+            reporting_values['a' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, index) => {
+            reporting_values['b' + index] = currentValue;
+          });
+          json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, index) => {
+            reporting_values['c' + index] = currentValue;
+          });
+          setEquipmentReportingData(reporting_values);
+
+          let reporting_subtotals = {};
           json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-            detailed_value['a' + index] = currentValue;
+            reporting_subtotals['a' + index] = currentValue.toFixed(2);
           });
           json['reporting_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
-            detailed_value['b' + index] = currentValue;
+            reporting_subtotals['b' + index] = currentValue.toFixed(2);
           });
           json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
-            detailed_value['c' + index] = currentValue;
+            reporting_subtotals['c' + index] = currentValue.toFixed(2);
           });
+          setEquipmentReportingSubtotals(reporting_subtotals);
 
-          detailed_value_list.push(detailed_value);
-          setTimeout(() => {
-            setDetailedDataTableData(detailed_value_list);
-          }, 0)
+          let rates = {};
+          json['reporting_period_efficiency']['rates'].forEach((currentValue, index) => {
+            let currentRate = [];
+            currentValue.forEach(rate => {
+              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+            });
+            rates['a' + index] = currentRate;
+          });
+          json['reporting_period_efficiency']['numerator_rates'].forEach((currentValue, index) => {
+            let currentRate = [];
+            currentValue.forEach(rate => {
+              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+            });
+            rates['b' + index] = currentRate;
+          });
+          json['reporting_period_efficiency']['denominator_rates'].forEach((currentValue, index) => {
+            let currentRate = [];
+            currentValue.forEach(rate => {
+              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+            });
+            rates['c' + index] = currentRate;
+          });
+          setEquipmentReportingRates(rates);
 
-          let detailed_column_list = [];
-          detailed_column_list.push({
-            dataField: 'startdatetime',
-            text: t('Datetime'),
-            sort: true
-          })
-          let original_detailed_column_list = []
+          let options = [];
           json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period_efficiency']['units'][index];
-            original_detailed_column_list.push({
-              dataField: 'a' + index,
-              text: currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+            options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
           });
           json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
             let unit = json['reporting_period_efficiency']['numerator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'b' + index,
-              text: currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+            options.push({ value: 'b' + index, label: currentValue + ' (' + unit + ')' });
           });
           json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
             let unit = json['reporting_period_efficiency']['denominator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'c' + index,
-              text: currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+            options.push({ value: 'c' + index, label: currentValue + ' (' + unit + ')' });
           });
+          setEquipmentReportingOptions(sortByNumber(options, 'value'));
 
-          setDetailedDataTableColumns([...detailed_column_list, ...sortByNumber(original_detailed_column_list, "dataField")]);
-        }else {
-          /*
-          * Tip:
-          *     json['base_period_efficiency']['names'] ===  json['reporting_period_efficiency']['names']
-          *     json['base_period_efficiency']['units'] ===  json['reporting_period_efficiency']['units']
-          * */
-          let detailed_column_list = [];
-          detailed_column_list.push({
-            dataField: 'basePeriodDatetime',
-            text: t('Base Period') + ' - ' + t('Datetime'),
-            sort: true
-          })
-
-          let original_detailed_column_list = []
-          json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['units'][index];
-            original_detailed_column_list.push({
-              dataField: 'a' + index,
-              text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+          let timestamps = {};
+          json['parameters']['timestamps'].forEach((currentValue, index) => {
+            timestamps['a' + index] = currentValue;
           });
+          setParameterLineChartLabels(timestamps);
 
-          json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['numerator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'b' + index,
-              text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+          let values = {};
+          json['parameters']['values'].forEach((currentValue, index) => {
+            values['a' + index] = currentValue;
           });
+          setParameterLineChartData(values);
 
-          json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['denominator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'c' + index,
-              text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
+          let names = [];
+          json['parameters']['names'].forEach((currentValue, index) => {
+            names.push({ value: 'a' + index, label: currentValue });
           });
+          setParameterLineChartOptions(names);
 
-          detailed_column_list = [...detailed_column_list, ...sortByNumber(original_detailed_column_list, "dataField")];
-
-          detailed_column_list.push({
-            dataField: 'reportingPeriodDatetime',
-            text: t('Reporting Period') + ' - ' + t('Datetime'),
-            sort: true
-          })
-
-          original_detailed_column_list = []
-          json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['units'][index];
-            original_detailed_column_list.push({
-              dataField: 'd' + index,
-              text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
-          });
-
-          json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['numerator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'e' + index,
-              text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
-          });
-
-          json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period_efficiency']['denominator_units'][index];
-            original_detailed_column_list.push({
-              dataField: 'f' + index,
-              text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
-              sort: true,
-              formatter: function (decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            })
-          });
-          detailed_column_list = [...detailed_column_list, ...sortByNumber(original_detailed_column_list, "dataField")];
-          setDetailedDataTableColumns(detailed_column_list);
-
-          let detailed_value_list = [];
-          if (json['base_period_efficiency']['timestamps'].length > 0 || json['reporting_period_efficiency']['timestamps'].length > 0) {
-            const max_timestamps_length = json['base_period_efficiency']['timestamps'][0].length >= json['reporting_period_efficiency']['timestamps'][0].length ?
-                json['base_period_efficiency']['timestamps'][0].length : json['reporting_period_efficiency']['timestamps'][0].length;
-            for (let index = 0; index < max_timestamps_length; index++) {
-              let detailed_value = {};
-              detailed_value['id'] = index;
-              detailed_value['basePeriodDatetime'] = index < json['base_period_efficiency']['timestamps'][0].length ? json['base_period_efficiency']['timestamps'][0][index] : null;
-              json['base_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['a' + energyCategoryIndex] = index < json['base_period_efficiency']['values'][energyCategoryIndex].length ? json['base_period_efficiency']['values'][energyCategoryIndex][index] : null;
+          if (!isBasePeriodTimestampExists(json['base_period_efficiency'])) {
+            let detailed_value_list = [];
+            if (json['reporting_period_efficiency']['timestamps'].length > 0) {
+              json['reporting_period_efficiency']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+                let detailed_value = {};
+                detailed_value['id'] = timestampIndex;
+                detailed_value['startdatetime'] = currentTimestamp;
+                json['reporting_period_efficiency']['values'].forEach((currentValue, parameterIndex) => {
+                  if (json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex] != null) {
+                    detailed_value['a' + parameterIndex] =
+                      json['reporting_period_efficiency']['values'][parameterIndex][timestampIndex];
+                  } else {
+                    detailed_value['a' + parameterIndex] = null;
+                  }
+                });
+                json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, parameterIndex) => {
+                  if (json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex] != null) {
+                    detailed_value['b' + parameterIndex] =
+                      json['reporting_period_efficiency']['numerator_values'][parameterIndex][timestampIndex];
+                  } else {
+                    detailed_value['b' + parameterIndex] = null;
+                  }
+                });
+                json['reporting_period_efficiency']['denominator_values'].forEach((currentValue, parameterIndex) => {
+                  if (
+                    json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex] != null
+                  ) {
+                    detailed_value['c' + parameterIndex] =
+                      json['reporting_period_efficiency']['denominator_values'][parameterIndex][timestampIndex];
+                  } else {
+                    detailed_value['c' + parameterIndex] = null;
+                  }
+                });
+                detailed_value_list.push(detailed_value);
               });
-              json['base_period_efficiency']['numerator_values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['b' + energyCategoryIndex] = index < json['base_period_efficiency']['numerator_values'][energyCategoryIndex].length ? json['base_period_efficiency']['numerator_values'][energyCategoryIndex][index] : null;
-              });
-              json['base_period_efficiency']['denominator_values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['c' + energyCategoryIndex] = index < json['base_period_efficiency']['denominator_values'][energyCategoryIndex].length ? json['base_period_efficiency']['denominator_values'][energyCategoryIndex][index] : null;
-              });
-              detailed_value['reportingPeriodDatetime'] = index < json['reporting_period_efficiency']['timestamps'][0].length ? json['reporting_period_efficiency']['timestamps'][0][index] : null;
-              json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['d' + energyCategoryIndex] = index < json['reporting_period_efficiency']['values'][energyCategoryIndex].length ? json['reporting_period_efficiency']['values'][energyCategoryIndex][index] : null;
-              });
-              json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['e' + energyCategoryIndex] = index < json['reporting_period_efficiency']['numerator_values'][energyCategoryIndex].length ? json['reporting_period_efficiency']['numerator_values'][energyCategoryIndex][index] : null;
-              });
-              json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['f' + energyCategoryIndex] = index < json['reporting_period_efficiency']['denominator_values'][energyCategoryIndex].length ? json['reporting_period_efficiency']['denominator_values'][energyCategoryIndex][index] : null;
-              });
-              detailed_value_list.push(detailed_value);
             }
-
             let detailed_value = {};
             detailed_value['id'] = detailed_value_list.length;
-            detailed_value['basePeriodDatetime'] = t('Subtotal');
-            json['base_period_efficiency']['cumulations'].forEach((currentValue, index) => {
+            detailed_value['startdatetime'] = t('Subtotal');
+            json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
               detailed_value['a' + index] = currentValue;
             });
-            json['base_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
+            json['reporting_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
               detailed_value['b' + index] = currentValue;
             });
-            json['base_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
+            json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
               detailed_value['c' + index] = currentValue;
             });
-            detailed_value['reportingPeriodDatetime'] = t('Subtotal');
-            json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
-              detailed_value['d' + index] = currentValue;
-            });
-            json['reporting_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
-              detailed_value['e' + index] = currentValue;
-            });
-            json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
-              detailed_value['f' + index] = currentValue;
-            });
+
             detailed_value_list.push(detailed_value);
             setTimeout(() => {
               setDetailedDataTableData(detailed_value_list);
-            }, 0)
+            }, 0);
+
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'startdatetime',
+              text: t('Datetime'),
+              sort: true
+            });
+            let original_detailed_column_list = [];
+            json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['units'][index];
+              original_detailed_column_list.push({
+                dataField: 'a' + index,
+                text: currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['numerator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'b' + index,
+                text: currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['denominator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'c' + index,
+                text: currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            setDetailedDataTableColumns([
+              ...detailed_column_list,
+              ...sortByNumber(original_detailed_column_list, 'dataField')
+            ]);
+          } else {
+            /*
+             * Tip:
+             *     json['base_period_efficiency']['names'] ===  json['reporting_period_efficiency']['names']
+             *     json['base_period_efficiency']['units'] ===  json['reporting_period_efficiency']['units']
+             * */
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'basePeriodDatetime',
+              text: t('Base Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            let original_detailed_column_list = [];
+            json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['units'][index];
+              original_detailed_column_list.push({
+                dataField: 'a' + index,
+                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['numerator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'b' + index,
+                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['denominator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'c' + index,
+                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            detailed_column_list = [
+              ...detailed_column_list,
+              ...sortByNumber(original_detailed_column_list, 'dataField')
+            ];
+
+            detailed_column_list.push({
+              dataField: 'reportingPeriodDatetime',
+              text: t('Reporting Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            original_detailed_column_list = [];
+            json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['units'][index];
+              original_detailed_column_list.push({
+                dataField: 'd' + index,
+                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            json['reporting_period_efficiency']['numerator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['numerator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'e' + index,
+                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            json['reporting_period_efficiency']['denominator_names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period_efficiency']['denominator_units'][index];
+              original_detailed_column_list.push({
+                dataField: 'f' + index,
+                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            detailed_column_list = [
+              ...detailed_column_list,
+              ...sortByNumber(original_detailed_column_list, 'dataField')
+            ];
+            setDetailedDataTableColumns(detailed_column_list);
+
+            let detailed_value_list = [];
+            if (
+              json['base_period_efficiency']['timestamps'].length > 0 ||
+              json['reporting_period_efficiency']['timestamps'].length > 0
+            ) {
+              const max_timestamps_length =
+                json['base_period_efficiency']['timestamps'][0].length >=
+                json['reporting_period_efficiency']['timestamps'][0].length
+                  ? json['base_period_efficiency']['timestamps'][0].length
+                  : json['reporting_period_efficiency']['timestamps'][0].length;
+              for (let index = 0; index < max_timestamps_length; index++) {
+                let detailed_value = {};
+                detailed_value['id'] = index;
+                detailed_value['basePeriodDatetime'] =
+                  index < json['base_period_efficiency']['timestamps'][0].length
+                    ? json['base_period_efficiency']['timestamps'][0][index]
+                    : null;
+                json['base_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['a' + energyCategoryIndex] =
+                    index < json['base_period_efficiency']['values'][energyCategoryIndex].length
+                      ? json['base_period_efficiency']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                json['base_period_efficiency']['numerator_values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['b' + energyCategoryIndex] =
+                    index < json['base_period_efficiency']['numerator_values'][energyCategoryIndex].length
+                      ? json['base_period_efficiency']['numerator_values'][energyCategoryIndex][index]
+                      : null;
+                });
+                json['base_period_efficiency']['denominator_values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['c' + energyCategoryIndex] =
+                    index < json['base_period_efficiency']['denominator_values'][energyCategoryIndex].length
+                      ? json['base_period_efficiency']['denominator_values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value['reportingPeriodDatetime'] =
+                  index < json['reporting_period_efficiency']['timestamps'][0].length
+                    ? json['reporting_period_efficiency']['timestamps'][0][index]
+                    : null;
+                json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['d' + energyCategoryIndex] =
+                    index < json['reporting_period_efficiency']['values'][energyCategoryIndex].length
+                      ? json['reporting_period_efficiency']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                json['reporting_period_efficiency']['numerator_values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['e' + energyCategoryIndex] =
+                    index < json['reporting_period_efficiency']['numerator_values'][energyCategoryIndex].length
+                      ? json['reporting_period_efficiency']['numerator_values'][energyCategoryIndex][index]
+                      : null;
+                });
+                json['reporting_period_efficiency']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['f' + energyCategoryIndex] =
+                    index < json['reporting_period_efficiency']['denominator_values'][energyCategoryIndex].length
+                      ? json['reporting_period_efficiency']['denominator_values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value_list.push(detailed_value);
+              }
+
+              let detailed_value = {};
+              detailed_value['id'] = detailed_value_list.length;
+              detailed_value['basePeriodDatetime'] = t('Subtotal');
+              json['base_period_efficiency']['cumulations'].forEach((currentValue, index) => {
+                detailed_value['a' + index] = currentValue;
+              });
+              json['base_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
+                detailed_value['b' + index] = currentValue;
+              });
+              json['base_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
+                detailed_value['c' + index] = currentValue;
+              });
+              detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+              json['reporting_period_efficiency']['cumulations'].forEach((currentValue, index) => {
+                detailed_value['d' + index] = currentValue;
+              });
+              json['reporting_period_efficiency']['numerator_cumulation'].forEach((currentValue, index) => {
+                detailed_value['e' + index] = currentValue;
+              });
+              json['reporting_period_efficiency']['denominator_cumulation'].forEach((currentValue, index) => {
+                detailed_value['f' + index] = currentValue;
+              });
+              detailed_value_list.push(detailed_value);
+              setTimeout(() => {
+                setDetailedDataTableData(detailed_value_list);
+              }, 0);
+            }
           }
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(t(json.description));
         }
-
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // enable submit button
-        setSubmitButtonDisabled(false);
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'equipmentefficiency.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'equipmentefficiency.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
-
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Equipment Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Efficiency')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Equipment Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Efficiency')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -929,10 +1042,12 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -942,7 +1057,11 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="equipmentSelect">
                     {t('Equipment')}
                   </Label>
-                  <CustomInput type="select" id="equipmentSelect" name="equipmentSelect" onChange={({ target }) => setSelectedEquipment(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="equipmentSelect"
+                    name="equipmentSelect"
+                    onChange={({ target }) => setSelectedEquipment(target.value)}
                   >
                     {equipmentList.map((equipment, index) => (
                       <option value={equipment.value} key={equipment.value}>
@@ -957,12 +1076,15 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="comparisonType">
                     {t('Comparison Types')}
                   </Label>
-                  <CustomInput type="select" id="comparisonType" name="comparisonType"
+                  <CustomInput
+                    type="select"
+                    id="comparisonType"
+                    name="comparisonType"
                     defaultValue="month-on-month"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
-                      <option value={comparisonType.value} key={comparisonType.value} >
+                      <option value={comparisonType.value} key={comparisonType.value}>
                         {t(comparisonType.label)}
                       </option>
                     ))}
@@ -974,10 +1096,15 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="periodType">
                     {t('Period Types')}
                   </Label>
-                  <CustomInput type="select" id="periodType" name="periodType" defaultValue="daily" onChange={({ target }) => setPeriodType(target.value)}
+                  <CustomInput
+                    type="select"
+                    id="periodType"
+                    name="periodType"
+                    defaultValue="daily"
+                    onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
-                      <option value={periodType.value} key={periodType.value} >
+                      <option value={periodType.value} key={periodType.value}>
                         {t(periodType.label)}
                       </option>
                     ))}
@@ -986,9 +1113,12 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="basePeriodDateRangePicker">{t('Base Period')}{t('(Optional)')}</Label>
+                  <Label className={labelClasses} for="basePeriodDateRangePicker">
+                    {t('Base Period')}
+                    {t('(Optional)')}
+                  </Label>
                   <DateRangePickerWrapper
-                    id='basePeriodDateRangePicker'
+                    id="basePeriodDateRangePicker"
                     disabled={basePeriodDateRangePickerDisabled}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
@@ -998,13 +1128,15 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
                     placeholder={t('Select Date Range')}
-                   />
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">{t('Reporting Period')}</Label>
-                  <br/>
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
                   <DateRangePickerWrapper
                     id="reportingPeriodDateRangePicker"
                     format="yyyy-MM-dd HH:mm:ss"
@@ -1022,79 +1154,150 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled} >{t('Submit')}</Button>
+                    <Button color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <div className="card-deck">
-        {
-          cardSummaryList.map((cardSummaryItem) => [
-            <CardSummary key={cardSummaryItem['name']}
-              rate={cardSummaryItem['increment_rate']}
-              title={t('Reporting Period Cumulative Efficiency NAME UNIT', { 'NAME': cardSummaryItem['name'], 'UNIT': '(' + cardSummaryItem['unit'] + ')' })}
-              color="success"
-              >
-              {cardSummaryItem['cumulation'] && <CountUp end={cardSummaryItem['cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>,
-            <CardSummary key={cardSummaryItem['numerator_names']}
-              rate={cardSummaryItem['increment_rates_num']}
-              title={t('Reporting Period Cumulative Efficiency NAME UNIT', { 'NAME': cardSummaryItem['numerator_names'], 'UNIT': '(' + cardSummaryItem['numerator_units'] + ')' })}
-              color="success"
-              >
-              {cardSummaryItem['numerator_cumulation'] && <CountUp end={cardSummaryItem['numerator_cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>,
-            <CardSummary key={cardSummaryItem['denominator_names']}
-              rate={cardSummaryItem['increment_rates_den']}
-              title={t('Reporting Period Cumulative Efficiency NAME UNIT', { 'NAME': cardSummaryItem['denominator_names'], 'UNIT': '(' + cardSummaryItem['denominator_units'] + ')' })}
-              color="success"
-              >
-              {cardSummaryItem['denominator_cumulation'] && <CountUp end={cardSummaryItem['denominator_cumulation']} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-            </CardSummary>
-            ]
-          )
-        }
+        {cardSummaryList.map(cardSummaryItem => [
+          <CardSummary
+            key={cardSummaryItem['name']}
+            rate={cardSummaryItem['increment_rate']}
+            title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
+              NAME: cardSummaryItem['name'],
+              UNIT: '(' + cardSummaryItem['unit'] + ')'
+            })}
+            color="success"
+          >
+            {cardSummaryItem['cumulation'] && (
+              <CountUp
+                end={cardSummaryItem['cumulation']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
+          </CardSummary>,
+          <CardSummary
+            key={cardSummaryItem['numerator_names']}
+            rate={cardSummaryItem['increment_rates_num']}
+            title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
+              NAME: cardSummaryItem['numerator_names'],
+              UNIT: '(' + cardSummaryItem['numerator_units'] + ')'
+            })}
+            color="success"
+          >
+            {cardSummaryItem['numerator_cumulation'] && (
+              <CountUp
+                end={cardSummaryItem['numerator_cumulation']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
+          </CardSummary>,
+          <CardSummary
+            key={cardSummaryItem['denominator_names']}
+            rate={cardSummaryItem['increment_rates_den']}
+            title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
+              NAME: cardSummaryItem['denominator_names'],
+              UNIT: '(' + cardSummaryItem['denominator_units'] + ')'
+            })}
+            color="success"
+          >
+            {cardSummaryItem['denominator_cumulation'] && (
+              <CountUp
+                end={cardSummaryItem['denominator_cumulation']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
+          </CardSummary>
+        ])}
       </div>
 
-      <MultiTrendChart reportingTitle = {{"name": "Reporting Period Cumulative Efficiency NAME VALUE UNIT", "substitute": ["NAME", "VALUE", "UNIT"], "NAME": equipmentBaseAndReportingNames, "VALUE": equipmentReportingSubtotals, "UNIT": equipmentBaseAndReportingUnits}}
-        baseTitle = {{"name": "Base Period Cumulative Efficiency NAME VALUE UNIT", "substitute": ["NAME", "VALUE", "UNIT"], "NAME": equipmentBaseAndReportingNames, "VALUE": equipmentBaseSubtotals, "UNIT": equipmentBaseAndReportingUnits}}
-        reportingTooltipTitle = {{"name": "Reporting Period Cumulative Efficiency NAME VALUE UNIT", "substitute": ["NAME", "VALUE", "UNIT"], "NAME": equipmentBaseAndReportingNames, "VALUE": null, "UNIT": equipmentBaseAndReportingUnits}}
-        baseTooltipTitle = {{"name": "Base Period Cumulative Efficiency NAME VALUE UNIT", "substitute": ["NAME", "VALUE", "UNIT"], "NAME": equipmentBaseAndReportingNames, "VALUE": null, "UNIT": equipmentBaseAndReportingUnits}}
+      <MultiTrendChart
+        reportingTitle={{
+          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+          substitute: ['NAME', 'VALUE', 'UNIT'],
+          NAME: equipmentBaseAndReportingNames,
+          VALUE: equipmentReportingSubtotals,
+          UNIT: equipmentBaseAndReportingUnits
+        }}
+        baseTitle={{
+          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+          substitute: ['NAME', 'VALUE', 'UNIT'],
+          NAME: equipmentBaseAndReportingNames,
+          VALUE: equipmentBaseSubtotals,
+          UNIT: equipmentBaseAndReportingUnits
+        }}
+        reportingTooltipTitle={{
+          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+          substitute: ['NAME', 'VALUE', 'UNIT'],
+          NAME: equipmentBaseAndReportingNames,
+          VALUE: null,
+          UNIT: equipmentBaseAndReportingUnits
+        }}
+        baseTooltipTitle={{
+          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+          substitute: ['NAME', 'VALUE', 'UNIT'],
+          NAME: equipmentBaseAndReportingNames,
+          VALUE: null,
+          UNIT: equipmentBaseAndReportingUnits
+        }}
         reportingLabels={equipmentReportingLabels}
         reportingData={equipmentReportingData}
         baseLabels={equipmentBaseLabels}
         baseData={equipmentBaseData}
         rates={equipmentReportingRates}
-        options={equipmentReportingOptions}>
-      </MultiTrendChart>
+        options={equipmentReportingOptions}
+      />
 
-      <MultipleLineChart reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=''
+      <MultipleLineChart
+        reportingTitle={t('Operating Characteristic Curve')}
+        baseTitle=""
         labels={parameterLineChartLabels}
         data={parameterLineChartData}
-        options={parameterLineChartOptions}>
-      </MultipleLineChart>
+        options={parameterLineChartOptions}
+      />
       <br />
-      <DetailedDataTable data={detailedDataTableData} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} >
-      </DetailedDataTable>
-
+      <DetailedDataTable
+        data={detailedDataTableData}
+        title={t('Detailed Data')}
+        columns={detailedDataTableColumns}
+        pagesize={50}
+      />
     </Fragment>
   );
 };
