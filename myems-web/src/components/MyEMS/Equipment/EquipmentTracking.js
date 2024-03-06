@@ -15,7 +15,7 @@ import {
   Media,
   Row,
   UncontrolledDropdown,
-  Spinner,
+  Spinner
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import loadable from '@loadable/component';
@@ -69,97 +69,107 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
-  const { language } = useContext(AppContext)
+  const { language } = useContext(AppContext);
 
   useEffect(() => {
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/spaces/tree', {
+    fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          let selectedSpaceID = [json[0]].map(o => o.value);
+          // begin of getting equipment list
+          let isSecondResponseOK = false;
+          fetch(APIBaseURL + '/reports/equipmenttracking?' + 'spaceid=' + selectedSpaceID, {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isSecondResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isSecondResponseOK) {
+                let json_equipments = JSON.parse(
+                  JSON.stringify([json['equipments']])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                let equipments = [];
+                json_equipments[0].forEach((currentValue, index) => {
+                  equipments.push({
+                    key: index,
+                    id: currentValue['id'],
+                    name: currentValue['equipment_name'],
+                    uuid: currentValue['equipment_uuid'],
+                    space: currentValue['space_name'],
+                    costcenter: currentValue['cost_center_name'],
+                    description: currentValue['description']
+                  });
+                });
+                setEquipmentList(equipments);
 
-    }).then(response => {
-      console.log(response);
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      console.log(json)
-      if (isResponseOK) {
-        // rename keys
-        json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        setCascaderOptions(json);
-        setSelectedSpaceName([json[0]].map(o => o.label));
-        let selectedSpaceID  = [json[0]].map(o => o.value);
-        // begin of getting equipment list
-        let isSecondResponseOK = false;
-        fetch(
-          APIBaseURL +
-          '/reports/equipmenttracking?' +
-          'spaceid=' +
-          selectedSpaceID, {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null,
+                setExcelBytesBase64(json['excel_bytes_base64']);
 
-        }).then(response => {
-          if (response.ok) {
-            isSecondResponseOK = true;
-          }
-          return response.json();
-        }).then(json => {
-          if (isSecondResponseOK) {
-            let json_equipments = JSON.parse(JSON.stringify([json['equipments']]).split('"id":').join('"value":').split('"name":').join('"label":'));
-            console.log(json)
-            let equipments = [];
-            json_equipments[0].forEach((currentValue, index) => {
-              equipments.push({
-                'key': index,
-                'id': currentValue['id'],
-                'name': currentValue['equipment_name'],
-                'uuid': currentValue['equipment_uuid'],
-                'space': currentValue['space_name'],
-                'costcenter': currentValue['cost_center_name'],
-                'description': currentValue['description']});
+                // hide spinner
+                setSpinnerHidden(true);
+                // show export button
+                setExportButtonHidden(false);
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
             });
-            setEquipmentList(equipments);
-
-            setExcelBytesBase64(json['excel_bytes_base64']);
-
-            // hide spinner
-            setSpinnerHidden(true);
-            // show export button
-            setExportButtonHidden(false);
-          } else {
-            toast.error(t(json.description))
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-        // end of getting equipment list
-      } else {
-        toast.error(t(json.description));
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
-  }, []);
+          // end of getting equipment list
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
   const nameFormatter = (dataField, { name, uuid }) => (
-    <Link to={{pathname:'/equipment/energycategory?uuid=' + uuid}}  target = "_blank">
+    <Link to={{ pathname: '/equipment/energycategory?uuid=' + uuid }} target="_blank">
       <Media tag={Flex} align="center">
         <Media body className="ml-2">
           <h5 className="mb-0 fs--1">{name}</h5>
@@ -175,14 +185,14 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
         <FontAwesomeIcon icon="ellipsis-h" className="fs--1" />
       </DropdownToggle>
       <DropdownMenu right className="border py-2">
-      <DropdownItem onClick={() => console.log('Edit: ', id)}>{t('Edit Equipment')}</DropdownItem>
+        <DropdownItem onClick={() => console.log('Edit: ', id)}>{t('Edit Equipment')}</DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
   );
 
   const columns = [
     {
-      key: "a0",
+      key: 'a0',
       dataField: 'equipmentname',
       headerClasses: 'border-0',
       text: t('Name'),
@@ -191,7 +201,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      key: "a1",
+      key: 'a1',
       dataField: 'space',
       headerClasses: 'border-0',
       text: t('Space'),
@@ -199,7 +209,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      key: "a2",
+      key: 'a2',
       dataField: 'costcenter',
       headerClasses: 'border-0',
       text: t('Cost Center'),
@@ -207,7 +217,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      key: "a3",
+      key: 'a3',
       dataField: 'description',
       headerClasses: 'border-0',
       text: t('Description'),
@@ -215,7 +225,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      key: "a4",
+      key: 'a4',
       dataField: '',
       headerClasses: 'border-0',
       text: '',
@@ -233,88 +243,91 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     // show spinner
     setSpinnerHidden(false);
     // hide export button
-    setExportButtonHidden(true)
+    setExportButtonHidden(true);
     // begin of getting equipment list
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-      '/reports/equipmenttracking?' +
-      'spaceid=' +
-      selectedSpaceID +
-      '&language=' +
-      language, {
+    fetch(APIBaseURL + '/reports/equipmenttracking?' + 'spaceid=' + selectedSpaceID + '&language=' + language, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
         'User-UUID': getCookieValue('user_uuid'),
         Token: getCookieValue('token')
       },
-      body: null,
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          let json_equipments = JSON.parse(
+            JSON.stringify([json['equipments']])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          let equipments = [];
+          json_equipments[0].forEach((currentValue, index) => {
+            equipments.push({
+              key: index,
+              id: currentValue['id'],
+              name: currentValue['equipment_name'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
+              description: currentValue['description']
+            });
+          });
+          setEquipmentList(equipments);
 
-    }).then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    }).then(json => {
-      if (isResponseOK) {
-        let json_equipments = JSON.parse(JSON.stringify([json['equipments']]).split('"id":').join('"value":').split('"name":').join('"label":'));
-        console.log(json)
-        let equipments = [];
-        json_equipments[0].forEach((currentValue, index) => {
-          equipments.push({
-            'key': index,
-            'id': currentValue['id'],
-            'name': currentValue['equipment_name'],
-            'space': currentValue['space_name'],
-            'costcenter': currentValue['cost_center_name'],
-            'description': currentValue['description']});
-        });
-        setEquipmentList(equipments);
+          setExcelBytesBase64(json['excel_bytes_base64']);
 
-        setExcelBytesBase64(json['excel_bytes_base64']);
-
-        // hide spinner
-        setSpinnerHidden(true);
-        // show export button
-        setExportButtonHidden(false);
-      } else {
-        toast.error(t(json.description))
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // end of getting equipment list
-  }
-
+  };
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    const fileName = 'equipmenttracking.xlsx'
-    var fileUrl = "data:" + mimeType + ";base64," + excelBytesBase64;
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'equipmenttracking.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            var link = window.document.createElement('a');
-            link.href = window.URL.createObjectURL(blob, { type: mimeType });
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   };
 
   return (
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Equipment Data')}</BreadcrumbItem><BreadcrumbItem active>{t('Equipment Tracking')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Equipment Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Equipment Tracking')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
-          <Form >
+          <Form>
             <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
@@ -322,10 +335,12 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Space')}
                   </Label>
                   <br />
-                  <Cascader options={cascaderOptions}
+                  <Cascader
+                    options={cascaderOptions}
                     onChange={onSpaceCascaderChange}
                     changeOnSelect
-                    expandTrigger="hover">
+                    expandTrigger="hover"
+                  >
                     <Input value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
@@ -333,24 +348,26 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden}  />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                  <br />
-                  <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default"
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
                   hidden={exportButtonHidden}
-                  onClick={handleExport} >
-                    {t('Export')}
-                  </ButtonIcon>
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
-      <DetailedDataTable data={equipmentList} title={t('Equipment List')} columns={columns} pagesize={10} >
-      </DetailedDataTable>
-
+      <DetailedDataTable data={equipmentList} title={t('Equipment List')} columns={columns} pagesize={10} />
     </Fragment>
   );
 };
