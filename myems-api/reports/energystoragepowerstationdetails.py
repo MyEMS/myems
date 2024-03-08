@@ -286,6 +286,38 @@ class Reporting:
         ################################################################################################################
         # Step 7: query associated power conversion systems
         ################################################################################################################
+        charge_start_time1_point_id = None
+        charge_end_time1_point_id = None
+        charge_start_time2_point_id = None
+        charge_end_time2_point_id = None
+        charge_start_time3_point_id = None
+        charge_end_time3_point_id = None
+        charge_start_time4_point_id = None
+        charge_end_time4_point_id = None
+        discharge_start_time1_point_id = None
+        discharge_end_time1_point_id = None
+        discharge_start_time2_point_id = None
+        discharge_end_time2_point_id = None
+        discharge_start_time3_point_id = None
+        discharge_end_time3_point_id = None
+        discharge_start_time4_point_id = None
+        discharge_end_time4_point_id = None
+        charge_start_time1_command_id = None
+        charge_end_time1_command_id = None
+        charge_start_time2_command_id = None
+        charge_end_time2_command_id = None
+        charge_start_time3_command_id = None
+        charge_end_time3_command_id = None
+        charge_start_time4_command_id = None
+        charge_end_time4_command_id = None
+        discharge_start_time1_command_id = None
+        discharge_end_time1_command_id = None
+        discharge_start_time2_command_id = None
+        discharge_end_time2_command_id = None
+        discharge_start_time3_command_id = None
+        discharge_end_time3_command_id = None
+        discharge_start_time4_command_id = None
+        discharge_end_time4_command_id = None
         cursor_system.execute(" SELECT charge_start_time1_point_id, charge_end_time1_point_id, "
                               "        charge_start_time2_point_id, charge_end_time2_point_id, "
                               "        charge_start_time3_point_id, charge_end_time3_point_id, "
@@ -342,101 +374,135 @@ class Reporting:
             discharge_start_time4_command_id = row_point[30]
             discharge_end_time4_command_id = row_point[31]
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s "
-                 " UNION ALL "
-                 " SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE point_id = %s ")
-        cursor_historical.execute(query, (charge_start_time1_point_id, charge_end_time1_point_id,
-                                          charge_start_time2_point_id, charge_end_time2_point_id,
-                                          charge_start_time3_point_id, charge_end_time3_point_id,
-                                          charge_start_time4_point_id, charge_end_time4_point_id,
-                                          discharge_start_time1_point_id, discharge_end_time1_point_id,
-                                          discharge_start_time2_point_id, discharge_end_time2_point_id,
-                                          discharge_start_time3_point_id, discharge_end_time3_point_id,
-                                          discharge_start_time4_point_id, discharge_end_time4_point_id))
-        rows = cursor_historical.fetchall()
-        time_value_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                point_id = row[0]
-                time_value_dict[point_id] = int16_to_hhmm(row[1])
-        charge_start_time1_value = time_value_dict.get(charge_start_time1_point_id)
-        charge_end_time1_value = time_value_dict.get(charge_end_time1_point_id)
-        charge_start_time2_value = time_value_dict.get(charge_start_time2_point_id)
-        charge_end_time2_value = time_value_dict.get(charge_end_time2_point_id)
-        charge_start_time3_value = time_value_dict.get(charge_start_time3_point_id)
-        charge_end_time3_value = time_value_dict.get(charge_end_time3_point_id)
-        charge_start_time4_value = time_value_dict.get(charge_start_time4_point_id)
-        charge_end_time4_value = time_value_dict.get(charge_end_time4_point_id)
-        discharge_start_time1_value = time_value_dict.get(discharge_start_time1_point_id)
-        discharge_end_time1_value = time_value_dict.get(discharge_end_time1_point_id)
-        discharge_start_time2_value = time_value_dict.get(discharge_start_time2_point_id)
-        discharge_end_time2_value = time_value_dict.get(discharge_end_time2_point_id)
-        discharge_start_time3_value = time_value_dict.get(discharge_start_time3_point_id)
-        discharge_end_time3_value = time_value_dict.get(discharge_end_time3_point_id)
-        discharge_start_time4_value = time_value_dict.get(discharge_start_time4_point_id)
-        discharge_end_time4_value = time_value_dict.get(discharge_end_time4_point_id)
+        if charge_start_time1_point_id is None or \
+            charge_end_time1_point_id is None or \
+            charge_start_time2_point_id is None or \
+            charge_end_time2_point_id is None or \
+            charge_start_time3_point_id is None or \
+            charge_end_time3_point_id is None or \
+            charge_start_time4_point_id is None or \
+            charge_end_time4_point_id is None or \
+            discharge_start_time1_point_id is None or \
+            discharge_end_time1_point_id is None or \
+            discharge_start_time2_point_id is None or \
+            discharge_end_time2_point_id is None or \
+            discharge_start_time3_point_id is None or \
+            discharge_end_time3_point_id is None or \
+            discharge_start_time4_point_id is None or \
+            discharge_end_time4_point_id is None or \
+            charge_start_time1_command_id is None or \
+            charge_end_time1_command_id is None or \
+            charge_start_time2_command_id is None or \
+            charge_end_time2_command_id is None or \
+            charge_start_time3_command_id is None or \
+            charge_end_time3_command_id is None or \
+            charge_start_time4_command_id is None or \
+            charge_end_time4_command_id is None or \
+            discharge_start_time1_command_id is None or \
+            discharge_end_time1_command_id is None or \
+            discharge_start_time2_command_id is None or \
+            discharge_end_time2_command_id is None or \
+            discharge_start_time3_command_id is None or \
+            discharge_end_time3_command_id is None or \
+            discharge_start_time4_command_id is None or \
+                discharge_end_time4_command_id is None:
+            pass
+        else:
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            cursor_historical = cnx_historical.cursor()
+            query = (" SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s "
+                     " UNION ALL "
+                     " SELECT point_id, actual_value "
+                     " FROM tbl_digital_value_latest "
+                     " WHERE point_id = %s ")
+            cursor_historical.execute(query, (charge_start_time1_point_id, charge_end_time1_point_id,
+                                              charge_start_time2_point_id, charge_end_time2_point_id,
+                                              charge_start_time3_point_id, charge_end_time3_point_id,
+                                              charge_start_time4_point_id, charge_end_time4_point_id,
+                                              discharge_start_time1_point_id, discharge_end_time1_point_id,
+                                              discharge_start_time2_point_id, discharge_end_time2_point_id,
+                                              discharge_start_time3_point_id, discharge_end_time3_point_id,
+                                              discharge_start_time4_point_id, discharge_end_time4_point_id))
+            rows = cursor_historical.fetchall()
+            time_value_dict = dict()
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    point_id = row[0]
+                    time_value_dict[point_id] = int16_to_hhmm(row[1])
+            charge_start_time1_value = time_value_dict.get(charge_start_time1_point_id)
+            charge_end_time1_value = time_value_dict.get(charge_end_time1_point_id)
+            charge_start_time2_value = time_value_dict.get(charge_start_time2_point_id)
+            charge_end_time2_value = time_value_dict.get(charge_end_time2_point_id)
+            charge_start_time3_value = time_value_dict.get(charge_start_time3_point_id)
+            charge_end_time3_value = time_value_dict.get(charge_end_time3_point_id)
+            charge_start_time4_value = time_value_dict.get(charge_start_time4_point_id)
+            charge_end_time4_value = time_value_dict.get(charge_end_time4_point_id)
+            discharge_start_time1_value = time_value_dict.get(discharge_start_time1_point_id)
+            discharge_end_time1_value = time_value_dict.get(discharge_end_time1_point_id)
+            discharge_start_time2_value = time_value_dict.get(discharge_start_time2_point_id)
+            discharge_end_time2_value = time_value_dict.get(discharge_end_time2_point_id)
+            discharge_start_time3_value = time_value_dict.get(discharge_start_time3_point_id)
+            discharge_end_time3_value = time_value_dict.get(discharge_end_time3_point_id)
+            discharge_start_time4_value = time_value_dict.get(discharge_start_time4_point_id)
+            discharge_end_time4_value = time_value_dict.get(discharge_end_time4_point_id)
 
         ################################################################################################################
         # Step 8: query associated sensors
