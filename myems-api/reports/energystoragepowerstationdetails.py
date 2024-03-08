@@ -318,6 +318,22 @@ class Reporting:
         discharge_end_time3_command_id = None
         discharge_start_time4_command_id = None
         discharge_end_time4_command_id = None
+        charge_start_time1_value = None
+        charge_end_time1_value = None
+        charge_start_time2_value = None
+        charge_end_time2_value = None
+        charge_start_time3_value = None
+        charge_end_time3_value = None
+        charge_start_time4_value = None
+        charge_end_time4_value = None
+        discharge_start_time1_value = None
+        discharge_end_time1_value = None
+        discharge_start_time2_value = None
+        discharge_end_time2_value = None
+        discharge_start_time3_value = None
+        discharge_end_time3_value = None
+        discharge_start_time4_value = None
+        discharge_end_time4_value = None
         cursor_system.execute(" SELECT charge_start_time1_point_id, charge_end_time1_point_id, "
                               "        charge_start_time2_point_id, charge_end_time2_point_id, "
                               "        charge_start_time3_point_id, charge_end_time3_point_id, "
