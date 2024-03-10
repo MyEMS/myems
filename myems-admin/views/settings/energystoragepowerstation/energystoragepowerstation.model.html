@@ -53,12 +53,21 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_POWER_STATION.CAPACITY' | translate}}(kW)</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_POWER_STATION.RATED_CAPACITY' | translate}}(kW-h)</label>
                 <div class="col-sm-10">
-                    <input ng-model="energystoragepowerstation.capacity" type="number" name="energystoragepowerstationcapacity" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_energystoragepowerstation.energystoragepowerstationcapacity.$invalid && form_energystoragepowerstation.energystoragepowerstationcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationcapacity.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
-                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationcapacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    <input ng-model="energystoragepowerstation.rated_capacity" type="number" name="energystoragepowerstationrated_capacity" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_capacity.$invalid && form_energystoragepowerstation.energystoragepowerstationrated_capacity.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_capacity.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_capacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'ENERGY_STORAGE_POWER_STATION.RATED_POWER' | translate}}(kW)</label>
+                <div class="col-sm-10">
+                    <input ng-model="energystoragepowerstation.rated_power" type="number" name="energystoragepowerstationrated_power" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_power.$invalid && form_energystoragepowerstation.energystoragepowerstationrated_power.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_power.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationrated_power.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
                     </div>
                 </div>
             </div>
