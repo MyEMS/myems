@@ -12983,7 +12983,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13020,7 +13020,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13058,7 +13058,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13072,7 +13072,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations",
@@ -13099,7 +13099,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13113,7 +13113,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":500.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1",
@@ -13141,7 +13141,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13179,7 +13179,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13218,7 +13218,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -13232,7 +13232,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -13265,7 +13265,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23679,7 +23679,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23716,7 +23716,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23754,7 +23754,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23768,7 +23768,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms",
@@ -23795,7 +23795,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23809,7 +23809,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":800.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms/1",
@@ -23837,7 +23837,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23875,7 +23875,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23914,7 +23914,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -23928,7 +23928,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 800.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -23961,7 +23961,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},

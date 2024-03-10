@@ -17,8 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated space export, import and clone functions in myems-api
 - updated microgrid reporting in myems-api and myems-web
 - updated energy storage power station reporting in myems-api and myems-web
-- updated columns of microgrid related tables in database
-- updated columns of energy storage power station related tables in database
+- updated columns of microgrid related tables in database and myems-api
+- updated columns of energy storage power station related tables in database and myems-api
+- updated column of wind farm related tables in database and myems-api
+- updated column of photovoltaic power station related tables in database and myems-api
 ### Fixed
 - fixed chart issues in myems-web
 - fixed warnings in myems-web

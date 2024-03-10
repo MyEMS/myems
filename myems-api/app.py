@@ -908,6 +908,8 @@ api.add_route('/reports/combinedequipmentstatistics',
               combinedequipmentstatistics.Reporting())
 api.add_route('/reports/dashboard',
               dashboard.Reporting())
+api.add_route('/reports/energystoragepowerstationdashboard',
+              energystoragepowerstationdashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails',
               energystoragepowerstationdetails.Reporting())
 api.add_route('/reports/energystoragepowerstationlist',

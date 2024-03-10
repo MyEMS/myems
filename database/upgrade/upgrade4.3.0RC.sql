@@ -23,9 +23,9 @@ ALTER TABLE myems_system_db.tbl_microgrids_evchargers CHANGE capacity rated_outp
 ALTER TABLE myems_system_db.tbl_microgrids_generators CHANGE capacity rated_output_power decimal(18,3) NOT NULL;
 ALTER TABLE myems_system_db.tbl_microgrids_heatpumps CHANGE capacity rated_input_power decimal(18,3) NOT NULL;
 ALTER TABLE myems_system_db.tbl_microgrids_loads CHANGE capacity rated_input_power decimal(18,3) NOT NULL;
-ALTER TABLE myems_system_db.tbl_microgrids_photovoltaics CHANGE capacity rated_output_power decimal(18,3) NOT NULL;
-ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations CHANGE capacity rated_capacity decimal(18,3) NOT NULL;
-ALTER TABLE myems_system_db.tbl_wind_farms CHANGE capacity rated_capacity decimal(18,3) NOT NULL;
+ALTER TABLE myems_system_db.tbl_microgrids_photovoltaics CHANGE capacity rated_power decimal(18,3) NOT NULL;
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations CHANGE capacity rated_power decimal(18,3) NOT NULL;
+ALTER TABLE myems_system_db.tbl_wind_farms CHANGE capacity rated_power decimal(18,3) NOT NULL;
 
 -- add columns
 ALTER TABLE myems_system_db.tbl_energy_storage_containers ADD rated_power decimal(18,3) NOT NULL AFTER rated_capacity;
