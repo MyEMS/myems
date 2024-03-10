@@ -10049,7 +10049,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10086,7 +10086,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10124,7 +10124,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10138,7 +10138,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids",
@@ -10165,7 +10165,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10179,7 +10179,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
@@ -10207,7 +10207,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10246,7 +10246,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10260,7 +10260,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"capacity\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 300.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -10492,7 +10492,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10505,13 +10505,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/microgrids/3/batteries",
+									"raw": "{{base_url}}/microgrids/1/batteries",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids",
-										"3",
+										"1",
 										"batteries"
 									]
 								}
@@ -10531,7 +10531,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10571,7 +10571,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10585,7 +10585,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"rated_capacity\": 30, \"rated_power\": 10, \"nominal_voltage\": 48}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/batteries",
@@ -10614,7 +10614,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10628,7 +10628,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"rated_capacity\": 30, \"rated_power\": 30, \"nominal_voltage\": 48}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/batteries/1",
@@ -10698,7 +10698,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10737,7 +10737,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10777,7 +10777,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10791,7 +10791,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"rated_output_power\": 30.000}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/evchargers",
@@ -10820,7 +10820,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10834,7 +10834,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"EVCharger\", \"power_point_id\":1, \"meter_id\":1, \"rated_output_power\": 50.000}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/evchargers/1",
@@ -10904,7 +10904,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10943,7 +10943,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10983,7 +10983,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -10997,7 +10997,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"rated_output_power\": 30.000}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/generators",
@@ -11026,7 +11026,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11040,7 +11040,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Generator\", \"power_point_id\":1, \"meter_id\":1, \"rated_output_power\": 50.000}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/generators/1",
@@ -11110,7 +11110,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11149,7 +11149,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11189,7 +11189,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11203,18 +11203,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrids/1/grids/1",
+									"raw": "{{base_url}}/microgrids/1/grids",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids",
 										"1",
-										"grids",
-										"1"
+										"grids"
 									]
 								}
 							},
@@ -11233,7 +11232,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11247,7 +11246,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/grids/1",
@@ -11317,7 +11316,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11356,7 +11355,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11396,7 +11395,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11410,18 +11409,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"rated_input_power\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
+									"raw": "{{base_url}}/microgrids/1/heatpumps",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids",
 										"1",
-										"heatpumps",
-										"1"
+										"heatpumps"
 									]
 								}
 							},
@@ -11440,7 +11438,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11454,7 +11452,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Heatpump\", \"power_point_id\":1, \"electricity_meter_id\":1, \"heat_meter_id\":2, \"cooling_meter_id\":3, \"rated_input_power\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/heatpumps/1",
@@ -11524,7 +11522,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11563,7 +11561,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11603,7 +11601,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11617,18 +11615,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrids/1/loads/1",
+									"raw": "{{base_url}}/microgrids/1/loads",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids",
 										"1",
-										"loads",
-										"1"
+										"loads"
 									]
 								}
 							},
@@ -11647,7 +11644,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11661,7 +11658,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 60}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/loads/1",
@@ -11731,7 +11728,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11770,7 +11767,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11810,7 +11807,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11824,18 +11821,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"rated_power\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
+									"raw": "{{base_url}}/microgrids/1/photovoltaics",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"microgrids",
 										"1",
-										"photovoltaics",
-										"1"
+										"photovoltaics"
 									]
 								}
 							},
@@ -11854,7 +11850,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11868,7 +11864,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Photovoltaic\", \"power_point_id\":1, \"meter_id\":1, \"rated_power\": 50}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/photovoltaics/1",
@@ -11938,7 +11934,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -11977,7 +11973,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -12017,7 +12013,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -12031,7 +12027,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_command_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_point_id\":1, \"rated_output_power\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/powerconversionsystems",
@@ -12060,7 +12056,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -12074,7 +12070,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"rated_output_power\": 50, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1/powerconversionsystems/1",
@@ -12104,7 +12100,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e09043356246b8048376377c413936cf90d73939969c39bdf8d2ad3718950782410deaece3341eba8fcbc4731dd5986f42f955645ec90a90a5c932c904e7e58f",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
