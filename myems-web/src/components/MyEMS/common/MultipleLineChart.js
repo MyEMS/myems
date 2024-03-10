@@ -241,13 +241,10 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       },
       dataZoom: [
         {
+          id: 'dataZoomX',
           type: 'slider',
-          show: true,
-          xAxisIndex: [0]
-        },
-        {
-          type: 'inside',
-          xAxisIndex: [0]
+          xAxisIndex: [0],
+          filterMode: 'filter'
         }
       ]
     };
