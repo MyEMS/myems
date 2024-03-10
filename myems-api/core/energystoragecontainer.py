@@ -46,7 +46,7 @@ class EnergyStorageContainerCollection:
                                             "name": row[1],
                                             "uuid": row[2]}
         query = (" SELECT id, name, uuid, "
-                 "        capacity, contact_id, cost_center_id, svg, description "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg, description "
                  " FROM tbl_energy_storage_containers "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -55,17 +55,15 @@ class EnergyStorageContainerCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[4], None)
-                cost_center = cost_center_dict.get(row[5], None)
-
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "capacity": row[3],
-                               "contact": contact,
-                               "cost_center": cost_center,
-                               "svg": row[6],
-                               "description": row[7],
+                               "rated_capacity": row[3],
+                               "rated_power": row[4],
+                               "contact": contact_dict.get(row[5], None),
+                               "cost_center": cost_center_dict.get(row[6], None),
+                               "svg": row[7],
+                               "description": row[8],
                                "qrcode": 'energystoragecontainer:' + row[2]}
                 result.append(meta_result)
 
@@ -94,13 +92,21 @@ class EnergyStorageContainerCollection:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)) or \
-                new_values['data']['capacity'] <= 0.0:
+        if 'rated_capacity' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_capacity'], float) or
+                     isinstance(new_values['data']['rated_capacity'], int)) or \
+                new_values['data']['rated_capacity'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY_VALUE')
-        capacity = new_values['data']['capacity']
+                                   description='API.INVALID_RATED_CAPACITY')
+        rated_capacity = new_values['data']['rated_capacity']
+
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)) or \
+                new_values['data']['rated_power'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['data']['rated_power']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
@@ -165,11 +171,12 @@ class EnergyStorageContainerCollection:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers "
-                      "    (name, uuid, capacity, contact_id, cost_center_id, svg, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, svg, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    capacity,
+                                    rated_capacity,
+                                    rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -228,7 +235,7 @@ class EnergyStorageContainerItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        capacity, contact_id, cost_center_id, svg, description "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg, description "
                  " FROM tbl_energy_storage_containers "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -243,11 +250,12 @@ class EnergyStorageContainerItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "capacity": row[3],
-                           "contact": contact_dict.get(row[4], None),
-                           "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": row[6],
-                           "description": row[7],
+                           "rated_capacity": row[3],
+                           "rated_power": row[4],
+                           "contact": contact_dict.get(row[5], None),
+                           "cost_center": cost_center_dict.get(row[6], None),
+                           "svg": row[7],
+                           "description": row[8],
                            "qrcode": 'energystoragecontainer:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -324,13 +332,21 @@ class EnergyStorageContainerItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)) or \
-                new_values['data']['capacity'] <= 0.0:
+        if 'rated_capacity' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_capacity'], float) or
+                     isinstance(new_values['data']['rated_capacity'], int)) or \
+                new_values['data']['rated_capacity'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY_VALUE')
-        capacity = new_values['data']['capacity']
+                                   description='API.INVALID_RATED_CAPACITY')
+        rated_capacity = new_values['data']['rated_capacity']
+
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)) or \
+                new_values['data']['rated_power'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['data']['rated_power']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
@@ -404,11 +420,12 @@ class EnergyStorageContainerItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_energy_storage_containers "
-                      " SET name = %s, capacity = %s, contact_id = %s, cost_center_id = %s, "
+                      " SET name = %s, rated_capacity = %s, rated_power = %s, contact_id = %s, cost_center_id = %s, "
                       "     svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    capacity,
+                                    rated_capacity,
+                                    rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -652,7 +669,7 @@ class EnergyStorageContainerBatteryCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, capacity, nominal_voltage "
+                 "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
                  " FROM tbl_energy_storage_containers_batteries "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -662,21 +679,17 @@ class EnergyStorageContainerBatteryCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                battery_state_point = point_dict.get(row[3])
-                soc_point = point_dict.get(row[4])
-                power_point = point_dict.get(row[5])
-                charge_meter = meter_dict.get(row[6])
-                discharge_meter = meter_dict.get(row[7])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "battery_state_point": battery_state_point,
-                               "soc_point": soc_point,
-                               "power_point": power_point,
-                               "charge_meter": charge_meter,
-                               "discharge_meter": discharge_meter,
-                               "capacity": row[8],
-                               "nominal_voltage": row[9]}
+                               "battery_state_point": point_dict.get(row[3]),
+                               "soc_point": point_dict.get(row[4]),
+                               "power_point": point_dict.get(row[5]),
+                               "charge_meter": meter_dict.get(row[6]),
+                               "discharge_meter": meter_dict.get(row[7]),
+                               "rated_capacity": row[8],
+                               "rated_power": row[9],
+                               "nominal_voltage": row[10]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -753,12 +766,19 @@ class EnergyStorageContainerBatteryCollection:
                                    description='API.INVALID_DISCHARGE_METER_ID')
         discharge_meter_id = new_values['data']['discharge_meter_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_capacity' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_capacity'], float) or
+                     isinstance(new_values['data']['rated_capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_CAPACITY')
+        rated_capacity = float(new_values['data']['rated_capacity'])
+
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = float(new_values['data']['rated_power'])
 
         if 'nominal_voltage' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['nominal_voltage'], float) or
@@ -833,8 +853,8 @@ class EnergyStorageContainerBatteryCollection:
         add_values = (" INSERT INTO tbl_energy_storage_containers_batteries "
                       "    (name, uuid, energy_storage_container_id, "
                       "     battery_state_point_id, soc_point_id, power_point_id, "
-                      "     charge_meter_id, discharge_meter_id, capacity, nominal_voltage) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -843,7 +863,8 @@ class EnergyStorageContainerBatteryCollection:
                                     power_point_id,
                                     charge_meter_id,
                                     discharge_meter_id,
-                                    capacity,
+                                    rated_capacity,
+                                    rated_power,
                                     nominal_voltage))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -924,7 +945,7 @@ class EnergyStorageContainerBatteryItem:
 
         query = (" SELECT id, name, uuid, energy_storage_container_id, "
                  "       battery_state_point_id, soc_point_id, power_point_id, "
-                 "       charge_meter_id, discharge_meter_id, capacity, nominal_voltage "
+                 "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
                  " FROM tbl_energy_storage_containers_batteries "
                  " WHERE id = %s ")
         cursor.execute(query, (bid,))
@@ -936,23 +957,18 @@ class EnergyStorageContainerBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND')
         else:
-            energy_storage_container = energy_storage_container_dict.get(row[3])
-            battery_state_point = point_dict.get(row[4])
-            soc_point = point_dict.get(row[5])
-            power_point = point_dict.get(row[6])
-            charge_meter = meter_dict.get(row[7])
-            discharge_meter = meter_dict.get(row[8])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_storage_container": energy_storage_container,
-                           "battery_state_point": battery_state_point,
-                           "soc_point": soc_point,
-                           "power_point": power_point,
-                           "charge_meter": charge_meter,
-                           "discharge_meter": discharge_meter,
-                           "capacity": row[9],
-                           "nominal_voltage": row[10]}
+                           "energy_storage_container": energy_storage_container_dict.get(row[3]),
+                           "battery_state_point": point_dict.get(row[4]),
+                           "soc_point": point_dict.get(row[5]),
+                           "power_point": point_dict.get(row[6]),
+                           "charge_meter": meter_dict.get(row[7]),
+                           "discharge_meter": meter_dict.get(row[8]),
+                           "rated_capacity": row[9],
+                           "rated_power": row[10],
+                           "nominal_voltage": row[11]}
 
         resp.text = json.dumps(meta_result)
 
@@ -1059,12 +1075,19 @@ class EnergyStorageContainerBatteryItem:
                                    description='API.INVALID_DISCHARGE_METER_ID')
         discharge_meter_id = new_values['data']['discharge_meter_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_capacity' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_capacity'], float) or
+                     isinstance(new_values['data']['rated_capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_CAPACITY')
+        rated_capacity = float(new_values['data']['rated_capacity'])
+
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = float(new_values['data']['rated_power'])
 
         if 'nominal_voltage' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['nominal_voltage'], float) or
@@ -1158,7 +1181,8 @@ class EnergyStorageContainerBatteryItem:
         update_row = (" UPDATE tbl_energy_storage_containers_batteries "
                       " SET name = %s, energy_storage_container_id = %s, "
                       "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
-                      "     charge_meter_id = %s, discharge_meter_id = %s, capacity = %s, nominal_voltage = %s "
+                      "     charge_meter_id = %s, discharge_meter_id = %s, "
+                      "     rated_capacity = %s,  rated_power = %s, nominal_voltage = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
@@ -1167,7 +1191,8 @@ class EnergyStorageContainerBatteryItem:
                                     power_point_id,
                                     charge_meter_id,
                                     discharge_meter_id,
-                                    capacity,
+                                    rated_capacity,
+                                    rated_power,
                                     nominal_voltage,
                                     bid))
         cnx.commit()
@@ -1289,15 +1314,12 @@ class EnergyStorageContainerGridCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                power_point = point_dict.get(row[3])
-                buy_meter = meter_dict.get(row[4])
-                sell_meter = meter_dict.get(row[5])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "power_point": power_point,
-                               "buy_meter": buy_meter,
-                               "sell_meter": sell_meter,
+                               "power_point": point_dict.get(row[3]),
+                               "buy_meter": meter_dict.get(row[4]),
+                               "sell_meter": meter_dict.get(row[5]),
                                "capacity": row[6]}
                 result.append(meta_result)
 
@@ -1520,17 +1542,13 @@ class EnergyStorageContainerGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
         else:
-            energy_storage_container = energy_storage_container_dict.get(row[3])
-            power_point = point_dict.get(row[4])
-            buy_meter = meter_dict.get(row[5])
-            sell_meter = meter_dict.get(row[6])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_storage_container": energy_storage_container,
-                           "power_point": power_point,
-                           "buy_meter": buy_meter,
-                           "sell_meter": sell_meter,
+                           "energy_storage_container": energy_storage_container_dict.get(row[3]),
+                           "power_point": point_dict.get(row[4]),
+                           "buy_meter": meter_dict.get(row[5]),
+                           "sell_meter": meter_dict.get(row[6]),
                            "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)
@@ -1766,7 +1784,7 @@ class EnergyStorageContainerLoadCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, capacity "
+                 "        power_point_id, meter_id, rated_input_power "
                  " FROM tbl_energy_storage_containers_loads "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -1776,14 +1794,12 @@ class EnergyStorageContainerLoadCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                power_point = point_dict.get(row[3])
-                meter = meter_dict.get(row[4])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "power_point": power_point,
-                               "meter": meter,
-                               "capacity": row[5]}
+                               "power_point": point_dict.get(row[3]),
+                               "meter": meter_dict.get(row[4]),
+                               "rated_input_power": row[5]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1838,12 +1854,12 @@ class EnergyStorageContainerLoadCollection:
                                    description='API.INVALID_METER_ID')
         meter_id = new_values['data']['meter_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_input_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_input_power'], float) or
+                     isinstance(new_values['data']['rated_input_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_INPUT_POWER')
+        rated_input_power = float(new_values['data']['rated_input_power'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -1889,14 +1905,14 @@ class EnergyStorageContainerLoadCollection:
                                    description='API.METER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_loads "
-                      "    (name, uuid, energy_storage_container_id, power_point_id, meter_id, capacity) "
+                      "    (name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power) "
                       " VALUES (%s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
                                     power_point_id,
                                     meter_id,
-                                    capacity))
+                                    rated_input_power))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -1973,7 +1989,7 @@ class EnergyStorageContainerLoadItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, meter_id, capacity "
+        query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power "
                  " FROM tbl_energy_storage_containers_loads "
                  " WHERE id = %s ")
         cursor.execute(query, (lid,))
@@ -1985,16 +2001,13 @@ class EnergyStorageContainerLoadItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
         else:
-            energy_storage_container = energy_storage_container_dict.get(row[3])
-            power_point = point_dict.get(row[4])
-            meter = meter_dict.get(row[5])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_storage_container": energy_storage_container,
-                           "power_point": power_point,
-                           "meter": meter,
-                           "capacity": row[6]}
+                           "energy_storage_container": energy_storage_container_dict.get(row[3]),
+                           "power_point": point_dict.get(row[4]),
+                           "meter": meter_dict.get(row[5]),
+                           "rated_input_power": row[6]}
 
         resp.text = json.dumps(meta_result)
 
@@ -2080,12 +2093,12 @@ class EnergyStorageContainerLoadItem:
                                    description='API.INVALID_METER_ID')
         meter_id = new_values['data']['meter_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_input_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_input_power'], float) or
+                     isinstance(new_values['data']['rated_input_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_INPUT_POWER')
+        rated_input_power = float(new_values['data']['rated_input_power'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2140,13 +2153,13 @@ class EnergyStorageContainerLoadItem:
 
         update_row = (" UPDATE tbl_energy_storage_containers_loads "
                       " SET name = %s, energy_storage_container_id = %s, power_point_id = %s, "
-                      "     meter_id = %s, capacity = %s "
+                      "     meter_id = %s, rated_input_power = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
                                     power_point_id,
                                     meter_id,
-                                    capacity,
+                                    rated_input_power,
                                     lid))
         cnx.commit()
 
@@ -2208,7 +2221,7 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                 command_dict[row[0]] = {"id": row[0],
                                         "name": row[1]}
 
-        query = (" SELECT id, name, uuid, run_state_point_id, capacity, "
+        query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power, "
                  "        charge_start_time1_point_id, charge_end_time1_point_id, "
                  "        charge_start_time2_point_id, charge_end_time2_point_id, "
                  "        charge_start_time3_point_id, charge_end_time3_point_id, "
@@ -2234,76 +2247,43 @@ class EnergyStorageContainerPowerconversionsystemCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                run_state_point = point_dict.get(row[3])
-                charge_start_time1_point = point_dict.get(row[5])
-                charge_end_time1_point = point_dict.get(row[6])
-                charge_start_time2_point = point_dict.get(row[7])
-                charge_end_time2_point = point_dict.get(row[8])
-                charge_start_time3_point = point_dict.get(row[9])
-                charge_end_time3_point = point_dict.get(row[10])
-                charge_start_time4_point = point_dict.get(row[11])
-                charge_end_time4_point = point_dict.get(row[12])
-                discharge_start_time1_point = point_dict.get(row[13])
-                discharge_end_time1_point = point_dict.get(row[14])
-                discharge_start_time2_point = point_dict.get(row[15])
-                discharge_end_time2_point = point_dict.get(row[16])
-                discharge_start_time3_point = point_dict.get(row[17])
-                discharge_end_time3_point = point_dict.get(row[18])
-                discharge_start_time4_point = point_dict.get(row[19])
-                discharge_end_time4_point = point_dict.get(row[20])
-                charge_start_time1_command = command_dict.get(row[21])
-                charge_end_time1_command = command_dict.get(row[22])
-                charge_start_time2_command = command_dict.get(row[23])
-                charge_end_time2_command = command_dict.get(row[24])
-                charge_start_time3_command = command_dict.get(row[25])
-                charge_end_time3_command = command_dict.get(row[26])
-                charge_start_time4_command = command_dict.get(row[27])
-                charge_end_time4_command = command_dict.get(row[28])
-                discharge_start_time1_command = command_dict.get(row[29])
-                discharge_end_time1_command = command_dict.get(row[30])
-                discharge_start_time2_command = command_dict.get(row[31])
-                discharge_end_time2_command = command_dict.get(row[32])
-                discharge_start_time3_command = command_dict.get(row[33])
-                discharge_end_time3_command = command_dict.get(row[34])
-                discharge_start_time4_command = command_dict.get(row[35])
-                discharge_end_time4_command = command_dict.get(row[36])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "run_state_point": run_state_point,
-                               "capacity": row[4],
-                               "charge_start_time1_point": charge_start_time1_point,
-                               "charge_end_time1_point": charge_end_time1_point,
-                               "charge_start_time2_point": charge_start_time2_point,
-                               "charge_end_time2_point": charge_end_time2_point,
-                               "charge_start_time3_point": charge_start_time3_point,
-                               "charge_end_time3_point": charge_end_time3_point,
-                               "charge_start_time4_point": charge_start_time4_point,
-                               "charge_end_time4_point": charge_end_time4_point,
-                               "discharge_start_time1_point": discharge_start_time1_point,
-                               "discharge_end_time1_point": discharge_end_time1_point,
-                               "discharge_start_time2_point": discharge_start_time2_point,
-                               "discharge_end_time2_point": discharge_end_time2_point,
-                               "discharge_start_time3_point": discharge_start_time3_point,
-                               "discharge_end_time3_point": discharge_end_time3_point,
-                               "discharge_start_time4_point": discharge_start_time4_point,
-                               "discharge_end_time4_point": discharge_end_time4_point,
-                               "charge_start_time1_command": charge_start_time1_command,
-                               "charge_end_time1_command": charge_end_time1_command,
-                               "charge_start_time2_command": charge_start_time2_command,
-                               "charge_end_time2_command": charge_end_time2_command,
-                               "charge_start_time3_command": charge_start_time3_command,
-                               "charge_end_time3_command": charge_end_time3_command,
-                               "charge_start_time4_command": charge_start_time4_command,
-                               "charge_end_time4_command": charge_end_time4_command,
-                               "discharge_start_time1_command": discharge_start_time1_command,
-                               "discharge_end_time1_command": discharge_end_time1_command,
-                               "discharge_start_time2_command": discharge_start_time2_command,
-                               "discharge_end_time2_command": discharge_end_time2_command,
-                               "discharge_start_time3_command": discharge_start_time3_command,
-                               "discharge_end_time3_command": discharge_end_time3_command,
-                               "discharge_start_time4_command": discharge_start_time4_command,
-                               "discharge_end_time4_command": discharge_end_time4_command}
+                               "run_state_point": point_dict.get(row[3]),
+                               "rated_output_power": row[4],
+                               "charge_start_time1_point": point_dict.get(row[5]),
+                               "charge_end_time1_point": point_dict.get(row[6]),
+                               "charge_start_time2_point": point_dict.get(row[7]),
+                               "charge_end_time2_point": point_dict.get(row[8]),
+                               "charge_start_time3_point": point_dict.get(row[9]),
+                               "charge_end_time3_point": point_dict.get(row[10]),
+                               "charge_start_time4_point": point_dict.get(row[11]),
+                               "charge_end_time4_point": point_dict.get(row[12]),
+                               "discharge_start_time1_point": point_dict.get(row[13]),
+                               "discharge_end_time1_point": point_dict.get(row[14]),
+                               "discharge_start_time2_point": point_dict.get(row[15]),
+                               "discharge_end_time2_point": point_dict.get(row[16]),
+                               "discharge_start_time3_point": point_dict.get(row[17]),
+                               "discharge_end_time3_point": point_dict.get(row[18]),
+                               "discharge_start_time4_point": point_dict.get(row[19]),
+                               "discharge_end_time4_point": point_dict.get(row[20]),
+                               "charge_start_time1_command": point_dict.get(row[21]),
+                               "charge_end_time1_command": point_dict.get(row[22]),
+                               "charge_start_time2_command": point_dict.get(row[23]),
+                               "charge_end_time2_command": point_dict.get(row[24]),
+                               "charge_start_time3_command": point_dict.get(row[25]),
+                               "charge_end_time3_command": point_dict.get(row[26]),
+                               "charge_start_time4_command": point_dict.get(row[27]),
+                               "charge_end_time4_command": point_dict.get(row[28]),
+                               "discharge_start_time1_command": point_dict.get(row[29]),
+                               "discharge_end_time1_command": point_dict.get(row[30]),
+                               "discharge_start_time2_command": point_dict.get(row[31]),
+                               "discharge_end_time2_command": point_dict.get(row[32]),
+                               "discharge_start_time3_command": point_dict.get(row[33]),
+                               "discharge_end_time3_command": point_dict.get(row[34]),
+                               "discharge_start_time4_command": point_dict.get(row[35]),
+                               "discharge_end_time4_command": point_dict.get(row[36])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2351,12 +2331,12 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                    description='API.INVALID_RUN_STATE_POINT_ID')
         run_state_point_id = new_values['data']['run_state_point_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_output_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_output_power'], float) or
+                     isinstance(new_values['data']['rated_output_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_OUTPUT_POWER')
+        rated_output_power = float(new_values['data']['rated_output_power'])
 
         if 'charge_start_time1_point_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['charge_start_time1_point_id'], int) or \
@@ -2606,7 +2586,7 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                    description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_power_conversion_systems "
-                      "     (name, uuid, energy_storage_container_id, run_state_point_id, capacity, "
+                      "     (name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power, "
                       "      charge_start_time1_point_id, charge_end_time1_point_id, "
                       "      charge_start_time2_point_id, charge_end_time2_point_id, "
                       "      charge_start_time3_point_id, charge_end_time3_point_id, "
@@ -2630,7 +2610,7 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                     str(uuid.uuid4()),
                                     id_,
                                     run_state_point_id,
-                                    capacity,
+                                    rated_output_power,
                                     charge_start_time1_point_id,
                                     charge_end_time1_point_id,
                                     charge_start_time2_point_id,
@@ -2751,7 +2731,7 @@ class EnergyStorageContainerPowerconversionsystemItem:
                 command_dict[row[0]] = {"id": row[0],
                                         "name": row[1]}
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, capacity, "
+        query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power, "
                  "        charge_start_time1_point_id, charge_end_time1_point_id, "
                  "        charge_start_time2_point_id, charge_end_time2_point_id, "
                  "        charge_start_time3_point_id, charge_end_time3_point_id, "
@@ -2779,78 +2759,44 @@ class EnergyStorageContainerPowerconversionsystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
         else:
-            energy_storage_container = energy_storage_container_dict.get(row[3])
-            run_state_point = point_dict.get(row[4])
-            charge_start_time1_point = point_dict.get(row[6])
-            charge_end_time1_point = point_dict.get(row[7])
-            charge_start_time2_point = point_dict.get(row[8])
-            charge_end_time2_point = point_dict.get(row[9])
-            charge_start_time3_point = point_dict.get(row[10])
-            charge_end_time3_point = point_dict.get(row[11])
-            charge_start_time4_point = point_dict.get(row[12])
-            charge_end_time4_point = point_dict.get(row[13])
-            discharge_start_time1_point = point_dict.get(row[14])
-            discharge_end_time1_point = point_dict.get(row[15])
-            discharge_start_time2_point = point_dict.get(row[16])
-            discharge_end_time2_point = point_dict.get(row[17])
-            discharge_start_time3_point = point_dict.get(row[18])
-            discharge_end_time3_point = point_dict.get(row[19])
-            discharge_start_time4_point = point_dict.get(row[20])
-            discharge_end_time4_point = point_dict.get(row[21])
-            charge_start_time1_command = command_dict.get(row[22])
-            charge_end_time1_command = command_dict.get(row[23])
-            charge_start_time2_command = command_dict.get(row[24])
-            charge_end_time2_command = command_dict.get(row[25])
-            charge_start_time3_command = command_dict.get(row[26])
-            charge_end_time3_command = command_dict.get(row[27])
-            charge_start_time4_command = command_dict.get(row[28])
-            charge_end_time4_command = command_dict.get(row[29])
-            discharge_start_time1_command = command_dict.get(row[30])
-            discharge_end_time1_command = command_dict.get(row[31])
-            discharge_start_time2_command = command_dict.get(row[32])
-            discharge_end_time2_command = command_dict.get(row[33])
-            discharge_start_time3_command = command_dict.get(row[34])
-            discharge_end_time3_command = command_dict.get(row[35])
-            discharge_start_time4_command = command_dict.get(row[36])
-            discharge_end_time4_command = command_dict.get(row[37])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_storage_container": energy_storage_container,
-                           "run_state_point": run_state_point,
-                           "capacity": row[5],
-                           "charge_start_time1_point": charge_start_time1_point,
-                           "charge_end_time1_point": charge_end_time1_point,
-                           "charge_start_time2_point": charge_start_time2_point,
-                           "charge_end_time2_point": charge_end_time2_point,
-                           "charge_start_time3_point": charge_start_time3_point,
-                           "charge_end_time3_point": charge_end_time3_point,
-                           "charge_start_time4_point": charge_start_time4_point,
-                           "charge_end_time4_point": charge_end_time4_point,
-                           "discharge_start_time1_point": discharge_start_time1_point,
-                           "discharge_end_time1_point": discharge_end_time1_point,
-                           "discharge_start_time2_point": discharge_start_time2_point,
-                           "discharge_end_time2_point": discharge_end_time2_point,
-                           "discharge_start_time3_point": discharge_start_time3_point,
-                           "discharge_end_time3_point": discharge_end_time3_point,
-                           "discharge_start_time4_point": discharge_start_time4_point,
-                           "discharge_end_time4_point": discharge_end_time4_point,
-                           "charge_start_time1_command": charge_start_time1_command,
-                           "charge_end_time1_command": charge_end_time1_command,
-                           "charge_start_time2_command": charge_start_time2_command,
-                           "charge_end_time2_command": charge_end_time2_command,
-                           "charge_start_time3_command": charge_start_time3_command,
-                           "charge_end_time3_command": charge_end_time3_command,
-                           "charge_start_time4_command": charge_start_time4_command,
-                           "charge_end_time4_command": charge_end_time4_command,
-                           "discharge_start_time1_command": discharge_start_time1_command,
-                           "discharge_end_time1_command": discharge_end_time1_command,
-                           "discharge_start_time2_command": discharge_start_time2_command,
-                           "discharge_end_time2_command": discharge_end_time2_command,
-                           "discharge_start_time3_command": discharge_start_time3_command,
-                           "discharge_end_time3_command": discharge_end_time3_command,
-                           "discharge_start_time4_command": discharge_start_time4_command,
-                           "discharge_end_time4_command": discharge_end_time4_command}
+                           "energy_storage_container": energy_storage_container_dict.get(row[3]),
+                           "run_state_point": point_dict.get(row[4]),
+                           "rated_output_power": row[5],
+                           "charge_start_time1_point": point_dict.get(row[6]),
+                           "charge_end_time1_point": point_dict.get(row[7]),
+                           "charge_start_time2_point": point_dict.get(row[8]),
+                           "charge_end_time2_point": point_dict.get(row[9]),
+                           "charge_start_time3_point": point_dict.get(row[10]),
+                           "charge_end_time3_point": point_dict.get(row[11]),
+                           "charge_start_time4_point": point_dict.get(row[12]),
+                           "charge_end_time4_point": point_dict.get(row[13]),
+                           "discharge_start_time1_point": point_dict.get(row[14]),
+                           "discharge_end_time1_point": point_dict.get(row[15]),
+                           "discharge_start_time2_point": point_dict.get(row[16]),
+                           "discharge_end_time2_point": point_dict.get(row[17]),
+                           "discharge_start_time3_point": point_dict.get(row[18]),
+                           "discharge_end_time3_point": point_dict.get(row[19]),
+                           "discharge_start_time4_point": point_dict.get(row[20]),
+                           "discharge_end_time4_point": point_dict.get(row[21]),
+                           "charge_start_time1_command": point_dict.get(row[22]),
+                           "charge_end_time1_command": point_dict.get(row[23]),
+                           "charge_start_time2_command": point_dict.get(row[24]),
+                           "charge_end_time2_command": point_dict.get(row[25]),
+                           "charge_start_time3_command": point_dict.get(row[26]),
+                           "charge_end_time3_command": point_dict.get(row[27]),
+                           "charge_start_time4_command": point_dict.get(row[28]),
+                           "charge_end_time4_command": point_dict.get(row[29]),
+                           "discharge_start_time1_command": point_dict.get(row[30]),
+                           "discharge_end_time1_command": point_dict.get(row[31]),
+                           "discharge_start_time2_command": point_dict.get(row[32]),
+                           "discharge_end_time2_command": point_dict.get(row[33]),
+                           "discharge_start_time3_command": point_dict.get(row[34]),
+                           "discharge_end_time3_command": point_dict.get(row[35]),
+                           "discharge_start_time4_command": point_dict.get(row[36]),
+                           "discharge_end_time4_command": point_dict.get(row[37])}
 
         resp.text = json.dumps(meta_result)
 
@@ -2929,12 +2875,12 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                    description='API.INVALID_RUN_STATE_POINT_ID')
         run_state_point_id = new_values['data']['run_state_point_id']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)):
+        if 'rated_output_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_output_power'], float) or
+                     isinstance(new_values['data']['rated_output_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+                                   description='API.INVALID_RATED_OUTPUT_POWER')
+        rated_output_power = float(new_values['data']['rated_output_power'])
 
         if 'charge_start_time1_point_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['charge_start_time1_point_id'], int) or \
@@ -3192,7 +3138,8 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_energy_storage_containers_power_conversion_systems "
-                      " SET name = %s, energy_storage_container_id = %s, run_state_point_id = %s, capacity = %s, "
+                      " SET name = %s, energy_storage_container_id = %s, run_state_point_id = %s, "
+                      "     rated_output_power = %s, "
                       "     charge_start_time1_point_id = %s, charge_end_time1_point_id = %s, "
                       "     charge_start_time2_point_id = %s, charge_end_time2_point_id = %s, "
                       "     charge_start_time3_point_id = %s, charge_end_time3_point_id = %s, "
@@ -3213,7 +3160,7 @@ class EnergyStorageContainerPowerconversionsystemItem:
         cursor.execute(update_row, (name,
                                     id_,
                                     run_state_point_id,
-                                    capacity,
+                                    rated_output_power,
                                     charge_start_time1_point_id,
                                     charge_end_time1_point_id,
                                     charge_start_time2_point_id,

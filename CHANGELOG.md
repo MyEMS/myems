@@ -11,10 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tenant dashboard into myems-web and myems-api
 - added store dashboard into myems-web and myems-api
 - added shopfloor dashboard into myems-web and myems-api
+- added space and microgrid relation table to database
+- added space and energy storage power station relation table to database
 ### Changed
 - updated space export, import and clone functions in myems-api
 - updated microgrid reporting in myems-api and myems-web
 - updated energy storage power station reporting in myems-api and myems-web
+- updated columns of microgrid related tables in database
+- updated columns of energy storage power station related tables in database
 ### Fixed
 - fixed chart issues in myems-web
 - fixed warnings in myems-web
