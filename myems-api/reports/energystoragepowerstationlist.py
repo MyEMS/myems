@@ -87,7 +87,7 @@ class Reporting:
                                             "uuid": row[2]}
         # get energy storage power stations
         query = (" SELECT m.id, m.name, m.uuid, "
-                 "        m.address, m.postal_code, m.latitude, m.longitude, m.capacity, "
+                 "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
                  "        m.contact_id, m.cost_center_id, m.description "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
@@ -99,8 +99,6 @@ class Reporting:
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             for row in rows_energy_storage_power_stations:
                 energy_storage_power_station_id = row[0]
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
                 # get gateway latest seen datetime to determine if it is online
                 query = (" SELECT tds.last_seen_datetime_utc   "
                          " FROM tbl_energy_storage_power_stations_containers tespsesc, "
@@ -255,10 +253,11 @@ class Reporting:
                                "postal_code": row[4],
                                "latitude": row[5],
                                "longitude": row[6],
-                               "capacity": row[7],
-                               "contact": contact,
-                               "cost_center": cost_center,
-                               "description": row[10],
+                               "rated_capacity": row[7],
+                               "rated_power": row[8],
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "description": row[11],
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,

@@ -5728,7 +5728,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -5765,7 +5765,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -5803,7 +5803,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -5817,7 +5817,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -5844,7 +5844,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -5858,7 +5858,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":300.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1",
@@ -6046,7 +6046,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6059,13 +6059,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/3/batteries",
+									"raw": "{{base_url}}/energystoragecontainers/1/batteries",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energystoragecontainers",
-										"3",
+										"1",
 										"batteries"
 									]
 								}
@@ -6085,7 +6085,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6125,7 +6125,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6139,7 +6139,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"rated_capacity\": 300, \"rated_power\": 100, \"nominal_voltage\": 48}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/batteries",
@@ -6168,7 +6168,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6182,7 +6182,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"capacity\": 30, \"nominal_voltage\": 48}}"
+									"raw": "{\"data\":{\"name\":\"Battery\", \"battery_state_point_id\":1, \"soc_point_id\":2, \"power_point_id\":3, \"charge_meter_id\":1, \"discharge_meter_id\":2, \"rated_capacity\": 500, \"rated_power\": 100, \"nominal_voltage\": 48}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/batteries/1",
@@ -6252,7 +6252,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6291,7 +6291,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6331,7 +6331,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6345,18 +6345,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/grids/1",
+									"raw": "{{base_url}}/energystoragecontainers/1/grids",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energystoragecontainers",
 										"1",
-										"grids",
-										"1"
+										"grids"
 									]
 								}
 							},
@@ -6375,7 +6374,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6389,7 +6388,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 500}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/grids/1",
@@ -6459,7 +6458,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6498,7 +6497,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6538,7 +6537,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6552,18 +6551,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 30}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/loads/1",
+									"raw": "{{base_url}}/energystoragecontainers/1/loads",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"energystoragecontainers",
 										"1",
-										"loads",
-										"1"
+										"loads"
 									]
 								}
 							},
@@ -6582,7 +6580,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6596,7 +6594,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"capacity\": 50}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 500}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/loads/1",
@@ -6666,7 +6664,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6705,7 +6703,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6745,7 +6743,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6759,7 +6757,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_command_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System1\", \"run_state_point_id\":1, \"rated_output_power\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/powerconversionsystems",
@@ -6788,7 +6786,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6802,7 +6800,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"capacity\": 30, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
+									"raw": "{\"data\":{\"name\":\"Power Conversion System\", \"run_state_point_id\":1, \"rated_output_power\": 60, \"charge_start_time1_point_id\":2, \"charge_end_time1_point_id\":3, \"charge_start_time2_point_id\":4,\"charge_end_time2_point_id\":5, \"charge_start_time3_point_id\":6, \"charge_end_time3_point_id\":7, \"charge_start_time4_point_id\":8, \"charge_end_time4_point_id\":9, \"discharge_start_time1_point_id\":10, \"discharge_end_time1_point_id\":11, \"discharge_start_time2_point_id\":12, \"discharge_end_time2_point_id\":13, \"discharge_start_time3_point_id\":14, \"discharge_end_time3_point_id\":15, \"discharge_start_time4_point_id\":16, \"discharge_end_time4_point_id\":17,\"charge_start_time1_command_id\":2, \"charge_end_time1_command_id\":3, \"charge_start_time2_command_id\":4,\"charge_end_time2_command_id\":5, \"charge_start_time3_command_id\":6, \"charge_end_time3_command_id\":7, \"charge_start_time4_command_id\":8, \"charge_end_time4_command_id\":9, \"discharge_start_time1_command_id\":10, \"discharge_end_time1_command_id\":11, \"discharge_start_time2_command_id\":12, \"discharge_end_time2_command_id\":13, \"discharge_start_time3_command_id\":14, \"discharge_end_time3_command_id\":15, \"discharge_start_time4_command_id\":16, \"discharge_end_time4_command_id\":17}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/powerconversionsystems/1",
@@ -6952,7 +6950,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -6966,7 +6964,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations",
@@ -6993,7 +6991,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -7007,7 +7005,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"capacity\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/1",
@@ -7073,7 +7071,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -7112,7 +7110,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -7234,7 +7232,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -7356,7 +7354,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 										"type": "text",
 										"description": "Login first to get a valid token"
 									},
@@ -7370,7 +7368,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"id\":1,\"name\":\"Beijing Station\",\"uuid\":\"dec4c44d-469c-4345-a303-23e6048efc94\",\"address\":\"Wangfujing Street, Dongcheng District, Beijing\",\"postal_code\":\"100000\",\"latitude\":39.909429,\"longitude\":116.416993,\"capacity\":600,\"contact\":{\"id\":1,\"name\":\"江工\",\"uuid\":\"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"},\"cost_center\":{\"id\":1,\"name\":\"test\",\"uuid\":\"76d86222-96c5-4653-8162-bfbcd7edd5ad\"},\"svg\":\"<svg></svg>\",\"description\":\"Classic\"}"
+									"raw": "{\n    \"name\": \"Beijing Office\",\n    \"uuid\": \"7297cfc1-8978-487b-a14b-fedb9b3525f5\",\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\n    \"postal_code\": \"100000\",\n    \"latitude\": 39.909429,\n    \"longitude\": 116.416993,\n    \"rated_capacity\": 600.000,\n    \"rated_power\": 100.000,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"svg\": \"<svg></svg>\",\n    \"description\": \"Classic\"\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/import",
@@ -26595,7 +26593,7 @@
 							},
 							{
 								"key": "Token",
-								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 								"type": "text",
 								"description": "Login first to get a valid token"
 							},
@@ -26659,7 +26657,7 @@
 							},
 							{
 								"key": "Token",
-								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 								"type": "text",
 								"description": "Login first to get a valid token"
 							},
@@ -26672,7 +26670,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/reports/energystoragepowerstationdetails?energystoragepowerstationid=1",
+							"raw": "{{base_url}}/reports/energystoragepowerstationdetails?id=1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -26687,7 +26685,7 @@
 									"disabled": true
 								},
 								{
-									"key": "energystoragepowerstationid",
+									"key": "id",
 									"value": "1"
 								}
 							]
@@ -26708,7 +26706,7 @@
 							},
 							{
 								"key": "Token",
-								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
 								"type": "text",
 								"description": "Login first to get a valid token"
 							},
