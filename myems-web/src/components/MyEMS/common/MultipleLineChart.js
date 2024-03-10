@@ -236,9 +236,6 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       toolbox: {
         right: 10,
         feature: {
-          // dataZoom: {
-          //   yAxisIndex: 'none'
-          // },
         },
         show: false
       },
@@ -249,18 +246,8 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
           xAxisIndex: [0]
         },
         {
-          type: 'slider',
-          show: true,
-          yAxisIndex: [0],
-          left: '2%'
-        },
-        {
           type: 'inside',
           xAxisIndex: [0]
-        },
-        {
-          type: 'inside',
-          yAxisIndex: [0]
         }
       ]
     };
