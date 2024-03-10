@@ -47,7 +47,7 @@ class PhotovoltaicPowerStationCollection:
                                             "name": row[1],
                                             "uuid": row[2]}
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " ORDER BY id ")
@@ -67,7 +67,7 @@ class PhotovoltaicPowerStationCollection:
                                "postal_code": row[4],
                                "latitude": row[5],
                                "longitude": row[6],
-                               "capacity": row[7],
+                               "rated_power": row[7],
                                "contact": contact,
                                "cost_center": cost_center,
                                "svg": row[10],
@@ -132,13 +132,13 @@ class PhotovoltaicPowerStationCollection:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)) or \
-                new_values['data']['capacity'] <= 0.0:
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)) or \
+                new_values['data']['rated_power'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY_VALUE')
-        capacity = new_values['data']['capacity']
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['data']['rated_power']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
@@ -203,7 +203,7 @@ class PhotovoltaicPowerStationCollection:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                      "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
+                      "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -212,7 +212,7 @@ class PhotovoltaicPowerStationCollection:
                                     postal_code,
                                     latitude,
                                     longitude,
-                                    capacity,
+                                    rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -271,7 +271,7 @@ class PhotovoltaicPowerStationItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -293,7 +293,7 @@ class PhotovoltaicPowerStationItem:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
+                           "rated_power": row[7],
                            "contact": contact,
                            "cost_center": cost_center,
                            "svg": row[10],
@@ -387,13 +387,13 @@ class PhotovoltaicPowerStationItem:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
-        if 'capacity' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['capacity'], float) or
-                     isinstance(new_values['data']['capacity'], int)) or \
-                new_values['data']['capacity'] <= 0.0:
+        if 'rated_power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['rated_power'], float) or
+                     isinstance(new_values['data']['rated_power'], int)) or \
+                new_values['data']['rated_power'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY_VALUE')
-        capacity = new_values['data']['capacity']
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['data']['rated_power']
 
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
@@ -467,7 +467,7 @@ class PhotovoltaicPowerStationItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_photovoltaic_power_stations "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, capacity = %s, "
+                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
                       "     svg = %s, description = %s "
                       " WHERE id = %s ")
@@ -476,7 +476,7 @@ class PhotovoltaicPowerStationItem:
                                     postal_code,
                                     latitude,
                                     longitude,
-                                    capacity,
+                                    rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -535,7 +535,7 @@ class PhotovoltaicPowerStationExport:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -557,7 +557,7 @@ class PhotovoltaicPowerStationExport:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
+                           "rated_power": row[7],
                            "contact": contact,
                            "cost_center": cost_center,
                            "svg": row[10],
@@ -629,13 +629,13 @@ class PhotovoltaicPowerStationImport:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['longitude']
 
-        if 'capacity' not in new_values.keys() or \
-                not (isinstance(new_values['capacity'], float) or
-                     isinstance(new_values['capacity'], int)) or \
-                new_values['capacity'] <= 0.0:
+        if 'rated_power' not in new_values.keys() or \
+                not (isinstance(new_values['rated_power'], float) or
+                     isinstance(new_values['rated_power'], int)) or \
+                new_values['rated_power'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CAPACITY_VALUE')
-        capacity = new_values['capacity']
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['rated_power']
 
         if 'id' not in new_values['contact'].keys() or \
                 not isinstance(new_values['contact']['id'], int) or \
@@ -700,7 +700,7 @@ class PhotovoltaicPowerStationImport:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                      "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
+                      "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -709,7 +709,7 @@ class PhotovoltaicPowerStationImport:
                                     postal_code,
                                     latitude,
                                     longitude,
-                                    capacity,
+                                    rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg,
@@ -769,7 +769,7 @@ class PhotovoltaicPowerStationClone:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
+                 "        address, postal_code, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -789,7 +789,7 @@ class PhotovoltaicPowerStationClone:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
+                           "rated_power": row[7],
                            "contact": contact,
                            "cost_center": cost_center,
                            "svg": row[10],
@@ -801,7 +801,7 @@ class PhotovoltaicPowerStationClone:
                         + (datetime.now()
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                          "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
+                          "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
                           "     contact_id, cost_center_id, svg, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
@@ -810,7 +810,7 @@ class PhotovoltaicPowerStationClone:
                                         meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
-                                        meta_result['capacity'],
+                                        meta_result['rated_power'],
                                         meta_result['contact']['id'],
                                         meta_result['cost_center']['id'],
                                         meta_result['svg'],

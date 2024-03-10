@@ -1024,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_photovoltaics` (
   `microgrid_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_output_power` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_photovoltaics_index_1` ON `myems_system_db`.`tbl_microgrids_photovoltaics` (`microgrid_id`);
 
@@ -1087,7 +1087,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg` LONGTEXT NOT NULL,
@@ -1968,7 +1968,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_wind_farms` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg` LONGTEXT NOT NULL,
