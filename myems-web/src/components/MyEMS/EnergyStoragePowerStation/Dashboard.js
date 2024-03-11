@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import CountUp from 'react-countup';
-import { Col, Row, Spinner } from 'reactstrap';
+import { Col, Row, Spinner, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import Weather from './Weather';
 import weather from '../../../data/dashboard/weather';
 import WeeklySales from './WeeklySales';
@@ -8,7 +8,6 @@ import weeklySales from '../../../data/dashboard/weeklySales';
 import BestSellingProducts from './BestSellingProducts';
 import products from '../../../data/dashboard/products';
 import RecentPurchasesTable from './RecentPuchasesTable';
-import ActiveUsersBarChart from './ActiveUsersBarChart';
 
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
@@ -25,13 +24,11 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
-import RealtimeSensor from '../common/RealtimeSensor';
 import { getItemFromStore } from '../../../helpers/utils';
 import CustomizeMapBox from '../common/CustomizeMapBox';
+import classNames from 'classnames';
 
 ChartJS.register(annotationPlugin);
-
-const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -48,8 +45,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     current_moment.clone().startOf('year')
   );
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
-
   const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [activeTabLeft, setActiveTabLeft] = useState('1');
+  const toggleTabLeft = tab => {
+    if (activeTabLeft !== tab) setActiveTabLeft(tab);
+  };
+  const [activeTabRight, setActiveTabRight] = useState('1');
+  const toggleTabRight = tab => {
+    if (activeTabRight !== tab) setActiveTabRight(tab);
+  };
 
   //Results
   const [costShareData, setCostShareData] = useState([]);
@@ -685,7 +689,36 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       <Row noGutters>
         <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-          <BestSellingProducts products={products} />
+          <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '1' })}
+                onClick={() => {
+                  toggleTabLeft('1');
+                }}
+              >
+                收入排名
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '2' })}
+                onClick={() => {
+                  toggleTabLeft('2');
+                }}
+              >
+                效率排名
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTabLeft}>
+            <TabPane tabId="1">
+              <BestSellingProducts products={products} />
+            </TabPane>
+            <TabPane tabId="2">
+              <BestSellingProducts products={products} />
+            </TabPane>
+          </TabContent>
         </Col>
         <Col lg={6} xl={6} className="mb-3 pr-lg-2 mb-3">
           {settings.showOnlineMap ? (
@@ -702,49 +735,39 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           )}
         </Col>
         <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-          <ActiveUsersBarChart />
+          <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '1' })}
+                onClick={() => {
+                  toggleTabRight('1');
+                }}
+              >
+                充电量排名
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '2' })}
+                onClick={() => {
+                  toggleTabRight('2');
+                }}
+              >
+                放电量排名
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTabRight}>
+            <TabPane tabId="1">
+              <BestSellingProducts products={products} />
+            </TabPane>
+            <TabPane tabId="2">
+              <BestSellingProducts products={products} />
+            </TabPane>
+          </TabContent>
         </Col>
       </Row>
-      <div className="card-deck">
-        <BarChart
-          labels={barLabels}
-          data={lastYearBarList}
-          compareData={thisYearBarList}
-          title={'逐月放电量对比 '}
-          compareTitle={t('This Year')}
-          footnote={t('Per Unit Area')}
-          footunit={'/M²'}
-        />
-        <LineChart
-          reportingTitle={'逐月成本趋势'}
-          baseTitle=""
-          labels={spaceInputLineChartLabels}
-          data={spaceInputLineChartData}
-          options={spaceInputLineChartOptions}
-        />
-        <LineChart
-          reportingTitle={'逐月收益趋势'}
-          baseTitle=""
-          labels={spaceCostLineChartLabels}
-          data={spaceCostLineChartData}
-          options={spaceCostLineChartOptions}
-        />
-      </div>
-      <div className="wrapper" />
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2">
-          <WeeklySales data={weeklySales} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={costShareData} title={'节约二氧化碳排放量'} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={TCEShareData} title={'故障告警统计'} />
-        </Col>
-        <Col md={6} className="col-xxl-3 mb-3 pl-md-2">
-          <Weather data={weather} className="h-md-100" />
-        </Col>
-      </Row>
+
       <RecentPurchasesTable />
     </Fragment>
   );

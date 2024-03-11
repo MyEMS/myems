@@ -7,7 +7,7 @@ import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 
-import purchases from '../../../data/dashboard/purchaseList';
+import purchases from './stationlist';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
@@ -26,20 +26,25 @@ const badgeFormatter = status => {
   let icon = '';
   let text = '';
   switch (status) {
-    case 'success':
+    case 'charging':
       color = 'success';
       icon = 'check';
-      text = 'Success';
+      text = 'Charging';
       break;
-    case 'blocked':
+    case 'discharging':
+      color = 'success';
+      icon = 'check';
+      text = 'Discharging';
+      break;
+    case 'offline':
       color = 'secondary';
       icon = 'ban';
-      text = 'Blocked';
+      text = 'Offline';
       break;
     default:
       color = 'warning';
       icon = 'stream';
-      text = 'Pending';
+      text = 'Idling';
   }
   return (
     <Badge color={`soft-${color}`} className="rounded-capsule">
@@ -49,20 +54,14 @@ const badgeFormatter = status => {
   );
 };
 
-const amountFormatter = amount => <Fragment>{amount}kWh</Fragment>;
+const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
 const columns = [
   {
     dataField: 'customer',
     text: '名称',
     formatter: customerFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'email',
-    text: 'Email',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
@@ -75,18 +74,26 @@ const columns = [
     sort: true
   },
   {
+    dataField: 'amount',
+    text: '额定容量',
+    formatter: capacityFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
+    dataField: 'amount',
+    text: '额定功率',
+    formatter: powerFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
     dataField: 'status',
     text: '状态',
     formatter: badgeFormatter,
     classes: 'border-0 align-middle fs-0',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'amount',
-    text: '剩余电量',
-    formatter: amountFormatter,
-    classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
     align: 'right',
@@ -185,7 +192,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   className="px-0 font-weight-semi-bold"
                   onClick={() => handleViewAll(paginationProps, purchases.length)}
                 >
-                  view all
+                  全部
                 </ButtonIcon>
               </Col>
               <Col xs="auto" className="pr-3">
@@ -196,7 +203,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   disabled={paginationProps.page === 1}
                   className="px-4"
                 >
-                  Previous
+                  前一页
                 </Button>
                 <Button
                   color={lastIndex >= paginationProps.totalSize ? 'light' : 'primary'}
@@ -205,7 +212,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   disabled={lastIndex >= paginationProps.totalSize}
                   className="px-4 ml-2"
                 >
-                  Next
+                  下一页
                 </Button>
               </Col>
             </Row>

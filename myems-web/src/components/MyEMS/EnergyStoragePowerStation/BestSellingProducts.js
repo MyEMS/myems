@@ -19,13 +19,12 @@ const BestSellingProducts = ({ products }) => {
         <Table borderless className="table-dashboard mb-0 fs--1">
           <thead className="bg-light">
             <tr className="text-900">
-              <th>电站收益排名</th>
+              <th>电站</th>
               <th className="text-right">
-                Revenue ({currency}
-                {totalPrice})
+                数据
               </th>
               <th className="pr-card text-right" style={{ width: '8rem' }}>
-                Revenue (%)
+                占比 (%)
               </th>
             </tr>
           </thead>
@@ -46,14 +45,14 @@ const BestSellingProducts = ({ products }) => {
         <Row className="flex-between-center">
           <Col xs="auto">
             <CustomInput type="select" id="exampleCustomSelect" bsSize="sm">
-              <option>Last 7 days</option>
-              <option>Last Month</option>
-              <option>Last Year</option>
+              <option>最近7天</option>
+              <option>最近1月</option>
+              <option>最近1年</option>
             </CustomInput>
           </Col>
           <Col xs="auto">
             <Button color="falcon-default" size="sm" tag={Link} to="#!">
-              View All
+              全部
             </Button>
           </Col>
         </Row>
