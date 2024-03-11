@@ -707,7 +707,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                利润排名
+                效率排名
               </NavLink>
             </NavItem>
           </Nav>
@@ -738,9 +738,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
-                className={classNames({ active: activeTabLeft === '1' })}
+                className={classNames({ active: activeTabRight === '1' })}
                 onClick={() => {
-                  toggleTabLeft('1');
+                  toggleTabRight('1');
                 }}
               >
                 充电量排名
@@ -748,16 +748,16 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             </NavItem>
             <NavItem className="cursor-pointer">
               <NavLink
-                className={classNames({ active: activeTabLeft === '2' })}
+                className={classNames({ active: activeTabRight === '2' })}
                 onClick={() => {
-                  toggleTabLeft('2');
+                  toggleTabRight('2');
                 }}
               >
                 放电量排名
               </NavLink>
             </NavItem>
           </Nav>
-          <TabContent activeTab={activeTabLeft}>
+          <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
               <BestSellingProducts products={products} />
             </TabPane>
