@@ -52,10 +52,10 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)</label>
-                <div class="col-sm-10"><input ng-model="microgridheatpump.capacity" type="number" name="microgridheatpumpcapacity" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumpcapacity.$invalid && form_microgridheatpump.microgridheatpumpcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_microgridheatpump.microgridheatpumpcapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
+                <div class="col-sm-10"><input ng-model="microgridheatpump.rated_input_power" type="number" name="microgridheatpumprated_input_power" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumprated_input_power.$invalid && form_microgridheatpump.microgridheatpumprated_input_power.$dirty">
+                        <small class="text-danger" ng-show="form_microgridheatpump.microgridheatpumprated_input_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>

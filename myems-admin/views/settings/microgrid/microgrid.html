@@ -16,7 +16,8 @@
 										<th class="text-center">{{'MICROGRID.POSTAL_CODE' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.LATITUDE' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.LONGITUDE' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_CAPACITY' | translate}}(kW-h)</th>
+										<th class="text-center">{{'MICROGRID.RATED_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.SERIAL_NUMBER' | translate}}</th>
@@ -32,7 +33,8 @@
 										<td class="text-center">{{ microgrid.postal_code }}</td>
 										<td class="text-center">{{ microgrid.latitude }}</td>
 										<td class="text-center">{{ microgrid.longitude }}</td>
-										<td class="text-center">{{ microgrid.capacity }}</td>
+										<td class="text-center">{{ microgrid.rated_capacity }}</td>
+										<td class="text-center">{{ microgrid.rated_power }}</td>
 										<td class="text-center">{{ microgrid.contact.name }}</td>
 										<td class="text-center">{{ microgrid.cost_center.name }}</td>
 										<td class="text-center">{{ microgrid.serial_number }}</td>
@@ -92,7 +94,7 @@
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.RUN_STATE_POINT' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -101,7 +103,7 @@
 										<td class="text-center">{{ microgridpowerconversionsystem.id }}</td>
 										<td class="text-center">{{ microgridpowerconversionsystem.name }}</td>
 										<td class="text-center">{{ microgridpowerconversionsystem.run_state_point.name }}</td>
-										<td class="text-center">{{ microgridpowerconversionsystem.capacity }}</td>
+										<td class="text-center">{{ microgridpowerconversionsystem.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridPowerconversionsystem(microgridpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridPowerconversionsystem(microgridpowerconversionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -159,7 +161,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -169,7 +171,7 @@
 										<td class="text-center">{{ microgridphotovoltaic.name }}</td>
 										<td class="text-center">{{ microgridphotovoltaic.power_point.name }}</td>
 										<td class="text-center">{{ microgridphotovoltaic.meter.name }}</td>
-										<td class="text-center">{{ microgridphotovoltaic.capacity }}</td>
+										<td class="text-center">{{ microgridphotovoltaic.rated_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -230,7 +232,8 @@
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.CHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.DISCHARGE_METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}} (Ah)</th>
+										<th class="text-center">{{'MICROGRID.RATED_CAPACITY' | translate}} (kW-h)</th>
+										<th class="text-center">{{'MICROGRID.RATED_POWER' | translate}} (kW)</th>
 										<th class="text-center">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}} (V)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
@@ -244,7 +247,8 @@
 										<td class="text-center">{{ microgridbattery.power_point.name }}</td>
 										<td class="text-center">{{ microgridbattery.charge_meter.name }}</td>
 										<td class="text-center">{{ microgridbattery.discharge_meter.name }}</td>
-										<td class="text-center">{{ microgridbattery.capacity }}</td>
+										<td class="text-center">{{ microgridbattery.rated_capacity }}</td>
+										<td class="text-center">{{ microgridbattery.rated_power }}</td>
 										<td class="text-center">{{ microgridbattery.nominal_voltage }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridBattery(microgridbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
@@ -303,7 +307,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_EVCHARGER_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -313,7 +317,7 @@
 										<td class="text-center">{{ microgridevcharger.name }}</td>
 										<td class="text-center">{{ microgridevcharger.power_point.name }}</td>
 										<td class="text-center">{{ microgridevcharger.meter.name }}</td>
-										<td class="text-center">{{ microgridevcharger.capacity }}</td>
+										<td class="text-center">{{ microgridevcharger.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridEVCharger(microgridevcharger)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridEVCharger(microgridevcharger)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -441,7 +445,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_LOAD_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -451,7 +455,7 @@
 										<td class="text-center">{{ microgridload.name }}</td>
 										<td class="text-center">{{ microgridload.power_point.name }}</td>
 										<td class="text-center">{{ microgridload.meter.name }}</td>
-										<td class="text-center">{{ microgridload.capacity }}</td>
+										<td class="text-center">{{ microgridload.rated_input_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridLoad(microgridload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridLoad(microgridload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -511,7 +515,7 @@
 										<th class="text-center">{{'MICROGRID.ELECTRICITY_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.HEAT_METER' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.COOLING_METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -523,7 +527,7 @@
 										<td class="text-center">{{ microgridheatpump.electricity_meter.name }}</td>
 										<td class="text-center">{{ microgridheatpump.heat_meter.name }}</td>
 										<td class="text-center">{{ microgridheatpump.cooling_meter.name }}</td>
-										<td class="text-center">{{ microgridheatpump.capacity }}</td>
+										<td class="text-center">{{ microgridheatpump.rated_input_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridHeatpump(microgridheatpump)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridHeatpump(microgridheatpump)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -649,7 +653,7 @@
 										<th class="text-center">{{'MICROGRID.MICROGRID_GENERATOR_NAME' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'MICROGRID.METER' | translate}}</th>
-										<th class="text-center">{{'MICROGRID.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -659,7 +663,7 @@
 										<td class="text-center">{{ microgridgenerator.name }}</td>
 										<td class="text-center">{{ microgridgenerator.power_point.name }}</td>
 										<td class="text-center">{{ microgridgenerator.meter.name }}</td>
-										<td class="text-center">{{ microgridgenerator.capacity }}</td>
+										<td class="text-center">{{ microgridgenerator.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridGenerator(microgridgenerator)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteMicrogridGenerator(microgridgenerator)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>

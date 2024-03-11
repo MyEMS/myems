@@ -32,10 +32,10 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerload.capacity" type="number" name="energystoragecontainerloadcapacity" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadcapacity.$invalid && form_energystoragecontainerload.energystoragecontainerloadcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadcapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
+                <div class="col-sm-10"><input ng-model="energystoragecontainerload.rated_input_power" type="number" name="energystoragecontainerloadrated_input_power" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$invalid && form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
