@@ -53,12 +53,12 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.CAPACITY' | translate}}(kW)</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.RATED_POWER' | translate}}(kW)</label>
                 <div class="col-sm-10">
-                    <input ng-model="photovoltaicpowerstation.capacity" type="number" name="photovoltaicpowerstationcapacity" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationcapacity.$invalid && form_photovoltaicpowerstation.photovoltaicpowerstationcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationcapacity.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
-                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationcapacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    <input ng-model="photovoltaicpowerstation.rated_power" type="number" name="photovoltaicpowerstationrated_power" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_power.$invalid && form_photovoltaicpowerstation.photovoltaicpowerstationrated_power.$dirty">
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_power.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_RATED_POWER' | translate}}</small>
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_power.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
                     </div>
                 </div>
             </div>
