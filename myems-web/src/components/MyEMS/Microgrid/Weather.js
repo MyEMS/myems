@@ -10,7 +10,7 @@ const Weather = ({
   ...rest
 }) => (
   <Card {...rest}>
-    <FalconCardHeader title="天气" light={false} titleTag="h6" className="pb-0">
+    <FalconCardHeader title="Weather" light={false} titleTag="h6" className="pb-0">
       <CardDropdown />
     </FalconCardHeader>
     <CardBody className="pt-2">

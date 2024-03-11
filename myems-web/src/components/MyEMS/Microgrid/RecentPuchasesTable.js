@@ -9,7 +9,7 @@ const RecentPurchasesTable = () => {
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="电站列表" light={false}>
+      <FalconCardHeader title="Power Station List" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">

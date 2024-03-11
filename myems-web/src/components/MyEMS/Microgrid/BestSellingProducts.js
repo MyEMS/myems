@@ -19,10 +19,9 @@ const BestSellingProducts = ({ products }) => {
         <Table borderless className="table-dashboard mb-0 fs--1">
           <thead className="bg-light">
             <tr className="text-900">
-              <th>电站收益排名</th>
+              <th>Revenue Ranking</th>
               <th className="text-right">
-                Revenue ({currency}
-                {totalPrice})
+                Revenue
               </th>
               <th className="pr-card text-right" style={{ width: '8rem' }}>
                 Revenue (%)

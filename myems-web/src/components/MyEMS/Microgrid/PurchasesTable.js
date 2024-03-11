@@ -7,7 +7,7 @@ import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 
-import purchases from '../../../data/dashboard/purchaseList';
+import purchases from './stationlist';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
@@ -26,20 +26,25 @@ const badgeFormatter = status => {
   let icon = '';
   let text = '';
   switch (status) {
-    case 'success':
+    case 'charging':
       color = 'success';
       icon = 'check';
-      text = 'Success';
+      text = 'Charging';
       break;
-    case 'blocked':
+    case 'discharging':
+      color = 'success';
+      icon = 'check';
+      text = 'Discharging';
+      break;
+    case 'offline':
       color = 'secondary';
       icon = 'ban';
-      text = 'Blocked';
+      text = 'Offline';
       break;
     default:
       color = 'warning';
       icon = 'stream';
-      text = 'Pending';
+      text = 'Idling';
   }
   return (
     <Badge color={`soft-${color}`} className="rounded-capsule">
@@ -49,44 +54,46 @@ const badgeFormatter = status => {
   );
 };
 
-const amountFormatter = amount => <Fragment>{amount}kWh</Fragment>;
+const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
 const columns = [
   {
     dataField: 'customer',
-    text: '名称',
+    text: 'Name',
     formatter: customerFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
   },
   {
-    dataField: 'email',
-    text: 'Email',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
     dataField: 'product',
-    text: '地址',
+    text: 'Address',
     classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'status',
-    text: '状态',
-    formatter: badgeFormatter,
-    classes: 'border-0 align-middle fs-0',
     headerClasses: 'border-0',
     sort: true
   },
   {
     dataField: 'amount',
-    text: '剩余电量',
-    formatter: amountFormatter,
+    text: 'Rated Capacity',
+    formatter: capacityFormatter,
     classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
+    dataField: 'amount',
+    text: 'Rated Power',
+    formatter: powerFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
+    dataField: 'status',
+    text: 'Status',
+    formatter: badgeFormatter,
+    classes: 'border-0 align-middle fs-0',
     headerClasses: 'border-0',
     sort: true,
     align: 'right',
