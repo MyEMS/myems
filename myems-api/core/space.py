@@ -89,19 +89,16 @@ class SpaceCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
-                parent_space = space_dict.get(row[3], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "parent_space": parent_space,
+                               "parent_space": space_dict.get(row[3], None),
                                "area": row[4],
                                "timezone": timezone_dict.get(row[5], None),
                                "is_input_counted": bool(row[6]),
                                "is_output_counted": bool(row[7]),
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
                                "latitude": row[10],
                                "longitude": row[11],
                                "description": row[12],
@@ -381,19 +378,16 @@ class SpaceItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            parent_space = space_dict.get(row[3], None)
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "parent_space_id": parent_space,
+                           "parent_space_id": space_dict.get(row[3], None),
                            "area": row[4],
                            "timezone": timezone_dict.get(row[5], None),
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "latitude": row[10],
                            "longitude": row[11],
                            "description": row[12],
@@ -802,19 +796,16 @@ class SpaceChildrenCollection:
 
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
-                parent_space = space_dict.get(row[3], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "parent_space": parent_space,
+                               "parent_space": space_dict.get(row[3], None),
                                "area": row[4],
                                "timezone": timezone_dict.get(row[5], None),
                                "is_input_counted": bool(row[6]),
                                "is_output_counted": bool(row[7]),
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
                                "latitude": row[10],
                                "longitude": row[11],
                                "description": row[12],
@@ -1237,9 +1228,8 @@ class SpaceMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1430,9 +1420,8 @@ class SpaceOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1622,8 +1611,7 @@ class SpacePointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row[2], None)
-                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2521,9 +2509,8 @@ class SpaceVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -3402,19 +3389,16 @@ class SpaceExport:
 
             if rows_spaces is not None and len(rows_spaces) > 0:
                 for row in rows_spaces:
-                    contact = contact_dict.get(row[8], None)
-                    cost_center = cost_center_dict.get(row[9], None)
-                    parent_space = space_dict.get(row[3], None)
                     children_result = {"id": row[0],
                                        "name": row[1],
                                        "uuid": row[2],
-                                       "parent_space": parent_space,
+                                       "parent_space": space_dict.get(row[3], None),
                                        "area": row[4],
                                        "timezone": timezone_dict.get(row[5], None),
                                        "is_input_counted": bool(row[6]),
                                        "is_output_counted": bool(row[7]),
-                                       "contact": contact,
-                                       "cost_center": cost_center,
+                                       "contact": contact_dict.get(row[8], None),
+                                       "cost_center": cost_center_dict.get(row[9], None),
                                        "latitude": row[10],
                                        "longitude": row[11],
                                        "description": row[12]}
@@ -3455,9 +3439,8 @@ class SpaceExport:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
             query = (" SELECT id, name, uuid "
@@ -3482,9 +3465,8 @@ class SpaceExport:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
             query = (" SELECT id, name, uuid "
@@ -3509,9 +3491,8 @@ class SpaceExport:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
             query = (" SELECT sf.id, sf.name, sf.uuid "
@@ -3575,8 +3556,7 @@ class SpaceExport:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT se.id, se.name, se.uuid "
@@ -4205,19 +4185,16 @@ class SpaceClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            parent_space = space_dict.get(row[3], None)
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "parent_space_id": parent_space,
+                           "parent_space_id": space_dict.get(row[3], None),
                            "area": row[4],
                            "timezone": timezone_dict.get(row[5], None),
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "latitude": row[10],
                            "longitude": row[11],
                            "description": row[12],
@@ -4326,19 +4303,16 @@ class SpaceClone:
 
             if rows_spaces is not None and len(rows_spaces) > 0:
                 for row in rows_spaces:
-                    contact = contact_dict.get(row[8], None)
-                    cost_center = cost_center_dict.get(row[9], None)
-                    parent_space = space_dict.get(row[3], None)
                     children_result = {"id": row[0],
                                        "name": row[1],
                                        "uuid": row[2],
-                                       "parent_space": parent_space,
+                                       "parent_space": space_dict.get(row[3], None),
                                        "area": row[4],
                                        "timezone": timezone_dict.get(row[5], None),
                                        "is_input_counted": bool(row[6]),
                                        "is_output_counted": bool(row[7]),
-                                       "contact": contact,
-                                       "cost_center": cost_center,
+                                       "contact": contact_dict.get(row[8], None),
+                                       "cost_center": cost_center_dict.get(row[9], None),
                                        "latitude": row[10],
                                        "longitude": row[11],
                                        "description": row[12]}
@@ -4379,9 +4353,8 @@ class SpaceClone:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
             query = (" SELECT id, name, uuid "
@@ -4406,9 +4379,8 @@ class SpaceClone:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
             query = (" SELECT id, name, uuid "
@@ -4433,9 +4405,8 @@ class SpaceClone:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
             query = (" SELECT sf.id, sf.name, sf.uuid "
@@ -4499,8 +4470,7 @@ class SpaceClone:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT se.id, se.name, se.uuid "
