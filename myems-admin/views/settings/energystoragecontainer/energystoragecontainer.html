@@ -11,7 +11,8 @@
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}}(kW-h)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -22,7 +23,8 @@
 									<tr ng-repeat="energystoragecontainer in energystoragecontainers">
 										<td class="text-center">{{ energystoragecontainer.id }}</td>
 										<td class="text-center">{{ energystoragecontainer.name }}</td>
-										<td class="text-center">{{ energystoragecontainer.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainer.rated_capacity }}</td>
+										<td class="text-center">{{ energystoragecontainer.rated_power }}</td>
 										<td class="text-center">{{ energystoragecontainer.contact.name }}</td>
 										<td class="text-center">{{ energystoragecontainer.cost_center.name }}</td>
 										<td class="text-center">{{ energystoragecontainer.description }}</td>
@@ -79,7 +81,7 @@
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RUN_STATE_POINT' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_OUTPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -88,7 +90,7 @@
 										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.id }}</td>
 										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.name }}</td>
 										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.run_state_point.name }}</td>
-										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainerpowerconversionsystem.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editEnergyStorageContainerPowerconversionsystem(energystoragecontainerpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteEnergyStorageContainerPowerconversionsystem(energystoragecontainerpowerconversionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
@@ -149,7 +151,8 @@
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}} (Ah)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kW-h)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
@@ -163,7 +166,8 @@
 										<td class="text-center">{{ energystoragecontainerbattery.power_point.name }}</td>
 										<td class="text-center">{{ energystoragecontainerbattery.charge_meter.name }}</td>
 										<td class="text-center">{{ energystoragecontainerbattery.discharge_meter.name }}</td>
-										<td class="text-center">{{ energystoragecontainerbattery.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.rated_capacity }}</td>
+										<td class="text-center">{{ energystoragecontainerbattery.rated_power }}</td>
 										<td class="text-center">{{ energystoragecontainerbattery.nominal_voltage }}</td>
 										<td class="text-center">
 										  <a ng-click="editEnergyStorageContainerBattery(energystoragecontainerbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
@@ -292,7 +296,7 @@
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' | translate}}(kW)</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									  </tr>
 									</thead>
@@ -302,7 +306,7 @@
 										<td class="text-center">{{ energystoragecontainerload.name }}</td>
 										<td class="text-center">{{ energystoragecontainerload.power_point.name }}</td>
 										<td class="text-center">{{ energystoragecontainerload.meter.name }}</td>
-										<td class="text-center">{{ energystoragecontainerload.capacity }}</td>
+										<td class="text-center">{{ energystoragecontainerload.rated_input_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
 										  <a ng-click="deleteEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
