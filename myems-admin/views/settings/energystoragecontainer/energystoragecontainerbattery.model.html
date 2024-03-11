@@ -62,10 +62,17 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CAPACITY' | translate}} (Ah)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.capacity" type="number" name="energystoragecontainerbatterycapacity" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterycapacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterycapacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterycapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}} (kWh)</label>
+                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_POWER' | translate}} (kW)</label>
+                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
