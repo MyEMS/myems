@@ -52,6 +52,6 @@ ON `myems_system_db`.`tbl_spaces_energy_storage_power_stations` (`space_id`);
 
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.3.0RC', release_date='2024-03-01' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.3.0', release_date='2024-03-11' WHERE id=1;
 
 COMMIT;

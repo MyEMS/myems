@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.3.0] - 2024-03-11
+
+### Added
 - added protocol list to data source model in myems-admin
 - added microgrid dashboard into myems-web
 - added energy storage power station dashboard into myems-web and myems-api
@@ -1632,7 +1639,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.2.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.3.0...HEAD
+[4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
 [4.2.0]: https://github.com/MyEMS/myems/compare/v4.2.0...v4.1.0
 [4.1.0]: https://github.com/MyEMS/myems/compare/v4.1.0...v4.0.0
 [4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
