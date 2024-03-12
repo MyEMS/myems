@@ -219,13 +219,21 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     value = result[0]
 
                 if point['object_type'] == 'ANALOG_VALUE':
-                    analog_value_list.append({'point_id': point['id'],
-                                              'is_trend': point['is_trend'],
-                                              'value': Decimal(value) * point['ratio']})
+                    # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
+                    # 3 decimals, so values that can be stored in the salary column range
+                    # from -999999999999999.999 to 999999999999999.999.
+                    if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
+                        analog_value_list.append({'point_id': point['id'],
+                                                  'is_trend': point['is_trend'],
+                                                  'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'ENERGY_VALUE':
-                    energy_value_list.append({'point_id': point['id'],
-                                              'is_trend': point['is_trend'],
-                                              'value': Decimal(value) * point['ratio']})
+                    # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
+                    # 3 decimals, so values that can be stored in the salary column range
+                    # from -999999999999999.999 to 999999999999999.999.
+                    if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
+                        energy_value_list.append({'point_id': point['id'],
+                                                  'is_trend': point['is_trend'],
+                                                  'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     digital_value_list.append({'point_id': point['id'],
                                                'is_trend': point['is_trend'],

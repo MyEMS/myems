@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+
 ### Changed
 ### Fixed
+- added decimal data value range check to myems-modbus-tcp.
 ### Removed
 
 ## [v4.3.0] - 2024-03-11
