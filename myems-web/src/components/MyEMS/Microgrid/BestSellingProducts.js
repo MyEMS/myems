@@ -19,12 +19,12 @@ const BestSellingProducts = ({ products }) => {
         <Table borderless className="table-dashboard mb-0 fs--1">
           <thead className="bg-light">
             <tr className="text-900">
-              <th>Revenue Ranking</th>
+              <th>Microgrid</th>
               <th className="text-right">
-                Revenue
+                Value
               </th>
               <th className="pr-card text-right" style={{ width: '8rem' }}>
-                Revenue (%)
+                Percentage (%)
               </th>
             </tr>
           </thead>

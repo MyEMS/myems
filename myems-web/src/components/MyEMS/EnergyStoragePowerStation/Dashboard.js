@@ -6,7 +6,7 @@ import weather from '../../../data/dashboard/weather';
 import WeeklySales from './WeeklySales';
 import weeklySales from '../../../data/dashboard/weeklySales';
 import BestSellingProducts from './BestSellingProducts';
-import products from '../../../data/dashboard/products';
+import products from './products';
 import RecentPurchasesTable from './RecentPuchasesTable';
 
 import CardSummary from '../common/CardSummary';
@@ -697,7 +697,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                收入排名
+                <h6>收入排名</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -707,7 +707,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                效率排名
+                <h6>效率排名</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -743,7 +743,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                充电量排名
+                <h6>充电量排名</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -753,7 +753,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                放电量排名
+                <h6>放电量排名</h6>
               </NavLink>
             </NavItem>
           </Nav>

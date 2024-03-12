@@ -6,9 +6,9 @@ import weather from '../../../data/dashboard/weather';
 import WeeklySales from './WeeklySales';
 import weeklySales from '../../../data/dashboard/weeklySales';
 import BestSellingProducts from './BestSellingProducts';
-import products from '../../../data/dashboard/products';
+import products from './products';
 import RecentPurchasesTable from './RecentPuchasesTable';
-
+import FalconCardHeader from '../../common/FalconCardHeader';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
@@ -697,7 +697,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                Revenue Ranking
+                <h6>{t('Revenue Ranking')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -707,7 +707,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                Efficiency Ranking
+                <h6>{t('Efficiency Ranking')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -743,7 +743,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                Charge Ranking
+                <h6>{t('Charge Ranking')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -753,7 +753,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                Discharge Ranking
+                <h6>{t('Discharge Ranking')}</h6>
               </NavLink>
             </NavItem>
           </Nav>

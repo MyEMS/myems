@@ -758,7 +758,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                电量指标
+                {t('Energy')}
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -768,7 +768,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                收益指标
+                {t('Revenue')}
               </NavLink>
             </NavItem>
           </Nav>
@@ -780,28 +780,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">今日充电量</th>
+                          <th className="pl-0">{t('Today\'s Charge')}</th>
                           <th className="pr-0 text-right">100 kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">今日放电量</th>
-                          <th className="pr-0 text-right ">100 kWh</th>
+                          <th className="pl-0">{t('Today\'s Discharge')}</th>
+                          <th className="pr-0 text-right ">90 kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计充电量</th>
+                          <th className="pl-0 pb-0">{t('Total Charge')}</th>
                           <th className="pr-0 text-right">1000 kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计放电量</th>
+                          <th className="pl-0 pb-0">{t('Total Discharge')}</th>
                           <th className="pr-0 text-right">1000 kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">综合效率</th>
-                          <th className="pr-0 text-right">99%</th>
+                          <th className="pl-0 pb-0">{t('Efficiency')}</th>
+                          <th className="pr-0 text-right">90%</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">放电达成率</th>
-                          <th className="pr-0 text-right">150%</th>
+                          <th className="pl-0 pb-0">{t('Discharge Rate')}</th>
+                          <th className="pr-0 text-right">80%</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -816,28 +816,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">今日成本</th>
-                          <th className="pr-0 text-right">100 元</th>
+                          <th className="pl-0">{t('Today\'s Cost')}</th>
+                          <th className="pr-0 text-right">900.00 </th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">今日收入</th>
-                          <th className="pr-0 text-right ">200 元</th>
+                          <th className="pl-0">{t('Total Cost')}</th>
+                          <th className="pr-0 text-right ">90000.00</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计成本</th>
-                          <th className="pr-0 text-right">1000 元</th>
+                          <th className="pl-0 pb-0">{t('Today\'s Revenue')}</th>
+                          <th className="pr-0 text-right">1000.00</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计收入</th>
-                          <th className="pr-0 text-right">2000 元</th>
+                          <th className="pl-0 pb-0">{t('Total Revenue')}</th>
+                          <th className="pr-0 text-right">100000.00</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">今日盈利</th>
-                          <th className="pr-0 text-right">100 元</th>
+                          <th className="pl-0 pb-0">{t('Today\'s Profit')}</th>
+                          <th className="pr-0 text-right">100.00</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计盈利</th>
-                          <th className="pr-0 text-right">1000 元</th>
+                          <th className="pl-0 pb-0">{t('Total Profit')}</th>
+                          <th className="pr-0 text-right">10000.00</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -860,7 +860,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                {t('General Information')}
+                {t('General')}
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -870,7 +870,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                设备状态
+                 {t('Devices')}
               </NavLink>
             </NavItem>
           </Nav>
@@ -918,28 +918,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
+                          <th className="pl-0 pb-0">Communication Gateway</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
+                          <th className="pl-0">1# Battery</th>
+                          <th className="pr-0 text-right ">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
+                          <th className="pl-0 pb-0">1# HVAC</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
+                          <th className="pl-0 pb-0">1# Grid Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
+                          <th className="pl-0 pb-0">1# Load Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -969,7 +969,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               toggleTabBottom('2');
             }}
           >
-            策略管理
+            Strategy Management
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
@@ -1175,10 +1175,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>主题</th>
-                    <th>时间</th>
-                    <th>内容</th>
-                    <th>状态</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
                   </tr>
                 </thead>
                 <tbody>
