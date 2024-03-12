@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated columns of energy storage power station related tables in database, myems-admin and myems-api
 - updated column of wind farm related tables in database, myems-admin and myems-api
 - updated column of photovoltaic power station related tables in database, myems-admin and myems-api
+- changed the default menu to vertical in myems-web
 ### Fixed
 - fixed chart issues in myems-web
 - fixed warnings in myems-web

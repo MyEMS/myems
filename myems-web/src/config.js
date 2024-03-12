@@ -7,8 +7,8 @@ export const settings = {
   isFluid: true,
   isRTL: false,
   isDark: true,
-  isTopNav: true,
-  isVertical: false,
+  isTopNav: false,
+  isVertical: true,
   get isCombo() {
     return this.isVertical && this.isTopNav;
   },
