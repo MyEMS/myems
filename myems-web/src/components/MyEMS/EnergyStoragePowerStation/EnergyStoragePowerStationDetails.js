@@ -756,7 +756,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabLeft('1');
                 }}
               >
-                电量指标
+                <h6>电量指标</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -766,7 +766,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabLeft('2');
                 }}
               >
-                收益指标
+                <h6>收益指标</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -857,7 +857,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('1');
                 }}
               >
-                {t('General Information')}
+                <h6>{t('General Information')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -867,7 +867,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('2');
                 }}
               >
-                设备状态
+                <h6>设备状态</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -956,7 +956,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               toggleTabBottom('1');
             }}
           >
-            {t('Operating Characteristic Curve')}
+            <h6>{t('Operating Characteristic Curve')}</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
@@ -966,7 +966,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               toggleTabBottom('2');
             }}
           >
-            策略管理
+            <h6>策略管理</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
@@ -976,7 +976,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               toggleTabBottom('3');
             }}
           >
-            {t('Fault Alarms')}
+            <h6>{t('Fault Alarms')}</h6>
           </NavLink>
         </NavItem>
       </Nav>

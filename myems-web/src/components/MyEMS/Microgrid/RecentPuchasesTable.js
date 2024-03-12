@@ -9,7 +9,7 @@ const RecentPurchasesTable = () => {
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="Power Station List" light={false}>
+      <FalconCardHeader title="Microgrid List" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
