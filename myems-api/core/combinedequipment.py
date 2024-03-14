@@ -51,13 +51,12 @@ class CombinedEquipmentCollection:
         result = list()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             for row in rows_combined_equipments:
-                cost_center = cost_center_dict.get(row[5], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "is_input_counted": bool(row[3]),
                                "is_output_counted": bool(row[4]),
-                               "cost_center": cost_center,
+                               "cost_center": cost_center_dict.get(row[5], None),
                                "svg": row[6],
                                "camera_url": row[7],
                                "description": row[8],
@@ -225,13 +224,12 @@ class CombinedEquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[5], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
-                           "cost_center": cost_center,
+                           "cost_center": cost_center_dict.get(row[5], None),
                            "svg": row[6],
                            "camera_url": row[7],
                            "description": row[8],
@@ -1516,9 +1514,8 @@ class CombinedEquipmentMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_output": bool(row[4])}
                 result.append(meta_result)
 
@@ -1718,9 +1715,8 @@ class CombinedEquipmentOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_output": bool(row[4])}
                 result.append(meta_result)
 
@@ -1921,9 +1917,8 @@ class CombinedEquipmentVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_output": bool(row[4])}
                 result.append(meta_result)
 
@@ -2294,13 +2289,12 @@ class CombinedEquipmentExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[5], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
-                           "cost_center": cost_center,
+                           "cost_center": cost_center_dict.get(row[5], None),
                            "svg": row[6],
                            "camera_url": row[7],
                            "description": row[8],
@@ -2360,9 +2354,8 @@ class CombinedEquipmentExport:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
@@ -2389,9 +2382,8 @@ class CombinedEquipmentExport:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
@@ -2418,9 +2410,8 @@ class CombinedEquipmentExport:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
@@ -2960,13 +2951,12 @@ class CombinedEquipmentClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[5], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
-                           "cost_center": cost_center,
+                           "cost_center": cost_center_dict.get(row[5], None),
                            "svg": row[6],
                            "camera_url": row[7],
                            "description": row[8],
@@ -3027,9 +3017,8 @@ class CombinedEquipmentClone:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
@@ -3056,9 +3045,8 @@ class CombinedEquipmentClone:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
@@ -3085,9 +3073,8 @@ class CombinedEquipmentClone:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category,
+                              "energy_category": energy_category_dict.get(row[3], None),
                               "is_output": bool(row[4])}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
