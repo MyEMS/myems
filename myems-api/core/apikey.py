@@ -36,13 +36,15 @@ class ApiKeyCollection:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             for row in rows:
-                created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 token_list.append({"id": row[0],
                                    "name": row[1],
                                    "token": row[2],
-                                   "created_datetime_utc": created_datetime_utc.strftime("%Y-%m-%d %H:%M:%S"),
-                                   "expires_datetime_utc": expires_datetime_utc.strftime("%Y-%m-%d %H:%M:%S")})
+                                   "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
+                                                            + timedelta(minutes=timezone_offset))
+                                   .strftime("%Y-%m-%d %H:%M:%S"),
+                                   "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
+                                                            + timedelta(minutes=timezone_offset))
+                                   .strftime("%Y-%m-%d %H:%M:%S")})
 
         cursor.close()
         cnx.close()
@@ -136,13 +138,15 @@ class ApiKeyItem:
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            created_datetime_utc = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-            expires_datetime_utc = row[4].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "token": row[2],
-                           "created_datetime_utc": created_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S'),
-                           "expires_datetime_utc": expires_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S')}
+                           "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
+                                                    + timedelta(minutes=timezone_offset))
+                           .strftime('%Y-%m-%dT%H:%M:%S'),
+                           "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
+                                                    + timedelta(minutes=timezone_offset))
+                           .strftime('%Y-%m-%dT%H:%M:%S')}
 
         resp.text = json.dumps(meta_result)
 
