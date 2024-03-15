@@ -12,11 +12,14 @@ import {
   FormGroup,
   Input,
   Label,
+  Media,
   Spinner
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
+import { Link } from 'react-router-dom';
+import Flex from '../../common/Flex';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -99,10 +102,20 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{ pathname: '/meter/meterenergy?uuid=' + uuid }} target="_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
+
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'id', text: t('ID'), sort: true },
-    { dataField: 'name', text: t('Name'), sort: true },
+    { dataField: 'name', text: t('Name'), formatter: nameFormatter, sort: true },
     { dataField: 'space', text: t('Space'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -232,6 +245,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             json['meters'].forEach((currentMeter, index) => {
               let detailed_value = {};
               detailed_value['id'] = currentMeter['id'];
+              detailed_value['uuid'] = currentMeter['meter_uuid'];
               detailed_value['name'] = currentMeter['meter_name'];
               detailed_value['space'] = currentMeter['space_name'];
               detailed_value['costcenter'] = currentMeter['cost_center_name'];
