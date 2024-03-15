@@ -146,7 +146,7 @@ class Reporting:
             for node in LevelOrderIter(node_dict[space_id]):
                 space_dict[node.id] = node.name
 
-            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.energy_category_id, "
+            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
                                      "        s.name AS space_name, "
                                      "        cc.name AS cost_center_name"
                                      " FROM tbl_spaces s, tbl_spaces_meters sm, "
@@ -155,21 +155,23 @@ class Reporting:
                                      " AND sm.space_id = s.id AND sm.meter_id = m.id "
                                      " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
         else:
-            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.energy_category_id, "
+            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
                                      "        s.name AS space_name, "
-                                     "        cc.name AS cost_center_name"
+                                     "        cc.name AS cost_center_name "
                                      " FROM tbl_spaces s, tbl_spaces_meters sm, "
                                      "      tbl_meters m, tbl_cost_centers cc "
                                      " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
                                      " AND m.cost_center_id = cc.id  ORDER BY meter_id ", (space_id,))
 
         rows_meters = cursor_system_db.fetchall()
+        print(rows_meters)
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
                 meter_dict[row[0]] = {"meter_name": row[1],
-                                      "energy_category_id": row[2],
-                                      "space_name": row[3],
-                                      "cost_center_name": row[4],
+                                      "uuid": row[2],
+                                      "energy_category_id": row[3],
+                                      "space_name": row[4],
+                                      "cost_center_name": row[5],
                                       "values": list(),
                                       "subtotal": None}
 
@@ -255,6 +257,7 @@ class Reporting:
             meter_list.append({
                 "id": meter_id,
                 "meter_name": meter['meter_name'],
+                "uuid": meter['uuid'],
                 "space_name": meter['space_name'],
                 "cost_center_name": meter['cost_center_name'],
                 "values": meter['values'],

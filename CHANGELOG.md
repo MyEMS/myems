@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-
+- added hyperlink to meter name of Meter Batch report in myems-web
 ### Changed
 ### Fixed
 - added decimal data value range check to myems-modbus-tcp.
