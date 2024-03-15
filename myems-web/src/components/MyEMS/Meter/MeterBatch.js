@@ -245,8 +245,8 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             json['meters'].forEach((currentMeter, index) => {
               let detailed_value = {};
               detailed_value['id'] = currentMeter['id'];
-              detailed_value['uuid'] = currentMeter['meter_uuid'];
               detailed_value['name'] = currentMeter['meter_name'];
+              detailed_value['uuid'] = currentMeter['uuid'];
               detailed_value['space'] = currentMeter['space_name'];
               detailed_value['costcenter'] = currentMeter['cost_center_name'];
               currentMeter['values'].forEach((currentValue, energyCategoryIndex) => {
