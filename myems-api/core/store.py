@@ -75,9 +75,6 @@ class StoreCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                store_type = store_type_dict.get(row[7], None)
-                contact = contact_dict.get(row[9], None)
-                cost_center = cost_center_dict.get(row[10], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -86,10 +83,10 @@ class StoreCollection:
                                "latitude": row[4],
                                "longitude": row[5],
                                "area": row[6],
-                               "store_type": store_type,
+                               "store_type": store_type_dict.get(row[7], None),
                                "is_input_counted": bool(row[8]),
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
                                "description": row[11],
                                "qrcode": 'store:' + row[2]}
                 result.append(meta_result)
@@ -331,9 +328,6 @@ class StoreItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
         else:
-            store_type = store_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[9], None)
-            cost_center = cost_center_dict.get(row[10], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -341,10 +335,10 @@ class StoreItem:
                            "latitude": row[4],
                            "longitude": row[5],
                            "area": row[6],
-                           "store_type": store_type,
+                           "store_type": store_type_dict.get(row[7], None),
                            "is_input_counted": bool(row[8]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
                            "description": row[11],
                            "qrcode": 'store:' + row[2]}
 
@@ -638,9 +632,8 @@ class StoreMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -829,9 +822,8 @@ class StoreOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1021,8 +1013,7 @@ class StorePointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row[2], None)
-                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1389,9 +1380,8 @@ class StoreVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1954,9 +1944,6 @@ class StoreExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
         else:
-            store_type = store_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[9], None)
-            cost_center = cost_center_dict.get(row[10], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -1964,10 +1951,10 @@ class StoreExport:
                            "latitude": row[4],
                            "longitude": row[5],
                            "area": row[6],
-                           "store_type": store_type,
+                           "store_type": store_type_dict.get(row[7], None),
                            "is_input_counted": bool(row[8]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
                            "description": row[11],
                            "commands": None,
                            "meters": None,
@@ -2013,9 +2000,8 @@ class StoreExport:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
 
@@ -2040,9 +2026,8 @@ class StoreExport:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
             query = (" SELECT id, name, uuid "
@@ -2066,9 +2051,8 @@ class StoreExport:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
             query = (" SELECT id, name, uuid "
@@ -2093,8 +2077,7 @@ class StoreExport:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT s.id, s.name, s.uuid "
@@ -2539,9 +2522,6 @@ class StoreClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
         else:
-            store_type = store_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[9], None)
-            cost_center = cost_center_dict.get(row[10], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -2549,10 +2529,10 @@ class StoreClone:
                            "latitude": row[4],
                            "longitude": row[5],
                            "area": row[6],
-                           "store_type": store_type,
+                           "store_type": store_type_dict.get(row[7], None),
                            "is_input_counted": bool(row[8]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
                            "description": row[11],
                            "commands": None,
                            "meters": None,
@@ -2637,8 +2617,7 @@ class StoreClone:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT s.id, s.name, s.uuid "
@@ -2864,4 +2843,3 @@ class StoreClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/stores/' + str(new_id)
-
