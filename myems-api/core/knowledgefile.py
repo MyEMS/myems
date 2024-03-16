@@ -61,18 +61,15 @@ class KnowledgeFileCollection:
                 timezone_offset = -timezone_offset
             for row in rows:
                 # Base64 encode the bytes
-                base64_encoded_data = base64.b64encode(row[5])
                 # get the Base64 encoded data using human-readable characters.
-                base64_message = base64_encoded_data.decode('utf-8')
-                upload_datetime_local = row[3].replace(tzinfo=None) + \
-                    timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
-                               "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "upload_datetime": (row[3].replace(tzinfo=None)
+                                                   + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                                "user_display_name": user_dict.get(row[4], None),
                                "file_size_bytes": sys.getsizeof(row[5]),
-                               "file_bytes_base64": base64_message
+                               "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')
                                }
                 result.append(meta_result)
 
@@ -229,12 +226,11 @@ class KnowledgeFileItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-
         result = {"id": row[0],
                   "file_name": row[1],
                   "uuid": row[2],
-                  "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
+                                      + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                   "user_display_name": user_dict.get(row[4], None)}
         resp.text = json.dumps(result)
 
@@ -335,4 +331,3 @@ class KnowledgeFileRestore:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         resp.text = json.dumps('success')
-

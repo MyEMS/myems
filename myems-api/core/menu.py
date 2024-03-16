@@ -196,10 +196,9 @@ class MenuChildrenCollection:
 
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
-                parent_menu = menu_dict.get(row[3], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
-                               "parent_menu": parent_menu,
+                               "parent_menu": menu_dict.get(row[3], None),
                                "is_hidden": bool(row[4])}
                 result['children'].append(meta_result)
 
