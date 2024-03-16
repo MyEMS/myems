@@ -43,7 +43,8 @@ class DataRepairFileCollection:
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
-                               "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
+                                                   + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                                "status": row[4]}
                 result.append(meta_result)
 
@@ -181,12 +182,11 @@ class DataRepairFileItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-
         result = {"id": row[0],
                   "file_name": row[1],
                   "uuid": row[2],
-                  "upload_datetime": upload_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                  "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
+                                      + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                   "status": row[4]}
         resp.text = json.dumps(result)
 
