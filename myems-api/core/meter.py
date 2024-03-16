@@ -87,20 +87,16 @@ class MeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                energy_category = energy_category_dict.get(row[3], None)
-                cost_center = cost_center_dict.get(row[7], None)
-                energy_item = energy_item_dict.get(row[8], None)
-                master_meter = master_meter_dict.get(row[9], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
                                "hourly_low_limit": row[5],
                                "hourly_high_limit": row[6],
-                               "cost_center": cost_center,
-                               "energy_item": energy_item,
-                               "master_meter": master_meter,
+                               "cost_center": cost_center_dict.get(row[7], None),
+                               "energy_item": energy_item_dict.get(row[8], None),
+                               "master_meter": master_meter_dict.get(row[9], None),
                                "description": row[10],
                                "qrcode": "meter:" + row[2]}
                 result.append(meta_result)
@@ -369,20 +365,16 @@ class MeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[3], None)
-            cost_center = cost_center_dict.get(row[7], None)
-            energy_item = energy_item_dict.get(row[8], None)
-            master_meter = master_meter_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[3], None),
                            "is_counted": True if row[4] else False,
                            "hourly_low_limit": row[5],
                            "hourly_high_limit": row[6],
-                           "cost_center": cost_center,
-                           "energy_item": energy_item,
-                           "master_meter": master_meter,
+                           "cost_center": cost_center_dict.get(row[7], None),
+                           "energy_item": energy_item_dict.get(row[8], None),
+                           "master_meter": master_meter_dict.get(row[9], None),
                            "description": row[10],
                            "qrcode": "meter:"+row[2]}
 
@@ -949,18 +941,15 @@ class MeterSubmeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                energy_category = energy_category_dict.get(row[3], None)
-                cost_center = cost_center_dict.get(row[7], None)
-                energy_item = energy_item_dict.get(row[8], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
                                "hourly_low_limit": row[5],
                                "hourly_high_limit": row[6],
-                               "cost_center": cost_center,
-                               "energy_item": energy_item,
+                               "cost_center": cost_center_dict.get(row[7], None),
+                               "energy_item": energy_item_dict.get(row[8], None),
                                "master_meter": master_meter,
                                "description": row[10]}
                 result.append(meta_result)
@@ -1417,19 +1406,15 @@ class MeterExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[3], None)
-            cost_center = cost_center_dict.get(row[7], None)
-            energy_item = energy_item_dict.get(row[8], None)
-            master_meter = master_meter_dict.get(row[9], None)
             meta_result = {"name": row[1],
                            "uuid": row[2],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[3], None),
                            "is_counted": True if row[4] else False,
                            "hourly_low_limit": row[5],
                            "hourly_high_limit": row[6],
-                           "cost_center": cost_center,
-                           "energy_item": energy_item,
-                           "master_meter": master_meter,
+                           "cost_center": cost_center_dict.get(row[7], None),
+                           "energy_item": energy_item_dict.get(row[8], None),
+                           "master_meter": master_meter_dict.get(row[9], None),
                            "description": row[10],
                            "points": None}
             query = (" SELECT p.id, p.name, "

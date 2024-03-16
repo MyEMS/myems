@@ -902,21 +902,15 @@ class MicrogridBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_BATTERY_NOT_FOUND')
         else:
-            microgrid = microgrid_dict.get(row[3])
-            battery_state_point = point_dict.get(row[4])
-            soc_point = point_dict.get(row[5])
-            power_point = point_dict.get(row[6])
-            charge_meter = meter_dict.get(row[7])
-            discharge_meter = meter_dict.get(row[8])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "microgrid": microgrid,
-                           "battery_state_point": battery_state_point,
-                           "soc_point": soc_point,
-                           "power_point": power_point,
-                           "charge_meter": charge_meter,
-                           "discharge_meter": discharge_meter,
+                           "microgrid": microgrid_dict.get(row[3]),
+                           "battery_state_point": point_dict.get(row[4]),
+                           "soc_point": point_dict.get(row[5]),
+                           "power_point": point_dict.get(row[6]),
+                           "charge_meter": meter_dict.get(row[7]),
+                           "discharge_meter": meter_dict.get(row[8]),
                            "rated_capacity": row[9],
                            "rated_power": row[10],
                            "nominal_voltage": row[11]}
@@ -1702,13 +1696,11 @@ class MicrogridGeneratorCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                power_point = point_dict.get(row[3])
-                meter = meter_dict.get(row[4])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "power_point": power_point,
-                               "meter": meter,
+                               "power_point": point_dict.get(row[3]),
+                               "meter": meter_dict.get(row[4]),
                                "rated_output_power": row[5]}
                 result.append(meta_result)
 
@@ -2370,17 +2362,13 @@ class MicrogridGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_GRID_NOT_FOUND')
         else:
-            microgrid = microgrid_dict.get(row[3])
-            power_point = point_dict.get(row[4])
-            buy_meter = meter_dict.get(row[5])
-            sell_meter = meter_dict.get(row[6])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "microgrid": microgrid,
-                           "power_point": power_point,
-                           "buy_meter": buy_meter,
-                           "sell_meter": sell_meter,
+                           "microgrid": microgrid_dict.get(row[3]),
+                           "power_point": point_dict.get(row[4]),
+                           "buy_meter": meter_dict.get(row[5]),
+                           "sell_meter": meter_dict.get(row[6]),
                            "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)
@@ -5648,8 +5636,6 @@ class MicrogridClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -5658,8 +5644,8 @@ class MicrogridClone:
                            "latitude": row[5],
                            "longitude": row[6],
                            "capacity": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "serial_number": row[10],
                            "svg": row[11],
                            "description": row[12]}
@@ -5692,4 +5678,3 @@ class MicrogridClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/microgrids/' + str(new_id)
-
