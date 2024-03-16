@@ -63,15 +63,13 @@ class ShopfloorCollection:
         result = list()
         if rows_shopfloors is not None and len(rows_shopfloors) > 0:
             for row in rows_shopfloors:
-                contact = contact_dict.get(row[5], None)
-                cost_center = cost_center_dict.get(row[6], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "area": row[3],
                                "is_input_counted": bool(row[4]),
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[5], None),
+                               "cost_center": cost_center_dict.get(row[6], None),
                                "description": row[7],
                                "qrcode": "shopfloor:" + row[2]}
                 result.append(meta_result)
@@ -256,15 +254,13 @@ class ShopfloorItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[5], None)
-            cost_center = cost_center_dict.get(row[6], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "area": row[3],
                            "is_input_counted": bool(row[4]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[5], None),
+                           "cost_center": cost_center_dict.get(row[6], None),
                            "description": row[7],
                            "qrcode": "shopfloor:" + row[2]}
 
@@ -695,9 +691,8 @@ class ShopfloorMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -886,9 +881,8 @@ class ShopfloorOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1078,8 +1072,7 @@ class ShopfloorPointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row[2], None)
-                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
+                meta_result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1446,9 +1439,8 @@ class ShopfloorVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1997,15 +1989,13 @@ class ShopfloorExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[5], None)
-            cost_center = cost_center_dict.get(row[6], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "area": row[3],
                            "is_input_counted": bool(row[4]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[5], None),
+                           "cost_center": cost_center_dict.get(row[6], None),
                            "description": row[7],
                            "equipments": None,
                            "commands": None,
@@ -2064,9 +2054,8 @@ class ShopfloorExport:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
             cursor.execute(" SELECT name "
@@ -2100,9 +2089,8 @@ class ShopfloorExport:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
             query = (" SELECT id, name, uuid "
@@ -2127,9 +2115,8 @@ class ShopfloorExport:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
             query = (" SELECT id, name, uuid "
@@ -2154,8 +2141,7 @@ class ShopfloorExport:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT se.id, se.name, se.uuid "
@@ -2566,15 +2552,13 @@ class ShopfloorClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[5], None)
-            cost_center = cost_center_dict.get(row[6], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "area": row[3],
                            "is_input_counted": bool(row[4]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[5], None),
+                           "cost_center": cost_center_dict.get(row[6], None),
                            "description": row[7],
                            "equipments": None,
                            "commands": None,
@@ -2633,9 +2617,8 @@ class ShopfloorClone:
             meter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     meter_result.append(result)
                 meta_result['meters'] = meter_result
             cursor.execute(" SELECT name "
@@ -2669,9 +2652,8 @@ class ShopfloorClone:
             offlinemeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     offlinemeter_result.append(result)
                 meta_result['offline_meters'] = offlinemeter_result
             query = (" SELECT id, name, uuid "
@@ -2696,9 +2678,8 @@ class ShopfloorClone:
             virtualmeter_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    energy_category = energy_category_dict.get(row[3], None)
                     result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category}
+                              "energy_category": energy_category_dict.get(row[3], None)}
                     virtualmeter_result.append(result)
                 meta_result['virtual_meters'] = virtualmeter_result
             query = (" SELECT id, name, uuid "
@@ -2723,8 +2704,7 @@ class ShopfloorClone:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    data_source = data_source_dict.get(row[2], None)
-                    result = {"id": row[0], "name": row[1], "data_source": data_source}
+                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
                     point_result.append(result)
                 meta_result['points'] = point_result
             query = (" SELECT se.id, se.name, se.uuid "
