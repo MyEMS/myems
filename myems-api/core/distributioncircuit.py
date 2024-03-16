@@ -48,11 +48,10 @@ class DistributionCircuitCollection:
         result = list()
         if rows_distribution_circuits is not None and len(rows_distribution_circuits) > 0:
             for row in rows_distribution_circuits:
-                distribution_system = distribution_system_dict.get(row[3])
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "distribution_system": distribution_system,
+                               "distribution_system": distribution_system_dict.get(row[3]),
                                "distribution_room": row[4],
                                "switchgear": row[5],
                                "peak_load": row[6],
@@ -230,11 +229,10 @@ class DistributionCircuitItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
         else:
-            distribution_system = distribution_system_dict.get(row[3])
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "distribution_system": distribution_system,
+                           "distribution_system": distribution_system_dict.get(row[3]),
                            "distribution_room": row[4],
                            "switchgear": row[5],
                            "peak_load": row[6],
