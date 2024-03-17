@@ -75,18 +75,15 @@ class OfflineMeterCollection:
         result = list()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
-                energy_category = energy_category_dict.get(row[3], None)
-                energy_item = energy_item_dict.get(row[7], None)
-                cost_center = cost_center_dict.get(row[8], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
                                "hourly_low_limit": row[5],
                                "hourly_high_limit": row[6],
-                               "energy_item": energy_item,
-                               "cost_center": cost_center,
+                               "energy_item": energy_item_dict.get(row[7], None),
+                               "cost_center": cost_center_dict.get(row[8], None),
                                "description": row[9]}
                 result.append(meta_result)
 
@@ -315,18 +312,15 @@ class OfflineMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[3], None)
-            energy_item = energy_item_dict.get(row[7], None)
-            cost_center = cost_center_dict.get(row[8], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[3], None),
                            "is_counted": True if row[4] else False,
                            "hourly_low_limit": row[5],
                            "hourly_high_limit": row[6],
-                           "energy_item": energy_item,
-                           "cost_center": cost_center,
+                           "energy_item": energy_item_dict.get(row[7], None),
+                           "cost_center": cost_center_dict.get(row[8], None),
                            "description": row[9]}
 
         resp.text = json.dumps(meta_result)
@@ -720,18 +714,15 @@ class OfflineMeterExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[3], None)
-            energy_item = energy_item_dict.get(row[7], None)
-            cost_center = cost_center_dict.get(row[8], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[3], None),
                            "is_counted": True if row[4] else False,
                            "hourly_low_limit": row[5],
                            "hourly_high_limit": row[6],
-                           "energy_item": energy_item,
-                           "cost_center": cost_center,
+                           "energy_item": energy_item_dict.get(row[7], None),
+                           "cost_center": cost_center_dict.get(row[8], None),
                            "description": row[9]}
 
         resp.text = json.dumps(meta_result)
@@ -967,18 +958,15 @@ class OfflineMeterClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[3], None)
-            energy_item = energy_item_dict.get(row[7], None)
-            cost_center = cost_center_dict.get(row[8], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[3], None),
                            "is_counted": True if row[4] else False,
                            "hourly_low_limit": row[5],
                            "hourly_high_limit": row[6],
-                           "energy_item": energy_item,
-                           "cost_center": cost_center,
+                           "energy_item": energy_item_dict.get(row[7], None),
+                           "cost_center": cost_center_dict.get(row[8], None),
                            "description": row[9]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
@@ -1007,4 +995,3 @@ class OfflineMeterClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/offlinemeters/' + str(new_id)
-
