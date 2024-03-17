@@ -50,9 +50,10 @@ class EnergyItemCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -169,12 +170,10 @@ class EnergyItemItem:
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_ITEM_NOT_FOUND')
-
-        energy_category = energy_category_dict.get(row[3], None)
         result = {"id": row[0],
                   "name": row[1],
                   "uuid": row[2],
-                  "energy_category": energy_category}
+                  "energy_category": energy_category_dict.get(row[3], None)}
         resp.text = json.dumps(result)
 
     @staticmethod
