@@ -74,17 +74,14 @@ class VirtualMeterCollection:
         result = list()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
-                energy_category = energy_category_dict.get(row[4], None)
-                cost_center = cost_center_dict.get(row[6], None)
-                energy_item = energy_item_dict.get(row[7], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "equation": row[3],
-                               "energy_category": energy_category,
+                               "energy_category": energy_category_dict.get(row[4], None),
                                "is_counted": True if row[5] else False,
-                               "cost_center": cost_center,
-                               "energy_item": energy_item,
+                               "cost_center": cost_center_dict.get(row[6], None),
+                               "energy_item": energy_item_dict.get(row[7], None),
                                "description": row[8],
                                "expression": {}}
 
@@ -417,17 +414,14 @@ class VirtualMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[4], None)
-            cost_center = cost_center_dict.get(row[6], None)
-            energy_item = energy_item_dict.get(row[7], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "equation": row[3],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[4], None),
                            "is_counted": True if row[5] else False,
-                           "cost_center": cost_center,
-                           "energy_item": energy_item,
+                           "cost_center": cost_center_dict.get(row[6], None),
+                           "energy_item": energy_item_dict.get(row[7], None),
                            "description": row[8],
                            "expression": {}}
 
@@ -951,17 +945,14 @@ class VirtualMeterExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[4], None)
-            cost_center = cost_center_dict.get(row[6], None)
-            energy_item = energy_item_dict.get(row[7], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "equation": row[3],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[4], None),
                            "is_counted": True if row[5] else False,
-                           "cost_center": cost_center,
-                           "energy_item": energy_item,
+                           "cost_center": cost_center_dict.get(row[6], None),
+                           "energy_item": energy_item_dict.get(row[7], None),
                            "description": row[8],
                            "expression": {}}
 
@@ -1305,17 +1296,14 @@ class VirtualMeterClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
         else:
-            energy_category = energy_category_dict.get(row[4], None)
-            cost_center = cost_center_dict.get(row[6], None)
-            energy_item = energy_item_dict.get(row[7], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
                            "equation": row[3],
-                           "energy_category": energy_category,
+                           "energy_category": energy_category_dict.get(row[4], None),
                            "is_counted": True if row[5] else False,
-                           "cost_center": cost_center,
-                           "energy_item": energy_item,
+                           "cost_center": cost_center_dict.get(row[6], None),
+                           "energy_item": energy_item_dict.get(row[7], None),
                            "description": row[8],
                            "expression": {}}
 
