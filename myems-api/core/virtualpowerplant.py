@@ -61,13 +61,11 @@ class VirtualPowerPlantCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                cost_center = cost_center_dict.get(row[3], None)
-                balancing_price_point = point_dict.get(row[4], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "cost_center": cost_center,
-                               "balancing_price_point": balancing_price_point,
+                               "cost_center": cost_center_dict.get(row[3], None),
+                               "balancing_price_point": point_dict.get(row[4], None),
                                "svg": row[5],
                                "description": row[6],
                                "qrcode": 'virtualpowerplant:' + row[2]}
@@ -238,13 +236,11 @@ class VirtualPowerPlantItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[3], None)
-            balancing_price_point = point_dict.get(row[4], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "cost_center": cost_center,
-                           "balancing_price_point": balancing_price_point,
+                           "cost_center": cost_center_dict.get(row[3], None),
+                           "balancing_price_point": point_dict.get(row[4], None),
                            "svg": row[5],
                            "description": row[6],
                            "qrcode": 'microgrid:' + row[2]}
@@ -633,13 +629,11 @@ class VirtualPowerPlantExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[3], None)
-            balancing_price_point = point_dict.get(row[4], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "cost_center": cost_center,
-                           "balancing_price_point": balancing_price_point,
+                           "cost_center": cost_center_dict.get(row[3], None),
+                           "balancing_price_point": point_dict.get(row[4], None),
                            "svg": row[5],
                            "description": row[6]}
 
@@ -816,13 +810,11 @@ class VirtualPowerPlantClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
         else:
-            cost_center = cost_center_dict.get(row[3], None)
-            balancing_price_point = point_dict.get(row[4], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "cost_center": cost_center,
-                           "balancing_price_point": balancing_price_point,
+                           "cost_center": cost_center_dict.get(row[3], None),
+                           "balancing_price_point": point_dict.get(row[4], None),
                            "svg": row[5],
                            "description": row[6]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
