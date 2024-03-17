@@ -45,8 +45,6 @@ class TariffCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -54,8 +52,10 @@ class TariffCollection:
                                                    "name": row[4]},
                                "tariff_type": row[5],
                                "unit_of_price": row[6],
-                               "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
+                               "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                              + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                               "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
 
                 if meta_result['tariff_type'] == 'timeofuse':
                     meta_result['timeofuse'] = list()
@@ -245,9 +245,6 @@ class TariffItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-        valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-
         result = {"id": row[0],
                   "name": row[1],
                   "uuid": row[2],
@@ -255,8 +252,10 @@ class TariffItem:
                                       "name": row[4]},
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
-                  "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
+                  "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                  "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                    + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
@@ -500,9 +499,6 @@ class TariffExport:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        valid_from = row[7].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-        valid_through = row[8].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-
         result = {"id": row[0],
                   "name": row[1],
                   "uuid": row[2],
@@ -510,8 +506,10 @@ class TariffExport:
                                       "name": row[4]},
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
-                  "valid_from": valid_from.strftime('%Y-%m-%dT%H:%M:%S'),
-                  "valid_through": valid_through.strftime('%Y-%m-%dT%H:%M:%S')}
+                  "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                  "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                    + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
@@ -760,4 +758,3 @@ class TariffClone:
 
         resp.status = falcon.HTTP_201
         resp.location = '/tariffs/' + str(new_id)
-
