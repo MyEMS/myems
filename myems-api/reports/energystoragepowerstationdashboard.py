@@ -189,7 +189,7 @@ class Reporting:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "value": Decimal(10.0)}
+                               "value": Decimal(0.0)}
                 charge_ranking.append(meta_result)
 
         discharge_ranking = list()
@@ -198,7 +198,7 @@ class Reporting:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "value": Decimal(10.0)}
+                               "value": Decimal(0.0)}
                 discharge_ranking.append(meta_result)
 
         revenue_ranking = list()
@@ -207,7 +207,7 @@ class Reporting:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "value": Decimal(10.0)}
+                               "value": Decimal(0.0)}
                 revenue_ranking.append(meta_result)
 
         ################################################################################################################
@@ -253,9 +253,9 @@ class Reporting:
 
         result['energy_storage_power_stations'] = energy_storage_power_station_list
         result['charge_ranking'] = charge_ranking
-        result['total_charge'] = Decimal(30.0)
+        result['total_charge'] = Decimal(0.0)
         result['discharge_ranking'] = discharge_ranking
-        result['total_discharge'] = Decimal(30.0)
+        result['total_discharge'] = Decimal(0.0)
         result['revenue_ranking'] = revenue_ranking
-        result['total_revenue'] = Decimal(30.0)
+        result['total_revenue'] = Decimal(0.0)
         resp.text = json.dumps(result)

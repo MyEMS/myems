@@ -4,12 +4,12 @@ import FalconCardHeader from '../../common/FalconCardHeader';
 import { InputGroup, CustomInput, Button, Card, CardBody } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 
-const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList }) => {
+const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList, t }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="Energy Storage Power Station List" light={false}>
+      <FalconCardHeader title="储能电站列表" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -24,7 +24,7 @@ const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList }) =
           </InputGroup>
         ) : (
           <>
-            <ButtonIcon icon="plus" transform="shrink-3 down-2" color="falcon-default" size="sm">
+            {/* <ButtonIcon icon="plus" transform="shrink-3 down-2" color="falcon-default" size="sm">
               New
             </ButtonIcon>
             <ButtonIcon icon="filter" transform="shrink-3 down-2" color="falcon-default" size="sm" className="mx-2">
@@ -32,7 +32,7 @@ const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList }) =
             </ButtonIcon>
             <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" size="sm">
               Export
-            </ButtonIcon>
+            </ButtonIcon> */}
           </>
         )}
       </FalconCardHeader>

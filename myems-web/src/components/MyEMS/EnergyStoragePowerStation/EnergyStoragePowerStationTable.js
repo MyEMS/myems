@@ -58,7 +58,7 @@ const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 const columns = [
   {
     dataField: 'name',
-    text: 'Name',
+    text: '名称',
     formatter: customerFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
@@ -66,14 +66,14 @@ const columns = [
   },
   {
     dataField: 'address',
-    text: 'Address',
+    text: '地址',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
   },
   {
     dataField: 'rated_capacity',
-    text: 'Rated Capacity',
+    text: '额定容量',
     formatter: capacityFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
@@ -81,7 +81,7 @@ const columns = [
   },
   {
     dataField: 'rated_power',
-    text: 'Rated Power',
+    text: '额定功率',
     formatter: powerFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
@@ -89,7 +89,7 @@ const columns = [
   },
   {
     dataField: 'status',
-    text: 'Status',
+    text: '状态',
     formatter: badgeFormatter,
     classes: 'border-0 align-middle fs-0',
     headerClasses: 'border-0',
@@ -191,7 +191,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   className="px-0 font-weight-semi-bold"
                   onClick={() => handleViewAll(paginationProps, energyStoragePowerStationList.length)}
                 >
-                  view all
+                  全部
                 </ButtonIcon>
               </Col>
               <Col xs="auto" className="pr-3">
@@ -202,7 +202,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   disabled={paginationProps.page === 1}
                   className="px-4"
                 >
-                  Previous
+                  前一页
                 </Button>
                 <Button
                   color={lastIndex >= paginationProps.totalSize ? 'light' : 'primary'}
@@ -211,7 +211,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   disabled={lastIndex >= paginationProps.totalSize}
                   className="px-4 ml-2"
                 >
-                  Next
+                  下一页
                 </Button>
               </Col>
             </Row>
