@@ -35,8 +35,6 @@ import AppContext from '../../../context/Context';
 import { Link, useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 
-const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
-
 const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();

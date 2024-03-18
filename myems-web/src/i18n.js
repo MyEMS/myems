@@ -12354,7 +12354,7 @@ const resources = {
       'Charge Start Time': 'Muat Waktu Mula',
       'Charge End Time': 'Waktu Akhir Muat',
       'Discharge Start Time': 'Buang Waktu Mula',
-      'Discharge End Time': 'Waktu Akhir Buan
+      'Discharge End Time': 'Waktu Akhir Buan',
       'Total Rated Power': 'Total Rated Power',
       'Total Rated Capacity': 'Total Rated Capacity',
       'Total Charge': 'Total Charge',

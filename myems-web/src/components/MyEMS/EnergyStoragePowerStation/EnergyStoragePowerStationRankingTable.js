@@ -4,21 +4,21 @@ import BootstrapTable from 'react-bootstrap-table-next';
 const columns = [
   {
     dataField: 'name',
-    text: 'Name',
+    text: '名称',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: false
   },
   {
     dataField: 'value',
-    text: 'Value',
+    text: '数值',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
   },
   {
     dataField: 'unit',
-    text: 'Unit',
+    text: '单位',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: false,
