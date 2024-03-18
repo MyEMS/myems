@@ -57,8 +57,6 @@ class WindFarmCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -68,8 +66,8 @@ class WindFarmCollection:
                                "latitude": row[5],
                                "longitude": row[6],
                                "rated_power": row[7],
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
                                "svg": row[10],
                                "description": row[11],
                                "qrcode": 'windfarm:' + row[2]}
@@ -284,8 +282,6 @@ class WindFarmItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WIND_FARM_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -294,8 +290,8 @@ class WindFarmItem:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "svg": row[10],
                            "description": row[11],
                            "qrcode": 'windfarm:' + row[2]}
@@ -548,8 +544,6 @@ class WindFarmExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WIND_FARM_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -558,8 +552,8 @@ class WindFarmExport:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "svg": row[10],
                            "description": row[11]}
 
@@ -780,8 +774,6 @@ class WindFarmClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WIND_FARM_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -790,8 +782,8 @@ class WindFarmClone:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "svg": row[10],
                            "description": row[11]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
