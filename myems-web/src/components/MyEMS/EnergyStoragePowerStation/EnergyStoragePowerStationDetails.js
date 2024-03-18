@@ -781,27 +781,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">今日充电量</th>
-                          <th className="pr-0 text-right">100 kWh</th>
+                          <th className="pr-0 text-right">0 kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">今日放电量</th>
-                          <th className="pr-0 text-right ">100 kWh</th>
+                          <th className="pr-0 text-right ">0 kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计充电量</th>
-                          <th className="pr-0 text-right">1000 kWh</th>
+                          <th className="pr-0 text-right">0 kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计放电量</th>
-                          <th className="pr-0 text-right">1000 kWh</th>
+                          <th className="pr-0 text-right">0 kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">综合效率</th>
-                          <th className="pr-0 text-right">99%</th>
+                          <th className="pr-0 text-right">0%</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">放电达成率</th>
-                          <th className="pr-0 text-right">150%</th>
+                          <th className="pr-0 text-right">0%</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -817,27 +817,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">今日成本</th>
-                          <th className="pr-0 text-right">100 元</th>
+                          <th className="pr-0 text-right">0 元</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">今日收入</th>
-                          <th className="pr-0 text-right ">200 元</th>
+                          <th className="pr-0 text-right ">0 元</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计成本</th>
-                          <th className="pr-0 text-right">1000 元</th>
+                          <th className="pr-0 text-right">0 元</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计收入</th>
-                          <th className="pr-0 text-right">2000 元</th>
+                          <th className="pr-0 text-right">0 元</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">今日盈利</th>
-                          <th className="pr-0 text-right">100 元</th>
+                          <th className="pr-0 text-right">0 元</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计盈利</th>
-                          <th className="pr-0 text-right">1000 元</th>
+                          <th className="pr-0 text-right">0 元</th>
                         </tr>
                       </tbody>
                     </Table>
