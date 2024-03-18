@@ -859,7 +859,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('1');
                 }}
               >
-                <h6>{t('General')}</h6>
+                <h6>设备状态</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -869,12 +869,48 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('2');
                 }}
               >
-                <h6>设备状态</h6>
+                <h6>{t('General Information')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
           <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">通信网关</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1#电池堆</th>
+                          <th className="pr-0 text-right ">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#空调</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#网关表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#用户表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="2">
               <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">
@@ -914,42 +950,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 </Fragment>
               </Card>
             </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
           </TabContent>
         </Col>
       </Row>
@@ -972,7 +972,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               toggleTabBottom('2');
             }}
           >
-            <h6>策略管理</h6>
+            <h6>调度策略</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
