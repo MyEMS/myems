@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import PurchasesTable from './PurchasesTable';
+import MicrogridTable from './MicrogridTable';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { InputGroup, CustomInput, Button, Card, CardBody } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 
-const RecentPurchasesTable = () => {
+const MicrogridTableCard = ({ microgridList }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
@@ -37,10 +37,10 @@ const RecentPurchasesTable = () => {
         )}
       </FalconCardHeader>
       <CardBody className="p-0">
-        <PurchasesTable setIsSelected={setIsSelected} />
+        <MicrogridTable setIsSelected={setIsSelected}  microgridList={microgridList}/>
       </CardBody>
     </Card>
   );
 };
 
-export default RecentPurchasesTable;
+export default MicrogridTableCard;
