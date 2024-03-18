@@ -107,7 +107,6 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               energyStoragePowerStation['postal_code'] = json[index]['postal_code'];
               energyStoragePowerStation['latitude'] = json[index]['latitude'];
               energyStoragePowerStation['longitude'] = json[index]['longitude'];
-              energyStoragePowerStation['serial_number'] = json[index]['serial_number'];
               energyStoragePowerStation['files'] = [
                 { id: json[index]['uuid'], src: require('./EnergyStoragePowerStation.jpeg') }
               ];

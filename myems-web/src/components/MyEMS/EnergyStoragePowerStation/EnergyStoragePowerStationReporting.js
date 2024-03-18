@@ -120,7 +120,8 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
   const [energyStoragePowerStationSerialNumber, setEnergyStoragePowerStationSerialNumber] = useState();
   const [energyStoragePowerStationAddress, setEnergyStoragePowerStationAddress] = useState();
   const [energyStoragePowerStationPostalCode, setEnergyStoragePowerStationPostalCode] = useState();
-  const [energyStoragePowerStationCapacity, setEnergyStoragePowerStationCapacity] = useState();
+  const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
+  const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
   const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
@@ -297,7 +298,8 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
           setEnergyStoragePowerStationSerialNumber(json['energy_storage_power_station']['serial_number']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
           setEnergyStoragePowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
-          setEnergyStoragePowerStationCapacity(json['energy_storage_power_station']['capacity']);
+          setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
+          setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
           setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });

@@ -120,7 +120,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
   const [microgridAddress, setMicrogridAddress] = useState();
   const [microgridPostalCode, setMicrogridPostalCode] = useState();
-  const [microgridCapacity, setMicrogridCapacity] = useState();
+  const [microgridRatedCapacity, setMicrogridRatedCapacity] = useState();
+  const [microgridRatedPower, setMicrogridRatedPower] = useState();
   const [microgridLatitude, setMicrogridLatitude] = useState();
   const [microgridLongitude, setMicrogridLongitude] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
@@ -293,7 +294,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
           setMicrogridPostalCode(json['microgrid']['postal_code']);
-          setMicrogridCapacity(json['microgrid']['capacity']);
+          setMicrogridRatedCapacity(json['microgrid']['rated_capacity']);
+          setMicrogridRatedPower(json['microgrid']['rated_power']);
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
           setMicrogridSVG({ __html: json['microgrid']['svg'] });

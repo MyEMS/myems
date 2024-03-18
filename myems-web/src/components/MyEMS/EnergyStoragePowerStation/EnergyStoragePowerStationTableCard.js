@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import PurchasesTable from './PurchasesTable';
+import EnergyStoragePowerStationTable from './EnergyStoragePowerStationTable';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { InputGroup, CustomInput, Button, Card, CardBody } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 
-const RecentPurchasesTable = () => {
+const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="电站列表" light={false}>
+      <FalconCardHeader title="Energy Storage Power Station List" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput type="select" id="bulk-select">
@@ -37,10 +37,10 @@ const RecentPurchasesTable = () => {
         )}
       </FalconCardHeader>
       <CardBody className="p-0">
-        <PurchasesTable setIsSelected={setIsSelected} />
+        <EnergyStoragePowerStationTable setIsSelected={setIsSelected}  energyStoragePowerStationList={energyStoragePowerStationList}/>
       </CardBody>
     </Card>
   );
 };
 
-export default RecentPurchasesTable;
+export default EnergyStoragePowerStationTableCard;
