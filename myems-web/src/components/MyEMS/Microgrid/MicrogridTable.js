@@ -14,7 +14,7 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
 );
 
 const customerFormatter = customerName => (
-  <Link to="pages/customer-details" className="font-weight-semi-bold">
+  <Link to="microgrid/details" className="font-weight-semi-bold">
     {customerName}
   </Link>
 );

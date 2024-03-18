@@ -119,7 +119,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
   const [energyStoragePowerStationAddress, setEnergyStoragePowerStationAddress] = useState();
   const [energyStoragePowerStationPostalCode, setEnergyStoragePowerStationPostalCode] = useState();
-  const [energyStoragePowerStationCapacity, setEnergyStoragePowerStationCapacity] = useState();
+  const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
+  const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
   const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
@@ -151,7 +152,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
           setEnergyStoragePowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
-          setEnergyStoragePowerStationCapacity(json['energy_storage_power_station']['capacity']);
+          setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
+          setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
           setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
@@ -857,7 +859,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('1');
                 }}
               >
-                <h6>{t('General Information')}</h6>
+                <h6>{t('General')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -891,8 +893,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                           <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Capacity')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationCapacity} kW</th>
+                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Latitude')}</th>

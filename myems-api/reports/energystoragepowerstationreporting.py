@@ -227,7 +227,7 @@ class Reporting:
 
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id, svg, description "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE id = %s ")
@@ -235,7 +235,7 @@ class Reporting:
             row = cursor_system.fetchone()
         elif energy_storage_power_station_uuid is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id, svg, description "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE uuid = %s ")
@@ -249,8 +249,6 @@ class Reporting:
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
         else:
             energy_storage_power_station_id = row[0]
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -258,11 +256,12 @@ class Reporting:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "svg": row[10],
-                           "description": row[11],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "svg": row[11],
+                           "description": row[12],
                            "qrcode": 'energy_storage_power_station:' + row[2]}
 
         point_list = list()

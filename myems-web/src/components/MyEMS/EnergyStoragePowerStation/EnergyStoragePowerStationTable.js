@@ -7,8 +7,6 @@ import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 
-import purchases from './stationlist';
-
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
     {(page - 1) * sizePerPage + 1} to {lastIndex > totalSize ? totalSize : lastIndex} of {totalSize} —{' '}
@@ -16,7 +14,7 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
 );
 
 const customerFormatter = customerName => (
-  <Link to="pages/customer-details" className="font-weight-semi-bold">
+  <Link to="energystoragepowerstation/details" className="font-weight-semi-bold">
     {customerName}
   </Link>
 );
@@ -59,31 +57,31 @@ const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
 const columns = [
   {
-    dataField: 'customer',
-    text: '名称',
+    dataField: 'name',
+    text: 'Name',
     formatter: customerFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
   },
   {
-    dataField: 'product',
-    text: '地址',
+    dataField: 'address',
+    text: 'Address',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
   },
   {
-    dataField: 'amount',
-    text: '额定容量',
+    dataField: 'rated_capacity',
+    text: 'Rated Capacity',
     formatter: capacityFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
   },
   {
-    dataField: 'amount',
-    text: '额定功率',
+    dataField: 'rated_power',
+    text: 'Rated Power',
     formatter: powerFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
@@ -91,7 +89,7 @@ const columns = [
   },
   {
     dataField: 'status',
-    text: '状态',
+    text: 'Status',
     formatter: badgeFormatter,
     classes: 'border-0 align-middle fs-0',
     headerClasses: 'border-0',
@@ -132,13 +130,8 @@ const selectRow = onSelect => ({
   onSelectAll: onSelect
 });
 
-const options = {
-  custom: true,
-  sizePerPage: 6,
-  totalSize: purchases.length
-};
 
-const PurchasesTable = ({ setIsSelected }) => {
+const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList }) => {
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
@@ -158,6 +151,12 @@ const PurchasesTable = ({ setIsSelected }) => {
     });
   };
 
+  const options = {
+    custom: true,
+    sizePerPage: 6,
+    totalSize: energyStoragePowerStationList.length
+  };
+
   return (
     <PaginationProvider pagination={paginationFactory(options)}>
       {({ paginationProps, paginationTableProps }) => {
@@ -170,7 +169,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                 ref={table}
                 bootstrap4
                 keyField="id"
-                data={purchases}
+                data={energyStoragePowerStationList}
                 columns={columns}
                 selectRow={selectRow(onSelect)}
                 bordered={false}
@@ -190,9 +189,9 @@ const PurchasesTable = ({ setIsSelected }) => {
                   iconAlign="right"
                   transform="down-1 shrink-4"
                   className="px-0 font-weight-semi-bold"
-                  onClick={() => handleViewAll(paginationProps, purchases.length)}
+                  onClick={() => handleViewAll(paginationProps, energyStoragePowerStationList.length)}
                 >
-                  全部
+                  view all
                 </ButtonIcon>
               </Col>
               <Col xs="auto" className="pr-3">
@@ -203,7 +202,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   disabled={paginationProps.page === 1}
                   className="px-4"
                 >
-                  前一页
+                  Previous
                 </Button>
                 <Button
                   color={lastIndex >= paginationProps.totalSize ? 'light' : 'primary'}
@@ -212,7 +211,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   disabled={lastIndex >= paginationProps.totalSize}
                   className="px-4 ml-2"
                 >
-                  下一页
+                  Next
                 </Button>
               </Col>
             </Row>
@@ -223,4 +222,4 @@ const PurchasesTable = ({ setIsSelected }) => {
   );
 };
 
-export default PurchasesTable;
+export default EnergyStoragePowerStationTable;
