@@ -207,7 +207,7 @@ class Reporting:
                                             "uuid": row[2]}
         if microgrid_id is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id, serial_number, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE id = %s ")
@@ -215,7 +215,7 @@ class Reporting:
             row = cursor_system.fetchone()
         elif microgrid_uuid is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, capacity, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id, serial_number, svg, description "
                      " FROM tbl_microgrids "
                      " WHERE uuid = %s ")
@@ -229,8 +229,6 @@ class Reporting:
                                    description='API.MICROGRID_NOT_FOUND')
         else:
             microgrid_id = row[0]
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -238,12 +236,13 @@ class Reporting:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "serial_number": row[10],
-                           "svg": row[11],
-                           "description": row[12],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "serial_number": row[11],
+                           "svg": row[12],
+                           "description": row[13],
                            "qrcode": 'microgrid:' + row[2]}
 
         point_list = list()
