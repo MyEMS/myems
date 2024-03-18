@@ -228,7 +228,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="info" hidden={spinnerHidden} />
         <Spinner color="light" hidden={spinnerHidden} />
 
-        <CardSummary rate={''} title={'Number of Micgrogrids'} footunit={''} color="info">
+        <CardSummary rate={''} title={'Number of Power Stations'} footunit={''} color="info">
           {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
         <CardSummary rate={''} title={'Total Rated Power'} footunit={'kW'} color="info">
