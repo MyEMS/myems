@@ -87,7 +87,7 @@ class Reporting:
                                             "uuid": row[2]}
         # Get microgrids
         query = (" SELECT m.id, m.name, m.uuid, "
-                 "        m.address, m.postal_code, m.latitude, m.longitude, m.capacity, "
+                 "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
                  "        m.contact_id, m.cost_center_id, m.serial_number, m.description "
                  " FROM tbl_microgrids m, tbl_microgrids_users mu "
                  " WHERE m.id = mu.microgrid_id AND mu.user_id = %s "
@@ -99,8 +99,7 @@ class Reporting:
         if rows_microgrids is not None and len(rows_microgrids) > 0:
             for row in rows_microgrids:
                 microgrid_id = row[0]
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
+
                 # get gateway latest seen datetime to determine if it is online
                 query = (" SELECT tg.last_seen_datetime_utc "
                          " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
@@ -245,11 +244,12 @@ class Reporting:
                                "postal_code": row[4],
                                "latitude": row[5],
                                "longitude": row[6],
-                               "capacity": row[7],
-                               "contact": contact,
-                               "cost_center": cost_center,
-                               "serial_number": row[10],
-                               "description": row[11],
+                               "rated_capacity": row[7],
+                               "rated_power": row[8],
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "serial_number": row[11],
+                               "description": row[12],
                                "qrcode": 'microgrid:' + row[2],
                                "battery_state": battery_state,
                                "battery_soc_point_value": battery_soc_point_value,

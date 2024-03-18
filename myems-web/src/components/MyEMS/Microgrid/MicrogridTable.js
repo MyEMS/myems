@@ -7,8 +7,6 @@ import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 
-import purchases from './stationlist';
-
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
     {(page - 1) * sizePerPage + 1} to {lastIndex > totalSize ? totalSize : lastIndex} of {totalSize} —{' '}
@@ -59,7 +57,7 @@ const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
 const columns = [
   {
-    dataField: 'customer',
+    dataField: 'name',
     text: 'Name',
     formatter: customerFormatter,
     classes: 'border-0 align-middle',
@@ -67,14 +65,14 @@ const columns = [
     sort: true
   },
   {
-    dataField: 'product',
+    dataField: 'address',
     text: 'Address',
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
   },
   {
-    dataField: 'amount',
+    dataField: 'rated_capacity',
     text: 'Rated Capacity',
     formatter: capacityFormatter,
     classes: 'border-0 align-middle',
@@ -82,7 +80,7 @@ const columns = [
     sort: true,
   },
   {
-    dataField: 'amount',
+    dataField: 'rated_power',
     text: 'Rated Power',
     formatter: powerFormatter,
     classes: 'border-0 align-middle',
@@ -132,13 +130,8 @@ const selectRow = onSelect => ({
   onSelectAll: onSelect
 });
 
-const options = {
-  custom: true,
-  sizePerPage: 6,
-  totalSize: purchases.length
-};
 
-const PurchasesTable = ({ setIsSelected }) => {
+const MicrogridTable = ({ setIsSelected, microgridList }) => {
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
@@ -158,6 +151,12 @@ const PurchasesTable = ({ setIsSelected }) => {
     });
   };
 
+  const options = {
+    custom: true,
+    sizePerPage: 6,
+    totalSize: microgridList.length
+  };
+
   return (
     <PaginationProvider pagination={paginationFactory(options)}>
       {({ paginationProps, paginationTableProps }) => {
@@ -170,7 +169,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                 ref={table}
                 bootstrap4
                 keyField="id"
-                data={purchases}
+                data={microgridList}
                 columns={columns}
                 selectRow={selectRow(onSelect)}
                 bordered={false}
@@ -190,7 +189,7 @@ const PurchasesTable = ({ setIsSelected }) => {
                   iconAlign="right"
                   transform="down-1 shrink-4"
                   className="px-0 font-weight-semi-bold"
-                  onClick={() => handleViewAll(paginationProps, purchases.length)}
+                  onClick={() => handleViewAll(paginationProps, microgridList.length)}
                 >
                   view all
                 </ButtonIcon>
@@ -223,4 +222,4 @@ const PurchasesTable = ({ setIsSelected }) => {
   );
 };
 
-export default PurchasesTable;
+export default MicrogridTable;

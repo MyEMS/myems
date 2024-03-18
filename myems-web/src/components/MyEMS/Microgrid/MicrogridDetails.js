@@ -120,7 +120,8 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
   const [microgridAddress, setMicrogridAddress] = useState();
   const [microgridPostalCode, setMicrogridPostalCode] = useState();
-  const [microgridCapacity, setMicrogridCapacity] = useState();
+  const [microgridRatedCapacity, setMicrogridRatedCapacity] = useState();
+  const [microgridRatedPower, setMicrogridRatedPower] = useState();
   const [microgridLatitude, setMicrogridLatitude] = useState();
   const [microgridLongitude, setMicrogridLongitude] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
@@ -153,7 +154,8 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
           setMicrogridPostalCode(json['microgrid']['postal_code']);
-          setMicrogridCapacity(json['microgrid']['capacity']);
+          setMicrogridRatedCapacity(json['microgrid']['rated_capacity']);
+          setMicrogridRatedPower(json['microgrid']['rated_power']);
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
           setMicrogridSVG({ __html: json['microgrid']['svg'] });
@@ -758,7 +760,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                {t('Energy')}
+                <h6>{t('Energy')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -768,7 +770,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                {t('Revenue')}
+                <h6>{t('Revenue')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -860,7 +862,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                {t('General')}
+                <h6>{t('General')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -870,7 +872,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                 {t('Devices')}
+                 <h6>{t('Devices')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -894,8 +896,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pr-0 text-right">{microgridPostalCode}</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Capacity')} </th>
-                          <th className="pr-0 text-right">{microgridCapacity} kW</th>
+                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                          <th className="pr-0 text-right">{microgridRatedCapacity} kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                          <th className="pr-0 text-right">{microgridRatedPower} kW</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Latitude')}</th>
@@ -959,7 +965,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               toggleTabBottom('1');
             }}
           >
-            {t('Operating Characteristic Curve')}
+            <h6>{t('Operating Characteristic Curve')}</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
@@ -969,7 +975,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               toggleTabBottom('2');
             }}
           >
-            Strategy Management
+            <h6>{t('Strategy Management')}</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
@@ -979,7 +985,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               toggleTabBottom('3');
             }}
           >
-            {t('Fault Alarms')}
+            <h6>{t('Fault Alarms')}</h6>
           </NavLink>
         </NavItem>
       </Nav>
