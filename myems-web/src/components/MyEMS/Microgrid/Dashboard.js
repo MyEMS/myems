@@ -3,23 +3,17 @@ import CountUp from 'react-countup';
 import { Col, Row, Spinner, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import MicrogridTableCard from './MicrogridTableCard';
 import MicrogridRankingTable from './MicrogridRankingTable';
-import FalconCardHeader from '../../common/FalconCardHeader';
 import CardSummary from '../common/CardSummary';
-import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL, settings } from '../../../config';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import { Chart as ChartJS } from 'chart.js';
 import { getItemFromStore } from '../../../helpers/utils';
 import CustomizeMapBox from '../common/CustomizeMapBox';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
-
-ChartJS.register(annotationPlugin);
 
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -234,22 +228,22 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="info" hidden={spinnerHidden} />
         <Spinner color="light" hidden={spinnerHidden} />
 
-        <CardSummary rate={'PC'} title={'Number of Micgrogrids'} color="info">
+        <CardSummary rate={''} title={'Number of Micgrogrids'} footunit={''} color="info">
           {1 && <CountUp end={microgridList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
-        <CardSummary rate={'kWh'} title={'Total Rated Power'} color="info">
+        <CardSummary rate={''} title={'Total Rated Power'} footunit={'kW'} color="info">
           {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate={'kW'} title={'Total Rated Capacity'} color="info">
+        <CardSummary rate={''} title={'Total Rated Capacity'} footunit={'kWh'} color="info">
           {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate={''} title={'Total Charge'} color="warning">
+        <CardSummary rate={''} title={'Total Charge'} footunit={'kWh'} color="warning">
           {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate={''} title={'Total Discharge'} color="warning">
+        <CardSummary rate={''} title={'Total Discharge'} footunit={'kWh'} color="warning">
           {1 && <CountUp end={totalDischarge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate={''} title={'Total Revenue'} color="success">
+        <CardSummary rate={''} title={'Total Revenue'} footunit={currency} color="success">
           {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
       </div>
