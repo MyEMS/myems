@@ -81,14 +81,6 @@ class TenantCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                tenant_type = tenant_type_dict.get(row[7], None)
-                contact = contact_dict.get(row[14], None)
-                cost_center = cost_center_dict.get(row[15], None)
-
-                lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                    timedelta(minutes=timezone_offset)
-                lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
-                    timedelta(minutes=timezone_offset)
 
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -97,15 +89,15 @@ class TenantCollection:
                                "floors": row[4],
                                "rooms": row[5],
                                "area": row[6],
-                               "tenant_type": tenant_type,
+                               "tenant_type": tenant_type_dict.get(row[7], None),
                                "is_input_counted": bool(row[8]),
                                "is_key_tenant": bool(row[9]),
                                "lease_number": row[10],
-                               "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                               "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                               "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                               "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                                "is_in_lease": bool(row[13]),
-                               "contact": contact,
-                               "cost_center": cost_center,
+                               "contact": contact_dict.get(row[14], None),
+                               "cost_center": cost_center_dict.get(row[15], None),
                                "description": row[16],
                                "qrcode": 'tenant:' + row[2]}
                 result.append(meta_result)
@@ -384,16 +376,9 @@ class TenantItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
         else:
-            tenant_type = tenant_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[14], None)
-            cost_center = cost_center_dict.get(row[15], None)
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
-            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
 
             meta_result = {"id": row[0],
                            "name": row[1],
@@ -402,15 +387,15 @@ class TenantItem:
                            "floors": row[4],
                            "rooms": row[5],
                            "area": row[6],
-                           "tenant_type": tenant_type,
+                           "tenant_type": tenant_type_dict.get(row[7], None),
                            "is_key_tenant": bool(row[8]),
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
-                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                            "is_in_lease": bool(row[13]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[14], None),
+                           "cost_center": cost_center_dict.get(row[15], None),
                            "description": row[16],
                            "qrcode": 'tenant:' + row[2]}
 
@@ -740,9 +725,10 @@ class TenantMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -931,9 +917,10 @@ class TenantOfflineMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1123,8 +1110,9 @@ class TenantPointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row[2], None)
-                meta_result = {"id": row[0], "name": row[1], "data_source": data_source}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "data_source": data_source_dict.get(row[2], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1302,7 +1290,9 @@ class TenantSensorCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1491,9 +1481,10 @@ class TenantVirtualMeterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                energy_category = energy_category_dict.get(row[3], None)
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "energy_category": energy_category}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1671,7 +1662,9 @@ class TenantWorkingCalendarCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "description": row[2]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "description": row[2]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1849,7 +1842,9 @@ class TenantCommandCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2057,16 +2052,9 @@ class TenantExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
         else:
-            tenant_type = tenant_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[14], None)
-            cost_center = cost_center_dict.get(row[15], None)
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
-            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
 
             meta_result = {"id": row[0],
                            "name": row[1],
@@ -2075,15 +2063,15 @@ class TenantExport:
                            "floors": row[4],
                            "rooms": row[5],
                            "area": row[6],
-                           "tenant_type": tenant_type,
+                           "tenant_type": tenant_type_dict.get(row[7], None),
                            "is_key_tenant": bool(row[8]),
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
-                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                            "is_in_lease": bool(row[13]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[14], None),
+                           "cost_center": cost_center_dict.get(row[15], None),
                            "description": row[16],
                            "commands": None,
                            "meters": None,
@@ -2692,16 +2680,9 @@ class TenantClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
         else:
-            tenant_type = tenant_type_dict.get(row[7], None)
-            contact = contact_dict.get(row[14], None)
-            cost_center = cost_center_dict.get(row[15], None)
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
-            lease_start_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
-            lease_end_datetime_local = row[12].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
 
             meta_result = {"id": row[0],
                            "name": row[1],
@@ -2710,15 +2691,15 @@ class TenantClone:
                            "floors": row[4],
                            "rooms": row[5],
                            "area": row[6],
-                           "tenant_type": tenant_type,
+                           "tenant_type": tenant_type_dict.get(row[7], None),
                            "is_key_tenant": bool(row[8]),
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
-                           "lease_start_datetime": lease_start_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
-                           "lease_end_datetime": lease_end_datetime_local.strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                           "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                            "is_in_lease": bool(row[13]),
-                           "contact": contact,
-                           "cost_center": cost_center,
+                           "contact": contact_dict.get(row[14], None),
+                           "cost_center": cost_center_dict.get(row[15], None),
                            "description": row[16],
                            "commands": None,
                            "meters": None,

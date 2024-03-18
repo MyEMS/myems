@@ -39,7 +39,10 @@ class CostCenterCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2], "external_id": row[3]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "external_id": row[3]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -146,7 +149,10 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
-        result = {"id": row[0], "name": row[1], "uuid": row[2], "external_id": row[3]}
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "external_id": row[3]}
         resp.text = json.dumps(result)
 
     @staticmethod

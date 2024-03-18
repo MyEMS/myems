@@ -38,8 +38,11 @@ class TenantTypeCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "description": row[3], "simplified_code": row[4]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "description": row[3],
+                               "simplified_code": row[4]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
