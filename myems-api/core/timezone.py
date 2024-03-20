@@ -36,7 +36,10 @@ class TimezoneCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "description": row[2], "utc_offset": row[3]}
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "description": row[2],
+                               "utc_offset": row[3]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -78,7 +81,10 @@ class TimezoneItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
-        result = {"id": row[0], "name": row[1], "description": row[2], "utc_offset": row[3]}
+        result = {"id": row[0],
+                  "name": row[1],
+                  "description": row[2],
+                  "utc_offset": row[3]}
 
         cursor.close()
         cnx.close()

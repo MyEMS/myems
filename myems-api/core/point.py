@@ -47,10 +47,9 @@ class PointCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                data_source = data_source_dict.get(row[2], None)
                 meta_result = {"id": row[0],
                                "name": row[1],
-                               "data_source": data_source,
+                               "data_source": data_source_dict.get(row[2], None),
                                "object_type": row[3],
                                "units": row[4],
                                "high_limit": row[5],
@@ -273,10 +272,9 @@ class PointItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        data_source = data_source_dict.get(row[2], None)
         result = {"id": row[0],
                   "name": row[1],
-                  "data_source": data_source,
+                  "data_source": data_source_dict.get(row[2], None),
                   "object_type": row[3],
                   "units": row[4],
                   "high_limit": row[5],
@@ -909,10 +907,9 @@ class PointExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        data_source = data_source_dict.get(row[2], None)
         result = {"id": row[0],
                   "name": row[1],
-                  "data_source": data_source,
+                  "data_source": data_source_dict.get(row[2], None),
                   "object_type": row[3],
                   "units": row[4],
                   "high_limit": row[5],
@@ -1143,10 +1140,9 @@ class PointClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        data_source = data_source_dict.get(row[2], None)
         result = {"id": row[0],
                   "name": row[1],
-                  "data_source": data_source,
+                  "data_source": data_source_dict.get(row[2], None),
                   "object_type": row[3],
                   "units": row[4],
                   "high_limit": row[5],
