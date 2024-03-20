@@ -471,7 +471,14 @@ export const microgridRoutes = {
 export const energyStoragePowerStationRoutes = {
   name: 'Energy Storage Power Station',
   to: '/energystoragepowerstation',
-  icon: 'building'
+  icon: 'building',
+  children: [
+    { to: '/energystoragepowerstation', name: 'Energy Storage Power Station List' },
+    { to: '/energystoragepowerstation/details', name: 'Energy Storage Power Station Details' },
+    { to: '/energystoragepowerstation/reporting', name: 'Energy Storage Power Station Reporting' },
+    { to: '/energystoragepowerstation/alarm', name: 'Energy Storage Power Station Alarm' },
+    { to: '/energystoragepowerstation/maintenance', name: 'Energy Storage Power Station Maintenance' },
+  ]
 };
 
 export const fddRoutes = {
