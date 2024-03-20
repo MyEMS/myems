@@ -231,10 +231,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="info">
           {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="info">
+        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="info">
           {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="info">
+        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="info">
           {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="warning">

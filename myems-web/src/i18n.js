@@ -63,6 +63,11 @@ const resources = {
       'Faults Data': 'Faults',
       'Space Equipments': 'Space Equipments',
       'Combined Equipments': 'Combined Equipments',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -1146,6 +1151,11 @@ const resources = {
       'Faults Data': '故障分析',
       'Space Equipments': '空间设备',
       'Combined Equipments': '组合设备',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': '欢迎使用MyEMS',
       'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',
@@ -2200,6 +2210,11 @@ const resources = {
       'Faults Data': 'Fehler',
       'Space Equipments': 'Platz Ausrüstung',
       'Combined Equipments': 'Kombinierte Ausrüstung',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -3306,6 +3321,11 @@ const resources = {
       'Faults Data': 'Défauts',
       'Space Equipments': 'Espace Équipements',
       'Combined Equipments': 'Combinés Équipements',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Bienvenue chez MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -4392,6 +4412,11 @@ const resources = {
       'Faults Data': 'Fallas',
       'Space Equipments': 'Equipos espaciales',
       'Combined Equipments': 'Equipos combinados',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Bienvenido a MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -5484,6 +5509,11 @@ const resources = {
       'Faults Data': 'Ошибки',
       'Space Equipments': 'Космическое оборудование',
       'Combined Equipments': 'Комбинированное оборудование',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Добро пожаловать в MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -6575,6 +6605,11 @@ const resources = {
       'Faults Data': 'اخطاء',
       'Space Equipments': 'معدات الفضاء',
       'Combined Equipments': 'المعدات المشتركة',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'مرحبا بكم في MyEMS',
       'An Industry Leading Open Source Energy Management System': 'نظام إدارة طاقة مفتوح المصدر رائد في الصناعة',
@@ -7655,6 +7690,11 @@ const resources = {
       'Faults Data': 'Lỗi',
       'Space Equipments': 'Thiết bị không gian',
       'Combined Equipments': 'Thiết bị kết hợp',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -8733,6 +8773,11 @@ const resources = {
       'Faults Data': 'ข้อ บกพร่อง',
       'Space Equipments': 'อุปกรณ์อวกาศ',
       'Combined Equipments': 'อุปกรณ์รวม',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'ยินดีต้อนรับสู่ MyEMS',
       'An Industry Leading Open Source Energy Management System': 'ระบบการจัดการพลังงานโอเพ่นซอร์สชั้นนําของอุตสาหกรรม',
@@ -9810,6 +9855,11 @@ const resources = {
       'Faults Data': 'Hata',
       'Space Equipments': 'Uzay Ekipmanları',
       'Combined Equipments': 'Kombine Ekipmanlar',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
       'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',
@@ -10890,6 +10940,11 @@ const resources = {
       'Faults Data': 'Kesilapan',
       'Space Equipments': 'Peralatan Angkasa',
       'Combined Equipments': 'Peralatan Gabungan',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Selamat datang ke MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -11974,6 +12029,11 @@ const resources = {
       'Faults Data': 'Analisis Kesalahan',
       'Space Equipments': 'Peralatan Ruang',
       'Combined Equipments': 'Peralatan Kombinasi',
+      'Energy Storage Power Station List': '电站列表',
+      'Energy Storage Power Station Details': '设备监控',
+      'Energy Storage Power Station Reporting': '数据报表',
+      'Energy Storage Power Station Alarm': '故障报警',
+      'Energy Storage Power Station Maintenance': '维护保养',
       // Dashboard
       'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
       'An Industry Leading Open Source Energy Management System':
