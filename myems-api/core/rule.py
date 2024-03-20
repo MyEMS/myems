@@ -56,9 +56,14 @@ class RuleCollection:
                 else:
                     next_run_datetime = None
 
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                               "category": row[3], "fdd_code": row[4], "priority": row[5],
-                               "channel": row[6], "expression": row[7],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "category": row[3],
+                               "fdd_code": row[4],
+                               "priority": row[5],
+                               "channel": row[6],
+                               "expression": row[7],
                                "message_template": row[8].replace("<br>", ""),
                                "is_enabled": bool(row[9]),
                                "last_run_datetime": last_run_datetime,
@@ -248,9 +253,14 @@ class RuleItem:
         else:
             next_run_datetime = None
 
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
-                  "category": row[3], "fdd_code": row[4], "priority": row[5],
-                  "channel": row[6], "expression": row[7],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "category": row[3],
+                  "fdd_code": row[4],
+                  "priority": row[5],
+                  "channel": row[6],
+                  "expression": row[7],
                   "message_template": row[8].replace("<br>", ""),
                   "is_enabled": bool(row[9]),
                   "last_run_datetime": last_run_datetime,
@@ -523,9 +533,14 @@ class RuleExport:
         else:
             next_run_datetime = None
 
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
-                  "category": row[3], "fdd_code": row[4], "priority": row[5],
-                  "channel": row[6], "expression": row[7],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "category": row[3],
+                  "fdd_code": row[4],
+                  "priority": row[5],
+                  "channel": row[6],
+                  "expression": row[7],
                   "message_template": row[8].replace("<br>", ""),
                   "is_enabled": bool(row[9]),
                   "last_run_datetime": last_run_datetime,
@@ -722,9 +737,14 @@ class RuleClone:
         else:
             next_run_datetime = None
 
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
-                  "category": row[3], "fdd_code": row[4], "priority": row[5],
-                  "channel": row[6], "expression": row[7],
+        result = {"id": row[0],
+                  "name": row[1],
+                  "uuid": row[2],
+                  "category": row[3],
+                  "fdd_code": row[4],
+                  "priority": row[5],
+                  "channel": row[6],
+                  "expression": row[7],
                   "message_template": row[8].replace("<br>", ""),
                   "is_enabled": bool(row[9]),
                   "last_run_datetime": last_run_datetime,

@@ -43,7 +43,9 @@ class GatewayCollection:
                     last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                 else:
                     last_seen_datetime = None
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2],
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
                                "token": row[3],
                                "last_seen_datetime": last_seen_datetime,
                                "description": row[5]
