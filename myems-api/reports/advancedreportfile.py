@@ -104,18 +104,15 @@ class AdvancedReportFileCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 # Base64 encode the bytes
-                base64_encoded_data = base64.b64encode(row[5])
                 # get the Base64 encoded data using human-readable characters.
-                base64_message = base64_encoded_data.decode('utf-8')
-                create_datetime_local = row[3].replace(tzinfo=None) + \
-                    timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
-                               "create_datetime_local": create_datetime_local.isoformat(),
+                               "create_datetime_local": (row[3].replace(tzinfo=None) +
+                                                         timedelta(minutes=timezone_offset)).isoformat(),
                                "file_type": row[4],
                                "file_size_bytes": sys.getsizeof(row[5]),
-                               "file_bytes_base64": base64_message}
+                               "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -163,16 +160,14 @@ class AdvancedReportFileItem:
                                    description='API.ADVANCED_REPORT_NOT_FOUND')
 
         # Base64 encode the bytes
-        base64_encoded_data = base64.b64encode(row[5])
         # get the Base64 encoded data using human-readable characters.
-        base64_message = base64_encoded_data.decode('utf-8')
 
         result = {"id": row[0],
                   "file_name": row[1],
                   "uuid": row[2],
                   "create_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000,
                   "file_type": row[4],
-                  "file_bytes_base64": base64_message}
+                  "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')}
         resp.text = json.dumps(result)
 
     @staticmethod
