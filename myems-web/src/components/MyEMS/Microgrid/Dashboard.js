@@ -150,10 +150,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       title: microgirdItem['name'],
                       description: microgirdItem['description'],
                       uuid: microgirdItem['uuid'],
-                      url: '/microgrid/details'
+                      url: '/microgrid/details?uuid=' + microgirdItem['uuid']
                     }
                   });
                 }
+                microgirdItem['nameuuid'] = microgirdItem['name'] + microgirdItem['uuid']
                 microgridList.push(microgirdItem);
 
               });
