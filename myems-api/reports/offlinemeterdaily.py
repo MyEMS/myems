@@ -45,19 +45,19 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if offline_meter_id is None and offline_meter_uuid is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_OFFLINE_METER_ID')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_OFFLINE_METER_ID')
 
         if offline_meter_id is not None:
             offline_meter_id = str.strip(offline_meter_id)
             if not offline_meter_id.isdigit() or int(offline_meter_id) <= 0:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_OFFLINE_METER_ID')
 
         if offline_meter_uuid is not None:
             regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\\Z', re.I)
             match = regex.match(str.strip(offline_meter_uuid))
             if not bool(match):
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_OFFLINE_METER_UUID')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -65,7 +65,7 @@ class Reporting:
             timezone_offset = -timezone_offset
 
         if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
@@ -73,13 +73,13 @@ class Reporting:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - \
                 timedelta(minutes=timezone_offset)
 
         if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
         else:
             reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
@@ -87,13 +87,13 @@ class Reporting:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S')
             except ValueError:
-                raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
             reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - \
                 timedelta(minutes=timezone_offset)
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
-            raise falcon.HTTPError(falcon.HTTP_400, title='API.BAD_REQUEST',
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
         ################################################################################################################
@@ -119,7 +119,7 @@ class Reporting:
                 cursor_historical.close()
             if cnx_energy:
                 cnx_energy.disconnect()
-            raise falcon.HTTPError(falcon.HTTP_404,
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
