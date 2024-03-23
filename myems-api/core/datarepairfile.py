@@ -39,7 +39,6 @@ class DataRepairFileCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                upload_datetime_local = row[3].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],

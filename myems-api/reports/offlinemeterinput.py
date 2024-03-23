@@ -66,7 +66,7 @@ class Reporting:
                                   " WHERE id = %s ", (offline_meter_id,))
             row_meter = cursor_system.fetchone()
             if row_meter is None:
-                raise falcon.HTTPError(falcon.HTTP_404, title='API.NOT_FOUND',
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.OFFLINE_METER_NOT_FOUND')
             hourly_low_limit = row_meter[0] if row_meter[0] is not None else 0
             hourly_high_limit = row_meter[1] if row_meter[1] is not None else 0
