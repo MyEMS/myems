@@ -6,6 +6,7 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { checkEmpty, getCookieValue } from '../../../helpers/utils';
 import { settings } from '../../../config';
+import map_maker from '../../../assets/img/icons/map-marker.png';
 
 mapboxgl.accessToken = settings.mapboxToken;
 if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
@@ -37,7 +38,8 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       container: mapContainer.current,
       zoom: Zoom ? Zoom : zoom,
       center: [Longitude ? Longitude : lng, Latitude ? Latitude : lat],
-      style: isDark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11'
+      // https://docs.mapbox.com/api/maps/styles/#mapbox-styles
+      style: isDark ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v12'
     });
 
     map.current.on('move', () => {
@@ -64,7 +66,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         container: mapContainer.current,
         zoom: Zoom ? Zoom : zoom,
         center: [Longitude ? Longitude : lng, Latitude ? Latitude : lat],
-        style: isDark ? 'mapbox://styles/mapbox/dark-v10' : 'mapbox://styles/mapbox/streets-v11'
+        style: isDark ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v12'
       });
 
       map.current.on('move', () => {
@@ -80,7 +82,14 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       map.current.addControl(mapboxLanguage);
 
       map.current.on('load', () => {
-        map.current.addSource('earthquakes', {
+        map.current.loadImage(
+          map_maker,
+            (error, image) => {
+                if (error) throw error;
+                map.current.addImage('map-marker', image);
+            }
+        );
+        map.current.addSource('myems', {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
@@ -94,7 +103,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         map.current.addLayer({
           id: 'clusters',
           type: 'circle',
-          source: 'earthquakes',
+          source: 'myems',
           filter: ['has', 'point_count'],
           paint: {
             // Use step expressions (https://docs.mapbox.com/style-spec/reference/expressions/#step)
@@ -110,7 +119,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         map.current.addLayer({
           id: 'cluster-count',
           type: 'symbol',
-          source: 'earthquakes',
+          source: 'myems',
           filter: ['has', 'point_count'],
           layout: {
             'text-field': ['get', 'point_count_abbreviated'],
@@ -121,14 +130,12 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
 
         map.current.addLayer({
           id: 'unclustered-point',
-          type: 'circle',
-          source: 'earthquakes',
+          type: 'symbol',
+          source: 'myems',
           filter: ['!', ['has', 'point_count']],
-          paint: {
-            'circle-color': '#11b4da',
-            'circle-radius': 10,
-            'circle-stroke-width': 1,
-            'circle-stroke-color': '#fff'
+          'layout': {
+            'icon-image': 'map-marker',
+            "icon-size": 0.5
           }
         });
 
@@ -138,7 +145,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
             layers: ['clusters']
           });
           const clusterId = features[0].properties.cluster_id;
-          map.current.getSource('earthquakes').getClusterExpansionZoom(clusterId, (err, zoom) => {
+          map.current.getSource('myems').getClusterExpansionZoom(clusterId, (err, zoom) => {
             if (err) return;
             map.current.easeTo({
               zoom: zoom,
