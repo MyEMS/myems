@@ -773,6 +773,16 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                 <h6>{t('Revenue')}</h6>
               </NavLink>
             </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '3' })}
+                onClick={() => {
+                  toggleTabLeft('3');
+                }}
+              >
+                <h6>Carbon</h6>
+              </NavLink>
+            </NavItem>
           </Nav>
           <TabContent activeTab={activeTabLeft}>
             <TabPane tabId="1">
@@ -847,13 +857,49 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                 </Fragment>
               </Card>
             </TabPane>
+            <TabPane tabId="3">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Today\'s Cost')}</th>
+                          <th className="pr-0 text-right">900.00 </th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Total Cost')}</th>
+                          <th className="pr-0 text-right ">90000.00</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Today\'s Revenue')}</th>
+                          <th className="pr-0 text-right">1000.00</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Total Revenue')}</th>
+                          <th className="pr-0 text-right">100000.00</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Today\'s Profit')}</th>
+                          <th className="pr-0 text-right">100.00</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Total Profit')}</th>
+                          <th className="pr-0 text-right">10000.00</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
           </TabContent>
           <Card />
         </Col>
-        <Col lg="8" className="pr-lg-2" key={uuid()}>
+        <Col lg="7" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
-        <Col lg="2" className="pr-lg-2">
+        <Col lg="3" className="pr-lg-2">
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
@@ -862,7 +908,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                <h6>{t('General')}</h6>
+                 <h6>{t('Devices')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -872,7 +918,37 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                 <h6>{t('Devices')}</h6>
+                 <h6>PCS</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '3' })}
+                onClick={() => {
+                  toggleTabRight('3');
+                }}
+              >
+                 <h6>BMS</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '4' })}
+                onClick={() => {
+                  toggleTabRight('4');
+                }}
+              >
+                 <h6>Meters</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '5' })}
+                onClick={() => {
+                  toggleTabRight('5');
+                }}
+              >
+                <h6>{t('General')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -884,32 +960,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Name')}</th>
-                          <th className="pr-0 text-right">{microgridName}</th>
+                          <th className="pl-0 pb-0">Communication Gateway</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Address')}</th>
-                          <th className="pr-0 text-right ">{microgridAddress}</th>
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                          <th className="pr-0 text-right">{microgridPostalCode}</th>
+                          <th className="pl-0">1# Battery</th>
+                          <th className="pr-0 text-right ">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                          <th className="pr-0 text-right">{microgridRatedCapacity} kWh</th>
+                          <th className="pl-0 pb-0">1# HVAC</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                          <th className="pr-0 text-right">{microgridRatedPower} kW</th>
+                          <th className="pl-0 pb-0">1# Grid Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Latitude')}</th>
-                          <th className="pr-0 text-right">{microgridLatitude}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Longitude')}</th>
-                          <th className="pr-0 text-right">{microgridLongitude}</th>
+                          <th className="pl-0 pb-0">1# Load Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -946,6 +1018,118 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">1# Load Meter</th>
                           <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="3">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">Communication Gateway</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# Battery</th>
+                          <th className="pr-0 text-right ">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# HVAC</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# Grid Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# Load Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="4">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">Communication Gateway</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# Battery</th>
+                          <th className="pr-0 text-right ">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# HVAC</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# Grid Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1# Load Meter</th>
+                          <th className="pr-0 text-right">Normal</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="5">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Name')}</th>
+                          <th className="pr-0 text-right">{microgridName}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Address')}</th>
+                          <th className="pr-0 text-right ">{microgridAddress}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                          <th className="pr-0 text-right">{microgridPostalCode}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                          <th className="pr-0 text-right">{microgridRatedCapacity} kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                          <th className="pr-0 text-right">{microgridRatedPower} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Latitude')}</th>
+                          <th className="pr-0 text-right">{microgridLatitude}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Longitude')}</th>
+                          <th className="pr-0 text-right">{microgridLongitude}</th>
                         </tr>
                       </tbody>
                     </Table>
