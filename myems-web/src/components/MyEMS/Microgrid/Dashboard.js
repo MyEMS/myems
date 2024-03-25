@@ -136,26 +136,26 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let geojson = {};
               let geojsonData = [];
               json['microgrids'].forEach((currentValue, index) => {
-                let microgirdItem = json['microgrids'][index];
-                totalRatedCapacity += microgirdItem['rated_capacity'];
-                totalRatedPower += microgirdItem['rated_power'];
-                if (microgirdItem['latitude'] && microgirdItem['longitude']) {
+                let microgridItem = json['microgrids'][index];
+                totalRatedCapacity += microgridItem['rated_capacity'];
+                totalRatedPower += microgridItem['rated_power'];
+                if (microgridItem['latitude'] && microgridItem['longitude']) {
                   geojsonData.push({
                     type: 'Feature',
                     geometry: {
                       type: 'Point',
-                      coordinates: [microgirdItem['longitude'], microgirdItem['latitude']]
+                      coordinates: [microgridItem['longitude'], microgridItem['latitude']]
                     },
                     properties: {
-                      title: microgirdItem['name'],
-                      description: microgirdItem['description'],
-                      uuid: microgirdItem['uuid'],
-                      url: '/microgrid/details?uuid=' + microgirdItem['uuid']
+                      title: microgridItem['name'],
+                      description: microgridItem['description'],
+                      uuid: microgridItem['uuid'],
+                      url: '/microgrid/details?uuid=' + microgridItem['uuid']
                     }
                   });
                 }
-                microgirdItem['nameuuid'] = microgirdItem['name'] + microgirdItem['uuid']
-                microgridList.push(microgirdItem);
+                microgridItem['nameuuid'] = microgridItem['name'] + microgridItem['uuid']
+                microgridList.push(microgridItem);
 
               });
               setMicrogridList(microgridList);
@@ -168,9 +168,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['charge_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['charge_ranking'][index];
-                  microgirdItem['unit'] = 'kWh';
-                  chargeRankingList.push(microgirdItem);
+                  let microgridItem = json['charge_ranking'][index];
+                  microgridItem['unit'] = 'kWh';
+                  chargeRankingList.push(microgridItem);
                 }
               });
               setChargeRankingList(chargeRankingList);
@@ -179,9 +179,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['discharge_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['discharge_ranking'][index];
-                  microgirdItem['unit'] = 'kWh';
-                  dischargeRankingList.push(microgirdItem);
+                  let microgridItem = json['discharge_ranking'][index];
+                  microgridItem['unit'] = 'kWh';
+                  dischargeRankingList.push(microgridItem);
                 }
               });
               setDischargeRankingList(dischargeRankingList);
@@ -190,9 +190,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['revenue_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['revenue_ranking'][index];
-                  microgirdItem['unit'] = currency;
-                  revenueList.push(microgirdItem);
+                  let microgridItem = json['revenue_ranking'][index];
+                  microgridItem['unit'] = currency;
+                  revenueList.push(microgridItem);
                 }
               });
               setRevenueRankingList(revenueList);

@@ -69,6 +69,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
   };
 
+  const [activeTabMiddle, setActiveTabMiddle] = useState('1');
+  const toggleTabMiddle = tab => {
+    if (activeTabMiddle !== tab) setActiveTabMiddle(tab);
+  };
   const [activeTabRight, setActiveTabRight] = useState('1');
   const toggleTabRight = tab => {
     if (activeTabRight !== tab) setActiveTabRight(tab);
@@ -771,6 +775,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 <h6>收益指标</h6>
               </NavLink>
             </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '3' })}
+                onClick={() => {
+                  toggleTabLeft('3');
+                }}
+              >
+                <h6>节能减排</h6>
+              </NavLink>
+            </NavItem>
           </Nav>
           <TabContent activeTab={activeTabLeft}>
             <TabPane tabId="1">
@@ -845,10 +859,194 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 </Fragment>
               </Card>
             </TabPane>
+            <TabPane tabId="3">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日充电量</th>
+                          <th className="pr-0 text-right">0 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">今日放电量</th>
+                          <th className="pr-0 text-right ">0 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计充电量</th>
+                          <th className="pr-0 text-right">0 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">累计放电量</th>
+                          <th className="pr-0 text-right">0 kWh</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">综合效率</th>
+                          <th className="pr-0 text-right">0%</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">放电达成率</th>
+                          <th className="pr-0 text-right">0%</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
           </TabContent>
         </Col>
-        <Col lg="8" className="pr-lg-2" key={uuid()}>
+        <Col lg="6" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={energyStoragePowerStationSVG} />
+        </Col>
+        <Col lg="2" className="pr-lg-2">
+          <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabMiddle === '1' })}
+                onClick={() => {
+                  toggleTabMiddle('1');
+                }}
+              >
+                <h6>设备状态</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabMiddle === '2' })}
+                onClick={() => {
+                  toggleTabMiddle('2');
+                }}
+              >
+                <h6>PCS</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabMiddle === '3' })}
+                onClick={() => {
+                  toggleTabMiddle('3');
+                }}
+              >
+                <h6>BMS</h6>
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={activeTabMiddle}>
+            <TabPane tabId="1">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">通信网关</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1#电池堆</th>
+                          <th className="pr-0 text-right ">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#空调</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#网关表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#用户表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="2">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Name')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Address')}</th>
+                          <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Latitude')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationLatitude}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Longitude')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationLongitude}</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="3">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">通信网关</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">1#电池堆</th>
+                          <th className="pr-0 text-right ">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#空调</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#网关表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">1#用户表</th>
+                          <th className="pr-0 text-right">正常</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+          </TabContent>
         </Col>
         <Col lg="2" className="pr-lg-2">
           <Nav tabs>
@@ -859,7 +1057,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('1');
                 }}
               >
-                <h6>设备状态</h6>
+                <h6>电表</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -869,9 +1067,20 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabRight('2');
                 }}
               >
-                <h6>{t('General Information')}</h6>
+                <h6>空调</h6>
               </NavLink>
             </NavItem>
+            <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabRight === '3' })}
+              onClick={() => {
+                toggleTabRight('3');
+              }}
+            >
+              <h6>电站信息</h6>
+            </NavLink>
+           </NavItem>
+
           </Nav>
           <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
@@ -911,6 +1120,46 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               </Card>
             </TabPane>
             <TabPane tabId="2">
+              <Card className="mb-3 fs--1">
+                <Fragment>
+                  <CardBody className="pt-0">
+                    <Table borderless className="fs--1 mb-0">
+                      <tbody>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Name')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Address')}</th>
+                          <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Latitude')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationLatitude}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">{t('Longitude')}</th>
+                          <th className="pr-0 text-right">{energyStoragePowerStationLongitude}</th>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Fragment>
+              </Card>
+            </TabPane>
+            <TabPane tabId="3">
               <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">

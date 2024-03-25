@@ -13,9 +13,9 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   </span>
 );
 
-const customerFormatter = customerName => (
-  <Link to="energystoragepowerstation/details" className="font-weight-semi-bold">
-    {customerName}
+const nameFormatter = (nameuuid) => (
+  <Link to={"/energystoragepowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold">
+    {nameuuid.substring(0, nameuuid.length-36)}
   </Link>
 );
 
@@ -57,9 +57,9 @@ const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
 const columns = [
   {
-    dataField: 'name',
+    dataField: 'nameuuid',
     text: '名称',
-    formatter: customerFormatter,
+    formatter: nameFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
