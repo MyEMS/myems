@@ -136,25 +136,26 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let geojson = {};
               let geojsonData = [];
               json['energy_storage_power_stations'].forEach((currentValue, index) => {
-                let microgirdItem = json['energy_storage_power_stations'][index];
-                totalRatedCapacity += microgirdItem['rated_capacity'];
-                totalRatedPower += microgirdItem['rated_power'];
-                if (microgirdItem['latitude'] && microgirdItem['longitude']) {
+                let energyStoragePowerStationItem = json['energy_storage_power_stations'][index];
+                totalRatedCapacity += energyStoragePowerStationItem['rated_capacity'];
+                totalRatedPower += energyStoragePowerStationItem['rated_power'];
+                if (energyStoragePowerStationItem['latitude'] && energyStoragePowerStationItem['longitude']) {
                   geojsonData.push({
                     type: 'Feature',
                     geometry: {
                       type: 'Point',
-                      coordinates: [microgirdItem['longitude'], microgirdItem['latitude']]
+                      coordinates: [energyStoragePowerStationItem['longitude'], energyStoragePowerStationItem['latitude']]
                     },
                     properties: {
-                      title: microgirdItem['name'],
-                      description: microgirdItem['description'],
-                      uuid: microgirdItem['uuid'],
+                      title: energyStoragePowerStationItem['name'],
+                      description: energyStoragePowerStationItem['description'],
+                      uuid: energyStoragePowerStationItem['uuid'],
                       url: '/energystoragepowerstation/details'
                     }
                   });
                 }
-                energyStoragePowerStationList.push(microgirdItem);
+                energyStoragePowerStationItem['nameuuid'] = energyStoragePowerStationItem['name'] + energyStoragePowerStationItem['uuid']
+                energyStoragePowerStationList.push(energyStoragePowerStationItem);
 
               });
               setEnergyStoragePowerStationList(energyStoragePowerStationList);
@@ -167,9 +168,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['charge_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['charge_ranking'][index];
-                  microgirdItem['unit'] = 'kWh';
-                  chargeRankingList.push(microgirdItem);
+                  let energyStoragePowerStationItem = json['charge_ranking'][index];
+                  energyStoragePowerStationItem['unit'] = 'kWh';
+                  chargeRankingList.push(energyStoragePowerStationItem);
                 }
               });
               setChargeRankingList(chargeRankingList);
@@ -178,9 +179,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['discharge_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['discharge_ranking'][index];
-                  microgirdItem['unit'] = 'kWh';
-                  dischargeRankingList.push(microgirdItem);
+                  let energyStoragePowerStationItem = json['discharge_ranking'][index];
+                  energyStoragePowerStationItem['unit'] = 'kWh';
+                  dischargeRankingList.push(energyStoragePowerStationItem);
                 }
               });
               setDischargeRankingList(dischargeRankingList);
@@ -189,9 +190,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['revenue_ranking'].forEach((currentValue, index) => {
                 // display at most 8 items
                 if (index < 9) {
-                  let microgirdItem = json['revenue_ranking'][index];
-                  microgirdItem['unit'] = currency;
-                  revenueList.push(microgirdItem);
+                  let energyStoragePowerStationItem = json['revenue_ranking'][index];
+                  energyStoragePowerStationItem['unit'] = currency;
+                  revenueList.push(energyStoragePowerStationItem);
                 }
               });
               setRevenueRankingList(revenueList);
@@ -258,7 +259,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                <h6>{t('Revenue Ranking')}</h6>
+                <h6>电量指标</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -268,7 +269,17 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                <h6>{t('Efficiency Ranking')}</h6>
+                <h6>收益指标</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '3' })}
+                onClick={() => {
+                  toggleTabLeft('3');
+                }}
+              >
+                <h6>节能减排</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -315,6 +326,16 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }}
               >
                 <h6>{t('Discharge Ranking')}</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '3' })}
+                onClick={() => {
+                  toggleTabRight('3');
+                }}
+              >
+                <h6>收益排名</h6>
               </NavLink>
             </NavItem>
           </Nav>

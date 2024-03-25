@@ -64,6 +64,9 @@ const NavbarVerticalMenu = ({ routes, location }) => {
             </Nav>
           </Collapse>
         </NavItem>
+        <div className="navbar-vertical-divider">
+          <hr className="navbar-vertical-hr my-2" />
+        </div>
       </Fragment>
     );
   });
