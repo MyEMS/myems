@@ -150,7 +150,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       title: microgridItem['name'],
                       description: microgridItem['description'],
                       uuid: microgridItem['uuid'],
-                      url: '/microgrid/details?uuid=' + microgridItem['uuid']
+                      url: '/microgrid/details'
                     }
                   });
                 }
@@ -259,7 +259,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                <h6>{t('Revenue Ranking')}</h6>
+                <h6>Energy</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -269,7 +269,17 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                <h6>{t('Efficiency Ranking')}</h6>
+                <h6>Revenue</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabLeft === '3' })}
+                onClick={() => {
+                  toggleTabLeft('3');
+                }}
+              >
+                <h6>Carbon</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -278,6 +288,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               <MicrogridRankingTable microgridList={revenueRankingList} />
             </TabPane>
             <TabPane tabId="2">
+              <MicrogridRankingTable microgridList={revenueRankingList} />
+            </TabPane>
+            <TabPane tabId="3">
               <MicrogridRankingTable microgridList={revenueRankingList} />
             </TabPane>
           </TabContent>
@@ -318,12 +331,25 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 <h6>{t('Discharge Ranking')}</h6>
               </NavLink>
             </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabRight === '3' })}
+                onClick={() => {
+                  toggleTabRight('3');
+                }}
+              >
+                <h6>{t('Revenue Ranking')}</h6>
+              </NavLink>
+            </NavItem>
           </Nav>
           <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
             <MicrogridRankingTable microgridList={chargeRankingList}/>
             </TabPane>
             <TabPane tabId="2">
+            <MicrogridRankingTable microgridList={dischargeRankingList}/>
+            </TabPane>
+            <TabPane tabId="3">
             <MicrogridRankingTable microgridList={dischargeRankingList}/>
             </TabPane>
           </TabContent>
