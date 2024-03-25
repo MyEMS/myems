@@ -450,7 +450,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
       // disable submit button
       setSubmitButtonDisabled(true);
     }
-    let customInputTarget = document.getElementById('icrogridSelect');
+    let customInputTarget = document.getElementById('microgridSelect');
     customInputTarget.value = filteredResult[0].value;
   };
 
