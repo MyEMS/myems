@@ -38,11 +38,11 @@ MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协
 
 ## MyEMS社区版功能
 
-详见 [https://myems.io/zh-Hans/docs/intro#myems-features](https://myems.io/zh-Hans/docs/intro#myems-features)
+详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
 
 ## MyEMS企业版功能
 
-详见 [https://myems.io/zh-Hans/docs/enterprise](https://myems.io/zh-Hans/docs/enterprise)
+详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
 
 
 ## MyEMS下载(社区版)
@@ -127,11 +127,11 @@ administrator@myems.io
 
 ### Docker-Compose 快速部署
 
-详见 [https://myems.io/zh-Hans/docs/installation/docker-compose](https://myems.io/zh-Hans/docs/installation/docker-compose)
+详见 [https://myems.io/docs/installation/docker-compose](https://myems.io/docs/installation/docker-compose)
 
 ## 集成测试合作计划
 
-详见 [https://myems.io/zh-Hans/docs/cooperation](https://myems.io/zh-Hans/docs/cooperation)
+详见 [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
 
 ## 微信公众号
 

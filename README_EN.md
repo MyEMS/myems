@@ -13,7 +13,7 @@
 
 MyEMS is an industry-leading open source energy management system and is based on Python and React.
 It is used for collecting, processing, analyzing, reporting and displaying energy data of buildings, factories, shopping malls, data centers and enterprise zones.
-MyEMS can be used for device management, data collection, processing, analysis, visualization and reporting for your EMS projects. 
+MyEMS can be used for device management, data collection, processing, analysis, visualization and reporting for your EMS projects.
 MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
 Using open source to help achieve carbon peak carbon neutrality goals.
 
@@ -38,12 +38,12 @@ Using open source to help achieve carbon peak carbon neutrality goals.
 
 ## Features of MyEMS Community Edition
 
-See [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+See [https://myems.io/en/docs/intro#myems-features](https://myems.io/en/docs/intro#myems-features)
 
 
 ## Features of MyEMS Enterprise Edition
 
-See [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
 
 
 ## MyEMS Downloads (Community Edition)
@@ -60,7 +60,7 @@ See [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
 
 ## MyEMS Installation (Community Edition)
 
-See [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+See [https://myems.io/en/docs/category/installation](https://myems.io/en/docs/category/installation)
 
 ## MyEMS Compose of Components:
 
@@ -127,11 +127,11 @@ administrator@myems.io
 
 ### Docker Compose Repaid Deployment
 
-See [https://myems.io/docs/installation/docker-compose)](https://myems.io/docs/installation/docker-compose)
+See [https://myems.io/en/docs/installation/docker-compose)](https://myems.io/en/docs/installation/docker-compose)
 
 ## Integration Testing Cooperation Plan
 
-See [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
+See [https://myems.io/en/docs/cooperation](https://myems.io/en/docs/cooperation)
 
 ## Weixin Official Subscription Account
 
