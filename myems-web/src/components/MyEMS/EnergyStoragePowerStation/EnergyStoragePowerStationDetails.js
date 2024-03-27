@@ -975,35 +975,31 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
+                  <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Name')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
+                          <th className="pl-0 pb-0">通信网关</th>
+                          <th className="pr-0 text-right">正常</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Address')}</th>
-                          <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
+                          <th className="pl-0">1# PCS</th>
+                          <th className="pr-0 text-right">正常</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
+                          <th className="pl-0">1#电池堆</th>
+                          <th className="pr-0 text-right ">正常</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                          <th className="pl-0 pb-0">1#空调</th>
+                          <th className="pr-0 text-right">正常</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
+                          <th className="pl-0 pb-0">1#网关表</th>
+                          <th className="pr-0 text-right">正常</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Latitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLatitude}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Longitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLongitude}</th>
+                          <th className="pl-0 pb-0">1#用户表</th>
+                          <th className="pr-0 text-right">正常</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -1185,14 +1181,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Rated Power')} </th>
                           <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Latitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLatitude}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Longitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLongitude}</th>
                         </tr>
                       </tbody>
                     </Table>
