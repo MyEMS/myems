@@ -6,16 +6,25 @@ import Background from '../../common/Background';
 import corner1 from '../../../assets/img/illustrations/corner-1.png';
 import corner2 from '../../../assets/img/illustrations/corner-2.png';
 import corner3 from '../../../assets/img/illustrations/corner-3.png';
+import naturalGas from '../../../assets/img/illustrations/natural-gas.png';
+import electrical from '../../../assets/img/illustrations/electrical.png';
+import water from '../../../assets/img/illustrations/water.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const getImage = color => {
   switch (color) {
     case 'warning':
-      return corner1;
+      return water;
     case 'info':
-      return corner2;
+      return electrical;
     case 'success':
-      return corner3;
+      return naturalGas;
+    case 'naturalGas':
+      return naturalGas;
+    case 'electrical':
+      return electrical;
+    case 'water':
+      return water; 
     default:
       return corner1;
   }
