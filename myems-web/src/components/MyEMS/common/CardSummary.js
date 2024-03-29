@@ -16,9 +16,9 @@ const getImage = color => {
     case 'warning':
       return corner1;
     case 'info':
-      return corner12;
+      return corner2;
     case 'success':
-      return corner13;
+      return corner3;
     case 'naturalGas':
       return naturalGas;
     case 'electrical':
