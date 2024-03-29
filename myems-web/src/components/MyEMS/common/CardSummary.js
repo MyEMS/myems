@@ -14,11 +14,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const getImage = color => {
   switch (color) {
     case 'warning':
-      return water;
+      return corner1;
     case 'info':
-      return electrical;
+      return corner12;
     case 'success':
-      return naturalGas;
+      return corner13;
     case 'naturalGas':
       return naturalGas;
     case 'electrical':
