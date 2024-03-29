@@ -250,7 +250,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
 
       <Row noGutters>
-        <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
+        <Col lg={6} xl={6} className="mb-3 pr-lg-2">
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
@@ -292,9 +292,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             </TabPane>
           </TabContent>
         </Col>
-        <Col lg={6} xl={6} className="mb-3 pr-lg-2 mb-3">
+        <Col lg={6} xl={6} className="mb-3 pr-lg-2">
           {settings.showOnlineMap ? (
-            <div className="mb-3 card" style={{ height: '300px' }}>
+            <div className="mb-3 card" style={{ height: '500px' }}>
               <CustomizeMapBox
                 Latitude={rootLatitude}
                 Longitude={rootLongitude}
@@ -306,48 +306,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <></>
           )}
         </Col>
-        <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '1' })}
-                onClick={() => {
-                  toggleTabRight('1');
-                }}
-              >
-                <h6>{t('Charge Ranking')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '2' })}
-                onClick={() => {
-                  toggleTabRight('2');
-                }}
-              >
-                <h6>{t('Discharge Ranking')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '3' })}
-                onClick={() => {
-                  toggleTabRight('3');
-                }}
-              >
-                <h6>收益排名</h6>
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={activeTabRight}>
-            <TabPane tabId="1">
-            <EnergyStoragePowerStationRankingTable energyStoragePowerStationList={chargeRankingList}/>
-            </TabPane>
-            <TabPane tabId="2">
-            <EnergyStoragePowerStationRankingTable energyStoragePowerStationList={dischargeRankingList}/>
-            </TabPane>
-          </TabContent>
-        </Col>
+
       </Row>
 
       <EnergyStoragePowerStationTableCard energyStoragePowerStationList={energyStoragePowerStationList} />
