@@ -6,6 +6,9 @@ import Background from '../../common/Background';
 import corner1 from '../../../assets/img/illustrations/corner-1.png';
 import corner2 from '../../../assets/img/illustrations/corner-2.png';
 import corner3 from '../../../assets/img/illustrations/corner-3.png';
+import corner5 from '../../../assets/img/illustrations/corner-5.png';
+import corner6 from '../../../assets/img/illustrations/corner-6.png';
+import corner7 from '../../../assets/img/illustrations/corner-7.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const getImage = color => {
@@ -16,6 +19,12 @@ const getImage = color => {
       return corner2;
     case 'success':
       return corner3;
+    case 'electricity':
+      return corner5;
+    case 'water':
+      return corner6;
+    case 'gas':
+      return corner7;
     default:
       return corner1;
   }

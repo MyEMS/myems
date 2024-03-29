@@ -292,7 +292,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             </TabPane>
           </TabContent>
         </Col>
-        <Col lg={6} xl={6} className="mb-3 pr-lg-2 mb-3">
+        <Col lg={6} xl={6} className="mb-3 pr-lg-2">
           {settings.showOnlineMap ? (
             <div className="mb-3 card" style={{ height: '500px' }}>
               <CustomizeMapBox
