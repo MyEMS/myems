@@ -20,6 +20,7 @@ import {
 } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
+import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -1123,14 +1124,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pl-0 pb-0">{t('Rated Power')} </th>
                           <th className="pr-0 text-right">{microgridRatedPower} kW</th>
                         </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Latitude')}</th>
-                          <th className="pr-0 text-right">{microgridLatitude}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Longitude')}</th>
-                          <th className="pr-0 text-right">{microgridLongitude}</th>
-                        </tr>
+
                       </tbody>
                     </Table>
                   </CardBody>
@@ -1186,175 +1180,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         <TabPane tabId="2">
           <Card className="mb-3 fs--1">
             <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Charge Start Time')}</th>
-                    <th>{t('Charge End Time')}</th>
-                    <th>{t('Discharge Start Time')}</th>
-                    <th>{t('Discharge End Time')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeStartTime1}
-                        onChange={onChargeStartTime1Change}
-                        onClose={onChargeStartTime1Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeEndTime1}
-                        onChange={onChargeEndTime1Change}
-                        onClose={onChargeEndTime1Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeStartTime1}
-                        onChange={onDischargeStartTime1Change}
-                        onClose={onDischargeStartTime1Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeEndTime1}
-                        onChange={onDischargeEndTime1Change}
-                        onClose={onDischargeEndTime1Close}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeStartTime2}
-                        onChange={onChargeStartTime2Change}
-                        onClose={onChargeStartTime2Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeEndTime2}
-                        onChange={onChargeEndTime2Change}
-                        onClose={onChargeEndTime2Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeStartTime2}
-                        onChange={onDischargeStartTime2Change}
-                        onClose={onDischargeStartTime2Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeEndTime2}
-                        onChange={onDischargeEndTime2Change}
-                        onClose={onDischargeEndTime2Close}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeStartTime3}
-                        onChange={onChargeStartTime3Change}
-                        onClose={onChargeStartTime3Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeEndTime3}
-                        onChange={onChargeEndTime3Change}
-                        onClose={onChargeEndTime3Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeStartTime3}
-                        onChange={onDischargeStartTime3Change}
-                        onClose={onDischargeStartTime3Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeEndTime3}
-                        onChange={onDischargeEndTime3Change}
-                        onClose={onDischargeEndTime3Close}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeStartTime4}
-                        onChange={onChargeStartTime4Change}
-                        onClose={onChargeStartTime4Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={chargeEndTime4}
-                        onChange={onChargeEndTime4Change}
-                        onClose={onChargeEndTime4Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeStartTime4}
-                        onChange={onDischargeStartTime4Change}
-                        onClose={onDischargeStartTime4Close}
-                      />
-                    </td>
-                    <td>
-                      <Datetime
-                        dateFormat={false}
-                        timeFormat="HH:mm"
-                        value={dischargeEndTime4}
-                        onChange={onDischargeEndTime4Change}
-                        onClose={onDischargeEndTime4Close}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+              <SectionLineChart></SectionLineChart>
             </CardBody>
           </Card>
         </TabPane>
