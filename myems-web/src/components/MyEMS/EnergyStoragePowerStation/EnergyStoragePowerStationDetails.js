@@ -1210,7 +1210,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               toggleTabBottom('2');
             }}
           >
-            <h6>调度策略</h6>
+            <h6>{t('Strategy Management')}</h6>
           </NavLink>
         </NavItem>
         <NavItem className="cursor-pointer">
