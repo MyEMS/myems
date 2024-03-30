@@ -56,6 +56,7 @@ app.controller('DataSourceController', function(
 			{"id":"mqtt-huiju", "name": "MQTT HUIJU"},
 			{"id":"mqtt-md4220", "name": "MQTT MD4220"},
 			{"id":"mqtt-seg", "name": "MQTT SEG"},
+			{"id":"mqtt-weilan", "name": "MQTT WEILAN"},
 			{"id":"mqtt", "name": "MQTT"},
 			{"id":"mysql", "name": "MySQL"},
 			{"id":"opc-ua", "name": "OPC-UA"},
