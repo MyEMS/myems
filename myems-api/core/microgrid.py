@@ -70,7 +70,7 @@ class MicrogridCollection:
                                "cost_center": cost_center_dict.get(row[10], None),
                                "serial_number": row[11],
                                "svg": row[12],
-                               "is_cost_data_displayed": row[13],
+                               "is_cost_data_displayed": bool(row[13]),
                                "description": row[14],
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
@@ -321,7 +321,7 @@ class MicrogridItem:
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
                            "svg": row[12],
-                           "is_cost_data_displayed": row[13],
+                           "is_cost_data_displayed": bool(row[13]),
                            "description": row[14],
                            "qrcode": 'microgrid:' + row[2]}
 
@@ -5416,7 +5416,7 @@ class MicrogridExport:
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
                            "svg": row[12],
-                           "is_cost_data_displayed": row[13],
+                           "is_cost_data_displayed": bool(row[13]),
                            "description": row[14]}
 
         resp.text = json.dumps(meta_result)

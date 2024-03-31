@@ -311,7 +311,7 @@ class EnergyStoragePowerStationItem:
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
                            "svg": row[11],
-                           "is_cost_data_displayed": row[12],
+                           "is_cost_data_displayed": bool(row[12]),
                            "description": row[13],
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
@@ -1179,7 +1179,7 @@ class EnergyStoragePowerStationClone:
                            "contact_id": row[9],
                            "cost_center_id": row[10],
                            "svg": row[11],
-                           "is_cost_data_displayed": bool(row[12]),
+                           "is_cost_data_displayed": row[12],
                            "description": row[13]}
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
