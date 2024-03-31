@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added hyperlink to meter name of Meter Batch report in myems-web
 - added SectionLineChart into myems-web
+- added start datetime, end datetime and update datetime to fdd webmessage
 ### Changed
 - changed map marker in myems-web
 ### Fixed

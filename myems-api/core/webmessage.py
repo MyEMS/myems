@@ -148,8 +148,8 @@ class WebMessageCollection:
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, subject, message, "
-                 "        created_datetime_utc, status, reply "
+        query = (" SELECT id, subject, message, created_datetime_utc, start_datetime_utc, end_datetime_utc, "
+                 "        update_datetime_utc, status, reply "
                  " FROM tbl_web_messages "
                  " WHERE user_id = %s AND "
                  "       created_datetime_utc >= %s AND created_datetime_utc < %s AND "
@@ -171,8 +171,11 @@ class WebMessageCollection:
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
                                "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                               "status": row[4],
-                               "reply": row[5]}
+                               "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                               "status": row[7],
+                               "reply": row[8]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -252,8 +255,8 @@ class WebMessageStatusNewCollection:
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, subject, message, "
-                 "        created_datetime_utc, status, reply "
+        query = (" SELECT id, subject, message, created_datetime_utc, start_datetime_utc, end_datetime_utc, "
+                 "        update_datetime_utc, status, reply "
                  " FROM tbl_web_messages "
                  " WHERE user_id = %s AND "
                  "       status = %s "
@@ -273,8 +276,11 @@ class WebMessageStatusNewCollection:
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
                                "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                               "status": row[4],
-                               "reply": row[5]}
+                               "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                               "status": row[7],
+                               "reply": row[8]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -473,8 +479,8 @@ class WebMessageItem:
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, subject, message, "
-                 "        created_datetime_utc, status, reply "
+        query = (" SELECT id, subject, message, created_datetime_utc, start_datetime_utc, end_datetime_utc, "
+                 "        update_datetime_utc, status, reply "
                  " FROM tbl_web_messages "
                  " WHERE id = %s AND user_id = %s "
                  " ORDER BY created_datetime_utc DESC ")
@@ -494,8 +500,11 @@ class WebMessageItem:
                        "subject": row[1],
                        "message": row[2].replace("<br>", ""),
                        "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                       "status": row[4],
-                       "reply": row[5]}
+                       "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                       "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                       "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                       "status": row[7],
+                       "reply": row[8]}
 
         resp.text = json.dumps(meta_result)
 

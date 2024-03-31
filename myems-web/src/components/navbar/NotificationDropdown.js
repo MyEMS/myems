@@ -209,7 +209,7 @@ const NotificationDropdown = ({ t }) => {
             </Link>
           </FalconCardHeader>
           <ListGroup flush className="font-weight-normal fs--1">
-            <div className="list-group-title">{t('notification_NEW')}</div>
+            <div className="list-group-title">{t('Notification New')}</div>
             {isIterableArray(rawNewNotificationschild) &&
               rawNewNotificationschild.map((notification, index) => (
                 <ListGroupItem key={index} onClick={handleToggle}>

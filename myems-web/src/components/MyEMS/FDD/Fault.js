@@ -167,12 +167,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      dataField: 'created_datetime',
-      text: t('Notification Created Datetime'),
-      classes: 'py-2 align-middle',
-      sort: true
-    },
-    {
       dataField: 'message',
       text: t('Notification Message'),
       classes: 'py-2 align-middle',
@@ -180,10 +174,34 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
+      dataField: 'created_datetime',
+      text: t('Notification Created Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'start_datetime',
+      text: t('Notification Start Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'end_datetime',
+      text: t('Notification End Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
       dataField: 'status',
       text: t('Notification Status'),
       classes: 'py-2 align-middle',
       formatter: statusFormatter,
+      sort: true
+    },
+    {
+      dataField: 'update_datetime',
+      text: t('Notification Update Datetime'),
+      classes: 'py-2 align-middle',
       sort: true
     },
     {
@@ -289,11 +307,20 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               let fault = {};
               fault['id'] = currentValue['id'];
               fault['subject'] = currentValue['subject'];
+              fault['message'] = currentValue['message'];
               fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              fault['message'] = currentValue['message'];
+              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
               fault['status'] = currentValue['status'];
+              fault['update_datetime'] = moment(parseInt(currentValue['update_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
               fault['url'] = currentValue['url'];
 
               faultList.push(fault);
@@ -378,11 +405,20 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     let fault = {};
                     fault['id'] = json[index]['id'];
                     fault['subject'] = json[index]['subject'];
+                    fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['message'] = json[index]['message'];
+                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['status'] = json[index]['status'];
+                    fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['url'] = json[index]['url'];
 
                     faultList.push(fault);
@@ -469,13 +505,21 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     let fault = {};
                     fault['id'] = json[index]['id'];
                     fault['subject'] = json[index]['subject'];
+                    fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['message'] = json[index]['message'];
+                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['status'] = json[index]['status'];
+                    fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['url'] = json[index]['url'];
-
                     faultList.push(fault);
                   });
                 }
@@ -555,11 +599,20 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     let fault = {};
                     fault['id'] = json[index]['id'];
                     fault['subject'] = json[index]['subject'];
+                    fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['message'] = json[index]['message'];
+                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['status'] = json[index]['status'];
+                    fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     fault['url'] = json[index]['url'];
 
                     faultList.push(fault);
@@ -658,7 +711,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                       {t('Notification Read')}
                     </option>
                     <option value="new" key="unread">
-                      {t('notification_NEW')}
+                      {t('Notification New')}
                     </option>
                     <option value="acknowledged" key="acknowledged">
                       {t('Notification Acknowledged')}

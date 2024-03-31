@@ -106,11 +106,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   let notification = {};
                   notification['id'] = json[index]['id'];
                   notification['subject'] = json[index]['subject'];
+                  notification['message'] = json[index]['message'];
                   notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                     'YYYY-MM-DD HH:mm:ss'
                   );
-                  notification['message'] = json[index]['message'];
+                  notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                  );
+                  notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                  );
                   notification['status'] = json[index]['status'];
+                  notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                  );
                   notification['url'] = json[index]['url'];
 
                   notificationList.push(notification);
@@ -194,6 +203,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               notification['id'] = currentValue['id'];
               notification['subject'] = currentValue['subject'];
               notification['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              notification['start_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              notification['end_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
               notification['message'] = currentValue['message'];
@@ -310,12 +325,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      dataField: 'created_datetime',
-      text: t('Notification Created Datetime'),
-      classes: 'py-2 align-middle',
-      sort: true
-    },
-    {
       dataField: 'message',
       text: t('Notification Message'),
       classes: 'py-2 align-middle',
@@ -323,10 +332,34 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
+      dataField: 'created_datetime',
+      text: t('Notification Created Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'start_datetime',
+      text: t('Notification Start Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'end_datetime',
+      text: t('Notification End Datetime'),
+      classes: 'py-2 align-middle',
+      sort: true
+    },
+    {
       dataField: 'status',
       text: t('Notification Status'),
       classes: 'py-2 align-middle',
       formatter: statusFormatter,
+      sort: true
+    },
+    {
+      dataField: 'update_datetime',
+      text: t('Notification Update Datetime'),
+      classes: 'py-2 align-middle',
       sort: true
     },
     {
@@ -434,11 +467,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     let notification = {};
                     notification['id'] = json[index]['id'];
                     notification['subject'] = json[index]['subject'];
+                    notification['message'] = json[index]['message'];
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['message'] = json[index]['message'];
+                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['status'] = json[index]['status'];
+                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
@@ -522,11 +564,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     let notification = {};
                     notification['id'] = json[index]['id'];
                     notification['subject'] = json[index]['subject'];
+                    notification['message'] = json[index]['message'];
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['message'] = json[index]['message'];
+                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['status'] = json[index]['status'];
+                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
@@ -605,11 +656,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     let notification = {};
                     notification['id'] = json[index]['id'];
                     notification['subject'] = json[index]['subject'];
+                    notification['message'] = json[index]['message'];
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['message'] = json[index]['message'];
+                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
+                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['status'] = json[index]['status'];
+                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                    );
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
@@ -731,11 +791,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               let notification = {};
               notification['id'] = json[index]['id'];
               notification['subject'] = json[index]['subject'];
+              notification['message'] = json[index]['message'];
               notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              notification['message'] = json[index]['message'];
+              notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
               notification['status'] = json[index]['status'];
+              notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
               notification['url'] = json[index]['url'];
 
               notificationList.push(notification);
@@ -806,7 +875,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                       {t('Notification Read')}
                     </option>
                     <option value="new" key="unread">
-                      {t('notification_NEW')}
+                      {t('Notification New')}
                     </option>
                     <option value="acknowledged" key="acknowledged">
                       {t('Notification Acknowledged')}
