@@ -15,6 +15,10 @@ VALUES
 (1404, 'Energy Storage Power Station Alarm','/energystoragepowerstation/alarm', 1400, 1),
 (1405, 'Energy Storage Power Station Maintenance','/energystoragepowerstation/maintenance', 1400, 1);
 
+-- add columns
+ALTER TABLE `myems_fdd_db`.`tbl_web_messages` ADD `update_datetime_utc` DATETIME NULL AFTER `created_datetime_utc`;
+ALTER TABLE `myems_fdd_db`.`tbl_web_messages` ADD `end_datetime_utc` DATETIME NULL AFTER `created_datetime_utc`;
+ALTER TABLE `myems_fdd_db`.`tbl_web_messages` ADD `start_datetime_utc` DATETIME NULL AFTER `created_datetime_utc`;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.4.0RC', release_date='2024-04-10' WHERE id=1;

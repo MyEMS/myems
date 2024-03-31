@@ -128,6 +128,9 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `priority` VARCHAR(128) NOT NULL COMMENT 'CRITICAL, HIGH, MEDIUM, LOW',
   `message` LONGTEXT NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
+  `start_datetime_utc` DATETIME NULL,
+  `end_datetime_utc` DATETIME NULL,
+  `update_datetime_utc` DATETIME NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, read',
   `reply` LONGTEXT NULL,
   PRIMARY KEY (`id`));
