@@ -273,6 +273,7 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.energystoragepowerstation.is_cost_data_displayed = false;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};
