@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added hyperlink to meter name of Meter Batch report in myems-web
 - added SectionLineChart into myems-web
 - added start datetime, end datetime and update datetime to fdd webmessage
+- added is_cost_data_displayed to microgrid and energy storage power station
 ### Changed
 - changed map marker in myems-web
 ### Fixed

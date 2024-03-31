@@ -470,6 +470,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations`
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg` LONGTEXT NOT NULL,
+  `is_cost_data_displayed` BOOL NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_stations_index_1`
@@ -847,6 +848,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `cost_center_id` BIGINT NOT NULL,
   `serial_number` VARCHAR(255) NOT NULL,
   `svg` LONGTEXT NOT NULL,
+  `is_cost_data_displayed` BOOL NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_index_1` ON `myems_system_db`.`tbl_microgrids` (`name`);

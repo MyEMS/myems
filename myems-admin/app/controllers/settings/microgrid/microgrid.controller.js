@@ -275,6 +275,7 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 	$scope.operation = "SETTING.ADD_MICROGRID";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.microgrid.is_cost_data_displayed = false;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.microgrid);
 	};
