@@ -146,114 +146,91 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
 
   useEffect(() => {
     let isResponseOK = false;
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-      setEnergyStoragePowerStationSearchHidden(false);
-      fetch(APIBaseURL + '/spaces/tree', {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
+    setSpaceCascaderHidden(false);
+    setEnergyStoragePowerStationSearchHidden(false);
+    fetch(APIBaseURL + '/spaces/tree', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
       })
-        .then(response => {
-          console.log(response);
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        })
-        .then(json => {
-          console.log(json);
-          if (isResponseOK) {
-            // rename keys
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            setCascaderOptions(json);
-            setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
-            // get EnergyStoragePowerStations by root Space ID
-            let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energystoragepowerstations', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get EnergyStoragePowerStations by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energystoragepowerstations', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
             })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOK = true;
-                }
-                return response.json();
-              })
-              .then(json => {
-                if (isResponseOK) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  console.log(json);
-                  setEnergyStoragePowerStationList(json[0]);
-                  setFilteredEnergyStoragePowerStationList(json[0]);
-                  if (json[0].length > 0) {
-                    setSelectedEnergyStoragePowerStation(json[0][0].value);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                  } else {
-                    setSelectedEnergyStoragePowerStation(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                  }
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setEnergyStoragePowerStationList(json[0]);
+                setFilteredEnergyStoragePowerStationList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedEnergyStoragePowerStation(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
                 } else {
-                  toast.error(t(json.description));
+                  setSelectedEnergyStoragePowerStation(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
                 }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            // end of get EnergyStoragePowerStations by root Space ID
-          } else {
-            toast.error(t(json.description));
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      setSpaceCascaderHidden(true);
-      setEnergyStoragePowerStationSearchHidden(true);
-      let url =
-        APIBaseURL +
-        '/reports/energystoragepowerstationreporting?' +
-        'uuid=' +
-        uuid +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language;
-      loadData(url);
-    }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get EnergyStoragePowerStations by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   const loadData = url => {
@@ -286,12 +263,6 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
       .then(json => {
         if (isResponseOK) {
           console.log(json);
-          if (uuid !== null && uuid) {
-            setFilteredEnergyStoragePowerStationList([
-              { id: json['energy_storage_power_station']['id'], label: json['energy_storage_power_station']['name'] }
-            ]);
-            setSelectedEnergyStoragePowerStation(json['energy_storage_power_station']['id']);
-          }
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
           setEnergyStoragePowerStationSerialNumber(json['energy_storage_power_station']['serial_number']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
