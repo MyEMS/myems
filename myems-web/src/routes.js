@@ -473,7 +473,7 @@ export const energyStoragePowerStationRoutes = {
   to: '/energystoragepowerstation',
   icon: 'building',
   children: [
-    { to: '/energystoragepowerstation', name: 'Energy Storage Power Station List' },
+    { to: '/energystoragepowerstation/list', name: 'Energy Storage Power Station List' },
     { to: '/energystoragepowerstation/details', name: 'Energy Storage Power Station Details' },
     { to: '/energystoragepowerstation/reporting', name: 'Energy Storage Power Station Reporting' },
     { to: '/energystoragepowerstation/alarm', name: 'Energy Storage Power Station Alarm' },
