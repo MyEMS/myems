@@ -1,14 +1,33 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Tooltip,
+  Legend,
+  LineController,
+  BarController
+} from 'chart.js';
 import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { number } from 'is_js';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Tooltip,
+  Legend,
+  LineController,
+  BarController
+  );
 
 const MultiTrendChart = ({
   reportingTitle,
