@@ -8,9 +8,11 @@ START TRANSACTION;
 
 UPDATE myems_system_db.tbl_menus SET route='/energystoragepowerstation/details' WHERE id=1401;
 
+DELETE FROM myems_system_db.tbl_menus WHERE id=1401;
 INSERT INTO myems_system_db.tbl_menus (id, name, route, parent_menu_id, is_hidden)
 VALUES
-(1402, 'Energy Storage Power Station List','/energystoragepowerstation/list', 1400, 1),
+(1401, 'Energy Storage Power Station List','/energystoragepowerstation/list', 1400, 1),
+(1402,'Energy Storage Power Station Details','/energystoragepowerstation/details',1400,1),
 (1403, 'Energy Storage Power Station Reporting','/energystoragepowerstation/reporting', 1400, 1),
 (1404, 'Energy Storage Power Station Alarm','/energystoragepowerstation/alarm', 1400, 1),
 (1405, 'Energy Storage Power Station Maintenance','/energystoragepowerstation/maintenance', 1400, 1);
