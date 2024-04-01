@@ -752,7 +752,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   return (
     <Fragment>
       <Row noGutters>
-        <Col lg="2" className="pr-lg-2">
+        <Col lg="3" className="pr-lg-2">
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
@@ -895,9 +895,8 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               </Card>
             </TabPane>
           </TabContent>
-          <Card />
         </Col>
-        <Col lg="7" className="pr-lg-2" key={uuid()}>
+        <Col lg="6" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={microgridSVG} />
         </Col>
         <Col lg="3" className="pr-lg-2">
@@ -917,36 +916,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                 className={classNames({ active: activeTabRight === '2' })}
                 onClick={() => {
                   toggleTabRight('2');
-                }}
-              >
-                 <h6>PCS</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '3' })}
-                onClick={() => {
-                  toggleTabRight('3');
-                }}
-              >
-                 <h6>BMS</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '4' })}
-                onClick={() => {
-                  toggleTabRight('4');
-                }}
-              >
-                 <h6>Meters</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '5' })}
-                onClick={() => {
-                  toggleTabRight('5');
                 }}
               >
                 <h6>{t('General')}</h6>
@@ -991,114 +960,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               </Card>
             </TabPane>
             <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">Communication Gateway</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# Battery</th>
-                          <th className="pr-0 text-right ">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# HVAC</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Grid Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Load Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="3">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">Communication Gateway</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# Battery</th>
-                          <th className="pr-0 text-right ">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# HVAC</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Grid Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Load Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="4">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">Communication Gateway</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# Battery</th>
-                          <th className="pr-0 text-right ">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# HVAC</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Grid Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Load Meter</th>
-                          <th className="pr-0 text-right">Normal</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="5">
               <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">
@@ -1166,6 +1027,61 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             <h6>{t('Fault Alarms')}</h6>
           </NavLink>
         </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '4' })}
+            onClick={() => {
+              toggleTabBottom('4');
+            }}
+          >
+            <h6>PCS</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '5' })}
+            onClick={() => {
+              toggleTabBottom('5');
+            }}
+          >
+            <h6>BMS</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '6' })}
+            onClick={() => {
+              toggleTabBottom('6');
+            }}
+          >
+            <h6>PV</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '7' })}
+            onClick={() => {
+              toggleTabBottom('7');
+            }}
+          >
+            <h6>EV Charger</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '8' })}
+            onClick={() => {
+              toggleTabBottom('8');
+            }}
+          >
+            <h6>Heat Pump</h6>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTabBottom}>
         <TabPane tabId="1">
@@ -1193,13 +1109,19 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <th>#</th>
                     <th>{t('Subject')}</th>
                     <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
                     <th>{t('Content')}</th>
                     <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1211,6 +1133,9 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <td />
                     <td />
                     <td />
+                    <td />
+                    <td />
+                    <td />
                   </tr>
                   <tr>
                     <th scope="row">3</th>
@@ -1218,9 +1143,325 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <td />
                     <td />
                     <td />
+                    <td />
+                    <td />
+                    <td />
                   </tr>
                   <tr>
                     <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="4">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="5">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="6">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="7">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="8">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{t('Subject')}</th>
+                    <th>{t('Datetime')}</th>
+                    <th>{t('Start Datetime')}</th>
+                    <th>{t('End Datetime')}</th>
+                    <th>{t('Content')}</th>
+                    <th>{t('Status')}</th>
+                    <th>{t('Update Datetime')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
                     <td />
                     <td />
                     <td />
