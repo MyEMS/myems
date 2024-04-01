@@ -609,6 +609,10 @@ api.add_route('/spaces/{id_}/combinedequipments',
               space.SpaceCombinedEquipmentCollection())
 api.add_route('/spaces/{id_}/combinedequipments/{eid}',
               space.SpaceCombinedEquipmentItem())
+api.add_route('/spaces/{id_}/energystoragepowerstations',
+              space.SpaceEnergyStoragePowerStationCollection())
+api.add_route('/spaces/{id_}/energystoragepowerstations/{eid}',
+              space.SpaceEnergyStoragePowerStationItem())
 api.add_route('/spaces/{id_}/equipments',
               space.SpaceEquipmentCollection())
 api.add_route('/spaces/{id_}/equipments/{eid}',
