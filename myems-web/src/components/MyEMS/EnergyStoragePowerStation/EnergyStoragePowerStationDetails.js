@@ -70,10 +70,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
   };
 
-  const [activeTabMiddle, setActiveTabMiddle] = useState('1');
-  const toggleTabMiddle = tab => {
-    if (activeTabMiddle !== tab) setActiveTabMiddle(tab);
-  };
   const [activeTabRight, setActiveTabRight] = useState('1');
   const toggleTabRight = tab => {
     if (activeTabRight !== tab) setActiveTabRight(tab);
@@ -905,9 +901,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
-                className={classNames({ active: activeTabMiddle === '1' })}
+                className={classNames({ active: activeTabRight === '1' })}
                 onClick={() => {
-                  toggleTabMiddle('1');
+                  toggleTabRight('1');
                 }}
               >
                 <h6>设备状态</h6>
@@ -915,16 +911,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavItem>
             <NavItem className="cursor-pointer">
               <NavLink
-                className={classNames({ active: activeTabRight === '3' })}
+                className={classNames({ active: activeTabRight === '2' })}
                 onClick={() => {
-                  toggleTabRight('3');
+                  toggleTabRight('2');
                 }}
               >
                 <h6>电站信息</h6>
               </NavLink>
             </NavItem>
           </Nav>
-          <TabContent activeTab={activeTabMiddle}>
+          <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
               <Card className="mb-3 fs--1">
                 <Fragment>
@@ -987,21 +983,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                           <th className="pl-0 pb-0">{t('Rated Power')} </th>
                           <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
                         </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Latitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLatitude}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Longitude')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationLongitude}</th>
-                        </tr>
                       </tbody>
                     </Table>
                   </CardBody>
                 </Fragment>
               </Card>
             </TabPane>
-
           </TabContent>
         </Col>
       </Row>

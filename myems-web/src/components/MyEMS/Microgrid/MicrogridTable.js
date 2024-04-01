@@ -52,8 +52,10 @@ const badgeFormatter = status => {
   );
 };
 
+const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
 const columns = [
   {
@@ -70,6 +72,30 @@ const columns = [
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true
+  },
+  {
+    dataField: 'total_charge',
+    text: 'Total Charge',
+    formatter: energyFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
+    dataField: 'total_discharge',
+    text: 'Total Discharge',
+    formatter: energyFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
+  },
+  {
+    dataField: 'total_revenue',
+    text: 'Total Revenue',
+    formatter: currencyFormatter,
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true,
   },
   {
     dataField: 'rated_capacity',
