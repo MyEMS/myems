@@ -52,8 +52,11 @@ const badgeFormatter = status => {
   );
 };
 
+
+const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
 const columns = [
   {
@@ -72,25 +75,25 @@ const columns = [
     sort: true
   },
   {
-    dataField: 'rated_capacity',
-    text: '充电量',
-    formatter: capacityFormatter,
+    dataField: 'total_charge',
+    text: '总充电量',
+    formatter: energyFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
   },
   {
-    dataField: 'rated_capacity',
-    text: '放电量',
-    formatter: capacityFormatter,
+    dataField: 'total_discharge',
+    text: '总放电量',
+    formatter: energyFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
   },
   {
-    dataField: 'rated_capacity',
-    text: '收益',
-    formatter: capacityFormatter,
+    dataField: 'total_revenue',
+    text: '总收益',
+    formatter: currencyFormatter,
     classes: 'border-0 align-middle',
     headerClasses: 'border-0',
     sort: true,
@@ -156,6 +159,7 @@ const selectRow = onSelect => ({
 
 
 const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList }) => {
+
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);

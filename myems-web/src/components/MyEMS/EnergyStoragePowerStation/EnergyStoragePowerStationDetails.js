@@ -754,7 +754,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   return (
     <Fragment>
       <Row noGutters>
-        <Col lg="2" className="pr-lg-2">
+        <Col lg="3" className="pr-lg-2">
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
@@ -901,7 +901,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         <Col lg="6" className="pr-lg-2" key={uuid()}>
           <div dangerouslySetInnerHTML={energyStoragePowerStationSVG} />
         </Col>
-        <Col lg="2" className="pr-lg-2">
+        <Col lg="3" className="pr-lg-2">
           <Nav tabs>
             <NavItem className="cursor-pointer">
               <NavLink
@@ -915,171 +915,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavItem>
             <NavItem className="cursor-pointer">
               <NavLink
-                className={classNames({ active: activeTabMiddle === '2' })}
+                className={classNames({ active: activeTabRight === '3' })}
                 onClick={() => {
-                  toggleTabMiddle('2');
+                  toggleTabRight('3');
                 }}
               >
-                <h6>PCS</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabMiddle === '3' })}
-                onClick={() => {
-                  toggleTabMiddle('3');
-                }}
-              >
-                <h6>BMS</h6>
+                <h6>电站信息</h6>
               </NavLink>
             </NavItem>
           </Nav>
           <TabContent activeTab={activeTabMiddle}>
-            <TabPane tabId="1">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                  <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="3">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-          </TabContent>
-        </Col>
-        <Col lg="2" className="pr-lg-2">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '1' })}
-                onClick={() => {
-                  toggleTabRight('1');
-                }}
-              >
-                <h6>电表</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '2' })}
-                onClick={() => {
-                  toggleTabRight('2');
-                }}
-              >
-                <h6>空调</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-            <NavLink
-              className={classNames({ active: activeTabRight === '3' })}
-              onClick={() => {
-                toggleTabRight('3');
-              }}
-            >
-              <h6>电站信息</h6>
-            </NavLink>
-           </NavItem>
-
-          </Nav>
-          <TabContent activeTab={activeTabRight}>
             <TabPane tabId="1">
               <Card className="mb-3 fs--1">
                 <Fragment>
@@ -1156,38 +1001,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 </Fragment>
               </Card>
             </TabPane>
-            <TabPane tabId="3">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Name')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Address')}</th>
-                          <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
+
           </TabContent>
         </Col>
       </Row>
@@ -1223,6 +1037,61 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <h6>{t('Fault Alarms')}</h6>
           </NavLink>
         </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '4' })}
+            onClick={() => {
+              toggleTabBottom('4');
+            }}
+          >
+            <h6>PCS</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '5' })}
+            onClick={() => {
+              toggleTabBottom('5');
+            }}
+          >
+            <h6>BMS</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '6' })}
+            onClick={() => {
+              toggleTabBottom('6');
+            }}
+          >
+            <h6>电表</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '7' })}
+            onClick={() => {
+              toggleTabBottom('7');
+            }}
+          >
+            <h6>空调</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '8' })}
+            onClick={() => {
+              toggleTabBottom('8');
+            }}
+          >
+            <h6>消防</h6>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={activeTabBottom}>
         <TabPane tabId="1">
@@ -1249,14 +1118,20 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   <tr>
                     <th>#</th>
                     <th>主题</th>
-                    <th>时间</th>
                     <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
                     <th>状态</th>
+                    <th>更新时间</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
                     <td />
                     <td />
                     <td />
@@ -1268,6 +1143,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     <td />
                     <td />
                     <td />
+                    <td />
+                    <td />
+                    <td />
                   </tr>
                   <tr>
                     <th scope="row">3</th>
@@ -1275,9 +1153,325 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     <td />
                     <td />
                     <td />
+                    <td />
+                    <td />
+                    <td />
                   </tr>
                   <tr>
                     <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="4">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="5">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="6">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="7">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </TabPane>
+        <TabPane tabId="8">
+          <Card className="mb-3 fs--1">
+            <CardBody className="bg-light">
+              <Table striped className="border-bottom">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>主题</th>
+                    <th>内容</th>
+                    <th>创建时间</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                    <td />
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td />
+                    <td />
+                    <td />
                     <td />
                     <td />
                     <td />
