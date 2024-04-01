@@ -772,9 +772,10 @@ VALUES
 (1302,'Microgrid Reporting','/microgrid/reporting',1300,1),
 (1400,'Energy Storage Power Station','/energystoragepowerstation',NULL,1),
 (1401,'Energy Storage Power Station Details','/energystoragepowerstation/details',1400,1),
-(1402,'Energy Storage Power Station Reporting','/energystoragepowerstation/reporting',1400,1),
-(1403,'Energy Storage Power Station Alarm','energystoragepowerstation/alarm',1400,1),
-(1404,'Energy Storage Power Station Maintenance','energystoragepowerstation/maintenance',1400,1),
+(1402,'Energy Storage Power Station List','/energystoragepowerstation/list', 1400, 1),
+(1403,'Energy Storage Power Station Reporting','/energystoragepowerstation/reporting', 1400, 1),
+(1404,'Energy Storage Power Station Alarm','/energystoragepowerstation/alarm', 1400, 1),
+(1405,'Energy Storage Power Station Maintenance','/energystoragepowerstation/maintenance', 1400, 1);
 (1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),
 (1501,'Photovoltaic Power Station Details','/photovoltaicpowerstationdetails',1500,1),
 (1600,'Wind Farm','/windfarm',NULL,1),
