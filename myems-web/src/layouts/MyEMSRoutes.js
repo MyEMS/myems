@@ -459,8 +459,8 @@ const MyEMSRoutes = () => (
     <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
 
     {/*EnergyStoragePowerStation*/}
-    <Route path="/energystoragepowerstation" exact component={EnergyStoragePowerStationList} />
     <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
+    <Route path="/energystoragepowerstation/list" exact component={EnergyStoragePowerStationList} />
     <Route path="/energystoragepowerstation/reporting" exact component={EnergyStoragePowerStationReporting} />
     <Route path="/energystoragepowerstation/alarm" exact component={Notification} />
     <Route path="/energystoragepowerstation/maintenance" exact component={EnergyStoragePowerStationDetails} />
