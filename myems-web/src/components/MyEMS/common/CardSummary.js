@@ -12,6 +12,12 @@ import corner7 from '../../../assets/img/illustrations/corner-7.png';
 import corner8 from '../../../assets/img/illustrations/corner-8.png';
 import corner9 from '../../../assets/img/illustrations/corner-9.png';
 import corner10 from '../../../assets/img/illustrations/corner-10.png';
+import corner11 from '../../../assets/img/illustrations/corner-11.png';
+import corner12 from '../../../assets/img/illustrations/corner-12.png';
+import corner13 from '../../../assets/img/illustrations/corner-13.png';
+import corner14 from '../../../assets/img/illustrations/corner-14.png';
+import corner15 from '../../../assets/img/illustrations/corner-15.png';
+import corner16 from '../../../assets/img/illustrations/corner-16.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const getImage = color => {
@@ -34,6 +40,18 @@ const getImage = color => {
       return corner9;
     case 'discharge':
       return corner10;
+    case 'cost':
+      return corner11;
+    case 'income':
+      return corner12;
+    case 'alarm':
+      return corner13;
+    case 'powerStation':
+      return corner14;
+    case 'ratedCapacity':
+      return corner15;
+    case 'ratedPower':
+      return corner16;
     default:
       return corner1;
   }
