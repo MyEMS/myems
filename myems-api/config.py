@@ -7,6 +7,7 @@ myems_system_db = {
     'database': config('MYEMS_SYSTEM_DB_DATABASE', default='myems_system_db'),
     'user': config('MYEMS_SYSTEM_DB_USER', default='root'),
     'password': config('MYEMS_SYSTEM_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_energy_db = {
@@ -15,6 +16,7 @@ myems_energy_db = {
     'database': config('MYEMS_ENERGY_DB_DATABASE', default='myems_energy_db'),
     'user': config('MYEMS_ENERGY_DB_USER', default='root'),
     'password': config('MYEMS_ENERGY_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_energy_baseline_db = {
@@ -23,6 +25,7 @@ myems_energy_baseline_db = {
     'database': config('MYEMS_ENERGY_BASELINE_DB_DATABASE', default='myems_energy_baseline_db'),
     'user': config('MYEMS_ENERGY_BASELINE_DB_USER', default='root'),
     'password': config('MYEMS_ENERGY_BASELINE_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_billing_db = {
@@ -31,6 +34,7 @@ myems_billing_db = {
     'database': config('MYEMS_BILLING_DB_DATABASE', default='myems_billing_db'),
     'user': config('MYEMS_BILLING_DB_USER', default='root'),
     'password': config('MYEMS_BILLING_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_billing_baseline_db = {
@@ -39,6 +43,7 @@ myems_billing_baseline_db = {
     'database': config('MYEMS_BILLING_BASELINE_DB_DATABASE', default='myems_billing_baseline_db'),
     'user': config('MYEMS_BILLING_BASELINE_DB_USER', default='root'),
     'password': config('MYEMS_BILLING_BASELINE_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_historical_db = {
@@ -47,6 +52,7 @@ myems_historical_db = {
     'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_historical_db'),
     'user': config('MYEMS_HISTORICAL_DB_USER', default='root'),
     'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_user_db = {
@@ -55,6 +61,7 @@ myems_user_db = {
     'database': config('MYEMS_USER_DB_DATABASE', default='myems_user_db'),
     'user': config('MYEMS_USER_DB_USER', default='root'),
     'password': config('MYEMS_USER_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_fdd_db = {
@@ -63,6 +70,7 @@ myems_fdd_db = {
     'database': config('MYEMS_FDD_DB_DATABASE', default='myems_fdd_db'),
     'user': config('MYEMS_FDD_DB_USER', default='root'),
     'password': config('MYEMS_FDD_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_reporting_db = {
@@ -71,6 +79,7 @@ myems_reporting_db = {
     'database': config('MYEMS_REPORTING_DB_DATABASE', default='myems_reporting_db'),
     'user': config('MYEMS_REPORTING_DB_USER', default='root'),
     'password': config('MYEMS_REPORTING_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_carbon_db = {
@@ -79,6 +88,7 @@ myems_carbon_db = {
     'database': config('MYEMS_CARBON_DB_DATABASE', default='myems_carbon_db'),
     'user': config('MYEMS_CARBON_DB_USER', default='root'),
     'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
+    'auth_plugin': 'mysql_native_password',
 }
 
 myems_mqtt_broker = {
