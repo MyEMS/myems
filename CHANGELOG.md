@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added start datetime, end datetime and update datetime to fdd webmessage
 - added is_cost_data_displayed to microgrid and energy storage power station
 - added energy storage power station relation to space in myems-api
+- added myems energy plan database
+- 
 ### Changed
 - changed map marker in myems-web
 ### Fixed
