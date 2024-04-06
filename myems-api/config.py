@@ -25,6 +25,14 @@ myems_energy_baseline_db = {
     'password': config('MYEMS_ENERGY_BASELINE_DB_PASSWORD', default='!MyEMS1'),
 }
 
+myems_energy_plan_db = {
+    'host': config('MYEMS_ENERGY_PLAN_DB_HOST', default='127.0.0.1'),
+    'port': config('MYEMS_ENERGY_PLAN_DB_PORT', default=3306, cast=int),
+    'database': config('MYEMS_ENERGY_PLAN_DB_DATABASE', default='myems_energy_plan_db'),
+    'user': config('MYEMS_ENERGY_PLAN_DB_USER', default='root'),
+    'password': config('MYEMS_ENERGY_PLAN_DB_PASSWORD', default='!MyEMS1'),
+}
+
 myems_billing_db = {
     'host': config('MYEMS_BILLING_DB_HOST', default='127.0.0.1'),
     'port': config('MYEMS_BILLING_DB_PORT', default=3306, cast=int),
