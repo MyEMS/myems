@@ -168,14 +168,21 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
           new mapboxgl.Popup() // add popups
             .setLngLat(coordinates)
             .setHTML(
-              `<a target="_blank" href="${url}?uuid=${uuid}">
-                <div class="d-flex align-items-center media">
-                  <div class="ml-2 media-body">
-                    <h3 class="mb-0 fs--1">${title}</h3>
-                  </div>
-                </div>
-              </a>
-              <p>${description}</p>`
+              `
+                <h3 style="font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+                    background: #91c949;
+                    color: #fff;
+                    margin: 0;
+                    padding: 10px;
+                    border-radius: 3px 3px 0 0;
+                    font-weight: 700;"><a target="_blank" href="${url}?uuid=${uuid}">${title}</a>
+                </h3>
+              <h4 style="font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+                  background: #91c949;
+                  color: #fff;
+                  margin: 0;
+                  padding: 10px;
+                  font-weight: 400;">${description}</h4>`
             )
             .addTo(map.current);
         });
