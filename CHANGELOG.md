@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - changed map marker in myems-web
+- updated popup style of mapbox in myems-web
+- 
 ### Fixed
 - added decimal data value range check to myems-modbus-tcp.
 ### Removed
