@@ -179,9 +179,10 @@ const MicrogridListItem = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                    onClick={() => window.open('notification', '_blank')}
+                    onClick={() => window.open('fdd', '_blank')}
                   >
-                    {t('Fault Alarms')}({alarms.length})
+                    {/* {t('Fault Alarms')}({alarms.length}) */}
+                    {t('Fault Alarms')}
                   </ButtonIcon>
 
                   <ButtonIcon

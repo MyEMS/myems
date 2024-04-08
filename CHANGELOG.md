@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed map marker in myems-web
 - updated popup style of mapbox in myems-web
 - changed baidu map to mapbox for longitude and latitude
+- chenged microgrid list alarm link to fdd fault
 ### Fixed
 - added decimal data value range check to myems-modbus-tcp.
 ### Removed
