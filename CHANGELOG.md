@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added is_cost_data_displayed to microgrid and energy storage power station
 - added energy storage power station relation to space in myems-api
 - added myems energy plan database
-- 
+- added cardsummary to fdd fault in myems-web
 ### Changed
 - changed map marker in myems-web
 - updated popup style of mapbox in myems-web

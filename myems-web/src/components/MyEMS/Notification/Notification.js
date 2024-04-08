@@ -20,6 +20,7 @@ import {
   UncontrolledDropdown,
   Spinner
 } from 'reactstrap';
+import CardSummary from '../common/CardSummary';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';

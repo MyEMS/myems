@@ -1192,7 +1192,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 "2024-03",
                 "2024-04"
               ]);
-              setStations([{ value: 'a1', label: '7 Days' }, { value: 'a2', label: 'One Month' }]);
+              setStations([{ value: 'a1', label: '近7日' }, { value: 'a2', label: '本月' }, { value: 'a3', label: '本年' }]);
             }
           });
       }
