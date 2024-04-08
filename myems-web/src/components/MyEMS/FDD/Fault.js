@@ -22,6 +22,8 @@ import {
   UncontrolledDropdown,
   Spinner
 } from 'reactstrap';
+import CountUp from 'react-countup';
+import CardSummary from '../common/CardSummary';
 import ButtonIcon from '../../common/ButtonIcon';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,6 +48,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [faults, setFaults] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [totalFaultNumber, setTotalFaultNumber] = useState({});
+  const [newFaultNumber, setNewFaultNumber] = useState({});
+  const [inprogressFaultNumber, setInprogressFaultNumber] = useState({});
+  const [doneFaultNumber, setDoneFaultNumber] = useState({});
 
   // buttons
   const [spinnerHidden, setSpinnerHidden] = useState(true);
@@ -262,6 +268,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setFaults([]);
+    let totalFaultNumber = 0;
+    let newFaultNumber = 0;
+    let inprogressFaultNumber = 0;
+    let doneFaultNumber = 0;
 
     let isResponseOK = false;
     fetch(
@@ -318,6 +328,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                 'YYYY-MM-DD HH:mm:ss'
               );
               fault['status'] = currentValue['status'];
+              totalFaultNumber += 1;
+              // todo: parse status
+              newFaultNumber += 1;
+
               fault['update_datetime'] = moment(parseInt(currentValue['update_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
@@ -328,6 +342,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           setFaults(faultList);
+          setTotalFaultNumber(totalFaultNumber);
+          setNewFaultNumber(newFaultNumber);
+          setInprogressFaultNumber(inprogressFaultNumber);
+          setDoneFaultNumber(doneFaultNumber);
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
@@ -779,8 +797,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Card className="mb-3">
+      <div className="card-deck">
         <Spinner color="primary" hidden={spinnerHidden} />
+        <CardSummary rate={''} title={t('Total Number of Faults')} footunit={''} color="info">
+          {1 && <CountUp end={totalFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+        </CardSummary>
+        <CardSummary rate={''} title={t('Number of New Faults')} footunit={''} color="info">
+          {1 && <CountUp end={newFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+        </CardSummary>
+        <CardSummary rate={''} title={t('Number of Inprogress Faults')} footunit={''} color="info">
+          {1 && <CountUp end={inprogressFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+        </CardSummary>
+        <CardSummary rate={''} title={t('Number of Done Faults')} footunit={''} color="info">
+          {1 && <CountUp end={doneFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+        </CardSummary>
+      </div>
+      <Card className="mb-3">
         <FalconCardHeader title={t('Fault Alarms')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">

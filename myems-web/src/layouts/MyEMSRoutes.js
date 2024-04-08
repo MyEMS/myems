@@ -463,7 +463,7 @@ const MyEMSRoutes = () => (
     <Route path="/energystoragepowerstation/list" exact component={EnergyStoragePowerStationList} />
     <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
     <Route path="/energystoragepowerstation/reporting" exact component={EnergyStoragePowerStationReporting} />
-    <Route path="/energystoragepowerstation/alarm" exact component={Notification} />
+    <Route path="/energystoragepowerstation/alarm" exact component={FDDFault} />
     <Route path="/energystoragepowerstation/maintenance" exact component={EnergyStoragePowerStationDetails} />
 
     {/*FDD*/}
