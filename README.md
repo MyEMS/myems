@@ -1,3 +1,6 @@
+<p align="center">
+   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+</p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.3.0</h1>
 <h4 align="center">行业领先的开源能源管理系统！</h4>
 
