@@ -178,8 +178,8 @@ class Reporting:
         cnx_energy = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy = cnx_energy.cursor()
 
-        cnx_energy_baseline = mysql.connector.connect(**config.myems_energy_plan_db)
-        cursor_energy_plan = cnx_energy_baseline.cursor()
+        cnx_energy_plan = mysql.connector.connect(**config.myems_energy_plan_db)
+        cursor_energy_plan = cnx_energy_plan.cursor()
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
@@ -208,8 +208,8 @@ class Reporting:
 
             if cursor_energy_plan:
                 cursor_energy_plan.close()
-            if cnx_energy_baseline:
-                cnx_energy_baseline.close()
+            if cnx_energy_plan:
+                cnx_energy_plan.close()
 
             if cursor_historical:
                 cursor_historical.close()
@@ -269,8 +269,8 @@ class Reporting:
 
             if cursor_energy_plan:
                 cursor_energy_plan.close()
-            if cnx_energy_baseline:
-                cnx_energy_baseline.close()
+            if cnx_energy_plan:
+                cnx_energy_plan.close()
 
             if cursor_historical:
                 cursor_historical.close()
@@ -338,30 +338,30 @@ class Reporting:
 
                 base[energy_category_id] = dict()
                 base[energy_category_id]['timestamps'] = list()
-                base[energy_category_id]['values_baseline'] = list()
+                base[energy_category_id]['values_plan'] = list()
                 base[energy_category_id]['values_actual'] = list()
                 base[energy_category_id]['values_saving'] = list()
-                base[energy_category_id]['subtotal_baseline'] = Decimal(0.0)
+                base[energy_category_id]['subtotal_plan'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_actual'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_saving'] = Decimal(0.0)
-                base[energy_category_id]['subtotal_in_kgce_baseline'] = Decimal(0.0)
+                base[energy_category_id]['subtotal_in_kgce_plan'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgce_actual'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgce_saving'] = Decimal(0.0)
-                base[energy_category_id]['subtotal_in_kgco2e_baseline'] = Decimal(0.0)
+                base[energy_category_id]['subtotal_in_kgco2e_plan'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgco2e_actual'] = Decimal(0.0)
                 base[energy_category_id]['subtotal_in_kgco2e_saving'] = Decimal(0.0)
-                # query base period's energy baseline
+                # query base period's energy plan
                 cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                               " FROM tbl_space_input_category_hourly "
-                                               " WHERE space_id = %s "
-                                               "     AND energy_category_id = %s "
-                                               "     AND start_datetime_utc >= %s "
-                                               "     AND start_datetime_utc < %s "
-                                               " ORDER BY start_datetime_utc ",
-                                               (space['id'],
-                                                energy_category_id,
-                                                base_start_datetime_utc,
-                                                base_end_datetime_utc))
+                                           " FROM tbl_space_input_category_hourly "
+                                           " WHERE space_id = %s "
+                                           "     AND energy_category_id = %s "
+                                           "     AND start_datetime_utc >= %s "
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (space['id'],
+                                            energy_category_id,
+                                            base_start_datetime_utc,
+                                            base_end_datetime_utc))
                 rows_space_hourly = cursor_energy_plan.fetchall()
 
                 rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
@@ -382,12 +382,12 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    baseline_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
+                    plan_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     base[energy_category_id]['timestamps'].append(current_datetime)
-                    base[energy_category_id]['values_baseline'].append(baseline_value)
-                    base[energy_category_id]['subtotal_baseline'] += baseline_value
-                    base[energy_category_id]['subtotal_in_kgce_baseline'] += baseline_value * kgce
-                    base[energy_category_id]['subtotal_in_kgco2e_baseline'] += baseline_value * kgco2e
+                    base[energy_category_id]['values_plan'].append(plan_value)
+                    base[energy_category_id]['subtotal_plan'] += plan_value
+                    base[energy_category_id]['subtotal_in_kgce_plan'] += plan_value * kgce
+                    base[energy_category_id]['subtotal_in_kgco2e_plan'] += plan_value * kgco2e
 
                 # query base period's energy actual
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
@@ -428,19 +428,19 @@ class Reporting:
                     base[energy_category_id]['subtotal_in_kgco2e_actual'] += actual_value * kgco2e
 
                 # calculate base period's energy savings
-                for i in range(len(base[energy_category_id]['values_baseline'])):
+                for i in range(len(base[energy_category_id]['values_plan'])):
                     base[energy_category_id]['values_saving'].append(
-                        base[energy_category_id]['values_baseline'][i] -
+                        base[energy_category_id]['values_plan'][i] -
                         base[energy_category_id]['values_actual'][i])
 
                 base[energy_category_id]['subtotal_saving'] = \
-                    base[energy_category_id]['subtotal_baseline'] - \
+                    base[energy_category_id]['subtotal_plan'] - \
                     base[energy_category_id]['subtotal_actual']
                 base[energy_category_id]['subtotal_in_kgce_saving'] = \
-                    base[energy_category_id]['subtotal_in_kgce_baseline'] - \
+                    base[energy_category_id]['subtotal_in_kgce_plan'] - \
                     base[energy_category_id]['subtotal_in_kgce_actual']
                 base[energy_category_id]['subtotal_in_kgco2e_saving'] = \
-                    base[energy_category_id]['subtotal_in_kgco2e_baseline'] - \
+                    base[energy_category_id]['subtotal_in_kgco2e_plan'] - \
                     base[energy_category_id]['subtotal_in_kgco2e_actual']
         ################################################################################################################
         # Step 8: query reporting period energy saving
@@ -453,30 +453,30 @@ class Reporting:
 
                 reporting[energy_category_id] = dict()
                 reporting[energy_category_id]['timestamps'] = list()
-                reporting[energy_category_id]['values_baseline'] = list()
+                reporting[energy_category_id]['values_plan'] = list()
                 reporting[energy_category_id]['values_actual'] = list()
                 reporting[energy_category_id]['values_saving'] = list()
-                reporting[energy_category_id]['subtotal_baseline'] = Decimal(0.0)
+                reporting[energy_category_id]['subtotal_plan'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_actual'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_saving'] = Decimal(0.0)
-                reporting[energy_category_id]['subtotal_in_kgce_baseline'] = Decimal(0.0)
+                reporting[energy_category_id]['subtotal_in_kgce_plan'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_in_kgce_actual'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_in_kgce_saving'] = Decimal(0.0)
-                reporting[energy_category_id]['subtotal_in_kgco2e_baseline'] = Decimal(0.0)
+                reporting[energy_category_id]['subtotal_in_kgco2e_plan'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_in_kgco2e_actual'] = Decimal(0.0)
                 reporting[energy_category_id]['subtotal_in_kgco2e_saving'] = Decimal(0.0)
-                # query reporting period's energy baseline
+                # query reporting period's energy plan
                 cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                               " FROM tbl_space_input_category_hourly "
-                                               " WHERE space_id = %s "
-                                               "     AND energy_category_id = %s "
-                                               "     AND start_datetime_utc >= %s "
-                                               "     AND start_datetime_utc < %s "
-                                               " ORDER BY start_datetime_utc ",
-                                               (space['id'],
-                                                energy_category_id,
-                                                reporting_start_datetime_utc,
-                                                reporting_end_datetime_utc))
+                                           " FROM tbl_space_input_category_hourly "
+                                           " WHERE space_id = %s "
+                                           "     AND energy_category_id = %s "
+                                           "     AND start_datetime_utc >= %s "
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (space['id'],
+                                            energy_category_id,
+                                            reporting_start_datetime_utc,
+                                            reporting_end_datetime_utc))
                 rows_space_hourly = cursor_energy_plan.fetchall()
 
                 rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
@@ -497,12 +497,12 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.strftime('%Y')
 
-                    baseline_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
+                    plan_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     reporting[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting[energy_category_id]['values_baseline'].append(baseline_value)
-                    reporting[energy_category_id]['subtotal_baseline'] += baseline_value
-                    reporting[energy_category_id]['subtotal_in_kgce_baseline'] += baseline_value * kgce
-                    reporting[energy_category_id]['subtotal_in_kgco2e_baseline'] += baseline_value * kgco2e
+                    reporting[energy_category_id]['values_plan'].append(plan_value)
+                    reporting[energy_category_id]['subtotal_plan'] += plan_value
+                    reporting[energy_category_id]['subtotal_in_kgce_plan'] += plan_value * kgce
+                    reporting[energy_category_id]['subtotal_in_kgco2e_plan'] += plan_value * kgco2e
 
                 # query reporting period's energy actual
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
@@ -543,19 +543,19 @@ class Reporting:
                     reporting[energy_category_id]['subtotal_in_kgco2e_actual'] += actual_value * kgco2e
 
                 # calculate reporting period's energy savings
-                for i in range(len(reporting[energy_category_id]['values_baseline'])):
+                for i in range(len(reporting[energy_category_id]['values_plan'])):
                     reporting[energy_category_id]['values_saving'].append(
-                        reporting[energy_category_id]['values_baseline'][i] -
+                        reporting[energy_category_id]['values_plan'][i] -
                         reporting[energy_category_id]['values_actual'][i])
 
                 reporting[energy_category_id]['subtotal_saving'] = \
-                    reporting[energy_category_id]['subtotal_baseline'] - \
+                    reporting[energy_category_id]['subtotal_plan'] - \
                     reporting[energy_category_id]['subtotal_actual']
                 reporting[energy_category_id]['subtotal_in_kgce_saving'] = \
-                    reporting[energy_category_id]['subtotal_in_kgce_baseline'] - \
+                    reporting[energy_category_id]['subtotal_in_kgce_plan'] - \
                     reporting[energy_category_id]['subtotal_in_kgce_actual']
                 reporting[energy_category_id]['subtotal_in_kgco2e_saving'] = \
-                    reporting[energy_category_id]['subtotal_in_kgco2e_baseline'] - \
+                    reporting[energy_category_id]['subtotal_in_kgco2e_plan'] - \
                     reporting[energy_category_id]['subtotal_in_kgco2e_actual']
         ################################################################################################################
         # Step 9: query tariff data
@@ -665,23 +665,23 @@ class Reporting:
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
                 for child_space in child_space_list:
                     child_space_data[energy_category_id]['child_space_names'].append(child_space['name'])
-                    # query child space's energy baseline
+                    # query child space's energy plan
                     cursor_energy_plan.execute(" SELECT SUM(actual_value) "
-                                                   " FROM tbl_space_input_category_hourly "
-                                                   " WHERE space_id = %s "
-                                                   "     AND energy_category_id = %s "
-                                                   "     AND start_datetime_utc >= %s "
-                                                   "     AND start_datetime_utc < %s ",
-                                                   (child_space['id'],
-                                                    energy_category_id,
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                               " FROM tbl_space_input_category_hourly "
+                                               " WHERE space_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s ",
+                                               (child_space['id'],
+                                                energy_category_id,
+                                                reporting_start_datetime_utc,
+                                                reporting_end_datetime_utc))
                     row_subtotal = cursor_energy_plan.fetchone()
 
                     subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
-                    subtotal_baseline = subtotal
-                    subtotal_in_kgce_baseline = subtotal * kgce
-                    subtotal_in_kgco2e_baseline = subtotal * kgco2e
+                    subtotal_plan = subtotal
+                    subtotal_in_kgce_plan = subtotal * kgce
+                    subtotal_in_kgco2e_plan = subtotal * kgco2e
                     # query child space's energy actual
                     cursor_energy.execute(" SELECT SUM(actual_value) "
                                           " FROM tbl_space_input_category_hourly "
@@ -702,11 +702,11 @@ class Reporting:
 
                     # calculate child space's energy saving
                     child_space_data[energy_category_id]['subtotals_saving'].append(
-                        subtotal_baseline - subtotal_actual)
+                        subtotal_plan - subtotal_actual)
                     child_space_data[energy_category_id]['subtotals_in_kgce_saving'].append(
-                        subtotal_in_kgce_baseline - subtotal_in_kgce_actual)
+                        subtotal_in_kgce_plan - subtotal_in_kgce_actual)
                     child_space_data[energy_category_id]['subtotals_in_kgco2e_saving'].append(
-                        subtotal_in_kgco2e_baseline - subtotal_in_kgco2e_actual)
+                        subtotal_in_kgco2e_plan - subtotal_in_kgco2e_actual)
         ################################################################################################################
         # Step 12: construct the report
         ################################################################################################################
@@ -722,8 +722,8 @@ class Reporting:
 
         if cursor_energy_plan:
             cursor_energy_plan.close()
-        if cnx_energy_baseline:
-            cnx_energy_baseline.close()
+        if cnx_energy_plan:
+            cnx_energy_plan.close()
 
         if cursor_historical:
             cursor_historical.close()
