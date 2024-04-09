@@ -1100,7 +1100,7 @@ class SpaceEnergyStoragePowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.SPACE_ENERGY_STORAGE_POWER_STATION_RELATION_EXISTS')
 
-        add_row = (" INSERT INTO tbl_spaces_equipments (space_id, energy_storage_power_station_id) "
+        add_row = (" INSERT INTO tbl_spaces_energy_storage_power_stations (space_id, energy_storage_power_station_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (id_, energy_storage_power_station_id,))
         cnx.commit()
