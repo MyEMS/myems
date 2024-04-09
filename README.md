@@ -1,4 +1,5 @@
-# MyEMS
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.3.0</h1>
+<h4 align="center">行业领先的开源能源管理系统！</h4>
 
  [简体中文](./README.md) | [ENGLISH](./README_EN.md) | [DEUTSCH](./README_DE.md)
 
