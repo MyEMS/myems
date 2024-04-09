@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "4eb3be32-7ef7-4739-b149-72411ac82cab",
+		"_postman_id": "58ea335d-8ee0-4af8-ae2e-9b9fdc6a5bd5",
 		"name": "MyEMS",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -32517,6 +32516,77 @@
 							"path": [
 								"reports",
 								"spacesaving"
+							],
+							"query": [
+								{
+									"key": "spaceid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "spaceuuid",
+									"value": "9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Space Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/spaceplan?spaceid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"spaceplan"
 							],
 							"query": [
 								{
