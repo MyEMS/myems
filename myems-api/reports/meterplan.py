@@ -256,14 +256,14 @@ class Reporting:
 
         # query base period plan
         cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_meter_hourly "
-                                       " WHERE meter_id = %s "
-                                       " AND start_datetime_utc >= %s "
-                                       " AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (meter['id'],
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   " AND start_datetime_utc >= %s "
+                                   " AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    base_start_datetime_utc,
+                                    base_end_datetime_utc))
         rows_meter_hourly = cursor_energy_plan.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
@@ -356,14 +356,14 @@ class Reporting:
 
         # query reporting period plan
         cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_meter_hourly "
-                                       " WHERE meter_id = %s "
-                                       " AND start_datetime_utc >= %s "
-                                       " AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (meter['id'],
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   " AND start_datetime_utc >= %s "
+                                   " AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    reporting_start_datetime_utc,
+                                    reporting_end_datetime_utc))
         rows_meter_hourly = cursor_energy_plan.fetchall()
 
         rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,

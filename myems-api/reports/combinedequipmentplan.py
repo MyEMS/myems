@@ -339,16 +339,16 @@ class Reporting:
                 base[energy_category_id]['subtotal_in_kgco2e_saving'] = Decimal(0.0)
                 # query base period's energy plan
                 cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                               " FROM tbl_combined_equipment_input_category_hourly "
-                                               " WHERE combined_equipment_id = %s "
-                                               "     AND energy_category_id = %s "
-                                               "     AND start_datetime_utc >= %s "
-                                               "     AND start_datetime_utc < %s "
-                                               " ORDER BY start_datetime_utc ",
-                                               (combined_equipment['id'],
-                                                energy_category_id,
-                                                base_start_datetime_utc,
-                                                base_end_datetime_utc))
+                                           " FROM tbl_combined_equipment_input_category_hourly "
+                                           " WHERE combined_equipment_id = %s "
+                                           "     AND energy_category_id = %s "
+                                           "     AND start_datetime_utc >= %s "
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (combined_equipment['id'],
+                                            energy_category_id,
+                                            base_start_datetime_utc,
+                                            base_end_datetime_utc))
                 rows_combined_equipment_hourly = cursor_energy_plan.fetchall()
 
                 rows_combined_equipment_periodically = \
@@ -458,16 +458,16 @@ class Reporting:
                 reporting[energy_category_id]['subtotal_in_kgco2e_saving'] = Decimal(0.0)
                 # query reporting period's energy plan
                 cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                               " FROM tbl_combined_equipment_input_category_hourly "
-                                               " WHERE combined_equipment_id = %s "
-                                               "     AND energy_category_id = %s "
-                                               "     AND start_datetime_utc >= %s "
-                                               "     AND start_datetime_utc < %s "
-                                               " ORDER BY start_datetime_utc ",
-                                               (combined_equipment['id'],
-                                                energy_category_id,
-                                                reporting_start_datetime_utc,
-                                                reporting_end_datetime_utc))
+                                           " FROM tbl_combined_equipment_input_category_hourly "
+                                           " WHERE combined_equipment_id = %s "
+                                           "     AND energy_category_id = %s "
+                                           "     AND start_datetime_utc >= %s "
+                                           "     AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (combined_equipment['id'],
+                                            energy_category_id,
+                                            reporting_start_datetime_utc,
+                                            reporting_end_datetime_utc))
                 rows_combined_equipment_hourly = cursor_energy_plan.fetchall()
 
                 rows_combined_equipment_periodically = \
@@ -664,16 +664,16 @@ class Reporting:
                         associated_equipment['name'])
 
                     cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                                   " FROM tbl_equipment_input_category_hourly "
-                                                   " WHERE equipment_id = %s "
-                                                   "     AND energy_category_id = %s "
-                                                   "     AND start_datetime_utc >= %s "
-                                                   "     AND start_datetime_utc < %s "
-                                                   " ORDER BY start_datetime_utc ",
-                                                   (associated_equipment['id'],
-                                                    energy_category_id,
-                                                    reporting_start_datetime_utc,
-                                                    reporting_end_datetime_utc))
+                                               " FROM tbl_equipment_input_category_hourly "
+                                               " WHERE equipment_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s "
+                                               " ORDER BY start_datetime_utc ",
+                                               (associated_equipment['id'],
+                                                energy_category_id,
+                                                reporting_start_datetime_utc,
+                                                reporting_end_datetime_utc))
                     rows_associated_equipment_hourly = cursor_energy_plan.fetchall()
 
                     rows_associated_equipment_periodically = \

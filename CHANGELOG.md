@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems energy plan database
 - added cardsummary to fdd fault in myems-web
 - added bind energy storage power station to space in myems-admin
-- added space energy plan report in myems-api
+- added energy plan reports in myems-api
 ### Changed
 - changed map marker in myems-web
 - updated popup style of mapbox in myems-web

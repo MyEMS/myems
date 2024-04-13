@@ -229,14 +229,14 @@ class Reporting:
 
         # query base period plan
         cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_virtual_meter_hourly "
-                                       " WHERE virtual_meter_id = %s "
-                                       " AND start_datetime_utc >= %s "
-                                       " AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (virtual_meter['id'],
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
+                                   " FROM tbl_virtual_meter_hourly "
+                                   " WHERE virtual_meter_id = %s "
+                                   " AND start_datetime_utc >= %s "
+                                   " AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (virtual_meter['id'],
+                                    base_start_datetime_utc,
+                                    base_end_datetime_utc))
         rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
 
         rows_virtual_meter_periodically = \
@@ -334,14 +334,14 @@ class Reporting:
         reporting['total_in_kgco2e_saving'] = Decimal(0.0)
         # query reporting period plan
         cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_virtual_meter_hourly "
-                                       " WHERE virtual_meter_id = %s "
-                                       " AND start_datetime_utc >= %s "
-                                       " AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (virtual_meter['id'],
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
+                                   " FROM tbl_virtual_meter_hourly "
+                                   " WHERE virtual_meter_id = %s "
+                                   " AND start_datetime_utc >= %s "
+                                   " AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (virtual_meter['id'],
+                                    reporting_start_datetime_utc,
+                                    reporting_end_datetime_utc))
         rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
 
         rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
