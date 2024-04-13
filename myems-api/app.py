@@ -20,6 +20,7 @@ from reports import combinedequipmentenergyitem
 from reports import combinedequipmentincome
 from reports import combinedequipmentload
 from reports import combinedequipmentoutput
+from reports import combinedequipmentplan
 from reports import combinedequipmentsaving
 from reports import combinedequipmentstatistics
 from reports import dashboard
@@ -34,6 +35,7 @@ from reports import equipmentenergyitem
 from reports import equipmentincome
 from reports import equipmentload
 from reports import equipmentoutput
+from reports import equipmentplan
 from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
@@ -48,6 +50,7 @@ from reports import metercomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
+from reports import meterplan
 from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
@@ -60,6 +63,7 @@ from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
 from reports import offlinemeterenergy
+from reports import offlinemeterplan
 from reports import offlinemetersaving
 from reports import offlinemeterdaily
 from reports import offlinemeterinput
@@ -70,6 +74,7 @@ from reports import shopfloordashboard
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
 from reports import shopfloorload
+from reports import shopfloorplan
 from reports import shopfloorsaving
 from reports import shopfloorstatistics
 from reports import spacecarbon
@@ -92,6 +97,7 @@ from reports import storeenergycategory
 from reports import storeenergyitem
 from reports import storeload
 from reports import storesaving
+from reports import storeplan
 from reports import storestatistics
 from reports import pointrealtime
 from reports import tenantbatch
@@ -103,12 +109,14 @@ from reports import tenantenergycategory
 from reports import tenantenergyitem
 from reports import tenantload
 from reports import tenantsaving
+from reports import tenantplan
 from reports import tenantstatistics
 from reports import virtualmeterbatch
 from reports import virtualmetercarbon
 from reports import virtualmetercost
 from reports import virtualmeterenergy
 from reports import virtualmetersaving
+from reports import virtualmeterplan
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -909,6 +917,8 @@ api.add_route('/reports/combinedequipmentoutput',
               combinedequipmentoutput.Reporting())
 api.add_route('/reports/combinedequipmentsaving',
               combinedequipmentsaving.Reporting())
+api.add_route('/reports/combinedequipmentplan',
+              combinedequipmentplan.Reporting())
 api.add_route('/reports/combinedequipmentstatistics',
               combinedequipmentstatistics.Reporting())
 api.add_route('/reports/dashboard',
@@ -941,6 +951,8 @@ api.add_route('/reports/equipmentoutput',
               equipmentoutput.Reporting())
 api.add_route('/reports/equipmentsaving',
               equipmentsaving.Reporting())
+api.add_route('/reports/equipmentplan',
+              equipmentplan.Reporting())
 api.add_route('/reports/equipmentstatistics',
               equipmentstatistics.Reporting())
 api.add_route('/reports/equipmenttracking',
@@ -961,6 +973,8 @@ api.add_route('/reports/meterrealtime',
               meterrealtime.Reporting())
 api.add_route('/reports/metersaving',
               metersaving.Reporting())
+api.add_route('/reports/meterplan',
+              meterplan.Reporting())
 api.add_route('/reports/metersubmetersbalance',
               metersubmetersbalance.Reporting())
 api.add_route('/reports/metertrend',
@@ -989,6 +1003,8 @@ api.add_route('/reports/offlinemeterinput',
               offlinemeterinput.Reporting())
 api.add_route('/reports/offlinemetersaving',
               offlinemetersaving.Reporting())
+api.add_route('/reports/offlinemeterplan',
+              offlinemeterplan.Reporting())
 api.add_route('/reports/pointrealtime',
               pointrealtime.Reporting())
 api.add_route('/reports/shopfloorcarbon',
@@ -1005,6 +1021,8 @@ api.add_route('/reports/shopfloorload',
               shopfloorload.Reporting())
 api.add_route('/reports/shopfloorsaving',
               shopfloorsaving.Reporting())
+api.add_route('/reports/shopfloorplan',
+              shopfloorplan.Reporting())
 api.add_route('/reports/shopfloorstatistics',
               shopfloorstatistics.Reporting())
 api.add_route('/reports/shopfloorbatch',
@@ -1049,6 +1067,8 @@ api.add_route('/reports/storeload',
               storeload.Reporting())
 api.add_route('/reports/storesaving',
               storesaving.Reporting())
+api.add_route('/reports/storeplan',
+              storeplan.Reporting())
 api.add_route('/reports/storestatistics',
               storestatistics.Reporting())
 api.add_route('/reports/tenantbatch',
@@ -1069,12 +1089,16 @@ api.add_route('/reports/tenantload',
               tenantload.Reporting())
 api.add_route('/reports/tenantsaving',
               tenantsaving.Reporting())
+api.add_route('/reports/tenantplan',
+              tenantplan.Reporting())
 api.add_route('/reports/tenantstatistics',
               tenantstatistics.Reporting())
 api.add_route('/reports/virtualmeterbatch',
               virtualmeterbatch.Reporting())
 api.add_route('/reports/virtualmetersaving',
               virtualmetersaving.Reporting())
+api.add_route('/reports/virtualmeterplan',
+              virtualmeterplan.Reporting())
 api.add_route('/reports/virtualmeterenergy',
               virtualmeterenergy.Reporting())
 api.add_route('/reports/virtualmetercarbon',

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "58ea335d-8ee0-4af8-ae2e-9b9fdc6a5bd5",
+		"_postman_id": "7c7791de-7e38-4984-9c8b-64041f827207",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26317,6 +26317,77 @@
 					"response": []
 				},
 				{
+					"name": "Combined Equipment Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentplan?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentplan"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Combined Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
@@ -28050,6 +28121,77 @@
 					"response": []
 				},
 				{
+					"name": "Equipment Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentplan?equipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentplan"
+							],
+							"query": [
+								{
+									"key": "equipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "equipmentuuid",
+									"value": "bfa8b106-89a1-49ca-9b2b-a481ac41a873",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Equipment Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
@@ -29001,6 +29143,77 @@
 							"path": [
 								"reports",
 								"metersaving"
+							],
+							"query": [
+								{
+									"key": "meterid",
+									"value": "1",
+									"description": "use meterid or meteruuid"
+								},
+								{
+									"key": "meteruuid",
+									"value": "5ca47bc5-22c2-47fc-b906-33222191ea40",
+									"description": "use meterid or meteruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Meter Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/meterplan?meterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"meterplan"
 							],
 							"query": [
 								{
@@ -30308,6 +30521,70 @@
 					"response": []
 				},
 				{
+					"name": "Offline Meter Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/offlinemeterplan?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"offlinemeterplan"
+							],
+							"query": [
+								{
+									"key": "offlinemeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Offline Meter Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
@@ -31202,6 +31479,77 @@
 							"path": [
 								"reports",
 								"shopfloorsaving"
+							],
+							"query": [
+								{
+									"key": "shopfloorid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "shopflooruuid",
+									"value": "d03837fd-9d30-44fe-9443-154f7c7e15f1",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shopfloor Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorplan?shopfloorid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorplan"
 							],
 							"query": [
 								{
@@ -33674,6 +34022,77 @@
 					"response": []
 				},
 				{
+					"name": "Store Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/storeplan?storeid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storeplan"
+							],
+							"query": [
+								{
+									"key": "storeid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "storeuuid",
+									"value": "d8a24322-4bab-4ba2-aedc-5d55a84c3db8",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Store Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
@@ -34781,6 +35200,77 @@
 					"response": []
 				},
 				{
+					"name": "Tenant Plan Report Ⓔ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantplan?tenantid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantplan"
+							],
+							"query": [
+								{
+									"key": "tenantid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "tenantuuid",
+									"value": "6b0da806-a4cd-431a-8116-2915e90aaf8b",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Tenant Saving Report (Quick Mode) Ⓔ",
 					"request": {
 						"method": "GET",
@@ -35538,6 +36028,70 @@
 							"path": [
 								"reports",
 								"virtualmetersaving"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid",
+									"value": "1"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Virtual Meter Plan Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"type": "text",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"type": "text",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"type": "default",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmeterplan?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmeterplan"
 							],
 							"query": [
 								{
