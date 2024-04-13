@@ -45,7 +45,9 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if offline_meter_id is None and offline_meter_uuid is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_OFFLINE_METER_ID')
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_OFFLINE_METER_ID')
 
         if offline_meter_id is not None:
             offline_meter_id = str.strip(offline_meter_id)
