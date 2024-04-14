@@ -157,9 +157,21 @@ class Reporting:
 
         user = {'id': row_user[0], 'is_admin': row_user[1], 'privilege_id': row_user[2]}
 
-        # Get energy storage power station
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
+        # Get Spaces associated with energy storage power stations
+        query = (" SELECT se.energy_storage_power_station_id, s.name "
+                 " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se "
+                 " WHERE se.space_id = s.id ")
+        cursor_system_db.execute(query)
+        rows_spaces = cursor_system_db.fetchall()
+
+        space_dict = dict()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            for row in rows_spaces:
+                space_dict[row[0]] = row[1]
+        print(space_dict)
+        # Get energy storage power station
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, "
                  "        m.rated_capacity, m.rated_power, m.description "
@@ -176,6 +188,7 @@ class Reporting:
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
+                               "space_name": space_dict.get(row[0]),
                                "postal_code": row[4],
                                "latitude": row[5],
                                "longitude": row[6],

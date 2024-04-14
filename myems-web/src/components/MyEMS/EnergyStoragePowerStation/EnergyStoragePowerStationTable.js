@@ -75,6 +75,13 @@ const columns = [
     sort: true
   },
   {
+    dataField: 'space_name',
+    text: '空间',
+    classes: 'border-0 align-middle',
+    headerClasses: 'border-0',
+    sort: true
+  },
+  {
     dataField: 'total_charge',
     text: '总充电量',
     formatter: energyFormatter,
