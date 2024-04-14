@@ -111,12 +111,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                     'YYYY-MM-DD HH:mm:ss'
                   );
-                  notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  );
-                  notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  );
                   notification['status'] = json[index]['status'];
                   notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                     'YYYY-MM-DD HH:mm:ss'
