@@ -101,6 +101,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'System Settings',
+                    ADVANCED: 'Advanced Settings',
                     CATEGORY: 'Energy Categories',
                     TARIFF: 'Tariffs',
                     COSTCENTER: 'Cost Centers',
@@ -1718,6 +1719,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: '系统管理',
+                    ADVANCED: '高级设置',
                     CATEGORY: '能源分类',
                     TARIFF: '能源费率',
                     COSTCENTER: '成本中心',
@@ -3339,6 +3341,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Systemmanagement',
+                    ADVANCED: 'Erweiterte Einstellungen',
                     CATEGORY: 'Energiekategorien',
                     TARIFF: 'Energietarife',
                     COSTCENTER: 'Kostenstellen',
@@ -4956,6 +4959,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Paramètres système',
+                    ADVANCED: 'Réglages avancés',
                     CATEGORY: 'Catégories d’énergie',
                     TARIFF: 'Tarifs',
                     COSTCENTER: 'Centres de coûts',
@@ -6573,6 +6577,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Configuración del sistema',
+                    ADVANCED: 'Ajustes avanzados',
                     CATEGORY: 'Categorías de energía',
                     TARIFF: 'Aranceles',
                     COSTCENTER: 'Centros de Costo',
@@ -8191,6 +8196,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Системные настройки',
+                    ADVANCED: 'Расширенные настройки',
                     CATEGORY: 'Энергетические категории',
                     TARIFF: 'Тарифы',
                     COSTCENTER: 'Центры затрат',
@@ -9808,6 +9814,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'إعدادات النظام',
+                    ADVANCED: 'إعدادات متقدمة',
                     CATEGORY: 'فئات الطاقة',
                     TARIFF: 'تعرفات',
                     COSTCENTER: 'مراكز التكلفة',
@@ -11425,6 +11432,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Cài đặt hệ thống',
+                    ADVANCED: 'Cài đặt nâng cao',
                     CATEGORY: 'Danh mục năng lượng',
                     TARIFF: 'Thuế',
                     COSTCENTER: 'Trung tâm chi phí',
@@ -13042,6 +13050,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'การตั้งค่าระบบ',
+                    ADVANCED: 'ตั้งค่าขั้นสูง',
                     CATEGORY: 'หมวดพลังงาน',
                     TARIFF: 'ภาษีศุลกากร',
                     COSTCENTER: 'ศูนย์ต้นทุน',
@@ -14659,6 +14668,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Sistem Ayarları',
+                    ADVANCED: 'Gelişmiş Ayarlar',
                     CATEGORY: 'Enerji Kategorileri',
                     TARIFF: 'Tarife',
                     COSTCENTER: 'Maliyet Merkezleri',
@@ -16276,6 +16286,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Seting Sistem',
+                    ADVANCED: 'Tetapan lanjutan',
                     CATEGORY: 'Kategori Tenaga',
                     TARIFF: 'Tarif',
                     COSTCENTER: 'Pusat Kos',
@@ -17892,6 +17903,7 @@ function config($translateProvider) {
             MENU: {
                 SETTINGS: {
                     SETTINGS: 'Pengaturan Sistem',
+                    ADVANCED: 'Pengaturan lanjutan',
                     CATEGORY: 'Kategori Energi',
                     TARIFF: 'Tarif',
                     COSTCENTER: 'Pusat Biaya',
