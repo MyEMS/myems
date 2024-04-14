@@ -53,6 +53,7 @@ app.controller('DataSourceController', function(
 			{"id":"modbus-rtu", "name": "Modbus RTU"},
 			{"id":"mongodb", "name": "MongoDB"},
 			{"id":"mqtt-acrel", "name": "MQTT ACREL"},
+			{"id":"mqtt-adw300", "name": "MQTT ADW300"},
 			{"id":"mqtt-huiju", "name": "MQTT HUIJU"},
 			{"id":"mqtt-md4220", "name": "MQTT MD4220"},
 			{"id":"mqtt-seg", "name": "MQTT SEG"},
