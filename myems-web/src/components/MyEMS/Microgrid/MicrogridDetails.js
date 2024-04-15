@@ -245,12 +245,16 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {
-              let tspanList = textElement.getElementsByTagName('tspan');
-              if (tspanList && tspanList.length > 0) {
-                let tspanElement = tspanList[tspanList.length - 1];
-                tspanElement.textContent = parseFloat(currentPoint['value']).toFixed(2);
+              textElement.textContent = parseFloat(currentPoint['value']).toFixed(2);
+            }
+            let circleElement = document.getElementById('CIRCLE' + currentPoint['point_id']);
+            if (circleElement) {
+              if (currentPoint['value'] > 0) {
+                circleElement.className.baseVal = 'flow';
+              } else if (currentPoint['value'] < 0) {
+                circleElement.className.baseVal = 'flow-reverse';
               } else {
-                textElement.textContent = parseFloat(currentPoint['value']).toFixed(2);
+                circleElement.className.baseVal = '';
               }
             }
           });
