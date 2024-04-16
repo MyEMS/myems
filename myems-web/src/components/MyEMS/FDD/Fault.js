@@ -686,6 +686,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput
                     type="select"
                     id="bulk-select"
+                    bsSize="sm"
                     value={priority}
                     onChange={({ target }) => {
                       setPriority(target.value);
@@ -717,6 +718,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput
                     type="select"
                     id="bulk-select"
+                    bsSize="sm"
                     value={status}
                     onChange={({ target }) => {
                       setStatus(target.value);
@@ -775,7 +777,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
@@ -816,7 +818,10 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         <FalconCardHeader title={t('Fault Alarms')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
-              <CustomInput type="select" id="bulk-select">
+              <CustomInput
+                type="select"
+                id="bulk-select"
+                bsSize="sm">
                 <option>{t('Bulk actions')}</option>
                 <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
                 <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>

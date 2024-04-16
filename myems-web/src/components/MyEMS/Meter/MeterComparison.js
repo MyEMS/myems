@@ -682,6 +682,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       type="select"
                       id="meterSelect1"
                       name="meterSelect1"
+                      bsSize="sm"
                       onChange={({ target }) => setSelectedMeter1(target.value)}
                     >
                       {filteredMeterList1.map((meter, index) => (
@@ -723,6 +724,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       type="select"
                       id="meterSelect2"
                       name="meterSelect2"
+                      bsSize="sm"
                       onChange={({ target }) => setSelectedMeter2(target.value)}
                     >
                       {filteredMeterList2.map((meter, index) => (
@@ -745,6 +747,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="periodType"
                     name="periodType"
+                    bsSize="sm"
                     defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
@@ -768,7 +771,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
-                    size="md"
+                    size="sm"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
@@ -780,7 +783,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

@@ -498,7 +498,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
@@ -513,6 +513,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                       type="select"
                       id="meterSelect"
                       name="meterSelect"
+                      bsSize="sm"
                       onChange={({ target }) => setSelectedMeter(target.value)}
                     >
                       {filteredMeterList.map((meter, index) => (
@@ -533,6 +534,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="periodType"
                     name="periodType"
+                    bsSize="sm"
                     defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
@@ -555,7 +557,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
-                    size="md"
+                    size="sm"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
@@ -567,7 +569,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

@@ -318,7 +318,11 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Offline Meter')}
                   </Label>
                   <br />
-                  <CustomInput type="select" id="CustomInput" onChange={OfflinemeterChange}>
+                  <CustomInput
+                    type="select"
+                    id="CustomInput"
+                    bsSize="sm"
+                    onChange={OfflinemeterChange}>
                     {OfflinemeterName.map((Offlinemeter, index) => (
                       <option value={Offlinemeter.value} key={Offlinemeter.value}>
                         {t(Offlinemeter.label)}
@@ -338,7 +342,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                     format="yyyy-MM-dd"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
-                    size="md"
+                    size="sm"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
@@ -350,7 +354,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Search')}
                     </Button>
                   </ButtonGroup>

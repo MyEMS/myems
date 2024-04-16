@@ -12,7 +12,10 @@ const MicrogridTableCard = ({ microgridList }) => {
       <FalconCardHeader title="Microgrid List" light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
-            <CustomInput type="select" id="bulk-select">
+            <CustomInput
+              type="select"
+              id="bulk-select"
+              bsSize="sm">
               <option>Bulk actions</option>
               <option value="Refund">Refund</option>
               <option value="Delete">Delete</option>

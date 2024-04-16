@@ -381,7 +381,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 changeOnSelect
                 expandTrigger="hover"
               >
-                <Input value={selectedSpaceName || ''} readOnly />
+                <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
               </Cascader>
             </FormGroup>
           </Col>
@@ -392,6 +392,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   type="select"
                   id="stationSelect"
                   name="stationSelect"
+                  bsSize="sm"
                   onChange={({ target }) => setSelectedStation(target.value)}
                 >
                   {filteredStationList.map((station, index) => (
@@ -406,7 +407,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <Col xs="auto">
             <FormGroup>
               <ButtonGroup id="submit">
-                <Button color="success" disabled={submitButtonDisabled}>
+                <Button size='sm' color="success" disabled={submitButtonDisabled}>
                   {t('Submit')}
                 </Button>
               </ButtonGroup>

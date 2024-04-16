@@ -827,6 +827,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput
                     type="select"
                     id="bulk-select"
+                    bsSize="sm"
                     value={priority}
                     onChange={({ target }) => {
                       setPriority(target.value);
@@ -858,6 +859,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   <CustomInput
                     type="select"
                     id="bulk-select"
+                    bsSize="sm"
                     value={status}
                     onChange={({ target }) => {
                       setStatus(target.value);
@@ -916,7 +918,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
