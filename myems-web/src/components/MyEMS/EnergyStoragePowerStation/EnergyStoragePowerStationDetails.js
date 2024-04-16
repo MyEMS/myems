@@ -381,7 +381,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 changeOnSelect
                 expandTrigger="hover"
               >
-                <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
+                <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
               </Cascader>
             </FormGroup>
           </Col>
@@ -407,7 +407,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <Col xs="auto">
             <FormGroup>
               <ButtonGroup id="submit">
-                <Button size='sm' color="success" disabled={submitButtonDisabled}>
+                <Button size="sm" color="success" disabled={submitButtonDisabled}>
                   {t('Submit')}
                 </Button>
               </ButtonGroup>

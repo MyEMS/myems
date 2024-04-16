@@ -875,7 +875,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
@@ -984,7 +984,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
@@ -1002,6 +1002,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                   icon="external-link-alt"
                   transform="shrink-3 down-2"
                   color="falcon-default"
+                  size="sm"
                   hidden={exportButtonHidden}
                   onClick={handleExport}
                 >

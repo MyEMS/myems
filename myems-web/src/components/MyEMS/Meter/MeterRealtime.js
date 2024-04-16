@@ -247,7 +247,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
