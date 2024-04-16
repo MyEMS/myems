@@ -1189,6 +1189,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/microgrid/microgrid.service.js',
@@ -1202,10 +1207,11 @@ app
                                                     'app/services/settings/microgrid/microgridpowerconversionsystem.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/microgrid/microgriduser.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
-                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
@@ -1304,6 +1310,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
@@ -1312,9 +1323,12 @@ app
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerload.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainersensor.service.js',
+                                                    'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
+                                                    'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.master.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerbattery.controller.js',
@@ -1357,6 +1371,11 @@ app
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
                                             }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/energystoragepowerstation/energystoragepowerstation.service.js',
@@ -1364,8 +1383,8 @@ app
                                                     'app/services/settings/energystoragepowerstation/energystoragepowerstationuser.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
-                                                    'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
+                                                    'app/services/users/user/user.service.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.controller.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstationcontainer.controller.js',
@@ -1404,6 +1423,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
@@ -1447,6 +1471,11 @@ app
                                             }, {
                                                 name: 'oitozero.ngSweetAlert',
                                                 files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
                                             }, {
                                                 serie: true,
                                                 files: [
