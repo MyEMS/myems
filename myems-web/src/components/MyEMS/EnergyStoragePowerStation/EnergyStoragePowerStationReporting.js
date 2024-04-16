@@ -112,7 +112,6 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
-  const [energyStoragePowerStationSearchHidden, setEnergyStoragePowerStationSearchHidden] = useState(false);
   //Results
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
   const [energyStoragePowerStationSerialNumber, setEnergyStoragePowerStationSerialNumber] = useState();
@@ -147,7 +146,6 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
   useEffect(() => {
     let isResponseOK = false;
     setSpaceCascaderHidden(false);
-    setEnergyStoragePowerStationSearchHidden(false);
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
@@ -606,11 +604,6 @@ const EnergyStoragePowerStationReporting = ({ setRedirect, setRedirectUrl, t }) 
                   </Label>
 
                   <Form inline>
-                    <Input
-                      placeholder={t('Search')}
-                      onChange={onSearchEnergyStoragePowerStation}
-                      hidden={energyStoragePowerStationSearchHidden}
-                    />
                     <CustomInput
                       type="select"
                       id="energyStoragePowerStationSelect"
