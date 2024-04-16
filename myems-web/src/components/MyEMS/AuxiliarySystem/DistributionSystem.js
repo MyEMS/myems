@@ -232,6 +232,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="distributionSystemSelect"
                     name="distributionSystemSelect"
+                    bsSize="sm"
                     value={selectedDistributionSystemID}
                     onChange={onDistributionSystemChange}
                   >

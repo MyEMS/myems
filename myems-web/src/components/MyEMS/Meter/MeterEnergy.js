@@ -706,7 +706,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
@@ -722,6 +722,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                       type="select"
                       id="meterSelect"
                       name="meterSelect"
+                      bsSize="sm"
                       onChange={({ target }) => setSelectedMeter(target.value)}
                     >
                       {filteredMeterList.map((meter, index) => (
@@ -742,6 +743,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="comparisonType"
                     name="comparisonType"
+                    bsSize="sm"
                     defaultValue="month-on-month"
                     onChange={onComparisonTypeChange}
                   >
@@ -762,6 +764,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="periodType"
                     name="periodType"
+                    bsSize="sm"
                     defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
@@ -785,7 +788,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
-                    size="md"
+                    size="sm"
                     style={dateRangePickerStyle}
                     onClean={onBasePeriodClean}
                     locale={dateRangePickerLocale}
@@ -804,7 +807,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                     format="yyyy-MM-dd HH:mm:ss"
                     value={reportingPeriodDateRange}
                     onChange={onReportingPeriodChange}
-                    size="md"
+                    size="sm"
                     style={dateRangePickerStyle}
                     onClean={onReportingPeriodClean}
                     locale={dateRangePickerLocale}
@@ -816,7 +819,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

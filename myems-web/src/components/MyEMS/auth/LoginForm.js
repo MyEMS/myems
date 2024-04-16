@@ -151,6 +151,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           <CustomInput
             id="customCheckRemember"
             label={t('Remember me')}
+            bsSize="sm"
             checked={remember}
             onChange={({ target }) => setRemember(target.checked)}
             type="checkbox"
@@ -171,6 +172,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         type="select"
         id="language"
         name="language"
+        bsSize="sm"
         className="mb-3"
         value={language}
         onChange={({ target }) => setLanguage(target.value)}

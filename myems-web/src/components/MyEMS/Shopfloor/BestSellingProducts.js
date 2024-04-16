@@ -45,7 +45,10 @@ const BestSellingProducts = ({ products }) => {
       <CardFooter className="bg-light py-2">
         <Row className="flex-between-center">
           <Col xs="auto">
-            <CustomInput type="select" id="exampleCustomSelect" bsSize="sm">
+            <CustomInput
+              type="select"
+              id="exampleCustomSelect"
+              bsSize="sm">
               <option>Last 7 days</option>
               <option>Last Month</option>
               <option>Last Year</option>

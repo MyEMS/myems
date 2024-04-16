@@ -272,7 +272,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
@@ -285,6 +285,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
                     type="select"
                     id="combinedEquipmentSelect"
                     name="combinedEquipmentSelect"
+                    bsSize="sm"
                     onChange={({ target }) => setSelectedCombinedEquipment(target.value)}
                   >
                     {combinedEquipmentList.map((combinedEquipment, index) => (
@@ -299,7 +300,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button color="success" disabled={submitButtonDisabled}>
+                    <Button size='sm' color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

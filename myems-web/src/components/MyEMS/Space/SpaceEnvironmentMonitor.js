@@ -247,7 +247,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName || ''} readOnly />
+                    <Input bsSize='sm' value={selectedSpaceName || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
