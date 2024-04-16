@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import {
+  Button,
+  ButtonGroup,
   Card,
   CardBody,
   Col,
@@ -8,6 +10,7 @@ import {
   CardText,
   Form,
   FormGroup,
+  Input,
   Label,
   Row,
   Table,
@@ -18,13 +21,15 @@ import {
   TabContent,
   TabPane
 } from 'reactstrap';
+import Cascader from 'rc-cascader';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
@@ -33,6 +38,7 @@ import classNames from 'classnames';
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
+  const uuid = location.search.split('=')[1];
   const energyStoragePowerStationUUID = location.search.split('=')[1];
 
   useEffect(() => {
@@ -81,49 +87,24 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   };
 
   // State
-  const [chargeStartTime1, setChargeStartTime1] = useState(null);
-  const [chargeEndTime1, setChargeEndTime1] = useState(null);
-  const [chargeStartTime2, setChargeStartTime2] = useState(null);
-  const [chargeEndTime2, setChargeEndTime2] = useState(null);
-  const [chargeStartTime3, setChargeStartTime3] = useState(null);
-  const [chargeEndTime3, setChargeEndTime3] = useState(null);
-  const [chargeStartTime4, setChargeStartTime4] = useState(null);
-  const [chargeEndTime4, setChargeEndTime4] = useState(null);
-  const [dischargeStartTime1, setDischargeStartTime1] = useState(null);
-  const [dischargeEndTime1, setDischargeEndTime1] = useState(null);
-  const [dischargeStartTime2, setDischargeStartTime2] = useState(null);
-  const [dischargeEndTime2, setDischargeEndTime2] = useState(null);
-  const [dischargeStartTime3, setDischargeStartTime3] = useState(null);
-  const [dischargeEndTime3, setDischargeEndTime3] = useState(null);
-  const [dischargeStartTime4, setDischargeStartTime4] = useState(null);
-  const [dischargeEndTime4, setDischargeEndTime4] = useState(null);
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
+  const [stationList, setStationList] = useState([]);
+  const [filteredStationList, setFilteredStationList] = useState([]);
+  const [selectedStation, setSelectedStation] = useState(undefined);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
-  const [chargeStartTime1CommandID, setChargeStartTime1CommandID] = useState(null);
-  const [chargeEndTime1CommandID, setChargeEndTime1CommandID] = useState(null);
-  const [chargeStartTime2CommandID, setChargeStartTime2CommandID] = useState(null);
-  const [chargeEndTime2CommandID, setChargeEndTime2CommandID] = useState(null);
-  const [chargeStartTime3CommandID, setChargeStartTime3CommandID] = useState(null);
-  const [chargeEndTime3CommandID, setChargeEndTime3CommandID] = useState(null);
-  const [chargeStartTime4CommandID, setChargeStartTime4CommandID] = useState(null);
-  const [chargeEndTime4CommandID, setChargeEndTime4CommandID] = useState(null);
-  const [dischargeStartTime1CommandID, setDischargeStartTime1CommandID] = useState(null);
-  const [dischargeEndTime1CommandID, setDischargeEndTime1CommandID] = useState(null);
-  const [dischargeStartTime2CommandID, setDischargeStartTime2CommandID] = useState(null);
-  const [dischargeEndTime2CommandID, setDischargeEndTime2CommandID] = useState(null);
-  const [dischargeStartTime3CommandID, setDischargeStartTime3CommandID] = useState(null);
-  const [dischargeEndTime3CommandID, setDischargeEndTime3CommandID] = useState(null);
-  const [dischargeStartTime4CommandID, setDischargeStartTime4CommandID] = useState(null);
-  const [dischargeEndTime4CommandID, setDischargeEndTime4CommandID] = useState(null);
+  // buttons
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
 
   //Results
-
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
   const [energyStoragePowerStationAddress, setEnergyStoragePowerStationAddress] = useState();
   const [energyStoragePowerStationPostalCode, setEnergyStoragePowerStationPostalCode] = useState();
   const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
   const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
-  const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
-  const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -131,8 +112,104 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   useEffect(() => {
+    console.log("uuid:");
+    console.log(uuid);
+    if (uuid === null || !uuid) {
+      let isResponseOK = false;
+      setSpaceCascaderHidden(false);
+      fetch(APIBaseURL + '/spaces/tree', {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
+        .then(response => {
+          console.log(response);
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          console.log(json);
+          if (isResponseOK) {
+            // rename keys
+            json = JSON.parse(
+              JSON.stringify([json])
+                .split('"id":')
+                .join('"value":')
+                .split('"name":')
+                .join('"label":')
+            );
+            setCascaderOptions(json);
+            setSelectedSpaceName([json[0]].map(o => o.label));
+            setSelectedSpaceID([json[0]].map(o => o.value));
+            // get Energy Storage Power Stations by root Space ID
+            let isResponseOK = false;
+            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energystoragepowerstations', {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
+            })
+              .then(response => {
+                if (response.ok) {
+                  isResponseOK = true;
+                }
+                return response.json();
+              })
+              .then(json => {
+                if (isResponseOK) {
+                  json = JSON.parse(
+                    JSON.stringify([json])
+                      .split('"id":')
+                      .join('"value":')
+                      .split('"name":')
+                      .join('"label":')
+                  );
+                  console.log(json);
+                  setStationList(json[0]);
+                  setFilteredStationList(json[0]);
+                  if (json[0].length > 0) {
+                    setSelectedStation(json[0][0].value);
+                    // enable submit button
+                    setSubmitButtonDisabled(false);
+                  } else {
+                    setSelectedStation(undefined);
+                    // disable submit button
+                    setSubmitButtonDisabled(true);
+                  }
+                } else {
+                  toast.error(t(json.description));
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            // end of get Energy Storage Power Stations by root Space ID
+          } else {
+            toast.error(t(json.description));
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+        setSpaceCascaderHidden(true);
+        loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID)
+      }
+  }, [energyStoragePowerStationUUID]);
+
+  const loadData = url => {
+    console.log('url:' + url);
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID, {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -150,13 +227,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       .then(json => {
         if (isResponseOK) {
           console.log(json);
+          if (uuid !== null && uuid) {
+            setFilteredStationList([{ id: json['energy_storage_power_station']['id'], label: json['energy_storage_power_station']['name'] }]);
+            setSelectedStation(json['energy_storage_power_station']['id']);
+          }
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
           setEnergyStoragePowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
           setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
-          setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
-          setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
@@ -176,49 +255,71 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setParameterLineChartOptions(names);
 
-          setChargeStartTime1(json['schedule']['charge_start_time1']);
-          setChargeEndTime1(json['schedule']['charge_end_time1']);
-          setChargeStartTime2(json['schedule']['charge_start_time2']);
-          setChargeEndTime2(json['schedule']['charge_end_time2']);
-          setChargeStartTime3(json['schedule']['charge_start_time3']);
-          setChargeEndTime3(json['schedule']['charge_end_time3']);
-          setChargeStartTime4(json['schedule']['charge_start_time4']);
-          setChargeEndTime4(json['schedule']['charge_end_time4']);
-
-          setDischargeStartTime1(json['schedule']['discharge_start_time1']);
-          setDischargeEndTime1(json['schedule']['discharge_end_time1']);
-          setDischargeStartTime2(json['schedule']['discharge_start_time2']);
-          setDischargeEndTime2(json['schedule']['discharge_end_time2']);
-          setDischargeStartTime3(json['schedule']['discharge_start_time3']);
-          setDischargeEndTime3(json['schedule']['discharge_end_time3']);
-          setDischargeStartTime4(json['schedule']['discharge_start_time4']);
-          setDischargeEndTime4(json['schedule']['discharge_end_time4']);
-
-          setChargeStartTime1CommandID(json['schedule']['charge_start_time1_command_id']);
-          setChargeEndTime1CommandID(json['schedule']['charge_end_time1_command_id']);
-          setChargeStartTime2CommandID(json['schedule']['charge_start_time2_command_id']);
-          setChargeEndTime2CommandID(json['schedule']['charge_end_time2_command_id']);
-          setChargeStartTime3CommandID(json['schedule']['charge_start_time3_command_id']);
-          setChargeEndTime3CommandID(json['schedule']['charge_end_time3_command_id']);
-          setChargeStartTime4CommandID(json['schedule']['charge_start_time4_command_id']);
-          setChargeEndTime4CommandID(json['schedule']['charge_end_time4_command_id']);
-
-          setDischargeStartTime1CommandID(json['schedule']['discharge_start_time1_command_id']);
-          setDischargeEndTime1CommandID(json['schedule']['discharge_end_time1_command_id']);
-          setDischargeStartTime2CommandID(json['schedule']['discharge_start_time2_command_id']);
-          setDischargeEndTime2CommandID(json['schedule']['discharge_end_time2_command_id']);
-          setDischargeStartTime3CommandID(json['schedule']['discharge_start_time3_command_id']);
-          setDischargeEndTime3CommandID(json['schedule']['discharge_end_time3_command_id']);
-          setDischargeStartTime4CommandID(json['schedule']['discharge_start_time4_command_id']);
-          setDischargeEndTime4CommandID(json['schedule']['discharge_end_time4_command_id']);
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }, [energyStoragePowerStationUUID]);
-
+  }
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+  let onSpaceCascaderChange = (value, selectedOptions) => {
+    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
+    setSelectedSpaceID(value[value.length - 1]);
+
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/energystoragepowerstations', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setStationList(json[0]);
+          setFilteredStationList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedStation(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedStation(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // Handler
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation);
+  };
+
 
   const refreshSVGData = () => {
     let isResponseOK = false;
@@ -267,492 +368,52 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     refreshSVGData();
   }, 1000 * 10);
 
-  // Callback fired when ChargeStartTime1 change
-  const onChargeStartTime1Change = moment => {
-    setChargeStartTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime1 close
-  const onChargeStartTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime1.substring(0, 2)) * 256 + parseInt(chargeStartTime1.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime1 change
-  const onChargeEndTime1Change = moment => {
-    setChargeEndTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime1 close
-  const onChargeEndTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime1.substring(0, 2)) * 256 + parseInt(chargeEndTime1.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime1 change
-  const onDischargeStartTime1Change = moment => {
-    setDischargeStartTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime1 close
-  const onDischargeStartTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime1.substring(0, 2)) * 256 + parseInt(dischargeStartTime1.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime1 change
-  const onDischargeEndTime1Change = moment => {
-    setDischargeEndTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime1 close
-  const onDischargeEndTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime1.substring(0, 2)) * 256 + parseInt(dischargeEndTime1.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime2 change
-  const onChargeStartTime2Change = moment => {
-    setChargeStartTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime2 close
-  const onChargeStartTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime2.substring(0, 2)) * 256 + parseInt(chargeStartTime2.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime2 change
-  const onChargeEndTime2Change = moment => {
-    setChargeEndTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime2 close
-  const onChargeEndTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime2.substring(0, 2)) * 256 + parseInt(chargeEndTime2.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime2 change
-  const onDischargeStartTime2Change = moment => {
-    setDischargeStartTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime2 close
-  const onDischargeStartTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime2.substring(0, 2)) * 256 + parseInt(dischargeStartTime2.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime2 change
-  const onDischargeEndTime2Change = moment => {
-    setDischargeEndTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime2 close
-  const onDischargeEndTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime2.substring(0, 2)) * 256 + parseInt(dischargeEndTime2.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime3 change
-  const onChargeStartTime3Change = moment => {
-    setChargeStartTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime3 close
-  const onChargeStartTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime3.substring(0, 2)) * 256 + parseInt(chargeStartTime3.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime3 change
-  const onChargeEndTime3Change = moment => {
-    setChargeEndTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime3 close
-  const onChargeEndTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime3.substring(0, 2)) * 256 + parseInt(chargeEndTime3.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime3 change
-  const onDischargeStartTime3Change = moment => {
-    setDischargeStartTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime3 close
-  const onDischargeStartTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime3.substring(0, 2)) * 256 + parseInt(dischargeStartTime3.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime3 change
-  const onDischargeEndTime3Change = moment => {
-    setDischargeEndTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime3 close
-  const onDischargeEndTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime3.substring(0, 2)) * 256 + parseInt(dischargeEndTime3.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime4 change
-  const onChargeStartTime4Change = moment => {
-    setChargeStartTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime4 close
-  const onChargeStartTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime4.substring(0, 2)) * 256 + parseInt(chargeStartTime4.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime4 change
-  const onChargeEndTime4Change = moment => {
-    setChargeEndTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime4 close
-  const onChargeEndTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime4.substring(0, 2)) * 256 + parseInt(chargeEndTime4.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime4 change
-  const onDischargeStartTime4Change = moment => {
-    setDischargeStartTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime4 close
-  const onDischargeStartTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime4.substring(0, 2)) * 256 + parseInt(dischargeStartTime4.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime4 change
-  const onDischargeEndTime4Change = moment => {
-    setDischargeEndTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime4 close
-  const onDischargeEndTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime4.substring(0, 2)) * 256 + parseInt(dischargeEndTime4.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   return (
     <Fragment>
+
+      <Form onSubmit={handleSubmit}>
+        <Row form>
+          <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
+            <FormGroup className="form-group">
+              <Cascader
+                options={cascaderOptions}
+                onChange={onSpaceCascaderChange}
+                changeOnSelect
+                expandTrigger="hover"
+              >
+                <Input value={selectedSpaceName || ''} readOnly />
+              </Cascader>
+            </FormGroup>
+          </Col>
+          <Col xs="auto">
+            <FormGroup>
+              <Form inline>
+                <CustomInput
+                  type="select"
+                  id="stationSelect"
+                  name="stationSelect"
+                  onChange={({ target }) => setSelectedStation(target.value)}
+                >
+                  {filteredStationList.map((station, index) => (
+                    <option value={station.value} key={station.value}>
+                      {station.label}
+                    </option>
+                  ))}
+                </CustomInput>
+              </Form>
+            </FormGroup>
+          </Col>
+          <Col xs="auto">
+            <FormGroup>
+              <ButtonGroup id="submit">
+                <Button color="success" disabled={submitButtonDisabled}>
+                  {t('Submit')}
+                </Button>
+              </ButtonGroup>
+            </FormGroup>
+          </Col>
+        </Row>
+      </Form>
       <Row noGutters>
         <Col lg="3" className="pr-lg-2">
           <Nav tabs>
@@ -898,7 +559,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </TabPane>
           </TabContent>
         </Col>
-        <Col lg="6" className="pr-lg-2" key={uuid()}>
+        <Col lg="6" className="pr-lg-2" key={uuidv4()}>
           <div dangerouslySetInnerHTML={energyStoragePowerStationSVG} />
         </Col>
         <Col lg="3" className="pr-lg-2">
