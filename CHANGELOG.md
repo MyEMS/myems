@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.4.0] - 2024-04-17
+### Added
 - added hyperlink to meter name of Meter Batch report in myems-web
 - added SectionLineChart into myems-web
 - added start datetime, end datetime and update datetime to fdd webmessage
@@ -25,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added decimal data value range check to myems-modbus-tcp
 - added missing lazy load files for router in myems-admin
 ### Removed
+- None
 
 ## [v4.3.0] - 2024-03-11
 
@@ -1656,7 +1663,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.3.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.4.0...HEAD
+[4.4.0]: https://github.com/MyEMS/myems/compare/v4.4.0...v4.3.0
 [4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
 [4.2.0]: https://github.com/MyEMS/myems/compare/v4.2.0...v4.1.0
 [4.1.0]: https://github.com/MyEMS/myems/compare/v4.1.0...v4.0.0

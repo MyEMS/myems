@@ -220,6 +220,6 @@ CREATE INDEX `tbl_virtual_meter_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_virtual_meter_hourly` (`virtual_meter_id`, `start_datetime_utc`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.4.0RC', release_date='2024-04-10' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.4.0', release_date='2024-04-17' WHERE id=1;
 
 COMMIT;
