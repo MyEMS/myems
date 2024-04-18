@@ -198,6 +198,8 @@ import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
 import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
 // Energy Storage Power Statioin
 import EnergyStoragePowerStationDashboard from '../components/MyEMS/EnergyStoragePowerStation/Dashboard';
+import MultipleEnergyStoragePowerStationDashboard from '../components/MyEMS/EnergyStoragePowerStation/MultipleDashboard';
+import SingleEnergyStoragePowerStationDashboard from '../components/MyEMS/EnergyStoragePowerStation/SingleDashboard';
 import EnergyStoragePowerStationList from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationList';
 import EnergyStoragePowerStationDetails from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationDetails';
 import EnergyStoragePowerStationReporting from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReporting';
