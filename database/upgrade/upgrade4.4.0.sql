@@ -6,8 +6,6 @@
 
 START TRANSACTION;
 
-UPDATE myems_system_db.tbl_menus SET route='/energystoragepowerstation/details' WHERE id=1401;
-
 DELETE FROM myems_system_db.tbl_menus WHERE id=1401;
 INSERT INTO myems_system_db.tbl_menus (id, name, route, parent_menu_id, is_hidden)
 VALUES
