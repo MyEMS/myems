@@ -129,7 +129,6 @@ class Reporting:
                              " LIMIT 1 ")
                     cursor_system_db.execute(query, (energy_storage_power_station_id,))
                     row_point = cursor_system_db.fetchone()
-                    print('run_state_point_id:' + str(row_point))
                     if row_point is not None and len(row_point) > 0:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
@@ -175,7 +174,6 @@ class Reporting:
                              " LIMIT 1 ")
                     cursor_system_db.execute(query, (energy_storage_power_station_id,))
                     row_point = cursor_system_db.fetchone()
-                    print(str(row_point))
                     if row_point is not None and len(row_point) > 0:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
@@ -204,10 +202,10 @@ class Reporting:
                 battery_power_point_value = None
                 if is_online:
                     query = (" SELECT tescb.soc_point_id, tescb.power_point_id "
-                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                             " FROM tbl_energy_storage_power_stations_containers tespsc, "
                              "      tbl_energy_storage_containers_batteries tescb "
-                             " WHERE tespsesc.energy_storage_power_station_id = %s "
-                             "       AND tespsesc.energy_storage_container_id = tescb.energy_storage_container_id "
+                             " WHERE tespsc.energy_storage_power_station_id = %s "
+                             "       AND tespsc.energy_storage_container_id = tescb.energy_storage_container_id "
                              " LIMIT 1 ")
                     cursor_system_db.execute(query, (energy_storage_power_station_id,))
                     row_point = cursor_system_db.fetchone()
@@ -215,7 +213,6 @@ class Reporting:
                         if analog_value_latest_dict.get(row_point[0]) is not None:
                             battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
                             battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
-
                 # get grid power point
                 grid_power_point_value = None
                 if is_online:
