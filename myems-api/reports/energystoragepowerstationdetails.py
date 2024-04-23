@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
@@ -167,10 +168,10 @@ class Reporting:
         # todo: query multiple energy storage containers
         container_list = list()
         cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers sc, "
+                              " FROM tbl_energy_storage_power_stations_containers espsc, "
                               "      tbl_energy_storage_containers c "
-                              " WHERE sc.energy_storage_power_station_id = %s "
-                              "      AND sc.energy_storage_container_id = c.id"
+                              " WHERE espsc.energy_storage_power_station_id = %s "
+                              "      AND espsc.energy_storage_container_id = c.id"
                               " LIMIT 1 ",
                               (energy_storage_power_station_id,))
         row_container = cursor_system.fetchone()
@@ -179,12 +180,13 @@ class Reporting:
                                    "name": row_container[1],
                                    "uuid": row_container[2]})
         # todo: if len(container_list) == 0
+        print('container_list:' + str(container_list))
         ################################################################################################################
         # Step 4: query associated batteries in containers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.soc_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
+                              " WHERE cb.energy_storage_container_id = %s AND cb.soc_point_id = p.id ",
                               (container_list[0]['id'],))
         row_point = cursor_system.fetchone()
         if row_point is not None:
@@ -193,9 +195,9 @@ class Reporting:
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
+                              " WHERE cb.energy_storage_container_id = %s AND cb.power_point_id = p.id ",
                               (container_list[0]['id'],))
         row_point = cursor_system.fetchone()
         if row_point is not None:
@@ -204,9 +206,9 @@ class Reporting:
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.charge_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
+                              " WHERE cb.energy_storage_container_id = %s AND cb.charge_meter_id = m.id ",
                               (container_list[0]['id'],))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -214,9 +216,9 @@ class Reporting:
                                "name": row_meter[1] + '.Charge',
                                "energy_category_id": row_meter[2]})
 
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.discharge_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
+                              " WHERE cb.energy_storage_container_id = %s AND cb.discharge_meter_id = m.id ",
                               (container_list[0]['id'],))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -227,9 +229,9 @@ class Reporting:
         ################################################################################################################
         # Step 5: query associated grids in containers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_points p "
-                              " WHERE mg.id = %s AND mg.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, cg.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_grids cg, tbl_points p "
+                              " WHERE cg.energy_storage_container_id = %s AND cg.power_point_id = p.id ",
                               (container_list[0]['id'],))
         row_point = cursor_system.fetchone()
         if row_point is not None:
@@ -238,9 +240,9 @@ class Reporting:
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.id = %s AND mg.buy_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
+                              " WHERE cg.energy_storage_container_id = %s AND cg.buy_meter_id = m.id ",
                               (container_list[0]['id'],))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -248,9 +250,9 @@ class Reporting:
                                "name": row_meter[1] + '.Buy',
                                "energy_category_id": row_meter[2]})
 
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.id = %s AND mg.sell_meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
+                              " WHERE cg.energy_storage_container_id = %s AND cg.sell_meter_id = m.id ",
                               (container_list[0]['id'],))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -261,9 +263,9 @@ class Reporting:
         ################################################################################################################
         # Step 6: query associated loads in containers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_points p "
-                              " WHERE ml.id = %s AND ml.power_point_id = p.id ",
+        cursor_system.execute(" SELECT p.id, cl.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_loads cl, tbl_points p "
+                              " WHERE cl.energy_storage_container_id = %s AND cl.power_point_id = p.id ",
                               (container_list[0]['id'],))
         row_point = cursor_system.fetchone()
         if row_point is not None:
@@ -272,9 +274,9 @@ class Reporting:
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_meters m "
-                              " WHERE ml.id = %s AND ml.meter_id = m.id ",
+        cursor_system.execute(" SELECT m.id, cl.name, m.energy_category_id  "
+                              " FROM tbl_energy_storage_containers_loads cl, tbl_meters m "
+                              " WHERE cl.energy_storage_container_id = %s AND cl.meter_id = m.id ",
                               (container_list[0]['id'],))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
@@ -535,7 +537,7 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-
+        print('point_list:' + str(point_list))
         for point in point_list:
             point_values = []
             point_timestamps = []
