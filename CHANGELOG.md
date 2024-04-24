@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added new protocols dtu-rtu, dtu-tcp and dtu-mqtt
 ### Changed
 - updated Distribution System in myems-web
 ### Fixed
