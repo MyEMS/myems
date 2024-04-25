@@ -465,15 +465,18 @@ class DataSourcePointCollection:
         cnx_history = mysql.connector.connect(**config.myems_historical_db)
         history = cnx_history.cursor()
         history.execute(" SELECT point_id, utc_date_time, actual_value "
-                        " FROM tbl_analog_value_latest ")
+                        " FROM tbl_analog_value_latest "
+                        " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
         analog = history.fetchall()
 
         history.execute(" SELECT point_id, utc_date_time, actual_value "
-                        " FROM tbl_digital_value_latest ")
+                        " FROM tbl_digital_value_latest "
+                        " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
         digital = history.fetchall()
 
         history.execute(" SELECT point_id, utc_date_time, actual_value "
-                        " FROM tbl_energy_value_latest ")
+                        " FROM tbl_energy_value_latest "
+                        " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
         energy = history.fetchall()
 
         if rows_point is not None and len(rows_point) > 0:
@@ -496,26 +499,19 @@ class DataSourcePointCollection:
                                "energy_value": None}
                 for point in analog:
                     if point[0] == meta_result['id'] and isinstance(point[1], datetime):
-                        date = datetime.now(timezone.utc).replace(tzinfo=None)
-                        duration = date - point[1]
-                        if duration.days == 0 and duration.seconds <= 600:
-                            meta_result['analog_value'] = point[2]
+                        meta_result['analog_value'] = point[2]
                 for point in digital:
                     if point[0] == meta_result['id'] and isinstance(point[1], datetime):
-                        date = datetime.now(timezone.utc).replace(tzinfo=None)
-                        duration = date - point[1]
-                        if duration.days == 0 and duration.seconds <= 600:
-                            meta_result['digital_value'] = point[2]
+                        meta_result['digital_value'] = point[2]
                 for point in energy:
                     if point[0] == meta_result['id'] and isinstance(point[1], datetime):
-                        date = datetime.now(timezone.utc).replace(tzinfo=None)
-                        duration = date - point[1]
-                        if duration.days == 0 and duration.seconds <= 600:
-                            meta_result['energy_value'] = point[2]
+                        meta_result['energy_value'] = point[2]
                 result.append(meta_result)
 
         cursor.close()
         cnx.close()
+        history.close()
+        cnx_history.close()
         resp.text = json.dumps(result)
 
 
