@@ -438,15 +438,15 @@ class DataSourcePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
+        cursor_system_db.execute(" SELECT name "
+                                 " FROM tbl_data_sources "
+                                 " WHERE id = %s ", (id_,))
+        if cursor_system_db.fetchone() is None:
+            cursor_system_db.close()
+            cnx_system_db.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
@@ -459,11 +459,46 @@ class DataSourcePointCollection:
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
-        cursor.execute(query_point, (id_,))
-        rows_point = cursor.fetchall()
+        cursor_system_db.execute(query_point, (id_,))
+        rows_point = cursor_system_db.fetchall()
+
+        cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical_db = cnx_historical_db.cursor()
+        cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                     " FROM tbl_analog_value_latest "
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+        analog_values = cursor_historical_db.fetchall()
+        analog_value_dict = dict()
+        for v in analog_values:
+            analog_value_dict[v[0]] = v[1]
+
+        cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                     " FROM tbl_digital_value_latest "
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+        digital_values = cursor_historical_db.fetchall()
+        digital_value_dict = dict()
+        for v in digital_values:
+            digital_value_dict[v[0]] = v[1]
+        cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                     " FROM tbl_energy_value_latest "
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+        energy_values = cursor_historical_db.fetchall()
+        energy_value_dict = dict()
+        for v in energy_values:
+            energy_value_dict[v[0]] = v[1]
 
         if rows_point is not None and len(rows_point) > 0:
             for row in rows_point:
+                if row[2] == 'ANALOG_VALUE':
+                    latest_value = analog_value_dict.get(row[0], None)
+                    latest_value = int(latest_value) if latest_value is not None else None
+                elif row[2] == 'DIGITAL_VALUE':
+                    latest_value = analog_value_dict.get(row[0], None)
+                    latest_value = Decimal(latest_value) if latest_value is not None else None
+                elif row[2] == 'ENERGY_VALUE':
+                    latest_value = energy_value_dict.get(row[0], None)
+                    latest_value = Decimal(latest_value) if latest_value is not None else None
+
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "object_type": row[2],
@@ -476,11 +511,16 @@ class DataSourcePointCollection:
                                "is_trend": bool(row[9]),
                                "is_virtual": bool(row[10]),
                                "address": row[11],
-                               "description": row[12]}
+                               "description": row[12],
+                               "latest_value": latest_value,
+                               }
+
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
+        cursor_system_db.close()
+        cnx_system_db.close()
+        cursor_historical_db.close()
+        cnx_historical_db.close()
         resp.text = json.dumps(result)
 
 
