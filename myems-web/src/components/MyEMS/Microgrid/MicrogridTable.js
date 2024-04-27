@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
@@ -57,79 +58,6 @@ const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
-const columns = [
-  {
-    dataField: 'nameuuid',
-    text: 'Name',
-    formatter: nameFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'address',
-    text: 'Address',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'total_charge',
-    text: 'Total Charge',
-    formatter: energyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'total_discharge',
-    text: 'Total Discharge',
-    formatter: energyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'total_revenue',
-    text: 'Total Revenue',
-    formatter: currencyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'rated_capacity',
-    text: 'Rated Capacity',
-    formatter: capacityFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'rated_power',
-    text: 'Rated Power',
-    formatter: powerFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'status',
-    text: 'Status',
-    formatter: badgeFormatter,
-    classes: 'border-0 align-middle fs-0',
-    headerClasses: 'border-0',
-    sort: true,
-    align: 'right',
-    headerAlign: 'right'
-  },
-  {
-    dataField: 'action',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    text: ''
-  }
-];
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
@@ -157,7 +85,7 @@ const selectRow = onSelect => ({
 });
 
 
-const MicrogridTable = ({ setIsSelected, microgridList }) => {
+const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
@@ -182,6 +110,80 @@ const MicrogridTable = ({ setIsSelected, microgridList }) => {
     sizePerPage: 6,
     totalSize: microgridList.length
   };
+
+  const columns = [
+    {
+      dataField: 'nameuuid',
+      text: t('Name'),
+      formatter: nameFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'address',
+      text: t('Address'),
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'total_charge',
+      text: t('Total Charge'),
+      formatter: energyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'total_discharge',
+      text: t('Total Discharge'),
+      formatter: energyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'total_revenue',
+      text: t('Total Revenue'),
+      formatter: currencyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'rated_capacity',
+      text: t('Rated Capacity'),
+      formatter: capacityFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'rated_power',
+      text: t('Rated Power'),
+      formatter: powerFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'communication_status',
+      text: t('Communication Status'),
+      formatter: badgeFormatter,
+      classes: 'border-0 align-middle fs-0',
+      headerClasses: 'border-0',
+      sort: true,
+      align: 'right',
+      headerAlign: 'right'
+    },
+    {
+      dataField: 'action',
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      text: ''
+    }
+  ];
 
   return (
     <PaginationProvider pagination={paginationFactory(options)}>
@@ -217,7 +219,7 @@ const MicrogridTable = ({ setIsSelected, microgridList }) => {
                   className="px-0 font-weight-semi-bold"
                   onClick={() => handleViewAll(paginationProps, microgridList.length)}
                 >
-                  view all
+                  {t('View all')}
                 </ButtonIcon>
               </Col>
               <Col xs="auto" className="pr-3">
@@ -248,4 +250,4 @@ const MicrogridTable = ({ setIsSelected, microgridList }) => {
   );
 };
 
-export default MicrogridTable;
+export default withTranslation()(MicrogridTable);

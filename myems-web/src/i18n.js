@@ -478,6 +478,7 @@ const resources = {
       'Discharge Ranking': 'Discharge Ranking',
       'Number of Microgrids': 'Number of Microgrids',
       'Number of Power Stations': 'Number of Power Stations',
+      'Microgrid List': 'Microgrid List',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
@@ -1570,6 +1571,7 @@ const resources = {
       'Discharge Ranking': '放电排名',
       'Number of Microgrids': '微电网数',
       'Number of Power Stations': '电站数',
+      'Microgrid List': '微电网列表',
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
@@ -2687,6 +2689,7 @@ const resources = {
       'Discharge Ranking': 'Entlassungsrangliste',
       'Number of Microgrids': 'Anzahl der Mikronetze',
       'Number of Power Stations': 'Anzahl der Kraftwerke',
+      'Microgrid List': 'Microgrid-Liste',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
@@ -3821,6 +3824,7 @@ const resources = {
       'Discharge Ranking': 'Classement de décharge',
       'Number of Microgrids': 'Nombre de micro-réseaux',
       'Number of Power Stations': 'Nombre de centrales électriques',
+      'Microgrid List': 'Liste des microréseaux',
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
@@ -4945,6 +4949,7 @@ const resources = {
       'Discharge Ranking': 'Clasificación de alta',
       'Number of Microgrids': 'Número de microrredes',
       'Number of Power Stations': 'Número de centrales eléctricas',
+      'Microgrid List': 'Lista de microrredes',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
@@ -6068,6 +6073,7 @@ const resources = {
       'Discharge Ranking': 'Рейтинг разряда',
       'Number of Microgrids': 'Количество микросетей',
       'Number of Power Stations': 'Количество электростанций',
+      'Microgrid List': 'Список микросетей',
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
@@ -7181,6 +7187,7 @@ const resources = {
       'Discharge Ranking': 'تصنيف التفريغ',
       'Number of Microgrids': 'عدد الشبكات الصغيرة',
       'Number of Power Stations': 'عدد محطات الطاقة',
+      'Microgrid List': 'قائمة ميكروغريد',
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
@@ -8290,6 +8297,7 @@ const resources = {
       'Discharge Ranking': 'Xếp hạng xả thải',
       'Number of Microgrids': 'Số lượng lưới điện siêu nhỏ',
       'Number of Power Stations': 'Số lượng trạm điện',
+      'Microgrid List': 'Danh sách lưới điện siêu nhỏ',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
@@ -9401,6 +9409,7 @@ const resources = {
       'Discharge Ranking': 'อันดับการปลดปล่อย',
       'Number of Microgrids': 'จำนวนไมโครกริด',
       'Number of Power Stations': 'จำนวนสถานีไฟฟ้า',
+      'Microgrid List': 'รายการไมโครกริด',
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
@@ -10511,6 +10520,7 @@ const resources = {
       'Discharge Ranking': 'Deşarj sıralaması',
       'Number of Microgrids': 'Mikro şebeke sayısı',
       'Number of Power Stations': 'Elektrik santrallerinin sayısı',
+      'Microgrid List': 'Mikro Şebeke Listesi',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
@@ -11627,6 +11637,7 @@ const resources = {
       'Discharge Ranking': 'Kedudukan pelepasan',
       'Number of Microgrids': 'Bilangan mikrogrid',
       'Number of Power Stations': 'Bilangan stesen janakuasa',
+      'Microgrid List': 'Senarai Microgrid',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
@@ -12746,6 +12757,7 @@ const resources = {
       'Discharge Ranking': 'Peringkat pelepasan',
       'Number of Microgrids': 'Jumlah microgrid',
       'Number of Power Stations': 'Jumlah pembangkit listrik',
+      'Microgrid List': 'Daftar Mikrogrid',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',

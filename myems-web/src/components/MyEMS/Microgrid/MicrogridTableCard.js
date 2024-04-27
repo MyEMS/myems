@@ -3,13 +3,14 @@ import MicrogridTable from './MicrogridTable';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { InputGroup, CustomInput, Button, Card, CardBody } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
+import { withTranslation } from 'react-i18next';
 
-const MicrogridTableCard = ({ microgridList }) => {
+const MicrogridTableCard = ({ microgridList, t }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title="Microgrid List" light={false}>
+      <FalconCardHeader title={t("Microgrid List")} light={false}>
         {isSelected ? (
           <InputGroup size="sm" className="input-group input-group-sm">
             <CustomInput
@@ -46,4 +47,4 @@ const MicrogridTableCard = ({ microgridList }) => {
   );
 };
 
-export default MicrogridTableCard;
+export default withTranslation()(MicrogridTableCard);
