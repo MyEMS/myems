@@ -184,6 +184,25 @@ class Reporting:
         energy_storage_power_station_list = list()
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             for row in rows_energy_storage_power_stations:
+                # get gateway latest seen datetime to determine if it is online
+                query = (" SELECT tds.last_seen_datetime_utc "
+                         " FROM tbl_energy_storage_power_stations_containers tespsc, "
+                         "      tbl_energy_storage_containers_batteries tescb, "
+                         "      tbl_points p, tbl_data_sources tds, tbl_gateways tg "
+                         " WHERE  tespsc.energy_storage_power_station_id = %s "
+                         "        AND tescb.energy_storage_container_id  = tespsc.energy_storage_container_id "
+                         "        AND tescb.soc_point_id = p.id "
+                         "        AND p.data_source_id = tds.id "
+                         " ORDER BY tds.last_seen_datetime_utc DESC "
+                         " LIMIT 1 ")
+                cursor_system_db.execute(query, (row[0],))
+                row_datetime = cursor_system_db.fetchone()
+                is_online = False
+                if row_datetime is not None and len(row_datetime) > 0:
+                    if isinstance(row_datetime[0], datetime):
+                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            is_online = True
+
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -194,7 +213,8 @@ class Reporting:
                                "longitude": row[6],
                                "rated_capacity": row[7],
                                "rated_power": row[8],
-                               "description": row[9]}
+                               "description": row[9],
+                               "status": 'online' if is_online else 'offline'}
                 energy_storage_power_station_list.append(meta_result)
         charge_ranking = list()
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
