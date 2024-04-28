@@ -20,38 +20,6 @@ const nameFormatter = (nameuuid) => (
   </Link>
 );
 
-const badgeFormatter = status => {
-  let color = '';
-  let icon = '';
-  let text = '';
-  switch (status) {
-    case 'charging':
-      color = 'success';
-      icon = 'check';
-      text = 'Charging';
-      break;
-    case 'discharging':
-      color = 'success';
-      icon = 'check';
-      text = 'Discharging';
-      break;
-    case 'offline':
-      color = 'secondary';
-      icon = 'ban';
-      text = 'Offline';
-      break;
-    default:
-      color = 'warning';
-      icon = 'stream';
-      text = 'Idling';
-  }
-  return (
-    <Badge color={`soft-${color}`} className="rounded-capsule">
-      {text}
-      <FontAwesomeIcon icon={icon} transform="shrink-2" className="ml-1" />
-    </Badge>
-  );
-};
 
 const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
@@ -111,6 +79,43 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
     totalSize: microgridList.length
   };
 
+  const statusFormatter = status => {
+    let color = '';
+    let icon = '';
+    let text = '';
+    switch (status) {
+      case 'online':
+        color = 'success';
+        icon = 'check';
+        text = t('Communication Online');
+        break;
+      case 'charging':
+        color = 'success';
+        icon = 'check';
+        text = 'Charging';
+        break;
+      case 'discharging':
+        color = 'success';
+        icon = 'check';
+        text = 'Discharging';
+        break;
+      case 'offline':
+        color = 'secondary';
+        icon = 'ban';
+        text = t('Communication Offline');
+        break;
+      default:
+        color = 'warning';
+        icon = 'stream';
+        text = 'Idling';
+    }
+    return (
+      <Badge color={`soft-${color}`} className="rounded-capsule">
+        {text}
+        <FontAwesomeIcon icon={icon} transform="shrink-2" className="ml-1" />
+      </Badge>
+    );
+  };
   const columns = [
     {
       dataField: 'nameuuid',
@@ -123,6 +128,13 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
     {
       dataField: 'address',
       text: t('Address'),
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'postal_code',
+      text: t('Postal Code'),
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
       sort: true
@@ -168,9 +180,9 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       sort: true,
     },
     {
-      dataField: 'communication_status',
+      dataField: 'status',
       text: t('Communication Status'),
-      formatter: badgeFormatter,
+      formatter: statusFormatter,
       classes: 'border-0 align-middle fs-0',
       headerClasses: 'border-0',
       sort: true,

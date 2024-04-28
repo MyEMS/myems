@@ -172,6 +172,21 @@ class Reporting:
         microgrid_list = list()
         if rows_microgrids is not None and len(rows_microgrids) > 0:
             for row in rows_microgrids:
+                # get gateway latest seen datetime to determine if it is online
+                query = (" SELECT tg.last_seen_datetime_utc "
+                         " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
+                         " WHERE  microgrid_id  = %s "
+                         "        AND mb.soc_point_id = p.id "
+                         "        AND p.data_source_id = tds.id "
+                         "        AND tds.gateway_id  = tg.id ")
+                cursor_system_db.execute(query, (row[0],))
+                row_datetime = cursor_system_db.fetchone()
+                is_online = False
+                if row_datetime is not None and len(row_datetime) > 0:
+                    if isinstance(row_datetime[0], datetime):
+                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            is_online = True
+
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -182,7 +197,8 @@ class Reporting:
                                "rated_capacity": row[7],
                                "rated_power": row[8],
                                "serial_number": row[9],
-                               "description": row[10]}
+                               "description": row[10],
+                               "status": 'online' if is_online else 'offline'}
                 microgrid_list.append(meta_result)
         charge_ranking = list()
         if rows_microgrids is not None and len(rows_microgrids) > 0:
