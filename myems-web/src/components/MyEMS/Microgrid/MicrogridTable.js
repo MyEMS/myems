@@ -242,7 +242,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
                   disabled={paginationProps.page === 1}
                   className="px-4"
                 >
-                  Previous
+                  {t('Previous Page')}
                 </Button>
                 <Button
                   color={lastIndex >= paginationProps.totalSize ? 'light' : 'primary'}
@@ -251,7 +251,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
                   disabled={lastIndex >= paginationProps.totalSize}
                   className="px-4 ml-2"
                 >
-                  Next
+                  {t('Next Page')}
                 </Button>
               </Col>
             </Row>
