@@ -479,6 +479,8 @@ const resources = {
       'Number of Microgrids': 'Number of Microgrids',
       'Number of Power Stations': 'Number of Power Stations',
       'Microgrid List': 'Microgrid List',
+      'Previous Page': 'Previous Page',
+      'Next Page': 'Next Page',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
@@ -1572,6 +1574,8 @@ const resources = {
       'Number of Microgrids': '微电网数',
       'Number of Power Stations': '电站数',
       'Microgrid List': '微电网列表',
+      'Previous Page': '上一页',
+      'Next Page': '下一页',
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
@@ -2690,6 +2694,8 @@ const resources = {
       'Number of Microgrids': 'Anzahl der Mikronetze',
       'Number of Power Stations': 'Anzahl der Kraftwerke',
       'Microgrid List': 'Microgrid-Liste',
+      'Previous Page': 'Vorherige Seite',
+      'Next Page': 'Nächste Seite',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
@@ -3825,6 +3831,8 @@ const resources = {
       'Number of Microgrids': 'Nombre de micro-réseaux',
       'Number of Power Stations': 'Nombre de centrales électriques',
       'Microgrid List': 'Liste des microréseaux',
+      'Previous Page': 'Page précédente',
+      'Next Page': 'Page suivante',
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
@@ -4950,6 +4958,8 @@ const resources = {
       'Number of Microgrids': 'Número de microrredes',
       'Number of Power Stations': 'Número de centrales eléctricas',
       'Microgrid List': 'Lista de microrredes',
+      'Previous Page': 'Pagina anterior',
+      'Next Page': 'Siguiente página',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
@@ -6074,6 +6084,8 @@ const resources = {
       'Number of Microgrids': 'Количество микросетей',
       'Number of Power Stations': 'Количество электростанций',
       'Microgrid List': 'Список микросетей',
+      'Previous Page': 'Предыдущая страница',
+      'Next Page': 'Следущая страница',
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
@@ -7188,6 +7200,8 @@ const resources = {
       'Number of Microgrids': 'عدد الشبكات الصغيرة',
       'Number of Power Stations': 'عدد محطات الطاقة',
       'Microgrid List': 'قائمة ميكروغريد',
+      'Previous Page': 'الصفحة السابقة',
+      'Next Page': 'الصفحة التالية',
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
@@ -8298,6 +8312,8 @@ const resources = {
       'Number of Microgrids': 'Số lượng lưới điện siêu nhỏ',
       'Number of Power Stations': 'Số lượng trạm điện',
       'Microgrid List': 'Danh sách lưới điện siêu nhỏ',
+      'Previous Page': 'Trang trước',
+      'Next Page': 'Trang tiếp theo',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
@@ -9410,6 +9426,8 @@ const resources = {
       'Number of Microgrids': 'จำนวนไมโครกริด',
       'Number of Power Stations': 'จำนวนสถานีไฟฟ้า',
       'Microgrid List': 'รายการไมโครกริด',
+      'Previous Page': 'หน้าก่อนหน้า',
+      'Next Page': 'หน้าต่อไป',
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
@@ -10521,6 +10539,8 @@ const resources = {
       'Number of Microgrids': 'Mikro şebeke sayısı',
       'Number of Power Stations': 'Elektrik santrallerinin sayısı',
       'Microgrid List': 'Mikro Şebeke Listesi',
+      'Previous Page': 'Önceki sayfa',
+      'Next Page': 'Sonraki Sayfa',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
@@ -11638,6 +11658,8 @@ const resources = {
       'Number of Microgrids': 'Bilangan mikrogrid',
       'Number of Power Stations': 'Bilangan stesen janakuasa',
       'Microgrid List': 'Senarai Microgrid',
+      'Previous Page': 'Halaman sebelumnya',
+      'Next Page': 'Muka surat seterusnya',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
@@ -12758,6 +12780,8 @@ const resources = {
       'Number of Microgrids': 'Jumlah microgrid',
       'Number of Power Stations': 'Jumlah pembangkit listrik',
       'Microgrid List': 'Daftar Mikrogrid',
+      'Previous Page': 'Halaman sebelumnya',
+      'Next Page': 'Halaman selanjutnya',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',
