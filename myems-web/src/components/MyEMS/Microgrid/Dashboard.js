@@ -1256,7 +1256,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('1');
                   }}
                 >
-                  <h6>Energy</h6>
+                  <h6>{t('Microgrid Energy')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -1266,7 +1266,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('2');
                   }}
                 >
-                  <h6>Revenue</h6>
+                  <h6>{t('Microgrid Revenue')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -1276,7 +1276,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('3');
                   }}
                 >
-                  <h6>Carbon</h6>
+                  <h6>{t('Microgrid Carbon')}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
