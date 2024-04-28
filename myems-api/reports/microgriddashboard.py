@@ -173,12 +173,13 @@ class Reporting:
         if rows_microgrids is not None and len(rows_microgrids) > 0:
             for row in rows_microgrids:
                 # get gateway latest seen datetime to determine if it is online
-                query = (" SELECT tg.last_seen_datetime_utc "
+                query = (" SELECT tds.last_seen_datetime_utc "
                          " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
                          " WHERE  microgrid_id  = %s "
                          "        AND mb.soc_point_id = p.id "
                          "        AND p.data_source_id = tds.id "
-                         "        AND tds.gateway_id  = tg.id ")
+                         " ORDER BY tds.last_seen_datetime_utc DESC "
+                         " LIMIT 1 ")
                 cursor_system_db.execute(query, (row[0],))
                 row_datetime = cursor_system_db.fetchone()
                 is_online = False

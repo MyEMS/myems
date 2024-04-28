@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
@@ -19,38 +20,6 @@ const nameFormatter = (nameuuid) => (
   </Link>
 );
 
-const badgeFormatter = status => {
-  let color = '';
-  let icon = '';
-  let text = '';
-  switch (status) {
-    case 'charging':
-      color = 'success';
-      icon = 'check';
-      text = 'Charging';
-      break;
-    case 'discharging':
-      color = 'success';
-      icon = 'check';
-      text = 'Discharging';
-      break;
-    case 'offline':
-      color = 'secondary';
-      icon = 'ban';
-      text = 'Offline';
-      break;
-    default:
-      color = 'warning';
-      icon = 'stream';
-      text = 'Idling';
-  }
-  return (
-    <Badge color={`soft-${color}`} className="rounded-capsule">
-      {text}
-      <FontAwesomeIcon icon={icon} transform="shrink-2" className="ml-1" />
-    </Badge>
-  );
-};
 
 
 const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
@@ -58,86 +27,6 @@ const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
 const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
-const columns = [
-  {
-    dataField: 'nameuuid',
-    text: '名称',
-    formatter: nameFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'address',
-    text: '地址',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'space_name',
-    text: '空间',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true
-  },
-  {
-    dataField: 'total_charge',
-    text: '总充电量',
-    formatter: energyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'total_discharge',
-    text: '总放电量',
-    formatter: energyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'total_revenue',
-    text: '总收益',
-    formatter: currencyFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'rated_capacity',
-    text: '额定容量',
-    formatter: capacityFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'rated_power',
-    text: '额定功率',
-    formatter: powerFormatter,
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    sort: true,
-  },
-  {
-    dataField: 'status',
-    text: '状态',
-    formatter: badgeFormatter,
-    classes: 'border-0 align-middle fs-0',
-    headerClasses: 'border-0',
-    sort: true,
-    align: 'right',
-    headerAlign: 'right'
-  },
-  {
-    dataField: 'action',
-    classes: 'border-0 align-middle',
-    headerClasses: 'border-0',
-    text: ''
-  }
-];
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
@@ -165,7 +54,7 @@ const selectRow = onSelect => ({
 });
 
 
-const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList }) => {
+const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList, t }) => {
 
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -191,6 +80,125 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
     sizePerPage: 6,
     totalSize: energyStoragePowerStationList.length
   };
+
+  const statusFormatter = status => {
+    let color = '';
+    let icon = '';
+    let text = '';
+    switch (status) {
+      case 'online':
+        color = 'success';
+        icon = 'check';
+        text = t('Communication Online');
+        break;
+      case 'charging':
+        color = 'success';
+        icon = 'check';
+        text = 'Charging';
+        break;
+      case 'discharging':
+        color = 'success';
+        icon = 'check';
+        text = 'Discharging';
+        break;
+      case 'offline':
+        color = 'secondary';
+        icon = 'ban';
+        text = t('Communication Offline');
+        break;
+      default:
+        color = 'warning';
+        icon = 'stream';
+        text = 'Idling';
+    }
+    return (
+      <Badge color={`soft-${color}`} className="rounded-capsule">
+        {text}
+        <FontAwesomeIcon icon={icon} transform="shrink-2" className="ml-1" />
+      </Badge>
+    );
+  };
+
+  const columns = [
+    {
+      dataField: 'nameuuid',
+      text: t('Name'),
+      formatter: nameFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'address',
+      text: t('Address'),
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'space_name',
+      text: t('Space'),
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true
+    },
+    {
+      dataField: 'total_charge',
+      text: t('Total Charge'),
+      formatter: energyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'total_discharge',
+      text: t('Total Discharge'),
+      formatter: energyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'total_revenue',
+      text: t('Total Revenue'),
+      formatter: currencyFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'rated_capacity',
+      text: t('Rated Capacity'),
+      formatter: capacityFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'rated_power',
+      text: t('Rated Power'),
+      formatter: powerFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'status',
+      text: t('Communication Status'),
+      formatter: statusFormatter,
+      classes: 'border-0 align-middle fs-0',
+      headerClasses: 'border-0',
+      sort: true,
+      align: 'right',
+      headerAlign: 'right'
+    },
+    {
+      dataField: 'action',
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      text: ''
+    }
+  ];
 
   return (
     <PaginationProvider pagination={paginationFactory(options)}>
@@ -226,7 +234,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   className="px-0 font-weight-semi-bold"
                   onClick={() => handleViewAll(paginationProps, energyStoragePowerStationList.length)}
                 >
-                  全部
+                  {t('View all')}
                 </ButtonIcon>
               </Col>
               <Col xs="auto" className="pr-3">
@@ -237,7 +245,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   disabled={paginationProps.page === 1}
                   className="px-4"
                 >
-                  前一页
+                  {t('Previous Page')}
                 </Button>
                 <Button
                   color={lastIndex >= paginationProps.totalSize ? 'light' : 'primary'}
@@ -246,7 +254,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
                   disabled={lastIndex >= paginationProps.totalSize}
                   className="px-4 ml-2"
                 >
-                  下一页
+                  {t('Next Page')}
                 </Button>
               </Col>
             </Row>
@@ -257,4 +265,4 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
   );
 };
 
-export default EnergyStoragePowerStationTable;
+export default withTranslation()(EnergyStoragePowerStationTable);
