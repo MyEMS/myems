@@ -40,6 +40,7 @@ from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
 from reports import energystoragepowerstationdashboard
+from reports import energystoragepowerstationsingledashboard
 from reports import energystoragepowerstationdetails
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreporting
@@ -925,6 +926,8 @@ api.add_route('/reports/dashboard',
               dashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdashboard',
               energystoragepowerstationdashboard.Reporting())
+api.add_route('/reports/energystoragepowerstationsingledashboard',
+              energystoragepowerstationsingledashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails',
               energystoragepowerstationdetails.Reporting())
 api.add_route('/reports/energystoragepowerstationlist',

@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon
@@ -20,7 +21,7 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the energy storage power station list
+    # Step 2: query the energy storage power station
     # Step 3: query charge data
     # Step 4: query discharge data
     # Step 5: query revenue data
@@ -35,7 +36,9 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        user_uuid = req.params.get('useruuid')
+        # this procedure accepts energy storage power station id or uuid
+        energy_storage_power_station_id = req.params.get('id')
+        energy_storage_power_station_uuid = req.params.get('uuid')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -45,13 +48,22 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if user_uuid is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USER_UUID')
-        else:
-            user_uuid = str.strip(user_uuid)
-            if len(user_uuid) != 36:
+        if energy_storage_power_station_id is None and energy_storage_power_station_uuid is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        if energy_storage_power_station_id is not None:
+            energy_storage_power_station_id = str.strip(energy_storage_power_station_id)
+            if not energy_storage_power_station_id.isdigit() or int(energy_storage_power_station_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_USER_UUID')
+                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        if energy_storage_power_station_uuid is not None:
+            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(energy_storage_power_station_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -138,24 +150,6 @@ class Reporting:
         # Step 2: query the energy storage power station list
         ################################################################################################################
 
-        cnx_user = mysql.connector.connect(**config.myems_user_db)
-        cursor_user = cnx_user.cursor()
-
-        cursor_user.execute(" SELECT id, is_admin, privilege_id "
-                            " FROM tbl_users "
-                            " WHERE uuid = %s ", (user_uuid,))
-        row_user = cursor_user.fetchone()
-        if row_user is None:
-            if cursor_user:
-                cursor_user.close()
-            if cnx_user:
-                cnx_user.close()
-
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_NOT_FOUND')
-
-        user = {'id': row_user[0], 'is_admin': row_user[1], 'privilege_id': row_user[2]}
-
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
         # Get Spaces associated with energy storage power stations
@@ -171,76 +165,68 @@ class Reporting:
                 space_dict[row[0]] = row[1]
         print(space_dict)
         # Get energy storage power station
-        query = (" SELECT m.id, m.name, m.uuid, "
-                 "        m.address, m.postal_code, m.latitude, m.longitude, "
-                 "        m.rated_capacity, m.rated_power, m.description "
-                 " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
-                 " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
-                 " ORDER BY id ")
-        cursor_system_db.execute(query, (user['id'],))
-        rows_energy_storage_power_stations = cursor_system_db.fetchall()
+        if energy_storage_power_station_id is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        contact_id, cost_center_id, svg, description "
+                     " FROM tbl_energy_storage_power_stations "
+                     " WHERE id = %s ")
+            cursor_system_db.execute(query, (energy_storage_power_station_id,))
+            row = cursor_system_db.fetchone()
+        elif energy_storage_power_station_uuid is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        contact_id, cost_center_id, svg, description "
+                     " FROM tbl_energy_storage_power_stations "
+                     " WHERE uuid = %s ")
+            cursor_system_db.execute(query, (energy_storage_power_station_uuid,))
+            row = cursor_system_db.fetchone()
 
-        energy_storage_power_station_list = list()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            for row in rows_energy_storage_power_stations:
-                # get gateway latest seen datetime to determine if it is online
-                query = (" SELECT tds.last_seen_datetime_utc "
-                         " FROM tbl_energy_storage_power_stations_containers tespsc, "
-                         "      tbl_energy_storage_containers_batteries tescb, "
-                         "      tbl_points p, tbl_data_sources tds, tbl_gateways tg "
-                         " WHERE  tespsc.energy_storage_power_station_id = %s "
-                         "        AND tescb.energy_storage_container_id  = tespsc.energy_storage_container_id "
-                         "        AND tescb.soc_point_id = p.id "
-                         "        AND p.data_source_id = tds.id "
-                         " ORDER BY tds.last_seen_datetime_utc DESC "
-                         " LIMIT 1 ")
-                cursor_system_db.execute(query, (row[0],))
-                row_datetime = cursor_system_db.fetchone()
-                is_online = False
-                if row_datetime is not None and len(row_datetime) > 0:
-                    if isinstance(row_datetime[0], datetime):
-                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
-                            is_online = True
+        if row is None:
+            cursor_system_db.close()
+            cnx_system_db.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+        else:
+            energy_storage_power_station = dict()
+            # get gateway latest seen datetime to determine if it is online
+            query = (" SELECT tds.last_seen_datetime_utc "
+                     " FROM tbl_energy_storage_power_stations_containers tespsc, "
+                     "      tbl_energy_storage_containers_batteries tescb, "
+                     "      tbl_points p, tbl_data_sources tds, tbl_gateways tg "
+                     " WHERE  tespsc.energy_storage_power_station_id = %s "
+                     "        AND tescb.energy_storage_container_id  = tespsc.energy_storage_container_id "
+                     "        AND tescb.soc_point_id = p.id "
+                     "        AND p.data_source_id = tds.id "
+                     " ORDER BY tds.last_seen_datetime_utc DESC "
+                     " LIMIT 1 ")
+            cursor_system_db.execute(query, (row[0],))
+            row_datetime = cursor_system_db.fetchone()
+            is_online = False
+            if row_datetime is not None and len(row_datetime) > 0:
+                if isinstance(row_datetime[0], datetime):
+                    if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                        is_online = True
 
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "address": row[3],
-                               "space_name": space_dict.get(row[0]),
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "rated_capacity": row[7],
-                               "rated_power": row[8],
-                               "description": row[9],
-                               "status": 'online' if is_online else 'offline'}
-                energy_storage_power_station_list.append(meta_result)
+            energy_storage_power_station = {
+                "id": row[0],
+                "name": row[1],
+                "uuid": row[2],
+                "address": row[3],
+                "space_name": space_dict.get(row[0]),
+                "postal_code": row[4],
+                "latitude": row[5],
+                "longitude": row[6],
+                "rated_capacity": row[7],
+                "rated_power": row[8],
+                "description": row[9],
+                "status": 'online' if is_online else 'offline'}
+
         charge_ranking = list()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            for row in rows_energy_storage_power_stations:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(0.0)}
-                charge_ranking.append(meta_result)
 
         discharge_ranking = list()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            for row in rows_energy_storage_power_stations:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(0.0)}
-                discharge_ranking.append(meta_result)
 
         revenue_ranking = list()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            for row in rows_energy_storage_power_stations:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(0.0)}
-                revenue_ranking.append(meta_result)
 
         ################################################################################################################
         # Step 3: query charge data
@@ -283,7 +269,7 @@ class Reporting:
 
         result = dict()
 
-        result['energy_storage_power_stations'] = energy_storage_power_station_list
+        result['energy_storage_power_station'] = energy_storage_power_station
         result['charge_ranking'] = charge_ranking
         result['total_charge'] = Decimal(0.0)
         result['discharge_ranking'] = discharge_ranking

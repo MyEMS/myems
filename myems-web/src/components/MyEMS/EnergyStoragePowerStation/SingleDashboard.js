@@ -68,7 +68,6 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   //Results
 
-  const [energyStoragePowerStationList, setEnergyStoragePowerStationList] = useState([]);
   const [totalRatedCapacity, setTotalRatedCapacity] = useState({});
   const [totalRatedPower, setTotalRatedPower] = useState({});
   const [chargeRankingList, setChargeRankingList] = useState([]);
@@ -176,8 +175,7 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, []);
 
-  const loadData = url => {
-    console.log('url:' + url);
+  const loadData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -200,19 +198,17 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
         fetch(
           APIBaseURL +
-            '/reports/energystoragepowerstationdashboard?' +
-            'useruuid=' +
-            user_uuid +
-            '&periodtype=' +
-            periodType +
-            '&baseperiodstartdatetime=' +
-            (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&baseperiodenddatetime=' +
-            (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&reportingperiodstartdatetime=' +
-            reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&reportingperiodenddatetime=' +
-            reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+          '/reports/energystoragepowerstationsingledashboard?id=' + selectedStation +
+          '&periodtype=' +
+          periodType +
+          '&baseperiodstartdatetime=' +
+          (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&baseperiodenddatetime=' +
+          (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&reportingperiodstartdatetime=' +
+          reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&reportingperiodenddatetime=' +
+          reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
           {
             method: 'GET',
             headers: {
@@ -235,41 +231,37 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               // hide spinner
               setSpinnerHidden(true);
 
-              let energyStoragePowerStationList = [];
               let chargeRankingList = [];
               let dischargeRankingList = [];
               let revenueList = [];
               let totalRatedCapacity = 0;
               let totalRatedPower = 0;
 
-              setRootLongitude(json['energy_storage_power_stations'][0]['longitude']);
-              setRootLatitude(json['energy_storage_power_stations'][0]['latitude']);
+              setRootLongitude(json['energy_storage_power_station']['longitude']);
+              setRootLatitude(json['energy_storage_power_station']['latitude']);
               let geojson = {};
               let geojsonData = [];
-              json['energy_storage_power_stations'].forEach((currentValue, index) => {
-                let energyStoragePowerStationItem = json['energy_storage_power_stations'][index];
-                totalRatedCapacity += energyStoragePowerStationItem['rated_capacity'];
-                totalRatedPower += energyStoragePowerStationItem['rated_power'];
-                if (energyStoragePowerStationItem['latitude'] && energyStoragePowerStationItem['longitude']) {
-                  geojsonData.push({
-                    type: 'Feature',
-                    geometry: {
-                      type: 'Point',
-                      coordinates: [energyStoragePowerStationItem['longitude'], energyStoragePowerStationItem['latitude']]
-                    },
-                    properties: {
-                      title: energyStoragePowerStationItem['name'],
-                      description: energyStoragePowerStationItem['description'],
-                      uuid: energyStoragePowerStationItem['uuid'],
-                      url: '/energystoragepowerstation/details'
-                    }
-                  });
-                }
-                energyStoragePowerStationItem['nameuuid'] = energyStoragePowerStationItem['name'] + energyStoragePowerStationItem['uuid']
-                energyStoragePowerStationList.push(energyStoragePowerStationItem);
 
-              });
-              setEnergyStoragePowerStationList(energyStoragePowerStationList);
+              let energyStoragePowerStation = json['energy_storage_power_station'];
+              totalRatedCapacity += energyStoragePowerStation['rated_capacity'];
+              totalRatedPower += energyStoragePowerStation['rated_power'];
+              if (energyStoragePowerStation['latitude'] && energyStoragePowerStation['longitude']) {
+                geojsonData.push({
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [energyStoragePowerStation['longitude'], energyStoragePowerStation['latitude']]
+                  },
+                  properties: {
+                    title: energyStoragePowerStation['name'],
+                    description: energyStoragePowerStation['description'],
+                    uuid: energyStoragePowerStation['uuid'],
+                    url: '/energystoragepowerstation/details'
+                  }
+                });
+              }
+              energyStoragePowerStation['nameuuid'] = energyStoragePowerStation['name'] + energyStoragePowerStation['uuid']
+
               setTotalRatedCapacity(totalRatedCapacity);
               setTotalRatedPower(totalRatedPower);
               geojson['type'] = 'FeatureCollection';
@@ -277,34 +269,19 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setGeojson(geojson);
 
               json['charge_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let energyStoragePowerStationItem = json['charge_ranking'][index];
-                  energyStoragePowerStationItem['unit'] = 'kWh';
-                  chargeRankingList.push(energyStoragePowerStationItem);
-                }
+
               });
               setChargeRankingList(chargeRankingList);
               setTotalCharge(json['totalCharge']);
 
               json['discharge_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let energyStoragePowerStationItem = json['discharge_ranking'][index];
-                  energyStoragePowerStationItem['unit'] = 'kWh';
-                  dischargeRankingList.push(energyStoragePowerStationItem);
-                }
+
               });
               setDischargeRankingList(dischargeRankingList);
               setTotalDischarge(json['totalDischarge']);
 
               json['revenue_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let energyStoragePowerStationItem = json['revenue_ranking'][index];
-                  energyStoragePowerStationItem['unit'] = currency;
-                  revenueList.push(energyStoragePowerStationItem);
-                }
+
               });
               setRevenueRankingList(revenueList);
               setTotalRevenue(json['totalRevenue']);
@@ -1359,23 +1336,8 @@ const SingleDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    let user_uuid = getCookieValue('user_uuid');
-    loadData(APIBaseURL +
-      '/reports/energystoragepowerstationdashboard?' +
-      'useruuid=' +
-      user_uuid +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'));
+    loadData();
   };
-
 
   useEffect(() => {
     let timer = setInterval(() => {
