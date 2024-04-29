@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState, useContext } from 'react';
 import CountUp from 'react-countup';
 import { Col, Row, Spinner, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import EnergyStoragePowerStationTableCard from './EnergyStoragePowerStationTableCard';
-import EnergyStoragePowerStationRankingTable from './EnergyStoragePowerStationRankingTable';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';

@@ -1,4 +1,4 @@
-import React, { Fragment, createRef } from 'react';
+import React, { Fragment, createRef, useContext } from 'react';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Badge from 'reactstrap/es/Badge';
@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
+import AppContext from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
@@ -20,12 +21,6 @@ const nameFormatter = (nameuuid) => (
   </Link>
 );
 
-
-
-const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
-const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
@@ -55,6 +50,11 @@ const selectRow = onSelect => ({
 
 
 const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList, t }) => {
+  const { currency } = useContext(AppContext);
+  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
 
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
