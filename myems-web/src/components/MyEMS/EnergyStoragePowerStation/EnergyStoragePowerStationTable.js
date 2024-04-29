@@ -9,19 +9,26 @@ import { Link } from 'react-router-dom';
 import AppContext from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
 
+
+const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList, t }) => {
+  const { currency } = useContext(AppContext);
+  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
+
+  const nameFormatter = (nameuuid) => (
+    <Link to={"/energystoragepowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold">
+      {nameuuid.substring(0, nameuuid.length-36)}
+    </Link>
+  );
+
+
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   <span>
     {(page - 1) * sizePerPage + 1} to {lastIndex > totalSize ? totalSize : lastIndex} of {totalSize} —{' '}
   </span>
 );
-
-const nameFormatter = (nameuuid) => (
-  <Link to={"/energystoragepowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold">
-    {nameuuid.substring(0, nameuuid.length-36)}
-  </Link>
-);
-
-
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
@@ -47,14 +54,6 @@ const selectRow = onSelect => ({
   onSelect: onSelect,
   onSelectAll: onSelect
 });
-
-
-const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList, t }) => {
-  const { currency } = useContext(AppContext);
-  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
-  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
 
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
