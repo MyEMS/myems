@@ -331,6 +331,7 @@ export const spaceRoutes = {
     { to: '/space/load', name: 'Load' },
     { to: '/space/statistics', name: 'Statistics' },
     { to: '/space/saving', name: 'Saving' },
+    { to: '/space/plan', name: 'Plan' },
     { to: '/space/environmentmonitor', name: 'Environment Monitor' }
   ]
 };
@@ -350,6 +351,7 @@ export const equipmentRoutes = {
     { to: '/equipment/load', name: 'Load' },
     { to: '/equipment/statistics', name: 'Statistics' },
     { to: '/equipment/saving', name: 'Saving' },
+    { to: '/equipment/plan', name: 'Plan' },
     { to: '/equipment/batch', name: 'Batch Analysis' },
     { to: '/equipment/tracking', name: 'Equipment Tracking' }
   ]
@@ -366,6 +368,7 @@ export const meterRoutes = {
     { to: '/meter/metertrend', name: 'Meter Trend' },
     { to: '/meter/meterrealtime', name: 'Meter Realtime' },
     { to: '/meter/metersaving', name: 'Meter Saving' },
+    { to: '/meter/meterplan', name: 'Meter Plan' },
     { to: '/meter/metersubmetersbalance', name: 'Master Meter Submeters Balance' },
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },
@@ -375,11 +378,13 @@ export const meterRoutes = {
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
     { to: '/meter/virtualmeterbatch', name: 'Virtual Meter Batch Analysis' },
     { to: '/meter/virtualmetersaving', name: 'Virtual Meter Saving' },
+    { to: '/meter/virtualmeterplan', name: 'Virtual Meter Plan' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercarbon', name: 'Offline Meter Carbon' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
     { to: '/meter/offlinemeterbatch', name: 'Offline Meter Batch Analysis' },
     { to: '/meter/offlinemetersaving', name: 'Offline Meter Saving' },
+    { to: '/meter/offlinemeterplan', name: 'Offline Meter Plan' },
     { to: '/meter/offlinemeterinput', name: 'Offline Meter Input' }
   ]
 };
@@ -396,6 +401,7 @@ export const tenantRoutes = {
     { to: '/tenant/load', name: 'Load' },
     { to: '/tenant/statistics', name: 'Statistics' },
     { to: '/tenant/saving', name: 'Saving' },
+    { to: '/tenant/plan', name: 'Plan' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
     { to: '/tenant/batch', name: 'Batch Analysis' }
   ]
@@ -413,6 +419,7 @@ export const storeRoutes = {
     { to: '/store/load', name: 'Load' },
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
+    { to: '/store/plan', name: 'Plan' },
     { to: '/store/batch', name: 'Batch Analysis' }
   ]
 };
@@ -429,6 +436,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/load', name: 'Load' },
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
+    { to: '/shopfloor/plan', name: 'Plan' },
     { to: '/shopfloor/batch', name: 'Batch Analysis' }
   ]
 };
@@ -448,6 +456,7 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/load', name: 'Load' },
     { to: '/combinedequipment/statistics', name: 'Statistics' },
     { to: '/combinedequipment/saving', name: 'Saving' },
+    { to: '/combinedequipment/plan', name: 'Plan' },
     { to: '/combinedequipment/batch', name: 'Batch Analysis' }
   ]
 };
