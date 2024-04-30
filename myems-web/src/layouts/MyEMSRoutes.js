@@ -113,6 +113,7 @@ import SpaceEfficiency from '../components/MyEMS/Space/SpaceEfficiency';
 import SpaceLoad from '../components/MyEMS/Space/SpaceLoad';
 import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
+import SpacePlan from '../components/MyEMS/Space/SpacePlan';
 import SpaceEnvironmentMonitor from '../components/MyEMS/Space/SpaceEnvironmentMonitor';
 // Equipment
 import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
@@ -125,6 +126,7 @@ import EquipmentIncome from '../components/MyEMS/Equipment/EquipmentIncome';
 import EquipmentLoad from '../components/MyEMS/Equipment/EquipmentLoad';
 import EquipmentOutput from '../components/MyEMS/Equipment/EquipmentOutput';
 import EquipmentSaving from '../components/MyEMS/Equipment/EquipmentSaving';
+import EquipmentPlan from '../components/MyEMS/Equipment/EquipmentPlan';
 import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 // Meter
@@ -135,6 +137,7 @@ import MeterCost from '../components/MyEMS/Meter/MeterCost';
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
 import MeterSaving from '../components/MyEMS/Meter/MeterSaving';
+import MeterPlan from '../components/MyEMS/Meter/MeterPlan';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
@@ -143,12 +146,14 @@ import OfflineMeterCarbon from '../components/MyEMS/Meter/OfflineMeterCarbon';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
 import OfflineMeterEnergy from '../components/MyEMS/Meter/OfflineMeterEnergy';
 import OfflineMeterSaving from '../components/MyEMS/Meter/OfflineMeterSaving';
+import OfflineMeterPlan from '../components/MyEMS/Meter/OfflineMeterPlan';
 import OfflineMeterInput from '../components/MyEMS/Meter/OfflineMeterInput';
 import VirtualMeterBatch from '../components/MyEMS/Meter/VirtualMeterBatch';
 import VirtualMeterCarbon from '../components/MyEMS/Meter/VirtualMeterCarbon';
 import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
 import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
 import VirtualMeterSaving from '../components/MyEMS/Meter/VirtualMeterSaving';
+import VirtualMeterPlan from '../components/MyEMS/Meter/VirtualMeterPlan';
 // Tenant
 import TenantEnergyCategory from '../components/MyEMS/Tenant/TenantEnergyCategory';
 import TenantEnergyItem from '../components/MyEMS/Tenant/TenantEnergyItem';
@@ -157,6 +162,7 @@ import TenantCost from '../components/MyEMS/Tenant/TenantCost';
 import TenantLoad from '../components/MyEMS/Tenant/TenantLoad';
 import TenantStatistics from '../components/MyEMS/Tenant/TenantStatistics';
 import TenantSaving from '../components/MyEMS/Tenant/TenantSaving';
+import TenantPlan from '../components/MyEMS/Tenant/TenantPlan';
 import TenantBill from '../components/MyEMS/Tenant/TenantBill';
 import TenantBatch from '../components/MyEMS/Tenant/TenantBatch';
 // Store
@@ -167,6 +173,7 @@ import StoreCost from '../components/MyEMS/Store/StoreCost';
 import StoreLoad from '../components/MyEMS/Store/StoreLoad';
 import StoreStatistics from '../components/MyEMS/Store/StoreStatistics';
 import StoreSaving from '../components/MyEMS/Store/StoreSaving';
+import StorePlan from '../components/MyEMS/Store/StorePlan';
 import StoreBatch from '../components/MyEMS/Store/StoreBatch';
 // Shopfloor
 import ShopfloorEnergyCategory from '../components/MyEMS/Shopfloor/ShopfloorEnergyCategory';
@@ -176,6 +183,7 @@ import ShopfloorCost from '../components/MyEMS/Shopfloor/ShopfloorCost';
 import ShopfloorLoad from '../components/MyEMS/Shopfloor/ShopfloorLoad';
 import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatistics';
 import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
+import ShopfloorPlan from '../components/MyEMS/Shopfloor/ShopfloorPlan';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 // CombinedEquipment
 import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch';
@@ -188,6 +196,7 @@ import CombinedEquipmentLoad from '../components/MyEMS/CombinedEquipment/Combine
 import CombinedEquipmentIncome from '../components/MyEMS/CombinedEquipment/CombinedEquipmentIncome';
 import CombinedEquipmentOutput from '../components/MyEMS/CombinedEquipment/CombinedEquipmentOutput';
 import CombinedEquipmentSaving from '../components/MyEMS/CombinedEquipment/CombinedEquipmentSaving';
+import CombinedEquipmentPlan from '../components/MyEMS/CombinedEquipment/CombinedEquipmentPlan';
 import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/CombinedEquipmentStatistics';
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
@@ -369,6 +378,7 @@ const MyEMSRoutes = () => (
     <Route path="/space/load" exact component={SpaceLoad} />
     <Route path="/space/statistics" exact component={SpaceStatistics} />
     <Route path="/space/saving" exact component={SpaceSaving} />
+    <Route path="/space/plan" exact component={SpacePlan} />
     <Route path="/space/environmentmonitor" exact component={SpaceEnvironmentMonitor} />
 
     {/*Equipment*/}
@@ -382,6 +392,7 @@ const MyEMSRoutes = () => (
     <Route path="/equipment/load" exact component={EquipmentLoad} />
     <Route path="/equipment/output" exact component={EquipmentOutput} />
     <Route path="/equipment/saving" exact component={EquipmentSaving} />
+    <Route path="/equipment/plan" exact component={EquipmentPlan} />
     <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
 
@@ -393,10 +404,12 @@ const MyEMSRoutes = () => (
     <Route path="/meter/metertrend" exact component={MeterTrend} />
     <Route path="/meter/meterrealtime" exact component={MeterRealtime} />
     <Route path="/meter/metersaving" exact component={MeterSaving} />
+    <Route path="/meter/meterplan" exact component={MeterPlan} />
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
     <Route path="/meter/virtualmetersaving" exact component={VirtualMeterSaving} />
+    <Route path="/meter/virtualmeterplan" exact component={VirtualMeterPlan} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
@@ -406,6 +419,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/offlinemetercost" exact component={OfflineMeterCost} />
     <Route path="/meter/offlinemeterbatch" exact component={OfflineMeterBatch} />
     <Route path="/meter/offlinemetersaving" exact component={OfflineMeterSaving} />
+    <Route path="/meter/offlinemeterplan" exact component={OfflineMeterPlan} />
     <Route path="/meter/offlinemeterinput" exact component={OfflineMeterInput} />
 
     {/*Tenant*/}
@@ -416,6 +430,7 @@ const MyEMSRoutes = () => (
     <Route path="/tenant/load" exact component={TenantLoad} />
     <Route path="/tenant/statistics" exact component={TenantStatistics} />
     <Route path="/tenant/saving" exact component={TenantSaving} />
+    <Route path="/tenant/plan" exact component={TenantPlan} />
     <Route path="/tenant/bill" exact component={TenantBill} />
     <Route path="/tenant/batch" exact component={TenantBatch} />
 
@@ -427,6 +442,7 @@ const MyEMSRoutes = () => (
     <Route path="/store/load" exact component={StoreLoad} />
     <Route path="/store/statistics" exact component={StoreStatistics} />
     <Route path="/store/saving" exact component={StoreSaving} />
+    <Route path="/store/plan" exact component={StorePlan} />
     <Route path="/store/batch" exact component={StoreBatch} />
 
     {/*Shopfloor*/}
@@ -437,6 +453,7 @@ const MyEMSRoutes = () => (
     <Route path="/shopfloor/load" exact component={ShopfloorLoad} />
     <Route path="/shopfloor/statistics" exact component={ShopfloorStatistics} />
     <Route path="/shopfloor/saving" exact component={ShopfloorSaving} />
+    <Route path="/shopfloor/plan" exact component={ShopfloorPlan} />
     <Route path="/shopfloor/batch" exact component={ShopfloorBatch} />
 
     {/*CombinedEquipment*/}
@@ -450,6 +467,7 @@ const MyEMSRoutes = () => (
     <Route path="/combinedequipment/load" exact component={CombinedEquipmentLoad} />
     <Route path="/combinedequipment/output" exact component={CombinedEquipmentOutput} />
     <Route path="/combinedequipment/saving" exact component={CombinedEquipmentSaving} />
+    <Route path="/combinedequipment/plan" exact component={CombinedEquipmentPlan} />
     <Route path="/combinedequipment/statistics" exact component={CombinedEquipmentStatistics} />
 
     {/*Auxiliary System*/}

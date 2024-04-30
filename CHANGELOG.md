@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new protocols dtu-rtu, dtu-tcp, dtu-mqtt and mqtt-zhongxian
 - added latest value to data source points table in myems-admin
 - added menus for plan functions in database
+- added energy plan reports (preview) in myems-web 
 ### Changed
 - updated Distribution System in myems-web
 ### Fixed
