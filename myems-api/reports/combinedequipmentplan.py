@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.combinedequipmentsaving
+import excelexporters.combinedequipmentplan
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -850,13 +850,13 @@ class Reporting:
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.combinedequipmentsaving.export(result,
-                                                              combined_equipment['name'],
-                                                              base_period_start_datetime_local,
-                                                              base_period_end_datetime_local,
-                                                              reporting_period_start_datetime_local,
-                                                              reporting_period_end_datetime_local,
-                                                              period_type,
-                                                              language)
+                excelexporters.combinedequipmentplan.export(result,
+                                                            combined_equipment['name'],
+                                                            base_period_start_datetime_local,
+                                                            base_period_end_datetime_local,
+                                                            reporting_period_start_datetime_local,
+                                                            reporting_period_end_datetime_local,
+                                                            period_type,
+                                                            language)
 
         resp.text = json.dumps(result)
