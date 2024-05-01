@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.storesaving
+import excelexporters.storeplan
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -764,13 +764,13 @@ class Reporting:
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.storesaving.export(result,
-                                                                             store['name'],
-                                                                             base_period_start_datetime_local,
-                                                                             base_period_end_datetime_local,
-                                                                             reporting_period_start_datetime_local,
-                                                                             reporting_period_end_datetime_local,
-                                                                             period_type,
-                                                                             language)
+            result['excel_bytes_base64'] = excelexporters.storeplan.export(result,
+                                                                           store['name'],
+                                                                           base_period_start_datetime_local,
+                                                                           base_period_end_datetime_local,
+                                                                           reporting_period_start_datetime_local,
+                                                                           reporting_period_end_datetime_local,
+                                                                           period_type,
+                                                                           language)
 
         resp.text = json.dumps(result)

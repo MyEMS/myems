@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.shopfloorsaving
+import excelexporters.shopfloorplan
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -768,13 +768,13 @@ class Reporting:
 
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.shopfloorsaving.export(result,
-                                                                                 shopfloor['name'],
-                                                                                 base_period_start_datetime_local,
-                                                                                 base_period_end_datetime_local,
-                                                                                 reporting_period_start_datetime_local,
-                                                                                 reporting_period_end_datetime_local,
-                                                                                 period_type,
-                                                                                 language)
+            result['excel_bytes_base64'] = excelexporters.shopfloorplan.export(result,
+                                                                               shopfloor['name'],
+                                                                               base_period_start_datetime_local,
+                                                                               base_period_end_datetime_local,
+                                                                               reporting_period_start_datetime_local,
+                                                                               reporting_period_end_datetime_local,
+                                                                               period_type,
+                                                                               language)
 
         resp.text = json.dumps(result)
