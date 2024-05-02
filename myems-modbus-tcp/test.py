@@ -1,9 +1,7 @@
 import sys
 import telnetlib3
 import asyncio
-
 from modbus_tk import modbus_tcp
-
 import byte_swap
 
 
@@ -20,18 +18,19 @@ async def check_connectivity(host, port):
 # main procedure
 ########################################################################################################################
 def main():
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 2:
         host = sys.argv[1]
+        port = sys.argv[2]
     else:
-        print('Usage: python3 test.py HOST_IP_ADDR ')
+        print('Missing arguments')
+        print('Usage: python3 test.py HOST PORT')
         return
 
-    port = 502
     try:
         asyncio.run(check_connectivity(host, port))
-        print("Succeeded to telnet %s:%s ", host, port)
+        print("Succeeded to telnet {0}:{1}".format(host, port))
     except Exception as e:
-        print("Failed to telnet %s:%s : %s  ", host, port, str(e))
+        print("Failed to telnet {0}:{1} : {2}".format(host, port, str(e)))
         return
 
     """
@@ -67,7 +66,7 @@ def main():
     try:
         master = modbus_tcp.TcpMaster(host=host, port=port, timeout_in_sec=5.0)
         master.set_timeout(5.0)
-        print("Connected to %s:%s ", host, port)
+        print("Connected to {0}:{1}".format(host, port))
         print("read registers...")
         result = master.execute(slave=1, function_code=3, starting_address=1, quantity_of_x=2, data_format='<f')
         print("51AL1 = " + str(byte_swap.byte_swap_32_bit(result[0])))
