@@ -1,7 +1,6 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
-
 import datarepair
 import meter
 import offlinemeter

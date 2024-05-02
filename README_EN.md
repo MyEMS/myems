@@ -11,15 +11,11 @@
  [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
- [简体中文](./README.md) | [ENGLISH](./README_EN.md) | [DEUTSCH](./README_DE.md)
+ [简体中文](./README.md) | [German](./README_DE.md)
 
 ## MyEMS Introduction
 
-MyEMS is an industry-leading open source energy management system and is based on Python and React.
-It is used for collecting, processing, analyzing, reporting and displaying energy data of buildings, factories, shopping malls, data centers and enterprise zones.
-MyEMS can be used for device management, data collection, processing, analysis, visualization and reporting for your EMS projects.
-MyEMS is being developed and maintained by an experienced development team, and the system's source code is published under MIT license.
-Using open source to help achieve carbon peak carbon neutrality goals.
+MyEMS open source energy management system is used for electricity, water, gas and other energy data collection, analysis, and reporting in buildings, factories, shopping malls, hospitals, and parks, as well as photovoltaic, energy storage, charging piles, microgrids, equipment control, fault diagnosis, Work order management, artificial intelligence optimization and other optional functions. Development and maintenance by a senior professional team to ensure long-term support. Use open source to support the low-carbon development of enterprise groups, industrial parks, and energy operators!
 
 ## MyEMS Architecture
 
