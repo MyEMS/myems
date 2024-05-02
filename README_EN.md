@@ -2,7 +2,7 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.4.0</h1>
-<h4 align="center">Industry Leading Open Source Energy Management System</h4>
+<h4 align="center">Leading Open Source Energy Management System</h4>
 <h4 align="center">Recommended by Gitee</h4>
 
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
