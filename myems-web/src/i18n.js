@@ -488,7 +488,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
-      'Battery Unknown': 'Unknown',
+      // 'Battery Unknown': 'Unknown',
       'Battery Fault': 'Fault',
       'Battery Warning': 'Warning',
       'Battery Standby': 'Standby',
@@ -1587,7 +1587,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
-      'Battery Unknown': '未知',
+      // 'Battery Unknown': '未知',
       'Battery Fault': '故障',
       'Battery Warning': '预警',
       'Battery Standby': '待机',
@@ -2711,7 +2711,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
-      'Battery Unknown': 'Unbekannt',
+      // 'Battery Unknown': 'Unbekannt',
       'Battery Fault': 'Fehler',
       'Battery Warning': 'Warnung',
       'Battery Standby': 'Standby',
@@ -3852,7 +3852,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
-      'Battery Unknown': 'Inconnu',
+      // 'Battery Unknown': 'Inconnu',
       'Battery Fault': 'La faute',
       'Battery Warning': 'Avertissement',
       'Battery Standby': 'Articles de rechange',
@@ -4983,7 +4983,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
-      'Battery Unknown': 'Desconocido',
+      // 'Battery Unknown': 'Desconocido',
       'Battery Fault': 'Culpa',
       'Battery Warning': 'Aviso',
       'Battery Standby': 'Artículos de repuesto',
@@ -6113,7 +6113,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
-      'Battery Unknown': 'Неизвестный',
+      // 'Battery Unknown': 'Неизвестный',
       'Battery Fault': 'Ошибка',
       'Battery Warning': 'предупреждение',
       'Battery Standby': 'Запасные материалы',
@@ -7233,7 +7233,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
-      'Battery Unknown': 'غير معروف',
+      // 'Battery Unknown': 'غير معروف',
       'Battery Fault': 'خطأ',
       'Battery Warning': 'حذر',
       'Battery Standby': 'المواد الاحتياطية',
@@ -8349,7 +8349,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
-      'Battery Unknown': 'Không rõ',
+      // 'Battery Unknown': 'Không rõ',
       'Battery Fault': 'Lỗi',
       'Battery Warning': 'Cảnh báo',
       'Battery Standby': 'Phụ tùng',
@@ -9467,7 +9467,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
-      'Battery Unknown': 'ไม่ทราบ',
+      // 'Battery Unknown': 'ไม่ทราบ',
       'Battery Fault': 'ความผิด',
       'Battery Warning': 'คำเตือน',
       'Battery Standby': 'รายการสำรอง',
@@ -10584,7 +10584,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
-      'Battery Unknown': 'Bilinmemiş',
+      // 'Battery Unknown': 'Bilinmemiş',
       'Battery Fault': 'Hata',
       'Battery Warning': 'Uyarı',
       'Battery Standby': 'Standby',
@@ -11707,7 +11707,7 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
-      'Battery Unknown': 'Tidak diketahui',
+      // 'Battery Unknown': 'Tidak diketahui',
       'Battery Fault': 'Gagal',
       'Battery Warning': 'Amaran',
       'Battery Standby': 'Bersedia',
