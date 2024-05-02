@@ -1,9 +1,7 @@
 import mysql.connector
-
 import config
 
 if __name__ == "__main__":
-
     cursor = None
     cnx = None
     try:

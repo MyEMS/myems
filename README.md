@@ -12,15 +12,11 @@
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
- [简体中文](./README.md) | [ENGLISH](./README_EN.md) | [DEUTSCH](./README_DE.md)
+ [English](./README_EN.md) | [German](./README_DE.md)
 
 ## MyEMS 介绍
 
-MyEMS是行业领先的开源能源管理系统，基于Python, React开发。
-用于建筑、工厂、商场、数据中心、园区等能源数据采集、处理、分析、报表和展示。
-还具有设备管理、故障诊断、工单管理、人工智能优化控制等功能。
-MyEMS由资深专业团队开发维护，源代码基于MIT开源软件许可协议发布。
-用开源助力实现碳达峰碳中和目标。
+MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的电、水、气等能源数据采集、分析、报表，还有光伏、储能、充电桩、微电网、设备控制、故障诊断、工单管理、人工智能优化等可选功能。资深专业团队开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
 
 ## MyEMS架构
 
