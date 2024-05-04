@@ -18,6 +18,8 @@ import equipment_energy_input_item
 import equipment_energy_output_category
 import meter_billing
 import meter_carbon
+import microgrid_energy_charge
+import microgrid_energy_discharge
 import offline_meter_billing
 import offline_meter_carbon
 import shopfloor_billing_input_category
@@ -99,6 +101,11 @@ def main():
     Process(target=meter_carbon.main, args=(logger,)).start()
     # meter billing
     Process(target=meter_billing.main, args=(logger,)).start()
+
+    # microgrid energy charge
+    Process(target=microgrid_energy_charge.main, args=(logger,)).start()
+    # microgrid energy discharge
+    Process(target=microgrid_energy_discharge.main, args=(logger,)).start()
 
     # offline meter carbon dioxide emissions
     Process(target=offline_meter_carbon.main, args=(logger,)).start()
