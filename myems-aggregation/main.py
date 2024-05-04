@@ -20,8 +20,10 @@ import meter_billing
 import meter_carbon
 import microgrid_billing_charge
 import microgrid_energy_charge
+import microgrid_carbon_charge
 import microgrid_billing_discharge
 import microgrid_energy_discharge
+import microgrid_carbon_discharge
 import offline_meter_billing
 import offline_meter_carbon
 import shopfloor_billing_input_category
@@ -108,10 +110,14 @@ def main():
     Process(target=microgrid_energy_charge.main, args=(logger,)).start()
     # microgrid billing charge
     Process(target=microgrid_billing_charge.main, args=(logger,)).start()
+    # microgrid carbon charge
+    Process(target=microgrid_carbon_charge.main, args=(logger,)).start()
     # microgrid energy discharge
     Process(target=microgrid_energy_discharge.main, args=(logger,)).start()
     # microgrid billing discharge
     Process(target=microgrid_billing_discharge.main, args=(logger,)).start()
+    # microgrid carbon discharge
+    Process(target=microgrid_carbon_discharge.main, args=(logger,)).start()
 
     # offline meter carbon dioxide emissions
     Process(target=offline_meter_carbon.main, args=(logger,)).start()
