@@ -117,6 +117,32 @@ CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_meter_hourly` (
 CREATE INDEX `tbl_meter_hourly_index_1` ON `myems_billing_db`.`tbl_meter_hourly` (`meter_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_billing_db`.`tbl_microgrid_charge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_billing_db`.`tbl_microgrid_charge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_charge_hourly_index_1` ON `myems_billing_db`.`tbl_microgrid_charge_hourly` (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_billing_db`.`tbl_microgrid_discharge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_billing_db`.`tbl_microgrid_discharge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_discharge_hourly_index_1` ON `myems_billing_db`.`tbl_microgrid_discharge_hourly` (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_billing_db`.`tbl_offline_meter_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_billing_db`.`tbl_offline_meter_hourly` ;
