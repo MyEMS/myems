@@ -21,11 +21,13 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the microgrid list
-    # Step 3: query charge data
-    # Step 4: query discharge data
-    # Step 5: query revenue data
-    # Step 6: query efficiency data
-    # Step 7: construct the report
+    # Step 3: query charge energy data
+    # Step 4: query discharge energy data
+    # Step 5: query charge billing data
+    # Step 6: query discharge billing data
+    # Step 7: query charge carbon data
+    # Step 8: query discharge carbon data
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -138,10 +140,8 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the microgrid list
         ################################################################################################################
-
         cnx_user = mysql.connector.connect(**config.myems_user_db)
         cursor_user = cnx_user.cursor()
-
         cursor_user.execute(" SELECT id, is_admin, privilege_id "
                             " FROM tbl_users "
                             " WHERE uuid = %s ", (user_uuid,))
@@ -151,7 +151,6 @@ class Reporting:
                 cursor_user.close()
             if cnx_user:
                 cnx_user.close()
-
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
@@ -201,54 +200,133 @@ class Reporting:
                                "description": row[10],
                                "status": 'online' if is_online else 'offline'}
                 microgrid_list.append(meta_result)
-        charge_ranking = list()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(10.0)}
-                charge_ranking.append(meta_result)
-
-        discharge_ranking = list()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(10.0)}
-                discharge_ranking.append(meta_result)
-
-        revenue_ranking = list()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "value": Decimal(10.0)}
-                revenue_ranking.append(meta_result)
-
         ################################################################################################################
-        # Step 3: query charge data
+        # Step 3: query charge energy data
         ################################################################################################################
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy_db = cnx_energy_db.cursor()
 
-        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing = cnx_billing.cursor()
+        cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+        cursor_billing_db = cnx_billing_db.cursor()
 
-        ################################################################################################################
-        # Step 4: query discharge data
-        ################################################################################################################
+        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+        cursor_carbon_db = cnx_carbon_db.cursor()
 
-        ################################################################################################################
-        # Step 5: query revenue data
-        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_charge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_charge_energy = cursor_energy_db.fetchall()
 
+        new_microgrid_list = list()
+        total_charge_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_charge_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_charge_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_charge_energy'] = row[1]
+                    total_charge_energy += microgrid['subtotal_charge_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 6: query efficiency data
+        # Step 4: query discharge energy data
         ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_discharge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_discharge_energy = cursor_energy_db.fetchall()
 
+        new_microgrid_list = list()
+        total_discharge_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_discharge_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_discharge_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_discharge_energy'] = row[1]
+                    total_discharge_energy += microgrid['subtotal_discharge_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 5:  query charge billing data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_charge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_billing_db.execute(query, )
+        rows_microgrids_subtotal_charge_billing = cursor_billing_db.fetchall()
+
+        new_microgrid_list = list()
+        total_charge_billing = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_charge_billing'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_charge_billing:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_charge_billing'] = row[1]
+                    total_charge_billing += microgrid['subtotal_charge_billing']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 6: query discharge billing data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_discharge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_billing_db.execute(query, )
+        rows_microgrids_subtotal_discharge_billing = cursor_billing_db.fetchall()
+
+        new_microgrid_list = list()
+        total_discharge_billing = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_discharge_billing'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_discharge_billing:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_discharge_billing'] = row[1]
+                    total_discharge_billing += microgrid['subtotal_discharge_billing']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 7:  query charge carbon data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_charge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_carbon_db.execute(query, )
+        rows_microgrids_subtotal_charge_carbon = cursor_carbon_db.fetchall()
+        new_microgrid_list = list()
+        total_charge_carbon = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_charge_carbon'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_charge_carbon:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_charge_carbon'] = row[1]
+                    total_charge_carbon += microgrid['subtotal_charge_carbon']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 8: query discharge carbon data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_discharge_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_carbon_db.execute(query, )
+        rows_microgrids_subtotal_discharge_carbon = cursor_carbon_db.fetchall()
+        new_microgrid_list = list()
+        total_discharge_carbon = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_discharge_carbon'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_discharge_carbon:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_discharge_carbon'] = row[1]
+                    total_discharge_carbon += microgrid['subtotal_discharge_carbon']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
         ################################################################################################################
         # Step 7: construct the report
         ################################################################################################################
@@ -257,23 +335,27 @@ class Reporting:
         if cnx_system_db:
             cnx_system_db.close()
 
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
+        if cursor_energy_db:
+            cursor_energy_db.close()
+        if cnx_energy_db:
+            cnx_energy_db.close()
 
-        if cursor_billing:
-            cursor_billing.close()
-        if cnx_billing:
-            cnx_billing.close()
+        if cursor_billing_db:
+            cursor_billing_db.close()
+        if cnx_billing_db:
+            cnx_billing_db.close()
+
+        if cursor_carbon_db:
+            cursor_carbon_db.close()
+        if cnx_carbon_db:
+            cnx_carbon_db.close()
 
         result = dict()
-
         result['microgrids'] = microgrid_list
-        result['charge_ranking'] = charge_ranking
-        result['total_charge'] = Decimal(30.0)
-        result['discharge_ranking'] = discharge_ranking
-        result['total_discharge'] = Decimal(30.0)
-        result['revenue_ranking'] = revenue_ranking
-        result['total_revenue'] = Decimal(30.0)
+        result['total_charge_energy'] = total_charge_energy
+        result['total_discharge_energy'] = total_discharge_energy
+        result['total_charge_billing'] = total_charge_billing
+        result['total_discharge_billing'] = total_discharge_billing
+        result['total_charge_carbon'] = total_charge_carbon
+        result['total_discharge_carbon'] = total_discharge_carbon
         resp.text = json.dumps(result)

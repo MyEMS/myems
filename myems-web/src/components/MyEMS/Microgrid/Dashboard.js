@@ -47,11 +47,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridList, setMicrogridList] = useState([]);
   const [totalRatedCapacity, setTotalRatedCapacity] = useState({});
   const [totalRatedPower, setTotalRatedPower] = useState({});
-  const [chargeRankingList, setChargeRankingList] = useState([]);
   const [totalCharge, setTotalCharge] = useState({});
-  const [dischargeRankingList, setDischargeRankingList] = useState([]);
   const [totalDischarge, setTotalDischarge] = useState({});
-  const [revenueRankingList, setRevenueRankingList] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState({});
 
   const [chargeData, setChargeData] = useState({});
@@ -129,9 +126,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setSpinnerHidden(true);
 
               let microgridList = [];
-              let chargeRankingList = [];
-              let dischargeRankingList = [];
-              let revenueList = [];
               let totalRatedCapacity = 0;
               let totalRatedPower = 0;
 
@@ -169,38 +163,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               geojson['features'] = geojsonData;
               setGeojson(geojson);
 
-              json['charge_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let microgridItem = json['charge_ranking'][index];
-                  microgridItem['unit'] = 'kWh';
-                  chargeRankingList.push(microgridItem);
-                }
-              });
-              setChargeRankingList(chargeRankingList);
-              setTotalCharge(json['totalCharge']);
+              setTotalCharge(json['total_charge_energy']);
 
-              json['discharge_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let microgridItem = json['discharge_ranking'][index];
-                  microgridItem['unit'] = 'kWh';
-                  dischargeRankingList.push(microgridItem);
-                }
-              });
-              setDischargeRankingList(dischargeRankingList);
-              setTotalDischarge(json['totalDischarge']);
+              setTotalDischarge(json['total_discharge_energy']);
 
-              json['revenue_ranking'].forEach((currentValue, index) => {
-                // display at most 8 items
-                if (index < 9) {
-                  let microgridItem = json['revenue_ranking'][index];
-                  microgridItem['unit'] = currency;
-                  revenueList.push(microgridItem);
-                }
-              });
-              setRevenueRankingList(revenueList);
-              setTotalRevenue(json['totalRevenue']);
+              setTotalRevenue(json['total_charge_billing']);
 
               setChargeData({
                 "energy_category_names": [

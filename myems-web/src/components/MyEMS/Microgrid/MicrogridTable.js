@@ -1,4 +1,4 @@
-import React, { Fragment, createRef } from 'react';
+import React, { Fragment, createRef, useContext } from 'react';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Badge from 'reactstrap/es/Badge';
@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Row } from 'reactstrap';
 import ButtonIcon from '../../common/ButtonIcon';
 import { Link } from 'react-router-dom';
+import AppContext from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
 
 const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
@@ -20,11 +21,6 @@ const nameFormatter = (nameuuid) => (
   </Link>
 );
 
-
-const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
-const currencyFormatter = amount => <Fragment>{amount} </Fragment>;
 
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
@@ -54,6 +50,14 @@ const selectRow = onSelect => ({
 
 
 const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
+
+  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+
+  const { currency } = useContext(AppContext);
+  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
+
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
     onPageChange(page + 1);
@@ -140,7 +144,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       sort: true
     },
     {
-      dataField: 'total_charge',
+      dataField: 'subtotal_charge_energy',
       text: t('Total Charge'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
@@ -148,7 +152,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       sort: true,
     },
     {
-      dataField: 'total_discharge',
+      dataField: 'subtotal_discharge_energy',
       text: t('Total Discharge'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
@@ -156,7 +160,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       sort: true,
     },
     {
-      dataField: 'total_revenue',
+      dataField: 'subtotal_discharge_billing',
       text: t('Total Revenue'),
       formatter: currencyFormatter,
       classes: 'border-0 align-middle',
