@@ -194,18 +194,13 @@ def main(logger):
 
             if len(energy_dict) > 0:
                 for current_datetime_utc in energy_dict.keys():
-                    billing_dict[current_datetime_utc] = dict()
                     current_tariff = tariff_dict[1].get(current_datetime_utc)
                     current_energy = energy_dict[current_datetime_utc]
                     if current_tariff is not None \
                             and isinstance(current_tariff, Decimal) \
                             and current_energy is not None \
                             and isinstance(current_energy, Decimal):
-                        billing_dict[current_datetime_utc] = \
-                            current_energy * current_tariff
-
-                    if len(billing_dict[current_datetime_utc]) == 0:
-                        del billing_dict[current_datetime_utc]
+                        billing_dict[current_datetime_utc] = current_energy * current_tariff
 
             ############################################################################################################
             # Step 6: save discharge billing data to billing database

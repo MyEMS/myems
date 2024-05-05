@@ -194,18 +194,13 @@ def main(logger):
 
             if len(energy_dict) > 0:
                 for current_datetime_utc in energy_dict.keys():
-                    carbon_dict[current_datetime_utc] = dict()
                     current_factor = factor_dict[1]
                     current_energy = energy_dict[current_datetime_utc]
                     if current_factor is not None \
                             and isinstance(current_factor, Decimal) \
                             and current_energy is not None \
                             and isinstance(current_energy, Decimal):
-                        carbon_dict[current_datetime_utc][1] = \
-                            current_energy * current_factor
-
-                    if len(carbon_dict[current_datetime_utc]) == 0:
-                        del carbon_dict[current_datetime_utc]
+                        carbon_dict[current_datetime_utc] = current_energy * current_factor
 
             ############################################################################################################
             # Step 6: save carbon dioxide emissions data to database
@@ -221,7 +216,7 @@ def main(logger):
                                   " VALUES  ")
 
                     for current_datetime_utc in carbon_dict:
-                        current_carbon = carbon_dict[current_datetime_utc].get(1)
+                        current_carbon = carbon_dict[current_datetime_utc]
                         if current_carbon is not None and isinstance(current_carbon, Decimal):
                             add_values += " (" + str(microgrid['id']) + ","
                             add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
