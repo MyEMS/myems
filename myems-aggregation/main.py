@@ -15,6 +15,12 @@ import energy_storage_container_carbon_charge
 import energy_storage_container_billing_discharge
 import energy_storage_container_energy_discharge
 import energy_storage_container_carbon_discharge
+import energy_storage_power_station_billing_charge
+import energy_storage_power_station_energy_charge
+import energy_storage_power_station_carbon_charge
+import energy_storage_power_station_billing_discharge
+import energy_storage_power_station_energy_discharge
+import energy_storage_power_station_carbon_discharge
 import equipment_billing_input_category
 import equipment_billing_input_item
 import equipment_billing_output_category
@@ -104,6 +110,19 @@ def main():
     Process(target=energy_storage_container_carbon_charge.main, args=(logger,)).start()
     # energy storage container carbon discharge
     Process(target=energy_storage_container_carbon_discharge.main, args=(logger,)).start()
+
+    # energy storage power station energy charge
+    Process(target=energy_storage_power_station_energy_charge.main, args=(logger,)).start()
+    # energy storage power station energy discharge
+    Process(target=energy_storage_power_station_energy_discharge.main, args=(logger,)).start()
+    # energy storage power station billing charge
+    Process(target=energy_storage_power_station_billing_charge.main, args=(logger,)).start()
+    # energy storage power station billing discharge
+    Process(target=energy_storage_power_station_billing_discharge.main, args=(logger,)).start()
+    # energy storage power station carbon charge
+    Process(target=energy_storage_power_station_carbon_charge.main, args=(logger,)).start()
+    # energy storage power station carbon discharge
+    Process(target=energy_storage_power_station_carbon_discharge.main, args=(logger,)).start()
 
     # equipment billing input by energy categories
     Process(target=equipment_billing_input_category.main, args=(logger,)).start()
