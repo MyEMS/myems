@@ -296,7 +296,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               console.log(json);
 
               setChargeBillingData({
-                "unit": "kWh",
+                "unit": currency,
                 "station_names_array": json['microgrid_names'],
                 "subtotals_array": [
                   json['reporting']['charge_7_days']['values_array'],
@@ -305,7 +305,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 ],
               });
               setDischargeBillingData({
-                "unit": "kWh",
+                "unit": currency,
                 "station_names_array": json['microgrid_names'],
                 "subtotals_array": [
                   json['reporting']['discharge_7_days']['values_array'],
@@ -367,7 +367,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               console.log(json);
 
               setChargeCarbonData({
-                "unit": "kWh",
+                "unit": "kgCO2",
                 "station_names_array": json['microgrid_names'],
                 "subtotals_array": [
                   json['reporting']['charge_7_days']['values_array'],
@@ -376,7 +376,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 ],
               });
               setDischargeCarbonData({
-                "unit": "kWh",
+                "unit": "kgCO2",
                 "station_names_array": json['microgrid_names'],
                 "subtotals_array": [
                   json['reporting']['discharge_7_days']['values_array'],
