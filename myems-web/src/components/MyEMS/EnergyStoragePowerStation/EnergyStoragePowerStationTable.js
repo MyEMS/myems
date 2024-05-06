@@ -142,7 +142,7 @@ const selectRow = onSelect => ({
       sort: true
     },
     {
-      dataField: 'total_charge',
+      dataField: 'subtotal_charge_energy',
       text: t('Total Charge'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
@@ -150,7 +150,7 @@ const selectRow = onSelect => ({
       sort: true,
     },
     {
-      dataField: 'total_discharge',
+      dataField: 'subtotal_discharge_energy',
       text: t('Total Discharge'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
@@ -158,7 +158,7 @@ const selectRow = onSelect => ({
       sort: true,
     },
     {
-      dataField: 'total_revenue',
+      dataField: 'subtotal_discharge_billing',
       text: t('Total Revenue'),
       formatter: currencyFormatter,
       classes: 'border-0 align-middle',

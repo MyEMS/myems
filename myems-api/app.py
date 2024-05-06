@@ -44,6 +44,9 @@ from reports import energystoragepowerstationsingledashboard
 from reports import energystoragepowerstationdetails
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreporting
+from reports import energystoragepowerstationsenergy
+from reports import energystoragepowerstationsbilling
+from reports import energystoragepowerstationscarbon
 from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
@@ -937,6 +940,12 @@ api.add_route('/reports/energystoragepowerstationlist',
               energystoragepowerstationlist.Reporting())
 api.add_route('/reports/energystoragepowerstationreporting',
               energystoragepowerstationreporting.Reporting())
+api.add_route('/reports/energystoragepowerstationsenergy',
+              energystoragepowerstationsenergy.Reporting())
+api.add_route('/reports/energystoragepowerstationsbilling',
+              energystoragepowerstationsbilling.Reporting())
+api.add_route('/reports/energystoragepowerstationscarbon',
+              energystoragepowerstationscarbon.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcarbon',

@@ -31,7 +31,6 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
-        # todo: change this procedure from space to microgrid
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
