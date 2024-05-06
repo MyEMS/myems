@@ -60,6 +60,9 @@ from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgridlist
 from reports import microgridreporting
+from reports import microgridsenergy
+from reports import microgridsbilling
+from reports import microgridscarbon
 from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
@@ -992,6 +995,12 @@ api.add_route('/reports/microgridlist',
               microgridlist.Reporting())
 api.add_route('/reports/microgridreporting',
               microgridreporting.Reporting())
+api.add_route('/reports/microgridsenergy',
+              microgridsenergy.Reporting())
+api.add_route('/reports/microgridsbilling',
+              microgridsbilling.Reporting())
+api.add_route('/reports/microgridscarbon',
+              microgridscarbon.Reporting())
 api.add_route('/reports/offlinemeterbatch',
               offlinemeterbatch.Reporting())
 api.add_route('/reports/offlinemetercarbon',
