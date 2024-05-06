@@ -485,6 +485,9 @@ const resources = {
       'Microgrid List': 'Microgrid List',
       'Previous Page': 'Previous Page',
       'Next Page': 'Next Page',
+      '7 Days': '7 Days',
+      'Charge UNIT': 'Charge {{UNIT}}',
+      'Discharge UNIT': 'Discharge {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
@@ -1584,6 +1587,9 @@ const resources = {
       'Microgrid List': '微电网列表',
       'Previous Page': '上一页',
       'Next Page': '下一页',
+      '7 Days': '7日',
+      'Charge UNIT': '充 {{UNIT}}',
+      'Discharge UNIT': '放 {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
@@ -2708,6 +2714,9 @@ const resources = {
       'Microgrid List': 'Microgrid-Liste',
       'Previous Page': 'Vorherige Seite',
       'Next Page': 'Nächste Seite',
+      '7 Days': '7 Tage',
+      'Charge UNIT': 'Aufladung {{UNIT}}',
+      'Discharge UNIT': 'Entladung {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
@@ -3849,6 +3858,9 @@ const resources = {
       'Microgrid List': 'Liste des microréseaux',
       'Previous Page': 'Page précédente',
       'Next Page': 'Page suivante',
+      '7 Days': '7 jours',
+      'Charge UNIT': 'Charge {{UNIT}}',
+      'Discharge UNIT': 'décharge {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
@@ -4980,6 +4992,9 @@ const resources = {
       'Microgrid List': 'Lista de microrredes',
       'Previous Page': 'Pagina anterior',
       'Next Page': 'Siguiente página',
+      '7 Days': '7 días',
+      'Charge UNIT': 'Cargar {{UNIT}}',
+      'Discharge UNIT': 'descargar {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
@@ -6110,6 +6125,9 @@ const resources = {
       'Microgrid List': 'Список микросетей',
       'Previous Page': 'Предыдущая страница',
       'Next Page': 'Следущая страница',
+      '7 Days': '7 дней',
+      'Charge UNIT': 'Заряжать {{UNIT}}',
+      'Discharge UNIT': 'увольнять {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
@@ -7230,6 +7248,9 @@ const resources = {
       'Microgrid List': 'قائمة ميكروغريد',
       'Previous Page': 'الصفحة السابقة',
       'Next Page': 'الصفحة التالية',
+      '7 Days': '7 أيام',
+      'Charge UNIT': 'تكلفة {{UNIT}}',
+      'Discharge UNIT': 'تسريح {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
@@ -8346,6 +8367,9 @@ const resources = {
       'Microgrid List': 'Danh sách lưới điện siêu nhỏ',
       'Previous Page': 'Trang trước',
       'Next Page': 'Trang tiếp theo',
+      '7 Days': '7 ngày',
+      'Charge UNIT': 'Thù lao {{UNIT}}',
+      'Discharge UNIT': 'phóng điện {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
@@ -9464,6 +9488,9 @@ const resources = {
       'Microgrid List': 'รายการไมโครกริด',
       'Previous Page': 'หน้าก่อนหน้า',
       'Next Page': 'หน้าต่อไป',
+      '7 Days': '7 วัน',
+      'Charge UNIT': 'ค่าใช้จ่าย {{UNIT}}',
+      'Discharge UNIT': 'ปล่อย {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
@@ -10581,6 +10608,9 @@ const resources = {
       'Microgrid List': 'Mikro Şebeke Listesi',
       'Previous Page': 'Önceki sayfa',
       'Next Page': 'Sonraki Sayfa',
+      '7 Days': '7 gün',
+      'Charge UNIT': 'Şarj {{UNIT}}',
+      'Discharge UNIT': 'deşarj {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
@@ -11704,6 +11734,9 @@ const resources = {
       'Microgrid List': 'Senarai Microgrid',
       'Previous Page': 'Halaman sebelumnya',
       'Next Page': 'Muka surat seterusnya',
+      '7 Days': '7 hari',
+      'Charge UNIT': 'caj {{UNIT}}',
+      'Discharge UNIT': 'pelepasan {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
@@ -12830,6 +12863,9 @@ const resources = {
       'Microgrid List': 'Daftar Mikrogrid',
       'Previous Page': 'Halaman sebelumnya',
       'Next Page': 'Halaman selanjutnya',
+      '7 Days': '7 hari',
+      'Charge UNIT': 'Mengenakan biaya {{UNIT}}',
+      'Discharge UNIT': 'memulangkan {{UNIT}}',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',
