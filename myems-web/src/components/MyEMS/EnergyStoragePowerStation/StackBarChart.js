@@ -17,9 +17,8 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
 
-const StackBarChart = ({ labels, chargeData, dischargeData, stations, t }) => {
+const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) => {
   const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
-  const [selectedLabel, setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
@@ -39,41 +38,32 @@ const StackBarChart = ({ labels, chargeData, dischargeData, stations, t }) => {
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
       if (chargeData['subtotals_array'] !== undefined && chargeData['subtotals_array'].length > 0) {
-        let category = t('CATEGORY Consumption UNIT', {
-          CATEGORY: chargeData['energy_category_names'][index],
-          UNIT: chargeData['units'][index]
-        });
-        let stationArray = chargeData['station_names_array'][index];
         chargeData['subtotals_array'][index].forEach((item, itemIndex) => {
           dataArray.push({
-            label: stationArray[itemIndex] + ' ' + category,
-            stack: category,
+            label: chargeData['station_names_array'][itemIndex] + ' ' + t('Charge UNIT', { UNIT: chargeData['unit'] }),
+            stack: t('Charge UNIT', { UNIT: chargeData['unit'] }),
             data: item,
             backgroundColor: colors[itemIndex % 5]
           });
         });
       }
       if (dischargeData['subtotals_array'] !== undefined && dischargeData['subtotals_array'].length > 0) {
-        let category = t('CATEGORY Costs UNIT', {
-          CATEGORY: dischargeData['energy_category_names'][index],
-          UNIT: dischargeData['units'][index]
-        });
-        let stationArray = dischargeData['station_names_array'][index];
         dischargeData['subtotals_array'][index].forEach((item, itemIndex) => {
           dataArray.push({
-            label: stationArray[itemIndex] + ' ' + category,
-            stack: category,
+            label: dischargeData['station_names_array'][itemIndex] + ' ' + t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
+            stack: t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
             data: item,
             backgroundColor: colors[itemIndex % 5]
           });
         });
       }
       setChartData({
-        labels: labels,
+        labels: labels[index],
         datasets: dataArray
       });
     }
   }, [labels, chargeData, dischargeData, option]);
+
   const options = {
     scales: {
       x: {
@@ -106,6 +96,7 @@ const StackBarChart = ({ labels, chargeData, dischargeData, stations, t }) => {
       mode: 'x'
     }
   };
+
   return (
     <Fragment>
       <Card className="mb-3">
@@ -114,7 +105,7 @@ const StackBarChart = ({ labels, chargeData, dischargeData, stations, t }) => {
             <Col>
               <h4 className="text-lightSlateGray mb-0" />
             </Col>
-            {isIterableArray(stations) && (
+            {isIterableArray(periodTypes) && (
               <Col xs="auto" className="d-none d-sm-block">
                 <CustomInput
                   id="ddd"
@@ -124,10 +115,9 @@ const StackBarChart = ({ labels, chargeData, dischargeData, stations, t }) => {
                   value={option}
                   onChange={({ target }) => {
                     setOption(target.value);
-                    setSelectedLabel(target.value);
                   }}
                 >
-                  {stations.map(({ value, label }) => (
+                  {periodTypes.map(({ value, label }) => (
                     <option key={value} value={value}>
                       {label}
                     </option>

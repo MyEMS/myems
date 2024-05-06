@@ -161,7 +161,7 @@ const EnergyStoragePowerStationListItem = ({
                   </p>
                 </div>
                 <div className="mt-md-2">
-                  <ButtonIcon
+                  {/* <ButtonIcon
                     color="primary"
                     size="sm"
                     icon="tv"
@@ -202,7 +202,7 @@ const EnergyStoragePowerStationListItem = ({
                     onClick={handleAddToCart}
                   >
                     {t('Maintenance')}
-                  </ButtonIcon>
+                  </ButtonIcon> */}
                 </div>
               </Col>
             </Row>
