@@ -14,11 +14,11 @@ import classNames from 'classnames';
 import AppContext from '../../../context/Context';
 import StackBarChart from './StackBarChart';
 
-const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
+const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [isDashboardFetched, setIsDashboardFetched] = useState(false);
-  const [isEnergyStoragePowerStationsEnergyFetched, setIsEnergyStoragePowerStationsEnergyFetched] = useState(false);
-  const [isEnergyStoragePowerStationsBillingFetched, setIsEnergyStoragePowerStationsBillingFetched] = useState(false);
-  const [isEnergyStoragePowerStationsCarbonFetched, setIsEnergyStoragePowerStationsCarbonFetched] = useState(false);
+  const [isEnergyStoragePowerStationCollectionEnergyFetched, setIsEnergyStoragePowerStationCollectionEnergyFetched] = useState(false);
+  const [isEnergyStoragePowerStationCollectionBillingFetched, setIsEnergyStoragePowerStationCollectionBillingFetched] = useState(false);
+  const [isEnergyStoragePowerStationCollectionCarbonFetched, setIsEnergyStoragePowerStationCollectionCarbonFetched] = useState(false);
 
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [activeTabLeft, setActiveTabLeft] = useState('1');
@@ -175,10 +175,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      if (!isEnergyStoragePowerStationsEnergyFetched) {
-        setIsEnergyStoragePowerStationsEnergyFetched(true);
+      if (!isEnergyStoragePowerStationCollectionEnergyFetched) {
+        setIsEnergyStoragePowerStationCollectionEnergyFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationsenergy?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectionenergy?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
@@ -245,10 +245,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      if (!isEnergyStoragePowerStationsBillingFetched) {
-        setIsEnergyStoragePowerStationsBillingFetched(true);
+      if (!isEnergyStoragePowerStationCollectionBillingFetched) {
+        setIsEnergyStoragePowerStationCollectionBillingFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationsbilling?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectionbilling?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
@@ -316,10 +316,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      if (!isEnergyStoragePowerStationsCarbonFetched) {
-        setIsEnergyStoragePowerStationsCarbonFetched(true);
+      if (!isEnergyStoragePowerStationCollectionCarbonFetched) {
+        setIsEnergyStoragePowerStationCollectionCarbonFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationscarbon?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectioncarbon?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
@@ -499,4 +499,4 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(Dashboard));
+export default withTranslation()(withRedirect(CollectionDashboard));

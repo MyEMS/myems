@@ -38,11 +38,6 @@ class Reporting:
         else:
             api_key_control(req)
         user_uuid = req.params.get('useruuid')
-        period_type = req.params.get('periodtype')
-        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
-        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
-        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -54,88 +49,6 @@ class Reporting:
             if len(user_uuid) != 36:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_UUID')
-
-        if period_type is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PERIOD_TYPE')
-        else:
-            period_type = str.strip(period_type)
-            if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_PERIOD_TYPE')
-
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-
-        base_start_datetime_utc = None
-        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
-            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
-            try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = \
-                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            # nomalize the start datetime
-            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
-            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
-            try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-
-        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
-                base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
-
-        if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
-        else:
-            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
-            try:
-                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
-                                                                 '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
-            reporting_start_datetime_utc = \
-                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            # nomalize the start datetime
-            if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
-                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
-        else:
-            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
-            try:
-                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
-                                                               '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
-
-        if reporting_start_datetime_utc >= reporting_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
-
         ################################################################################################################
         # Step 2: query the energy storage power station list
         ################################################################################################################

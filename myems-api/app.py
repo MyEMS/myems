@@ -40,13 +40,16 @@ from reports import equipmentsaving
 from reports import equipmentstatistics
 from reports import equipmenttracking
 from reports import energystoragepowerstationdashboard
-from reports import energystoragepowerstationsingledashboard
+from reports import energystoragepowerstationitemdashboard
 from reports import energystoragepowerstationdetails
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreporting
-from reports import energystoragepowerstationsenergy
-from reports import energystoragepowerstationsbilling
-from reports import energystoragepowerstationscarbon
+from reports import energystoragepowerstationcollectionenergy
+from reports import energystoragepowerstationitemenergy
+from reports import energystoragepowerstationcollectionbilling
+from reports import energystoragepowerstationitembilling
+from reports import energystoragepowerstationcollectioncarbon
+from reports import energystoragepowerstationitemcarbon
 from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
@@ -932,20 +935,26 @@ api.add_route('/reports/dashboard',
               dashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdashboard',
               energystoragepowerstationdashboard.Reporting())
-api.add_route('/reports/energystoragepowerstationsingledashboard',
-              energystoragepowerstationsingledashboard.Reporting())
+api.add_route('/reports/energystoragepowerstationitemdashboard',
+              energystoragepowerstationitemdashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails',
               energystoragepowerstationdetails.Reporting())
 api.add_route('/reports/energystoragepowerstationlist',
               energystoragepowerstationlist.Reporting())
 api.add_route('/reports/energystoragepowerstationreporting',
               energystoragepowerstationreporting.Reporting())
-api.add_route('/reports/energystoragepowerstationsenergy',
-              energystoragepowerstationsenergy.Reporting())
-api.add_route('/reports/energystoragepowerstationsbilling',
-              energystoragepowerstationsbilling.Reporting())
-api.add_route('/reports/energystoragepowerstationscarbon',
-              energystoragepowerstationscarbon.Reporting())
+api.add_route('/reports/energystoragepowerstationcollectionenergy',
+              energystoragepowerstationcollectionenergy.Reporting())
+api.add_route('/reports/energystoragepowerstationitemenergy',
+              energystoragepowerstationitemenergy.Reporting())
+api.add_route('/reports/energystoragepowerstationcollectionbilling',
+              energystoragepowerstationcollectionbilling.Reporting())
+api.add_route('/reports/energystoragepowerstationitembilling',
+              energystoragepowerstationitembilling.Reporting())
+api.add_route('/reports/energystoragepowerstationcollectioncarbon',
+              energystoragepowerstationcollectioncarbon.Reporting())
+api.add_route('/reports/energystoragepowerstationitemcarbon',
+              energystoragepowerstationitemcarbon.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcarbon',
