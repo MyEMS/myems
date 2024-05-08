@@ -1,0 +1,434 @@
+import re
+from datetime import datetime, timedelta, timezone
+from decimal import Decimal
+import falcon
+import mysql.connector
+import simplejson as json
+from core import utilities
+import config
+from core.useractivity import access_control, api_key_control
+
+
+class Reporting:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    ####################################################################################################################
+    # PROCEDURES
+    # Step 1: valid parameters
+    # Step 2: query the energy storage power station
+    # Step 3: query charge energy data in 7 days
+    # Step 4: query discharge energy data in 7 days
+    # Step 5: query charge energy data in this month
+    # Step 6: query discharge energy data in this month
+    # Step 7: query charge energy data in this year
+    # Step 8: query discharge energy data in this year
+    # Step 9: construct the report
+    ####################################################################################################################
+    @staticmethod
+    def on_get(req, resp):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        # this procedure accepts energy storage power station id or uuid
+        energy_storage_power_station_id = req.params.get('id')
+        energy_storage_power_station_uuid = req.params.get('uuid')
+
+        ################################################################################################################
+        # Step 1: valid parameters
+        ################################################################################################################
+        if energy_storage_power_station_id is None and energy_storage_power_station_uuid is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        if energy_storage_power_station_id is not None:
+            energy_storage_power_station_id = str.strip(energy_storage_power_station_id)
+            if not energy_storage_power_station_id.isdigit() or int(energy_storage_power_station_id) <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        if energy_storage_power_station_uuid is not None:
+            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(energy_storage_power_station_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
+
+        ################################################################################################################
+        # Step 2: query the energy storage power station
+        ################################################################################################################
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
+        # Get Spaces associated with energy storage power stations
+        query = (" SELECT se.energy_storage_power_station_id, s.name "
+                 " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se "
+                 " WHERE se.space_id = s.id ")
+        cursor_system_db.execute(query)
+        rows_spaces = cursor_system_db.fetchall()
+
+        space_dict = dict()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            for row in rows_spaces:
+                space_dict[row[0]] = row[1]
+        print(space_dict)
+        # Get energy storage power station
+        if energy_storage_power_station_id is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        contact_id, cost_center_id, svg, description "
+                     " FROM tbl_energy_storage_power_stations "
+                     " WHERE id = %s ")
+            cursor_system_db.execute(query, (energy_storage_power_station_id,))
+            row = cursor_system_db.fetchone()
+        elif energy_storage_power_station_uuid is not None:
+            query = (" SELECT id, name, uuid, "
+                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        contact_id, cost_center_id, svg, description "
+                     " FROM tbl_energy_storage_power_stations "
+                     " WHERE uuid = %s ")
+            cursor_system_db.execute(query, (energy_storage_power_station_uuid,))
+            row = cursor_system_db.fetchone()
+
+        if row is None:
+            cursor_system_db.close()
+            cnx_system_db.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+        else:
+            energy_storage_power_station_id = row[0]
+            energy_storage_power_station = {
+                "id": row[0],
+                "name": row[1],
+                "uuid": row[2],
+                "address": row[3],
+                "space_name": space_dict.get(row[0]),
+                "postal_code": row[4],
+                "latitude": row[5],
+                "longitude": row[6],
+                "rated_capacity": row[7],
+                "rated_power": row[8],
+                "description": row[9]}
+
+        ################################################################################################################
+        # Step 3: query charge energy data in 7 days
+        ################################################################################################################
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        reporting = dict()
+        reporting['charge_7_days'] = dict()
+        reporting['charge_this_month'] = dict()
+        reporting['charge_this_year'] = dict()
+        reporting['discharge_7_days'] = dict()
+        reporting['discharge_this_month'] = dict()
+        reporting['discharge_this_year'] = dict()
+
+        end_datetime_utc = datetime.utcnow()
+        end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+        period_type = 'daily'
+        start_datetime_local = end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=6)
+        start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
+        print('start_datetime_local:' + start_datetime_local.isoformat())
+        print('end_datetime_local:' + end_datetime_local.isoformat())
+        print('start_datetime_utc:' + start_datetime_utc.isoformat())
+        print('end_datetime_utc:' + end_datetime_utc.isoformat())
+
+        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy_db = cnx_energy_db.cursor()
+
+        reporting['charge_7_days'] = dict()
+        reporting['charge_7_days']['timestamps'] = list()
+        reporting['charge_7_days']['values'] = list()
+
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_charge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
+        rows_charge_hourly = cursor_energy_db.fetchall()
+
+        rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+                                                                             start_datetime_utc,
+                                                                             end_datetime_utc,
+                                                                             period_type)
+        for row_charge_periodically in rows_charge_periodically:
+            current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['charge_7_days']['timestamps'] = timestamps
+        reporting['charge_7_days']['values'] = values
+        ################################################################################################################
+        # Step 4: query discharge energy data in 7 days
+        ################################################################################################################
+        reporting['discharge_7_days'] = dict()
+        reporting['discharge_7_days']['timestamps'] = list()
+        reporting['discharge_7_days']['values'] = list()
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_discharge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
+        rows_charge_hourly = cursor_energy_db.fetchall()
+
+        rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+                                                                             start_datetime_utc,
+                                                                             end_datetime_utc,
+                                                                             period_type)
+
+        for row_charge_periodically in rows_charge_periodically:
+            current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['discharge_7_days']['timestamps'] = timestamps
+        reporting['discharge_7_days']['values'] = values
+
+        ################################################################################################################
+        # Step 5: query charge energy data in this month
+        ################################################################################################################
+        end_datetime_utc = datetime.utcnow()
+        end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+        period_type = 'daily'
+        start_datetime_local = end_datetime_local.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
+        print('start_datetime_local:' + start_datetime_local.isoformat())
+        print('end_datetime_local:' + end_datetime_local.isoformat())
+        print('start_datetime_utc:' + start_datetime_utc.isoformat())
+        print('end_datetime_utc:' + end_datetime_utc.isoformat())
+
+        reporting['charge_this_month'] = dict()
+        reporting['charge_this_month']['timestamps'] = list()
+        reporting['charge_this_month']['values'] = list()
+
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_charge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+        rows_charge_hourly = cursor_energy_db.fetchall()
+
+        rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+                                                                             start_datetime_utc,
+                                                                             end_datetime_utc,
+                                                                             period_type)
+
+        for row_charge_periodically in rows_charge_periodically:
+            current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['charge_this_month']['timestamps'] = timestamps
+        reporting['charge_this_month']['values'] = values
+
+        ################################################################################################################
+        # Step 6: query discharge energy data in this month
+        ################################################################################################################
+        reporting['discharge_this_month'] = dict()
+        reporting['discharge_this_month']['timestamps'] = list()
+        reporting['discharge_this_month']['values'] = list()
+
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_discharge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+        rows_discharge_hourly = cursor_energy_db.fetchall()
+
+        rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
+                                                                                start_datetime_utc,
+                                                                                end_datetime_utc,
+                                                                                period_type)
+
+        for row_discharge_periodically in rows_discharge_periodically:
+            current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['discharge_this_month']['timestamps'] = timestamps
+        reporting['discharge_this_month']['values'] = values
+
+        ################################################################################################################
+        # Step 7: query charge energy data in this year
+        ################################################################################################################
+        end_datetime_utc = datetime.utcnow()
+        end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+        period_type = 'monthly'
+        start_datetime_local = end_datetime_local.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
+        print('start_datetime_local:' + start_datetime_local.isoformat())
+        print('end_datetime_local:' + end_datetime_local.isoformat())
+        print('start_datetime_utc:' + start_datetime_utc.isoformat())
+        print('end_datetime_utc:' + end_datetime_utc.isoformat())
+
+        reporting['charge_this_year'] = dict()
+        reporting['charge_this_year']['timestamps'] = list()
+        reporting['charge_this_year']['values'] = list()
+
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_charge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+        rows_charge_hourly = cursor_energy_db.fetchall()
+
+        rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+                                                                             start_datetime_utc,
+                                                                             end_datetime_utc,
+                                                                             period_type)
+        for row_charge_periodically in rows_charge_periodically:
+            current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['charge_this_year']['timestamps'] = timestamps
+        reporting['charge_this_year']['values'] = values
+
+        ################################################################################################################
+        # Step 8: query discharge energy data in this month
+        ################################################################################################################
+        reporting['discharge_this_year'] = dict()
+        reporting['discharge_this_year']['timestamps'] = list()
+        reporting['discharge_this_year']['values'] = list()
+
+        timestamps = list()
+        values = list()
+        query = (" SELECT start_datetime_utc, actual_value "
+                 " FROM tbl_energy_storage_power_station_discharge_hourly "
+                 " WHERE energy_storage_power_station_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
+        cursor_energy_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+        rows_discharge_hourly = cursor_energy_db.fetchall()
+
+        rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
+                                                                                start_datetime_utc,
+                                                                                end_datetime_utc,
+                                                                                period_type)
+        for row_discharge_periodically in rows_discharge_periodically:
+            current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
+                                     timedelta(minutes=timezone_offset)
+            if period_type == 'hourly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            elif period_type == 'daily':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'weekly':
+                current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+            elif period_type == 'monthly':
+                current_datetime = current_datetime_local.strftime('%Y-%m')
+            elif period_type == 'yearly':
+                current_datetime = current_datetime_local.strftime('%Y')
+
+            actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
+            timestamps.append(current_datetime)
+            values.append(actual_value)
+        reporting['discharge_this_year']['timestamps'] = timestamps
+        reporting['discharge_this_year']['values'] = values
+
+        ################################################################################################################
+        # Step 9: construct the report
+        ################################################################################################################
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+
+        if cursor_energy_db:
+            cursor_energy_db.close()
+        if cnx_energy_db:
+            cnx_energy_db.close()
+
+        result = dict()
+        result['energy_storage_power_station'] = energy_storage_power_station
+        result['reporting'] = reporting
+        resp.text = json.dumps(result)

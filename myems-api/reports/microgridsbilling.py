@@ -39,7 +39,6 @@ class Reporting:
         else:
             api_key_control(req)
         user_uuid = req.params.get('useruuid')
-        period_type = req.params.get('periodtype')
 
         ################################################################################################################
         # Step 1: valid parameters
