@@ -175,7 +175,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
               setTotalDischarge(json['total_discharge_energy']);
 
-              setTotalRevenue(json['total_charge_billing']);
+              setTotalRevenue(json['total_discharge_billing']);
 
             }
           });
