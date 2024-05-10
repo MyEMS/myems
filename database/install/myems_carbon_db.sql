@@ -210,6 +210,81 @@ CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
  (`microgrid_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_carbon_db`.`tbl_microgrid_evcharger_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_microgrid_evcharger_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_evcharger_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_evcharger_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_carbon_db`.`tbl_microgrid_load_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_microgrid_load_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_load_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_carbon_db`.`tbl_offline_meter_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_carbon_db`.`tbl_offline_meter_hourly` ;

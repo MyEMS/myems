@@ -39,6 +39,57 @@ CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
  ON `myems_energy_db`.`tbl_microgrid_discharge_hourly`
  (`microgrid_id`, `start_datetime_utc`);
 
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_microgrid_evcharger_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
+ ON `myems_energy_db`.`tbl_microgrid_evcharger_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_microgrid_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
+ ON `myems_energy_db`.`tbl_microgrid_grid_buy_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_microgrid_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
+ ON `myems_energy_db`.`tbl_microgrid_grid_sell_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_microgrid_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_hourly_index_1`
+ ON `myems_energy_db`.`tbl_microgrid_load_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_microgrid_photovoltaic_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
+ ON `myems_energy_db`.`tbl_microgrid_photovoltaic_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
 CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_charge_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
@@ -59,6 +110,56 @@ CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
  ON `myems_billing_db`.`tbl_microgrid_discharge_hourly`
  (`microgrid_id`, `start_datetime_utc`);
 
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_evcharger_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_evcharger_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_grid_buy_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_grid_sell_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_load_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_photovoltaic_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_photovoltaic_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
 CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_charge_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
@@ -77,6 +178,56 @@ CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_discharge_hourly` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
  ON `myems_carbon_db`.`tbl_microgrid_discharge_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_evcharger_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_evcharger_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_grid_buy_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_grid_sell_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_load_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_microgrid_photovoltaic_hourly`
  (`microgrid_id`, `start_datetime_utc`);
 
 CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_energy_storage_container_charge_hourly` (
