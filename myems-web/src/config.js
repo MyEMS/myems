@@ -1,7 +1,7 @@
 export const version = '4.4.0';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
-// export const APIBaseURL = 'http://127.0.0.1:8000';
+//export const APIBaseURL = 'http://127.0.0.1:8000';
 export const APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
 export const settings = {
   isFluid: true,
@@ -16,7 +16,7 @@ export const settings = {
   currency: '¥',
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
-  language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
+  language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW
   showOnlineMap: false, // if you wnat to turn off online map feature, please set showOnlineMap to false
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60 //cookie expires time in milliseconds
