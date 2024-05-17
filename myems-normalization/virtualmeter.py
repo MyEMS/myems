@@ -3,10 +3,8 @@ import time
 from datetime import datetime, timedelta
 from decimal import Decimal
 from multiprocessing import Pool
-
 import mysql.connector
 from sympy import sympify
-
 import config
 
 
@@ -148,6 +146,9 @@ def worker(virtual_meter):
         if cnx_energy_db:
             cnx_energy_db.close()
         return "it's too early to calculate" + " for '" + virtual_meter['name'] + "'"
+    elif time_difference_in_minutes > 60 * 24 * 30:
+        # avoid to caculate records more than one month
+        end_datetime_utc = start_datetime_utc + timedelta(minutes=60 * 24 * 30)
 
     # trim end_datetime_utc
     trimmed_end_datetime_utc = start_datetime_utc + timedelta(minutes=config.minutes_to_count)

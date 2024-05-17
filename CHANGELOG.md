@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added language zh_TW to myems-web
 ### Changed
 - updated Distribution System in myems-web
+- limit virtual meter normalization procedure to calculate at most one month records
 ### Fixed
 - fixed issues of optional svg textarea for equipment and combined equipment in myems-admin
 ### Removed
