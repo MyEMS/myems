@@ -17,7 +17,7 @@ app.controller('LoginController', function (
 
 	$scope.dataLoading = false;
 	$scope.isFullScreen = false;
-	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id
+	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW
 	$scope.fullScreenTitle = "FULLSCREEN";
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start

@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added menus for plan functions in database
 - added energy plan reports (preview) in myems-web
 - added new tables for energy, billing and carbon in database
-- added language zh_TW to myems-web
+- added language zh_TW to myems-web and myems-admin
 ### Changed
 - updated Distribution System in myems-web
 - limit virtual meter normalization procedure to calculate at most one month records
