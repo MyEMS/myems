@@ -425,7 +425,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabLeft('1');
                 }}
               >
-                <h6>电量指标</h6>
+                <h6>{t('Energy Indicator')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -435,7 +435,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabLeft('2');
                 }}
               >
-                <h6>收益指标</h6>
+                <h6>{t('Revenue Indicator')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -445,7 +445,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   toggleTabLeft('3');
                 }}
               >
-                <h6>节能减排</h6>
+                <h6>{t('Carbon Indicator')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
