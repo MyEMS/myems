@@ -765,7 +765,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('1');
                 }}
               >
-                <h6>{t('Energy')}</h6>
+                <h6>{t('Energy Indicator')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -775,7 +775,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('2');
                 }}
               >
-                <h6>{t('Revenue')}</h6>
+                <h6>{t('Revenue Indicator')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -785,7 +785,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabLeft('3');
                 }}
               >
-                <h6>Carbon</h6>
+                <h6>{t('Carbon Indicator')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -797,11 +797,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Today\'s Charge')}</th>
+                          <th className="pl-0">{t("Today's Charge")}</th>
                           <th className="pr-0 text-right">100 kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Today\'s Discharge')}</th>
+                          <th className="pl-0">{t("Today's Discharge")}</th>
                           <th className="pr-0 text-right ">90 kWh</th>
                         </tr>
                         <tr className="border-bottom">
@@ -815,10 +815,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Efficiency')}</th>
                           <th className="pr-0 text-right">90%</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Discharge Rate')}</th>
-                          <th className="pr-0 text-right">80%</th>
                         </tr>
                       </tbody>
                     </Table>

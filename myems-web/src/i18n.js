@@ -474,6 +474,8 @@ const resources = {
       'Discharge End Time': 'Discharge End Time',
       'Total Rated Power': 'Total Rated Power',
       'Total Rated Capacity': 'Total Rated Capacity',
+      "Today's Charge": "Today's Charge",
+      "Today's Discharge": "Today's Discharge",
       'Total Charge': 'Total Charge',
       'Total Discharge': 'Total Discharge',
       'Total Revenue': 'Total Revenue',
@@ -489,6 +491,9 @@ const resources = {
       '7 Days': '7 Days',
       'Charge UNIT': 'Charge {{UNIT}}',
       'Discharge UNIT': 'Discharge {{UNIT}}',
+      'Energy Indicator': 'Energy Indicator',
+      'Revenue Indicator': 'Revenue Indicator',
+      'Carbon Indicator': 'Carbon Indicator',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
@@ -1577,6 +1582,8 @@ const resources = {
       'Discharge End Time': '放电结束时间',
       'Total Rated Power': '总额定功率',
       'Total Rated Capacity': '总额定容量',
+      "Today's Charge": "今日充电量",
+      "Today's Discharge": "今日放电量",
       'Total Charge': '总充电',
       'Total Discharge': '总放电',
       'Total Revenue': '总收益',
@@ -1592,6 +1599,9 @@ const resources = {
       '7 Days': '7日',
       'Charge UNIT': '充 {{UNIT}}',
       'Discharge UNIT': '放 {{UNIT}}',
+      'Energy Indicator': '能量指标',
+      'Revenue Indicator': '收益指标',
+      'Carbon Indicator': '碳指标',
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
@@ -2705,6 +2715,8 @@ const resources = {
       'Discharge End Time': 'Endzeit der Entladung',
       'Total Rated Power': 'Nennleistung insgesamt',
       'Total Rated Capacity': 'Gesamtnennkapazität',
+      "Today's Charge": "Das heutige Ladevolumen",
+      "Today's Discharge": "Die heutige Entladungskapazität",
       'Total Charge': 'Gesamtbetrag',
       'Total Discharge': 'totale Entladung',
       'Total Revenue': 'Gesamtumsatz',
@@ -2720,6 +2732,9 @@ const resources = {
       '7 Days': '7 Tage',
       'Charge UNIT': 'Aufladung {{UNIT}}',
       'Discharge UNIT': 'Entladung {{UNIT}}',
+      'Energy Indicator': 'Energieanzeige',
+      'Revenue Indicator': 'Umsatzindikator',
+      'Carbon Indicator': 'Kohlenstoffindikator',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
@@ -3850,6 +3865,8 @@ const resources = {
       'Discharge End Time': 'Le Discharge end Time',
       'Total Rated Power': 'Puissance totale',
       'Total Rated Capacity': 'Capacité nominale totale',
+      "Today's Charge": "Volume de charge aujourd'hui",
+      "Today's Discharge": "Décharge aujourd'hui",
       'Total Charge': 'Charge totale',
       'Total Discharge': 'décharge totale',
       'Total Revenue': 'Revenu total',
@@ -3865,6 +3882,9 @@ const resources = {
       '7 Days': '7 jours',
       'Charge UNIT': 'Charge {{UNIT}}',
       'Discharge UNIT': 'décharge {{UNIT}}',
+      'Energy Indicator': 'indice énergétique',
+      'Revenue Indicator': 'Indicateur de rendement',
+      'Carbon Indicator': 'indice carbone',
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
@@ -4985,6 +5005,8 @@ const resources = {
       'Discharge End Time': 'Temps de fin de décharge',
       'Total Rated Power': 'Potencia nominal total',
       'Total Rated Capacity': 'Capacidad nominal total',
+      "Today's Charge": "Carga hoy",
+      "Today's Discharge": "Descarga de electricidad hoy",
       'Total Charge': 'Carga total',
       'Total Discharge': 'descarga total',
       'Total Revenue': 'Los ingresos totales',
@@ -5000,6 +5022,9 @@ const resources = {
       '7 Days': '7 días',
       'Charge UNIT': 'Cargar {{UNIT}}',
       'Discharge UNIT': 'descargar {{UNIT}}',
+      'Energy Indicator': 'índice de energía',
+      'Revenue Indicator': 'Indicador de rendimiento',
+      'Carbon Indicator': 'índice de carbono',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
@@ -6119,6 +6144,8 @@ const resources = {
       'Discharge End Time': 'Время окончания разряда',
       'Total Rated Power': 'Общая номинальная мощность',
       'Total Rated Capacity': 'Общая номинальная мощность',
+      "Today's Charge": "Сегодняшняя сумма начисления",
+      "Today's Discharge": "Выписка сегодня",
       'Total Charge': 'Полный заряд',
       'Total Discharge': 'общий сброс',
       'Total Revenue': 'Общий доход',
@@ -6134,6 +6161,9 @@ const resources = {
       '7 Days': '7 дней',
       'Charge UNIT': 'Заряжать {{UNIT}}',
       'Discharge UNIT': 'увольнять {{UNIT}}',
+      'Energy Indicator': 'энергетический индекс',
+      'Revenue Indicator': 'Индикатор доходности',
+      'Carbon Indicator': 'углеродный индекс',
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
@@ -7243,6 +7273,8 @@ const resources = {
       'Discharge End Time': 'أداء نهاية الوقت',
       'Total Rated Power': 'إجمالي الطاقة المقدرة',
       'Total Rated Capacity': 'إجمالي السعة المقدرة',
+      "Today's Charge": "مبلغ الشحن اليوم",
+      "Today's Discharge": "التفريغ اليوم",
       'Total Charge': 'القيمة الاجمالية',
       'Total Discharge': 'التفريغ الكلي',
       'Total Revenue': 'إجمالي الإيرادات',
@@ -7258,6 +7290,9 @@ const resources = {
       '7 Days': '7 أيام',
       'Charge UNIT': 'تكلفة {{UNIT}}',
       'Discharge UNIT': 'تسريح {{UNIT}}',
+      'Energy Indicator': 'مؤشر الطاقة',
+      'Revenue Indicator': 'مؤشر العائد',
+      'Carbon Indicator': 'مؤشر الكربون',
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
@@ -8363,6 +8398,8 @@ const resources = {
       'Discharge End Time': 'Thời gian kết thúc xả',
       'Total Rated Power': 'Tổng công suất định mức',
       'Total Rated Capacity': 'Tổng công suất định mức',
+      "Today's Charge": "Số tiền tính phí hôm nay",
+      "Today's Discharge": "Hôm nay xuất viện",
       'Total Charge': 'Tổng phí',
       'Total Discharge': 'tổng lượng xả',
       'Total Revenue': 'Tổng doanh thu',
@@ -8378,6 +8415,9 @@ const resources = {
       '7 Days': '7 ngày',
       'Charge UNIT': 'Thù lao {{UNIT}}',
       'Discharge UNIT': 'phóng điện {{UNIT}}',
+      'Energy Indicator': 'chỉ số năng lượng',
+      'Revenue Indicator': 'Chỉ báo năng suất',
+      'Carbon Indicator': 'chỉ số cacbon',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
@@ -9485,6 +9525,8 @@ const resources = {
       'Discharge End Time': 'เวลาสิ้นสุดการปลดปล่อย',
       'Total Rated Power': 'กำลังไฟรวม',
       'Total Rated Capacity': 'ความจุสูงสุดรวม',
+      "Today's Charge": "จำนวนเงินที่เรียกเก็บวันนี้",
+      "Today's Discharge": "ปลดประจำการวันนี้",
       'Total Charge': 'ค่าใช้จ่ายทั้งหมด',
       'Total Discharge': 'การปลดปล่อยทั้งหมด',
       'Total Revenue': 'รายได้รวม',
@@ -9500,6 +9542,9 @@ const resources = {
       '7 Days': '7 วัน',
       'Charge UNIT': 'ค่าใช้จ่าย {{UNIT}}',
       'Discharge UNIT': 'ปล่อย {{UNIT}}',
+      'Energy Indicator': 'ดัชนีพลังงาน',
+      'Revenue Indicator': 'ตัวบ่งชี้ผลผลิต',
+      'Carbon Indicator': 'ดัชนีคาร์บอน',
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
@@ -10606,6 +10651,8 @@ const resources = {
       'Discharge End Time': 'Açırma sonu zamanı',
       'Total Rated Power': 'Toplam Nominal Güç',
       'Total Rated Capacity': 'Toplam Nominal Kapasite',
+      "Today's Charge": "Bugünün ödeme tutarı",
+      "Today's Discharge": "Bugün taburcu olun",
       'Total Charge': 'Toplam ücret',
       'Total Discharge': 'toplam deşarj',
       'Total Revenue': 'Toplam gelir',
@@ -10621,6 +10668,9 @@ const resources = {
       '7 Days': '7 gün',
       'Charge UNIT': 'Şarj {{UNIT}}',
       'Discharge UNIT': 'deşarj {{UNIT}}',
+      'Energy Indicator': 'enerji endeksi',
+      'Revenue Indicator': 'Verim göstergesi',
+      'Carbon Indicator': 'karbon indeksi',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
@@ -11733,6 +11783,8 @@ const resources = {
       'Discharge End Time': 'Masa Akhir Buang',
       'Total Rated Power': 'Jumlah Kuasa Dinilai',
       'Total Rated Capacity': 'Jumlah Kapasiti Dinilai',
+      "Today's Charge": "Jumlah caj hari ini",
+      "Today's Discharge": "Discharge hari ini",
       'Total Charge': 'Jumlah caj',
       'Total Discharge': 'jumlah pelepasan',
       'Total Revenue': 'Jumlah hasil',
@@ -11748,6 +11800,9 @@ const resources = {
       '7 Days': '7 hari',
       'Charge UNIT': 'caj {{UNIT}}',
       'Discharge UNIT': 'pelepasan {{UNIT}}',
+      'Energy Indicator': 'indeks tenaga',
+      'Revenue Indicator': 'Penunjuk hasil',
+      'Carbon Indicator': 'indeks karbon',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
@@ -12863,6 +12918,8 @@ const resources = {
       'Discharge End Time': 'Waktu Akhir Buan',
       'Total Rated Power': 'Nilai Daya Total',
       'Total Rated Capacity': 'Kapasitas Nilai Total',
+      "Today's Charge": "Jumlah penagihan hari ini",
+      "Today's Discharge": "Keluar hari ini",
       'Total Charge': 'Total biaya',
       'Total Discharge': 'debit total',
       'Total Revenue': 'Total pendapatan',
@@ -12878,6 +12935,9 @@ const resources = {
       '7 Days': '7 hari',
       'Charge UNIT': 'Mengenakan biaya {{UNIT}}',
       'Discharge UNIT': 'memulangkan {{UNIT}}',
+      'Energy Indicator': 'indeks energi',
+      'Revenue Indicator': 'Indikator hasil',
+      'Carbon Indicator': 'indeks karbon',
 
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',
@@ -13980,6 +14040,8 @@ const resources = {
       'Discharge End Time': '放電結束時間',
       'Total Rated Power': '總額定功率',
       'Total Rated Capacity': '總額定容量',
+      "Today's Charge": "今日充電量",
+      "Today's Discharge": "今日放電量",
       'Total Charge': '總充電',
       'Total Discharge': '總放電',
       'Total Revenue': '總收益',
@@ -13995,6 +14057,10 @@ const resources = {
       '7 Days': '7⽇',
       'Charge UNIT': '充 {{UNIT}}',
       'Discharge UNIT': '放 {{UNIT}}',
+      'Energy Indicator': '能量指標',
+      'Revenue Indicator': '收益指標',
+      'Carbon Indicator': '碳指標',
+
       // Energy Storage Power Station
       'Battery Operating State': '電池運⾏狀態',
       // 'Battery Unknown': '未知',
