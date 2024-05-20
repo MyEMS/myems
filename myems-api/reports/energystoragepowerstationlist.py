@@ -99,7 +99,7 @@ class Reporting:
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             for row in rows_energy_storage_power_stations:
                 energy_storage_power_station_id = row[0]
-                # get gateway latest seen datetime to determine if it is online
+                # get data source latest seen datetime to determine if it is online
                 query = (" SELECT tds.last_seen_datetime_utc   "
                          " FROM tbl_energy_storage_power_stations_containers tespsesc, "
                          "      tbl_energy_storage_containers_power_conversion_systems tescpcs, "

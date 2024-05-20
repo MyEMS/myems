@@ -13723,7 +13723,7 @@ const resources = {
       'Switch between styles for your vertical navbar': '切換垂直導航欄的樣式',
       Language: '語⾔',
       'Switch between languages': '切換語⾔',
-      'language-zh_CN': '簡體中⽂',
+      'language-zh_CN': '简体中文',
       'language-en': 'English',
       'language-de': 'Deutsch',
       'language-fr': 'Français',
