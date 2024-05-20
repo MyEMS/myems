@@ -99,8 +99,7 @@ class Reporting:
         if rows_microgrids is not None and len(rows_microgrids) > 0:
             for row in rows_microgrids:
                 microgrid_id = row[0]
-
-                # get gateway latest seen datetime to determine if it is online
+                # get data source latest seen datetime to determine if it is online
                 query = (" SELECT tg.last_seen_datetime_utc "
                          " FROM tbl_microgrids_batteries mb, tbl_points p, tbl_data_sources tds, tbl_gateways tg "
                          " WHERE  microgrid_id  = %s "
