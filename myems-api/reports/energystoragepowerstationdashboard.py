@@ -88,7 +88,7 @@ class Reporting:
                  "        m.rated_capacity, m.rated_power, m.description "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
-                 " ORDER BY id ")
+                 " ORDER BY name ")
         cursor_system_db.execute(query, (user['id'],))
         rows_energy_storage_power_stations = cursor_system_db.fetchall()
 
