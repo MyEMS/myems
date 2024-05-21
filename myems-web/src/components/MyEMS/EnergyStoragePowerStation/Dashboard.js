@@ -178,7 +178,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       if (!isEnergyStoragePowerStationsEnergyFetched) {
         setIsEnergyStoragePowerStationsEnergyFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationsenergy?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectionenergy?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
@@ -248,7 +248,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       if (!isEnergyStoragePowerStationsBillingFetched) {
         setIsEnergyStoragePowerStationsBillingFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationsbilling?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectionbilling?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
@@ -319,7 +319,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       if (!isEnergyStoragePowerStationsCarbonFetched) {
         setIsEnergyStoragePowerStationsCarbonFetched(true);
         fetch(
-          APIBaseURL + '/reports/energystoragepowerstationscarbon?useruuid=' + user_uuid ,
+          APIBaseURL + '/reports/energystoragepowerstationcollectioncarbon?useruuid=' + user_uuid ,
           {
             method: 'GET',
             headers: {
