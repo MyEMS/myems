@@ -289,25 +289,25 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               "unit": "kWh",
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values'],
-                json['reporting']['charge_this_month']['values'],
-                json['reporting']['charge_this_year']['values']
+                json['reporting']['charge_7_days']['values_array'],
+                json['reporting']['charge_this_month']['values_array'],
+                json['reporting']['charge_this_year']['values_array']
               ],
             });
             setDischargeEnergyData({
               "unit": "kWh",
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['discharge_7_days']['values'],
-                json['reporting']['discharge_this_month']['values'],
-                json['reporting']['discharge_this_year']['values']
+                json['reporting']['discharge_7_days']['values_array'],
+                json['reporting']['discharge_this_month']['values_array'],
+                json['reporting']['discharge_this_year']['values_array']
               ]
             });
             setEnergyLabels([
-              json['reporting']['charge_7_days']['timestamps'],
-              json['reporting']['charge_this_month']['timestamps'],
-              json['reporting']['charge_this_year']['timestamps']]);
-
+              json['reporting']['charge_7_days']['timestamps_array'][0],
+              json['reporting']['charge_this_month']['timestamps_array'][0],
+              json['reporting']['charge_this_year']['timestamps_array'][0]
+            ]);
           }
         });
     }
@@ -354,28 +354,28 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             console.log(json);
 
             setChargeBillingData({
-              "unit": "kWh",
+              "unit": currency,
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values'],
-                json['reporting']['charge_this_month']['values'],
-                json['reporting']['charge_this_year']['values']
+                json['reporting']['charge_7_days']['values_array'],
+                json['reporting']['charge_this_month']['values_array'],
+                json['reporting']['charge_this_year']['values_array']
               ],
             });
             setDischargeBillingData({
-              "unit": "kWh",
+              "unit": currency,
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['discharge_7_days']['values'],
-                json['reporting']['discharge_this_month']['values'],
-                json['reporting']['discharge_this_year']['values']
+                json['reporting']['discharge_7_days']['values_array'],
+                json['reporting']['discharge_this_month']['values_array'],
+                json['reporting']['discharge_this_year']['values_array']
               ]
             });
             setBillingLabels([
-              json['reporting']['charge_7_days']['timestamps'],
-              json['reporting']['charge_this_month']['timestamps'],
-              json['reporting']['charge_this_year']['timestamps']]);
-
+              json['reporting']['charge_7_days']['timestamps_array'][0],
+              json['reporting']['charge_this_month']['timestamps_array'][0],
+              json['reporting']['charge_this_year']['timestamps_array'][0]
+            ]);
           }
         });
     }
@@ -422,27 +422,28 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             console.log(json);
 
             setChargeCarbonData({
-              "unit": "kWh",
+              "unit": "kgCO2",
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values'],
-                json['reporting']['charge_this_month']['values'],
-                json['reporting']['charge_this_year']['values']
+                json['reporting']['charge_7_days']['values_array'],
+                json['reporting']['charge_this_month']['values_array'],
+                json['reporting']['charge_this_year']['values_array']
               ],
             });
             setDischargeCarbonData({
-              "unit": "kWh",
+              "unit": "kgCO2",
               "station_names_array": [json['energy_storage_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['discharge_7_days']['values'],
-                json['reporting']['discharge_this_month']['values'],
-                json['reporting']['discharge_this_year']['values']
+                json['reporting']['discharge_7_days']['values_array'],
+                json['reporting']['discharge_this_month']['values_array'],
+                json['reporting']['discharge_this_year']['values_array']
               ]
             });
             setCarbonLabels([
-              json['reporting']['charge_7_days']['timestamps'],
-              json['reporting']['charge_this_month']['timestamps'],
-              json['reporting']['charge_this_year']['timestamps']]);
+              json['reporting']['charge_7_days']['timestamps_array'][0],
+              json['reporting']['charge_this_month']['timestamps_array'][0],
+              json['reporting']['charge_this_year']['timestamps_array'][0]]
+            );
           }
         });
     }
