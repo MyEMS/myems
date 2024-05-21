@@ -3,59 +3,59 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-09 16:37+0800\n"
-"PO-Revision-Date: 2023-02-22 16:38+0800\n"
+"PO-Revision-Date: 2024-05-21 16:07+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: zh_CN\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.4.4\n"
 
 msgid "Space"
-msgstr "空间"
+msgstr "空間"
 
 msgid "Start Datetime"
-msgstr "开始时间"
+msgstr "開始時間"
 
 msgid "End Datetime"
-msgstr "结束时间"
+msgstr "結束時間"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "Name"
-msgstr "名称"
+msgstr "名稱"
 
 msgid "Period Type"
-msgstr "时间尺度"
+msgstr "時間尺度"
 
 msgid "Reporting Start Datetime"
-msgstr "报告期开始时间"
+msgstr "報告期開始時間"
 
 msgid "Reporting End Datetime"
-msgstr "报告期结束时间"
+msgstr "報告期結束時間"
 
 msgid "Reporting Period Consumption"
-msgstr "报告期消耗"
+msgstr "報告期消耗"
 
 msgid "Consumption"
 msgstr "消耗"
 
 msgid "Per Unit Area"
-msgstr "单位面积值"
+msgstr "單位面積值"
 
 msgid "Increment Rate"
-msgstr "增加率"
+msgstr "新增率"
 
 msgid "Ton of Standard Coal"
-msgstr "吨标准煤"
+msgstr "噸標準煤"
 
 msgid "Ton of Carbon Dioxide Emissions"
-msgstr "吨二氧化碳排放"
+msgstr "噸二氧化碳排放"
 
 msgid "Electricity Consumption by Time-Of-Use"
-msgstr "分时消耗电量"
+msgstr "分時消耗電量"
 
 msgid "TopPeak"
 msgstr "尖"
@@ -67,79 +67,79 @@ msgid "MidPeak"
 msgstr "平"
 
 msgid "OffPeak"
-msgstr "谷"
+msgstr "穀"
 
 msgid "Ton of Standard Coal(TCE) by Energy Category"
-msgstr "吨标准煤(TCE)占比"
+msgstr "噸標準煤（TCE）占比"
 
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
-msgstr "吨二氧化碳排放(TCO2E)占比"
+msgstr "噸二氧化碳排放（TCO2E）占比"
 
 msgid "Child Spaces Data"
-msgstr "子空间数据"
+msgstr "子空間數據"
 
 msgid "Child Space"
-msgstr "子空间"
+msgstr "子空間"
 
 msgid "Detailed Data"
-msgstr "详细数据"
+msgstr "詳細數據"
 
 msgid "Datetime"
-msgstr "日期时间"
+msgstr "日期時間"
 
 msgid "Subtotal"
-msgstr "小计"
+msgstr "小計"
 
 msgid "Parameters"
-msgstr "参数"
+msgstr "參數"
 
 msgid "Base Period Carbon Dioxide Emissions"
-msgstr "基准期二氧化碳排放"
+msgstr "基準期二氧化碳排放"
 
 msgid "Reporting Period Carbon Dioxide Emissions"
-msgstr "报告期二氧化碳排放"
+msgstr "報告期二氧化碳排放"
 
 msgid "Carbon Dioxide Emissions"
 msgstr "二氧化碳排放"
 
 msgid "Electricity Carbon Dioxide Emissions by Time-Of-Use"
-msgstr "分时用电排放二氧化碳"
+msgstr "分時用電排放二氧化碳"
 
 msgid "Carbon Dioxide Emissions Proportion"
 msgstr "二氧化碳排放占比"
 
 msgid "Total"
-msgstr "总计"
+msgstr "總計"
 
 msgid "Base Period Costs"
-msgstr "基准期成本"
+msgstr "基準期成本"
 
 msgid "Reporting Period Costs"
-msgstr "报告期成本"
+msgstr "報告期成本"
 
 msgid "Cost"
 msgstr "成本分析"
 
 msgid "Electricity Cost by Time-Of-Use"
-msgstr "分时用电成本"
+msgstr "分時用電成本"
 
 msgid "Costs Proportion"
 msgstr "成本占比"
 
 msgid "Base Period Cumulative Efficiency"
-msgstr "基准期累积效率"
+msgstr "基準期累積效率"
 
 msgid "Reporting Period Cumulative Efficiency"
-msgstr "报告期累积效率"
+msgstr "報告期累積效率"
 
 msgid "Cumulative Efficiency"
-msgstr "累积效率"
+msgstr "累積效率"
 
 msgid "Base Period Income"
-msgstr "基准期收入"
+msgstr "基準期收入"
 
 msgid "Reporting Period Income"
-msgstr "报告期收入"
+msgstr "報告期收入"
 
 msgid "Incomes by Energy Category"
 msgstr "收入占比"
@@ -151,70 +151,70 @@ msgid "Proportion"
 msgstr "占比"
 
 msgid "Load"
-msgstr "负荷"
+msgstr "負荷"
 
 msgid "Base Period Average Load"
-msgstr "基准期平均负荷"
+msgstr "基準期平均負荷"
 
 msgid "Reporting Period Average Load"
-msgstr "报告期平均负荷"
+msgstr "報告期平均負荷"
 
 msgid "Average Load"
-msgstr "平均负荷"
+msgstr "平均負荷"
 
 msgid "Base Period Maximum Load"
-msgstr "基准期最大负荷"
+msgstr "基準期最大負荷"
 
 msgid "Reporting Period Maximum Load"
-msgstr "报告期最大负荷"
+msgstr "報告期最大負荷"
 
 msgid "Maximum Load"
-msgstr "最大负荷"
+msgstr "最大負荷"
 
 msgid "Reporting Period Load Factor"
-msgstr "报告期负荷系数"
+msgstr "報告期負荷係數"
 
 msgid "Load Factor"
-msgstr "负荷系数"
+msgstr "負荷係數"
 
 msgid "Base Period Output"
-msgstr "基准期产出"
+msgstr "基準期產出"
 
 msgid "Reporting Period Output"
-msgstr "报告期产出"
+msgstr "報告期產出"
 
 msgid "Output"
-msgstr "产出"
+msgstr "產出"
 
 msgid "Base Period Saving"
-msgstr "基准期节约"
+msgstr "基準期節約"
 
 msgid "Reporting Period Saving"
-msgstr "报告期节约"
+msgstr "報告期節約"
 
 msgid "Baseline"
-msgstr "基线"
+msgstr "基線"
 
 msgid "Actual"
-msgstr "实际"
+msgstr "實際"
 
 msgid "Saving"
-msgstr "节约"
+msgstr "節約"
 
 msgid "Decreased"
 msgstr "减少"
 
 msgid "Statistics"
-msgstr "统计分析"
+msgstr "統計分析"
 
 msgid "Reporting Period"
-msgstr "报告期"
+msgstr "報告期"
 
 msgid "Arithmetic Mean"
-msgstr "算术平均数"
+msgstr "算術平均數"
 
 msgid "Median (Middle Value)"
-msgstr "中位数"
+msgstr "中位數"
 
 msgid "Minimum Value"
 msgstr "最小值"
@@ -223,10 +223,10 @@ msgid "Maximum Value"
 msgstr "最大值"
 
 msgid "Sample Standard Deviation"
-msgstr "样本标准差"
+msgstr "樣本標準差"
 
 msgid "Sample Variance"
-msgstr "样本方差"
+msgstr "樣本方差"
 
 msgid "Cost Center"
 msgstr "成本中心"
@@ -235,10 +235,10 @@ msgid "Description"
 msgstr "描述"
 
 msgid "Master Meter Consumption"
-msgstr "总表消耗"
+msgstr "總表消耗"
 
 msgid "Submeters Consumption"
-msgstr "分表消耗"
+msgstr "分錶消耗"
 
 msgid "Difference"
 msgstr "差值"
@@ -247,106 +247,106 @@ msgid "Percentage Difference"
 msgstr "差值百分比"
 
 msgid "Start Integrity Rate"
-msgstr "起始数据完整率"
+msgstr "起始數據完整率"
 
 msgid "End Integrity Rate"
-msgstr "结束数据完整率"
+msgstr "結束數據完整率"
 
 msgid "Full Integrity Rate"
-msgstr "整体数据完整率"
+msgstr "整體數據完整率"
 
 msgid "Trend"
-msgstr "趋势"
+msgstr "趨勢"
 
 msgid "Payment Notice"
-msgstr "付款通知书"
+msgstr "付款通知書"
 
 msgid "Lease Number"
-msgstr "租赁数量"
+msgstr "租賃數量"
 
 msgid "Bill Number"
-msgstr "账单号码"
+msgstr "帳單號碼"
 
 msgid "Lease Contract Number"
-msgstr "租赁合同号码"
+msgstr "租賃合同號碼"
 
 msgid "Bill Date"
-msgstr "账单日期"
+msgstr "帳單日期"
 
 msgid "Payment Due Date"
 msgstr "付款到期日"
 
 msgid "Amount Payable"
-msgstr "应付款金额"
+msgstr "應付款金額"
 
 msgid "Energy Category"
-msgstr "能源分类"
+msgstr "能源分類"
 
 msgid "Billing Period Start"
-msgstr "计费周期开始"
+msgstr "計費週期開始"
 
 msgid "Billing Period End"
-msgstr "结算期结束日期"
+msgstr "結算期結束日期"
 
 msgid "Quantity"
-msgstr "数量"
+msgstr "數量"
 
 msgid "Unit"
-msgstr "单位"
+msgstr "單位"
 
 msgid "Amount"
-msgstr "金额"
+msgstr "金額"
 
 msgid "Tax Rate"
-msgstr "税率"
+msgstr "稅率"
 
 msgid "VAT Output Tax"
-msgstr "增值税销项税金"
+msgstr "增值稅銷項稅金"
 
 msgid "Total Amount Payable"
-msgstr "应付金额合计"
+msgstr "應付金額合計"
 
 msgid "Electricity Costs by Time-Of-Use"
-msgstr "分时用电成本"
+msgstr "分時用電成本"
 
 msgid "Electricity Carbon Dioxide Emissions Proportion by Time-Of-Use"
-msgstr "分时用电排放二氧化碳占比"
+msgstr "分時用電排放二氧化碳占比"
 
 msgid "Associated Equipment Data"
-msgstr "相关设备数据"
+msgstr "相關設備數據"
 
 msgid "Associated Equipment"
-msgstr "相关设备"
+msgstr "相關設備"
 
 msgid "Electricity Cost Proportion by Time-Of-Use"
-msgstr "分时用电成本占比"
+msgstr "分時用電成本占比"
 
 msgid "Start Value"
 msgstr "起始值"
 
 msgid "End Value"
-msgstr "结束值"
+msgstr "結束值"
 
 msgid "Difference Value"
 msgstr "差值"
 
 msgid "Base Period"
-msgstr "基准期"
+msgstr "基準期"
 
 msgid "Base Period Start Datetime"
-msgstr "基准期开始时间"
+msgstr "基準期開始時間"
 
 msgid "Base Period End Datetime"
-msgstr "基准期结束时间"
+msgstr "基準期結束時間"
 
 msgid "Base Period Consumption"
-msgstr "基准期消耗"
+msgstr "基準期消耗"
 
 msgid "All"
 msgstr "全部"
 
 msgid "Tariff"
-msgstr "费率"
+msgstr "費率"
 
 msgid "Non Working Days"
 msgstr "非工作日"
