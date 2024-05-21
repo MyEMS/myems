@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.5.0] - 2024-05-21
+### Added
 - added new protocols dtu-rtu, dtu-tcp, dtu-mqtt and mqtt-zhongxian
 - added latest value to data source points table in myems-admin
 - added menus for plan functions in database
@@ -18,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of optional svg textarea for equipment and combined equipment in myems-admin
 - fixed translation issue for zh_CN in Excel exporter 
 ### Removed
--
+- None
 
 ## [v4.4.0] - 2024-04-17
 ### Added
@@ -1674,7 +1680,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.4.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.5.0...HEAD
+[4.5.0]: https://github.com/MyEMS/myems/compare/v4.5.0...v4.4.0
 [4.4.0]: https://github.com/MyEMS/myems/compare/v4.4.0...v4.3.0
 [4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
 [4.2.0]: https://github.com/MyEMS/myems/compare/v4.2.0...v4.1.0
