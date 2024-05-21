@@ -1032,7 +1032,7 @@ class SpaceEnergyStoragePowerStationCollection:
         query = (" SELECT e.id, e.name, e.uuid "
                  " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se, tbl_energy_storage_power_stations e "
                  " WHERE se.space_id = s.id AND e.id = se.energy_storage_power_station_id AND s.id = %s "
-                 " ORDER BY e.id ")
+                 " ORDER BY e.name ")
         cursor.execute(query, (id_,))
         rows = cursor.fetchall()
 
