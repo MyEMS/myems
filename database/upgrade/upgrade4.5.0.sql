@@ -352,6 +352,6 @@ CREATE INDEX `tbl_energy_storage_power_station_discharge_hourly_index_1`
  (`energy_storage_power_station_id`, `start_datetime_utc`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.5.0RC', release_date='2024-05-18' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.5.0', release_date='2024-05-21' WHERE id=1;
 
 COMMIT;
