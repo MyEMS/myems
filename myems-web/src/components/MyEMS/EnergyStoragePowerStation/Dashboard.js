@@ -220,8 +220,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setEnergyLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
             }
           });
       }
@@ -290,8 +290,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setBillingLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
             }
           });
       }
@@ -361,8 +361,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setCarbonLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]]
+              );
             }
           });
       }
