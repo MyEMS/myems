@@ -282,8 +282,8 @@ class Reporting:
         # Step 6: query discharge billing data in this month
         ################################################################################################################
         reporting['discharge_this_month'] = dict()
-        reporting['discharge_this_month']['timestamps'] = list()
-        reporting['discharge_this_month']['values'] = list()
+        reporting['discharge_this_month']['timestamps_array'] = list()
+        reporting['discharge_this_month']['values_array'] = list()
 
         timestamps = list()
         values = list()
