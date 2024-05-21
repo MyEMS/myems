@@ -146,8 +146,8 @@ class Reporting:
         cursor_billing_db = cnx_billing_db.cursor()
 
         reporting['charge_7_days'] = dict()
-        reporting['charge_7_days']['timestamps'] = list()
-        reporting['charge_7_days']['values'] = list()
+        reporting['charge_7_days']['timestamps_array'] = list()
+        reporting['charge_7_days']['values_array'] = list()
 
         timestamps = list()
         values = list()
@@ -181,14 +181,14 @@ class Reporting:
             actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['charge_7_days']['timestamps'] = timestamps
-        reporting['charge_7_days']['values'] = values
+        reporting['charge_7_days']['timestamps_array'].append(timestamps)
+        reporting['charge_7_days']['values_array'].append(values)
         ################################################################################################################
         # Step 4: query discharge billing data in 7 days
         ################################################################################################################
         reporting['discharge_7_days'] = dict()
-        reporting['discharge_7_days']['timestamps'] = list()
-        reporting['discharge_7_days']['values'] = list()
+        reporting['discharge_7_days']['timestamps_array'] = list()
+        reporting['discharge_7_days']['values_array'] = list()
         timestamps = list()
         values = list()
         query = (" SELECT start_datetime_utc, actual_value "
@@ -222,8 +222,8 @@ class Reporting:
             actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['discharge_7_days']['timestamps'] = timestamps
-        reporting['discharge_7_days']['values'] = values
+        reporting['discharge_7_days']['timestamps_array'].append(timestamps)
+        reporting['discharge_7_days']['values_array'].append(values)
 
         ################################################################################################################
         # Step 5: query charge billing data in this month
@@ -239,8 +239,8 @@ class Reporting:
         print('end_datetime_utc:' + end_datetime_utc.isoformat())
 
         reporting['charge_this_month'] = dict()
-        reporting['charge_this_month']['timestamps'] = list()
-        reporting['charge_this_month']['values'] = list()
+        reporting['charge_this_month']['timestamps_array'] = list()
+        reporting['charge_this_month']['values_array'] = list()
 
         timestamps = list()
         values = list()
@@ -275,8 +275,8 @@ class Reporting:
             actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['charge_this_month']['timestamps'] = timestamps
-        reporting['charge_this_month']['values'] = values
+        reporting['charge_this_month']['timestamps_array'].append(timestamps)
+        reporting['charge_this_month']['values_array'].append(values)
 
         ################################################################################################################
         # Step 6: query discharge billing data in this month
@@ -318,8 +318,8 @@ class Reporting:
             actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['discharge_this_month']['timestamps'] = timestamps
-        reporting['discharge_this_month']['values'] = values
+        reporting['discharge_this_month']['timestamps_array'].append(timestamps)
+        reporting['discharge_this_month']['values_array'].append(values)
 
         ################################################################################################################
         # Step 7: query charge billing data in this year
@@ -335,8 +335,8 @@ class Reporting:
         print('end_datetime_utc:' + end_datetime_utc.isoformat())
 
         reporting['charge_this_year'] = dict()
-        reporting['charge_this_year']['timestamps'] = list()
-        reporting['charge_this_year']['values'] = list()
+        reporting['charge_this_year']['timestamps_array'] = list()
+        reporting['charge_this_year']['values_array'] = list()
 
         timestamps = list()
         values = list()
@@ -370,15 +370,15 @@ class Reporting:
             actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['charge_this_year']['timestamps'] = timestamps
-        reporting['charge_this_year']['values'] = values
+        reporting['charge_this_year']['timestamps_array'].append(timestamps)
+        reporting['charge_this_year']['values_array'].append(values)
 
         ################################################################################################################
         # Step 8: query discharge billing data in this month
         ################################################################################################################
         reporting['discharge_this_year'] = dict()
-        reporting['discharge_this_year']['timestamps'] = list()
-        reporting['discharge_this_year']['values'] = list()
+        reporting['discharge_this_year']['timestamps_array'] = list()
+        reporting['discharge_this_year']['values_array'] = list()
 
         timestamps = list()
         values = list()
@@ -412,8 +412,8 @@ class Reporting:
             actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
             timestamps.append(current_datetime)
             values.append(actual_value)
-        reporting['discharge_this_year']['timestamps'] = timestamps
-        reporting['discharge_this_year']['values'] = values
+        reporting['discharge_this_year']['timestamps_array'].append(timestamps)
+        reporting['discharge_this_year']['values_array'].append(values)
 
         ################################################################################################################
         # Step 9: construct the report
