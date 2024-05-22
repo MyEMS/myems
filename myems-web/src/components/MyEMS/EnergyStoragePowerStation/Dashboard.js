@@ -399,10 +399,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
-          {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
-          {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="electricity">
           {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
