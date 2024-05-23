@@ -141,6 +141,7 @@ class Reporting:
         ################################################################################################################
         offline_meter_dict = dict()
         space_dict = dict()
+        energy_category_set = set()
 
         for node in LevelOrderIter(node_dict[space_id]):
             space_dict[node.id] = node.name
@@ -162,19 +163,13 @@ class Reporting:
                                               "cost_center_name": row[4],
                                               "values": list(),
                                               "subtotal": None}
+                energy_category_set.add(row[2])
 
         ################################################################################################################
         # Step 4: query energy categories
         ################################################################################################################
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
-
-        # query energy categories in reporting period
-        energy_category_set = set()
-
-        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-            for row_offline_meter in rows_offline_meters:
-                energy_category_set.add(row_offline_meter[2])
 
         # query all energy categories
         cursor_system_db.execute(" SELECT id, name, unit_of_measure "

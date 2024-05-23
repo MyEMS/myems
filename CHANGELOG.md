@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 ### Fixed
 - fixed totalRatedCapacity and totalRatedPower issue in microgrid dashboard and energy storage power station dashboard
+- fixed issue of meter batch report in myems-api
 ### Removed
 
 ## [v4.5.0] - 2024-05-21
