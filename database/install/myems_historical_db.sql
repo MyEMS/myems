@@ -140,4 +140,18 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_data_repair_files` (
   `file_object` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`));
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_historical_db`.`tbl_energy_plan_files`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_historical_db`.`tbl_energy_plan_files` ;
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_energy_plan_files` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `file_name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `upload_datetime_utc` DATETIME NOT NULL,
+  `status` VARCHAR(45) NOT NULL COMMENT 'new, done, error',
+  `file_object` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id`));
+
 COMMIT;
