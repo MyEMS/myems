@@ -5,8 +5,6 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP DATABASE IF EXISTS `myems_system_db` ;
 CREATE DATABASE IF NOT EXISTS `myems_system_db` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
-USE `myems_system_db` ;
-
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_combined_equipments`
@@ -609,15 +607,10 @@ CREATE INDEX `tbl_gateways_index_1` ON `myems_system_db`.`tbl_gateways` (`name`)
 -- Default Data for table `myems_system_db`.`tbl_gateways`
 -- This gateway's token is used by myems-modbus-tcp service
 -- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_system_db`;
-
 INSERT INTO `myems_system_db`.`tbl_gateways`
 (`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`, `description`)
 VALUES
 (1, 'Gateway1', 'dc681938-5053-8660-98ed-266c58227231', '983427af-1c35-42ba-8b4d-288675550225', null, null);
-
-COMMIT;
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1303,9 +1296,6 @@ CREATE INDEX `tbl_spaces_index_2` ON `myems_system_db`.`tbl_spaces` (`parent_spa
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Default Data for table `myems_system_db`.`tbl_spaces`
 -- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_system_db`;
-
 INSERT INTO `myems_system_db`.`tbl_spaces`
 (`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`,
  `cost_center_id`, `latitude`, `longitude`, `description`)
@@ -1313,7 +1303,6 @@ VALUES
 -- DO NOT deleted the record which ID is 1. It's the root space.
 (1, 'MyEMS', '9dfb7cff-f19f-4a1e-8c79-3adf6425bfd9', NULL, 99999.999, 56, 1, true, true, 1, 39.915119, 116.403963,
  'MyEMS Space');
-COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces_combined_equipments`
@@ -1779,9 +1768,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_timezones` (
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data for table `myems_system_db`.`tbl_timezones`
 -- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_system_db`;
-
 INSERT INTO `myems_system_db`.`tbl_timezones`
 (`id`, `name`, `description`, `utc_offset`)
 VALUES
@@ -1879,8 +1865,6 @@ VALUES
 (92, 'Paraguay Standard Time', '(GMT-04:00) Asuncion', '-04:00'),
 (93, 'Kamchatka Standard Time', '(GMT+12:00) Petropavlovsk-Kamchatsky', '+12:00');
 
-COMMIT;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_virtual_meters`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1960,15 +1944,10 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Data for table `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_system_db`;
-
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
 (1, '4.6.0RC', '2024-06-18');
-
-COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

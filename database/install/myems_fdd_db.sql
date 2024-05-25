@@ -69,15 +69,10 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_email_servers` (
 -- ----------------------------------------------------------------------------------
 -- Data for table `myems_fdd_db`.`tbl_email_servers`
 -- ----------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_fdd_db`;
-
 INSERT INTO `myems_fdd_db`.`tbl_email_servers`
 (`id`, `host`, `port`, `requires_authentication`, `user_name`, `password`, `from_addr`)
 VALUES
 (1, 'smtp.163.com', 25, true, 'myems', 'bXllbXM=', 'myems@163.com');
-
-COMMIT;
 
 -- ----------------------------------------------------------------------------------
 -- Table `myems_fdd_db`.`tbl_text_messages_outbox`
