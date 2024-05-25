@@ -77,8 +77,6 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
 -- --------------------------------------------------------------------------------------------------------------------
 -- Example Data for table `myems_user_db`.`tbl_users`
 -- --------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-USE `myems_user_db`;
 -- default username: administrator
 -- default password: !MyEMS1
 INSERT INTO `myems_user_db`.`tbl_users`(`id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password`, `is_admin`,
@@ -88,7 +86,6 @@ VALUES
  'adfd6fb6d78d4e3780ebdd6afdec2c3a',
  'bc00df65270b1a72b9ed37136fa95a695896edc8c114391821f5edc6b1bbdbabc3d449962f8d1c7a4ec3f2d0a1a79055623963d88ecb9b778423194ff7b6be42',
  1, NULL, '2099-12-31 16:00:00', '2099-12-31 16:00:00', 0);
-COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_user_db`.`tbl_privileges`
