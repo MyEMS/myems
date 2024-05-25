@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a37273d4-3c54-40e5-8448-cd3dfa997031",
+		"_postman_id": "71b2257a-f7ff-433f-9153-08f95d92ff50",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -13902,6 +13902,225 @@
 									],
 									"path": [
 										"offlinemeterfiles",
+										"1",
+										"restore"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Energy Plan File",
+					"item": [
+						{
+							"name": "GET All Energy Plan Files",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID",
+										"uuid": "75d31701-0b7f-45ae-9d96-3673ca694fbd"
+									},
+									{
+										"key": "Token",
+										"value": "9b98612ae49df7493fe2dbf6f942a38c1ade1f7bce1fe86ea2cb2e3e72d676a28364619f7f1989715302ee97de920521697349c0fe628a81b38bcdb0576995ad",
+										"type": "text",
+										"description": "Login first to get a valid token",
+										"uuid": "9984e1ea-cca7-4839-8266-2a1ffa3a7138"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"uuid": "7594ca46-0879-46a2-9328-a7f7e110dca4",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energyplanfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energyplanfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Energy Plan File by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID",
+										"uuid": "eb082559-1836-4f7a-bf8a-ed05fe1df1fb"
+									},
+									{
+										"key": "Token",
+										"value": "9b98612ae49df7493fe2dbf6f942a38c1ade1f7bce1fe86ea2cb2e3e72d676a28364619f7f1989715302ee97de920521697349c0fe628a81b38bcdb0576995ad",
+										"type": "text",
+										"description": "Login first to get a valid token",
+										"uuid": "82c42f3a-87fc-4f16-84b7-d2ff00dbc8e7"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"uuid": "b34bb2e6-46d8-4876-9b0d-fa2fdd89d296",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energyplanfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energyplanfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Upload a Energy Plan File",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID",
+										"uuid": "e4905ed3-0626-4798-ab4b-66ce2ceaae75"
+									},
+									{
+										"key": "Token",
+										"value": "9b98612ae49df7493fe2dbf6f942a38c1ade1f7bce1fe86ea2cb2e3e72d676a28364619f7f1989715302ee97de920521697349c0fe628a81b38bcdb0576995ad",
+										"type": "text",
+										"description": "Login first to get a valid token",
+										"uuid": "766930fc-66b2-418a-bae4-974853ab5f07"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"uuid": "ccf1ef2d-0630-4a3b-8a27-82fae353f0ab",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/E:/work/energy_plan_data.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/energyplanfiles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energyplanfiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Energy Plan File by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID",
+										"uuid": "92f04be6-a0f5-4121-9e22-f7bc0e1544cf"
+									},
+									{
+										"key": "Token",
+										"value": "9b98612ae49df7493fe2dbf6f942a38c1ade1f7bce1fe86ea2cb2e3e72d676a28364619f7f1989715302ee97de920521697349c0fe628a81b38bcdb0576995ad",
+										"type": "text",
+										"description": "Login first to get a valid token",
+										"uuid": "b19d05bb-6d46-44ea-a7e8-954aabbe567c"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"uuid": "7162b09c-e600-41f3-b2a8-528391f04043",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energyplanfiles/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energyplanfiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rstore an Energy Plan File by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text",
+										"description": "Any admin users' UUID",
+										"uuid": "01360e12-10fe-4ed1-aa04-0a3f46c56f50"
+									},
+									{
+										"key": "Token",
+										"value": "9b98612ae49df7493fe2dbf6f942a38c1ade1f7bce1fe86ea2cb2e3e72d676a28364619f7f1989715302ee97de920521697349c0fe628a81b38bcdb0576995ad",
+										"type": "text",
+										"description": "Login first to get a valid token",
+										"uuid": "df1f2c06-466d-432e-a517-f8b02f0306a8"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"type": "default",
+										"description": "Create API Key at myems-admin",
+										"uuid": "b31abdca-ea92-4ed0-ae9c-07f7c70a0c11",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energyplanfiles/1/restore",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energyplanfiles",
 										"1",
 										"restore"
 									]
