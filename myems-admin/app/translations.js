@@ -132,6 +132,7 @@ function config($translateProvider) {
                     PRODUCT: 'Products Ⓔ',
                     SVG_SYSTEM: 'SCADA Visualization Systems Ⓔ',
                     ADVANCED_REPORT: 'Advanced Report Ⓔ',
+                    ENERGY_PLAN_FILE: 'Energy Plan File Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -368,6 +369,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Expires Time',
 
                 DESCRIPTION: 'Description',
+
+                ENERGY_PLAN_FILE: 'Energy Plan File Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -1751,6 +1754,7 @@ function config($translateProvider) {
                     PRODUCT: '产品㊭',
                     SVG_SYSTEM: '组态可视化系统 ㊭',
                     ADVANCED_REPORT: '高级报表 ㊭',
+                    ENERGY_PLAN_FILE: '能源计划 ㊭',
                 },
                 FDD: {
                     FDD: '故障检测与诊断 ㊭',
@@ -1990,6 +1994,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: '失效时间',
 
                 DESCRIPTION: '描述',
+
+                ENERGY_PLAN_FILE: '能源计划 ㊭',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -3374,6 +3380,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produkt Ⓔ',
                     SVG_SYSTEM: 'SCADA-Visualisierungssystem Ⓔ',
                     ADVANCED_REPORT: 'Erweiterte Berichte Ⓔ',
+                    ENERGY_PLAN_FILE: 'Energieplan Ⓔ'
                 },
                 FDD: {
                     FDD: 'Fehlererkennung und -diagnose Ⓔ',
@@ -3613,6 +3620,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Verfallszeit',
 
                 DESCRIPTION: 'Beschreibung',
+
+                ENERGY_PLAN_FILE: 'Energieplan Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -4993,6 +5002,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produits Ⓔ',
                     SVG_SYSTEM: 'Systèmes de visualisation SCADA Ⓔ',
                     ADVANCED_REPORT: 'Déclaration avancée Ⓔ',
+                    ENERGY_PLAN_FILE: 'Plan énergétique Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -5229,6 +5239,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Délai d’expiration',
 
                 DESCRIPTION: 'Description',
+
+                ENERGY_PLAN_FILE: 'Plan énergétique Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Messagerie électronique',
@@ -6612,6 +6624,7 @@ function config($translateProvider) {
                     PRODUCT: 'Productos Ⓔ',
                     SVG_SYSTEM: 'Sistemas de visualización SCADA Ⓔ',
                     ADVANCED_REPORT: 'Informe Avanzado Ⓔ',
+                    ENERGY_PLAN_FILE: 'Plan energético Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -6848,6 +6861,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Caduca el tiempo',
 
                 DESCRIPTION: 'Descripción',
+
+                ENERGY_PLAN_FILE: 'Plan energético Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Correo electrónico',
@@ -8232,6 +8247,7 @@ function config($translateProvider) {
                     PRODUCT: 'Продукция Ⓔ',
                     SVG_SYSTEM: 'Системы визуализации SCADA Ⓔ',
                     ADVANCED_REPORT: 'Расширенная отчетность Ⓔ',
+                    ENERGY_PLAN_FILE: 'Энергетический план Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -8468,6 +8484,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Истекает время',
 
                 DESCRIPTION: 'Описание',
+
+                ENERGY_PLAN_FILE: 'Энергетический план Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Отправить по электронной почте',
@@ -9851,6 +9869,7 @@ function config($translateProvider) {
                     PRODUCT: 'منتجات Ⓔ',
                     SVG_SYSTEM: 'أنظمة التصور SCADA Ⓔ',
                     ADVANCED_REPORT: 'التقارير المتقدمة Ⓔ',
+                    ENERGY_PLAN_FILE: 'خطة الطاقة Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -10087,6 +10106,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'وقت انتهاء الصلاحية',
 
                 DESCRIPTION: 'وصف',
+
+                ENERGY_PLAN_FILE: 'خطة الطاقة Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'البريد الإلكتروني',
@@ -11470,6 +11491,7 @@ function config($translateProvider) {
                     PRODUCT: 'Sản phẩm Ⓔ',
                     SVG_SYSTEM: 'Hệ thống trực quan hóa SCADA Ⓔ',
                     ADVANCED_REPORT: 'Báo cáo nâng cao Ⓔ',
+                    ENERGY_PLAN_FILE: 'Kế hoạch năng lượng Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -11706,6 +11728,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Thời gian hết hạn',
 
                 DESCRIPTION: 'Sự miêu tả',
+
+                ENERGY_PLAN_FILE: 'Kế hoạch năng lượng Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -13089,6 +13113,7 @@ function config($translateProvider) {
                     PRODUCT: 'ผลิตภัณฑ์ Ⓔ',
                     SVG_SYSTEM: 'ระบบการแสดงภาพ SCADA Ⓔ',
                     ADVANCED_REPORT: 'รายงานขั้นสูง Ⓔ',
+                    ENERGY_PLAN_FILE :'แผนพลังงาน Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -13325,6 +13350,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'หมดอายุเวลา',
 
                 DESCRIPTION: 'การบรรยาย',
+
+                ENERGY_PLAN_FILE :'แผนพลังงาน Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'อีเมล',
@@ -14708,6 +14735,7 @@ function config($translateProvider) {
                     PRODUCT: 'Ürünler Ⓔ',
                     SVG_SYSTEM: 'SCADA Görselleştirme Sistemleri Ⓔ',
                     ADVANCED_REPORT: 'gelişmiş rapor Ⓔ',
+                    ENERGY_PLAN_FILE: 'Enerji planı Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -14944,6 +14972,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Süresi doluyor',
 
                 DESCRIPTION: 'Tarif',
+
+                ENERGY_PLAN_FILE: 'Enerji planı Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'E-posta',
@@ -16326,6 +16356,7 @@ function config($translateProvider) {
                     EMAIL_SERVER: 'Pelayan E-mel Ⓔ',
                     PRODUCT: 'Produk Ⓔ',
                     SVG_SYSTEM: 'Sistem Penggambaran SCADA Ⓔ',
+                    ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -16562,6 +16593,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Masa Tamat Tempoh',
 
                 DESCRIPTION: 'Keterangan',
+
+                ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'E-mel',
@@ -17945,6 +17978,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produk Ⓔ',
                     SVG_SYSTEM: 'Sistem Visualisasi SCADA Ⓔ',
                     ADVANCED_REPORT: 'Laporan Lanjutan Ⓔ',
+                    ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -18181,6 +18215,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: 'Waktu Kedaluwarsa',
 
                 DESCRIPTION: 'Deskripsi',
+
+                ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -19564,6 +19600,7 @@ function config($translateProvider) {
                     PRODUCT: '產品㊭',
                     SVG_SYSTEM: '組態可視化系統 ㊭',
                     ADVANCED_REPORT: '⾼級報表 ㊭',
+                    ENERGY_PLAN_FILE: '能源計劃 ㊭',
                 },
                 FDD: {
                     FDD: '故障檢測與診斷 ㊭',
@@ -19803,6 +19840,8 @@ function config($translateProvider) {
                 EXPIRES_TIME: '失效時間',
 
                 DESCRIPTION: '描述',
+
+                ENERGY_PLAN_FILE: '能源計劃 ㊭',
             },
             CONTACT: {
                 EMAIL: '郵箱',
