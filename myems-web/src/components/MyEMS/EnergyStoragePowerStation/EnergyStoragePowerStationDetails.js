@@ -96,6 +96,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [submitButtonHidden, setSubmitButtonHidden] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
 
@@ -180,10 +181,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     setSelectedStation(json[0][0].value);
                     // enable submit button
                     setSubmitButtonDisabled(false);
+                    setSubmitButtonHidden(false);
                   } else {
                     setSelectedStation(undefined);
                     // disable submit button
                     setSubmitButtonDisabled(true);
+                    setSubmitButtonHidden(true);
                   }
                 } else {
                   toast.error(t(json.description));
@@ -208,6 +211,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   const loadData = url => {
     console.log('url:' + url);
+    // disable submit button
+    setSubmitButtonDisabled(true);
+    // show spinner
+    setSpinnerHidden(false);
+
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -254,7 +262,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
-
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+        } else {
+          toast.error(t(json.description));
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
         }
       })
       .catch(err => {
@@ -299,10 +316,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             setSelectedStation(json[0][0].value);
             // enable submit button
             setSubmitButtonDisabled(false);
+            setSubmitButtonHidden(false);
           } else {
             setSelectedStation(undefined);
             // disable submit button
             setSubmitButtonDisabled(true);
+            setSubmitButtonHidden(true);
           }
         } else {
           toast.error(t(json.description));
@@ -316,7 +335,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-
     loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation);
   };
 
@@ -407,11 +425,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <Col xs="auto">
             <FormGroup>
               <ButtonGroup id="submit">
-                <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                <Button size="sm" color="success" hidden={submitButtonHidden} disabled={submitButtonDisabled}>
                   {t('Submit')}
                 </Button>
               </ButtonGroup>
             </FormGroup>
+          </Col>
+          <Col xs="auto">
+              <FormGroup>
+                <Spinner color="primary" hidden={spinnerHidden} />
+              </FormGroup>
           </Col>
         </Row>
       </Form>
