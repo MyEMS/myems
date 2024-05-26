@@ -92,15 +92,15 @@ def generate_excel(report, space_name, energy_category_name, reporting_start_dat
     ws['B5'] = reporting_end_datetime_local
     ws['A6'].alignment = b_r_alignment
     ws['A6'] = _('Start Integrity Rate') + ':'
-    ws['B6'] = (str(report['start_integrity_rate'] * Decimal(100.0)) + '%') \
+    ws['B6'] = (str(round(report['start_integrity_rate'] * Decimal(100.0),2)) + '%') \
         if report['start_integrity_rate'] is not None else None
     ws['A7'].alignment = b_r_alignment
     ws['A7'] = _('End Integrity Rate') + ':'
-    ws['B7'] = (str(report['end_integrity_rate'] * Decimal(100.0)) + '%') \
+    ws['B7'] = (str(round(report['end_integrity_rate'] * Decimal(100.0),2)) + '%') \
         if report['end_integrity_rate'] is not None else None
     ws['A8'].alignment = b_r_alignment
     ws['A8'] = _('Full Integrity Rate') + ':'
-    ws['B8'] = (str(report['full_integrity_rate'] * Decimal(100.0)) + '%') \
+    ws['B8'] = (str(round(report['full_integrity_rate'] * Decimal(100.0),2)) + '%') \
         if report['full_integrity_rate'] is not None else None
     ws['A9'].alignment = b_r_alignment
     ws['A9'] = _('Energy Category') + ':'
