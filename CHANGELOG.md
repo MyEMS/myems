@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added energy plan files table to database
 - added energy plan files actions to myems-api
+- added energy plan files page to myems-admin
 ### Changed
 ### Fixed
 - fixed totalRatedCapacity and totalRatedPower issue in microgrid dashboard and energy storage power station dashboard
