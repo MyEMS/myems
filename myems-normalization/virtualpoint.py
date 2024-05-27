@@ -185,18 +185,31 @@ def worker(virtual_point):
         try:
             for point in point_list:
                 point_id = str(point['point_id'])
+                # first, read value from analog value
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_analog_value "
                          " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
                          " ORDER BY utc_date_time ")
                 cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
                 rows = cursor_historical_db.fetchall()
-                if rows is None or len(rows) == 0:
-                    point_values_dict[point_id] = None
-                else:
+                if rows is not None and len(rows) > 0:
                     point_values_dict[point_id] = dict()
                     for row in rows:
                         point_values_dict[point_id][row[0]] = row[1]
+                else:
+                    # second, read value from energy value
+                    query = (" SELECT utc_date_time, actual_value "
+                             " FROM tbl_energy_value "
+                             " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
+                             " ORDER BY utc_date_time ")
+                    cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
+                    rows = cursor_historical_db.fetchall()
+                    if rows is not None and len(rows) > 0:
+                        point_values_dict[point_id] = dict()
+                        for row in rows:
+                            point_values_dict[point_id][row[0]] = row[1]
+                    else:
+                        point_values_dict[point_id] = None
         except Exception as e:
             if cursor_historical_db:
                 cursor_historical_db.close()
