@@ -28,6 +28,7 @@ class Reporting:
     # Step 5: query associated grids in containers
     # Step 6: query associated loads in containers
     # Step 7: query associated power conversion systems in containers
+    #     Step 7.1 query energy indicator data
     # Step 8: query associated sensors in containers
     # Step 9: query associated points data in containers
     # Step 10: construct the report
@@ -285,8 +286,65 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 7: query associated power conversion systems
+        # Step 7: query associated power conversion systems in containers
         ################################################################################################################
+        # Step 7.1 query energy indicator data
+        energy_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_energy_value_latest ")
+        cursor_historical.execute(query,)
+        energy_value_latest_rows = cursor_historical.fetchall()
+        for row in energy_value_latest_rows:
+            energy_value_latest_dict[row[0]] = row[1]
+
+        analog_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_analog_value_latest ")
+        cursor_historical.execute(query, )
+        analog_value_latest_rows = cursor_historical.fetchall()
+        for row in analog_value_latest_rows:
+            analog_value_latest_dict[row[0]] = row[1]
+
+        today_charge_energy_value = Decimal(0.0)
+        today_discharge_energy_value = Decimal(0.0)
+        total_charge_energy_value = Decimal(0.0)
+        total_discharge_energy_value = Decimal(0.0)
+        cursor_system.execute(" SELECT today_charge_energy_point_id, "
+                              "        today_discharge_energy_point_id, "
+                              "        total_charge_energy_point_id, "
+                              "        total_discharge_energy_point_id "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems "
+                              " WHERE id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            today_charge_energy_point_id = row_point[0]
+            today_discharge_energy_point_id = row_point[1]
+            total_charge_energy_point_id = row_point[2]
+            total_discharge_energy_point_id = row_point[3]
+
+        if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+        elif energy_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+
+        if analog_value_latest_dict.get(today_discharge_energy_point_id) is not None:
+            today_discharge_energy_value = analog_value_latest_dict.get(today_discharge_energy_point_id)
+        elif energy_value_latest_dict.get(today_discharge_energy_point_id) is not None:
+            today_discharge_energy_value = energy_value_latest_dict.get(today_discharge_energy_point_id)
+
+        if analog_value_latest_dict.get(total_charge_energy_point_id) is not None:
+            total_charge_energy_value = analog_value_latest_dict.get(total_charge_energy_point_id)
+        elif energy_value_latest_dict.get(total_charge_energy_point_id) is not None:
+            total_charge_energy_value = energy_value_latest_dict.get(total_charge_energy_point_id)
+
+        if analog_value_latest_dict.get(total_discharge_energy_point_id) is not None:
+            total_discharge_energy_value = analog_value_latest_dict.get(total_discharge_energy_point_id)
+        elif energy_value_latest_dict.get(total_discharge_energy_point_id) is not None:
+            total_discharge_energy_value = energy_value_latest_dict.get(total_discharge_energy_point_id)
+
         charge_start_time1_point_id = None
         charge_end_time1_point_id = None
         charge_start_time2_point_id = None
@@ -335,7 +393,9 @@ class Reporting:
         discharge_end_time3_value = None
         discharge_start_time4_value = None
         discharge_end_time4_value = None
-        cursor_system.execute(" SELECT charge_start_time1_point_id, charge_end_time1_point_id, "
+        cursor_system.execute(" SELECT today_charge_energy_point_id, today_discharge_energy_point_id, "
+                              "        total_charge_energy_point_id, total_discharge_energy_point_id, "
+                              "        charge_start_time1_point_id, charge_end_time1_point_id, "
                               "        charge_start_time2_point_id, charge_end_time2_point_id, "
                               "        charge_start_time3_point_id, charge_end_time3_point_id, "
                               "        charge_start_time4_point_id, charge_end_time4_point_id, "
@@ -389,7 +449,7 @@ class Reporting:
             discharge_start_time3_command_id = row_point[28]
             discharge_end_time3_command_id = row_point[29]
             discharge_start_time4_command_id = row_point[30]
-            discharge_end_time4_command_id = row_point[31]
+            discharge_end_time4_command_id = row_point[30]
 
         if charge_start_time1_point_id is None or \
             charge_end_time1_point_id is None or \
@@ -660,5 +720,11 @@ class Reporting:
         result['schedule']['discharge_end_time3_command_id'] = discharge_end_time3_command_id
         result['schedule']['discharge_start_time4_command_id'] = discharge_start_time4_command_id
         result['schedule']['discharge_end_time4_command_id'] = discharge_end_time4_command_id
+
+        result['energy_indicators'] = dict()
+        result['energy_indicators']['today_charge_energy_value'] = today_charge_energy_value
+        result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
+        result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
+        result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
 
         resp.text = json.dumps(result)
