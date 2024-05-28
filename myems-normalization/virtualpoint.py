@@ -224,8 +224,7 @@ def worker(virtual_point):
     if point_list is not None and len(point_list) > 0:
         try:
             for point in point_list:
-                point_id = str(point['point_id'])
-                point_object_type = all_point_dict.get(point_id)
+                point_object_type = all_point_dict.get(point['point_id'])
                 if point_object_type is None:
                     return "variable point type should not be None " + " for '" + virtual_point['name'] + "'"
                 if point_object_type == 'ANALOG_VALUE':
@@ -233,25 +232,25 @@ def worker(virtual_point):
                              " FROM tbl_analog_value "
                              " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
                              " ORDER BY utc_date_time ")
-                    cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
+                    cursor_historical_db.execute(query, (point['point_id'], start_datetime_utc, end_datetime_utc,))
                     rows = cursor_historical_db.fetchall()
                     if rows is not None and len(rows) > 0:
-                        point_values_dict[point_id] = dict()
+                        point_values_dict[point['point_id']] = dict()
                         for row in rows:
-                            point_values_dict[point_id][row[0]] = row[1]
+                            point_values_dict[point['point_id']][row[0]] = row[1]
                 elif point_object_type == 'ENERGY_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
                              " FROM tbl_energy_value "
                              " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
                              " ORDER BY utc_date_time ")
-                    cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
+                    cursor_historical_db.execute(query, (point['point_id'], start_datetime_utc, end_datetime_utc,))
                     rows = cursor_historical_db.fetchall()
                     if rows is not None and len(rows) > 0:
-                        point_values_dict[point_id] = dict()
+                        point_values_dict[point['point_id']] = dict()
                         for row in rows:
-                            point_values_dict[point_id][row[0]] = row[1]
+                            point_values_dict[point['point_id']][row[0]] = row[1]
                     else:
-                        point_values_dict[point_id] = None
+                        point_values_dict[point['point_id']] = None
                 else:
                     # point type should not be DIGITAL_VALUE
                     return "variable point type should not be DIGITAL_VALUE " + " for '" + virtual_point['name'] + "'"
@@ -307,8 +306,7 @@ def worker(virtual_point):
 
             if point_list is not None and len(point_list) > 0:
                 for point in point_list:
-                    point_id = str(point['point_id'])
-                    actual_value = point_values_dict[point_id].get(utc_date_time, None)
+                    actual_value = point_values_dict[point['point_id']].get(utc_date_time, None)
                     if actual_value is None:
                         break
                     subs[point['variable_name']] = actual_value
