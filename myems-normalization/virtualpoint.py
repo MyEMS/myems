@@ -40,7 +40,7 @@ def calculate(logger):
 
         virtual_point_list = list()
         try:
-            cursor_system_db.execute(" SELECT id, name, data_source_id, high_limit, low_limit, address "
+            cursor_system_db.execute(" SELECT id, name, data_source_id, object_type, high_limit, low_limit, address "
                                      " FROM tbl_points "
                                      " WHERE is_virtual = 1 AND object_type = 'ANALOG_VALUE' ")
             rows_virtual_points = cursor_system_db.fetchall()
@@ -54,9 +54,10 @@ def calculate(logger):
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "data_source_id": row[2],
-                               "high_limit": row[3],
-                               "low_limit": row[4],
-                               "address": row[5]}
+                               "object_type": row[3],
+                               "high_limit": row[4],
+                               "low_limit": row[5],
+                               "address": row[6]}
                 virtual_point_list.append(meta_result)
 
         except Exception as e:
@@ -94,8 +95,9 @@ def calculate(logger):
 ########################################################################################################################
 # Step 1: get start datetime and end datetime
 # Step 2: parse the expression and get all points in substitutions
-# Step 3: query points value from historical database
-# Step 4: evaluate the equation with points values
+# Step 3: query points type from system database
+# Step 4: query points value from historical database
+# Step 5: evaluate the equation with points values
 ########################################################################################################################
 
 def worker(virtual_point):
@@ -143,7 +145,7 @@ def worker(virtual_point):
             cursor_historical_db.close()
         if cnx_historical_db:
             cnx_historical_db.close()
-        return "it's too early to calculate" + " for '" + virtual_point['name'] + "'"
+        return "it isn't time to calculate" + " for '" + virtual_point['name'] + "'"
 
     print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19]
           + "end_datetime_utc: " + end_datetime_utc.isoformat()[0:19])
@@ -176,7 +178,45 @@ def worker(virtual_point):
         return "Error in step 2.2 of virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
     ############################################################################################################
-    # Step 3: query points value from historical database
+    # Step 3: query points type from system database
+    ############################################################################################################
+    print("getting points type ")
+    cnx_system_db = None
+    cursor_system_db = None
+    try:
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
+    except Exception as e:
+        print("Error in step 3 of virtual point worker " + str(e))
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+        return
+
+    print("Connected to MyEMS System Database")
+
+    all_point_dict = dict()
+    try:
+        cursor_system_db.execute(" SELECT id, object_type "
+                                 " FROM tbl_points ")
+        rows_points = cursor_system_db.fetchall()
+
+        if rows_points is None or len(rows_points) == 0:
+            return
+
+        for row in rows_points:
+            all_point_dict[row[0]] = row[1]
+    except Exception as e:
+        print("Error in step 1 of virtual point calculate " + str(e))
+        return
+    finally:
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+    ############################################################################################################
+    # Step 4: query points value from historical database
     ############################################################################################################
 
     print("getting point values ")
@@ -185,19 +225,21 @@ def worker(virtual_point):
         try:
             for point in point_list:
                 point_id = str(point['point_id'])
-                # first, read value from analog value
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
-                         " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
-                rows = cursor_historical_db.fetchall()
-                if rows is not None and len(rows) > 0:
-                    point_values_dict[point_id] = dict()
-                    for row in rows:
-                        point_values_dict[point_id][row[0]] = row[1]
-                else:
-                    # second, read value from energy value
+                point_object_type = all_point_dict.get(point_id)
+                if point_object_type is None:
+                    return "variable point type should not be None " + " for '" + virtual_point['name'] + "'"
+                if point_object_type == 'ANALOG_VALUE':
+                    query = (" SELECT utc_date_time, actual_value "
+                             " FROM tbl_analog_value "
+                             " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
+                             " ORDER BY utc_date_time ")
+                    cursor_historical_db.execute(query, (point_id, start_datetime_utc, end_datetime_utc,))
+                    rows = cursor_historical_db.fetchall()
+                    if rows is not None and len(rows) > 0:
+                        point_values_dict[point_id] = dict()
+                        for row in rows:
+                            point_values_dict[point_id][row[0]] = row[1]
+                elif point_object_type == 'ENERGY_VALUE':
                     query = (" SELECT utc_date_time, actual_value "
                              " FROM tbl_energy_value "
                              " WHERE point_id = %s AND utc_date_time > %s AND utc_date_time < %s "
@@ -210,15 +252,18 @@ def worker(virtual_point):
                             point_values_dict[point_id][row[0]] = row[1]
                     else:
                         point_values_dict[point_id] = None
+                else:
+                    # point type should not be DIGITAL_VALUE
+                    return "variable point type should not be DIGITAL_VALUE " + " for '" + virtual_point['name'] + "'"
         except Exception as e:
             if cursor_historical_db:
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            return "Error in step 3.1 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+            return "Error in step 4.1 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
     ############################################################################################################
-    # Step 4: evaluate the equation with points values
+    # Step 5: evaluate the equation with points values
     ############################################################################################################
 
     print("getting date time set for all points")
@@ -289,15 +334,21 @@ def worker(virtual_point):
             cursor_historical_db.close()
         if cnx_historical_db:
             cnx_historical_db.close()
-        return "Error in step 4.1 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+        return "Error in step 5.1 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
     print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
-        latest_meta_data = normalized_values[0]
+        if virtual_point['object_type'] == 'ANALOG_VALUE':
+            table_name = "tbl_analog_value"
+        elif virtual_point['object_type'] == 'ENERGY_VALUE':
+            table_name = "tbl_energy_value"
+        else:
+            return "variable point type should not be DIGITAL_VALUE " + " for '" + virtual_point['name'] + "'"
 
+        latest_meta_data = normalized_values[0]
         try:
-            add_values = (" INSERT INTO tbl_analog_value "
+            add_values = (" INSERT INTO " + table_name +
                           " (point_id, utc_date_time, actual_value) "
                           " VALUES  ")
 
@@ -318,12 +369,12 @@ def worker(virtual_point):
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            return "Error in step 4.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+            return "Error in step 5.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
         try:
             # update tbl_analog_value_latest
-            delete_value = " DELETE FROM tbl_analog_value_latest WHERE point_id = {} ".format(virtual_point['id'])
-            latest_value = (" INSERT INTO tbl_analog_value_latest (point_id, utc_date_time, actual_value) "
+            delete_value = " DELETE FROM " + table_name + "_latest WHERE point_id = {} ".format(virtual_point['id'])
+            latest_value = (" INSERT INTO " + table_name + "_latest (point_id, utc_date_time, actual_value) "
                             " VALUES ({}, '{}', {}) "
                             .format(virtual_point['id'],
                                     latest_meta_data['utc_date_time'].isoformat()[0:19],
@@ -343,7 +394,7 @@ def worker(virtual_point):
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            return "Error in step 4.3 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+            return "Error in step 5.3 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
 
     if cursor_historical_db:
         cursor_historical_db.close()
