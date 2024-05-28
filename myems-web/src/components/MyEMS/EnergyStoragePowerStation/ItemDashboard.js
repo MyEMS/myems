@@ -621,7 +621,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   <h6>{t('Revenue Indicator')}</h6>
                 </NavLink>
               </NavItem>
-              <NavItem className="cursor-pointer">
+              {/* <NavItem className="cursor-pointer">
                 <NavLink
                   className={classNames({ active: activeTabLeft === '3' })}
                   onClick={() => {
@@ -630,7 +630,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 >
                   <h6>{t('Carbon Indicator')}</h6>
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
             </Nav>
             <TabContent activeTab={activeTabLeft}>
                 <TabPane tabId="1">
@@ -649,14 +649,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     periodTypes={periodTypes}
                   />
                 </TabPane>
-                <TabPane tabId="3">
+                {/* <TabPane tabId="3">
                   <StackBarChart
                     labels={carbonLabels}
                     chargeData={chargeCarbonData}
                     dischargeData={dischargeCarbonData}
                     periodTypes={periodTypes}
                   />
-                </TabPane>
+                </TabPane> */}
               </TabContent>
           </div>
         </Col>

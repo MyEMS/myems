@@ -108,6 +108,13 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
 
+
+  const [todayChargeEnergyValue, setTodayChargeEnergyValue] = useState();
+  const [todayDischargeEnergyValue, setTodayDischargeEnergyValue] = useState();
+  const [totalChargeEnergyValue, setTotalChargeEnergyValue] = useState();
+  const [totalDischargeEnergyValue, setTotalDischargeEnergyValue] = useState();
+  const [totalEfficiency, setTotalEfficiency] = useState();
+
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
@@ -245,6 +252,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
+          setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
+          setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);
+          setTotalChargeEnergyValue(json['energy_indicators']['total_charge_energy_value']);
+          setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
+          if (json['energy_indicators']['total_charge_energy_value'] > 0) {
+            setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2))
+          } else {
+            setTotalEfficiency(0)
+          }
+
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -461,7 +478,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 <h6>{t('Revenue Indicator')}</h6>
               </NavLink>
             </NavItem>
-            <NavItem className="cursor-pointer">
+            {/* <NavItem className="cursor-pointer">
               <NavLink
                 className={classNames({ active: activeTabLeft === '3' })}
                 onClick={() => {
@@ -470,7 +487,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               >
                 <h6>{t('Carbon Indicator')}</h6>
               </NavLink>
-            </NavItem>
+            </NavItem> */}
           </Nav>
           <TabContent activeTab={activeTabLeft}>
             <TabPane tabId="1">
@@ -481,27 +498,23 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">今日充电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
+                          <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">今日放电量</th>
-                          <th className="pr-0 text-right ">0 kWh</th>
+                          <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计充电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
+                          <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">累计放电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
+                          <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">综合效率</th>
-                          <th className="pr-0 text-right">0%</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">放电达成率</th>
-                          <th className="pr-0 text-right">0%</th>
+                          <th className="pr-0 text-right">{totalEfficiency}%</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -545,7 +558,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 </Fragment>
               </Card>
             </TabPane>
-            <TabPane tabId="3">
+            {/* <TabPane tabId="3">
               <Card className="mb-3 fs--1">
                 <Fragment>
                   <CardBody className="pt-0">
@@ -580,7 +593,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   </CardBody>
                 </Fragment>
               </Card>
-            </TabPane>
+            </TabPane> */}
           </TabContent>
         </Col>
         <Col lg="6" className="pr-lg-2" key={uuidv4()}>
