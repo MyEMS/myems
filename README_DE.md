@@ -59,6 +59,9 @@ Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
 
 [5]. [https://gitcode.net/myems/myems](https://gitcode.net/myems/myems)
 
+[6]. [https://gitlink.org.cn/myems/myems](https://gitlink.org.cn/myems/myems)
+
+
 ## MyEMS Installation (Community Edition)
 
 Sehen [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
