@@ -10,7 +10,7 @@ from openpyxl.chart import LineChart, PieChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -245,21 +245,21 @@ def generate_excel(report,
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['subtotals_saving'][i], 2)
+            ws[col + str(current_row_number)] = round2(reporting_period_data['subtotals_saving'][i], 2)
 
             col = chr(ord(col) + 1)
 
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = round(reporting_period_data['total_in_kgce_saving'] / 1000, 2)
+        ws[col + str(current_row_number)] = round2(reporting_period_data['total_in_kgce_saving'] / 1000, 2)
 
         col = chr(ord(col) + 1)
 
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = round(reporting_period_data['total_in_kgco2e_saving'] / 1000, 2)
+        ws[col + str(current_row_number)] = round2(reporting_period_data['total_in_kgco2e_saving'] / 1000, 2)
 
         col = chr(ord(col) + 1)
 
@@ -276,14 +276,14 @@ def generate_excel(report,
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['subtotals_per_unit_area_saving'][i], 2)
+            ws[col + str(current_row_number)] = round2(reporting_period_data['subtotals_per_unit_area_saving'][i], 2)
 
             col = chr(ord(col) + 1)
 
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = round(reporting_period_data['total_in_kgco2e_per_unit_area_saving']
+        ws[col + str(current_row_number)] = round2(reporting_period_data['total_in_kgco2e_per_unit_area_saving']
                                                   / 1000, 2)
 
         col = chr(ord(col) + 1)
@@ -291,7 +291,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].font = name_font
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
-        ws[col + str(current_row_number)] = round(reporting_period_data['total_in_kgce_per_unit_area_saving'] / 1000, 2)
+        ws[col + str(current_row_number)] = round2(reporting_period_data['total_in_kgce_per_unit_area_saving'] / 1000, 2)
 
         col = chr(ord(col) + 1)
 
@@ -309,7 +309,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = str(
-                round(reporting_period_data['increment_rates_saving'][i] * 100, 2)) + '%' \
+                round2(reporting_period_data['increment_rates_saving'][i] * 100, 2)) + '%' \
                 if reporting_period_data['increment_rates_saving'][i] is not None else '-'
 
             col = chr(ord(col) + 1)
@@ -318,7 +318,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = str(
-            round(reporting_period_data['increment_rate_in_kgce_saving'] * 100, 2)) + '%' \
+            round2(reporting_period_data['increment_rate_in_kgce_saving'] * 100, 2)) + '%' \
             if reporting_period_data['increment_rate_in_kgce_saving'] is not None else '-'
 
         col = chr(ord(col) + 1)
@@ -327,7 +327,7 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = str(
-            round(reporting_period_data['increment_rate_in_kgco2e_saving'] * 100, 2)) + '%' \
+            round2(reporting_period_data['increment_rate_in_kgco2e_saving'] * 100, 2)) + '%' \
             if reporting_period_data['increment_rate_in_kgco2e_saving'] is not None else '-'
 
         col = chr(ord(col) + 1)
@@ -370,12 +370,12 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgce_saving'][i] / 1000, 3)
+            ws['C' + str(current_row_number)] = round2(reporting_period_data['subtotals_in_kgce_saving'][i] / 1000, 3)
 
             ws['D' + str(current_row_number)].font = name_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = str(round(reporting_period_data['subtotals_in_kgce_saving'][i] /
+            ws['D' + str(current_row_number)] = str(round2(reporting_period_data['subtotals_in_kgce_saving'][i] /
                                                           subtotals_in_kgce_saving_sum * 100, 2)) + '%'\
                 if abs(subtotals_in_kgce_saving_sum) > 0 else '-'
 
@@ -439,12 +439,12 @@ def generate_excel(report,
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = round(reporting_period_data['subtotals_in_kgco2e_saving'][i] / 1000, 3)
+            ws['C' + str(current_row_number)] = round2(reporting_period_data['subtotals_in_kgco2e_saving'][i] / 1000, 3)
 
             ws['D' + str(current_row_number)].font = name_font
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
-            ws['D' + str(current_row_number)] = str(round(reporting_period_data['subtotals_in_kgco2e_saving'][i] /
+            ws['D' + str(current_row_number)] = str(round2(reporting_period_data['subtotals_in_kgco2e_saving'][i] /
                                                           subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'\
                 if abs(subtotals_in_kgco2e_saving_sum) > 0 else '-'
 
@@ -541,7 +541,7 @@ def generate_excel(report,
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = round(reporting_period_data['values_saving'][j][i], 2)
+                        ws[col + str(current_row_number)] = round2(reporting_period_data['values_saving'][j][i], 2)
                         ws[col + str(current_row_number)].border = f_border
 
                     current_row_number += 1
@@ -561,7 +561,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(reporting_period_data['subtotals_saving'][i], 2)
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['subtotals_saving'][i], 2)
                     ws[col + str(current_row_number)].border = f_border
 
                     # line
@@ -672,7 +672,7 @@ def generate_excel(report,
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = round(base_period_data['values_saving'][j][i], 2) \
+                        ws[col + str(current_row_number)] = round2(base_period_data['values_saving'][j][i], 2) \
                             if i < len(base_period_data['values_saving'][j]) else None
                         ws[col + str(current_row_number)].border = f_border
                     current_col_number += 1
@@ -690,7 +690,7 @@ def generate_excel(report,
 
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
-                        ws[col + str(current_row_number)] = round(reporting_period_data['values_saving'][j][i], 2) \
+                        ws[col + str(current_row_number)] = round2(reporting_period_data['values_saving'][j][i], 2) \
                             if i < len(reporting_period_data['values_saving'][j]) else None
                         ws[col + str(current_row_number)].border = f_border
 
@@ -708,7 +708,7 @@ def generate_excel(report,
                     col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(base_period_data['subtotals_saving'][i], 2)
+                    ws[col + str(current_row_number)] = round2(base_period_data['subtotals_saving'][i], 2)
                     ws[col + str(current_row_number)].border = f_border
 
                 current_col_number += 1
@@ -724,7 +724,7 @@ def generate_excel(report,
                     col = format_cell.get_column_letter(current_col_number)
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(reporting_period_data['subtotals_saving'][i], 2)
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['subtotals_saving'][i], 2)
                     ws[col + str(current_row_number)].border = f_border
 
                 for i in range(0, reporting_period_data_ca_len):
@@ -882,7 +882,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
 
                 table_current_row_number += 1
 

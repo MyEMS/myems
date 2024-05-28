@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -246,21 +246,21 @@ def generate_excel(report,
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2)
+            ws[col + str(current_row_number)] = round2(reporting_period_data['cumulations'][i], 2)
 
             col = chr(ord(col) + 1)
 
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['numerator_cumulations'][i], 2)
+            ws[col + str(current_row_number)] = round2(reporting_period_data['numerator_cumulations'][i], 2)
 
             col = chr(ord(col) + 1)
 
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)] = round(reporting_period_data['denominator_cumulations'][i], 2)
+            ws[col + str(current_row_number)] = round2(reporting_period_data['denominator_cumulations'][i], 2)
 
             col = chr(ord(col) + 1)
 
@@ -278,7 +278,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = str(
-                round(reporting_period_data['increment_rates'][i] * 100, 2)) + '%' \
+                round2(reporting_period_data['increment_rates'][i] * 100, 2)) + '%' \
                 if reporting_period_data['increment_rates'][i] is not None else '-'
 
             col = chr(ord(col) + 1)
@@ -287,7 +287,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = str(
-                round(reporting_period_data['increment_rates_num'][i] * 100, 2)) + '%' \
+                round2(reporting_period_data['increment_rates_num'][i] * 100, 2)) + '%' \
                 if reporting_period_data['increment_rates_num'][i] is not None else '-'
 
             col = chr(ord(col) + 1)
@@ -296,7 +296,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)] = str(
-                round(reporting_period_data['increment_rates_den'][i] * 100, 2)) + '%' \
+                round2(reporting_period_data['increment_rates_den'][i] * 100, 2)) + '%' \
                 if reporting_period_data['increment_rates_den'][i] is not None else '-'
 
             col = chr(ord(col) + 1)
@@ -425,7 +425,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['values'][j][i], 2) \
                         if reporting_period_data['values'][j][i] is not None else None
 
                     current_col_number += 1
@@ -434,7 +434,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['numerator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['numerator_values'][j][i], 2) \
                         if reporting_period_data['numerator_values'][j][i] is not None else None
 
                     current_col_number += 1
@@ -443,7 +443,7 @@ def generate_excel(report,
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
                     ws[col + str(current_row_number)].border = f_border
-                    ws[col + str(current_row_number)] = round(reporting_period_data['denominator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['denominator_values'][j][i], 2) \
                         if reporting_period_data['denominator_values'][j][i] is not None else None
 
                 current_row_number += 1
@@ -464,7 +464,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['cumulations'][i], 2) \
                     if reporting_period_data['cumulations'][i] is not None else None
 
                 current_col_number += 1
@@ -473,7 +473,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = round(reporting_period_data['numerator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['numerator_cumulations'][i], 2) \
                     if reporting_period_data['numerator_cumulations'][i] is not None else None
 
                 current_col_number += 1
@@ -482,7 +482,7 @@ def generate_excel(report,
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
                 ws[col + str(current_row_number)].border = f_border
-                ws[col + str(current_row_number)] = round(reporting_period_data['denominator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['denominator_cumulations'][i], 2) \
                     if reporting_period_data['denominator_cumulations'][i] is not None else None
 
             current_row_number += 2
@@ -703,7 +703,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(base_period_data['values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(base_period_data['values'][j][i], 2) \
                         if i < len(base_period_data['values'][j]) \
                         and base_period_data['values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -713,7 +713,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(base_period_data['numerator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(base_period_data['numerator_values'][j][i], 2) \
                         if i < len(base_period_data['numerator_values'][j]) \
                         and base_period_data['numerator_values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -723,7 +723,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(base_period_data['denominator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(base_period_data['denominator_values'][j][i], 2) \
                         if i < len(base_period_data['denominator_values'][j]) \
                         and base_period_data['denominator_values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -742,7 +742,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(reporting_period_data['values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['values'][j][i], 2) \
                         if i < len(reporting_period_data['values'][j]) \
                         and reporting_period_data['values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -752,7 +752,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(reporting_period_data['numerator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['numerator_values'][j][i], 2) \
                         if i < len(reporting_period_data['numerator_values'][j]) \
                         and reporting_period_data['numerator_values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -762,7 +762,7 @@ def generate_excel(report,
 
                     ws[col + str(current_row_number)].font = title_font
                     ws[col + str(current_row_number)].alignment = c_c_alignment
-                    ws[col + str(current_row_number)] = round(reporting_period_data['denominator_values'][j][i], 2) \
+                    ws[col + str(current_row_number)] = round2(reporting_period_data['denominator_values'][j][i], 2) \
                         if i < len(reporting_period_data['denominator_values'][j]) \
                         and reporting_period_data['denominator_values'][j][i] is not None else None
                     ws[col + str(current_row_number)].border = f_border
@@ -782,7 +782,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(base_period_data['cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(base_period_data['cumulations'][i], 2) \
                     if base_period_data['cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -790,7 +790,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(base_period_data['numerator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(base_period_data['numerator_cumulations'][i], 2) \
                     if base_period_data['numerator_cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -798,7 +798,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(base_period_data['denominator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(base_period_data['denominator_cumulations'][i], 2) \
                     if base_period_data['denominator_cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -815,7 +815,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(reporting_period_data['cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['cumulations'][i], 2) \
                     if reporting_period_data['cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -823,7 +823,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(reporting_period_data['numerator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['numerator_cumulations'][i], 2) \
                     if reporting_period_data['numerator_cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -831,7 +831,7 @@ def generate_excel(report,
                 col = format_cell.get_column_letter(current_col_number)
                 ws[col + str(current_row_number)].font = title_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
-                ws[col + str(current_row_number)] = round(reporting_period_data['denominator_cumulations'][i], 2) \
+                ws[col + str(current_row_number)] = round2(reporting_period_data['denominator_cumulations'][i], 2) \
                     if reporting_period_data['denominator_cumulations'][i] is not None else None
                 ws[col + str(current_row_number)].border = f_border
 
@@ -987,7 +987,7 @@ def generate_excel(report,
                 col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(associated_equipment['subtotals_array'][j][i], 2)
+                ws[col + row] = round2(associated_equipment['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
     ####################################################################################################################
 
@@ -1099,7 +1099,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
 
                 table_current_row_number += 1
 

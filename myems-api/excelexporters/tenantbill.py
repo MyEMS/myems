@@ -7,7 +7,7 @@ from decimal import Decimal
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -204,7 +204,7 @@ def generate_excel(report,
         ws['H39'] = datetime.datetime.strptime(reporting_start_datetime_local, '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
         ws['H40'] = datetime.datetime.strptime(reporting_end_datetime_local, '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
         ws['H41'] = report['reporting_period']['currency_unit'] + \
-            str(round(report['reporting_period']['total_cost']
+            str(round2(report['reporting_period']['total_cost']
                       if 'reporting_period' in report.keys()
                          and 'total_cost' in report['reporting_period'].keys()
                          and report['reporting_period']['total_cost'] is not None
@@ -250,11 +250,11 @@ def generate_excel(report,
                     ws[chr(j) + str(i)] = datetime.datetime.strptime(reporting_end_datetime_local,
                                                                      '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
                 elif chr(j) == 'E':
-                    ws[chr(j) + str(i)] = round(reporting_period_data['subtotals_input'][i - 54], 3)
+                    ws[chr(j) + str(i)] = round2(reporting_period_data['subtotals_input'][i - 54], 3)
                 elif chr(j) == 'F':
                     ws[chr(j) + str(i)] = reporting_period_data['units'][i - 54]
                 elif chr(j) == 'G':
-                    ws[chr(j) + str(i)] = round(reporting_period_data['subtotals_cost'][i - 54], 2)
+                    ws[chr(j) + str(i)] = round2(reporting_period_data['subtotals_cost'][i - 54], 2)
                 elif chr(j) == 'H':
                     # Simulated data
                     ws[chr(j) + str(i)] = 0
@@ -277,7 +277,7 @@ def generate_excel(report,
 
         ws['B' + str(current_row_number)] = _('Subtotal') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
-            round(report['reporting_period']['total_cost']
+            round2(report['reporting_period']['total_cost']
                   if 'reporting_period' in report.keys()
                      and 'total_cost' in report['reporting_period'].keys()
                      and report['reporting_period']['total_cost'] is not None
@@ -289,13 +289,13 @@ def generate_excel(report,
         taxes = Decimal(0.00)
 
         ws['B' + str(current_row_number)] = _('VAT Output Tax') + ':'
-        ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(round(taxes, 2))
+        ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(round2(taxes, 2))
 
         current_row_number += 1
 
         ws['B' + str(current_row_number)] = _('Total Amount Payable') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
-            round(report['reporting_period']['total_cost'] + taxes
+            round2(report['reporting_period']['total_cost'] + taxes
                   if 'reporting_period' in report.keys()
                      and 'total_cost' in report['reporting_period'].keys()
                      and report['reporting_period']['total_cost'] is not None
