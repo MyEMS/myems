@@ -42,7 +42,7 @@ def calculate(logger):
         try:
             cursor_system_db.execute(" SELECT id, name, data_source_id, object_type, high_limit, low_limit, address "
                                      " FROM tbl_points "
-                                     " WHERE is_virtual = 1 AND object_type = 'ANALOG_VALUE' ")
+                                     " WHERE is_virtual = 1 ")
             rows_virtual_points = cursor_system_db.fetchall()
 
             if rows_virtual_points is None or len(rows_virtual_points) == 0:

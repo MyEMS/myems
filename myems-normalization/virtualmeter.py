@@ -145,7 +145,7 @@ def worker(virtual_meter):
             cursor_energy_db.close()
         if cnx_energy_db:
             cnx_energy_db.close()
-        return "it's too early to calculate" + " for '" + virtual_meter['name'] + "'"
+        return "it isn't time to calculate" + " for '" + virtual_meter['name'] + "'"
     elif time_difference_in_minutes > 60 * 24 * 30:
         # avoid to caculate records more than one month
         end_datetime_utc = start_datetime_utc + timedelta(minutes=60 * 24 * 30)
@@ -162,7 +162,7 @@ def worker(virtual_meter):
             cursor_energy_db.close()
         if cnx_energy_db:
             cnx_energy_db.close()
-        return "it's too early to calculate" + " for '" + virtual_meter['name'] + "'"
+        return "it isn't time to calculate" + " for '" + virtual_meter['name'] + "'"
 
     print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19]
           + "end_datetime_utc: " + end_datetime_utc.isoformat()[0:19])
