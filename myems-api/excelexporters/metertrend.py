@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -236,7 +236,7 @@ def generate_excel(report,
                     ws[col + row].font = title_font
                     ws[col + row].alignment = c_c_alignment
                     try:
-                        ws[col + row] = round(report['reporting_period']['values'][i][j], 3) if \
+                        ws[col + row] = round2(report['reporting_period']['values'][i][j], 3) if \
                             len(report['reporting_period']['values'][i]) > 0 and \
                             len(report['reporting_period']['values'][i]) > j and \
                             report['reporting_period']['values'][i][j] is not None else ''
@@ -384,7 +384,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 try:
-                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                    parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
                 except Exception as e:
                     print('error 2 in excelexporters\\metertrend: ' + str(e))
                 

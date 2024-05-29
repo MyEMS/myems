@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -237,40 +237,40 @@ def generate_excel(report,
 
         ws['C' + str(row)].font = name_font
         ws['C' + str(row)].alignment = c_c_alignment
-        ws['C' + str(row)] = round(reporting_period_data['averages'][i], 2) \
+        ws['C' + str(row)] = round2(reporting_period_data['averages'][i], 2) \
             if reporting_period_data['averages'][i] is not None else ''
         ws['C' + str(row)].border = f_border
         ws['C' + str(row)].number_format = '0.00'
 
         ws['C' + str(row + 1)].font = name_font
         ws['C' + str(row + 1)].alignment = c_c_alignment
-        ws['C' + str(row + 1)] = str(round(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
+        ws['C' + str(row + 1)] = str(round2(reporting_period_data['averages_increment_rate'][i] * 100, 2)) + "%" \
             if reporting_period_data['averages_increment_rate'][i] is not None else '0.00%'
         ws['C' + str(row + 1)].border = f_border
 
         ws['D' + str(row)].font = name_font
         ws['D' + str(row)].alignment = c_c_alignment
-        ws['D' + str(row)] = round(reporting_period_data['maximums'][i], 2) \
+        ws['D' + str(row)] = round2(reporting_period_data['maximums'][i], 2) \
             if reporting_period_data['maximums'][i] is not None else ''
         ws['D' + str(row)].border = f_border
         ws['D' + str(row)].number_format = '0.00'
 
         ws['D' + str(row + 1)].font = name_font
         ws['D' + str(row + 1)].alignment = c_c_alignment
-        ws['D' + str(row + 1)] = str(round(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
+        ws['D' + str(row + 1)] = str(round2(reporting_period_data['maximums_increment_rate'][i] * 100, 2)) + "%" \
             if reporting_period_data['maximums_increment_rate'][i] is not None else '0.00%'
         ws['D' + str(row + 1)].border = f_border
 
         ws['E' + str(row)].font = name_font
         ws['E' + str(row)].alignment = c_c_alignment
-        ws['E' + str(row)] = round(reporting_period_data['factors'][i], 2) \
+        ws['E' + str(row)] = round2(reporting_period_data['factors'][i], 2) \
             if reporting_period_data['factors'][i] is not None else ''
         ws['E' + str(row)].border = f_border
         ws['E' + str(row)].number_format = '0.00'
 
         ws['E' + str(row + 1)].font = name_font
         ws['E' + str(row + 1)].alignment = c_c_alignment
-        ws['E' + str(row + 1)] = str(round(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
+        ws['E' + str(row + 1)] = str(round2(reporting_period_data['factors_increment_rate'][i] * 100, 2)) + "%" \
             if reporting_period_data['factors_increment_rate'][i] is not None else '0.00%'
         ws['E' + str(row + 1)].border = f_border
 
@@ -322,7 +322,7 @@ def generate_excel(report,
         ws['C' + str(row_data)].alignment = c_c_alignment
         if reporting_period_data['averages_per_unit_area'][i] \
                 or reporting_period_data['averages_per_unit_area'][i] == 0:
-            ws['C' + str(row_data)] = round(reporting_period_data['averages_per_unit_area'][i], 2)
+            ws['C' + str(row_data)] = round2(reporting_period_data['averages_per_unit_area'][i], 2)
         ws['C' + str(row_data)].border = f_border
         ws['C' + str(row_data)].number_format = '0.00'
 
@@ -330,7 +330,7 @@ def generate_excel(report,
         ws['D' + str(row_data)].alignment = c_c_alignment
         if reporting_period_data['maximums_per_unit_area'][i] \
                 or reporting_period_data['maximums_per_unit_area'][i] == 0:
-            ws['D' + str(row_data)] = round(reporting_period_data['maximums_per_unit_area'][i], 2)
+            ws['D' + str(row_data)] = round2(reporting_period_data['maximums_per_unit_area'][i], 2)
         ws['D' + str(row_data)].border = f_border
         ws['D' + str(row_data)].number_format = '0.00'
 
@@ -429,7 +429,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)].border = f_border
-                        ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
+                        ws[col + str(current_row_number)] = round2(reporting_period_data['sub_averages'][j][i], 2) \
                             if reporting_period_data['sub_averages'][j][i] is not None else None
                         current_col_number += 1
                         col = format_cell.get_column_letter(current_col_number)
@@ -438,7 +438,7 @@ def generate_excel(report,
                         ws[col + str(current_row_number)].font = title_font
                         ws[col + str(current_row_number)].alignment = c_c_alignment
                         ws[col + str(current_row_number)].border = f_border
-                        ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
+                        ws[col + str(current_row_number)] = round2(reporting_period_data['sub_maximums'][j][i], 2) \
                             if reporting_period_data['sub_maximums'][j][i] is not None else None
                         current_col_number += 1
                         col = format_cell.get_column_letter(current_col_number)
@@ -619,7 +619,7 @@ def generate_excel(report,
 
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
-                            ws[col + str(current_row_number)] = round(base_period_data['sub_averages'][j][i], 2) \
+                            ws[col + str(current_row_number)] = round2(base_period_data['sub_averages'][j][i], 2) \
                                 if i < len(base_period_data['sub_averages'][j]) \
                                 and base_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
@@ -630,7 +630,7 @@ def generate_excel(report,
 
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
-                            ws[col + str(current_row_number)] = round(base_period_data['sub_maximums'][j][i], 2) \
+                            ws[col + str(current_row_number)] = round2(base_period_data['sub_maximums'][j][i], 2) \
                                 if i < len(base_period_data['sub_maximums'][j]) \
                                 and base_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
@@ -651,7 +651,7 @@ def generate_excel(report,
 
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
-                            ws[col + str(current_row_number)] = round(reporting_period_data['sub_averages'][j][i], 2) \
+                            ws[col + str(current_row_number)] = round2(reporting_period_data['sub_averages'][j][i], 2) \
                                 if i < len(reporting_period_data['sub_averages'][j]) \
                                 and reporting_period_data['sub_averages'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
@@ -662,7 +662,7 @@ def generate_excel(report,
 
                             ws[col + str(current_row_number)].font = title_font
                             ws[col + str(current_row_number)].alignment = c_c_alignment
-                            ws[col + str(current_row_number)] = round(reporting_period_data['sub_maximums'][j][i], 2) \
+                            ws[col + str(current_row_number)] = round2(reporting_period_data['sub_maximums'][j][i], 2) \
                                 if i < len(reporting_period_data['sub_maximums'][j]) \
                                 and reporting_period_data['sub_maximums'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
@@ -885,7 +885,7 @@ def generate_excel(report,
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
 
                 table_current_row_number += 1
 

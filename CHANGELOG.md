@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added support for ojbect type ENERGY_VALUE to virtualpoint procedure in myems-normalization
 - added columns to tbl_microgrids_power_conversion_systems in database
 - added columns to tbl_energy_storage_containers_power_conversion_systems in database
+- added round2() function to avoid exceptions for builtin round()
 ### Changed
 - 
 ### Fixed

@@ -988,3 +988,14 @@ def int16_to_hhmm(actual_value):
     else:
         return None
     return hh + ':' + mm
+
+
+def round2(actual_value, precision):
+    if actual_value is not None:
+        try:
+            result = round(actual_value, precision)
+        except (TypeError, NameError, SyntaxError):
+            return "-"
+        return result
+    else:
+        return "-"
