@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -184,7 +184,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = round(reporting_period_data['master_meter_consumption_in_category'], 2)
+            ws['C' + str(current_row_number)] = round2(reporting_period_data['master_meter_consumption_in_category'], 2)
 
             current_row_number += 1
 
@@ -196,7 +196,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = round(reporting_period_data['submeters_consumption_in_category'], 2)
+            ws['C' + str(current_row_number)] = round2(reporting_period_data['submeters_consumption_in_category'], 2)
 
             current_row_number += 1
 
@@ -208,7 +208,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['C' + str(current_row_number)].font = name_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
-            ws['C' + str(current_row_number)] = round(reporting_period_data['difference_in_category'], 2)
+            ws['C' + str(current_row_number)] = round2(reporting_period_data['difference_in_category'], 2)
 
             current_row_number += 1
 
@@ -221,7 +221,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = str(
-                round(reporting_period_data['percentage_difference'] * 100, 2)) + '%'
+                round2(reporting_period_data['percentage_difference'] * 100, 2)) + '%'
 
             current_row_number += 2
 
@@ -273,7 +273,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     ws['C' + str(current_row_number)].font = title_font
                     ws['C' + str(current_row_number)].border = f_border
                     ws['C' + str(current_row_number)].alignment = c_c_alignment
-                    ws['C' + str(current_row_number)] = round(reporting_period_data['difference_values'][i], 2)
+                    ws['C' + str(current_row_number)] = round2(reporting_period_data['difference_values'][i], 2)
 
                     current_row_number += 1
 
@@ -305,7 +305,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 ws['C' + str(current_row_number)].font = title_font
                 ws['C' + str(current_row_number)].border = f_border
                 ws['C' + str(current_row_number)].alignment = c_c_alignment
-                ws['C' + str(current_row_number)] = round(reporting_period_data['master_meter_consumption_in_category']
+                ws['C' + str(current_row_number)] = round2(reporting_period_data['master_meter_consumption_in_category']
                                                           , 2)
 
         else:
@@ -437,7 +437,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 parameters_ws[col + str(table_current_row_number)].border = f_border
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
-                parameters_ws[col + str(table_current_row_number)] = round(parameters_data['values'][i][j], 2)
+                parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
 
                 table_current_row_number += 1
 

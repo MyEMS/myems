@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -203,12 +203,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['C8'].font = name_font
         ws['C8'].alignment = c_c_alignment
-        ws['C8'] = round(reporting_period_data['total_in_category'], 2)
+        ws['C8'] = round2(reporting_period_data['total_in_category'], 2)
         ws['C8'].border = f_border
 
         ws['C9'].font = name_font
         ws['C9'].alignment = c_c_alignment
-        ws['C9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+        ws['C9'] = str(round2(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
         ws['C9'].border = f_border
 
@@ -221,12 +221,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['D8'].font = name_font
         ws['D8'].alignment = c_c_alignment
-        ws['D8'] = round(reporting_period_data['total_in_kgce'] / 1000, 2)
+        ws['D8'] = round2(reporting_period_data['total_in_kgce'] / 1000, 2)
         ws['D8'].border = f_border
 
         ws['D9'].font = name_font
         ws['D9'].alignment = c_c_alignment
-        ws['D9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+        ws['D9'] = str(round2(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
         ws['D9'].border = f_border
 
@@ -239,12 +239,12 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         ws['E8'].font = name_font
         ws['E8'].alignment = c_c_alignment
-        ws['E8'] = round(reporting_period_data['total_in_kgco2e'] / 1000, 2)
+        ws['E8'] = round2(reporting_period_data['total_in_kgco2e'] / 1000, 2)
         ws['E8'].border = f_border
 
         ws['E9'].font = name_font
         ws['E9'].alignment = c_c_alignment
-        ws['E9'] = str(round(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
+        ws['E9'] = str(round2(reporting_period_data['increment_rate'] * 100, 2)) + "%" \
             if reporting_period_data['increment_rate'] is not None else "-"
         ws['E9'].border = f_border
 
@@ -350,7 +350,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     row = str(start_detail_data_row_num + 1 + j)
                     ws['C' + row].font = title_font
                     ws['C' + row].alignment = c_c_alignment
-                    ws['C' + row] = round(reporting_period_data['values'][j], 2)
+                    ws['C' + row] = round2(reporting_period_data['values'][j], 2)
                     ws['C' + row].border = f_border
                 # line
                 # 13~: line
@@ -377,13 +377,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                     row = str(start_detail_data_row_num + 1 + j)
                     ws['C' + row].font = title_font
                     ws['C' + row].alignment = c_c_alignment
-                    ws['C' + row] = round(report['base_period']['values'][j], 2) \
+                    ws['C' + row] = round2(report['base_period']['values'][j], 2) \
                         if j < len(report['base_period']['values']) else None
                     ws['C' + row].border = f_border
 
                     ws['E' + row].font = title_font
                     ws['E' + row].alignment = c_c_alignment
-                    ws['E' + row] = round(reporting_period_data['values'][j], 2)
+                    ws['E' + row] = round2(reporting_period_data['values'][j], 2)
                     ws['E' + row].border = f_border
                 # line
                 # 13~: line
@@ -418,7 +418,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 ws['C' + row].font = title_font
                 ws['C' + row].alignment = c_c_alignment
-                ws['C' + row] = round(reporting_period_data['total_in_category'], 2)
+                ws['C' + row] = round2(reporting_period_data['total_in_category'], 2)
                 ws['C' + row].border = f_border
             else:
                 ws['B' + row].font = title_font
@@ -428,7 +428,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 ws['C' + row].font = title_font
                 ws['C' + row].alignment = c_c_alignment
-                ws['C' + row] = round(report['base_period']['total_in_category'], 2)
+                ws['C' + row] = round2(report['base_period']['total_in_category'], 2)
                 ws['C' + row].border = f_border
 
                 ws['D' + row].font = title_font
@@ -438,7 +438,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
                 ws['E' + row].font = title_font
                 ws['E' + row].alignment = c_c_alignment
-                ws['E' + row] = round(reporting_period_data['total_in_category'], 2)
+                ws['E' + row] = round2(reporting_period_data['total_in_category'], 2)
                 ws['E' + row].border = f_border
 
     ##########################################

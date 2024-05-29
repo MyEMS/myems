@@ -9,7 +9,7 @@ from openpyxl.chart import LineChart, Reference
 from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
-
+from core.utilities import round2
 
 ########################################################################################################################
 # PROCEDURES
@@ -188,7 +188,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         ws['C8'].font = name_font
         ws['C8'].alignment = c_c_alignment
-        ws['C8'] = round(reporting_period_data1['total_in_category'], 2)
+        ws['C8'] = round2(reporting_period_data1['total_in_category'], 2)
         ws['C8'].border = f_border
 
     if "values" not in report['reporting_period2'].keys() or len(report['reporting_period2']['values']) == 0:
@@ -217,7 +217,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
         ws['C12'].font = name_font
         ws['C12'].alignment = c_c_alignment
-        ws['C12'] = round(reporting_period_data2['total_in_category'], 2)
+        ws['C12'] = round2(reporting_period_data2['total_in_category'], 2)
         ws['C12'].border = f_border
 
     ####################################################################################################################
@@ -301,7 +301,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(reporting_period_data1['values'][j], 2)
+                ws[col + row] = round2(reporting_period_data1['values'][j], 2)
                 ws[col + row].border = f_border
 
             # table_title
@@ -323,7 +323,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(reporting_period_data2['values'][j], 2)
+                ws[col + row] = round2(reporting_period_data2['values'][j], 2)
                 ws[col + row].border = f_border
 
             # table_title
@@ -344,7 +344,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 # col = chr(ord('B') + i)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
-                ws[col + row] = round(diff_data['values'][j], 2)
+                ws[col + row] = round2(diff_data['values'][j], 2)
                 ws[col + row].border = f_border
             # line
             # 15~: line
@@ -378,19 +378,19 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             col = chr(ord(col) + 1)
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = round(reporting_period_data1['total_in_category'], 2)
+            ws[col + row] = round2(reporting_period_data1['total_in_category'], 2)
             ws[col + row].border = f_border
 
             col = chr(ord(col) + 1)
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = round(reporting_period_data2['total_in_category'], 2)
+            ws[col + row] = round2(reporting_period_data2['total_in_category'], 2)
             ws[col + row].border = f_border
 
             col = chr(ord(col) + 1)
             ws[col + row].font = title_font
             ws[col + row].alignment = c_c_alignment
-            ws[col + row] = round(diff_data['total_in_category'], 2)
+            ws[col + row] = round2(diff_data['total_in_category'], 2)
             ws[col + row].border = f_border
 
     ####################################################################################################################
@@ -529,7 +529,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 try:
-                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data1['values'][i][j], 2)
+                    parameters_ws[col + str(table_current_row_number)] = round2(parameters_data1['values'][i][j], 2)
                 except Exception as e:
                     print('error 1 in excelexporters\\meterenergy: ' + str(e))
 
@@ -641,7 +641,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
                 parameters_ws[col + str(table_current_row_number)].font = title_font
                 parameters_ws[col + str(table_current_row_number)].alignment = c_c_alignment
                 try:
-                    parameters_ws[col + str(table_current_row_number)] = round(parameters_data2['values'][i][j], 2)
+                    parameters_ws[col + str(table_current_row_number)] = round2(parameters_data2['values'][i][j], 2)
                 except Exception as e:
                     print('error 1 in excelexporters\\meterenergy: ' + str(e))
 
