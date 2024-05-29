@@ -992,6 +992,10 @@ def int16_to_hhmm(actual_value):
 
 def round2(actual_value, precision):
     if actual_value is not None:
-        return round(actual_value, precision)
+        try:
+            result = round(actual_value, precision)
+        except (TypeError, NameError, SyntaxError):
+            return "-"
+        return result
     else:
         return "-"
