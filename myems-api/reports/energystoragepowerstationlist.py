@@ -88,10 +88,10 @@ class Reporting:
         # get energy storage power stations
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
-                 "        m.contact_id, m.cost_center_id, m.description "
+                 "        m.contact_id, m.cost_center_id, m.description, m.phase_of_lifecycle "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
-                 " ORDER BY id ")
+                 " ORDER BY m.phase_of_lifecycle, m.id ")
         cursor_system_db.execute(query, (user_id, ))
         rows_energy_storage_power_stations = cursor_system_db.fetchall()
 
@@ -255,6 +255,7 @@ class Reporting:
                                "contact": contact_dict.get(row[9], None),
                                "cost_center": cost_center_dict.get(row[10], None),
                                "description": row[11],
+                               "phase_of_lifecycle": row[12],
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,

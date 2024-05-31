@@ -26,6 +26,9 @@ ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_syste
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems ADD `today_discharge_energy_point_id` BIGINT NOT NULL AFTER `rated_output_power`;
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems ADD `today_charge_energy_point_id` BIGINT NOT NULL AFTER `rated_output_power`;
 
+ALTER TABLE myems_system_db.tbl_energy_storage_power_stations ADD `phase_of_lifecycle` VARCHAR(255) NOT NULL AFTER `is_cost_data_displayed`;
+ALTER TABLE myems_system_db.tbl_microgrids ADD `phase_of_lifecycle` VARCHAR(255) NOT NULL AFTER `is_cost_data_displayed`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.6.0RC', release_date='2024-06-18' WHERE id=1;
 
