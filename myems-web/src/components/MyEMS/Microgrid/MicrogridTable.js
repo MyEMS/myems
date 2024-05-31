@@ -16,7 +16,7 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
 );
 
 const nameFormatter = (nameuuid) => (
-  <Link to={"/microgrid/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold">
+  <Link to={"/microgrid/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} target="_blank" className="font-weight-semi-bold">
     {nameuuid.substring(0, nameuuid.length-36)}
   </Link>
 );
