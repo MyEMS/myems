@@ -12,6 +12,18 @@ WHERE start_datetime_utc >= '2020-12-31 16:00:00';
 DELETE FROM `myems_energy_db`.`tbl_combined_equipment_output_category_hourly`
 WHERE start_datetime_utc >= '2020-12-31 16:00:00';
 
+DELETE FROM `myems_energy_db`.`tbl_energy_storage_container_charge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_energy_db`.`tbl_energy_storage_container_discharge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_energy_db`.`tbl_energy_storage_power_station_charge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_energy_db`.`tbl_energy_storage_power_station_discharge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
 DELETE FROM `myems_energy_db`.`tbl_equipment_input_category_hourly`
 WHERE start_datetime_utc >= '2020-12-31 16:00:00';
 
@@ -65,6 +77,18 @@ DELETE FROM `myems_billing_db`.`tbl_combined_equipment_input_item_hourly`
 WHERE start_datetime_utc >= '2020-12-31 16:00:00';
 
 DELETE FROM `myems_billing_db`.`tbl_combined_equipment_output_category_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_billing_db`.`tbl_energy_storage_container_charge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_billing_db`.`tbl_energy_storage_container_discharge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_billing_db`.`tbl_energy_storage_power_station_charge_hourly`
+WHERE start_datetime_utc >= '2020-12-31 16:00:00';
+
+DELETE FROM `myems_billing_db`.`tbl_energy_storage_power_station_discharge_hourly`
 WHERE start_datetime_utc >= '2020-12-31 16:00:00';
 
 DELETE FROM `myems_billing_db`.`tbl_equipment_input_category_hourly`
