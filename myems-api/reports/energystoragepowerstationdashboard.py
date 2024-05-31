@@ -82,13 +82,13 @@ class Reporting:
             for row in rows_spaces:
                 space_dict[row[0]] = row[1]
         print(space_dict)
-        # Get energy storage power station
+        # Get energy storage power stations
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, "
-                 "        m.rated_capacity, m.rated_power, m.description "
+                 "        m.rated_capacity, m.rated_power, m.description, m.phase_of_lifecycle "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
-                 " ORDER BY name ")
+                 " ORDER BY m.phase_of_lifecycle, m.id ")
         cursor_system_db.execute(query, (user['id'],))
         rows_energy_storage_power_stations = cursor_system_db.fetchall()
 
@@ -125,6 +125,7 @@ class Reporting:
                                "rated_capacity": row[7],
                                "rated_power": row[8],
                                "description": row[9],
+                               "phase_of_lifecycle": row[10],
                                "status": 'online' if is_online else 'offline'}
                 energy_storage_power_station_list.append(meta_result)
         ################################################################################################################
