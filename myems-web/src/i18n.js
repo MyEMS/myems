@@ -2753,10 +2753,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Deaktivieren verbieten',
       'Battery Prohibit Charging': 'Gebühren verbieten',
       'Battery Normal': 'Normal',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Phase des Lebenszyklus',
+      'Use Phase': 'Anwendungsphase',
+      'Commissioning Phase': 'Phase der Inbetriebnahme',
+      'Construction Phase': 'Bauphase',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
@@ -3907,10 +3907,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Interdiction de désinstaller',
       'Battery Prohibit Charging': 'Interdiction de charger',
       'Battery Normal': 'Typiquement',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Phases du cycle de vie',
+      'Use Phase': 'Phase d\'utilisation',
+      'Commissioning Phase': 'Phase de mise en service',
+      'Construction Phase': 'Phase de construction',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
@@ -5051,10 +5051,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Prohibición de descargar',
       'Battery Prohibit Charging': 'Está prohibido cargar',
       'Battery Normal': 'Típico',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Fase del ciclo de vida',
+      'Use Phase': 'Fase de uso',
+      'Commissioning Phase': 'Fase de puesta en marcha',
+      'Construction Phase': 'Fase de construcción',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -6194,10 +6194,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Запрещается выгрузка',
       'Battery Prohibit Charging': 'Зарядка запрещена.',
       'Battery Normal': 'Типичный',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Этапы жизненного цикла',
+      'Use Phase': 'Этап использования',
+      'Commissioning Phase': 'Этап отладки',
+      'Construction Phase': 'Этап строительства',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
@@ -7327,10 +7327,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'تعطيل إلغاء',
       'Battery Prohibit Charging': 'حظر شحن',
       'Battery Normal': 'نموذجي',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'مراحل دورة الحياة',
+      'Use Phase': 'استخدام المرحلة',
+      'Commissioning Phase': 'مرحلة التصحيح',
+      'Construction Phase': 'مرحلة البناء',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -8456,10 +8456,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Không gỡ cài đặt',
       'Battery Prohibit Charging': 'Không sạc',
       'Battery Normal': 'Đặc trưng',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Giai đoạn vòng đời',
+      'Use Phase': 'Giai đoạn sử dụng',
+      'Commissioning Phase': 'Giai đoạn gỡ lỗi',
+      'Construction Phase': 'Giai đoạn xây dựng',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
@@ -9587,10 +9587,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'ห้ามขนถ่าย',
       'Battery Prohibit Charging': 'ห้ามชาร์จ',
       'Battery Normal': 'ทั่วไป',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'ระยะวงจรชีวิต',
+      'Use Phase': 'ขั้นตอนการใช้งาน',
+      'Commissioning Phase': 'ขั้นตอนการว่าจ้าง',
+      'Construction Phase': 'ขั้นตอนการก่อสร้าง',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
@@ -10717,10 +10717,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Yüklemeyi yasakla',
       'Battery Prohibit Charging': 'Yüklemeyi yasakla',
       'Battery Normal': 'Normal',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
+      'Phase of Lifecycle': 'Lifecycle Fazi',
       'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Commissioning Phase': 'Komisyon Fazi',
+      'Construction Phase': 'Yapılandırma Fazi',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -11853,10 +11853,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Melarangkan Nyahmuat',
       'Battery Prohibit Charging': 'Melarang Memuatkan',
       'Battery Normal': 'Normal',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Fasa Siklo Hidup',
+      'Use Phase': 'Guna Tahap',
+      'Commissioning Phase': 'Fasa Pemasangan',
+      'Construction Phase': 'Fasa Pembangunan',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
@@ -12992,10 +12992,10 @@ const resources = {
       'Battery Prohibit DisCharging': 'Melarangkan Memotong',
       'Battery Prohibit Charging': 'Melarangkan Memuatkan',
       'Battery Normal': 'Normal',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': 'Tahap Sepeda Hidup',
+      'Use Phase': 'Gunakan Tahap',
+      'Commissioning Phase': 'Fase Komisionasi',
+      'Construction Phase': 'Fase Konstruksi',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',
@@ -14118,10 +14118,10 @@ const resources = {
       'Battery Prohibit DisCharging': '禁放',
       'Battery Prohibit Charging': '禁充',
       'Battery Normal': '正常',
-      'Phase of Lifecycle': 'Phase of Lifecycle',
-      'Use Phase': 'Use Phase',
-      'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Phase of Lifecycle': '生命週期階段',
+      'Use Phase': '使用階段',
+      'Commissioning Phase': '調試階段',
+      'Construction Phase': '施工階段',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '⽣成時間',
