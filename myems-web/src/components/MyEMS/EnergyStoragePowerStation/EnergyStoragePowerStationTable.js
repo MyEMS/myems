@@ -80,6 +80,27 @@ const selectRow = onSelect => ({
     totalSize: energyStoragePowerStationList.length
   };
 
+
+  const phaseFormatter = phaseOfLifecycle => {
+    let text = '';
+    switch (phaseOfLifecycle) {
+      case '1use':
+        text = t('Use Phase');
+        break;
+      case '2commissioning':
+        text = t('Commissioning Phase')
+        break;
+      case '3construction':
+        text = t('Construction Phase')
+        break;
+      default:
+        text = t('Use Phase');
+    }
+    return (
+      <Fragment>{text}</Fragment>
+    );
+  };
+
   const statusFormatter = status => {
     let color = '';
     let icon = '';
@@ -177,6 +198,14 @@ const selectRow = onSelect => ({
       dataField: 'rated_power',
       text: t('Rated Power'),
       formatter: powerFormatter,
+      classes: 'border-0 align-middle',
+      headerClasses: 'border-0',
+      sort: true,
+    },
+    {
+      dataField: 'phase_of_lifecycle',
+      text: t('Phase of Lifecycle'),
+      formatter: phaseFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
       sort: true,
