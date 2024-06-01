@@ -2302,6 +2302,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: '输入维度',
                 INPUT_SVG: '输入SVG',
                 BIND_USER: '绑定用户',
+                PHASE_OF_LIFECYCLE: '阶段',
+                PHASE_1use: '投用',
+                PHASE_2commissioning: '调试',
+                PHASE_3construction: '在建',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 ADDRESS: '地址',
@@ -2834,6 +2838,7 @@ function config($translateProvider) {
                 INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NAME: 'Invalid Energy Storage Container Power Conversion System Name',
                 INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID: 'Invalid Energy Storage Container Power Conversion System ID',
                 INVALID_ENERGY_STORAGE_POWER_STATION_ID: 'Invalid Energy Storage Power Station ID',
+                INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE: 'Invalid Energy Storage Power Station Phase of Lifecycle',
                 INVALID_EQUATION_IN_EXPRESSION: 'Invalid Equation In Expression',
                 INVALID_EQUIPMENT_ID: 'Invalid Equipment ID',
                 INVALID_EQUIPMENT_NAME: 'Invalid Equipment Name',

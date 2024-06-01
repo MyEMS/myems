@@ -48,6 +48,15 @@ app.controller('EnergyStoragePowerStationController', function(
 		});
 	};
 
+	$scope.getAllPhaseOfLifecycle = function() {
+		$scope.phaseoflifecycle = [
+			{"id":"1use", "name": "Use_Phase"},
+			{"id":"2commissioning", "name": "Commissioning_Phase"},
+			{"id":"3construction", "name": "Construction_Phase"}
+			
+		];
+	};
+
 	$scope.addEnergyStoragePowerStation = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/energystoragepowerstation/energystoragepowerstation.model.html',
@@ -58,6 +67,7 @@ app.controller('EnergyStoragePowerStationController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
+						phaseoflifecycle: angular.copy($scope.phaseoflifecycle)
 					};
 				}
 			}
@@ -100,7 +110,8 @@ app.controller('EnergyStoragePowerStationController', function(
 					return {
 						energystoragepowerstation: angular.copy(energystoragepowerstation),
 						costcenters:angular.copy($scope.costcenters),
-						contacts:angular.copy($scope.contacts)
+						contacts:angular.copy($scope.contacts),
+						phaseoflifecycle: angular.copy($scope.phaseoflifecycle)
 					};
 				}
 			}
@@ -264,6 +275,7 @@ app.controller('EnergyStoragePowerStationController', function(
 	$scope.getAllEnergyStoragePowerStations();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllPhaseOfLifecycle();
 	$scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
   		$scope.getAllEnergyStoragePowerStations();
 	});
@@ -273,6 +285,7 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.phaseoflifecycle=params.phaseoflifecycle;
 	$scope.energystoragepowerstation = {
 		is_cost_data_displayed: false
 	};
@@ -290,6 +303,7 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	$scope.energystoragepowerstation = params.energystoragepowerstation;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.phaseoflifecycle=params.phaseoflifecycle;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};

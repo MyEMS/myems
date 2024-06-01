@@ -112,6 +112,17 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'ENERGY_STORAGE_POWER_STATION.PHASE_OF_LIFECYCLE' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="energystoragepowerstation.phaseoflifecycle" name="energystoragepowerstation.phaseoflifecycle" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="phaseoflifecycle.id as phaseoflifecycle in phaseoflifecycle | filter: $select.search">
+                            <div ng-bind-html="phaseoflifecycle.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
                   <input ng-model="energystoragepowerstation.description" type="text" name="energystoragepowerstationdescription" class="form-control">
