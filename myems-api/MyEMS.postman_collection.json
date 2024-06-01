@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "71b2257a-f7ff-433f-9153-08f95d92ff50",
+		"_postman_id": "eb15a6d2-66f0-4467-9373-1499c3c456b6",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -7377,7 +7377,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "4d606cce0c38afcf7f8303ce49cb7092651902c0da106db309d0c8b23cf31468a7c18d6737c3a8d8ac3431726acaeffee614972f321982b965f27e67586ef9b4",
 										"type": "text",
 										"description": "Login first to get a valid token",
 										"uuid": "b99e5e20-3f16-402d-bcf5-6a37206c1d49"
@@ -7417,7 +7417,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "4d606cce0c38afcf7f8303ce49cb7092651902c0da106db309d0c8b23cf31468a7c18d6737c3a8d8ac3431726acaeffee614972f321982b965f27e67586ef9b4",
 										"type": "text",
 										"description": "Login first to get a valid token",
 										"uuid": "4a2522a2-355b-4a52-b152-0d5012249de5"
@@ -7458,7 +7458,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "4d606cce0c38afcf7f8303ce49cb7092651902c0da106db309d0c8b23cf31468a7c18d6737c3a8d8ac3431726acaeffee614972f321982b965f27e67586ef9b4",
 										"type": "text",
 										"description": "Login first to get a valid token",
 										"uuid": "7aafd924-692d-46da-b69b-5bd915284fb0"
@@ -7474,7 +7474,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations",
@@ -7502,7 +7502,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "4d606cce0c38afcf7f8303ce49cb7092651902c0da106db309d0c8b23cf31468a7c18d6737c3a8d8ac3431726acaeffee614972f321982b965f27e67586ef9b4",
 										"type": "text",
 										"description": "Login first to get a valid token",
 										"uuid": "a14739ad-ebf0-43b2-a1fa-c007ed8e651f"
@@ -7518,7 +7518,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/1",

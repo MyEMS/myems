@@ -48,7 +48,7 @@ class EnergyStoragePowerStationCollection:
                                             "uuid": row[2]}
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg, is_cost_data_displayed, description "
+                 "        contact_id, cost_center_id, svg, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_energy_storage_power_stations "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -70,7 +70,8 @@ class EnergyStoragePowerStationCollection:
                                "cost_center": cost_center_dict.get(row[10], None),
                                "svg": row[11],
                                "is_cost_data_displayed": bool(row[12]),
-                               "description": row[13],
+                               "phase_of_lifecycle": row[13],
+                               "description": row[14],
                                "qrcode": 'energystoragepowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -174,6 +175,13 @@ class EnergyStoragePowerStationCollection:
                                    description='API.INVALID_IS_COST_DATA_DISPLAYED')
         is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
 
+        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -217,8 +225,8 @@ class EnergyStoragePowerStationCollection:
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, svg, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, svg, is_cost_data_displayed, phase_of_lifecycle, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -231,6 +239,7 @@ class EnergyStoragePowerStationCollection:
                                     cost_center_id,
                                     svg,
                                     is_cost_data_displayed,
+                                    phase_of_lifecycle,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -287,7 +296,7 @@ class EnergyStoragePowerStationItem:
 
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg, is_cost_data_displayed, description "
+                 "        contact_id, cost_center_id, svg, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -312,7 +321,8 @@ class EnergyStoragePowerStationItem:
                            "cost_center": cost_center_dict.get(row[10], None),
                            "svg": row[11],
                            "is_cost_data_displayed": bool(row[12]),
-                           "description": row[13],
+                           "phase_of_lifecycle": row[13],
+                           "description": row[14],
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -448,6 +458,13 @@ class EnergyStoragePowerStationItem:
                                    description='API.INVALID_IS_COST_DATA_DISPLAYED_VALUE')
         is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
 
+        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
+
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
                 len(str(new_values['data']['description'])) > 0:
@@ -502,7 +519,7 @@ class EnergyStoragePowerStationItem:
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     svg = %s, is_cost_data_displayed = %s, description = %s "
+                      "     svg = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
@@ -515,6 +532,7 @@ class EnergyStoragePowerStationItem:
                                     cost_center_id,
                                     svg,
                                     is_cost_data_displayed,
+                                    phase_of_lifecycle,
                                     description,
                                     id_))
         cnx.commit()
