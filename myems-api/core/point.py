@@ -471,24 +471,12 @@ class PointItem:
         cursor.execute("SELECT microgrid_id "
                        "FROM tbl_microgrids_power_conversion_systems "
                        "WHERE run_state_point_id = %s "
-                       "   OR charge_start_time1_point_id = %s "
-                       "   OR charge_end_time1_point_id = %s "
-                       "   OR charge_start_time2_point_id = %s "
-                       "   OR charge_end_time2_point_id = %s "
-                       "   OR charge_start_time3_point_id = %s "
-                       "   OR charge_end_time3_point_id = %s "
-                       "   OR charge_start_time4_point_id = %s "
-                       "   OR charge_end_time4_point_id = %s "
-                       "   OR discharge_start_time1_point_id = %s "
-                       "   OR discharge_end_time1_point_id = %s "
-                       "   OR discharge_start_time2_point_id = %s "
-                       "   OR discharge_end_time2_point_id = %s "
-                       "   OR discharge_start_time3_point_id = %s "
-                       "   OR discharge_end_time3_point_id = %s "
-                       "   OR discharge_start_time4_point_id = %s "
-                       "   OR discharge_end_time4_point_id = %s "
+                       "   OR today_charge_energy_point_id = %s "
+                       "   OR today_discharge_energy_point_id = %s "
+                       "   OR total_charge_energy_point_id = %s "
+                       "   OR total_discharge_energy_point_id = %s "
                        "LIMIT 1",
-                       (id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_, id_))
+                       (id_, id_, id_, id_, id_))
         row_microgrid_power_conversion_system = cursor.fetchone()
         if row_microgrid_power_conversion_system is not None:
             cursor.close()
