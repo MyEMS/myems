@@ -48,12 +48,11 @@ app.controller('EnergyStoragePowerStationController', function(
 		});
 	};
 
-	$scope.getAllPhaseOfLifecycle = function() {
-		$scope.phaseoflifecycle = [
-			{"id":"1use", "name": "Use_Phase"},
-			{"id":"2commissioning", "name": "Commissioning_Phase"},
-			{"id":"3construction", "name": "Construction_Phase"}
-			
+	$scope.getAllPhaseOfLifecycles = function() {
+		$scope.phaseoflifecycles = [
+			{"code":"1use", "name": $translate.instant("ENERGY_STORAGE_POWER_STATION.PHASE_1USE")},
+			{"code":"2commissioning", "name": $translate.instant("ENERGY_STORAGE_POWER_STATION.PHASE_2COMMISSIONING")},
+			{"code":"3installation", "name": $translate.instant("ENERGY_STORAGE_POWER_STATION.PHASE_3INSTALLATION")}
 		];
 	};
 
@@ -67,7 +66,7 @@ app.controller('EnergyStoragePowerStationController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
-						phaseoflifecycle: angular.copy($scope.phaseoflifecycle)
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -111,7 +110,7 @@ app.controller('EnergyStoragePowerStationController', function(
 						energystoragepowerstation: angular.copy(energystoragepowerstation),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts),
-						phaseoflifecycle: angular.copy($scope.phaseoflifecycle)
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -275,7 +274,7 @@ app.controller('EnergyStoragePowerStationController', function(
 	$scope.getAllEnergyStoragePowerStations();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
-	$scope.getAllPhaseOfLifecycle();
+	$scope.getAllPhaseOfLifecycles();
 	$scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
   		$scope.getAllEnergyStoragePowerStations();
 	});
@@ -285,7 +284,7 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
-	$scope.phaseoflifecycle=params.phaseoflifecycle;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.energystoragepowerstation = {
 		is_cost_data_displayed: false
 	};
@@ -303,7 +302,7 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	$scope.energystoragepowerstation = params.energystoragepowerstation;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
-	$scope.phaseoflifecycle=params.phaseoflifecycle;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};
