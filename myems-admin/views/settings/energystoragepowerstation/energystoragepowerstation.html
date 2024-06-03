@@ -13,14 +13,8 @@
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.ADDRESS' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.POSTAL_CODE' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}}</th>
 										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_CAPACITY' | translate}}(kWh)</th>
 										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_POWER' | translate}}(kW)</th>
-										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
-										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.PHASE_OF_LIFECYCLE' | translate}}</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -30,14 +24,8 @@
 										<td class="text-center">{{ energystoragepowerstation.id }}</td>
 										<td class="text-center">{{ energystoragepowerstation.name }}</td>
 										<td class="text-center">{{ energystoragepowerstation.address }}</td>
-										<td class="text-center">{{ energystoragepowerstation.postal_code }}</td>
-										<td class="text-center">{{ energystoragepowerstation.latitude }}</td>
-										<td class="text-center">{{ energystoragepowerstation.longitude }}</td>
 										<td class="text-center">{{ energystoragepowerstation.rated_capacity }}</td>
 										<td class="text-center">{{ energystoragepowerstation.rated_power }}</td>
-										<td class="text-center">{{ energystoragepowerstation.contact.name }}</td>
-										<td class="text-center">{{ energystoragepowerstation.cost_center.name }}</td>
-										<td class="text-center">{{ 'ENERGY_STORAGE_POWER_STATION.PHASE_' + energystoragepowerstation.phase_of_lifecycle |translate }}</td>
 										<td class="text-center">{{ energystoragepowerstation.description }}</td>
 										<td class="text-center">
 											<a ng-click="editEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
