@@ -498,12 +498,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
       // 'Battery Unknown': 'Unknown',
-      'Battery Fault': 'Fault',
-      'Battery Warning': 'Warning',
-      'Battery Standby': 'Standby',
-      'Battery Prohibit DisCharging': 'Prohibit DisCharging',
-      'Battery Prohibit Charging': 'Prohibit Charging',
-      'Battery Normal': 'Normal',
+      'Battery Reserved': 'Reserved', // 0
+      'Battery Fault': 'Fault', // 1
+      'Battery Warning': 'Warning', // 2
+      'Battery Standby': 'Standby', // 3
+      'Battery Prohibit DisCharging': 'Prohibit DisCharging', //4
+      'Battery Prohibit Charging': 'Prohibit Charging',// 5
+      'Battery Normal': 'Normal', // 6
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Phase of Lifecycle',
       'Use Phase': 'Use Phase',
       'Commissioning Phase': 'Commissioning Phase',
@@ -1610,12 +1614,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
       // 'Battery Unknown': '未知',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': '故障',
       'Battery Warning': '预警',
       'Battery Standby': '待机',
       'Battery Prohibit DisCharging': '禁放',
       'Battery Prohibit Charging': '禁充',
       'Battery Normal': '正常',
+      'Battery Charging': '充电', // 7
+      'Battery Discharging': '放电', // 8
+      'Battery Idle': '空闲', // 9
       'Phase of Lifecycle': '阶段',
       'Use Phase': '投用',
       'Commissioning Phase': '调试',
@@ -2747,12 +2755,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
       // 'Battery Unknown': 'Unbekannt',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Fehler',
       'Battery Warning': 'Warnung',
       'Battery Standby': 'Standby',
       'Battery Prohibit DisCharging': 'Deaktivieren verbieten',
       'Battery Prohibit Charging': 'Gebühren verbieten',
       'Battery Normal': 'Normal',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Phase des Lebenszyklus',
       'Use Phase': 'Anwendungsphase',
       'Commissioning Phase': 'Phase der Inbetriebnahme',
@@ -3901,12 +3913,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
       // 'Battery Unknown': 'Inconnu',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'La faute',
       'Battery Warning': 'Avertissement',
       'Battery Standby': 'Articles de rechange',
       'Battery Prohibit DisCharging': 'Interdiction de désinstaller',
       'Battery Prohibit Charging': 'Interdiction de charger',
       'Battery Normal': 'Typiquement',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Phases du cycle de vie',
       'Use Phase': 'Phase d\'utilisation',
       'Commissioning Phase': 'Phase de mise en service',
@@ -5045,12 +5061,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
       // 'Battery Unknown': 'Desconocido',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Culpa',
       'Battery Warning': 'Aviso',
       'Battery Standby': 'Artículos de repuesto',
       'Battery Prohibit DisCharging': 'Prohibición de descargar',
       'Battery Prohibit Charging': 'Está prohibido cargar',
       'Battery Normal': 'Típico',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Fase del ciclo de vida',
       'Use Phase': 'Fase de uso',
       'Commissioning Phase': 'Fase de puesta en marcha',
@@ -6188,12 +6208,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
       // 'Battery Unknown': 'Неизвестный',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Ошибка',
       'Battery Warning': 'предупреждение',
       'Battery Standby': 'Запасные материалы',
       'Battery Prohibit DisCharging': 'Запрещается выгрузка',
       'Battery Prohibit Charging': 'Зарядка запрещена.',
       'Battery Normal': 'Типичный',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Этапы жизненного цикла',
       'Use Phase': 'Этап использования',
       'Commissioning Phase': 'Этап отладки',
@@ -7321,12 +7345,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
       // 'Battery Unknown': 'غير معروف',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'خطأ',
       'Battery Warning': 'حذر',
       'Battery Standby': 'المواد الاحتياطية',
       'Battery Prohibit DisCharging': 'تعطيل إلغاء',
       'Battery Prohibit Charging': 'حظر شحن',
       'Battery Normal': 'نموذجي',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'مراحل دورة الحياة',
       'Use Phase': 'استخدام المرحلة',
       'Commissioning Phase': 'مرحلة التصحيح',
@@ -8450,12 +8478,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
       // 'Battery Unknown': 'Không rõ',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Lỗi',
       'Battery Warning': 'Cảnh báo',
       'Battery Standby': 'Phụ tùng',
       'Battery Prohibit DisCharging': 'Không gỡ cài đặt',
       'Battery Prohibit Charging': 'Không sạc',
       'Battery Normal': 'Đặc trưng',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Giai đoạn vòng đời',
       'Use Phase': 'Giai đoạn sử dụng',
       'Commissioning Phase': 'Giai đoạn gỡ lỗi',
@@ -9581,12 +9613,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
       // 'Battery Unknown': 'ไม่ทราบ',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'ความผิด',
       'Battery Warning': 'คำเตือน',
       'Battery Standby': 'รายการสำรอง',
       'Battery Prohibit DisCharging': 'ห้ามขนถ่าย',
       'Battery Prohibit Charging': 'ห้ามชาร์จ',
       'Battery Normal': 'ทั่วไป',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'ระยะวงจรชีวิต',
       'Use Phase': 'ขั้นตอนการใช้งาน',
       'Commissioning Phase': 'ขั้นตอนการว่าจ้าง',
@@ -10711,12 +10747,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
       // 'Battery Unknown': 'Bilinmemiş',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Hata',
       'Battery Warning': 'Uyarı',
       'Battery Standby': 'Standby',
       'Battery Prohibit DisCharging': 'Yüklemeyi yasakla',
       'Battery Prohibit Charging': 'Yüklemeyi yasakla',
       'Battery Normal': 'Normal',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Lifecycle Fazi',
       'Use Phase': 'Use Phase',
       'Commissioning Phase': 'Komisyon Fazi',
@@ -11847,12 +11887,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
       // 'Battery Unknown': 'Tidak diketahui',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Gagal',
       'Battery Warning': 'Amaran',
       'Battery Standby': 'Bersedia',
       'Battery Prohibit DisCharging': 'Melarangkan Nyahmuat',
       'Battery Prohibit Charging': 'Melarang Memuatkan',
       'Battery Normal': 'Normal',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Fasa Siklo Hidup',
       'Use Phase': 'Guna Tahap',
       'Commissioning Phase': 'Fasa Pemasangan',
@@ -12986,12 +13030,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',
       'Battery Unknown': 'Tidak diketahui',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Gagal',
       'Battery Warning': 'Peringatan',
       'Battery Standby': 'Bersiap',
       'Battery Prohibit DisCharging': 'Melarangkan Memotong',
       'Battery Prohibit Charging': 'Melarangkan Memuatkan',
       'Battery Normal': 'Normal',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Tahap Sepeda Hidup',
       'Use Phase': 'Gunakan Tahap',
       'Commissioning Phase': 'Fase Komisionasi',
@@ -14112,12 +14160,16 @@ const resources = {
       // Energy Storage Power Station
       'Battery Operating State': '電池運⾏狀態',
       // 'Battery Unknown': '未知',
+      'Battery Reserved': 'Reserved', // 0
       'Battery Fault': '故障',
       'Battery Warning': '預警',
       'Battery Standby': '待機',
       'Battery Prohibit DisCharging': '禁放',
       'Battery Prohibit Charging': '禁充',
       'Battery Normal': '正常',
+      'Battery Charging': 'Charging', // 7
+      'Battery Discharging': 'Discharging', // 8
+      'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': '生命週期階段',
       'Use Phase': '使用階段',
       'Commissioning Phase': '調試階段',
