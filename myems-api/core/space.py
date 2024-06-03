@@ -1029,10 +1029,10 @@ class SpaceEnergyStoragePowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
-        query = (" SELECT e.id, e.name, e.uuid "
+        query = (" SELECT e.id, e.name, e.uuid, e.phase_of_lifecycle "
                  " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se, tbl_energy_storage_power_stations e "
                  " WHERE se.space_id = s.id AND e.id = se.energy_storage_power_station_id AND s.id = %s "
-                 " ORDER BY e.name ")
+                 " ORDER BY e.phase_of_lifecycle, e.id ")
         cursor.execute(query, (id_,))
         rows = cursor.fetchall()
 
