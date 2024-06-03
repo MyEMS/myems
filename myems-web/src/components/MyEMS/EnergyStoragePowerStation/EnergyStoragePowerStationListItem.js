@@ -130,6 +130,14 @@ const EnergyStoragePowerStationListItem = ({
                         ? t('Battery Fault')
                         : batteryOperatingState === 'Warning'
                         ? t('Battery Warning')
+                        : batteryOperatingState === 'Charing'
+                        ? t('Battery Charging')
+                        : batteryOperatingState === 'Discharging'
+                        ? t('Battery Discharging')
+                        : batteryOperatingState === 'Idle'
+                        ? t('Battery Idle')
+                        : batteryOperatingState === 'Reserved'
+                        ? t('Battery Reserved')
                         : t('Battery Unknown')}
                     </strong>
                   </p>

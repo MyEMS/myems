@@ -178,10 +178,12 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
-                # 1故障  2预警  3待机  4禁放  5禁充  6正常
+                # 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
                 print(battery_state_point_value)
                 if battery_state_point_value is None:
                     battery_operating_state = 'Unknown'
+                elif battery_state_point_value == 0:
+                    battery_operating_state = 'Reserved'
                 elif battery_state_point_value == 1:
                     battery_operating_state = 'Fault'
                 elif battery_state_point_value == 2:
@@ -194,6 +196,12 @@ class Reporting:
                     battery_operating_state = 'ProhibitCharging'
                 elif battery_state_point_value == 6:
                     battery_operating_state = 'Normal'
+                elif battery_state_point_value == 7:
+                    battery_operating_state = 'Charging'
+                elif battery_state_point_value == 8:
+                    battery_operating_state = 'Discharging'
+                elif battery_state_point_value == 9:
+                    battery_operating_state = 'Idle'
                 else:
                     battery_operating_state = 'Unknown'
 
