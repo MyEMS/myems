@@ -99,45 +99,18 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   		});
   		modalInstance.result.then(function(energystoragecontainerpowerconversionsystem) {
 			energystoragecontainerpowerconversionsystem.run_state_point_id = energystoragecontainerpowerconversionsystem.run_state_point.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time1_point_id = energystoragecontainerpowerconversionsystem.charge_start_time1_point.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time1_point_id = energystoragecontainerpowerconversionsystem.charge_end_time1_point.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time2_point_id = energystoragecontainerpowerconversionsystem.charge_start_time2_point.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time2_point_id = energystoragecontainerpowerconversionsystem.charge_end_time2_point.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time3_point_id = energystoragecontainerpowerconversionsystem.charge_start_time3_point.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time3_point_id = energystoragecontainerpowerconversionsystem.charge_end_time3_point.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time4_point_id = energystoragecontainerpowerconversionsystem.charge_start_time4_point.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time4_point_id = energystoragecontainerpowerconversionsystem.charge_end_time4_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time1_point_id = energystoragecontainerpowerconversionsystem.discharge_start_time1_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time1_point_id = energystoragecontainerpowerconversionsystem.discharge_end_time1_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time2_point_id = energystoragecontainerpowerconversionsystem.discharge_start_time2_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time2_point_id = energystoragecontainerpowerconversionsystem.discharge_end_time2_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time3_point_id = energystoragecontainerpowerconversionsystem.discharge_start_time3_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time3_point_id = energystoragecontainerpowerconversionsystem.discharge_end_time3_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time4_point_id = energystoragecontainerpowerconversionsystem.discharge_start_time4_point.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time4_point_id = energystoragecontainerpowerconversionsystem.discharge_end_time4_point.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time1_command_id = energystoragecontainerpowerconversionsystem.charge_start_time1_command.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time1_command_id = energystoragecontainerpowerconversionsystem.charge_end_time1_command.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time2_command_id = energystoragecontainerpowerconversionsystem.charge_start_time2_command.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time2_command_id = energystoragecontainerpowerconversionsystem.charge_end_time2_command.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time3_command_id = energystoragecontainerpowerconversionsystem.charge_start_time3_command.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time3_command_id = energystoragecontainerpowerconversionsystem.charge_end_time3_command.id;
-			energystoragecontainerpowerconversionsystem.charge_start_time4_command_id = energystoragecontainerpowerconversionsystem.charge_start_time4_command.id;
-			energystoragecontainerpowerconversionsystem.charge_end_time4_command_id = energystoragecontainerpowerconversionsystem.charge_end_time4_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time1_command_id = energystoragecontainerpowerconversionsystem.discharge_start_time1_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time1_command_id = energystoragecontainerpowerconversionsystem.discharge_end_time1_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time2_command_id = energystoragecontainerpowerconversionsystem.discharge_start_time2_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time2_command_id = energystoragecontainerpowerconversionsystem.discharge_end_time2_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time3_command_id = energystoragecontainerpowerconversionsystem.discharge_start_time3_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time3_command_id = energystoragecontainerpowerconversionsystem.discharge_end_time3_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_start_time4_command_id = energystoragecontainerpowerconversionsystem.discharge_start_time4_command.id;
-			energystoragecontainerpowerconversionsystem.discharge_end_time4_command_id = energystoragecontainerpowerconversionsystem.discharge_end_time4_command.id;
+			energystoragecontainerpowerconversionsystem.today_charge_energy_point_id = energystoragecontainerpowerconversionsystem.today_charge_energy_point.id;
+			energystoragecontainerpowerconversionsystem.today_discharge_energy_point_id = energystoragecontainerpowerconversionsystem.today_discharge_energy_point.id;
+			energystoragecontainerpowerconversionsystem.total_charge_energy_point_id = energystoragecontainerpowerconversionsystem.total_charge_energy_point.id;
+			energystoragecontainerpowerconversionsystem.total_discharge_energy_point_id = energystoragecontainerpowerconversionsystem.total_discharge_energy_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyStorageContainerPowerconversionsystemService.addEnergyStorageContainerPowerconversionsystem($scope.currentEnergyStorageContainer.id, energystoragecontainerpowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerPowerconversionsystemsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -145,7 +118,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -176,45 +149,18 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 
   		modalInstance.result.then(function(modifiedEnergyStorageContainerPowerconversionsystem) {
 			modifiedEnergyStorageContainerPowerconversionsystem.run_state_point_id = modifiedEnergyStorageContainerPowerconversionsystem.run_state_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time1_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time1_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time1_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time1_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time2_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time2_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time2_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time2_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time3_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time3_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time3_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time3_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time4_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time4_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time4_point_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time4_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time1_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time1_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time1_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time1_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time2_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time2_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time2_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time2_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time3_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time3_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time3_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time3_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time4_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time4_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time4_point_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time4_point.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time1_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time1_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time1_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time1_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time2_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time2_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time2_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time2_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time3_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time3_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time3_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time3_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time4_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_start_time4_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time4_command_id = modifiedEnergyStorageContainerPowerconversionsystem.charge_end_time4_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time1_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time1_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time1_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time1_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time2_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time2_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time2_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time2_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time3_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time3_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time3_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time3_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time4_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_start_time4_command.id;
-			modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time4_command_id = modifiedEnergyStorageContainerPowerconversionsystem.discharge_end_time4_command.id;
+			modifiedEnergyStorageContainerPowerconversionsystem.today_charge_energy_point_id = modifiedEnergyStorageContainerPowerconversionsystem.today_charge_energy_point.id;
+			modifiedEnergyStorageContainerPowerconversionsystem.today_discharge_energy_point_id = modifiedEnergyStorageContainerPowerconversionsystem.today_discharge_energy_point.id;
+			modifiedEnergyStorageContainerPowerconversionsystem.total_charge_energy_point_id = modifiedEnergyStorageContainerPowerconversionsystem.total_charge_energy_point.id;
+			modifiedEnergyStorageContainerPowerconversionsystem.total_discharge_energy_point_id = modifiedEnergyStorageContainerPowerconversionsystem.total_discharge_energy_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyStorageContainerPowerconversionsystemService.editEnergyStorageContainerPowerconversionsystem($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerPowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerPowerconversionsystemsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -222,7 +168,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -254,7 +200,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
 								showCloseButton: true,
 							});
 							$scope.getEnergyStorageContainerPowerconversionsystemsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -262,7 +208,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
@@ -285,7 +231,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 
   app.controller('ModalAddEnergyStorageContainerPowerconversionsystemCtrl', function($scope, $uibModalInstance, params) {
 
-  	$scope.operation = "MICROGRID.ADD_MICROGRID_POWER_CONVERSION_SYSTEM";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
 	$scope.commands=params.commands;
@@ -299,7 +245,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   });
 
   app.controller('ModalEditEnergyStorageContainerPowerconversionsystemCtrl', function($scope, $uibModalInstance, params) {
-  	$scope.operation = "MICROGRID.EDIT_MICROGRID_POWER_CONVERSION_SYSTEM";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM";
   	$scope.energystoragecontainerpowerconversionsystem = params.energystoragecontainerpowerconversionsystem;
 	$scope.points=params.points;
 	$scope.meters=params.meters;

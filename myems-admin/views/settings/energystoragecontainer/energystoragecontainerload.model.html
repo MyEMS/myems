@@ -5,15 +5,16 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerload" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_LOAD_NAME' | translate}}</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerload.name" type="text" name="energystoragecontainerloadname" class="form-control" required="">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerload.name" type="text" name="energystoragecontainerloadname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadname.$invalid && form_energystoragecontainerload.energystoragecontainerloadname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadname.$error.required">{{'MICROGRID.INPUT_MICROGRID_LOAD_NAME' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerload.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -22,8 +23,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.METER' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerload.meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
@@ -32,10 +34,11 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerload.rated_input_power" type="number" name="energystoragecontainerloadrated_input_power" class="form-control" required="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' | translate}}(kW)</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerload.rated_input_power" type="number" name="energystoragecontainerloadrated_input_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$invalid && form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>

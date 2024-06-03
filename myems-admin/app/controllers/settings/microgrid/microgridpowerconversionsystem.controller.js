@@ -99,38 +99,11 @@ app.controller('MicrogridPowerconversionsystemController', function(
   		});
   		modalInstance.result.then(function(microgridpowerconversionsystem) {
 			microgridpowerconversionsystem.run_state_point_id = microgridpowerconversionsystem.run_state_point.id;
-			microgridpowerconversionsystem.charge_start_time1_point_id = microgridpowerconversionsystem.charge_start_time1_point.id;
-			microgridpowerconversionsystem.charge_end_time1_point_id = microgridpowerconversionsystem.charge_end_time1_point.id;
-			microgridpowerconversionsystem.charge_start_time2_point_id = microgridpowerconversionsystem.charge_start_time2_point.id;
-			microgridpowerconversionsystem.charge_end_time2_point_id = microgridpowerconversionsystem.charge_end_time2_point.id;
-			microgridpowerconversionsystem.charge_start_time3_point_id = microgridpowerconversionsystem.charge_start_time3_point.id;
-			microgridpowerconversionsystem.charge_end_time3_point_id = microgridpowerconversionsystem.charge_end_time3_point.id;
-			microgridpowerconversionsystem.charge_start_time4_point_id = microgridpowerconversionsystem.charge_start_time4_point.id;
-			microgridpowerconversionsystem.charge_end_time4_point_id = microgridpowerconversionsystem.charge_end_time4_point.id;
-			microgridpowerconversionsystem.discharge_start_time1_point_id = microgridpowerconversionsystem.discharge_start_time1_point.id;
-			microgridpowerconversionsystem.discharge_end_time1_point_id = microgridpowerconversionsystem.discharge_end_time1_point.id;
-			microgridpowerconversionsystem.discharge_start_time2_point_id = microgridpowerconversionsystem.discharge_start_time2_point.id;
-			microgridpowerconversionsystem.discharge_end_time2_point_id = microgridpowerconversionsystem.discharge_end_time2_point.id;
-			microgridpowerconversionsystem.discharge_start_time3_point_id = microgridpowerconversionsystem.discharge_start_time3_point.id;
-			microgridpowerconversionsystem.discharge_end_time3_point_id = microgridpowerconversionsystem.discharge_end_time3_point.id;
-			microgridpowerconversionsystem.discharge_start_time4_point_id = microgridpowerconversionsystem.discharge_start_time4_point.id;
-			microgridpowerconversionsystem.discharge_end_time4_point_id = microgridpowerconversionsystem.discharge_end_time4_point.id;
-			microgridpowerconversionsystem.charge_start_time1_command_id = microgridpowerconversionsystem.charge_start_time1_command.id;
-			microgridpowerconversionsystem.charge_end_time1_command_id = microgridpowerconversionsystem.charge_end_time1_command.id;
-			microgridpowerconversionsystem.charge_start_time2_command_id = microgridpowerconversionsystem.charge_start_time2_command.id;
-			microgridpowerconversionsystem.charge_end_time2_command_id = microgridpowerconversionsystem.charge_end_time2_command.id;
-			microgridpowerconversionsystem.charge_start_time3_command_id = microgridpowerconversionsystem.charge_start_time3_command.id;
-			microgridpowerconversionsystem.charge_end_time3_command_id = microgridpowerconversionsystem.charge_end_time3_command.id;
-			microgridpowerconversionsystem.charge_start_time4_command_id = microgridpowerconversionsystem.charge_start_time4_command.id;
-			microgridpowerconversionsystem.charge_end_time4_command_id = microgridpowerconversionsystem.charge_end_time4_command.id;
-			microgridpowerconversionsystem.discharge_start_time1_command_id = microgridpowerconversionsystem.discharge_start_time1_command.id;
-			microgridpowerconversionsystem.discharge_end_time1_command_id = microgridpowerconversionsystem.discharge_end_time1_command.id;
-			microgridpowerconversionsystem.discharge_start_time2_command_id = microgridpowerconversionsystem.discharge_start_time2_command.id;
-			microgridpowerconversionsystem.discharge_end_time2_command_id = microgridpowerconversionsystem.discharge_end_time2_command.id;
-			microgridpowerconversionsystem.discharge_start_time3_command_id = microgridpowerconversionsystem.discharge_start_time3_command.id;
-			microgridpowerconversionsystem.discharge_end_time3_command_id = microgridpowerconversionsystem.discharge_end_time3_command.id;
-			microgridpowerconversionsystem.discharge_start_time4_command_id = microgridpowerconversionsystem.discharge_start_time4_command.id;
-			microgridpowerconversionsystem.discharge_end_time4_command_id = microgridpowerconversionsystem.discharge_end_time4_command.id;
+			microgridpowerconversionsystem.today_charge_energy_point_id = microgridpowerconversionsystem.today_charge_energy_point.id;
+			microgridpowerconversionsystem.today_discharge_energy_point_id = microgridpowerconversionsystem.today_discharge_energy_point.id;
+			microgridpowerconversionsystem.total_charge_energy_point_id = microgridpowerconversionsystem.total_charge_energy_point.id;
+			microgridpowerconversionsystem.total_discharge_energy_point_id = microgridpowerconversionsystem.total_discharge_energy_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.addMicrogridPowerconversionsystem($scope.currentMicrogrid.id, microgridpowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -176,38 +149,11 @@ app.controller('MicrogridPowerconversionsystemController', function(
 
   		modalInstance.result.then(function(modifiedMicrogridPowerconversionsystem) {
 			modifiedMicrogridPowerconversionsystem.run_state_point_id = modifiedMicrogridPowerconversionsystem.run_state_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time1_point_id = modifiedMicrogridPowerconversionsystem.charge_start_time1_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time1_point_id = modifiedMicrogridPowerconversionsystem.charge_end_time1_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time2_point_id = modifiedMicrogridPowerconversionsystem.charge_start_time2_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time2_point_id = modifiedMicrogridPowerconversionsystem.charge_end_time2_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time3_point_id = modifiedMicrogridPowerconversionsystem.charge_start_time3_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time3_point_id = modifiedMicrogridPowerconversionsystem.charge_end_time3_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time4_point_id = modifiedMicrogridPowerconversionsystem.charge_start_time4_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time4_point_id = modifiedMicrogridPowerconversionsystem.charge_end_time4_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time1_point_id = modifiedMicrogridPowerconversionsystem.discharge_start_time1_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time1_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time1_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time2_point_id = modifiedMicrogridPowerconversionsystem.discharge_start_time2_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time2_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time2_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time3_point_id = modifiedMicrogridPowerconversionsystem.discharge_start_time3_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time3_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time3_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time4_point_id = modifiedMicrogridPowerconversionsystem.discharge_start_time4_point.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time4_point_id = modifiedMicrogridPowerconversionsystem.discharge_end_time4_point.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time1_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time1_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time1_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time1_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time2_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time2_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time2_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time2_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time3_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time3_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time3_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time3_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_start_time4_command_id = modifiedMicrogridPowerconversionsystem.charge_start_time4_command.id;
-			modifiedMicrogridPowerconversionsystem.charge_end_time4_command_id = modifiedMicrogridPowerconversionsystem.charge_end_time4_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time1_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time1_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time1_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time1_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time2_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time2_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time2_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time2_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time3_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time3_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time3_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time3_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_start_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_start_time4_command.id;
-			modifiedMicrogridPowerconversionsystem.discharge_end_time4_command_id = modifiedMicrogridPowerconversionsystem.discharge_end_time4_command.id;
+			modifiedMicrogridPowerconversionsystem.today_charge_energy_point_id = modifiedMicrogridPowerconversionsystem.today_charge_energy_point.id;
+			modifiedMicrogridPowerconversionsystem.today_discharge_energy_point_id = modifiedMicrogridPowerconversionsystem.today_discharge_energy_point.id;
+			modifiedMicrogridPowerconversionsystem.total_charge_energy_point_id = modifiedMicrogridPowerconversionsystem.total_charge_energy_point.id;
+			modifiedMicrogridPowerconversionsystem.total_discharge_energy_point_id = modifiedMicrogridPowerconversionsystem.total_discharge_energy_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			MicrogridPowerconversionsystemService.editMicrogridPowerconversionsystem($scope.currentMicrogrid.id, modifiedMicrogridPowerconversionsystem, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
