@@ -5,15 +5,16 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerbattery" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-2 control-label">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'MICROGRID.INPUT_MICROGRID_BATTERY_NAME' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.BATTERY_STATE_POINT' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerbattery.battery_state_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -22,8 +23,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.SOC_POINT' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerbattery.soc_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -32,8 +34,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerbattery.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -42,8 +45,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.CHARGE_METER' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerbattery.charge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
@@ -52,8 +56,9 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.DISCHARGE_METER' | translate}}</label>
-                <div class="col-sm-10">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerbattery.discharge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
@@ -62,24 +67,27 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}} (kWh)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kWh)</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.RATED_POWER' | translate}} (kW)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}} (V)</label>
-                <div class="col-sm-10"><input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'MICROGRID.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
                     </div>
                 </div>
             </div>

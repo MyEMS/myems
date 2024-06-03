@@ -5,15 +5,16 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerpowerconversionsystem" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-6 control-label">{{'SETTING.NAME' | translate}}</label>
-                <div class="col-sm-6"><input ng-model="energystoragecontainerpowerconversionsystem.name" type="text" name="energystoragecontainerpowerconversionsystemname" class="form-control" required="">
+                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerpowerconversionsystem.name" type="text" name="energystoragecontainerpowerconversionsystemname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$invalid && form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$error.required">{{'MICROGRID.INPUT_MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.RUN_STATE_POINT' | translate}}</label>
-                <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RUN_STATE_POINT' | translate}}</label>
+                <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainerpowerconversionsystem.run_state_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -22,16 +23,18 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-6"><input ng-model="energystoragecontainerpowerconversionsystem.rated_output_power" type="number" name="energystoragecontainerpowerconversionsystemrated_output_power" class="form-control" required="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_OUTPUT_POWER' | translate}}(kW)</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainerpowerconversionsystem.rated_output_power" type="number" name="energystoragecontainerpowerconversionsystemrated_output_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$invalid && form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME1_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time1_point.id" theme="bootstrap" required>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TODAY_CHARGE_ENERGY_POINT' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.today_charge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -39,9 +42,10 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME1_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time1_point.id" theme="bootstrap" required>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TODAY_DISCHARGE_ENERGY_POINT' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.today_discharge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -49,9 +53,10 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME2_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time2_point.id" theme="bootstrap" required>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_CHARGE_ENERGY_POINT' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.total_charge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -59,9 +64,10 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME2_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time2_point.id" theme="bootstrap" required>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_DISCHARGE_ENERGY_POINT' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.total_discharge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -69,286 +75,7 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME3_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time3_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME3_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time3_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME4_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time4_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME4_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time4_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME1_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time1_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME1_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time1_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME2_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time2_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME2_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time2_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME3_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time3_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME3_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time3_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME4_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time4_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME4_POINT' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time4_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
-                            <div ng-bind-html="point.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME1_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time1_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME1_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time1_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME2_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time2_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME2_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time2_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME3_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time3_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME3_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time3_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_START_TIME4_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_start_time4_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.CHARGE_END_TIME4_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.charge_end_time4_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME1_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time1_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME1_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time1_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME2_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time2_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME2_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time2_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME3_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time3_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME3_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time3_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_START_TIME4_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_start_time4_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group"><label class="col-sm-6 control-label">{{'MICROGRID.DISCHARGE_END_TIME4_COMMAND' | translate}}</label>
-                <div class="col-sm-6">
-                    <ui-select ng-model="energystoragecontainerpowerconversionsystem.discharge_end_time4_command.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="command.id as command in commands | filter: $select.search">
-                            <div ng-bind-html="command.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
+
         </form>
     </div>
     <div class="modal-footer">

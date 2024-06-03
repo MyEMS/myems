@@ -10,13 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added energy plan files page to myems-admin
 - added reading data from tbl_energy_value after reading data from tbl_analog_value for virtualpoint procedure
 - added support for ojbect type ENERGY_VALUE to virtualpoint procedure in myems-normalization
-- added columns to tbl_microgrids_power_conversion_systems in database
+- added columns to tbl_microgrids_power_conversion_systems in databas
 - added columns to tbl_energy_storage_containers_power_conversion_systems in database
 - added round2() function to avoid exceptions for builtin round()
 - added phase_of_lifecycle to microgrid
 - added phase_of_lifecycle to energy storage power station
 ### Changed
-- 
+- updated energy storage container settings in myems-admin
+- updated microgird settings in myems-admin
 ### Fixed
 - fixed totalRatedCapacity and totalRatedPower issue in microgrid dashboard and energy storage power station dashboard
 - fixed issue of meter batch report in myems-api
