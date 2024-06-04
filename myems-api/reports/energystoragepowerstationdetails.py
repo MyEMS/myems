@@ -314,7 +314,7 @@ class Reporting:
                               "        total_charge_energy_point_id, "
                               "        total_discharge_energy_point_id "
                               " FROM tbl_energy_storage_containers_power_conversion_systems "
-                              " WHERE id = %s "
+                              " WHERE energy_storage_container_id = %s "
                               " ORDER BY id "
                               " LIMIT 1 ",
                               (container_list[0]['id'],))
