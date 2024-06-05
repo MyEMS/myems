@@ -65,7 +65,7 @@ class Reporting:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
 
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=1)
+        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=3)
         reporting_end_datetime_utc = datetime.utcnow()
 
         ################################################################################################################
@@ -380,7 +380,6 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        # current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])
@@ -399,7 +398,6 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        # current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])
@@ -418,7 +416,6 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        # current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
                         current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
                         point_timestamps.append(current_datetime)
                         point_values.append(row[1])

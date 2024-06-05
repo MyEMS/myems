@@ -69,7 +69,7 @@ class Reporting:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_MICROGRID_UUID')
 
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=1)
+        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=3)
         reporting_end_datetime_utc = datetime.utcnow()
 
         ################################################################################################################
