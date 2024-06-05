@@ -441,11 +441,6 @@ const resources = {
       All: 'All',
       'FROM - TO of TOTAL': 'The current display of {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery State': 'Battery State',
-      'Battery Unknown': 'Unknown',
-      'Battery Charging': 'Charging',
-      'Battery Discharging': 'Discharging',
-      'Battery Stopped': 'Stopped',
       'PCS Run State': 'PCS Run State',
       'PCS Unknown': 'Unknown',
       'PCS Initializing': 'Initializing',
@@ -497,7 +492,9 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Battery Operating State',
-      // 'Battery Unknown': 'Unknown',
+      'Battery State': 'Battery State',
+      'Battery Unknown': 'Unknown',
+      'Battery Stopped': 'Stopped',
       'Battery Reserved': 'Reserved', // 0
       'Battery Fault': 'Fault', // 1
       'Battery Warning': 'Warning', // 2
@@ -1556,11 +1553,6 @@ const resources = {
       All: '全部',
       'FROM - TO of TOTAL': '当前显示{{FROM}} - {{TO}} 总计{{TOTAL}}',
       //Microgrid
-      'Battery State': '电池状态',
-      'Battery Unknown': '未知',
-      'Battery Charging': '充电中',
-      'Battery Discharging': '放电中',
-      'Battery Stopped': '停止',
       'PCS Run State': 'PCS运行状态',
       'PCS Unknown': '未知',
       'PCS Initializing': '初始上电',
@@ -1613,14 +1605,16 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': '电池运行状态',
-      // 'Battery Unknown': '未知',
+      'Battery State': '电池状态',
+      'Battery Unknown': '未知',
+      'Battery Stopped': '停止',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': '故障',
-      'Battery Warning': '预警',
-      'Battery Standby': '待机',
-      'Battery Prohibit DisCharging': '禁放',
-      'Battery Prohibit Charging': '禁充',
-      'Battery Normal': '正常',
+      'Battery Fault': '故障', // 1
+      'Battery Warning': '预警', // 2
+      'Battery Standby': '待机', // 3
+      'Battery Prohibit DisCharging': '禁放', // 4
+      'Battery Prohibit Charging': '禁充', // 5
+      'Battery Normal': '正常', // 6
       'Battery Charging': '充电', // 7
       'Battery Discharging': '放电', // 8
       'Battery Idle': '空闲', // 9
@@ -2698,11 +2692,6 @@ const resources = {
       All: 'Alles',
       'FROM - TO of TOTAL': 'Die aktuelle Anzeige von {{FROM}} und {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery State': 'Batteriestatus',
-      'Battery Unknown': 'Unbekannt',
-      'Battery Charging': 'Aufladung',
-      'Battery Discharging': 'Selama pembebasan',
-      'Battery Stopped': 'Angehalten',
       'PCS Run State': 'PCS-Ausführungsstatus',
       'PCS Unknown': 'Unbekannt',
       'PCS Initializing': 'Initialisieren',
@@ -2754,16 +2743,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batteriebetriebszustand',
-      // 'Battery Unknown': 'Unbekannt',
+      'Battery State': 'Batteriestatus',
+      'Battery Unknown': 'Unbekannt',
+      'Battery Stopped': 'Angehalten',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Fehler',
-      'Battery Warning': 'Warnung',
-      'Battery Standby': 'Standby',
-      'Battery Prohibit DisCharging': 'Deaktivieren verbieten',
-      'Battery Prohibit Charging': 'Gebühren verbieten',
-      'Battery Normal': 'Normal',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Fehler', // 1
+      'Battery Warning': 'Warnung', // 2
+      'Battery Standby': 'Standby', // 3
+      'Battery Prohibit DisCharging': 'Deaktivieren verbieten', // 4
+      'Battery Prohibit Charging': 'Gebühren verbieten', // 5
+      'Battery Normal': 'Normal', // 6
+      'Battery Charging': 'Aufladung', // 7
+      'Battery Discharging': 'Selama pembebasan', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Phase des Lebenszyklus',
       'Use Phase': 'Anwendungsphase',
@@ -3856,11 +3847,6 @@ const resources = {
       All: 'Tout',
       'FROM - TO of TOTAL': 'Affichage actuel {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery State': 'État de la batterie',
-      'Battery Unknown': 'Inconnu',
-      'Battery Charging': 'En charge',
-      'Battery Discharging': 'Dans la décharge',
-      'Battery Stopped': 'A cessé',
       'PCS Run State': 'État de fonctionnement du PCS',
       'PCS Unknown': 'Inconnu',
       'PCS Initializing': 'Initialisation en cours',
@@ -3912,16 +3898,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'État de fonctionnement de la batterie',
-      // 'Battery Unknown': 'Inconnu',
+      'Battery State': 'État de la batterie',
+      'Battery Unknown': 'Inconnu',
+      'Battery Stopped': 'A cessé',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'La faute',
-      'Battery Warning': 'Avertissement',
-      'Battery Standby': 'Articles de rechange',
-      'Battery Prohibit DisCharging': 'Interdiction de désinstaller',
-      'Battery Prohibit Charging': 'Interdiction de charger',
-      'Battery Normal': 'Typiquement',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'La faute', // 1
+      'Battery Warning': 'Avertissement', // 2
+      'Battery Standby': 'Articles de rechange', // 3
+      'Battery Prohibit DisCharging': 'Interdiction de désinstaller', // 4
+      'Battery Prohibit Charging': 'Interdiction de charger', // 5
+      'Battery Normal': 'Typiquement', // 6
+      'Battery Charging': 'En charge', // 7
+      'Battery Discharging': 'Dans la décharge', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Phases du cycle de vie',
       'Use Phase': 'Phase d\'utilisation',
@@ -5004,11 +4992,6 @@ const resources = {
       All: 'Todo',
       'FROM - TO of TOTAL': 'Actualmente se muestra {{FROM}} - {{TO}} total {{TOTAL}}',
       //Microgrid
-      'Battery State': 'Estado de la batería',
-      'Battery Unknown': 'Desconocido',
-      'Battery Charging': 'En carga',
-      'Battery Discharging': 'En descarga',
-      'Battery Stopped': 'Se ha detenido',
       'PCS Run State': 'Estado de funcionamiento del PCs',
       'PCS Unknown': 'Desconocido',
       'PCS Initializing': 'Se está iniciando',
@@ -5060,16 +5043,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Estado de funcionamiento de la batería',
-      // 'Battery Unknown': 'Desconocido',
+      'Battery State': 'Estado de la batería',
+      'Battery Unknown': 'Desconocido',
+      'Battery Stopped': 'Se ha detenido',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Culpa',
-      'Battery Warning': 'Aviso',
-      'Battery Standby': 'Artículos de repuesto',
-      'Battery Prohibit DisCharging': 'Prohibición de descargar',
-      'Battery Prohibit Charging': 'Está prohibido cargar',
-      'Battery Normal': 'Típico',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Culpa', // 1
+      'Battery Warning': 'Aviso', // 2
+      'Battery Standby': 'Artículos de repuesto', // 3
+      'Battery Prohibit DisCharging': 'Prohibición de descargar', // 4
+      'Battery Prohibit Charging': 'Está prohibido cargar', // 5
+      'Battery Normal': 'Típico', // 6
+      'Battery Charging': 'En carga', // 7
+      'Battery Discharging': 'En descarga', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Fase del ciclo de vida',
       'Use Phase': 'Fase de uso',
@@ -6151,11 +6136,6 @@ const resources = {
       All: 'Все',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} из {{TOTAL}} Оборудования',
       //Microgrid
-      'Battery State': 'Состояние батареи',
-      'Battery Unknown': 'Неизвестный',
-      'Battery Charging': 'Заряжается.',
-      'Battery Discharging': 'В разряде.',
-      'Battery Stopped': 'Прекращено',
       'PCS Run State': 'Режим работы PCS',
       'PCS Unknown': 'Неизвестный',
       'PCS Initializing': 'Начинается',
@@ -6207,16 +6187,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'режим работы батареи',
-      // 'Battery Unknown': 'Неизвестный',
+      'Battery State': 'Состояние батареи',
+      'Battery Unknown': 'Неизвестный',
+      'Battery Stopped': 'Прекращено',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Ошибка',
-      'Battery Warning': 'предупреждение',
-      'Battery Standby': 'Запасные материалы',
-      'Battery Prohibit DisCharging': 'Запрещается выгрузка',
-      'Battery Prohibit Charging': 'Зарядка запрещена.',
-      'Battery Normal': 'Типичный',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Ошибка', // 1
+      'Battery Warning': 'предупреждение', // 2
+      'Battery Standby': 'Запасные материалы', // 3
+      'Battery Prohibit DisCharging': 'Запрещается выгрузка', // 4
+      'Battery Prohibit Charging': 'Зарядка запрещена.', // 5
+      'Battery Normal': 'Типичный', // 6
+      'Battery Charging': 'Заряжается.', // 7
+      'Battery Discharging': 'В разряде.', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Этапы жизненного цикла',
       'Use Phase': 'Этап использования',
@@ -7288,11 +7270,6 @@ const resources = {
       All: 'كل',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} من {{TOTAL}} المعدات',
       //Microgrid
-      'Battery State': 'حالة البطارية',
-      'Battery Unknown': 'غير معروف',
-      'Battery Charging': 'شحن',
-      'Battery Discharging': 'في التفريغ',
-      'Battery Stopped': 'توقف',
       'PCS Run State': 'جهاز الدولة',
       'PCS Unknown': 'غير معروف',
       'PCS Initializing': 'تهيئة',
@@ -7344,16 +7321,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'حالة البطارية',
-      // 'Battery Unknown': 'غير معروف',
+      'Battery State': 'حالة البطارية',
+      'Battery Unknown': 'غير معروف',
+      'Battery Stopped': 'توقف',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'خطأ',
-      'Battery Warning': 'حذر',
-      'Battery Standby': 'المواد الاحتياطية',
-      'Battery Prohibit DisCharging': 'تعطيل إلغاء',
-      'Battery Prohibit Charging': 'حظر شحن',
-      'Battery Normal': 'نموذجي',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'خطأ', // 1
+      'Battery Warning': 'حذر', // 2
+      'Battery Standby': 'المواد الاحتياطية', // 3
+      'Battery Prohibit DisCharging': 'تعطيل إلغاء', // 4
+      'Battery Prohibit Charging': 'حظر شحن', // 5
+      'Battery Normal': 'نموذجي', // 6
+      'Battery Charging': 'شحن', // 7
+      'Battery Discharging': 'في التفريغ', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'مراحل دورة الحياة',
       'Use Phase': 'استخدام المرحلة',
@@ -8421,11 +8400,6 @@ const resources = {
       All: 'Tất cả',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} của {{TOTAL}} Thiết bị',
       //Microgrid
-      'Battery State': 'Trạng thái pin',
-      'Battery Unknown': 'Không rõ',
-      'Battery Charging': 'Đang sạc',
-      'Battery Discharging': 'Đang xả',
-      'Battery Stopped': 'Đã dừng',
       'PCS Run State': 'Trạng thái hoạt động PCS',
       'PCS Unknown': 'Không rõ',
       'PCS Initializing': 'Đang khởi tạo',
@@ -8477,16 +8451,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Trạng thái hoạt động của pin',
-      // 'Battery Unknown': 'Không rõ',
+      'Battery State': 'Trạng thái pin',
+      'Battery Unknown': 'Không rõ',
+      'Battery Stopped': 'Đã dừng',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Lỗi',
-      'Battery Warning': 'Cảnh báo',
-      'Battery Standby': 'Phụ tùng',
-      'Battery Prohibit DisCharging': 'Không gỡ cài đặt',
-      'Battery Prohibit Charging': 'Không sạc',
-      'Battery Normal': 'Đặc trưng',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Lỗi', // 1
+      'Battery Warning': 'Cảnh báo', // 2
+      'Battery Standby': 'Phụ tùng', // 3
+      'Battery Prohibit DisCharging': 'Không gỡ cài đặt', // 4
+      'Battery Prohibit Charging': 'Không sạc', // 5
+      'Battery Normal': 'Đặc trưng', // 6
+      'Battery Charging': 'Đang sạc', // 7
+      'Battery Discharging': 'Đang xả', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Giai đoạn vòng đời',
       'Use Phase': 'Giai đoạn sử dụng',
@@ -9556,11 +9532,6 @@ const resources = {
       All: 'ทั้งหมด',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} ของ {{TOTAL}} อุปกรณ์',
       //Microgrid
-      'Battery State': 'สถานะแบตเตอรี่',
-      'Battery Unknown': 'ไม่ทราบ',
-      'Battery Charging': 'ในการชาร์จ',
-      'Battery Discharging': 'ในการปลดปล่อย',
-      'Battery Stopped': 'หยุดแล้ว',
       'PCS Run State': 'PCS สถานะการทำงาน',
       'PCS Unknown': 'ไม่ทราบ',
       'PCS Initializing': 'กำลังเริ่มต้น',
@@ -9612,16 +9583,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'สถานะการทำงานของแบตเตอรี่',
-      // 'Battery Unknown': 'ไม่ทราบ',
+      'Battery State': 'สถานะแบตเตอรี่',
+      'Battery Unknown': 'ไม่ทราบ',
+      'Battery Stopped': 'หยุดแล้ว',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'ความผิด',
-      'Battery Warning': 'คำเตือน',
-      'Battery Standby': 'รายการสำรอง',
-      'Battery Prohibit DisCharging': 'ห้ามขนถ่าย',
-      'Battery Prohibit Charging': 'ห้ามชาร์จ',
-      'Battery Normal': 'ทั่วไป',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'ความผิด', // 1
+      'Battery Warning': 'คำเตือน', // 2
+      'Battery Standby': 'รายการสำรอง', // 3
+      'Battery Prohibit DisCharging': 'ห้ามขนถ่าย', // 4
+      'Battery Prohibit Charging': 'ห้ามชาร์จ', // 5
+      'Battery Normal': 'ทั่วไป', // 6
+      'Battery Charging': 'ในการชาร์จ', // 7
+      'Battery Discharging': 'ในการปลดปล่อย', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'ระยะวงจรชีวิต',
       'Use Phase': 'ขั้นตอนการใช้งาน',
@@ -10690,11 +10663,6 @@ const resources = {
       All: 'Tüm',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} in {{TOTAL}} Alet -leri',
       //Microgrid
-      'Battery State': 'Batarya durumu',
-      'Battery Unknown': 'Bilinmemiş',
-      'Battery Charging': 'Yüklenmek',
-      'Battery Discharging': 'During discharge',
-      'Battery Stopped': 'Durduruldu',
       'PCS Run State': 'PCS Çalıştırma Durumu',
       'PCS Unknown': 'Bilinmemiş',
       'PCS Initializing': 'Initializing',
@@ -10746,16 +10714,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Batarya İşlemi Durumu',
-      // 'Battery Unknown': 'Bilinmemiş',
+      'Battery State': 'Batarya durumu',
+      'Battery Unknown': 'Bilinmemiş',
+      'Battery Stopped': 'Durduruldu',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Hata',
-      'Battery Warning': 'Uyarı',
-      'Battery Standby': 'Standby',
-      'Battery Prohibit DisCharging': 'Yüklemeyi yasakla',
-      'Battery Prohibit Charging': 'Yüklemeyi yasakla',
-      'Battery Normal': 'Normal',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Hata', // 1
+      'Battery Warning': 'Uyarı', // 2
+      'Battery Standby': 'Standby', // 3
+      'Battery Prohibit DisCharging': 'Yüklemeyi yasakla', // 4
+      'Battery Prohibit Charging': 'Yüklemeyi yasakla', // 5
+      'Battery Normal': 'Normal', // 6
+      'Battery Charging': 'Yüklenmek', // 7
+      'Battery Discharging': 'During discharge', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Lifecycle Fazi',
       'Use Phase': 'Use Phase',
@@ -11830,11 +11800,6 @@ const resources = {
       All: 'Semua',
       'FROM - TO of TOTAL': '{{FROM}} - {{TO}} daripada {{TOTAL}} Peralatan',
       //Microgrid
-      'Battery State': 'Status Bateri',
-      'Battery Unknown': 'Tidak diketahui',
-      'Battery Charging': 'Memuatkan',
-      'Battery Discharging': 'Semasa pembuangan',
-      'Battery Stopped': 'Berhenti',
       'PCS Run State': 'PCS Run State',
       'PCS Unknown': 'Tidak diketahui',
       'PCS Initializing': 'Memulakan',
@@ -11886,16 +11851,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Keadaan Operasi Bateri',
-      // 'Battery Unknown': 'Tidak diketahui',
+      'Battery State': 'Status Bateri',
+      'Battery Unknown': 'Tidak diketahui',
+      'Battery Stopped': 'Berhenti',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Gagal',
-      'Battery Warning': 'Amaran',
-      'Battery Standby': 'Bersedia',
-      'Battery Prohibit DisCharging': 'Melarangkan Nyahmuat',
-      'Battery Prohibit Charging': 'Melarang Memuatkan',
-      'Battery Normal': 'Normal',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Gagal', // 1
+      'Battery Warning': 'Amaran', // 2
+      'Battery Standby': 'Bersedia', // 3
+      'Battery Prohibit DisCharging': 'Melarangkan Nyahmuat', // 4
+      'Battery Prohibit Charging': 'Melarang Memuatkan', // 5
+      'Battery Normal': 'Normal', // 6
+      'Battery Charging': 'Memuatkan', // 7
+      'Battery Discharging': 'Semasa pembuangan', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Fasa Siklo Hidup',
       'Use Phase': 'Guna Tahap',
@@ -12973,11 +12940,6 @@ const resources = {
       All: 'Seluruh',
       'FROM - TO of TOTAL': 'Tampilan Saat Ini{{FROM}} - {{TO}} Total{{TOTAL}}Peranti',
       //Microgrid
-      'Battery State': 'Status Bateri',
-      'Battery Unknown': 'Tidak diketahui',
-      'Battery Charging': 'Memuatkan',
-      'Battery Discharging': 'Selama pembebasan',
-      'Battery Stopped': 'Berhenti',
       'PCS Run State': 'PCS Run State',
       'PCS Unknown': 'Tidak diketahui',
       'PCS Initializing': 'Menginisialisasi',
@@ -13029,16 +12991,18 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': 'Status Operasi Bateri',
+      'Battery State': 'Status Bateri',
       'Battery Unknown': 'Tidak diketahui',
+      'Battery Stopped': 'Berhenti',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': 'Gagal',
-      'Battery Warning': 'Peringatan',
-      'Battery Standby': 'Bersiap',
-      'Battery Prohibit DisCharging': 'Melarangkan Memotong',
-      'Battery Prohibit Charging': 'Melarangkan Memuatkan',
-      'Battery Normal': 'Normal',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
+      'Battery Fault': 'Gagal', // 1
+      'Battery Warning': 'Peringatan', // 2
+      'Battery Standby': 'Bersiap', // 3
+      'Battery Prohibit DisCharging': 'Melarangkan Memotong', // 4
+      'Battery Prohibit Charging': 'Melarangkan Memuatkan', // 5
+      'Battery Normal': 'Normal', // 6
+      'Battery Charging': 'Memuatkan', // 7
+      'Battery Discharging': 'Selama pembebasan', // 8
       'Battery Idle': 'Idle', // 9
       'Phase of Lifecycle': 'Tahap Sepeda Hidup',
       'Use Phase': 'Gunakan Tahap',
@@ -14102,11 +14066,6 @@ const resources = {
       All: '全部',
       'FROM - TO of TOTAL': '當前顯⽰ {{FROM}} - {{TO}} 總計 {{TOTAL}}',
       //Microgrid
-      'Battery State': '電池狀態',
-      'Battery Unknown': '未知',
-      'Battery Charging': '充電中',
-      'Battery Discharging': '放電中',
-      'Battery Stopped': '停⽌',
       'PCS Run State': 'PCS 運⾏狀態',
       'PCS Unknown': '未知',
       'PCS Initializing': '初始上電',
@@ -14159,17 +14118,19 @@ const resources = {
 
       // Energy Storage Power Station
       'Battery Operating State': '電池運⾏狀態',
-      // 'Battery Unknown': '未知',
+      'Battery State': '電池狀態',
+      'Battery Unknown': '未知',
+      'Battery Stopped': '停⽌',
       'Battery Reserved': 'Reserved', // 0
-      'Battery Fault': '故障',
-      'Battery Warning': '預警',
-      'Battery Standby': '待機',
-      'Battery Prohibit DisCharging': '禁放',
-      'Battery Prohibit Charging': '禁充',
-      'Battery Normal': '正常',
-      'Battery Charging': 'Charging', // 7
-      'Battery Discharging': 'Discharging', // 8
-      'Battery Idle': 'Idle', // 9
+      'Battery Fault': '故障', // 1
+      'Battery Warning': '預警', // 2
+      'Battery Standby': '待機', // 3
+      'Battery Prohibit DisCharging': '禁放', // 4
+      'Battery Prohibit Charging': '禁充', // 5
+      'Battery Normal': '正常', // 6
+      'Battery Charging': '充電', // 7
+      'Battery Discharging': '放電', // 8
+      'Battery Idle': '空闲', // 9
       'Phase of Lifecycle': '生命週期階段',
       'Use Phase': '使用階段',
       'Commissioning Phase': '調試階段',
