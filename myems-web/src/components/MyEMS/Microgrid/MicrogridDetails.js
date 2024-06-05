@@ -81,39 +81,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // State
-  const [chargeStartTime1, setChargeStartTime1] = useState(null);
-  const [chargeEndTime1, setChargeEndTime1] = useState(null);
-  const [chargeStartTime2, setChargeStartTime2] = useState(null);
-  const [chargeEndTime2, setChargeEndTime2] = useState(null);
-  const [chargeStartTime3, setChargeStartTime3] = useState(null);
-  const [chargeEndTime3, setChargeEndTime3] = useState(null);
-  const [chargeStartTime4, setChargeStartTime4] = useState(null);
-  const [chargeEndTime4, setChargeEndTime4] = useState(null);
-  const [dischargeStartTime1, setDischargeStartTime1] = useState(null);
-  const [dischargeEndTime1, setDischargeEndTime1] = useState(null);
-  const [dischargeStartTime2, setDischargeStartTime2] = useState(null);
-  const [dischargeEndTime2, setDischargeEndTime2] = useState(null);
-  const [dischargeStartTime3, setDischargeStartTime3] = useState(null);
-  const [dischargeEndTime3, setDischargeEndTime3] = useState(null);
-  const [dischargeStartTime4, setDischargeStartTime4] = useState(null);
-  const [dischargeEndTime4, setDischargeEndTime4] = useState(null);
-
-  const [chargeStartTime1CommandID, setChargeStartTime1CommandID] = useState(null);
-  const [chargeEndTime1CommandID, setChargeEndTime1CommandID] = useState(null);
-  const [chargeStartTime2CommandID, setChargeStartTime2CommandID] = useState(null);
-  const [chargeEndTime2CommandID, setChargeEndTime2CommandID] = useState(null);
-  const [chargeStartTime3CommandID, setChargeStartTime3CommandID] = useState(null);
-  const [chargeEndTime3CommandID, setChargeEndTime3CommandID] = useState(null);
-  const [chargeStartTime4CommandID, setChargeStartTime4CommandID] = useState(null);
-  const [chargeEndTime4CommandID, setChargeEndTime4CommandID] = useState(null);
-  const [dischargeStartTime1CommandID, setDischargeStartTime1CommandID] = useState(null);
-  const [dischargeEndTime1CommandID, setDischargeEndTime1CommandID] = useState(null);
-  const [dischargeStartTime2CommandID, setDischargeStartTime2CommandID] = useState(null);
-  const [dischargeEndTime2CommandID, setDischargeEndTime2CommandID] = useState(null);
-  const [dischargeStartTime3CommandID, setDischargeStartTime3CommandID] = useState(null);
-  const [dischargeEndTime3CommandID, setDischargeEndTime3CommandID] = useState(null);
-  const [dischargeStartTime4CommandID, setDischargeStartTime4CommandID] = useState(null);
-  const [dischargeEndTime4CommandID, setDischargeEndTime4CommandID] = useState(null);
 
   //Results
 
@@ -126,6 +93,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridLatitude, setMicrogridLatitude] = useState();
   const [microgridLongitude, setMicrogridLongitude] = useState();
   const [microgridSVG, setMicrogridSVG] = useState();
+
+  const [todayChargeEnergyValue, setTodayChargeEnergyValue] = useState();
+  const [todayDischargeEnergyValue, setTodayDischargeEnergyValue] = useState();
+  const [totalChargeEnergyValue, setTotalChargeEnergyValue] = useState();
+  const [totalDischargeEnergyValue, setTotalDischargeEnergyValue] = useState();
+  const [totalEfficiency, setTotalEfficiency] = useState();
 
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
@@ -160,6 +133,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
           setMicrogridSVG({ __html: json['microgrid']['svg'] });
+          setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
+          setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);
+          setTotalChargeEnergyValue(json['energy_indicators']['total_charge_energy_value']);
+          setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -178,41 +155,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setParameterLineChartOptions(names);
 
-          setChargeStartTime1(json['schedule']['charge_start_time1']);
-          setChargeEndTime1(json['schedule']['charge_end_time1']);
-          setChargeStartTime2(json['schedule']['charge_start_time2']);
-          setChargeEndTime2(json['schedule']['charge_end_time2']);
-          setChargeStartTime3(json['schedule']['charge_start_time3']);
-          setChargeEndTime3(json['schedule']['charge_end_time3']);
-          setChargeStartTime4(json['schedule']['charge_start_time4']);
-          setChargeEndTime4(json['schedule']['charge_end_time4']);
-
-          setDischargeStartTime1(json['schedule']['discharge_start_time1']);
-          setDischargeEndTime1(json['schedule']['discharge_end_time1']);
-          setDischargeStartTime2(json['schedule']['discharge_start_time2']);
-          setDischargeEndTime2(json['schedule']['discharge_end_time2']);
-          setDischargeStartTime3(json['schedule']['discharge_start_time3']);
-          setDischargeEndTime3(json['schedule']['discharge_end_time3']);
-          setDischargeStartTime4(json['schedule']['discharge_start_time4']);
-          setDischargeEndTime4(json['schedule']['discharge_end_time4']);
-
-          setChargeStartTime1CommandID(json['schedule']['charge_start_time1_command_id']);
-          setChargeEndTime1CommandID(json['schedule']['charge_end_time1_command_id']);
-          setChargeStartTime2CommandID(json['schedule']['charge_start_time2_command_id']);
-          setChargeEndTime2CommandID(json['schedule']['charge_end_time2_command_id']);
-          setChargeStartTime3CommandID(json['schedule']['charge_start_time3_command_id']);
-          setChargeEndTime3CommandID(json['schedule']['charge_end_time3_command_id']);
-          setChargeStartTime4CommandID(json['schedule']['charge_start_time4_command_id']);
-          setChargeEndTime4CommandID(json['schedule']['charge_end_time4_command_id']);
-
-          setDischargeStartTime1CommandID(json['schedule']['discharge_start_time1_command_id']);
-          setDischargeEndTime1CommandID(json['schedule']['discharge_end_time1_command_id']);
-          setDischargeStartTime2CommandID(json['schedule']['discharge_start_time2_command_id']);
-          setDischargeEndTime2CommandID(json['schedule']['discharge_end_time2_command_id']);
-          setDischargeStartTime3CommandID(json['schedule']['discharge_start_time3_command_id']);
-          setDischargeEndTime3CommandID(json['schedule']['discharge_end_time3_command_id']);
-          setDischargeStartTime4CommandID(json['schedule']['discharge_start_time4_command_id']);
-          setDischargeEndTime4CommandID(json['schedule']['discharge_end_time4_command_id']);
         }
       })
       .catch(err => {
@@ -269,490 +211,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     refreshSVGData();
   }, 1000 * 10);
 
-  // Callback fired when ChargeStartTime1 change
-  const onChargeStartTime1Change = moment => {
-    setChargeStartTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime1 close
-  const onChargeStartTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime1.substring(0, 2)) * 256 + parseInt(chargeStartTime1.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime1 change
-  const onChargeEndTime1Change = moment => {
-    setChargeEndTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime1 close
-  const onChargeEndTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime1.substring(0, 2)) * 256 + parseInt(chargeEndTime1.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime1 change
-  const onDischargeStartTime1Change = moment => {
-    setDischargeStartTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime1 close
-  const onDischargeStartTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime1.substring(0, 2)) * 256 + parseInt(dischargeStartTime1.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime1 change
-  const onDischargeEndTime1Change = moment => {
-    setDischargeEndTime1(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime1 close
-  const onDischargeEndTime1Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime1CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime1.substring(0, 2)) * 256 + parseInt(dischargeEndTime1.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime2 change
-  const onChargeStartTime2Change = moment => {
-    setChargeStartTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime2 close
-  const onChargeStartTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime2.substring(0, 2)) * 256 + parseInt(chargeStartTime2.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime2 change
-  const onChargeEndTime2Change = moment => {
-    setChargeEndTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime2 close
-  const onChargeEndTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime2.substring(0, 2)) * 256 + parseInt(chargeEndTime2.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime2 change
-  const onDischargeStartTime2Change = moment => {
-    setDischargeStartTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime2 close
-  const onDischargeStartTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime2.substring(0, 2)) * 256 + parseInt(dischargeStartTime2.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime2 change
-  const onDischargeEndTime2Change = moment => {
-    setDischargeEndTime2(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime2 close
-  const onDischargeEndTime2Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime2CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime2.substring(0, 2)) * 256 + parseInt(dischargeEndTime2.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime3 change
-  const onChargeStartTime3Change = moment => {
-    setChargeStartTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime3 close
-  const onChargeStartTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime3.substring(0, 2)) * 256 + parseInt(chargeStartTime3.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime3 change
-  const onChargeEndTime3Change = moment => {
-    setChargeEndTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime3 close
-  const onChargeEndTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime3.substring(0, 2)) * 256 + parseInt(chargeEndTime3.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime3 change
-  const onDischargeStartTime3Change = moment => {
-    setDischargeStartTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime3 close
-  const onDischargeStartTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime3.substring(0, 2)) * 256 + parseInt(dischargeStartTime3.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime3 change
-  const onDischargeEndTime3Change = moment => {
-    setDischargeEndTime3(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime3 close
-  const onDischargeEndTime3Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime3CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime3.substring(0, 2)) * 256 + parseInt(dischargeEndTime3.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  // Callback fired when ChargeStartTime4 change
-  const onChargeStartTime4Change = moment => {
-    setChargeStartTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeStartTime4 close
-  const onChargeStartTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeStartTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeStartTime4.substring(0, 2)) * 256 + parseInt(chargeStartTime4.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when ChargeEndTime4 change
-  const onChargeEndTime4Change = moment => {
-    setChargeEndTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when ChargeEndTime4 close
-  const onChargeEndTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + chargeEndTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: { set_value: parseInt(chargeEndTime4.substring(0, 2)) * 256 + parseInt(chargeEndTime4.substring(3)) }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeStartTime4 change
-  const onDischargeStartTime4Change = moment => {
-    setDischargeStartTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeStartTime4 close
-  const onDischargeStartTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeStartTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeStartTime4.substring(0, 2)) * 256 + parseInt(dischargeStartTime4.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-  // Callback fired when DischargeEndTime4 change
-  const onDischargeEndTime4Change = moment => {
-    setDischargeEndTime4(moment.format('HH:mm'));
-  };
-  // Callback fired when DischargeEndTime4 close
-  const onDischargeEndTime4Close = () => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/' + dischargeEndTime4CommandID + '/send', {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      // convert HH:mm to set value, shift HH 8 bits to left and then plus mm
-      body: JSON.stringify({
-        data: {
-          set_value: parseInt(dischargeEndTime4.substring(0, 2)) * 256 + parseInt(dischargeEndTime4.substring(3))
-        }
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   return (
     <Fragment>
       <Row noGutters>
@@ -798,23 +256,23 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                       <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">{t("Today's Charge")}</th>
-                          <th className="pr-0 text-right">100 kWh</th>
+                          <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">{t("Today's Discharge")}</th>
-                          <th className="pr-0 text-right ">90 kWh</th>
+                          <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Charge')}</th>
-                          <th className="pr-0 text-right">1000 kWh</th>
+                          <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Discharge')}</th>
-                          <th className="pr-0 text-right">1000 kWh</th>
+                          <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Efficiency')}</th>
-                          <th className="pr-0 text-right">90%</th>
+                          <th className="pr-0 text-right">{totalEfficiency}%</th>
                         </tr>
                       </tbody>
                     </Table>
