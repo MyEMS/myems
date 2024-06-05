@@ -212,7 +212,65 @@ class Reporting:
         ################################################################################################################
         # Step 4: query associated power conversion systems
         ################################################################################################################
-        pass
+        # Step 4.1 query energy indicator data
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
+        energy_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_energy_value_latest ")
+        cursor_historical.execute(query, )
+        energy_value_latest_rows = cursor_historical.fetchall()
+        for row in energy_value_latest_rows:
+            energy_value_latest_dict[row[0]] = row[1]
+
+        analog_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_analog_value_latest ")
+        cursor_historical.execute(query, )
+        analog_value_latest_rows = cursor_historical.fetchall()
+        for row in analog_value_latest_rows:
+            analog_value_latest_dict[row[0]] = row[1]
+
+        today_charge_energy_value = Decimal(0.0)
+        today_discharge_energy_value = Decimal(0.0)
+        total_charge_energy_value = Decimal(0.0)
+        total_discharge_energy_value = Decimal(0.0)
+        cursor_system.execute(" SELECT today_charge_energy_point_id, "
+                              "        today_discharge_energy_point_id, "
+                              "        total_charge_energy_point_id, "
+                              "        total_discharge_energy_point_id "
+                              " FROM tbl_microgrids_power_conversion_systems "
+                              " WHERE microgrid_id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            today_charge_energy_point_id = row_point[0]
+            today_discharge_energy_point_id = row_point[1]
+            total_charge_energy_point_id = row_point[2]
+            total_discharge_energy_point_id = row_point[3]
+
+        if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+        elif energy_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+
+        if analog_value_latest_dict.get(today_discharge_energy_point_id) is not None:
+            today_discharge_energy_value = analog_value_latest_dict.get(today_discharge_energy_point_id)
+        elif energy_value_latest_dict.get(today_discharge_energy_point_id) is not None:
+            today_discharge_energy_value = energy_value_latest_dict.get(today_discharge_energy_point_id)
+
+        if analog_value_latest_dict.get(total_charge_energy_point_id) is not None:
+            total_charge_energy_value = analog_value_latest_dict.get(total_charge_energy_point_id)
+        elif energy_value_latest_dict.get(total_charge_energy_point_id) is not None:
+            total_charge_energy_value = energy_value_latest_dict.get(total_charge_energy_point_id)
+
+        if analog_value_latest_dict.get(total_discharge_energy_point_id) is not None:
+            total_discharge_energy_value = analog_value_latest_dict.get(total_discharge_energy_point_id)
+        elif energy_value_latest_dict.get(total_discharge_energy_point_id) is not None:
+            total_discharge_energy_value = energy_value_latest_dict.get(total_discharge_energy_point_id)
+
         ################################################################################################################
         # Step 5: query associated evchargers
         ################################################################################################################
@@ -452,8 +510,6 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
         for point in point_list:
             point_values = []
             point_timestamps = []
@@ -552,6 +608,12 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(meter_report['subtotal'])
 
         result['schedule'] = dict()
+
+        result['energy_indicators'] = dict()
+        result['energy_indicators']['today_charge_energy_value'] = today_charge_energy_value
+        result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
+        result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
+        result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
 
         resp.text = json.dumps(result)
 
