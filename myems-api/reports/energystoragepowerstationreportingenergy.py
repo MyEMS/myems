@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.energystoragepowerstationreporting
+import excelexporters.energystoragepowerstationreportingenergy
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -601,12 +601,13 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.energystoragepowerstationreporting.export(result,
-                                                                         result['energy_storage_power_station']['name'],
-                                                                         reporting_period_start_datetime_local,
-                                                                         reporting_period_end_datetime_local,
-                                                                         base_period_start_datetime_local,
-                                                                         base_period_end_datetime_local,
-                                                                         period_type,
-                                                                         language)
+                excelexporters.energystoragepowerstationreportingenergy.\
+                export(result,
+                       result['energy_storage_power_station']['name'],
+                       reporting_period_start_datetime_local,
+                       reporting_period_end_datetime_local,
+                       base_period_start_datetime_local,
+                       base_period_end_datetime_local,
+                       period_type,
+                       language)
         resp.text = json.dumps(result)
