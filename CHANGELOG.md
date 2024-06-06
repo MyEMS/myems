@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added round2() function to avoid exceptions for builtin round()
 - added phase_of_lifecycle to microgrid
 - added phase_of_lifecycle to energy storage power station
-- added energy storage power station reporting for billing
+- added energy storage power station reporting for revenue
 ### Changed
 - updated energy storage container settings in myems-admin
 - updated microgird settings in myems-admin

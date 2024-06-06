@@ -37,7 +37,7 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 
-const EnergyStoragePowerStationReportingBilling = ({ setRedirect, setRedirectUrl, t }) => {
+const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();
   const uuid = location.search.split('=')[1];
@@ -542,7 +542,7 @@ const EnergyStoragePowerStationReportingBilling = ({ setRedirect, setRedirectUrl
 
     let url =
       APIBaseURL +
-      '/reports/energystoragepowerstationreportingenergy?' +
+      '/reports/energystoragepowerstationreportingrevenue?' +
       'id=' +
       selectedEnergyStoragePowerStation +
       '&periodtype=' +
@@ -810,4 +810,4 @@ const EnergyStoragePowerStationReportingBilling = ({ setRedirect, setRedirectUrl
   );
 };
 
-export default withTranslation()(withRedirect(EnergyStoragePowerStationReportingBilling));
+export default withTranslation()(withRedirect(EnergyStoragePowerStationReportingRevenue));

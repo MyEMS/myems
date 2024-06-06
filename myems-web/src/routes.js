@@ -484,8 +484,8 @@ export const energyStoragePowerStationRoutes = {
   children: [
     { to: '/energystoragepowerstation/list', name: 'Energy Storage Power Station List' },
     { to: '/energystoragepowerstation/details', name: 'Energy Storage Power Station Details' },
-    { to: '/energystoragepowerstation/reportingenergy', name: 'Energy Storage Power Station Reporting Billing' },
-    { to: '/energystoragepowerstation/reportingbilling', name: 'Energy Storage Power Station Reporting Energy' },
+    { to: '/energystoragepowerstation/reportingrevenue', name: 'Energy Storage Power Station Reporting Revenue' },
+    { to: '/energystoragepowerstation/reportingenergy', name: 'Energy Storage Power Station Reporting Energy' },
     { to: '/energystoragepowerstation/alarm', name: 'Energy Storage Power Station Alarm' },
     { to: '/energystoragepowerstation/maintenance', name: 'Energy Storage Power Station Maintenance' },
   ]
