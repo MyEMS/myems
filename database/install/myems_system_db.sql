@@ -369,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   `today_charge_energy_point_id` BIGINT NOT NULL,
   `today_discharge_energy_point_id` BIGINT NOT NULL,
   `total_charge_energy_point_id` BIGINT NOT NULL,
-  `total_discharge_energy_point_id` BIGINT NOT NULL
+  `total_discharge_energy_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_pcs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` (`energy_storage_container_id`);
@@ -896,7 +896,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_sy
   `today_charge_energy_point_id` BIGINT NOT NULL,
   `today_discharge_energy_point_id` BIGINT NOT NULL,
   `total_charge_energy_point_id` BIGINT NOT NULL,
-  `total_discharge_energy_point_id` BIGINT NOT NULL
+  `total_discharge_energy_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_power_conversion_systems_index_1`
 ON `myems_system_db`.`tbl_microgrids_power_conversion_systems` (`microgrid_id`);
