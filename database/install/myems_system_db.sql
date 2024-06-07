@@ -409,6 +409,24 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_load
 CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_loads` (`energy_storage_container_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_schedules`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_schedules` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_schedules` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_time_of_day` TIME NOT NULL,
+  `end_time_of_day` TIME NOT NULL,
+  `peak_type` VARCHAR(8) NOT NULL
+  COMMENT 'Peak Type: \ntoppeak - Top Peak尖\nonpeak - On Peak峰\nmidpeak - Middle Peak平\noffpeak - Off Peak谷',
+  `power` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_schedules_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_schedules` (`energy_storage_container_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_sensors`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -981,6 +999,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_photovoltaics` (
   `rated_power` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_photovoltaics_index_1` ON `myems_system_db`.`tbl_microgrids_photovoltaics` (`microgrid_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_schedules` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_time_of_day` TIME NOT NULL,
+  `end_time_of_day` TIME NOT NULL,
+  `peak_type` VARCHAR(8) NOT NULL
+  COMMENT 'Peak Type: \ntoppeak - Top Peak尖\nonpeak - On Peak峰\nmidpeak - Middle Peak平\noffpeak - Off Peak谷',
+  `power` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_schedules_index_1`
+ON `myems_system_db`.`tbl_microgrids_schedules` (`microgrid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_sensors`
