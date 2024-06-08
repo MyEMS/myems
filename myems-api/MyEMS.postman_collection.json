@@ -9504,7 +9504,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "5d63cf9bb2169577d3b2e32d55feed30bfed44cb17ae8f96776b0bf83033d4fde49551750e69eda5804d8c2f44273abb2abda1eb08e72379852e521f760b0f58",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -9573,7 +9573,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "5d63cf9bb2169577d3b2e32d55feed30bfed44cb17ae8f96776b0bf83033d4fde49551750e69eda5804d8c2f44273abb2abda1eb08e72379852e521f760b0f58",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -11424,6 +11424,197 @@
 										"microgrids",
 										"1",
 										"powerconversionsystems",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Schedules of a Microgrid",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Microgrid Schedule",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"schedules",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Microgrid Schedule",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"08:00:00\", \"peak_type\":\"offpeak\",  \"power\": 60}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"schedules",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create new Microgrid Schedule",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"07:00:00\", \"peak_type\":\"offpeak\",  \"power\": 60}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/microgrids/1/schedules",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"microgrids",
+										"1",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Microgrid Schedule",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules",
 										"1"
 									]
 								}
