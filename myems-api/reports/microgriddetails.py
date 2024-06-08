@@ -31,10 +31,11 @@ class Reporting:
     # Step 8: query associated heatpumps
     # Step 9: query associated loads
     # Step 10: query associated photovoltaics
-    # Step 11: query associated sensors
-    # Step 12: query associated meters data
-    # Step 13: query associated points data
-    # Step 14: construct the report
+    # Step 11: query associated schedules
+    # Step 12: query associated sensors
+    # Step 13: query associated meters data
+    # Step 14: query associated points data
+    # Step 15: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -441,8 +442,49 @@ class Reporting:
             meter_list.append({"id": row_meter[0],
                                "name": row_meter[1],
                                "energy_category_id": row_meter[2]})
+
         ################################################################################################################
-        # Step 11: query associated sensors
+        # Step 11: query associated schedules
+        ################################################################################################################
+        cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
+                              " FROM tbl_microgrids_schedules "
+                              " WHERE microgrid_id = %s "
+                              " ORDER BY start_time_of_day ",
+                              (microgrid_id,))
+        rows_schedules = cursor_system.fetchall()
+        if rows_schedules is None or len(rows_schedules) == 0:
+            pass
+        else:
+            schedule_list = list()
+            schedule_series_data = list()
+            for row_schedule in rows_schedules:
+                start_time = row_schedule[0]
+                end_time = row_schedule[1]
+                current_time = start_time
+                if row_schedule[2] == 'toppeak':
+                    peak_type = 'Top-Peak'
+                elif row_schedule[2] == 'onpeak':
+                    peak_type = 'On-Peak'
+                elif row_schedule[2] == 'midpeak':
+                    peak_type = 'Mid-Peak'
+                elif row_schedule[2] == 'offpeak':
+                    peak_type = 'Off-Peak'
+                else:
+                    peak_type = 'Unknown'
+
+                while current_time < end_time:
+                    schedule_series_data.append(row_schedule[3])
+                    current_time = current_time + timedelta(minutes=30)
+
+                schedule_list.append({"start_time_of_day": '0' + str(start_time) if len(str(start_time)) == 7
+                                     else str(start_time),
+                                      "end_time_of_day": '0' + str(end_time) if len(str(end_time)) == 7
+                                      else str(end_time),
+                                      "peak_type": peak_type,
+                                      "power": row_schedule[3]})
+            print('schedule_list:' + str(schedule_list))
+        ################################################################################################################
+        # Step 12: query associated sensors
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type "
                               " FROM tbl_microgrids_sensors ms, tbl_sensors_points sp, tbl_points p "
@@ -458,7 +500,7 @@ class Reporting:
                                    "units": row_point[2],
                                    "object_type": row_point[3]})
         ################################################################################################################
-        # Step 12: query associated meters data
+        # Step 13: query associated meters data
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -503,7 +545,7 @@ class Reporting:
                 meter_report_list.append(meter_report)
 
         ################################################################################################################
-        # Step 13: query associated points data
+        # Step 14: query associated points data
         ################################################################################################################
 
         parameters_data = dict()
@@ -582,7 +624,7 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 14: construct the report
+        # Step 15: construct the report
         ################################################################################################################
         result = dict()
         result['microgrid'] = meta_result
@@ -608,6 +650,8 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(meter_report['subtotal'])
 
         result['schedule'] = dict()
+        result['schedule']['series_data'] = schedule_series_data
+        result['schedule']['schedule_list'] = schedule_list
 
         result['energy_indicators'] = dict()
         result['energy_indicators']['today_charge_energy_value'] = today_charge_energy_value
