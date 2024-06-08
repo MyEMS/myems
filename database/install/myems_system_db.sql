@@ -421,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_sche
   `start_time_of_day` TIME NOT NULL,
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
-  COMMENT 'Peak Type: \ntoppeak - Top Peak尖\nonpeak - On Peak峰\nmidpeak - Middle Peak平\noffpeak - Off Peak谷',
+  COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
   `power` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_schedules_index_1`
@@ -1006,7 +1006,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_schedules` (
   `start_time_of_day` TIME NOT NULL,
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
-  COMMENT 'Peak Type: \ntoppeak - Top Peak尖\nonpeak - On Peak峰\nmidpeak - Middle Peak平\noffpeak - Off Peak谷',
+  COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
   `power` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_schedules_index_1`
@@ -1480,7 +1480,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs_timeofuses` (
   `start_time_of_day` TIME NOT NULL,
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
-  COMMENT 'Peak Type: \ntoppeak - Top Peak尖\nonpeak - On Peak峰\nmidpeak - Middle Peak平\noffpeak - Off Peak谷',
+  COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
   `price` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tariffs_timeofuses_index_1`

@@ -362,6 +362,17 @@ class Reporting:
                 start_time = row_schedule[0]
                 end_time = row_schedule[1]
                 current_time = start_time
+                if row_schedule[2] == 'toppeak':
+                    peak_type = 'Top-Peak'
+                elif row_schedule[2] == 'onpeak':
+                    peak_type = 'On-Peak'
+                elif row_schedule[2] == 'midpeak':
+                    peak_type = 'Mid-Peak'
+                elif row_schedule[2] == 'offpeak':
+                    peak_type = 'Off-Peak'
+                else:
+                    peak_type = 'Unknown'
+
                 while current_time < end_time:
                     schedule_series_data.append(row_schedule[3])
                     current_time = current_time + timedelta(minutes=30)
@@ -370,9 +381,9 @@ class Reporting:
                                       else str(start_time),
                                       "end_time_of_day": '0' + str(end_time) if len(str(end_time)) == 7
                                       else str(end_time),
-                                      "peak_type": row_schedule[2],
+                                      "peak_type": peak_type,
                                       "power": row_schedule[3]})
-        print('schedule_list:' + str(schedule_list))
+            print('schedule_list:' + str(schedule_list))
         ################################################################################################################
         # Step 9: query associated sensors on containers
         ################################################################################################################
