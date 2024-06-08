@@ -345,6 +345,10 @@ api.add_route('/energystoragecontainers/{id_}/powerconversionsystems',
               energystoragecontainer.EnergyStorageContainerPowerconversionsystemCollection())
 api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pid}',
               energystoragecontainer.EnergyStorageContainerPowerconversionsystemItem())
+api.add_route('/energystoragecontainers/{id_}/schedules',
+              energystoragecontainer.EnergyStorageContainerScheduleCollection())
+api.add_route('/energystoragecontainers/{id_}/schedules/{sid}',
+              energystoragecontainer.EnergyStorageContainerScheduleItem())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())

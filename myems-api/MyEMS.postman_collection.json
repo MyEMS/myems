@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "babe8fd2-70f5-4293-b799-b8e18d8a1d37",
+		"_postman_id": "ff147fa4-8460-42ca-818e-181751a8f85b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -5310,7 +5310,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -6350,6 +6350,197 @@
 										"energystoragecontainers",
 										"1",
 										"powerconversionsystems",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Schedules of an Energy Storage Container",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET an Energy Storage Container Schedule",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update an Energy Storage Container Schedule",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"08:00:00\", \"peak_type\":\"offpeak\",  \"power\": 60}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create new Energy Storage Container Schedule",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"start_time_of_day\":\"00:00:00\", \"end_time_of_day\":\"07:00:00\", \"peak_type\":\"offpeak\",  \"power\": 60}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an Energy Storage Container Schedule",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/schedules/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"schedules",
 										"1"
 									]
 								}
