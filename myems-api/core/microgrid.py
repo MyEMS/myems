@@ -4458,6 +4458,303 @@ class MicrogridPowerconversionsystemItem:
         resp.status = falcon.HTTP_200
 
 
+class MicrogridScheduleCollection:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                 " FROM tbl_microgrids_schedules "
+                 " WHERE microgrid_id = %s "
+                 " ORDER BY start_time_of_day ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0],
+                               "start_time_of_day": str(row[1]),
+                               "end_time_of_day": str(row[2]),
+                               "peak_type": row[3],
+                               "power": row[4],
+                               }
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        new_values = json.loads(raw_json)
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ",
+                       (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        add_schedule = (" INSERT INTO tbl_microgrids_schedules "
+                        "     (microgrid_id, start_time_of_day, end_time_of_day, peak_type, power) "
+                        " VALUES (%s, %s, %s, %s, %s) ")
+        cursor.execute(add_schedule, (id_,
+                                      new_values['data']['start_time_of_day'],
+                                      new_values['data']['end_time_of_day'],
+                                      new_values['data']['peak_type'],
+                                      new_values['data']['power']))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragecontainerschedules/' + str(new_id)
+
+
+class MicrogridScheduleItem:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, sid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_, sid):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+        if not sid.isdigit() or int(sid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_SCHEDULE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_microgrids ")
+        cursor.execute(query)
+        rows_energystoragecontainers = cursor.fetchall()
+
+        microgrid_dict = dict()
+        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+            for row in rows_energystoragecontainers:
+                microgrid_dict[row[0]] = {"id": row[0],
+                                                         "name": row[1],
+                                                         "uuid": row[2]}
+
+        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                 " FROM tbl_microgrids_schedules "
+                 " WHERE id = %s ")
+        cursor.execute(query, (sid,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_SCHEDULE_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "start_time_of_day": str(row[1]),
+                           "end_time_of_day": str(row[2]),
+                           "peak_type": row[3],
+                           "power": row[4]}
+
+        resp.text = json.dumps(meta_result)
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, sid):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+        if not sid.isdigit() or int(sid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_SCHEDULE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_schedules "
+                       " WHERE id = %s ", (sid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_SCHEDULE_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_microgrids_schedules "
+                       " WHERE id = %s ", (sid,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_, sid):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+        if not sid.isdigit() or int(sid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_SCHEDULE_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'start_time_of_day' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['start_time_of_day'], str) or \
+                len(str.strip(new_values['data']['start_time_of_day'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_START_TIME_OF_DAY')
+        start_time_of_day = str.strip(new_values['data']['start_time_of_day'])
+
+        if 'end_time_of_day' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['end_time_of_day'], str) or \
+                len(str.strip(new_values['data']['end_time_of_day'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_END_TIME_OF_DAY')
+        end_time_of_day = str.strip(new_values['data']['end_time_of_day'])
+
+        if 'peak_type' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['peak_type'], str) or \
+                len(str.strip(new_values['data']['peak_type'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PEAK_TYPE')
+        peak_type = str.strip(new_values['data']['peak_type'])
+
+        if 'power' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['power'], float) or
+                     isinstance(new_values['data']['power'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POWER')
+        power = float(new_values['data']['power'])
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_schedules "
+                       " WHERE id = %s ", (sid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_SCHEDULE_NOT_FOUND')
+
+        update_row = (" UPDATE tbl_microgrids_schedules "
+                      " SET start_time_of_day = %s, end_time_of_day = %s, peak_type = %s, power = %s "
+                      " WHERE id = %s ")
+        cursor.execute(update_row, (start_time_of_day,
+                                    end_time_of_day,
+                                    peak_type,
+                                    power,
+                                    sid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+
 class MicrogridSensorCollection:
     @staticmethod
     def __init__():

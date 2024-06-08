@@ -492,6 +492,10 @@ api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
 api.add_route('/microgrids/{id_}/powerconversionsystems/{pid}',
               microgrid.MicrogridPowerconversionsystemItem())
+api.add_route('/microgrids/{id_}/schedules',
+              microgrid.MicrogridScheduleCollection())
+api.add_route('/microgrids/{id_}/schedules/{sid}',
+              microgrid.MicrogridScheduleItem())
 api.add_route('/microgrids/{id_}/users',
               microgrid.MicrogridUserCollection())
 api.add_route('/microgrids/{id_}/users/{uid}',

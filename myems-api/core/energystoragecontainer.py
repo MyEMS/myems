@@ -2835,7 +2835,7 @@ class EnergyStorageContainerScheduleItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers_schedules "
                        " WHERE id = %s ", (sid,))
         if cursor.fetchone() is None:
