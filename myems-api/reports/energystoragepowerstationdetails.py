@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, time
 from decimal import Decimal
 import falcon
 import mysql.connector
@@ -23,14 +23,14 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
     # Step 3: query associated containers
-    # Step 4: query associated batteries in containers
-    # Step 5: query associated grids in containers
-    # Step 6: query associated loads in containers
-    # Step 7: query associated power conversion systems in containers
+    # Step 4: query associated batteries on containers
+    # Step 5: query associated grids on containers
+    # Step 6: query associated loads on containers
+    # Step 7: query associated power conversion systems on containers
     #     Step 7.1 query energy indicator data
-    # Step 8: query associated sensors in containers
-    # Step 9: query associated points data in containers
-    # Step 10: construct the report
+    # Step 9: query associated sensors on containers
+    # Step 10: query associated points data on containers
+    # Step 11: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -183,7 +183,7 @@ class Reporting:
         # todo: if len(container_list) == 0
         print('container_list:' + str(container_list))
         ################################################################################################################
-        # Step 4: query associated batteries in containers
+        # Step 4: query associated batteries on containers
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
                               " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
@@ -228,7 +228,7 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 5: query associated grids in containers
+        # Step 5: query associated grids on containers
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, cg.name, p.units, p.object_type  "
                               " FROM tbl_energy_storage_containers_grids cg, tbl_points p "
@@ -262,7 +262,7 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 6: query associated loads in containers
+        # Step 6: query associated loads on containers
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, cl.name, p.units, p.object_type  "
                               " FROM tbl_energy_storage_containers_loads cl, tbl_points p "
@@ -286,7 +286,7 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 7: query associated power conversion systems in containers
+        # Step 7: query associated power conversion systems on containers
         ################################################################################################################
         # Step 7.1 query energy indicator data
         energy_value_latest_dict = dict()
@@ -344,14 +344,42 @@ class Reporting:
             total_discharge_energy_value = analog_value_latest_dict.get(total_discharge_energy_point_id)
         elif energy_value_latest_dict.get(total_discharge_energy_point_id) is not None:
             total_discharge_energy_value = energy_value_latest_dict.get(total_discharge_energy_point_id)
-
         ################################################################################################################
-        # Step 8: query associated sensors
+        # Step 8: query associated schedules on containers
+        ################################################################################################################
+        cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
+                              " FROM tbl_energy_storage_containers_schedules "
+                              " WHERE energy_storage_container_id = %s "
+                              " ORDER BY start_time_of_day ",
+                              (container_list[0]['id'],))
+        rows_schedules = cursor_system.fetchall()
+        if rows_schedules is None or len(rows_schedules) == 0:
+            pass
+        else:
+            schedule_list = list()
+            schedule_series_data = list()
+            for row_schedule in rows_schedules:
+                start_time = row_schedule[0]
+                end_time = row_schedule[1]
+                current_time = start_time
+                while current_time < end_time:
+                    schedule_series_data.append(row_schedule[3])
+                    current_time = current_time + timedelta(minutes=30)
+
+                schedule_list.append({"start_time_of_day": '0' + str(start_time) if len(str(start_time)) == 7
+                                      else str(start_time),
+                                      "end_time_of_day": '0' + str(end_time) if len(str(end_time)) == 7
+                                      else str(end_time),
+                                      "peak_type": row_schedule[2],
+                                      "power": row_schedule[3]})
+        print('schedule_list:' + str(schedule_list))
+        ################################################################################################################
+        # Step 9: query associated sensors on containers
         ################################################################################################################
         # todo
 
         ################################################################################################################
-        # Step 10: query associated points data in containers
+        # Step 10: query associated points data on containers
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -452,6 +480,8 @@ class Reporting:
         result['reporting_period']['values'] = list()
 
         result['schedule'] = dict()
+        result['schedule']['series_data'] = schedule_series_data
+        result['schedule']['schedule_list'] = schedule_list
 
         result['energy_indicators'] = dict()
         result['energy_indicators']['today_charge_energy_value'] = today_charge_energy_value
