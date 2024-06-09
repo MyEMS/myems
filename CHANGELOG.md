@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+
+## [v4.6.0] - 2024-06-09
+### Added
 - added energy plan files table to database
 - added energy plan files actions to myems-api
 - added energy plan files page to myems-admin
@@ -20,7 +27,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated energy storage container settings in myems-admin
 - updated microgird settings in myems-admin
-- simplified datetime format of parameter line chart for micrgorid and energy storage power station  
+- simplified datetime format of parameter line chart for micrgorid and energy storage power station
+- updated mqtt client to MQTTv5 in myems-api
 ### Fixed
 - fixed totalRatedCapacity and totalRatedPower issue in microgrid dashboard and energy storage power station dashboard
 - fixed issue of meter batch report in myems-api
@@ -41,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - limit virtual meter normalization procedure to calculate at most one month records
 ### Fixed
 - fixed issues of optional svg textarea for equipment and combined equipment in myems-admin
-- fixed translation issue for zh_CN in Excel exporter 
+- fixed translation issue for zh_CN in Excel exporter
 ### Removed
 - None
 
@@ -1699,7 +1707,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.5.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.6.0...HEAD
+[4.5.0]: https://github.com/MyEMS/myems/compare/v4.6.0...v4.5.0
 [4.5.0]: https://github.com/MyEMS/myems/compare/v4.5.0...v4.4.0
 [4.4.0]: https://github.com/MyEMS/myems/compare/v4.4.0...v4.3.0
 [4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
