@@ -458,7 +458,14 @@ class CommandSend:
 
         mqc = None
         try:
-            mqc = mqtt.Client(client_id='MYEMS' + "-" + str(time.time()))
+            mqc = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
+                              client_id='MYEMS' + "-" + str(time.time()),
+                              clean_session=None,
+                              userdata=None,
+                              protocol=mqtt.MQTTv5,
+                              transport='tcp',
+                              reconnect_on_failure=True,
+                              manual_ack=False)
             mqc.username_pw_set(config.myems_mqtt_broker['username'], config.myems_mqtt_broker['password'])
             mqc.connect(config.myems_mqtt_broker['host'], config.myems_mqtt_broker['port'], 60)
         except Exception as e:

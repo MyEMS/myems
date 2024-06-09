@@ -6,29 +6,32 @@ import paho.mqtt.client as mqtt
 import simplejson as json
 import config
 
-# global flag indicates the connectivity with the MQTT broker
-mqtt_connected_flag = False
+# global bool variable that indicates the connectivity with the MQTT broker
+g_mqtt_connected_flag = False
 
 
 # the on_connect callback function for MQTT client
 # refer to http://www.steves-internet-guide.com/client-connections-python-mqtt/
-def on_mqtt_connect(client, userdata, flags, rc):
-    global mqtt_connected_flag
-    if rc == 0:
-        mqtt_connected_flag = True  # set flag
+def on_mqtt_connect(client, userdata, connect_flags, reason_code, properties):
+    global g_mqtt_connected_flag
+    if reason_code == 0:
+        g_mqtt_connected_flag = True
+        client.connected_flag = True
+        client.disconnect_flag = False
         print("MQTT connected OK")
     else:
-        print("Bad MQTT connection Returned code=", rc)
-        mqtt_connected_flag = False
+        g_mqtt_connected_flag = False
+        client.bad_connection_flag = True
+        print("Bad MQTT connection reason code=", reason_code)
 
 
 # the on_disconnect callback function for MQTT client
-# refer to http://www.steves-internet-guide.com/client-connections-python-mqtt/
-def on_mqtt_disconnect(client, userdata, rc=0):
-    global mqtt_connected_flag
-
-    print("DisConnected, result code "+str(rc))
-    mqtt_connected_flag = False
+def on_mqtt_disconnect(client, userdata, disconnect_flags, reason_code, properties):
+    global g_mqtt_connected_flag
+    g_mqtt_connected_flag = False
+    client.connected_flag = False
+    client.disconnect_flag = True
+    print("Disconnected reason code " + str(reason_code))
 
 
 ########################################################################################################################
@@ -39,10 +42,17 @@ def on_mqtt_disconnect(client, userdata, rc=0):
 ########################################################################################################################
 
 def main():
-    global mqtt_connected_flag
+    global g_mqtt_connected_flag
     mqc = None
     try:
-        mqc = mqtt.Client(client_id='MYEMS' + "-" + str(time.time()))
+        mqc = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
+                          client_id='MYEMS' + datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S"),
+                          clean_session=None,
+                          userdata=None,
+                          protocol=mqtt.MQTTv5,
+                          transport='tcp',
+                          reconnect_on_failure=True,
+                          manual_ack=False)
         mqc.username_pw_set(config.myems_mqtt_broker['username'], config.myems_mqtt_broker['password'])
         mqc.on_connect = on_mqtt_connect
         mqc.on_disconnect = on_mqtt_disconnect
@@ -53,16 +63,17 @@ def main():
 
     except Exception as e:
         print("MQTT Client Connection error " + str(e))
+
     while True:
-        if mqtt_connected_flag:
+        if g_mqtt_connected_flag:
             try:
                 # publish real time value to mqtt broker
                 payload = json.dumps({"data_source_id": 1,
-                                      "point_id": 3,
+                                      "point_id": 1,
                                       "utc_date_time": datetime.utcnow().isoformat(timespec='seconds'),
                                       "value": decimal.Decimal(random.randrange(0, 10000))})
                 print('payload=' + str(payload))
-                info = mqc.publish('myems/point/' + str(3),
+                info = mqc.publish('testtopic',
                                    payload=payload,
                                    qos=0,
                                    retain=True)

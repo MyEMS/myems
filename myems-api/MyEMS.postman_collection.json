@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ff147fa4-8460-42ca-818e-181751a8f85b",
+		"_postman_id": "7a4961e1-7023-40f2-ac12-7b6cd012a0b8",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -11453,12 +11453,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/schedules",
+									"raw": "{{base_url}}/microgrids/1/schedules",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"energystoragecontainers",
+										"microgrids",
 										"1",
 										"schedules"
 									]
@@ -11607,12 +11607,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers/1/schedules/1",
+									"raw": "{{base_url}}/microgrids/1/schedules/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"energystoragecontainers",
+										"microgrids",
 										"1",
 										"schedules",
 										"1"
