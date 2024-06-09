@@ -112,13 +112,13 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_schedules` (
   `start_time_of_day` TIME NOT NULL,
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
-  COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷,
+  COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
   `power` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_schedules_index_1`
 ON `myems_system_db`.`tbl_microgrids_schedules` (`microgrid_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.6.0RC', release_date='2024-06-18' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.6.0', release_date='2024-06-09' WHERE id=1;
 
 COMMIT;
