@@ -20,7 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated energy storage container settings in myems-admin
 - updated microgird settings in myems-admin
-- simplified datetime format of parameter line chart for micrgorid and energy storage power station  
+- simplified datetime format of parameter line chart for micrgorid and energy storage power station
+- updated mqtt client to MQTTv5 in myems-api
 ### Fixed
 - fixed totalRatedCapacity and totalRatedPower issue in microgrid dashboard and energy storage power station dashboard
 - fixed issue of meter batch report in myems-api
