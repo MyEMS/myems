@@ -10,4 +10,4 @@ jdcal
 openpyxl
 pillow
 python-decouple
-paho-mqtt
+paho-mqtt==2.1.0
