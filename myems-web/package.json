@@ -50,7 +50,7 @@
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-beautiful-dnd": "^13.0.0",
-    "react-bootstrap-table-next": "^1.1.0",
+    "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-editor": "^1.4.0",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-captcha-code-custom": "^1.0.0",
