@@ -90,8 +90,8 @@ const selectRow = onSelect => ({
       case '2commissioning':
         text = t('Commissioning Phase')
         break;
-      case '3construction':
-        text = t('Construction Phase')
+      case '3installation':
+        text = t('Installation Phase')
         break;
       default:
         text = t('Use Phase');

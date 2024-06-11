@@ -508,7 +508,7 @@ const resources = {
       'Phase of Lifecycle': 'Phase of Lifecycle',
       'Use Phase': 'Use Phase',
       'Commissioning Phase': 'Commissioning Phase',
-      'Construction Phase': 'Construction Phase',
+      'Installation Phase': 'Installation Phase',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
@@ -1621,7 +1621,7 @@ const resources = {
       'Phase of Lifecycle': '阶段',
       'Use Phase': '投用',
       'Commissioning Phase': '调试',
-      'Construction Phase': '在建',
+      'Installation Phase': '在建',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
@@ -2759,7 +2759,7 @@ const resources = {
       'Phase of Lifecycle': 'Phase des Lebenszyklus',
       'Use Phase': 'Anwendungsphase',
       'Commissioning Phase': 'Phase der Inbetriebnahme',
-      'Construction Phase': 'Bauphase',
+      'Installation Phase': 'Installationsphase',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
@@ -3914,7 +3914,7 @@ const resources = {
       'Phase of Lifecycle': 'Phases du cycle de vie',
       'Use Phase': 'Phase d\'utilisation',
       'Commissioning Phase': 'Phase de mise en service',
-      'Construction Phase': 'Phase de construction',
+      'Installation Phase': 'Phase d\'installation',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
@@ -5059,7 +5059,7 @@ const resources = {
       'Phase of Lifecycle': 'Fase del ciclo de vida',
       'Use Phase': 'Fase de uso',
       'Commissioning Phase': 'Fase de puesta en marcha',
-      'Construction Phase': 'Fase de construcción',
+      'Installation Phase': 'Fase de instalación',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -6203,7 +6203,7 @@ const resources = {
       'Phase of Lifecycle': 'Этапы жизненного цикла',
       'Use Phase': 'Этап использования',
       'Commissioning Phase': 'Этап отладки',
-      'Construction Phase': 'Этап строительства',
+      'Installation Phase': 'Этап установки',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
@@ -7337,7 +7337,7 @@ const resources = {
       'Phase of Lifecycle': 'مراحل دورة الحياة',
       'Use Phase': 'استخدام المرحلة',
       'Commissioning Phase': 'مرحلة التصحيح',
-      'Construction Phase': 'مرحلة البناء',
+      'Installation Phase': 'مرحلة التثبيت',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -8467,7 +8467,7 @@ const resources = {
       'Phase of Lifecycle': 'Giai đoạn vòng đời',
       'Use Phase': 'Giai đoạn sử dụng',
       'Commissioning Phase': 'Giai đoạn gỡ lỗi',
-      'Construction Phase': 'Giai đoạn xây dựng',
+      'Installation Phase': 'Giai đoạn cài đặt',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
@@ -9599,7 +9599,7 @@ const resources = {
       'Phase of Lifecycle': 'ระยะวงจรชีวิต',
       'Use Phase': 'ขั้นตอนการใช้งาน',
       'Commissioning Phase': 'ขั้นตอนการว่าจ้าง',
-      'Construction Phase': 'ขั้นตอนการก่อสร้าง',
+      'Installation Phase': 'ขั้นตอนการติดตั้ง',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
@@ -10730,7 +10730,7 @@ const resources = {
       'Phase of Lifecycle': 'Lifecycle Fazi',
       'Use Phase': 'Use Phase',
       'Commissioning Phase': 'Komisyon Fazi',
-      'Construction Phase': 'Yapılandırma Fazi',
+      'Installation Phase': 'Kurulum Aşaması',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -11867,7 +11867,7 @@ const resources = {
       'Phase of Lifecycle': 'Fasa Siklo Hidup',
       'Use Phase': 'Guna Tahap',
       'Commissioning Phase': 'Fasa Pemasangan',
-      'Construction Phase': 'Fasa Pembangunan',
+      'Installation Phase': 'Fasa Pemasangan',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
@@ -13007,7 +13007,7 @@ const resources = {
       'Phase of Lifecycle': 'Tahap Sepeda Hidup',
       'Use Phase': 'Gunakan Tahap',
       'Commissioning Phase': 'Fase Komisionasi',
-      'Construction Phase': 'Fase Konstruksi',
+      'Installation Phase': 'Tahap Instalasi',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',
@@ -14134,7 +14134,7 @@ const resources = {
       'Phase of Lifecycle': '生命週期階段',
       'Use Phase': '使用階段',
       'Commissioning Phase': '調試階段',
-      'Construction Phase': '施工階段',
+      'Installation Phase': '安裝階段',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '⽣成時間',
