@@ -282,50 +282,51 @@
 							  </div>
 							</div>
 							<div class="col-lg-9">
-							  <div class="panel panel-primary">
-								<div class="panel-heading">
-								  {{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}
-								</div>
-								<div class="panel-body" >
-								  <a ng-show="is_show_add_energystoragecontainer_load" ng-click="addEnergyStorageContainerLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
-															<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}</a>
-								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
-									<thead>
-									  <tr>
-										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' | translate}}(kW)</th>
-										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-									  </tr>
-									</thead>
-									<tbody>
-									  <tr ng-repeat="energystoragecontainerload in energystoragecontainerloads">
-										<td class="text-center">{{ energystoragecontainerload.id }}</td>
-										<td class="text-center">{{ energystoragecontainerload.name }}</td>
-										<td class="text-center">{{ energystoragecontainerload.power_point.name }}</td>
-										<td class="text-center">{{ energystoragecontainerload.meter.name }}</td>
-										<td class="text-center">{{ energystoragecontainerload.rated_input_power }}</td>
-										<td class="text-center">
-										  <a ng-click="editEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
-										  <a ng-click="deleteEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-										</td>
-									  </tr>
-									</tbody>
-									<tfoot class="hide-if-no-paging">
-										<tr>
-											<td colspan="6">
-												<ul class="pagination pull-right"></ul>
-											</td>
-										</tr>
-									</tfoot>
-								  </table>
-							  </div>
+							  	<div class="panel panel-primary">
+									<div class="panel-heading">
+										{{currentEnergyStorageContainer.name}}{{'ENERGY_STORAGE_CONTAINER.N_S_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}
+									</div>
+									<div class="panel-body" >
+										<a ng-show="is_show_add_energystoragecontainer_load" ng-click="addEnergyStorageContainerLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
+																	<i class="fa fa-plus-circle"></i> {{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_LOAD' | translate}}
+										</a>
+										<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+											<thead>
+											<tr>
+												<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+												<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</th>
+												<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</th>
+												<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</th>
+												<th class="text-center">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' | translate}}(kW)</th>
+												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="energystoragecontainerload in energystoragecontainerloads">
+												<td class="text-center">{{ energystoragecontainerload.id }}</td>
+												<td class="text-center">{{ energystoragecontainerload.name }}</td>
+												<td class="text-center">{{ energystoragecontainerload.power_point.name }}</td>
+												<td class="text-center">{{ energystoragecontainerload.meter.name }}</td>
+												<td class="text-center">{{ energystoragecontainerload.rated_input_power }}</td>
+												<td class="text-center">
+												<a ng-click="editEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+												<a ng-click="deleteEnergyStorageContainerLoad(energystoragecontainerload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+												</td>
+											</tr>
+											</tbody>
+											<tfoot class="hide-if-no-paging">
+												<tr>
+													<td colspan="6">
+														<ul class="pagination pull-right"></ul>
+													</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+							  	</div>
 							</div>
-							</div>
-						</div>
-					  </div>
+						  </div>
+					  	</div>
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerSensorController">
@@ -398,133 +399,156 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.SCHEDULE' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerScheduleController">
-							<table id="scheduleTable" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
-								<thead>
-									<tr>
-										<th class="text-center">{{'SETTING.SCHEDULE_START_TIME' | translate}}</th>
-										<th class="text-center">{{'SETTING.SCHEDULE_END_TIME' | translate}}</th>
-										<th class="text-center">{{'SETTING.PEAK_TYPE' | translate}}</th>
-										<th class="text-center">{{'SETTING.SCHEDULE_POWER' | translate}}</th>
-										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-									</tr>
-									<tr>
-										<td class="text-center sm">
-											<div>
-												<select ng-model="t.start_hour" style="background-color: #FFF; border-radius:4px;border:1px solid">
-													<option value="00" selected>00</option>
-													<option value="01">01</option>
-													<option value="02">02</option>
-													<option value="03">03</option>
-													<option value="04">04</option>
-													<option value="05">05</option>
-													<option value="06">06</option>
-													<option value="07">07</option>
-													<option value="08">08</option>
-													<option value="09">09</option>
-													<option value="10">10</option>
-													<option value="11">11</option>
-													<option value="12">12</option>
-													<option value="13">13</option>
-													<option value="14">14</option>
-													<option value="15">15</option>
-													<option value="16">16</option>
-													<option value="17">17</option>
-													<option value="18">18</option>
-													<option value="19">19</option>
-													<option value="20">20</option>
-													<option value="21">21</option>
-													<option value="22">22</option>
-													<option value="23">23</option>
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+									  <div class="panel-heading">
+										{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+									  </div>
+									  <div class="panel-body" >
+										<form role="form">
+										  <div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+											<ui-select  on-select="changeEnergyStorageContainer($item,$model)" ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+											  <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+											  <ui-select-choices repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search" >
+												<div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
+											  </ui-select-choices>
+											</ui-select>
+										  </div>
+										</form>
+									  </div>
+									</div>
+								</div>
+								<div class="col-lg-9">
+									<table id="scheduleTable" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
+										<thead>
+											<tr>
+												<th class="text-center">{{'SETTING.SCHEDULE_START_TIME' | translate}}</th>
+												<th class="text-center">{{'SETTING.SCHEDULE_END_TIME' | translate}}</th>
+												<th class="text-center">{{'SETTING.PEAK_TYPE' | translate}}</th>
+												<th class="text-center">{{'SETTING.SCHEDULE_POWER' | translate}}</th>
+												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+											</tr>
+											<tr>
+												<td class="text-center sm">
+													<div>
+														<select ng-model="t.start_hour" style="background-color: #FFF; border-radius:4px;border:1px solid">
+															<option value="00" selected>00</option>
+															<option value="01">01</option>
+															<option value="02">02</option>
+															<option value="03">03</option>
+															<option value="04">04</option>
+															<option value="05">05</option>
+															<option value="06">06</option>
+															<option value="07">07</option>
+															<option value="08">08</option>
+															<option value="09">09</option>
+															<option value="10">10</option>
+															<option value="11">11</option>
+															<option value="12">12</option>
+															<option value="13">13</option>
+															<option value="14">14</option>
+															<option value="15">15</option>
+															<option value="16">16</option>
+															<option value="17">17</option>
+															<option value="18">18</option>
+															<option value="19">19</option>
+															<option value="20">20</option>
+															<option value="21">21</option>
+															<option value="22">22</option>
+															<option value="23">23</option>
+														</select>
+														:
+														<select ng-model="t.start_min" style="background-color: #FFF; border-radius:4px;border:1px solid">
+															<option value="00" selected>00</option>
+															<option value="30">30</option>
+															<option value="59">59</option>
+														</select>
+														:
+														<select ng-model="t.start_second" style="background-color: #FFF; border-radius:4px;border:1px solid">
+															<option value="00" selected>00</option>
+															<option value="59">59</option>
+														</select>
+													</div>
+												</td>
+												<td class="text-center sm">
+													<div>
+														<select ng-model="t.end_hour" style="background-color: #FFF; border-radius:4px;border:1px solid" >
+															<option value="00" selected>00</option>
+															<option value="01">01</option>
+															<option value="02">02</option>
+															<option value="03">03</option>
+															<option value="04">04</option>
+															<option value="05">05</option>
+															<option value="06">06</option>
+															<option value="07">07</option>
+															<option value="08">08</option>
+															<option value="09">09</option>
+															<option value="10">10</option>
+															<option value="11">11</option>
+															<option value="12">12</option>
+															<option value="13">13</option>
+															<option value="14">14</option>
+															<option value="15">15</option>
+															<option value="16">16</option>
+															<option value="17">17</option>
+															<option value="18">18</option>
+															<option value="19">19</option>
+															<option value="20">20</option>
+															<option value="21">21</option>
+															<option value="22">22</option>
+															<option value="23">23</option>
+														</select>
+														:
+														<select ng-model="t.end_min" style="background-color: #FFF; border-radius:4px;border:1px solid">
+															<option value="00" selected>00</option>
+															<option value="30">30</option>
+															<option value="59">59</option>
+														</select>
+														:
+														<select ng-model="t.end_second" style="background-color: #FFF; border-radius:4px;border:1px solid">
+															<option value="00" selected>00</option>
+															<option value="59">59</option>
+														</select>
+													</div>
+												</td>
+												<td class="text-center sm">
+													<select ng-model="t.peak_type" class="form-control  input-sm sm" name="peak">
+													<option value="toppeak">{{'COMMON.TARIFF.TOPPEAK' | translate}}</option>
+													<option value="onpeak">{{'COMMON.TARIFF.ONPEAK' | translate}}</option>
+													<option value="midpeak" selected>{{'COMMON.TARIFF.MIDPEAK' | translate}}</option>
+													<option value="offpeak">{{'COMMON.TARIFF.OFFPEAK' | translate}}</option>
 												</select>
-												:
-												<select ng-model="t.start_min" style="background-color: #FFF; border-radius:4px;border:1px solid">
-													<option value="00" selected>00</option>
-													<option value="30">30</option>
-													<option value="59">59</option>
-												</select>
-												:
-												<select ng-model="t.start_second" style="background-color: #FFF; border-radius:4px;border:1px solid">
-													<option value="00" selected>00</option>
-													<option value="59">59</option>
-												</select>
-											</div>
-										</td>
-										<td class="text-center sm">
-											<div>
-												<select ng-model="t.end_hour" style="background-color: #FFF; border-radius:4px;border:1px solid" >
-													<option value="00" selected>00</option>
-													<option value="01">01</option>
-													<option value="02">02</option>
-													<option value="03">03</option>
-													<option value="04">04</option>
-													<option value="05">05</option>
-													<option value="06">06</option>
-													<option value="07">07</option>
-													<option value="08">08</option>
-													<option value="09">09</option>
-													<option value="10">10</option>
-													<option value="11">11</option>
-													<option value="12">12</option>
-													<option value="13">13</option>
-													<option value="14">14</option>
-													<option value="15">15</option>
-													<option value="16">16</option>
-													<option value="17">17</option>
-													<option value="18">18</option>
-													<option value="19">19</option>
-													<option value="20">20</option>
-													<option value="21">21</option>
-													<option value="22">22</option>
-													<option value="23">23</option>
-												</select>
-												:
-												<select ng-model="t.end_min" style="background-color: #FFF; border-radius:4px;border:1px solid">
-													<option value="00" selected>00</option>
-													<option value="30">30</option>
-													<option value="59">59</option>
-												</select>
-												:
-												<select ng-model="t.end_second" style="background-color: #FFF; border-radius:4px;border:1px solid">
-													<option value="00" selected>00</option>
-													<option value="59">59</option>
-												</select>
-											</div>
-										</td>
-										<td class="text-center sm">
-											<select ng-model="t.peak_type" class="form-control  input-sm sm" name="peak">
-											<option value="toppeak">{{'COMMON.TARIFF.TOPPEAK' | translate}}</option>
-											<option value="onpeak">{{'COMMON.TARIFF.ONPEAK' | translate}}</option>
-											<option value="midpeak" selected>{{'COMMON.TARIFF.MIDPEAK' | translate}}</option>
-											<option value="offpeak">{{'COMMON.TARIFF.OFFPEAK' | translate}}</option>
-										</select>
-										</td>
-										<td class="text-center sm">
-											<input type="number" min="0" step="0.01" ng-model="t.power" class="form-control input-sm">
-										</td>
-										<td class="text-center sm">
-											<a class="btn btn-primary btn-rounded btn-xs" ng-click="add(t)" >{{'SETTING.ADD' | translate}}</a>
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="schedule in schedules">
-										<td class="text-center sm">{{ schedule.start_time_of_day }}</td>
-										<td class="text-center sm">{{ schedule.end_time_of_day }}</td>
-										<td class="text-center sm">{{ showPeakType(schedule.peak_type) | translate }}</td>
-										<td class="text-center sm">{{ schedule.power }}</td>
-										<td class="text-center sm">
-											<a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot class="hide-if-no-paging">
-								<tr>
-									<td colspan="7">
-										<ul class="pagination pull-right"></ul>
-									</td>
-								</tr>
-								</tfoot>
-							</table>
+												</td>
+												<td class="text-center sm">
+													<input type="number" min="0" step="0.01" ng-model="t.power" class="form-control input-sm">
+												</td>
+												<td class="text-center sm">
+													<a class="btn btn-primary btn-rounded btn-xs" ng-click="add(t)" >{{'SETTING.ADD' | translate}}</a>
+												</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="schedule in energystoragecontainerschedules">
+												<td class="text-center sm">{{ schedule.start_time_of_day }}</td>
+												<td class="text-center sm">{{ schedule.end_time_of_day }}</td>
+												<td class="text-center sm">{{ showPeakType(schedule.peak_type) | translate }}</td>
+												<td class="text-center sm">{{ schedule.power }}</td>
+												<td class="text-center sm">
+													<a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+												</td>
+											</tr>
+										</tbody>
+										<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="7">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
 						</div>
 					</uib-tab>
 				</uib-tabset>
