@@ -58,88 +58,37 @@ app.controller('EnergyStorageContainerScheduleController', function(
     	$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
   	};
 
-  	$scope.addEnergyStorageContainerSchedule = function() {
-  		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerschedule.model.html',
-  			controller: 'ModalAddEnergyStorageContainerScheduleCtrl',
-  			windowClass: "animated fadeIn",
-  			resolve: {
-  				params: function() {
-  					return {
-  					};
-  				}
-  			}
-  		});
-  		modalInstance.result.then(function(energystoragecontainerschedule) {
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStorageContainerScheduleService.addEnergyStorageContainerSchedule($scope.currentEnergyStorageContainer.id, energystoragecontainerschedule, headers, function (response) {
-  				if (angular.isDefined(response.status) && response.status === 201) {
-  					toaster.pop({
-  						type: "success",
-  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
-  						showCloseButton: true,
-  					});
-  					$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
-            		$scope.$emit('handleEmitEnergyStorageContainerScheduleChanged');
-  				} else {
-  					toaster.pop({
-  						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
-  						body: $translate.instant(response.data.description),
-  						showCloseButton: true,
-  					});
-  				}
-  			});
-  		}, function() {
+  	$scope.addEnergyStorageContainerSchedule = function(t) {
+		if (t.peak_type == null || t.power == null || t.peak_type == ''){
+			return false;
+		}
+		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
+		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
 
-  		});
-		$rootScope.modalInstance = modalInstance;
-  	};
+		// $timeout(function() {
+		// 	angular.element('#touTable').trigger('footable_redraw');
+		// }, 10);
 
-  	$scope.editEnergyStorageContainerSchedule = function(energystoragecontainerschedule) {
-  		var modalInstance = $uibModal.open({
-  			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerschedule.model.html',
-  			controller: 'ModalEditEnergyStorageContainerScheduleCtrl',
-    		windowClass: "animated fadeIn",
-  			resolve: {
-  				params: function() {
-  					return {
-  						energystoragecontainerschedule: angular.copy(energystoragecontainerschedule),
-						meters: angular.copy($scope.meters),
-						points: angular.copy($scope.points),
-  					};
-  				}
-  			}
-  		});
-
-  		modalInstance.result.then(function(modifiedEnergyStorageContainerSchedule) {
-			modifiedEnergyStorageContainerSchedule.power_point_id = modifiedEnergyStorageContainerSchedule.power_point.id;
-			modifiedEnergyStorageContainerSchedule.meter_id = modifiedEnergyStorageContainerSchedule.meter.id;
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-  			EnergyStorageContainerScheduleService.editEnergyStorageContainerSchedule($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerSchedule, headers, function (response) {
-  				if (angular.isDefined(response.status) && response.status === 200) {
-  					toaster.pop({
-  						type: "success",
-  						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
-  						showCloseButton: true,
-  					});
-  					$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
-            		$scope.$emit('handleEmitEnergyStorageContainerScheduleChanged');
-  				} else {
-  					toaster.pop({
-  						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
-  						body: $translate.instant(response.data.description),
-  						showCloseButton: true,
-  					});
-  				}
-  			});
-  		}, function() {
-  			//do nothing;
-  		});
-		$rootScope.modalInstance = modalInstance;
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyStorageContainerScheduleService.addEnergyStorageContainerSchedule($scope.currentEnergyStorageContainer.id, t, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.SCHEDULE")}),
+					showCloseButton: true,
+				});
+				$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+			  $scope.$emit('handleEmitEnergyStorageContainerScheduleChanged');
+			} else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.SCHEDULE")}),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
+			}
+		});
   	};
 
   	$scope.deleteEnergyStorageContainerSchedule = function(energystoragecontainerschedule) {
@@ -162,7 +111,7 @@ app.controller('EnergyStorageContainerScheduleController', function(
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("SETTING.SCHEDULE")}),
 								showCloseButton: true,
 							});
 							$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -170,7 +119,7 @@ app.controller('EnergyStorageContainerScheduleController', function(
   						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_SCHEDULE")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.SCHEDULE")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
