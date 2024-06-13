@@ -6,6 +6,7 @@ app.controller('EnergyStorageContainerScheduleController', function(
 	$window,
 	$translate,
 	$uibModal,
+	PEAK_TYPE,
 	EnergyStorageContainerService,
 	EnergyStorageContainerScheduleService,
 	toaster,
@@ -33,7 +34,11 @@ app.controller('EnergyStorageContainerScheduleController', function(
 	$scope.t.end_min = '59';
 	$scope.t.end_second = '59';
 	$scope.t.peak_type = 'midpeak';
-	$scope.t.power = 0.5;
+	$scope.t.power = 50;
+
+	$scope.showPeakType = function(type) {
+		return PEAK_TYPE[type];
+	};
 
   	$scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
