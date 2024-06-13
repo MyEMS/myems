@@ -371,6 +371,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Description',
 
                 ENERGY_PLAN_FILE: 'Energy Plan File Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -1946,6 +1951,11 @@ function config($translateProvider) {
                 DESCRIPTION: '描述',
 
                 ENERGY_PLAN_FILE: '能源计划 ㊭',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -3523,6 +3533,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Beschreibung',
 
                 ENERGY_PLAN_FILE: 'Energieplan Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -5093,6 +5108,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Description',
 
                 ENERGY_PLAN_FILE: 'Plan énergétique Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Messagerie électronique',
@@ -6666,6 +6686,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Descripción',
 
                 ENERGY_PLAN_FILE: 'Plan energético Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Correo electrónico',
@@ -8240,6 +8265,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Описание',
 
                 ENERGY_PLAN_FILE: 'Энергетический план Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Отправить по электронной почте',
@@ -9813,6 +9843,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'وصف',
 
                 ENERGY_PLAN_FILE: 'خطة الطاقة Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'البريد الإلكتروني',
@@ -11386,6 +11421,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Sự miêu tả',
 
                 ENERGY_PLAN_FILE: 'Kế hoạch năng lượng Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -12958,6 +12998,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'การบรรยาย',
 
                 ENERGY_PLAN_FILE :'แผนพลังงาน Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'อีเมล',
@@ -14529,6 +14574,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Tarif',
 
                 ENERGY_PLAN_FILE: 'Enerji planı Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'E-posta',
@@ -16099,6 +16149,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Keterangan',
 
                 ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'E-mel',
@@ -17670,6 +17725,11 @@ function config($translateProvider) {
                 DESCRIPTION: 'Deskripsi',
 
                 ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
+
+                SCHEDULE: 'Schedule',
+                SCHEDULE_START_TIME: 'Schedule Start Time',
+                SCHEDULE_END_TIME: 'Schedule End Time',
+                SCHEDULE_POWER: 'Schedule Power',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -19244,6 +19304,11 @@ function config($translateProvider) {
                 DESCRIPTION: '描述',
 
                 ENERGY_PLAN_FILE: '能源計劃 ㊭',
+
+                SCHEDULE: '调度策略',
+                SCHEDULE_START_TIME: '调度开始时间',
+                SCHEDULE_END_TIME: '调度结束时间',
+                SCHEDULE_POWER: '调度功率',
             },
             CONTACT: {
                 EMAIL: '郵箱',
