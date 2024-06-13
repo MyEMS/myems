@@ -1952,10 +1952,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: '能源计划 ㊭',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: '调度策略',
+                SCHEDULE_START_TIME: '调度开始时间',
+                SCHEDULE_END_TIME: '调度结束时间',
+                SCHEDULE_POWER: '调度功率',
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -3534,10 +3534,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Energieplan Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Zeitplan',
+                SCHEDULE_START_TIME: 'Endzeit',
+                SCHEDULE_END_TIME: 'Anfangszeit',
+                SCHEDULE_POWER: 'Leistung',
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -5109,10 +5109,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Plan énergétique Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Calendrier',
+                SCHEDULE_START_TIME: 'Heure de fin',
+                SCHEDULE_END_TIME: 'Heure de départ',
+                SCHEDULE_POWER: 'Pouvoir',
             },
             CONTACT: {
                 EMAIL: 'Messagerie électronique',
@@ -6687,10 +6687,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Plan energético Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Cronograma',
+                SCHEDULE_START_TIME: 'Hora de finalización',
+                SCHEDULE_END_TIME: 'Tiempo de empezar',
+                SCHEDULE_POWER: 'Fuerza',
             },
             CONTACT: {
                 EMAIL: 'Correo electrónico',
@@ -8266,10 +8266,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Энергетический план Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Расписание',
+                SCHEDULE_START_TIME: 'Время окончания',
+                SCHEDULE_END_TIME: 'Время начала',
+                SCHEDULE_POWER: 'власть',
             },
             CONTACT: {
                 EMAIL: 'Отправить по электронной почте',
@@ -9844,10 +9844,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'خطة الطاقة Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'جدول',
+                SCHEDULE_START_TIME: 'وقت النهاية',
+                SCHEDULE_END_TIME: 'وقت البدء',
+                SCHEDULE_POWER: 'قوة',
             },
             CONTACT: {
                 EMAIL: 'البريد الإلكتروني',
@@ -11422,10 +11422,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Kế hoạch năng lượng Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Lịch trình',
+                SCHEDULE_START_TIME: 'Thời gian kết thúc',
+                SCHEDULE_END_TIME: 'Thời gian bắt đầu',
+                SCHEDULE_POWER: 'Quyền lực',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -12999,10 +12999,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE :'แผนพลังงาน Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'กำหนดการ',
+                SCHEDULE_START_TIME: 'เวลาสิ้นสุด',
+                SCHEDULE_END_TIME: 'เวลาเริ่มต้น',
+                SCHEDULE_POWER: 'พลัง',
             },
             CONTACT: {
                 EMAIL: 'อีเมล',
@@ -14575,10 +14575,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Enerji planı Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Takvim',
+                SCHEDULE_START_TIME: 'Bitiş zamanı',
+                SCHEDULE_END_TIME: 'Başlangıç ​​zamanı',
+                SCHEDULE_POWER: 'Güç',
             },
             CONTACT: {
                 EMAIL: 'E-posta',
@@ -16150,10 +16150,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Jadual',
+                SCHEDULE_START_TIME: 'Masa tamat',
+                SCHEDULE_END_TIME: 'Masa mula',
+                SCHEDULE_POWER: 'Kuasa',
             },
             CONTACT: {
                 EMAIL: 'E-mel',
@@ -17726,10 +17726,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
 
-                SCHEDULE: 'Schedule',
-                SCHEDULE_START_TIME: 'Schedule Start Time',
-                SCHEDULE_END_TIME: 'Schedule End Time',
-                SCHEDULE_POWER: 'Schedule Power',
+                SCHEDULE: 'Jadwal',
+                SCHEDULE_START_TIME: 'Akhir waktu',
+                SCHEDULE_END_TIME: 'Waktu mulai',
+                SCHEDULE_POWER: 'Kekuatan',
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -19305,10 +19305,10 @@ function config($translateProvider) {
 
                 ENERGY_PLAN_FILE: '能源計劃 ㊭',
 
-                SCHEDULE: '调度策略',
-                SCHEDULE_START_TIME: '调度开始时间',
-                SCHEDULE_END_TIME: '调度结束时间',
-                SCHEDULE_POWER: '调度功率',
+                SCHEDULE: '調度策略',
+                SCHEDULE_START_TIME: '結束時間',
+                SCHEDULE_END_TIME: '開始時間',
+                SCHEDULE_POWER: '功率',
             },
             CONTACT: {
                 EMAIL: '郵箱',
