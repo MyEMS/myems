@@ -96,7 +96,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -104,7 +104,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -144,7 +144,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -152,7 +152,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -184,7 +184,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
 								showCloseButton: true,
 							});
 							$scope.getEnergyStorageContainerBatteriesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -192,7 +192,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_BATTERY")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
@@ -214,7 +214,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
 
   app.controller('ModalAddEnergyStorageContainerBatteryCtrl', function($scope, $uibModalInstance, params) {
 
-  	$scope.operation = "MICROGRID.ADD_MICROGRID_BATTERY";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_BATTERY";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
@@ -227,7 +227,7 @@ app.controller('EnergyStorageContainerBatteryController', function(
   });
 
   app.controller('ModalEditEnergyStorageContainerBatteryCtrl', function($scope, $uibModalInstance, params) {
-  	$scope.operation = "MICROGRID.EDIT_MICROGRID_BATTERY";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.EDIT_ENERGY_STORAGE_CONTAINER_BATTERY";
   	$scope.energystoragecontainerbattery = params.energystoragecontainerbattery;
 	$scope.points=params.points;
 	$scope.meters=params.meters;

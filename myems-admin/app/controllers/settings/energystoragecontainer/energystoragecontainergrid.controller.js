@@ -93,7 +93,7 @@ app.controller('EnergyStorageContainerGridController', function(
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+  						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -101,7 +101,7 @@ app.controller('EnergyStorageContainerGridController', function(
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+  						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -139,7 +139,7 @@ app.controller('EnergyStorageContainerGridController', function(
   					toaster.pop({
   						type: "success",
   						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+  						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
   						showCloseButton: true,
   					});
   					$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -147,7 +147,7 @@ app.controller('EnergyStorageContainerGridController', function(
   				} else {
   					toaster.pop({
   						type: "error",
-  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+  						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
   						body: $translate.instant(response.data.description),
   						showCloseButton: true,
   					});
@@ -179,7 +179,7 @@ app.controller('EnergyStorageContainerGridController', function(
 							toaster.pop({
 								type: "success",
 								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
 								showCloseButton: true,
 							});
 							$scope.getEnergyStorageContainerGridsByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
@@ -187,7 +187,7 @@ app.controller('EnergyStorageContainerGridController', function(
   						} else {
 							toaster.pop({
 								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("MICROGRID.MICROGRID_GRID")}),
+								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID")}),
 								body: $translate.instant(response.data.description),
 								showCloseButton: true,
 							});
@@ -209,7 +209,7 @@ app.controller('EnergyStorageContainerGridController', function(
 
   app.controller('ModalAddEnergyStorageContainerGridCtrl', function($scope, $uibModalInstance, params) {
 
-  	$scope.operation = "MICROGRID.ADD_MICROGRID_GRID";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_GRID";
 	$scope.points=params.points;
 	$scope.meters=params.meters;
   	$scope.ok = function() {
@@ -222,7 +222,7 @@ app.controller('EnergyStorageContainerGridController', function(
   });
 
   app.controller('ModalEditEnergyStorageContainerGridCtrl', function($scope, $uibModalInstance, params) {
-  	$scope.operation = "MICROGRID.EDIT_MICROGRID_GRID";
+  	$scope.operation = "ENERGY_STORAGE_CONTAINER.EDIT_ENERGY_STORAGE_CONTAINER_GRID";
   	$scope.energystoragecontainergrid = params.energystoragecontainergrid;
 	$scope.points=params.points;
 	$scope.meters=params.meters;

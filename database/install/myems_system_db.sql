@@ -1605,6 +1605,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores_working_calendars` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_stores_working_calendars_index_1` ON `myems_system_db`.`tbl_stores_working_calendars` (`store_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_svgs`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_svgs` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_svgs` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `svg` LONGTEXT NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_svgs_index_1` ON `myems_system_db`.`tbl_svgs` (`name`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_tenants`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1923,7 +1938,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.6.0', '2024-06-09');
+(1, '4.7.0RC', '2024-07-07');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
