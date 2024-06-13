@@ -1324,6 +1324,7 @@ app
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainersensor.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerschedule.service.js',
+                                                    'app/services/settings/tariff/tariff.const.js',
                                                     'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
