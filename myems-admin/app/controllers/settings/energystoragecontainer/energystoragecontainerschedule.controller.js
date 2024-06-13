@@ -24,6 +24,7 @@ app.controller('EnergyStorageContainerScheduleController', function(
   			}
   		});
   	};
+	$scope.energystoragecontainerschedules = [];
 	$scope.t={};
 	$scope.t.start_hour = '00';
 	$scope.t.start_min = '00';
