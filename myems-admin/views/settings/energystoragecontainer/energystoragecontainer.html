@@ -524,7 +524,7 @@
 													<input type="number" min="0" step="0.01" ng-model="t.power" class="form-control input-sm">
 												</td>
 												<td class="text-center sm">
-													<a class="btn btn-primary btn-rounded btn-xs" ng-click="add(t)" >{{'SETTING.ADD' | translate}}</a>
+													<a class="btn btn-primary btn-rounded btn-xs" ng-click="addEnergyStorageContainerSchedule(t)" >{{'SETTING.ADD' | translate}}</a>
 												</td>
 											</tr>
 										</thead>
@@ -535,7 +535,9 @@
 												<td class="text-center sm">{{ showPeakType(schedule.peak_type) | translate }}</td>
 												<td class="text-center sm">{{ schedule.power }}</td>
 												<td class="text-center sm">
-													<a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+													<a ng-show="is_show_add_energystoragecontainer_schedule" ng-click="deleteEnergyStorageContainerSchedule(schedule)"
+														class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}
+													</a>
 												</td>
 											</tr>
 										</tbody>
