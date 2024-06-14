@@ -317,7 +317,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Charge',
+                               "name": row_meter[1] + '-充',
                                "energy_category_id": row_meter[2]})
 
         cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
@@ -327,7 +327,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Discharge',
+                               "name": row_meter[1] + '-放',
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
@@ -351,7 +351,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Buy',
+                               "name": row_meter[1] + '-购',
                                "energy_category_id": row_meter[2]})
 
         cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
@@ -361,7 +361,7 @@ class Reporting:
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Sell',
+                               "name": row_meter[1] + '-售',
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
