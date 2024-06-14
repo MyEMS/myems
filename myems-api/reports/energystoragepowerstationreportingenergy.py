@@ -25,14 +25,13 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
     # Step 3: query associated energy storage containers
-    # Step 4: query associated batteries
-    # Step 5: query associated grids
-    # Step 6: query associated loads
-    # Step 7: query associated power conversion systems
-    # Step 8: query associated sensors
-    # Step 9: query associated meters data
-    # Step 10: query associated points data
-    # Step 11: construct the report
+    # Step 4: query associated batteries data
+    # Step 5: query associated grids data
+    # Step 6: query associated loads data
+    # Step 7: query associated power conversion systems data
+    # Step 8: query associated sensors data
+    # Step 9: query associated points data
+    # Step 10: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -419,18 +418,34 @@ class Reporting:
                                    base_start_datetime_utc,
                                    base_end_datetime_utc))
             rows_meter_hourly = cursor_energy.fetchall()
+
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                print('rows_meter_hourly:' + str(rows_meter_hourly))
+                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
+                                                                                    base_start_datetime_utc,
+                                                                                    base_end_datetime_utc,
+                                                                                    period_type)
+                print('rows_meter_periodically:' + str(rows_meter_periodically))
                 meter_report = dict()
                 meter_report['timestamps'] = list()
                 meter_report['values'] = list()
                 meter_report['subtotal'] = Decimal(0.0)
 
-                for row_meter_hourly in rows_meter_hourly:
-                    current_datetime_local = row_meter_hourly[0].replace(tzinfo=timezone.utc) + \
+                for row_meter_periodically in rows_meter_periodically:
+                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_meter_hourly[1] is None else row_meter_hourly[1]
+                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
 
                     meter_report['timestamps'].append(current_datetime)
                     meter_report['values'].append(actual_value)
@@ -455,17 +470,30 @@ class Reporting:
                                    reporting_end_datetime_utc))
             rows_meter_hourly = cursor_energy.fetchall()
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
+                                                                                    reporting_start_datetime_utc,
+                                                                                    reporting_end_datetime_utc,
+                                                                                    period_type)
                 meter_report = dict()
                 meter_report['timestamps'] = list()
                 meter_report['values'] = list()
                 meter_report['subtotal'] = Decimal(0.0)
 
-                for row_meter_hourly in rows_meter_hourly:
-                    current_datetime_local = row_meter_hourly[0].replace(tzinfo=timezone.utc) + \
+                for row_meter_periodically in rows_meter_periodically:
+                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.strftime('%Y')
 
-                    actual_value = Decimal(0.0) if row_meter_hourly[1] is None else row_meter_hourly[1]
+                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
 
                     meter_report['timestamps'].append(current_datetime)
                     meter_report['values'].append(actual_value)
@@ -572,12 +600,16 @@ class Reporting:
             "values": parameters_data['values']
         }
         result['base_period'] = dict()
+        result['base_period']['names'] = list()
+        result['base_period']['units'] = list()
         result['base_period']['timestamps'] = list()
         result['base_period']['values'] = list()
         result['base_period']['subtotals'] = list()
 
         if meter_reporting_list is not None and len(meter_reporting_list) > 0:
             for meter_report in meter_reporting_list:
+                result['base_period']['names'].append(meter_report['name'])
+                result['base_period']['units'].append(meter_report['unit_of_measure'])
                 result['base_period']['timestamps'].append(meter_report['timestamps'])
                 result['base_period']['values'].append(meter_report['values'])
                 result['base_period']['subtotals'].append(meter_report['subtotal'])
