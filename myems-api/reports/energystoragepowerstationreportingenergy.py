@@ -606,8 +606,8 @@ class Reporting:
         result['base_period']['values'] = list()
         result['base_period']['subtotals'] = list()
 
-        if meter_reporting_list is not None and len(meter_reporting_list) > 0:
-            for meter_report in meter_reporting_list:
+        if meter_base_list is not None and len(meter_base_list) > 0:
+            for meter_report in meter_base_list:
                 result['base_period']['names'].append(meter_report['name'])
                 result['base_period']['units'].append(meter_report['unit_of_measure'])
                 result['base_period']['timestamps'].append(meter_report['timestamps'])

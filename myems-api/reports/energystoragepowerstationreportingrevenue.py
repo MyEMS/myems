@@ -409,14 +409,14 @@ class Reporting:
 
         for meter in meter_list:
             cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   base_start_datetime_utc,
-                                   base_end_datetime_utc))
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    base_start_datetime_utc,
+                                    base_end_datetime_utc))
             rows_meter_hourly = cursor_billing.fetchall()
 
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
@@ -460,14 +460,14 @@ class Reporting:
 
         for meter in meter_list:
             cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   reporting_start_datetime_utc,
-                                   reporting_end_datetime_utc))
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    reporting_start_datetime_utc,
+                                    reporting_end_datetime_utc))
             rows_meter_hourly = cursor_billing.fetchall()
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
                 rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
@@ -606,8 +606,8 @@ class Reporting:
         result['base_period']['values'] = list()
         result['base_period']['subtotals'] = list()
 
-        if meter_reporting_list is not None and len(meter_reporting_list) > 0:
-            for meter_report in meter_reporting_list:
+        if meter_base_list is not None and len(meter_base_list) > 0:
+            for meter_report in meter_base_list:
                 result['base_period']['names'].append(meter_report['name'])
                 result['base_period']['units'].append(config.currency_unit)
                 result['base_period']['timestamps'].append(meter_report['timestamps'])
