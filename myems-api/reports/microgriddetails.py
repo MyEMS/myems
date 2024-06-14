@@ -446,6 +446,8 @@ class Reporting:
         ################################################################################################################
         # Step 11: query associated schedules
         ################################################################################################################
+        schedule_list = list()
+        schedule_series_data = list()
         cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
                               " FROM tbl_microgrids_schedules "
                               " WHERE microgrid_id = %s "
@@ -455,8 +457,6 @@ class Reporting:
         if rows_schedules is None or len(rows_schedules) == 0:
             pass
         else:
-            schedule_list = list()
-            schedule_series_data = list()
             for row_schedule in rows_schedules:
                 start_time = row_schedule[0]
                 end_time = row_schedule[1]

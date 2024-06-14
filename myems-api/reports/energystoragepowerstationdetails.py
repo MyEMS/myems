@@ -347,6 +347,8 @@ class Reporting:
         ################################################################################################################
         # Step 8: query associated schedules on containers
         ################################################################################################################
+        schedule_list = list()
+        schedule_series_data = list()
         cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
                               " FROM tbl_energy_storage_containers_schedules "
                               " WHERE energy_storage_container_id = %s "
@@ -356,8 +358,6 @@ class Reporting:
         if rows_schedules is None or len(rows_schedules) == 0:
             pass
         else:
-            schedule_list = list()
-            schedule_series_data = list()
             for row_schedule in rows_schedules:
                 start_time = row_schedule[0]
                 end_time = row_schedule[1]
