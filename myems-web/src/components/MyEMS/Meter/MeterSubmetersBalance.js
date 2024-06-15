@@ -324,17 +324,17 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/metersubmetersbalance?' +
-        'meterid=' +
-        selectedMeter +
-        '&periodtype=' +
-        periodType +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/metersubmetersbalance?' +
+      'meterid=' +
+      selectedMeter +
+      '&periodtype=' +
+      periodType +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -408,11 +408,36 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               text: t('Datetime'),
               sort: true
             },
+            ...(() => {
+              const meterName = json['parameters']['names'];
+              const unitOfMeasure = json['meter']['unit_of_measure'];
+              const maxLength = 8;
+              const length = meterName.length;
+              const numColumns = Math.min(length, maxLength);
+              const columns = [];
+
+              for (let i = 0; i < numColumns; i++) {
+                columns.push({
+                  dataField: 'a' + i,
+                  text: json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
+                  sort: true,
+                  formatter: function (decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              }
+
+              return columns;
+            })(),
             {
-              dataField: 'a0',
+              dataField: 'a' + Math.min(8, json['parameters']['names'].length),
               text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
               sort: true,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -427,15 +452,25 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a0'] = json['reporting_period']['difference_values'][timestampIndex];
+            detailed_value['a' + Math.min(8, json['parameters']['names'].length)] = json['reporting_period']['difference_values'][timestampIndex];
             detailed_value_list.push(detailed_value);
           });
+
+          for (let i = 0; i < json['parameters']['names'].length; i++) {
+            json['parameters']['values'][i].forEach((meterValue, valueIndex) => {
+              if (!detailed_value_list[valueIndex]) {
+                detailed_value_list[valueIndex] = { id: valueIndex };
+              }
+              detailed_value_list[valueIndex]['a' + i] = meterValue;
+            })
+          }
 
           let detailed_value = {};
           detailed_value['id'] = detailed_value_list.length;
           detailed_value['startdatetime'] = t('Total');
-          detailed_value['a0'] = json['reporting_period']['difference_in_category'];
+          detailed_value['a' + Math.min(8, json['parameters']['names'].length)] = json['reporting_period']['difference_in_category'];
           detailed_value_list.push(detailed_value);
+
           setTimeout(() => {
             setDetailedDataTableData(detailed_value_list);
           }, 0);
