@@ -4606,8 +4606,8 @@ class MicrogridScheduleItem:
         if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
             for row in rows_energystoragecontainers:
                 microgrid_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                                          "name": row[1],
+                                          "uuid": row[2]}
 
         query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
                  " FROM tbl_microgrids_schedules "

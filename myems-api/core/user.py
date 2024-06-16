@@ -55,9 +55,11 @@ class UserCollection:
                                    "id": row[7],
                                    "name": row[8]} if row[7] is not None else None,
                                "account_expiration_datetime":
-                                   (row[9].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                   (row[9].replace(tzinfo=timezone.utc) +
+                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                                "password_expiration_datetime":
-                                   (row[10].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                   (row[10].replace(tzinfo=timezone.utc) +
+                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                                "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
@@ -262,9 +264,11 @@ class UserItem:
                       "id": row[7],
                       "name": row[8]} if row[7] is not None else None,
                   "account_expiration_datetime":
-                      (row[9].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                      (row[9].replace(tzinfo=timezone.utc) +
+                       timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                   "password_expiration_datetime":
-                      (row[10].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                      (row[10].replace(tzinfo=timezone.utc) +
+                       timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
                   "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
         resp.text = json.dumps(result)
 

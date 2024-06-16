@@ -370,7 +370,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = str(round2(reporting_period_data['subtotals_in_kgce_saving'][i] /
-                                                          subtotals_in_kgce_saving_sum * 100, 2)) + '%'\
+                                                    subtotals_in_kgce_saving_sum * 100, 2)) + '%'\
                 if abs(subtotals_in_kgce_saving_sum) > 0 else '-'
 
             current_row_number += 1
@@ -439,7 +439,7 @@ def generate_excel(report,
             ws['D' + str(current_row_number)].alignment = c_c_alignment
             ws['D' + str(current_row_number)].border = f_border
             ws['D' + str(current_row_number)] = str(round2(reporting_period_data['subtotals_in_kgco2e_saving'][i] /
-                                                          subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'\
+                                                    subtotals_in_kgco2e_saving_sum * 100, 2)) + '%'\
                 if abs(subtotals_in_kgco2e_saving_sum) > 0 else '-'
 
             current_row_number += 1

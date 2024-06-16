@@ -8,13 +8,13 @@ from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Font
 from core.utilities import round2
 
+
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excelexporters file
 # Step 3: Encode the excelexporters file to Base64
 ########################################################################################################################
-
 def export(result, space_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local,
            language):
     ####################################################################################################################

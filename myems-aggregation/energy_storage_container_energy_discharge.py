@@ -133,8 +133,8 @@ def worker(energy_storage_container):
         if rows_discharge_meters is not None and len(rows_discharge_meters) > 0:
             for row in rows_discharge_meters:
                 discharge_meter_list.append({"id": row[0],
-                                          "name": row[1],
-                                          "energy_category_id": row[2]})
+                                             "name": row[1],
+                                             "energy_category_id": row[2]})
 
     except Exception as e:
         error_string = "Error in step 1.2 of energy_storage_container_energy_discharge.worker " + str(e)
