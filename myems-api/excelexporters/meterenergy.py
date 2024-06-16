@@ -11,13 +11,13 @@ from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from core.utilities import round2
 
+
 ########################################################################################################################
 # PROCEDURES
 # Step 1: Validate the report data
 # Step 2: Generate excel file from the report data
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
-
 def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, base_period_start_datetime,
            base_period_end_datetime, period_type, language):
     ####################################################################################################################

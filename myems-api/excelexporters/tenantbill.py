@@ -205,10 +205,10 @@ def generate_excel(report,
         ws['H40'] = datetime.datetime.strptime(reporting_end_datetime_local, '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
         ws['H41'] = report['reporting_period']['currency_unit'] + \
             str(round2(report['reporting_period']['total_cost']
-                      if 'reporting_period' in report.keys()
-                         and 'total_cost' in report['reporting_period'].keys()
-                         and report['reporting_period']['total_cost'] is not None
-                      else 0, 2))
+                       if 'reporting_period' in report.keys()
+                          and 'total_cost' in report['reporting_period'].keys()
+                          and report['reporting_period']['total_cost'] is not None
+                       else 0, 2))
 
     if 'reporting_period' not in report.keys() \
             or report['reporting_period'] is None:
@@ -278,10 +278,10 @@ def generate_excel(report,
         ws['B' + str(current_row_number)] = _('Subtotal') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round2(report['reporting_period']['total_cost']
-                  if 'reporting_period' in report.keys()
-                     and 'total_cost' in report['reporting_period'].keys()
-                     and report['reporting_period']['total_cost'] is not None
-                  else 0, 2))
+                   if 'reporting_period' in report.keys()
+                      and 'total_cost' in report['reporting_period'].keys()
+                      and report['reporting_period']['total_cost'] is not None
+                   else 0, 2))
 
         current_row_number += 1
 
@@ -296,10 +296,10 @@ def generate_excel(report,
         ws['B' + str(current_row_number)] = _('Total Amount Payable') + ':'
         ws['H' + str(current_row_number)] = report['reporting_period']['currency_unit'] + str(
             round2(report['reporting_period']['total_cost'] + taxes
-                  if 'reporting_period' in report.keys()
-                     and 'total_cost' in report['reporting_period'].keys()
-                     and report['reporting_period']['total_cost'] is not None
-                  else 0 + taxes, 2))
+                   if 'reporting_period' in report.keys()
+                      and 'total_cost' in report['reporting_period'].keys()
+                      and report['reporting_period']['total_cost'] is not None
+                   else 0 + taxes, 2))
 
     filename = str(uuid.uuid4()) + '.xlsx'
     wb.save(filename)

@@ -467,9 +467,8 @@ class PhotovoltaicPowerStationItem:
                                    description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_photovoltaic_power_stations "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, rated_power = %s, "
-                      "     contact_id = %s, cost_center_id = %s, "
-                      "     svg = %s, description = %s "
+                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, rated_power = %s,"
+                      "     contact_id = %s, cost_center_id = %s, svg = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,

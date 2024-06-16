@@ -173,15 +173,15 @@ class Reporting:
                      " AND start_datetime_utc < %s "
                      " ORDER BY start_datetime_utc ")
             cursor_energy_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_charge_hourly = cursor_energy_db.fetchall()
+            rows_discharge_hourly = cursor_energy_db.fetchall()
 
-            rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
-                                                                                 start_datetime_utc,
-                                                                                 end_datetime_utc,
-                                                                                 period_type)
+            rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
+                                                                                    start_datetime_utc,
+                                                                                    end_datetime_utc,
+                                                                                    period_type)
 
-            for row_charge_periodically in rows_charge_periodically:
-                current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_discharge_periodically in rows_discharge_periodically:
+                current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -194,7 +194,7 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.strftime('%Y')
 
-                actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
             reporting['discharge_7_days']['timestamps_array'].append(timestamps)
