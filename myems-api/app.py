@@ -9,7 +9,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile
+    windfarm, energyplanfile, svg
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -750,6 +750,11 @@ api.add_route('/storetypes',
               storetype.StoreTypeCollection())
 api.add_route('/storetypes/{id_}',
               storetype.StoreTypeItem())
+
+api.add_route('/svgs',
+              svg.SVGCollection())
+api.add_route('/svgs/{id_}',
+              svg.SVGItem())
 
 api.add_route('/tariffs',
               tariff.TariffCollection())

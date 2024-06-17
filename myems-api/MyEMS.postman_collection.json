@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7a4961e1-7023-40f2-ac12-7b6cd012a0b8",
+		"_postman_id": "2eb5e36a-120d-48ae-875a-8dbcd1fa898c",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -18489,6 +18489,308 @@
 									"path": [
 										"storetypes",
 										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "SVG",
+					"item": [
+						{
+							"name": "GET All SVGs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/svgs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET  a SVG by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/svgs/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create SVG",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"示例SVG图形1\", \"svg\":\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\", \"description\":\"demo description\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/svgs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE SVG by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/svgs/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update SVG by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"示例SVG图形\", \"svg\":\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Three separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\", \"description\":\"demo description\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/svgs/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a SVG by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/svgs/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a SVG from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"示例SVG图形\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo SVG\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/svgs/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a SVG by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "e3f3bd3de15b55a0cc9fb02742b2a475abbc38e63dd9be0e1f37081fcc55e41cff9fd9693c044f9699c616fb3f2b0484dc9623377c51366222acb6f287ee06bf",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/svgs/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"svgs",
+										"1",
+										"clone"
 									]
 								}
 							},
