@@ -185,6 +185,43 @@ class Reporting:
         ################################################################################################################
         # Step 4: query associated batteries on containers
         ################################################################################################################
+        energy_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_energy_value_latest ")
+        cursor_historical.execute(query, )
+        energy_value_latest_rows = cursor_historical.fetchall()
+        for row in energy_value_latest_rows:
+            energy_value_latest_dict[row[0]] = row[1]
+
+        analog_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_analog_value_latest ")
+        cursor_historical.execute(query, )
+        analog_value_latest_rows = cursor_historical.fetchall()
+        for row in analog_value_latest_rows:
+            analog_value_latest_dict[row[0]] = row[1]
+
+        digital_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest ")
+        cursor_historical.execute(query, )
+        digital_value_latest_rows = cursor_historical.fetchall()
+        for row in digital_value_latest_rows:
+            digital_value_latest_dict[row[0]] = row[1]
+
+        cursor_system.execute(" SELECT battery_state_point_id "
+                              " FROM tbl_energy_storage_containers_batteries "
+                              " WHERE energy_storage_container_id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            battery_state_point_id = row_point[0]
+
+        if digital_value_latest_dict.get(battery_state_point_id) is not None:
+            battery_state_point_value = digital_value_latest_dict.get(battery_state_point_id)
+
         cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
                               " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
                               " WHERE cb.energy_storage_container_id = %s AND cb.soc_point_id = p.id ",
@@ -289,30 +326,6 @@ class Reporting:
         # Step 7: query associated power conversion systems on containers
         ################################################################################################################
         # Step 7.1 query energy indicator data
-        energy_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_energy_value_latest ")
-        cursor_historical.execute(query,)
-        energy_value_latest_rows = cursor_historical.fetchall()
-        for row in energy_value_latest_rows:
-            energy_value_latest_dict[row[0]] = row[1]
-
-        analog_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_analog_value_latest ")
-        cursor_historical.execute(query, )
-        analog_value_latest_rows = cursor_historical.fetchall()
-        for row in analog_value_latest_rows:
-            analog_value_latest_dict[row[0]] = row[1]
-
-        digital_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest ")
-        cursor_historical.execute(query, )
-        digital_value_latest_rows = cursor_historical.fetchall()
-        for row in digital_value_latest_rows:
-            digital_value_latest_dict[row[0]] = row[1]
-
         today_charge_energy_value = Decimal(0.0)
         today_discharge_energy_value = Decimal(0.0)
         total_charge_energy_value = Decimal(0.0)
@@ -337,6 +350,11 @@ class Reporting:
 
         if digital_value_latest_dict.get(pcs_run_state_point_id) is not None:
             pcs_run_state_point_value = digital_value_latest_dict.get(pcs_run_state_point_id)
+
+        if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+        elif energy_value_latest_dict.get(today_charge_energy_point_id) is not None:
+            today_charge_energy_value = energy_value_latest_dict.get(today_charge_energy_point_id)
 
         if analog_value_latest_dict.get(today_discharge_energy_point_id) is not None:
             today_discharge_energy_value = analog_value_latest_dict.get(today_discharge_energy_point_id)
@@ -501,6 +519,36 @@ class Reporting:
             pcs_parameters_data['timestamps'].append(point_timestamps)
             pcs_parameters_data['values'].append(point_values)
 
+        # query battery parameters
+        battery_parameters_data = dict()
+        battery_parameters_data['names'] = list()
+        battery_parameters_data['timestamps'] = list()
+        battery_parameters_data['values'] = list()
+        if pcs_run_state_point_id is not None:
+            point_values = []
+            point_timestamps = []
+            query = (" SELECT utc_date_time, actual_value "
+                     " FROM tbl_digital_value "
+                     " WHERE point_id = %s "
+                     "       AND utc_date_time BETWEEN %s AND %s "
+                     " ORDER BY utc_date_time ")
+            cursor_historical.execute(query, (battery_state_point_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+            rows = cursor_historical.fetchall()
+
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
+                    point_timestamps.append(current_datetime)
+                    point_values.append(row[1])
+
+            battery_parameters_data['names'].append('State')
+            battery_parameters_data['timestamps'].append(point_timestamps)
+            battery_parameters_data['values'].append(point_values)
+
         if cursor_system:
             cursor_system.close()
         if cnx_system:
@@ -541,5 +589,9 @@ class Reporting:
             "names": pcs_parameters_data['names'],
             "timestamps": pcs_parameters_data['timestamps'],
             "values": pcs_parameters_data['values']}
+        result['battery_parameters'] = {
+            "names": battery_parameters_data['names'],
+            "timestamps": battery_parameters_data['timestamps'],
+            "values": battery_parameters_data['values']}
 
         resp.text = json.dumps(result)
