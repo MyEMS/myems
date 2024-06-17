@@ -305,11 +305,20 @@ class Reporting:
         for row in analog_value_latest_rows:
             analog_value_latest_dict[row[0]] = row[1]
 
+        digital_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest ")
+        cursor_historical.execute(query, )
+        digital_value_latest_rows = cursor_historical.fetchall()
+        for row in digital_value_latest_rows:
+            digital_value_latest_dict[row[0]] = row[1]
+
         today_charge_energy_value = Decimal(0.0)
         today_discharge_energy_value = Decimal(0.0)
         total_charge_energy_value = Decimal(0.0)
         total_discharge_energy_value = Decimal(0.0)
-        cursor_system.execute(" SELECT today_charge_energy_point_id, "
+        cursor_system.execute(" SELECT run_state_point_id, "
+                              "        today_charge_energy_point_id, "
                               "        today_discharge_energy_point_id, "
                               "        total_charge_energy_point_id, "
                               "        total_discharge_energy_point_id "
@@ -320,15 +329,14 @@ class Reporting:
                               (container_list[0]['id'],))
         row_point = cursor_system.fetchone()
         if row_point is not None:
+            pcs_run_state_point_id = row_point[0]
             today_charge_energy_point_id = row_point[0]
             today_discharge_energy_point_id = row_point[1]
             total_charge_energy_point_id = row_point[2]
             total_discharge_energy_point_id = row_point[3]
 
-        if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
-            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
-        elif energy_value_latest_dict.get(today_charge_energy_point_id) is not None:
-            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+        if digital_value_latest_dict.get(pcs_run_state_point_id) is not None:
+            pcs_run_state_point_value = digital_value_latest_dict.get(pcs_run_state_point_id)
 
         if analog_value_latest_dict.get(today_discharge_energy_point_id) is not None:
             today_discharge_energy_value = analog_value_latest_dict.get(today_discharge_energy_point_id)
@@ -463,6 +471,36 @@ class Reporting:
             parameters_data['timestamps'].append(point_timestamps)
             parameters_data['values'].append(point_values)
 
+        # query pcs parameters
+        pcs_parameters_data = dict()
+        pcs_parameters_data['names'] = list()
+        pcs_parameters_data['timestamps'] = list()
+        pcs_parameters_data['values'] = list()
+        if pcs_run_state_point_id is not None:
+            point_values = []
+            point_timestamps = []
+            query = (" SELECT utc_date_time, actual_value "
+                     " FROM tbl_digital_value "
+                     " WHERE point_id = %s "
+                     "       AND utc_date_time BETWEEN %s AND %s "
+                     " ORDER BY utc_date_time ")
+            cursor_historical.execute(query, (pcs_run_state_point_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+            rows = cursor_historical.fetchall()
+
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
+                    point_timestamps.append(current_datetime)
+                    point_values.append(row[1])
+
+            pcs_parameters_data['names'].append('RunState')
+            pcs_parameters_data['timestamps'].append(point_timestamps)
+            pcs_parameters_data['values'].append(point_values)
+
         if cursor_system:
             cursor_system.close()
         if cnx_system:
@@ -477,11 +515,6 @@ class Reporting:
         ################################################################################################################
         result = dict()
         result['energy_storage_power_station'] = meta_result
-        result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
-        }
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
         result['reporting_period']['units'] = list()
@@ -499,5 +532,14 @@ class Reporting:
         result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
         result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
         result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+        result['pcs_parameters'] = {
+            "names": pcs_parameters_data['names'],
+            "timestamps": pcs_parameters_data['timestamps'],
+            "values": pcs_parameters_data['values']}
 
         resp.text = json.dumps(result)
