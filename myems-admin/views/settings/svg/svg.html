@@ -1,0 +1,48 @@
+<div class="wrapper wrapper-content" ng-controller="SVGMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'COMMON.SVG' | translate}}">
+						<div class="panel-body" ng-controller="SVGController">
+							<a ng-click="addSVG()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SVG.ADD_SVG' | translate}}</a>
+              <a ng-click="importSVG()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SVG.SOURCE_CODE' | translate}}</th>
+										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat=" svg in svgs">
+										<td class="text-center">{{  svg.id }}</td>
+										<td class="text-center">{{  svg.name }}</td>
+										<td class="text-center">{{  (svg.source_code).substring(0, 128) + '...' }}</td>
+										<td class="text-center">{{  svg.description }}</td>
+										<td class="text-center">
+											<a ng-click="editSVG(svg)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteSVG(svg)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+                      <a ng-click="exportSVG(svg)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneSVG(svg)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+                <tfoot class="hide-if-no-paging">
+                  <tr>
+                      <td colspan="6">
+                          <ul class="pagination pull-right"></ul>
+                      </td>
+                  </tr>
+                </tfoot>
+							</table>
+						</div>
+					</uib-tab>
+		    </uib-tabset>
+	</div>
+</div>
+</div>
+</div>

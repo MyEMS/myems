@@ -28,7 +28,7 @@ class SVGCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, svg, description "
+        query = (" SELECT id, name, uuid, source_code, description "
                  " FROM tbl_svgs "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -41,7 +41,7 @@ class SVGCollection:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "svg": row[3],
+                               "source_code": row[3],
                                "description": row[4]}
                 result.append(meta_result)
 
@@ -70,12 +70,12 @@ class SVGCollection:
                                    description='API.INVALID_SVG_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'source_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['source_code'], str) or \
+                len(str.strip(new_values['data']['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_SOURCE_CODE')
+        source_code = str.strip(new_values['data']['source_code'])
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -97,11 +97,11 @@ class SVGCollection:
                                    description='API.SVG_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_svgs "
-                      "    (name, uuid, svg, description) "
+                      "    (name, uuid, source_code, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    svg,
+                                    source_code,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -137,7 +137,7 @@ class SVGItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, svg, description "
+        query = (" SELECT id, name, uuid, source_code, description "
                  " FROM tbl_svgs "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -152,7 +152,7 @@ class SVGItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "source_code": row[3],
                            "description": row[4]}
 
         resp.text = json.dumps(meta_result)
@@ -209,12 +209,12 @@ class SVGItem:
                                    description='API.INVALID_SVG_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'source_code' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['source_code'], str) or \
+                len(str.strip(new_values['data']['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_SOURCE_CODE')
+        source_code = str.strip(new_values['data']['source_code'])
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -236,10 +236,10 @@ class SVGItem:
                                    description='API.SVG_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_svgs "
-                      " SET name = %s, svg = %s, description = %s "
+                      " SET name = %s, source_code = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    svg,
+                                    source_code,
                                     description,
                                     id_))
         cnx.commit()
@@ -275,7 +275,7 @@ class SVGExport:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, svg, description "
+        query = (" SELECT id, name, uuid, source_code, description "
                  " FROM tbl_svgs "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -288,7 +288,7 @@ class SVGExport:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "source_code": row[3],
                            "description": row[4]}
         cursor.close()
         cnx.close()
@@ -326,12 +326,12 @@ class SVGImport:
                                    description='API.INVALID_SVG_NAME')
         name = str.strip(new_values['name'])
 
-        if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
+        if 'source_code' not in new_values.keys() or \
+                not isinstance(new_values['source_code'], str) or \
+                len(str.strip(new_values['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
+                                   description='API.INVALID_SVG_SOURCE_CODE')
+        source_code = str.strip(new_values['source_code'])
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -353,11 +353,11 @@ class SVGImport:
                                    description='API.SVG_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_svgs "
-                      "    (name, uuid, svg, description) "
+                      "    (name, uuid, source_code, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    svg,
+                                    source_code,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -394,7 +394,7 @@ class SVGClone:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, svg, description "
+        query = (" SELECT id, name, uuid, source_code, description "
                  " FROM tbl_svgs "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -407,7 +407,7 @@ class SVGClone:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "source_code": row[3],
                            "description": row[4]}
 
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -417,11 +417,11 @@ class SVGClone:
                         + (datetime.now()
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_svgs "
-                          "    (name, uuid, svg, description) "
+                          "    (name, uuid, source_code, description) "
                           " VALUES (%s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
-                                        meta_result['svg'],
+                                        meta_result['source_code'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()
