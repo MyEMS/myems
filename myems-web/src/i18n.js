@@ -1135,7 +1135,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Master Meter',
+      SubMeter: 'Submeter'
     }
   },
   zh_CN: {
@@ -2243,7 +2246,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': '工作日历名称已使用',
-      'API.WORKING_CALENDAR_NOT_FOUND': '工作日历不存在'
+      'API.WORKING_CALENDAR_NOT_FOUND': '工作日历不存在',
+
+      MasterMeter: '总表',
+      SubMeter: '分表'
     }
   },
   de: {
@@ -3402,7 +3408,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Der Name des Arbeitskalenders wird bereits verwendet',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Arbeitskalender nicht gefunden',
+
+      MasterMeter: 'Übersichtstabelle',
+      SubMeter: 'Subtable'
     }
   },
   fr: {
@@ -4541,7 +4550,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Tableau récapitulatif',
+      SubMeter: 'Sous - table'
     }
   },
   es: {
@@ -5686,7 +5698,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Tabla general',
+      SubMeter: 'Tabla dividida'
     }
   },
   ru: {
@@ -6830,7 +6845,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Резюме таблиці',
+      SubMeter: 'Підтаблиця'
     }
   },
   ar: {
@@ -7963,7 +7981,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'جدول موجز',
+      SubMeter: 'تقسيم الجدول'
     }
   },
   vi: {
@@ -9094,7 +9115,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Bảng tổng hợp',
+      SubMeter: 'Bảng phụ'
     }
   },
   th: {
@@ -10224,7 +10248,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'ตารางรวม',
+      SubMeter: 'ตารางแยก'
     }
   },
   tr: {
@@ -11357,7 +11384,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Sažetak tablica',
+      SubMeter: 'Podtablica'
     }
   },
   ms: {
@@ -12494,7 +12524,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Working calendar name is already in use',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Working calendar not found',
+
+      MasterMeter: 'Jadual Ringkasan',
+      SubMeter: 'Subjadual'
     }
   },
   id: {
@@ -13644,7 +13677,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': 'Nama kalender kerja sudah digunakan',
-      'API.WORKING_CALENDAR_NOT_FOUND': 'Kalender kerja tidak ada'
+      'API.WORKING_CALENDAR_NOT_FOUND': 'Kalender kerja tidak ada',
+
+      MasterMeter: 'Tabel Ringkasan',
+      SubMeter: 'Subtable'
     }
   },
   zh_TW: {
@@ -14786,7 +14822,10 @@ const resources = {
       'API.WIND_FARM_NAME_IS_ALREADY_IN_USE': 'Wind farm name is already in use',
       'API.WIND_FARM_NOT_FOUND': 'Wind farm not found',
       'API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE': '⼯作⽇歷名稱已使⽤',
-      'API.WORKING_CALENDAR_NOT_FOUND': '⼯作⽇歷不存在'
+      'API.WORKING_CALENDAR_NOT_FOUND': '⼯作⽇歷不存在',
+
+      MasterMeter: '總表',
+      SubMeter: '分錶'
     }
   },
 };
