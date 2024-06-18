@@ -755,6 +755,12 @@ api.add_route('/svgs',
               svg.SVGCollection())
 api.add_route('/svgs/{id_}',
               svg.SVGItem())
+api.add_route('/svgs/{id_}/export',
+              svg.SVGExport())
+api.add_route('/svgs/import',
+              svg.SVGImport())
+api.add_route('/svgs/{id_}/clone',
+              svg.SVGClone())
 
 api.add_route('/tariffs',
               tariff.TariffCollection())

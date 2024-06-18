@@ -133,7 +133,7 @@ class DistributionSystemItem:
             api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -329,7 +329,7 @@ class DistributionSystemExport:
             api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -527,7 +527,7 @@ class DistributionSystemClone:
             api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
