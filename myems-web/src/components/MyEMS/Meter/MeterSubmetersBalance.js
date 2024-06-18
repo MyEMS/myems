@@ -417,25 +417,41 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               const columns = [];
 
               for (let i = 0; i < numColumns; i++) {
-                columns.push({
-                  dataField: 'a' + i,
-                  text: json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
-                  sort: true,
-                  formatter: function (decimalValue) {
-                    if (typeof decimalValue === 'number') {
-                      return decimalValue.toFixed(2);
-                    } else {
-                      return null;
+                if (i === 0) {
+                  columns.push({
+                    dataField: 'a' + i,
+                    text: t('MasterMeter') + ':' + json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
+                    sort: true,
+                    formatter: function (decimalValue) {
+                      if (typeof decimalValue === 'number') {
+                        return decimalValue.toFixed(2);
+                      } else {
+                        return null;
+                      }
                     }
-                  }
-                });
+                  });
+                }
+                else {
+                  columns.push({
+                    dataField: 'a' + i,
+                    text: t('SubMeter') + ':' + json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
+                    sort: true,
+                    formatter: function (decimalValue) {
+                      if (typeof decimalValue === 'number') {
+                        return decimalValue.toFixed(2);
+                      } else {
+                        return null;
+                      }
+                    }
+                  });
+                }
               }
 
               return columns;
             })(),
             {
               dataField: 'a' + Math.min(8, json['parameters']['names'].length),
-              text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
+              text: t('Difference Value') + ':' + json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
               sort: true,
               formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
