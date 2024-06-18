@@ -114,6 +114,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
   const [energyStoragePowerStationSerialNumber, setEnergyStoragePowerStationSerialNumber] = useState();
@@ -242,6 +243,8 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -500,6 +503,8 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
           setSpinnerHidden(true);
@@ -903,76 +908,78 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={cardSummaryItem['name']}
-            title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')'}
-            color="success"
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {/* <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')'}
+              color="success"
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+        </div> */}
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        {/* <MultiTrendChart
+          reportingTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: energyStoragePowerStationReportingNames,
+            VALUE: energyStoragePowerStationReportingSubtotals,
+            UNIT: energyStoragePowerStationReportingUnits
+          }}
+          baseTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: { a0: (0).toFixed(2) },
+            UNIT: { a0: '()' }
+          }}
+          reportingTooltipTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: null,
+            UNIT: { a0: '()' }
+          }}
+          baseTooltipTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: null,
+            UNIT: { a0: '()' }
+          }}
+          reportingLabels={energyStoragePowerStationReportingLabels}
+          reportingData={energyStoragePowerStationReportingData}
+          baseLabels={energyStoragePowerStationReportingLabels}
+          baseData={energyStoragePowerStationReportingData}
+          rates={{ a0: [] }}
+          options={energyStoragePowerStationReportingOptions}
+        /> */}
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
       </div>
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      {/* <MultiTrendChart
-        reportingTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: energyStoragePowerStationReportingNames,
-          VALUE: energyStoragePowerStationReportingSubtotals,
-          UNIT: energyStoragePowerStationReportingUnits
-        }}
-        baseTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: { a0: (0).toFixed(2) },
-          UNIT: { a0: '()' }
-        }}
-        reportingTooltipTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: null,
-          UNIT: { a0: '()' }
-        }}
-        baseTooltipTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: null,
-          UNIT: { a0: '()' }
-        }}
-        reportingLabels={energyStoragePowerStationReportingLabels}
-        reportingData={energyStoragePowerStationReportingData}
-        baseLabels={energyStoragePowerStationReportingLabels}
-        baseData={energyStoragePowerStationReportingData}
-        rates={{ a0: [] }}
-        options={energyStoragePowerStationReportingOptions}
-      /> */}
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
     </Fragment>
   );
 };

@@ -99,6 +99,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [submitButtonHidden, setSubmitButtonHidden] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
@@ -235,6 +236,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
+    // hide result data
+    setResultDataHidden(true);
 
     let isResponseOK = false;
     fetch(url, {
@@ -347,6 +350,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
           // enable submit button
@@ -519,446 +524,448 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </Col>
         </Row>
       </Form>
-      <Row noGutters>
-        <Col lg="3" className="pr-lg-2">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '1' })}
-                onClick={() => {
-                  toggleTabLeft('1');
-                }}
-              >
-                <h6>{t('Energy Indicator')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '2' })}
-                onClick={() => {
-                  toggleTabLeft('2');
-                }}
-              >
-                <h6>{t('Revenue Indicator')}</h6>
-              </NavLink>
-            </NavItem>
-            {/* <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '3' })}
-                onClick={() => {
-                  toggleTabLeft('3');
-                }}
-              >
-                <h6>{t('Carbon Indicator')}</h6>
-              </NavLink>
-            </NavItem> */}
-          </Nav>
-          <TabContent activeTab={activeTabLeft}>
-            <TabPane tabId="1">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日充电量</th>
-                          <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日放电量</th>
-                          <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计充电量</th>
-                          <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计放电量</th>
-                          <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">综合效率</th>
-                          <th className="pr-0 text-right">{totalEfficiency}%</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日成本</th>
-                          <th className="pr-0 text-right">0 元</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日收入</th>
-                          <th className="pr-0 text-right ">0 元</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计成本</th>
-                          <th className="pr-0 text-right">0 元</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计收入</th>
-                          <th className="pr-0 text-right">0 元</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">今日盈利</th>
-                          <th className="pr-0 text-right">0 元</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计盈利</th>
-                          <th className="pr-0 text-right">0 元</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            {/* <TabPane tabId="3">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日充电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">今日放电量</th>
-                          <th className="pr-0 text-right ">0 kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计充电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">累计放电量</th>
-                          <th className="pr-0 text-right">0 kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">综合效率</th>
-                          <th className="pr-0 text-right">0%</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">放电达成率</th>
-                          <th className="pr-0 text-right">0%</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane> */}
-          </TabContent>
-        </Col>
-        <Col lg="6" className="pr-lg-2" key={uuidv4()}>
-          <div dangerouslySetInnerHTML={energyStoragePowerStationSVG} />
-        </Col>
-        <Col lg="3" className="pr-lg-2">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '1' })}
-                onClick={() => {
-                  toggleTabRight('1');
-                }}
-              >
-                <h6>设备状态</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '2' })}
-                onClick={() => {
-                  toggleTabRight('2');
-                }}
-              >
-                <h6>电站信息</h6>
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={activeTabRight}>
-            <TabPane tabId="1">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">通信网关</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">1#电池堆</th>
-                          <th className="pr-0 text-right ">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#空调</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#网关表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1#用户表</th>
-                          <th className="pr-0 text-right">正常</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Name')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Address')}</th>
-                          <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                          <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-          </TabContent>
-        </Col>
-      </Row>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <Row noGutters>
+          <Col lg="3" className="pr-lg-2">
+            <Nav tabs>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '1' })}
+                  onClick={() => {
+                    toggleTabLeft('1');
+                  }}
+                >
+                  <h6>{t('Energy Indicator')}</h6>
+                </NavLink>
+              </NavItem>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '2' })}
+                  onClick={() => {
+                    toggleTabLeft('2');
+                  }}
+                >
+                  <h6>{t('Revenue Indicator')}</h6>
+                </NavLink>
+              </NavItem>
+              {/* <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '3' })}
+                  onClick={() => {
+                    toggleTabLeft('3');
+                  }}
+                >
+                  <h6>{t('Carbon Indicator')}</h6>
+                </NavLink>
+              </NavItem> */}
+            </Nav>
+            <TabContent activeTab={activeTabLeft}>
+              <TabPane tabId="1">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日充电量</th>
+                            <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日放电量</th>
+                            <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计充电量</th>
+                            <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计放电量</th>
+                            <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">综合效率</th>
+                            <th className="pr-0 text-right">{totalEfficiency}%</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              <TabPane tabId="2">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日成本</th>
+                            <th className="pr-0 text-right">0 元</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日收入</th>
+                            <th className="pr-0 text-right ">0 元</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计成本</th>
+                            <th className="pr-0 text-right">0 元</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计收入</th>
+                            <th className="pr-0 text-right">0 元</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">今日盈利</th>
+                            <th className="pr-0 text-right">0 元</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计盈利</th>
+                            <th className="pr-0 text-right">0 元</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              {/* <TabPane tabId="3">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日充电量</th>
+                            <th className="pr-0 text-right">0 kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">今日放电量</th>
+                            <th className="pr-0 text-right ">0 kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计充电量</th>
+                            <th className="pr-0 text-right">0 kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">累计放电量</th>
+                            <th className="pr-0 text-right">0 kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">综合效率</th>
+                            <th className="pr-0 text-right">0%</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">放电达成率</th>
+                            <th className="pr-0 text-right">0%</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane> */}
+            </TabContent>
+          </Col>
+          <Col lg="6" className="pr-lg-2" key={uuidv4()}>
+            <div dangerouslySetInnerHTML={energyStoragePowerStationSVG} />
+          </Col>
+          <Col lg="3" className="pr-lg-2">
+            <Nav tabs>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabRight === '1' })}
+                  onClick={() => {
+                    toggleTabRight('1');
+                  }}
+                >
+                  <h6>设备状态</h6>
+                </NavLink>
+              </NavItem>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabRight === '2' })}
+                  onClick={() => {
+                    toggleTabRight('2');
+                  }}
+                >
+                  <h6>电站信息</h6>
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTabRight}>
+              <TabPane tabId="1">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">通信网关</th>
+                            <th className="pr-0 text-right">正常</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">1# PCS</th>
+                            <th className="pr-0 text-right">正常</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">1#电池堆</th>
+                            <th className="pr-0 text-right ">正常</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">1#空调</th>
+                            <th className="pr-0 text-right">正常</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">1#网关表</th>
+                            <th className="pr-0 text-right">正常</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">1#用户表</th>
+                            <th className="pr-0 text-right">正常</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              <TabPane tabId="2">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Name')}</th>
+                            <th className="pr-0 text-right">{energyStoragePowerStationName}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Address')}</th>
+                            <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                            <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                            <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                            <th className="pr-0 text-right">{energyStoragePowerStationRatedPower} kW</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+            </TabContent>
+          </Col>
+        </Row>
 
-      <Nav tabs>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '1' })}
-            onClick={() => {
-              toggleTabBottom('1');
-            }}
-          >
-            <h6>{t('Operating Characteristic Curve')}</h6>
-          </NavLink>
-        </NavItem>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '2' })}
-            onClick={() => {
-              toggleTabBottom('2');
-            }}
-          >
-            <h6>{t('Strategy Management')}</h6>
-          </NavLink>
-        </NavItem>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '3' })}
-            onClick={() => {
-              toggleTabBottom('3');
-            }}
-          >
-            <h6>{t('Fault Alarms')}</h6>
-          </NavLink>
-        </NavItem>
+        <Nav tabs>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '1' })}
+              onClick={() => {
+                toggleTabBottom('1');
+              }}
+            >
+              <h6>{t('Operating Characteristic Curve')}</h6>
+            </NavLink>
+          </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '2' })}
+              onClick={() => {
+                toggleTabBottom('2');
+              }}
+            >
+              <h6>{t('Strategy Management')}</h6>
+            </NavLink>
+          </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '3' })}
+              onClick={() => {
+                toggleTabBottom('3');
+              }}
+            >
+              <h6>{t('Fault Alarms')}</h6>
+            </NavLink>
+          </NavItem>
 
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '4' })}
-            onClick={() => {
-              toggleTabBottom('4');
-            }}
-          >
-            <h6>PCS</h6>
-          </NavLink>
-        </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '4' })}
+              onClick={() => {
+                toggleTabBottom('4');
+              }}
+            >
+              <h6>PCS</h6>
+            </NavLink>
+          </NavItem>
 
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '5' })}
-            onClick={() => {
-              toggleTabBottom('5');
-            }}
-          >
-            <h6>BMS</h6>
-          </NavLink>
-        </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '5' })}
+              onClick={() => {
+                toggleTabBottom('5');
+              }}
+            >
+              <h6>BMS</h6>
+            </NavLink>
+          </NavItem>
 
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '6' })}
-            onClick={() => {
-              toggleTabBottom('6');
-            }}
-          >
-            <h6>电表</h6>
-          </NavLink>
-        </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '6' })}
+              onClick={() => {
+                toggleTabBottom('6');
+              }}
+            >
+              <h6>电表</h6>
+            </NavLink>
+          </NavItem>
 
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '7' })}
-            onClick={() => {
-              toggleTabBottom('7');
-            }}
-          >
-            <h6>空调</h6>
-          </NavLink>
-        </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '7' })}
+              onClick={() => {
+                toggleTabBottom('7');
+              }}
+            >
+              <h6>空调</h6>
+            </NavLink>
+          </NavItem>
 
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '8' })}
-            onClick={() => {
-              toggleTabBottom('8');
-            }}
-          >
-            <h6>消防</h6>
-          </NavLink>
-        </NavItem>
-      </Nav>
-      <TabContent activeTab={activeTabBottom}>
-        <TabPane tabId="1">
-          <MultipleLineChart
-            reportingTitle=""
-            baseTitle=""
-            labels={parameterLineChartLabels}
-            data={parameterLineChartData}
-            options={parameterLineChartOptions}
-          />
-        </TabPane>
-        <TabPane tabId="2">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <SectionLineChart
-                xaxisData={scheduleXaxisData}
-                seriesName={scheduleSeriesName}
-                seriesData={scheduleSeriesData}
-                markAreaData={scheduleMarkAreaData}
-              />
-            </CardBody>
-          </Card>
-        </TabPane>
-        <TabPane tabId="3">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>主题</th>
-                    <th>内容</th>
-                    <th>创建时间</th>
-                    <th>开始时间</th>
-                    <th>结束时间</th>
-                    <th>状态</th>
-                    <th>更新时间</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </TabPane>
-        <TabPane tabId="4">
-          <MultipleLineChart
-            reportingTitle=""
-            baseTitle=""
-            labels={PCSParameterLineChartLabels}
-            data={PCSParameterLineChartData}
-            options={PCSParameterLineChartOptions}
-          />
-        </TabPane>
-        <TabPane tabId="5">
-          <MultipleLineChart
-            reportingTitle=""
-            baseTitle=""
-            labels={BMSParameterLineChartLabels}
-            data={BMSParameterLineChartData}
-            options={BMSParameterLineChartOptions}
-          />
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '8' })}
+              onClick={() => {
+                toggleTabBottom('8');
+              }}
+            >
+              <h6>消防</h6>
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={activeTabBottom}>
+          <TabPane tabId="1">
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={parameterLineChartLabels}
+              data={parameterLineChartData}
+              options={parameterLineChartOptions}
+            />
+          </TabPane>
+          <TabPane tabId="2">
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <SectionLineChart
+                  xaxisData={scheduleXaxisData}
+                  seriesName={scheduleSeriesName}
+                  seriesData={scheduleSeriesData}
+                  markAreaData={scheduleMarkAreaData}
+                />
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="3">
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>主题</th>
+                      <th>内容</th>
+                      <th>创建时间</th>
+                      <th>开始时间</th>
+                      <th>结束时间</th>
+                      <th>状态</th>
+                      <th>更新时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                    </tr>
+                    <tr>
+                      <th scope="row">4</th>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="4">
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={PCSParameterLineChartLabels}
+              data={PCSParameterLineChartData}
+              options={PCSParameterLineChartOptions}
+            />
+          </TabPane>
+          <TabPane tabId="5">
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={BMSParameterLineChartLabels}
+              data={BMSParameterLineChartData}
+              options={BMSParameterLineChartOptions}
+            />
 
-        </TabPane>
-        <TabPane tabId="6">
+          </TabPane>
+          <TabPane tabId="6">
 
-        </TabPane>
-        <TabPane tabId="7">
+          </TabPane>
+          <TabPane tabId="7">
 
-        </TabPane>
-        <TabPane tabId="8">
+          </TabPane>
+          <TabPane tabId="8">
 
-        </TabPane>
-      </TabContent>
+          </TabPane>
+        </TabContent>
+      </div>
     </Fragment>
   );
 };
