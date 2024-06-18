@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added svg actions to myems-api
+- added svg actions to myems-api, myems-admin
 ### Changed
 ### Fixed
 - added check relations statements to point on_delete action in myems-api

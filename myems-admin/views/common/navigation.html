@@ -37,6 +37,7 @@
             <li ng-class="{active: $state.includes('settings')}">
                 <a href=""><i class="fa fa-gears"></i> <span class="nav-label">{{ 'MENU.SETTINGS.ADVANCED' | translate }}</span>  <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('settings')}">
+                    <li ui-sref-active="active"><a ui-sref="settings.svg">{{ 'MENU.SETTINGS.SVG' | translate }}</a></li>
                     <li ui-sref-active="active"><a ui-sref="settings.command">{{ 'MENU.SETTINGS.COMMAND' | translate }}</a></li>
                     <li ui-sref-active="active"><a ui-sref="settings.microgrid">{{ 'MENU.SETTINGS.MICROGRID' | translate }}</a></li>
                     <li ui-sref-active="active"><a ui-sref="settings.virtualpowerplant">{{ 'MENU.SETTINGS.VIRTUAL_POWER_PLANT' | translate }}</a></li>

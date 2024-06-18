@@ -1615,7 +1615,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_svgs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `source_code` LONGTEXT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_svgs_index_1` ON `myems_system_db`.`tbl_svgs` (`name`);

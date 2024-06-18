@@ -1074,6 +1074,45 @@ app
                         }
 
                     })
+                    .state('settings.svg', {
+                        url: "/svg",
+                        templateUrl: "views/settings/svg/svg.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.SVG'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.checkbox', 'ui.select', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/svg/svg.service.js',
+                                                    'app/controllers/settings/svg/svg.master.controller.js',
+                                                    'app/controllers/settings/svg/svg.controller.js',
+                                                    'app/controllers/settings/svg/svgpreview.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.energyflowdiagram', {
                         url: "/energyflowdiagram",
                         templateUrl: "views/settings/energyflowdiagram/energyflowdiagram.html",

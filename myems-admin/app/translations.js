@@ -41,6 +41,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Energy Storage Power Station',
                 PHOTOVOLTAIC_POWER_STATION: 'Photovoltaic Power Station',
                 WIND_FARM: 'Wind Farm',
+                SVG: 'SVG'
             },
             FDD: {
                 ID: 'ID',
@@ -132,7 +133,8 @@ function config($translateProvider) {
                     PRODUCT: 'Products Ⓔ',
                     SVG_SYSTEM: 'SCADA Visualization Systems Ⓔ',
                     ADVANCED_REPORT: 'Advanced Report Ⓔ',
-                    ENERGY_PLAN_FILE: 'Energy Plan File Ⓔ'
+                    ENERGY_PLAN_FILE: 'Energy Plan File Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -685,15 +687,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Input Longitude',
                 INPUT_SVG: 'Input SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'SVG System',
-                ADD_SVG_SYSTEM: 'Add SVG System',
-                EDIT_SVG_SYSTEM: 'Edit SVG System',
-                SELECT_SVG_SYSTEM: 'Select SVG System',
-                SVG: 'SVG',
-                INPUT_SVG: 'Please Input SVG',
-                PREVIEW: 'Preview',
-                N_S_PREVIEW: ' Preview',
+            SVG: {
+                ADD_SVG: 'Add SVG',
+                SOURCE_CODE: 'Source Code',
+                INPUT_SOURCE_CODE: 'Input Source Code',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Add Equipment',
@@ -1622,6 +1619,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: '储能电站',
                 PHOTOVOLTAIC_POWER_STATION: '光伏电站',
                 WIND_FARM: '风电场',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -1714,6 +1712,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: '组态可视化系统 ㊭',
                     ADVANCED_REPORT: '高级报表 ㊭',
                     ENERGY_PLAN_FILE: '能源计划 ㊭',
+                    SVG: 'SVG ㊭'
                 },
                 FDD: {
                     FDD: '故障检测与诊断 ㊭',
@@ -2247,14 +2246,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: '输入维度',
                 INPUT_SVG: '输入SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: '组态可视化系统',
-                ADD_SVG_SYSTEM: '添加组态可视化系统',
-                EDIT_SVG_SYSTEM: '编辑组态可视化系统',
-                SELECT_SVG_SYSTEM: '请选择组态可视化系统',
-                SVG: 'SVG',
-                INPUT_SVG: '请输入SVG',
-                PREVIEW: '预览',
+            SVG: {
+                ADD_SVG: '添加SVG',
+                SOURCE_CODE: '源代码',
+                INPUT_SOURCE_CODE: '输入源代码',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: '添加能流图',
@@ -3208,6 +3203,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Energiespeicherkraftwerk',
                 PHOTOVOLTAIC_POWER_STATION: 'Photovoltaik-Kraftwerk',
                 WIND_FARM: 'Windpark',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -3299,7 +3295,8 @@ function config($translateProvider) {
                     PRODUCT: 'Produkt Ⓔ',
                     SVG_SYSTEM: 'SCADA-Visualisierungssystem Ⓔ',
                     ADVANCED_REPORT: 'Erweiterte Berichte Ⓔ',
-                    ENERGY_PLAN_FILE: 'Energieplan Ⓔ'
+                    ENERGY_PLAN_FILE: 'Energieplan Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'Fehlererkennung und -diagnose Ⓔ',
@@ -3833,14 +3830,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Längengrad eingeben',
                 INPUT_SVG: 'SVG eingeben',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Vertriebssystem',
-                ADD_SVG_SYSTEM: 'Stromverteilungssystem hinzufügen',
-                EDIT_SVG_SYSTEM: 'Stromverteilungssystem bearbeiten',
-                SELECT_SVG_SYSTEM: 'Bitte wählen Sie das Stromverteilungssystem',
-                SVG: 'SVG',
-                INPUT_SVG: 'Bitte geben Sie SVG ein',
-                PREVIEW: 'Vorschau',
+            SVG: {
+                ADD_SVG: 'SVG hinzufügen',
+                SOURCE_CODE: 'Quellcode',
+                INPUT_SOURCE_CODE: 'Quellcode eingeben',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: 'Energieflussdiagramm hinzufügen',
@@ -4790,6 +4783,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Centrale de stockage d’énergie',
                 PHOTOVOLTAIC_POWER_STATION: 'Centrale photovoltaïque',
                 WIND_FARM: 'Parc éolien',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -4882,6 +4876,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'Systèmes de visualisation SCADA Ⓔ',
                     ADVANCED_REPORT: 'Déclaration avancée Ⓔ',
                     ENERGY_PLAN_FILE: 'Plan énergétique Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -5434,15 +5429,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'saisir la longitude',
                 INPUT_SVG: 'saisir SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Système SVG',
-                ADD_SVG_SYSTEM: 'Ajouter un système SVG',
-                EDIT_SVG_SYSTEM: 'Modifier le système SVG',
-                SELECT_SVG_SYSTEM: 'Sélectionnez Système SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'Veuillez saisir SVG',
-                PREVIEW: 'Aperçu',
-                N_S_PREVIEW: ' Aperçu',
+            SVG: {
+                ADD_SVG: 'Ajouter SVG',
+                SOURCE_CODE: 'Code source',
+                INPUT_SOURCE_CODE: 'Code source d\'entrée',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Ajouter de l’équipement',
@@ -6372,6 +6362,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Central eléctrica de almacenamiento de energía',
                 PHOTOVOLTAIC_POWER_STATION: 'Central fotovoltaica',
                 WIND_FARM: 'Parque eólico',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -6464,6 +6455,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'Sistemas de visualización SCADA Ⓔ',
                     ADVANCED_REPORT: 'Informe Avanzado Ⓔ',
                     ENERGY_PLAN_FILE: 'Plan energético Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -7017,15 +7009,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Introduzca la longitud',
                 INPUT_SVG: 'Introduzca SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Sistema SVG',
-                ADD_SVG_SYSTEM: 'Agregar sistema SVG',
-                EDIT_SVG_SYSTEM: 'Editar sistema SVG',
-                SELECT_SVG_SYSTEM: 'Seleccione Sistema SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'Por favor, introduzca SVG',
-                PREVIEW: 'Vista previa',
-                N_S_PREVIEW: ' Vista previa',
+            SVG: {
+                ADD_SVG: 'Agregar SVG',
+                SOURCE_CODE: 'Código fuente',
+                INPUT_SOURCE_CODE: 'Código fuente de entrada',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Agregar equipo',
@@ -7955,6 +7942,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Резервная электростанция',
                 PHOTOVOLTAIC_POWER_STATION: 'Фотоэлектрическая электростанция',
                 WIND_FARM: 'Ветроэлектростанция',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -8047,6 +8035,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'Системы визуализации SCADA Ⓔ',
                     ADVANCED_REPORT: 'Расширенная отчетность Ⓔ',
                     ENERGY_PLAN_FILE: 'Энергетический план Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -8599,15 +8588,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'введите долготу',
                 INPUT_SVG: 'введите SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Система SVG',
-                ADD_SVG_SYSTEM: 'Добавить систему SVG',
-                EDIT_SVG_SYSTEM: 'Редактировать систему SVG',
-                SELECT_SVG_SYSTEM: 'Выберите систему SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'Пожалуйста, введите SVG',
-                PREVIEW: 'Предварительный просмотр',
-                N_S_PREVIEW: ' Предварительный просмотр',
+            SVG: {
+                ADD_SVG: 'Добавить SVG',
+                SOURCE_CODE: 'Исходный код',
+                INPUT_SOURCE_CODE: 'Исходный код ввода',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Добавить оборудование',
@@ -9537,6 +9521,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'محطة تخزين الطاقة',
                 PHOTOVOLTAIC_POWER_STATION: 'محطة الطاقة الضوئية',
                 WIND_FARM: 'مزرعة الرياح',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'معرف',
@@ -9629,6 +9614,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'أنظمة التصور SCADA Ⓔ',
                     ADVANCED_REPORT: 'التقارير المتقدمة Ⓔ',
                     ENERGY_PLAN_FILE: 'خطة الطاقة Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -10181,15 +10167,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
                 INPUT_SVG: 'الرجاء إدخال SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'نظام SVG',
-                ADD_SVG_SYSTEM: 'إضافة نظام SVG',
-                EDIT_SVG_SYSTEM: 'تحرير نظام SVG',
-                SELECT_SVG_SYSTEM: 'حدد نظام SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'الرجاء إدخال SVG',
-                PREVIEW: 'معاينه',
-                N_S_PREVIEW: ' معاينه',
+            SVG: {
+                ADD_SVG: 'أضف SVG',
+                SOURCE_CODE: 'مصدر الرمز',
+                INPUT_SOURCE_CODE: 'إدخال كود المصدر',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'إضافة معدات',
@@ -11119,6 +11100,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Trạm lưu trữ năng lượng',
                 PHOTOVOLTAIC_POWER_STATION: 'Nhà máy điện PV',
                 WIND_FARM: 'Trang trại gió',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -11211,6 +11193,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'Hệ thống trực quan hóa SCADA Ⓔ',
                     ADVANCED_REPORT: 'Báo cáo nâng cao Ⓔ',
                     ENERGY_PLAN_FILE: 'Kế hoạch năng lượng Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -11762,15 +11745,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
                 INPUT_SVG: 'Vui lòng nhập SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Hệ thống SVG',
-                ADD_SVG_SYSTEM: 'Thêm hệ thống SVG',
-                EDIT_SVG_SYSTEM: 'Chỉnh sửa hệ thống SVG',
-                SELECT_SVG_SYSTEM: 'Chọn hệ thống SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'Vui lòng nhập SVG',
-                PREVIEW: 'Xem trước',
-                N_S_PREVIEW: ' Xem trước',
+            SVG: {
+                ADD_SVG: 'Thêm SVG',
+                SOURCE_CODE: 'Mã nguồn',
+                INPUT_SOURCE_CODE: 'Mã nguồn đầu vào',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Thêm thiết bị',
@@ -12700,6 +12678,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'สถานีเก็บพลังงาน',
                 PHOTOVOLTAIC_POWER_STATION: 'สถานีไฟฟ้าโซลาร์เซลล์',
                 WIND_FARM: 'ฟาร์มกังหันลม',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -13342,15 +13321,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
                 INPUT_SVG: 'กรุณาใส่ SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'ระบบ SVG',
-                ADD_SVG_SYSTEM: 'เพิ่มระบบ SVG',
-                EDIT_SVG_SYSTEM: 'แก้ไขระบบ SVG',
-                SELECT_SVG_SYSTEM: 'เลือกระบบ SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'กรุณาใส่ SVG',
-                PREVIEW: 'ดูตัวอย่าง',
-                N_S_PREVIEW: ' ดูตัวอย่าง',
+            SVG: {
+                ADD_SVG: 'เพิ่ม SVG',
+                SOURCE_CODE: 'รหัสแหล่งที่มา',
+                INPUT_SOURCE_CODE: 'ซอร์สโค้ดอินพุต',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'เพิ่มอุปกรณ์',
@@ -14280,6 +14254,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Enerji depolama güç istasyonu',
                 PHOTOVOLTAIC_POWER_STATION: 'Fotovoltaik Güç İstasyonu',
                 WIND_FARM: 'Rüzgar Çiftliği',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -14372,6 +14347,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'SCADA Görselleştirme Sistemleri Ⓔ',
                     ADVANCED_REPORT: 'gelişmiş rapor Ⓔ',
                     ENERGY_PLAN_FILE: 'Enerji planı Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -14922,15 +14898,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
                 INPUT_SVG: 'Lütfen SVG girin',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'SVG Sistemi',
-                ADD_SVG_SYSTEM: 'SVG Sistemi Ekle',
-                EDIT_SVG_SYSTEM: 'SVG Sistemini Düzenle',
-                SELECT_SVG_SYSTEM: 'SVG Sistemini Seçin',
-                SVG: 'SVG',
-                INPUT_SVG: 'Lütfen SVG girin',
-                PREVIEW: 'Önizleme',
-                N_S_PREVIEW: ' Önizleme',
+            SVG: {
+                ADD_SVG: 'SVG ekle',
+                SOURCE_CODE: 'Kaynak kodu',
+                INPUT_SOURCE_CODE: 'Giriş Kaynağı Kodu',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Ekipman Ekle',
@@ -15860,6 +15831,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Station Kuasa Storan Energi',
                 PHOTOVOLTAIC_POWER_STATION: 'Station Kuasa Fotovoltaic',
                 WIND_FARM: 'Peternakan Angin',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -15951,6 +15923,7 @@ function config($translateProvider) {
                     PRODUCT: 'Produk Ⓔ',
                     SVG_SYSTEM: 'Sistem Penggambaran SCADA Ⓔ',
                     ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -16501,15 +16474,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
                 INPUT_SVG: 'Sila masukkan SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Sistem SVG',
-                ADD_SVG_SYSTEM: 'Tambah Sistem SVG',
-                EDIT_SVG_SYSTEM: 'Edit Sistem SVG',
-                SELECT_SVG_SYSTEM: 'Pilih Sistem SVG',
-                SVG: 'SVG',
-                INPUT_SVG: 'Sila masukkan SVG',
-                PREVIEW: 'Pratonton',
-                N_S_PREVIEW: ' Pratonton',
+            SVG: {
+                ADD_SVG: 'Tambah SVG',
+                SOURCE_CODE: 'Kod sumber',
+                INPUT_SOURCE_CODE: 'Kod Sumber Input',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Tambah Peralatan',
@@ -17439,6 +17407,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: 'Stasiun Power Storage Energi',
                 PHOTOVOLTAIC_POWER_STATION: 'Stasiun Power Fotovoltaic',
                 WIND_FARM: 'Peternakan Angin',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -17531,6 +17500,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: 'Sistem Visualisasi SCADA Ⓔ',
                     ADVANCED_REPORT: 'Laporan Lanjutan Ⓔ',
                     ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: 'FDD Ⓔ',
@@ -18081,15 +18051,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
                 INPUT_SVG: 'Silakan masukan SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: 'Sistem SVG',
-                ADD_SVG_SYSTEM: 'Tambahkan Sistem SVG',
-                EDIT_SVG_SYSTEM: 'Edit Sistem SVG',
-                SELECT_SVG_SYSTEM: 'Pilih SVG System',
-                SVG: 'SVG',
-                INPUT_SVG: 'Silakan masukan SVG',
-                PREVIEW: 'Pratayang',
-                N_S_PREVIEW: ' Pratayang',
+            SVG: {
+                ADD_SVG: 'Tambahkan SVG',
+                SOURCE_CODE: 'Kode sumber',
+                INPUT_SOURCE_CODE: 'Kode Sumber Masukan',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Tambahkan Peralatan',
@@ -19019,6 +18984,7 @@ function config($translateProvider) {
                 ENERGY_STORAGE_POWER_STATION: '儲能電站',
                 PHOTOVOLTAIC_POWER_STATION: '光伏電站',
                 WIND_FARM: '風電場',
+                SVG: 'SVG',
             },
             FDD: {
                 ID: 'ID',
@@ -19111,6 +19077,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: '組態可視化系統 ㊭',
                     ADVANCED_REPORT: '⾼級報表 ㊭',
                     ENERGY_PLAN_FILE: '能源計劃 ㊭',
+                    SVG: 'SVG Ⓔ'
                 },
                 FDD: {
                     FDD: '故障檢測與診斷 ㊭',
@@ -19642,14 +19609,10 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: '輸入維度',
                 INPUT_SVG: '輸入SVG',
             },
-            SVG_SYSTEM: {
-                SVG_SYSTEM: '組態可視化系統',
-                ADD_SVG_SYSTEM: '添加組態可視化系統',
-                EDIT_SVG_SYSTEM: '編輯組態可視化系統',
-                SELECT_SVG_SYSTEM: '請選擇組態可視化系統',
-                SVG: 'SVG',
-                INPUT_SVG: '請輸入SVG',
-                PREVIEW: '預覽',
+            SVG: {
+                ADD_SVG: '新增 SVG',
+                SOURCE_CODE: '原始碼',
+                INPUT_SOURCE_CODE: '輸入原始碼',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: '添加能流圖',
