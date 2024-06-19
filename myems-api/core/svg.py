@@ -25,25 +25,47 @@ class SVGCollection:
             access_control(req)
         else:
             api_key_control(req)
+        # if turn quick mode on, do not return source code
+        is_quick_mode = False
+        if 'QUICKMODE' in req.headers and \
+            isinstance(req.headers['QUICKMODE'], str) and \
+                len(str.strip(req.headers['QUICKMODE'])) > 0 and \
+                str.lower(req.headers['QUICKMODE']) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
+        if is_quick_mode:
+            query = (" SELECT id, name, uuid "
+                     " FROM tbl_svgs "
+                     " ORDER BY id ")
+            cursor.execute(query)
+            rows_svgs = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, source_code, description "
-                 " FROM tbl_svgs "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
+            result = list()
+            if rows_svgs is not None and len(rows_svgs) > 0:
+                for row in rows_svgs:
 
-        result = list()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
+                    meta_result = {"id": row[0],
+                                   "name": row[1],
+                                   "uuid": row[2]}
+                    result.append(meta_result)
+        else:
+            query = (" SELECT id, name, uuid, source_code, description "
+                     " FROM tbl_svgs "
+                     " ORDER BY id ")
+            cursor.execute(query)
+            rows_svgs = cursor.fetchall()
 
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "source_code": row[3],
-                               "description": row[4]}
-                result.append(meta_result)
+            result = list()
+            if rows_svgs is not None and len(rows_svgs) > 0:
+                for row in rows_svgs:
+                    meta_result = {"id": row[0],
+                                   "name": row[1],
+                                   "uuid": row[2],
+                                   "source_code": row[3],
+                                   "description": row[4]}
+                    result.append(meta_result)
 
         cursor.close()
         cnx.close()

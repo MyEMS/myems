@@ -6,14 +6,26 @@ app.controller('EnergyStoragePowerStationController', function(
     $window,
     $translate,
     $uibModal,
-    CostCenterService,
     ContactService,
+    CostCenterService,
+    SVGService,
     EnergyStoragePowerStationService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+
+	$scope.getAllContacts = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token};
+		ContactService.getAllContacts(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.contacts = response.data;
+			} else {
+				$scope.contacts = [];
+			}
+		});
+	};
 
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -26,13 +38,13 @@ app.controller('EnergyStoragePowerStationController', function(
 		});
 	};
 
-	$scope.getAllContacts = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		ContactService.getAllContacts(headers, function (response) {
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.contacts = response.data;
+				$scope.svgs = response.data;
 			} else {
-				$scope.contacts = [];
+				$scope.svgs = [];
 			}
 		});
 	};
@@ -66,6 +78,7 @@ app.controller('EnergyStoragePowerStationController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
@@ -110,6 +123,7 @@ app.controller('EnergyStoragePowerStationController', function(
 						energystoragepowerstation: angular.copy(energystoragepowerstation),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts),
+						svgs:angular.copy($scope.svgs),
 						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
@@ -272,8 +286,9 @@ app.controller('EnergyStoragePowerStationController', function(
 	};
 
 	$scope.getAllEnergyStoragePowerStations();
-	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllCostCenters();
+	$scope.getAllSVGs();
 	$scope.getAllPhaseOfLifecycles();
 	$scope.$on('handleBroadcastEnergyStoragePowerStationChanged', function(event) {
   		$scope.getAllEnergyStoragePowerStations();
@@ -284,6 +299,7 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.energystoragepowerstation = {
 		is_cost_data_displayed: false
@@ -302,6 +318,7 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	$scope.energystoragepowerstation = params.energystoragepowerstation;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragepowerstation);

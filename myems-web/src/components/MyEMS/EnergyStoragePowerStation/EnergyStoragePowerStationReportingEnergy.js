@@ -125,7 +125,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
   const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
   const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
-  const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [energyStoragePowerStationBaseLabels, setEnergyStoragePowerStationBaseLabels] = useState({ a0: [] });
@@ -277,7 +276,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
           setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
-          setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
