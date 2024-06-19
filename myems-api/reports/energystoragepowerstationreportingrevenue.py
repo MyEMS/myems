@@ -227,7 +227,7 @@ class Reporting:
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
+                     "        contact_id, cost_center_id, description, phase_of_lifecycle "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE id = %s ")
             cursor_system.execute(query, (energy_storage_power_station_id,))
@@ -235,7 +235,7 @@ class Reporting:
         elif energy_storage_power_station_uuid is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
+                     "        contact_id, cost_center_id "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE uuid = %s ")
             cursor_system.execute(query, (energy_storage_power_station_uuid,))
@@ -259,9 +259,6 @@ class Reporting:
                            "rated_power": row[8],
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
-                           "svg": row[11],
-                           "description": row[12],
-                           "phase_of_lifecycle": row[13],
                            "qrcode": 'energy_storage_power_station:' + row[2]}
 
         point_list = list()

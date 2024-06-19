@@ -82,7 +82,7 @@ class Reporting:
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
+                     "        contact_id, cost_center_id "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE id = %s ")
             cursor_system_db.execute(query, (energy_storage_power_station_id,))
@@ -90,7 +90,7 @@ class Reporting:
         elif energy_storage_power_station_uuid is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
+                     "        contact_id, cost_center_id "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE uuid = %s ")
             cursor_system_db.execute(query, (energy_storage_power_station_uuid,))
@@ -113,9 +113,8 @@ class Reporting:
                 "latitude": row[5],
                 "longitude": row[6],
                 "rated_capacity": row[7],
-                "rated_power": row[8],
-                "description": row[9],
-                "phase_of_lifecycle": row[10]}
+                "rated_power": row[8]
+            }
 
         ################################################################################################################
         # Step 3: query charge energy data

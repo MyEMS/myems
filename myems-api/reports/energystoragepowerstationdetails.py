@@ -101,19 +101,19 @@ class Reporting:
                                             "name": row[1],
                                             "uuid": row[2]}
         if energy_storage_power_station_id is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE id = %s ")
+            query = (" SELECT e.id, e.name, e.uuid, "
+                     "        e.address, e.postal_code, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
+                     "        e.contact_id, e.cost_center_id, s.source_code, e.description, e.phase_of_lifecycle "
+                     " FROM tbl_energy_storage_power_stations e, tbl_svgs s "
+                     " WHERE e.svg_id = s.id AND e.id = %s ")
             cursor_system.execute(query, (energy_storage_power_station_id,))
             row = cursor_system.fetchone()
         elif energy_storage_power_station_uuid is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, svg, description, phase_of_lifecycle "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE uuid = %s ")
+            query = (" SELECT e.id, e.name, e.uuid, "
+                     "        e.address, e.postal_code, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
+                     "        e.contact_id, e.cost_center_id, s.source_code, e.description, e.phase_of_lifecycle "
+                     " FROM tbl_energy_storage_power_stations e, tbl_svgs s "
+                     " WHERE e.svg_id = s.id AND e.uuid = %s ")
             cursor_system.execute(query, (energy_storage_power_station_uuid,))
             row = cursor_system.fetchone()
 
