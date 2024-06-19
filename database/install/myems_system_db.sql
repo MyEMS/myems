@@ -457,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations`
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255),
