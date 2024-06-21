@@ -95,6 +95,9 @@ class Reporting:
         energy_storage_power_station_list = list()
         total_rated_capacity = Decimal(0.0)
         total_rated_power = Decimal(0.0)
+        total_online = int(0)
+        total_offline = int(0)
+        total_locked = int(0)
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             for row in rows_energy_storage_power_stations:
                 # get data source latest seen datetime to determine if it is online
@@ -131,6 +134,11 @@ class Reporting:
                                "status": 'online' if is_online else 'offline'}
                 total_rated_capacity += row[7]
                 total_rated_power += row[8]
+                # todo: check locked status
+                if is_online:
+                    total_online += 1
+                else:
+                    total_offline += 1
                 energy_storage_power_station_list.append(meta_result)
         ################################################################################################################
         # Step 3: query charge energy data
@@ -285,6 +293,9 @@ class Reporting:
         result = dict()
         result['total_rated_capacity'] = total_rated_capacity
         result['total_rated_power'] = total_rated_power
+        result['total_online'] = total_online
+        result['total_offline'] = total_offline
+        result['total_locked'] = total_locked
         result['energy_storage_power_stations'] = energy_storage_power_station_list
         result['total_charge_energy'] = total_charge_energy
         result['total_discharge_energy'] = total_discharge_energy
