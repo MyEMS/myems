@@ -93,6 +93,8 @@ class Reporting:
         rows_energy_storage_power_stations = cursor_system_db.fetchall()
 
         energy_storage_power_station_list = list()
+        total_rated_capacity = Decimal(0.0)
+        total_rated_power = Decimal(0.0)
         if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             for row in rows_energy_storage_power_stations:
                 # get data source latest seen datetime to determine if it is online
@@ -127,6 +129,8 @@ class Reporting:
                                "description": row[9],
                                "phase_of_lifecycle": row[10],
                                "status": 'online' if is_online else 'offline'}
+                total_rated_capacity += row[7]
+                total_rated_power += row[8]
                 energy_storage_power_station_list.append(meta_result)
         ################################################################################################################
         # Step 3: query charge energy data
@@ -279,6 +283,8 @@ class Reporting:
             cnx_carbon_db.close()
 
         result = dict()
+        result['total_rated_capacity'] = total_rated_capacity
+        result['total_rated_power'] = total_rated_power
         result['energy_storage_power_stations'] = energy_storage_power_station_list
         result['total_charge_energy'] = total_charge_energy
         result['total_discharge_energy'] = total_discharge_energy
