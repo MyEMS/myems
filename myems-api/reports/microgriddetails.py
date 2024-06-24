@@ -6,7 +6,6 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
-from core.utilities import int16_to_hhmm
 
 
 class Reporting:
@@ -168,52 +167,6 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated batteries
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_batteries mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.soc_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.SOC',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_batteries mb, tbl_points p "
-                              " WHERE mb.id = %s AND mb.power_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.charge_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Charge',
-                               "energy_category_id": row_meter[2]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
-                              " WHERE mb.id = %s AND mb.discharge_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Discharge',
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 4: query associated power conversion systems
-        ################################################################################################################
-        # Step 4.1 query energy indicator data
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
         energy_value_latest_dict = dict()
@@ -232,11 +185,79 @@ class Reporting:
         for row in analog_value_latest_rows:
             analog_value_latest_dict[row[0]] = row[1]
 
+        digital_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest ")
+        cursor_historical.execute(query, )
+        digital_value_latest_rows = cursor_historical.fetchall()
+        for row in digital_value_latest_rows:
+            digital_value_latest_dict[row[0]] = row[1]
+
+        cursor_system.execute(" SELECT battery_state_point_id "
+                              " FROM tbl_microgrids_batteries "
+                              " WHERE microgrid_id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            battery_state_point_id = row_point[0]
+
+        if digital_value_latest_dict.get(battery_state_point_id) is not None:
+            battery_state_point_value = digital_value_latest_dict.get(battery_state_point_id)
+
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_batteries mb, tbl_points p "
+                              " WHERE mb.microgrid_id = %s AND mb.soc_point_id = p.id ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.SOC',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                              " FROM tbl_microgrids_batteries mb, tbl_points p "
+                              " WHERE mb.microgrid_id = %s AND mb.power_point_id = p.id ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1]+'.P',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.microgrid_id = %s AND mb.charge_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Charge',
+                               "energy_category_id": row_meter[2]})
+
+        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.microgrid_id = %s AND mb.discharge_meter_id = m.id ",
+                              (microgrid_id,))
+        row_meter = cursor_system.fetchone()
+        if row_meter is not None:
+            meter_list.append({"id": row_meter[0],
+                               "name": row_meter[1] + '.Discharge',
+                               "energy_category_id": row_meter[2]})
+
+        ################################################################################################################
+        # Step 4: query associated power conversion systems
+        ################################################################################################################
+        # Step 4.1 query energy indicator data
         today_charge_energy_value = Decimal(0.0)
         today_discharge_energy_value = Decimal(0.0)
         total_charge_energy_value = Decimal(0.0)
         total_discharge_energy_value = Decimal(0.0)
-        cursor_system.execute(" SELECT today_charge_energy_point_id, "
+        cursor_system.execute(" SELECT run_state_point_id, "
+                              "        today_charge_energy_point_id, "
                               "        today_discharge_energy_point_id, "
                               "        total_charge_energy_point_id, "
                               "        total_discharge_energy_point_id "
@@ -247,10 +268,14 @@ class Reporting:
                               (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
-            today_charge_energy_point_id = row_point[0]
-            today_discharge_energy_point_id = row_point[1]
-            total_charge_energy_point_id = row_point[2]
-            total_discharge_energy_point_id = row_point[3]
+            pcs_run_state_point_id = row_point[0]
+            today_charge_energy_point_id = row_point[1]
+            today_discharge_energy_point_id = row_point[2]
+            total_charge_energy_point_id = row_point[3]
+            total_discharge_energy_point_id = row_point[4]
+
+        if digital_value_latest_dict.get(pcs_run_state_point_id) is not None:
+            pcs_run_state_point_value = digital_value_latest_dict.get(pcs_run_state_point_id)
 
         if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
             today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
@@ -614,6 +639,66 @@ class Reporting:
             parameters_data['timestamps'].append(point_timestamps)
             parameters_data['values'].append(point_values)
 
+        # query pcs parameters
+        pcs_parameters_data = dict()
+        pcs_parameters_data['names'] = list()
+        pcs_parameters_data['timestamps'] = list()
+        pcs_parameters_data['values'] = list()
+        if pcs_run_state_point_id is not None:
+            point_values = []
+            point_timestamps = []
+            query = (" SELECT utc_date_time, actual_value "
+                     " FROM tbl_digital_value "
+                     " WHERE point_id = %s "
+                     "       AND utc_date_time BETWEEN %s AND %s "
+                     " ORDER BY utc_date_time ")
+            cursor_historical.execute(query, (pcs_run_state_point_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+            rows = cursor_historical.fetchall()
+
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
+                    point_timestamps.append(current_datetime)
+                    point_values.append(row[1])
+
+            pcs_parameters_data['names'].append('RunState')
+            pcs_parameters_data['timestamps'].append(point_timestamps)
+            pcs_parameters_data['values'].append(point_values)
+
+        # query battery parameters
+        battery_parameters_data = dict()
+        battery_parameters_data['names'] = list()
+        battery_parameters_data['timestamps'] = list()
+        battery_parameters_data['values'] = list()
+        if battery_state_point_id is not None:
+            point_values = []
+            point_timestamps = []
+            query = (" SELECT utc_date_time, actual_value "
+                     " FROM tbl_digital_value "
+                     " WHERE point_id = %s "
+                     "       AND utc_date_time BETWEEN %s AND %s "
+                     " ORDER BY utc_date_time ")
+            cursor_historical.execute(query, (battery_state_point_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+            rows = cursor_historical.fetchall()
+
+            if rows is not None and len(rows) > 0:
+                for row in rows:
+                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
+                    point_timestamps.append(current_datetime)
+                    point_values.append(row[1])
+
+            battery_parameters_data['names'].append('State')
+            battery_parameters_data['timestamps'].append(point_timestamps)
+            battery_parameters_data['values'].append(point_values)
+
         if cursor_system:
             cursor_system.close()
         if cnx_system:
@@ -628,11 +713,7 @@ class Reporting:
         ################################################################################################################
         result = dict()
         result['microgrid'] = meta_result
-        result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
-        }
+
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
         result['reporting_period']['units'] = list()
@@ -658,6 +739,19 @@ class Reporting:
         result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
         result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
         result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+        result['pcs_parameters'] = {
+            "names": pcs_parameters_data['names'],
+            "timestamps": pcs_parameters_data['timestamps'],
+            "values": pcs_parameters_data['values']}
+        result['battery_parameters'] = {
+            "names": battery_parameters_data['names'],
+            "timestamps": battery_parameters_data['timestamps'],
+            "values": battery_parameters_data['values']}
 
         resp.text = json.dumps(result)
 

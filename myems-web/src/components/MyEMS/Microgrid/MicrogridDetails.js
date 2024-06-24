@@ -109,6 +109,14 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
+  const [PCSParameterLineChartLabels, setPCSParameterLineChartLabels] = useState([]);
+  const [PCSParameterLineChartData, setPCSParameterLineChartData] = useState({});
+  const [PCSParameterLineChartOptions, setPCSParameterLineChartOptions] = useState([]);
+
+  const [BMSParameterLineChartLabels, setBMSParameterLineChartLabels] = useState([]);
+  const [BMSParameterLineChartData, setBMSParameterLineChartData] = useState({});
+  const [BMSParameterLineChartOptions, setBMSParameterLineChartOptions] = useState([]);
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/microgriddetails?uuid=' + microgridUUID, {
@@ -177,6 +185,44 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
+
+          // pcs parameters
+          timestamps = {};
+          json['pcs_parameters']['timestamps'].forEach((currentValue, index) => {
+            timestamps['a' + index] = currentValue;
+          });
+          setPCSParameterLineChartLabels(timestamps);
+
+          values = {};
+          json['pcs_parameters']['values'].forEach((currentValue, index) => {
+            values['a' + index] = currentValue;
+          });
+          setPCSParameterLineChartData(values);
+
+          names = [];
+          json['pcs_parameters']['names'].forEach((currentValue, index) => {
+            names.push({ value: 'a' + index, label: currentValue });
+          });
+          setPCSParameterLineChartOptions(names);
+
+          // bms parameters
+          timestamps = {};
+          json['battery_parameters']['timestamps'].forEach((currentValue, index) => {
+            timestamps['a' + index] = currentValue;
+          });
+          setBMSParameterLineChartLabels(timestamps);
+
+          values = {};
+          json['battery_parameters']['values'].forEach((currentValue, index) => {
+            values['a' + index] = currentValue;
+          });
+          setBMSParameterLineChartData(values);
+
+          names = [];
+          json['battery_parameters']['names'].forEach((currentValue, index) => {
+            names.push({ value: 'a' + index, label: currentValue });
+          });
+          setBMSParameterLineChartOptions(names);
 
         }
       })
@@ -649,314 +695,31 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </TabPane>
         <TabPane tabId="4">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={PCSParameterLineChartLabels}
+              data={PCSParameterLineChartData}
+              options={PCSParameterLineChartOptions}
+            />
         </TabPane>
         <TabPane tabId="5">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={BMSParameterLineChartLabels}
+              data={BMSParameterLineChartData}
+              options={BMSParameterLineChartOptions}
+            />
         </TabPane>
         <TabPane tabId="6">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+
         </TabPane>
         <TabPane tabId="7">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+
         </TabPane>
         <TabPane tabId="8">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
+
         </TabPane>
       </TabContent>
     </Fragment>

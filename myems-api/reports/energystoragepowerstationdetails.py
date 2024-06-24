@@ -524,7 +524,7 @@ class Reporting:
         battery_parameters_data['names'] = list()
         battery_parameters_data['timestamps'] = list()
         battery_parameters_data['values'] = list()
-        if pcs_run_state_point_id is not None:
+        if battery_state_point_id is not None:
             point_values = []
             point_timestamps = []
             query = (" SELECT utc_date_time, actual_value "
