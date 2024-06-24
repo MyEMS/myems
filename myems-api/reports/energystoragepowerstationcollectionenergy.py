@@ -99,10 +99,10 @@ class Reporting:
             timezone_offset = -timezone_offset
         reporting = dict()
         reporting['charge_7_days'] = dict()
-        reporting['charge_this_month'] = dict()
-        reporting['charge_this_year'] = dict()
         reporting['discharge_7_days'] = dict()
+        reporting['charge_this_month'] = dict()
         reporting['discharge_this_month'] = dict()
+        reporting['charge_this_year'] = dict()
         reporting['discharge_this_year'] = dict()
 
         end_datetime_utc = datetime.utcnow()
@@ -121,6 +121,7 @@ class Reporting:
         reporting['charge_7_days'] = dict()
         reporting['charge_7_days']['timestamps_array'] = list()
         reporting['charge_7_days']['values_array'] = list()
+        reporting['charge_7_days']['total_values'] = list()
 
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
@@ -157,12 +158,19 @@ class Reporting:
                 values.append(actual_value)
             reporting['charge_7_days']['timestamps_array'].append(timestamps)
             reporting['charge_7_days']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['charge_7_days']['total_values']) <= i:
+                    reporting['charge_7_days']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['charge_7_days']['total_values'][i] += values[i]
+
         ################################################################################################################
         # Step 4: query discharge energy data in 7 days
         ################################################################################################################
         reporting['discharge_7_days'] = dict()
         reporting['discharge_7_days']['timestamps_array'] = list()
         reporting['discharge_7_days']['values_array'] = list()
+        reporting['discharge_7_days']['total_values'] = list()
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
             values = list()
@@ -199,6 +207,11 @@ class Reporting:
                 values.append(actual_value)
             reporting['discharge_7_days']['timestamps_array'].append(timestamps)
             reporting['discharge_7_days']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['discharge_7_days']['total_values']) <= i:
+                    reporting['discharge_7_days']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['discharge_7_days']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 5: query charge energy data in this month
@@ -216,6 +229,7 @@ class Reporting:
         reporting['charge_this_month'] = dict()
         reporting['charge_this_month']['timestamps_array'] = list()
         reporting['charge_this_month']['values_array'] = list()
+        reporting['charge_this_month']['total_values'] = list()
 
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
@@ -253,6 +267,11 @@ class Reporting:
                 values.append(actual_value)
             reporting['charge_this_month']['timestamps_array'].append(timestamps)
             reporting['charge_this_month']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['charge_this_month']['total_values']) <= i:
+                    reporting['charge_this_month']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['charge_this_month']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 6: query discharge energy data in this month
@@ -260,6 +279,7 @@ class Reporting:
         reporting['discharge_this_month'] = dict()
         reporting['discharge_this_month']['timestamps_array'] = list()
         reporting['discharge_this_month']['values_array'] = list()
+        reporting['discharge_this_month']['total_values'] = list()
 
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
@@ -297,6 +317,11 @@ class Reporting:
                 values.append(actual_value)
             reporting['discharge_this_month']['timestamps_array'].append(timestamps)
             reporting['discharge_this_month']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['discharge_this_month']['total_values']) <= i:
+                    reporting['discharge_this_month']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['discharge_this_month']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 7: query charge energy data in this year
@@ -314,6 +339,7 @@ class Reporting:
         reporting['charge_this_year'] = dict()
         reporting['charge_this_year']['timestamps_array'] = list()
         reporting['charge_this_year']['values_array'] = list()
+        reporting['charge_this_year']['total_values'] = list()
 
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
@@ -350,6 +376,11 @@ class Reporting:
                 values.append(actual_value)
             reporting['charge_this_year']['timestamps_array'].append(timestamps)
             reporting['charge_this_year']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['charge_this_year']['total_values']) <= i:
+                    reporting['charge_this_year']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['charge_this_year']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 8: query discharge energy data in this month
@@ -357,6 +388,7 @@ class Reporting:
         reporting['discharge_this_year'] = dict()
         reporting['discharge_this_year']['timestamps_array'] = list()
         reporting['discharge_this_year']['values_array'] = list()
+        reporting['discharge_this_year']['total_values'] = list()
 
         for energy_storage_power_station in energy_storage_power_station_list:
             timestamps = list()
@@ -393,6 +425,11 @@ class Reporting:
                 values.append(actual_value)
             reporting['discharge_this_year']['timestamps_array'].append(timestamps)
             reporting['discharge_this_year']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['discharge_this_year']['total_values']) <= i:
+                    reporting['discharge_this_year']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['discharge_this_year']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 9: construct the report
