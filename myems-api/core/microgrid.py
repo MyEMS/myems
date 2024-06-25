@@ -46,10 +46,22 @@ class MicrogridCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        svg_dict = dict()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, phase_of_lifecycle, "
-                 "        description "
+                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
+                 "        phase_of_lifecycle, description "
                  " FROM tbl_microgrids "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -70,7 +82,7 @@ class MicrogridCollection:
                                "contact": contact_dict.get(row[9], None),
                                "cost_center": cost_center_dict.get(row[10], None),
                                "serial_number": row[11],
-                               "svg": row[12],
+                               "svg": svg_dict.get(row[12], None),
                                "is_cost_data_displayed": bool(row[13]),
                                "phase_of_lifecycle": row[14],
                                "description": row[15],
@@ -171,12 +183,12 @@ class MicrogridCollection:
                                    description='API.INVALID_SERIAL_NUMBER')
         serial_number = str.strip(new_values['data']['serial_number'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'is_cost_data_displayed' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_cost_data_displayed'], bool):
@@ -232,9 +244,20 @@ class MicrogridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, "
+                      "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
                       "     phase_of_lifecycle, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
@@ -248,7 +271,7 @@ class MicrogridCollection:
                                     contact_id,
                                     cost_center_id,
                                     serial_number,
-                                    svg,
+                                    svg_id,
                                     is_cost_data_displayed,
                                     phase_of_lifecycle,
                                     description))
@@ -304,10 +327,21 @@ class MicrogridItem:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        svg_dict = dict()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, phase_of_lifecycle, "
+                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, "
                  "        description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
@@ -332,7 +366,7 @@ class MicrogridItem:
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
-                           "svg": row[12],
+                           "svg": svg_dict.get(row[12], None),
                            "is_cost_data_displayed": bool(row[13]),
                            "phase_of_lifecycle": row[14],
                            "description": row[15],
@@ -497,12 +531,12 @@ class MicrogridItem:
                                    description='API.INVALID_SERIAL_NUMBER')
         serial_number = str.strip(new_values['data']['serial_number'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'is_cost_data_displayed' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_cost_data_displayed'], bool):
@@ -567,11 +601,22 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (new_values['data']['svg_id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         update_row = (" UPDATE tbl_microgrids "
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     serial_number = %s, svg = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
+                      "     serial_number = %s, svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
                       "     description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
@@ -584,7 +629,7 @@ class MicrogridItem:
                                     contact_id,
                                     cost_center_id,
                                     serial_number,
-                                    svg,
+                                    svg_id,
                                     is_cost_data_displayed,
                                     phase_of_lifecycle,
                                     description,
