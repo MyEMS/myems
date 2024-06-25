@@ -115,7 +115,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'COMMON.SVG' | translate}}</label>
                 <div class="col-sm-10">
-                    <ui-select ng-model="energystoragepowerstation.svg.id" theme="bootstrap" required>
+                    <ui-select ng-model="microgrid.svg.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
                             <div ng-bind-html="svg.name | highlight: $select.search"></div>
