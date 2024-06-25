@@ -841,7 +841,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `serial_number` VARCHAR(255) NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255),

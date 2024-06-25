@@ -8,6 +8,7 @@ app.controller('MicrogridController', function(
     $uibModal,
     CostCenterService,
     ContactService,
+    SVGService,
     MicrogridService,
     toaster,
     SweetAlert) {
@@ -37,6 +38,17 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
+
 	$scope.getAllMicrogrids = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -58,6 +70,7 @@ app.controller('MicrogridController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -100,7 +113,8 @@ app.controller('MicrogridController', function(
 					return {
 						microgrid: angular.copy(microgrid),
 						costcenters:angular.copy($scope.costcenters),
-						contacts:angular.copy($scope.contacts)
+						contacts:angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -265,6 +279,7 @@ app.controller('MicrogridController', function(
 	$scope.getAllMicrogrids();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllSVGs();
 	$scope.$on('handleBroadcastMicrogridChanged', function(event) {
   		$scope.getAllMicrogrids();
 	});
@@ -275,6 +290,7 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 	$scope.operation = "SETTING.ADD_MICROGRID";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.microgrid = {
 		is_cost_data_displayed: false
 	};
@@ -292,6 +308,7 @@ app.controller('ModalEditMicrogridCtrl', function($scope, $uibModalInstance, par
 	$scope.microgrid = params.microgrid;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.microgrid);
 	};

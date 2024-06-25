@@ -6645,7 +6645,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations",
@@ -6683,7 +6683,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/1",
@@ -9585,7 +9585,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids",
@@ -9623,7 +9623,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg\":\"<svg></svg>\", \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"serial_number\": \"S1234567890\", \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/microgrids/1",
@@ -18497,7 +18497,7 @@
 					]
 				},
 				{
-					"name": "SVG",
+					"name": "SVG Ⓔ",
 					"item": [
 						{
 							"name": "GET All SVGs",
