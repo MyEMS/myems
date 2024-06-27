@@ -341,8 +341,8 @@ class MicrogridItem:
 
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, "
-                 "        description "
+                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
+                 "        phase_of_lifecycle, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -548,7 +548,7 @@ class MicrogridItem:
                 not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
                 len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE')
+                                   description='API.INVALID_MICROGRID_PHASE_OF_LIFECYCLE')
         phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
 
         if 'description' in new_values['data'].keys() and \
