@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced svg with svg_id in energy storage power station
 ### Fixed
 - added check relations statements to point on_delete action in myems-api
+- fixed issue of on_delete action in myems-api
 ### Removed
 
 

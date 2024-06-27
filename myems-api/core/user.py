@@ -280,37 +280,48 @@ class UserItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_users "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
+        cnx_user_db = mysql.connector.connect(**config.myems_user_db)
+        cursor_user_db = cnx_user_db.cursor()
+        user_uuid = None
+        cursor_user_db.execute(" SELECT uuid "
+                               " FROM tbl_users "
+                               " WHERE id = %s ", (id_,))
+        row = cursor_user_db.fetchone()
+        if row is None:
+            cursor_user_db.close()
+            cnx_user_db.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
+        else:
+            user_uuid = row[0]
 
-        # check if this user is being used by microgrid
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_users "
-                       " WHERE user_id = %s ", (id_,))
-        rows_microgrid = cursor.fetchall()
-        if rows_microgrid is not None and len(rows_microgrid) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
 
-        # TODO: delete associated objects
-        cursor.execute(" DELETE FROM tbl_users WHERE id = %s ", (id_,))
-        cnx.commit()
+        # check if this user is being used by energy storage power stations
+        cursor_system_db.execute(" DELETE FROM tbl_energy_storage_power_stations_users WHERE user_id = %s ", (id_,))
+        cnx_system_db.commit()
 
-        cursor.close()
-        cnx.close()
+        # check if this user is being used by microgrids
+        cursor_system_db.execute(" DELETE FROM tbl_microgrids_users WHERE user_id = %s ", (id_,))
+        cnx_system_db.commit()
 
+        cursor_user_db.execute(" DELETE FROM tbl_sessions WHERE user_uuid = %s ", (user_uuid,))
+        cnx_user_db.commit()
+
+        cursor_user_db.execute(" DELETE FROM tbl_logs WHERE user_uuid = %s ", (user_uuid,))
+        cnx_user_db.commit()
+
+        cursor_user_db.execute(" DELETE FROM tbl_notifications WHERE user_id = %s ", (id_,))
+        cnx_user_db.commit()
+
+        cursor_user_db.execute(" DELETE FROM tbl_users WHERE id = %s ", (id_,))
+        cnx_user_db.commit()
+
+        cursor_user_db.close()
+        cnx_user_db.close()
+        cursor_system_db.close()
+        cnx_system_db.close()
         resp.status = falcon.HTTP_204
 
     @staticmethod
