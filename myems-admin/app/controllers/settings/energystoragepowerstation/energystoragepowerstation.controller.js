@@ -87,6 +87,7 @@ app.controller('EnergyStoragePowerStationController', function(
 		modalInstance.result.then(function(energystoragepowerstation) {
 			energystoragepowerstation.cost_center_id = energystoragepowerstation.cost_center.id;
 			energystoragepowerstation.contact_id = energystoragepowerstation.contact.id;
+			energystoragepowerstation.svg_id = energystoragepowerstation.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EnergyStoragePowerStationService.addEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -133,6 +134,7 @@ app.controller('EnergyStoragePowerStationController', function(
 		modalInstance.result.then(function(modifiedEnergyStoragePowerStation) {
 			modifiedEnergyStoragePowerStation.cost_center_id=modifiedEnergyStoragePowerStation.cost_center.id;
 			modifiedEnergyStoragePowerStation.contact_id=modifiedEnergyStoragePowerStation.contact.id;
+			modifiedEnergyStoragePowerStation.svg_id=modifiedEnergyStoragePowerStation.svg.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EnergyStoragePowerStationService.editEnergyStoragePowerStation(modifiedEnergyStoragePowerStation, headers, function(response) {

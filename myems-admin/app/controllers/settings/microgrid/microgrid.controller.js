@@ -48,7 +48,13 @@ app.controller('MicrogridController', function(
 			}
 		});
 	};
-
+	$scope.getAllPhaseOfLifecycles = function() {
+		$scope.phaseoflifecycles = [
+			{"code":"1use", "name": $translate.instant("MICROGRID.PHASE_1USE")},
+			{"code":"2commissioning", "name": $translate.instant("MICROGRID.PHASE_2COMMISSIONING")},
+			{"code":"3installation", "name": $translate.instant("MICROGRID.PHASE_3INSTALLATION")}
+		];
+	};
 	$scope.getAllMicrogrids = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -71,6 +77,7 @@ app.controller('MicrogridController', function(
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 						svgs: angular.copy($scope.svgs),
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -78,6 +85,7 @@ app.controller('MicrogridController', function(
 		modalInstance.result.then(function(microgrid) {
 			microgrid.cost_center_id = microgrid.cost_center.id;
 			microgrid.contact_id = microgrid.contact.id;
+			microgrid.svg_id = microgrid.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			MicrogridService.addMicrogrid(microgrid, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -115,6 +123,7 @@ app.controller('MicrogridController', function(
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts),
 						svgs: angular.copy($scope.svgs),
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -123,6 +132,7 @@ app.controller('MicrogridController', function(
 		modalInstance.result.then(function(modifiedMicrogrid) {
 			modifiedMicrogrid.cost_center_id=modifiedMicrogrid.cost_center.id;
 			modifiedMicrogrid.contact_id=modifiedMicrogrid.contact.id;
+			modifiedMicrogrid.svg_id=modifiedMicrogrid.svg.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			MicrogridService.editMicrogrid(modifiedMicrogrid, headers, function(response) {
@@ -280,6 +290,7 @@ app.controller('MicrogridController', function(
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
 	$scope.getAllSVGs();
+	$scope.getAllPhaseOfLifecycles();
 	$scope.$on('handleBroadcastMicrogridChanged', function(event) {
   		$scope.getAllMicrogrids();
 	});
@@ -291,6 +302,7 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.svgs=params.svgs;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.microgrid = {
 		is_cost_data_displayed: false
 	};
@@ -309,6 +321,7 @@ app.controller('ModalEditMicrogridCtrl', function($scope, $uibModalInstance, par
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.svgs=params.svgs;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.microgrid);
 	};
