@@ -102,19 +102,19 @@ class Reporting:
                                             "name": row[1],
                                             "uuid": row[2]}
         if microgrid_id is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, reated_power, "
-                     "        contact_id, cost_center_id, serial_number, svg, description "
-                     " FROM tbl_microgrids "
-                     " WHERE id = %s ")
+            query = (" SELECT m.id, m.name, m.uuid, "
+                     "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
+                     "        m.contact_id, m.cost_center_id, m.serial_number, s.source_code, m.description "
+                     " FROM tbl_microgrids m, tbl_svgs s"
+                     " WHERE m.svg_id = s.id AND m.id = %s ")
             cursor_system.execute(query, (microgrid_id,))
             row = cursor_system.fetchone()
         elif microgrid_uuid is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id, serial_number, svg, description "
-                     " FROM tbl_microgrids "
-                     " WHERE uuid = %s ")
+            query = (" SELECT m.id, m.name, m.uuid, "
+                     "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
+                     "        m.contact_id, m.cost_center_id, m.serial_number, s.source_code, m.description "
+                     " FROM tbl_microgrids m, tbl_svgs s "
+                     " WHERE m.svg_id = s.id AND m.uuid = %s ")
             cursor_system.execute(query, (microgrid_uuid,))
             row = cursor_system.fetchone()
 
