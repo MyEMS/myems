@@ -693,6 +693,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Add SVG',
+                EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Source Code',
                 INPUT_SOURCE_CODE: 'Input Source Code',
             },
@@ -2261,6 +2262,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: '添加SVG',
+                EDIT_SVG: '编辑SVG',
                 SOURCE_CODE: '源代码',
                 INPUT_SOURCE_CODE: '输入源代码',
             },
@@ -3854,6 +3856,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'SVG hinzufügen',
+                EDIT_SVG: 'SVG bearbeiten',
                 SOURCE_CODE: 'Quellcode',
                 INPUT_SOURCE_CODE: 'Quellcode eingeben',
             },
@@ -5462,6 +5465,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Ajouter SVG',
+                EDIT_SVG: 'Modifier le SVG',
                 SOURCE_CODE: 'Code source',
                 INPUT_SOURCE_CODE: 'Code source d\'entrée',
             },
@@ -7051,6 +7055,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Agregar SVG',
+                EDIT_SVG: 'Editar SVG',
                 SOURCE_CODE: 'Código fuente',
                 INPUT_SOURCE_CODE: 'Código fuente de entrada',
             },
@@ -8640,6 +8645,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Добавить SVG',
+                EDIT_SVG: 'Изменить SVG',
                 SOURCE_CODE: 'Исходный код',
                 INPUT_SOURCE_CODE: 'Исходный код ввода',
             },
@@ -10228,6 +10234,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'أضف SVG',
+                EDIT_SVG: 'تحرير SVG',
                 SOURCE_CODE: 'مصدر الرمز',
                 INPUT_SOURCE_CODE: 'إدخال كود المصدر',
             },
@@ -11815,6 +11822,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Thêm SVG',
+                EDIT_SVG: 'Chỉnh sửa SVG',
                 SOURCE_CODE: 'Mã nguồn',
                 INPUT_SOURCE_CODE: 'Mã nguồn đầu vào',
             },
@@ -13400,6 +13408,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'เพิ่ม SVG',
+                EDIT_SVG: 'แก้ไข SVG',
                 SOURCE_CODE: 'รหัสแหล่งที่มา',
                 INPUT_SOURCE_CODE: 'ซอร์สโค้ดอินพุต',
             },
@@ -14986,6 +14995,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'SVG ekle',
+                EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Kaynak kodu',
                 INPUT_SOURCE_CODE: 'Giriş Kaynağı Kodu',
             },
@@ -16571,6 +16581,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Tambah SVG',
+                EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Kod sumber',
                 INPUT_SOURCE_CODE: 'Kod Sumber Input',
             },
@@ -18157,6 +18168,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: 'Tambahkan SVG',
+                EDIT_SVG: 'Sunting SVG',
                 SOURCE_CODE: 'Kode sumber',
                 INPUT_SOURCE_CODE: 'Kode Sumber Masukan',
             },
@@ -19724,6 +19736,7 @@ function config($translateProvider) {
             },
             SVG: {
                 ADD_SVG: '新增 SVG',
+                EDIT_SVG: '編輯SVG',
                 SOURCE_CODE: '原始碼',
                 INPUT_SOURCE_CODE: '輸入原始碼',
             },
