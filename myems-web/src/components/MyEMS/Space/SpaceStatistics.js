@@ -118,6 +118,7 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -328,6 +329,8 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -648,6 +651,8 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -816,166 +821,168 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      {cardSummaryList.map(cardSummaryItem => (
-        <div className="card-deck" key={cardSummaryItem['name']}>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'mean'}
-            rate={cardSummaryItem['mean_increment_rate']}
-            title={t('Reporting Period CATEGORY Mean UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['mean_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['mean'] && (
-              <CountUp end={cardSummaryItem['mean']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'median'}
-            rate={cardSummaryItem['median_increment_rate']}
-            title={t('Reporting Period CATEGORY Median UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['median_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['median'] && (
-              <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'minimum'}
-            rate={cardSummaryItem['minimum_increment_rate']}
-            title={t('Reporting Period CATEGORY Minimum UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['minimum_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['minimum'] && (
-              <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'maximum'}
-            rate={cardSummaryItem['maximum_increment_rate']}
-            title={t('Reporting Period CATEGORY Maximum UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['maximum_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['maximum'] && (
-              <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'stdev'}
-            rate={cardSummaryItem['stdev_increment_rate']}
-            title={t('Reporting Period CATEGORY Stdev UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['stdev_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['stdev'] && (
-              <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'variance'}
-            rate={cardSummaryItem['variance_increment_rate']}
-            title={t('Reporting Period CATEGORY Variance UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['variance_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['variance'] && (
-              <CountUp
-                end={cardSummaryItem['variance']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        </div>
-      ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {cardSummaryList.map(cardSummaryItem => (
+          <div className="card-deck" key={cardSummaryItem['name']}>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'mean'}
+              rate={cardSummaryItem['mean_increment_rate']}
+              title={t('Reporting Period CATEGORY Mean UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['mean_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['mean'] && (
+                <CountUp end={cardSummaryItem['mean']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'median'}
+              rate={cardSummaryItem['median_increment_rate']}
+              title={t('Reporting Period CATEGORY Median UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['median_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['median'] && (
+                <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'minimum'}
+              rate={cardSummaryItem['minimum_increment_rate']}
+              title={t('Reporting Period CATEGORY Minimum UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['minimum_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['minimum'] && (
+                <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'maximum'}
+              rate={cardSummaryItem['maximum_increment_rate']}
+              title={t('Reporting Period CATEGORY Maximum UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['maximum_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['maximum'] && (
+                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'stdev'}
+              rate={cardSummaryItem['stdev_increment_rate']}
+              title={t('Reporting Period CATEGORY Stdev UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['stdev_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['stdev'] && (
+                <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'variance'}
+              rate={cardSummaryItem['variance_increment_rate']}
+              title={t('Reporting Period CATEGORY Variance UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['variance_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['variance'] && (
+                <CountUp
+                  end={cardSummaryItem['variance']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          </div>
+        ))}
 
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: spaceReportingSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: spaceBaseSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingLabels={spaceReportingLabels}
-        reportingData={spaceReportingData}
-        baseLabels={spaceBaseLabels}
-        baseData={spaceBaseData}
-        rates={spaceReportingRates}
-        options={spaceReportingOptions}
-      />
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: spaceReportingSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: spaceBaseSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingLabels={spaceReportingLabels}
+          reportingData={spaceReportingData}
+          baseLabels={spaceBaseLabels}
+          baseData={spaceBaseData}
+          rates={spaceReportingRates}
+          options={spaceReportingOptions}
+        />
 
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
 
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
+      </div>
     </Fragment>
   );
 };
