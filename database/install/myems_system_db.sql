@@ -772,7 +772,11 @@ VALUES
 (1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),
 (1501,'Photovoltaic Power Station Details','/photovoltaicpowerstationdetails',1500,1),
 (1600,'Wind Farm','/windfarm',NULL,1),
-(1601,'Wind Farm Details','/windfarmdetails',1600,1);
+(1601,'Wind Farm Details','/windfarmdetails',1600,1),
+(3000,'Work Order','/workorder',NULL,1),
+(3001,'Work Order Installation','/workorder/installation',3000,1),
+(3002,'Work Order Repair','/workorder/repair',3000,1),
+(3003,'Work Order Installation','/workorder/inspection',3000,1);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_meters`
