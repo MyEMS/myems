@@ -491,6 +491,17 @@ export const energyStoragePowerStationRoutes = {
   ]
 };
 
+export const workOrderRoutes = {
+  name: 'Work Order',
+  to: '/workorder',
+  icon: 'building',
+  children: [
+    { to: '/workorder/installation', name: 'Work Order Installation' },
+    { to: '/workorder/reapair', name: 'Work Order Repair' },
+    { to: '/workorder/inspection', name: 'Work Order Inspection' },
+  ]
+};
+
 export const fddRoutes = {
   name: 'Fault Alarm',
   to: '/fdd',

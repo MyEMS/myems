@@ -224,6 +224,10 @@ import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedRep
 import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
 // Notification
 import Notification from '../components/MyEMS/Notification/Notification';
+// WorkOrder
+import WorkOrderInspection from '../components/MyEMS/WorkOrder/Inspection';
+import WorkOrderInstallation from '../components/MyEMS/WorkOrder/Installation';
+import WorkOrderRepair from '../components/MyEMS/WorkOrder/Repair';
 
 // const InboxRoutes = ({ match: { url } }) => (
 //   <InboxProvider>
@@ -487,6 +491,11 @@ const MyEMSRoutes = () => (
     <Route path="/energystoragepowerstation/reportingenergy" exact component={EnergyStoragePowerStationReportingEnergy} />
     <Route path="/energystoragepowerstation/alarm" exact component={FDDFault} />
     <Route path="/energystoragepowerstation/maintenance" exact component={EnergyStoragePowerStationDetails} />
+
+    {/*Work Order*/}
+    <Route path="/workorder/inspection" exact component={WorkOrderInspection} />
+    <Route path="/workorder/installation" exact component={WorkOrderInstallation} />
+    <Route path="/workorder/reapair" exact component={WorkOrderRepair} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
