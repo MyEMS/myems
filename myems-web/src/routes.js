@@ -558,6 +558,7 @@ export default [
   auxiliarySystemRoutes,
   microgridRoutes,
   energyStoragePowerStationRoutes,
+  workOrderRoutes,
   fddRoutes,
   monitoringRoutes,
   advancedReportingRoutes,

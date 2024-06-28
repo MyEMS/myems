@@ -87,6 +87,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -1228,6 +1232,10 @@ const resources = {
       'Work Order Installation': '安装工单',
       'Work Order Repair': '维修工单',
       'Work Order Inspection': '巡检工单',
+      'Total Number of Work Orders': '总工单数量',
+      'Number of New Work Orders': '新发工单数量',
+      'Number of Inprogress Work Orders': '进行中工单数量',
+      'Number of Done Work Orders': '已完成工单数量',
 
       // Dashboard
       'Welcome to MyEMS': '欢迎使用MyEMS',
@@ -2343,6 +2351,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -3509,6 +3521,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Bienvenue chez MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -4655,6 +4671,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Bienvenido a MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -5807,6 +5827,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Добро пожаловать в MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -6958,6 +6982,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'مرحبا بكم في MyEMS',
       'An Industry Leading Open Source Energy Management System': 'نظام إدارة طاقة مفتوح المصدر رائد في الصناعة',
@@ -8098,6 +8126,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -9236,6 +9268,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'ยินดีต้อนรับสู่ MyEMS',
       'An Industry Leading Open Source Energy Management System': 'ระบบการจัดการพลังงานโอเพ่นซอร์สชั้นนําของอุตสาหกรรม',
@@ -10373,6 +10409,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
       'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',
@@ -11513,6 +11553,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Selamat datang ke MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -12657,6 +12701,10 @@ const resources = {
       'Work Order Installation': 'Work Order Installation',
       'Work Order Repair': 'Work Order Repair',
       'Work Order Inspection': 'Work Order Inspection',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
       'An Industry Leading Open Source Energy Management System':
@@ -13814,6 +13862,10 @@ const resources = {
       'Work Order Installation': '安裝⼯單',
       'Work Order Repair': '維修⼯單',
       'Work Order Inspection': '巡檢⼯單',
+      'Total Number of Work Orders': 'Total Number of Work Orders',
+      'Number of New Work Orders': 'Number of New Work Orders',
+      'Number of Inprogress Work Orders': 'Number of Inprogress Work Orders',
+      'Number of Done Work Orders': 'Number of Done Work Orders',
       // Dashboard
       'Welcome to MyEMS': '歡迎使⽤ MyEMS',
       'An Industry Leading Open Source Energy Management System': '⾏業領先的開源能源管理系統',
