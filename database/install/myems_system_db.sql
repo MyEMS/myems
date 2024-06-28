@@ -770,7 +770,7 @@ VALUES
 (1404,'Energy Storage Power Station Alarm','/energystoragepowerstation/alarm',1400,1),
 (1405,'Energy Storage Power Station Maintenance','/energystoragepowerstation/maintenance',1400,1),
 (1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),
-(1501,'Photovoltaic Power Station Details','/photovoltaicpowerstationdetails',1500,1),
+(1501,'Photovoltaic Power Station Details','/photovoltaicpowerstation/details',1500,1),
 (1600,'Wind Farm','/windfarm',NULL,1),
 (1601,'Wind Farm Details','/windfarm/details',1600,1),
 (40000,'Work Order','/workorder',NULL,1),
