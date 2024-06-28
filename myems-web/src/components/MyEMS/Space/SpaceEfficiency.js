@@ -118,6 +118,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -328,6 +329,8 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -648,6 +651,8 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -817,82 +822,84 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
-              NAME: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['cumulation'] && (
-              <CountUp
-                end={cardSummaryItem['cumulation']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
+                NAME: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['cumulation'] && (
+                <CountUp
+                  end={cardSummaryItem['cumulation']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+        </div>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: spaceBaseAndReportingNames,
+            VALUE: spaceReportingSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: spaceBaseAndReportingNames,
+            VALUE: spaceBaseSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingLabels={spaceReportingLabels}
+          reportingData={spaceReportingData}
+          baseLabels={spaceBaseLabels}
+          baseData={spaceBaseData}
+          rates={spaceReportingRates}
+          options={spaceReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
       </div>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: spaceBaseAndReportingNames,
-          VALUE: spaceReportingSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: spaceBaseAndReportingNames,
-          VALUE: spaceBaseSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingLabels={spaceReportingLabels}
-        reportingData={spaceReportingData}
-        baseLabels={spaceBaseLabels}
-        baseData={spaceBaseData}
-        rates={spaceReportingRates}
-        options={spaceReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
     </Fragment>
   );
 };

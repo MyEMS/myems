@@ -120,6 +120,7 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
   const [incomeShareData, setIncomeShareData] = useState([]);
@@ -337,6 +338,8 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -778,6 +781,8 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -946,91 +951,93 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Income CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Income CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['subtotal_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+        </div>
+        <Row noGutters>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={incomeShareData} title={t('Incomes by Energy Category')} />
+          </Col>
+        </Row>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Income CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: spaceReportingSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Income CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: spaceBaseSubtotals,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Income CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Income CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: spaceBaseAndReportingNames,
+            VALUE: null,
+            UNIT: spaceBaseAndReportingUnits
+          }}
+          reportingLabels={spaceReportingLabels}
+          reportingData={spaceReportingData}
+          baseLabels={spaceBaseLabels}
+          baseData={spaceBaseData}
+          rates={spaceReportingRates}
+          options={spaceReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
+        <ChildSpacesTable data={childSpacesTableData} title={t('Child Spaces Data')} columns={childSpacesTableColumns} />
       </div>
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={incomeShareData} title={t('Incomes by Energy Category')} />
-        </Col>
-      </Row>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Income CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: spaceReportingSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Income CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: spaceBaseSubtotals,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Income CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Income CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: spaceBaseAndReportingNames,
-          VALUE: null,
-          UNIT: spaceBaseAndReportingUnits
-        }}
-        reportingLabels={spaceReportingLabels}
-        reportingData={spaceReportingData}
-        baseLabels={spaceBaseLabels}
-        baseData={spaceBaseData}
-        rates={spaceReportingRates}
-        options={spaceReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
-      <ChildSpacesTable data={childSpacesTableData} title={t('Child Spaces Data')} columns={childSpacesTableColumns} />
     </Fragment>
   );
 };
