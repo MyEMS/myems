@@ -12,7 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced svg with svg_id in microgrid
 - replaced svg with svg_id in energy storage power station
 - set data result hidden by default for space reports in myems-web
-- set data result hidden by default for equipment reports in myems-web 
+- set data result hidden by default for equipment reports in myems-web
+- set data result hidden by default for shopfloor reports in myems-web
 ### Fixed
 - added check relations statements to point on_delete action in myems-api
 - fixed issue of on_delete action in myems-api
