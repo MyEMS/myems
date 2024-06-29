@@ -102,7 +102,7 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'name', text: t('Name'), sort: true },
@@ -197,6 +197,8 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setShopfloorList([]);
@@ -285,6 +287,8 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -402,12 +406,14 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <DetailedDataTable
-        data={shopfloorList}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <DetailedDataTable
+          data={shopfloorList}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+      </div>
     </Fragment>
   );
 };
