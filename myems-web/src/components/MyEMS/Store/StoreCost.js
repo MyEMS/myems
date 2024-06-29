@@ -121,7 +121,7 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [costShareData, setCostShareData] = useState([]);
@@ -421,6 +421,8 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -841,6 +843,8 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -1029,94 +1033,96 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Costs CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Costs CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['subtotal_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+        </div>
+        <Row noGutters>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={timeOfUseShareData} title={t('Electricity Cost by Time-Of-Use')} />
+          </Col>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={costShareData} title={t('Costs by Energy Category')} />
+          </Col>
+        </Row>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            VALUE: storeReportingSubtotals,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            VALUE: storeBaseSubtotals,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            VALUE: null,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            VALUE: null,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          reportingLabels={storeReportingLabels}
+          reportingData={storeReportingData}
+          baseLabels={storeBaseLabels}
+          baseData={storeBaseData}
+          rates={storeReportingRates}
+          options={storeReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </div>
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={timeOfUseShareData} title={t('Electricity Cost by Time-Of-Use')} />
-        </Col>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={costShareData} title={t('Costs by Energy Category')} />
-        </Col>
-      </Row>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          VALUE: storeReportingSubtotals,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          VALUE: storeBaseSubtotals,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          VALUE: null,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          VALUE: null,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        reportingLabels={storeReportingLabels}
-        reportingData={storeReportingData}
-        baseLabels={storeBaseLabels}
-        baseData={storeBaseData}
-        rates={storeReportingRates}
-        options={storeReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
     </Fragment>
   );
 };
