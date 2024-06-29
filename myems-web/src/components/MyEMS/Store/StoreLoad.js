@@ -120,7 +120,7 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
 
@@ -415,6 +415,8 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -750,6 +752,8 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -938,101 +942,103 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      {cardSummaryList.map(cardSummaryItem => (
-        <div className="card-deck" key={cardSummaryItem['name']}>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'average'}
-            rate={cardSummaryItem['average_increment_rate']}
-            title={t('Reporting Period CATEGORY Average Load UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + '/H)'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['average_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
-          >
-            {cardSummaryItem['average'] && (
-              <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'maximum'}
-            rate={cardSummaryItem['maximum_increment_rate']}
-            title={t('Reporting Period CATEGORY Maximum Load UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + '/H)'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['maximum_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
-          >
-            {cardSummaryItem['maximum'] && (
-              <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'factor'}
-            rate={cardSummaryItem['factor_increment_rate']}
-            title={t('Reporting Period CATEGORY Load Factor', { CATEGORY: cardSummaryItem['name'] })}
-            color="success"
-            footnote={t('Ratio of Average Load to Maximum Load')}
-          >
-            {cardSummaryItem['factor'] && (
-              <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-        </div>
-      ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {cardSummaryList.map(cardSummaryItem => (
+          <div className="card-deck" key={cardSummaryItem['name']}>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'average'}
+              rate={cardSummaryItem['average_increment_rate']}
+              title={t('Reporting Period CATEGORY Average Load UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + '/H)'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['average_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
+            >
+              {cardSummaryItem['average'] && (
+                <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'maximum'}
+              rate={cardSummaryItem['maximum_increment_rate']}
+              title={t('Reporting Period CATEGORY Maximum Load UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + '/H)'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['maximum_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
+            >
+              {cardSummaryItem['maximum'] && (
+                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'factor'}
+              rate={cardSummaryItem['factor_increment_rate']}
+              title={t('Reporting Period CATEGORY Load Factor', { CATEGORY: cardSummaryItem['name'] })}
+              color="success"
+              footnote={t('Ratio of Average Load to Maximum Load')}
+            >
+              {cardSummaryItem['factor'] && (
+                <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+          </div>
+        ))}
 
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period CATEGORY Maximum Load UNIT',
-          substitute: ['CATEGORY', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period CATEGORY Maximum Load UNIT',
-          substitute: ['CATEGORY', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period CATEGORY Maximum Load UNIT',
-          substitute: ['CATEGORY', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period CATEGORY Maximum Load UNIT',
-          substitute: ['CATEGORY', 'UNIT'],
-          CATEGORY: storeBaseAndReportingNames,
-          UNIT: storeBaseAndReportingUnits
-        }}
-        reportingLabels={storeReportingLabels}
-        reportingData={storeReportingData}
-        baseLabels={storeBaseLabels}
-        baseData={storeBaseData}
-        rates={storeReportingRates}
-        options={storeReportingOptions}
-      />
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period CATEGORY Maximum Load UNIT',
+            substitute: ['CATEGORY', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period CATEGORY Maximum Load UNIT',
+            substitute: ['CATEGORY', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period CATEGORY Maximum Load UNIT',
+            substitute: ['CATEGORY', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period CATEGORY Maximum Load UNIT',
+            substitute: ['CATEGORY', 'UNIT'],
+            CATEGORY: storeBaseAndReportingNames,
+            UNIT: storeBaseAndReportingUnits
+          }}
+          reportingLabels={storeReportingLabels}
+          reportingData={storeReportingData}
+          baseLabels={storeBaseLabels}
+          baseData={storeBaseData}
+          rates={storeReportingRates}
+          options={storeReportingOptions}
+        />
 
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+      </div>
     </Fragment>
   );
 };
