@@ -120,7 +120,7 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [virtualMeterEnergyCategory, setVirtualMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergyCostInCategory, setReportingPeriodEnergyCostInCategory] = useState(0);
@@ -416,7 +416,8 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
-
+    // hide result data
+    setResultDataHidden(true);
     // Reinitialize tables
     setDetailedDataTableData([]);
 
@@ -666,6 +667,8 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -854,111 +857,113 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        <CardSummary
-          rate={reportingPeriodEnergyCostRate}
-          title={t('Reporting Period Costs CATEGORY UNIT', {
-            CATEGORY: virtualMeterEnergyCategory['name'],
-            UNIT: '(' + virtualMeterEnergyCategory['unit'] + ')'
-          })}
-          color="success"
-        >
-          <CountUp
-            end={reportingPeriodEnergyCostInCategory}
-            duration={2}
-            prefix=""
-            separator=","
-            decimals={2}
-            decimal="."
-          />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergyCostRate}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergyConsumptionInTCE}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
-          />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergyCostRate}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-            UNIT: '(T)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergyConsumptionInCO2}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
-          />
-        </CardSummary>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          <CardSummary
+            rate={reportingPeriodEnergyCostRate}
+            title={t('Reporting Period Costs CATEGORY UNIT', {
+              CATEGORY: virtualMeterEnergyCategory['name'],
+              UNIT: '(' + virtualMeterEnergyCategory['unit'] + ')'
+            })}
+            color="success"
+          >
+            <CountUp
+              end={reportingPeriodEnergyCostInCategory}
+              duration={2}
+              prefix=""
+              separator=","
+              decimals={2}
+              decimal="."
+            />
+          </CardSummary>
+          <CardSummary
+            rate={reportingPeriodEnergyCostRate}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergyConsumptionInTCE}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
+          </CardSummary>
+          <CardSummary
+            rate={reportingPeriodEnergyCostRate}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+              UNIT: '(T)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergyConsumptionInCO2}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
+          </CardSummary>
+        </div>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: virtualMeterBaseAndReportingNames,
+            VALUE: virtualMeterReportingSubtotals,
+            UNIT: virtualMeterBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: virtualMeterBaseAndReportingNames,
+            VALUE: virtualMeterBaseSubtotals,
+            UNIT: virtualMeterBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: virtualMeterBaseAndReportingNames,
+            VALUE: null,
+            UNIT: virtualMeterBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Costs CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: virtualMeterBaseAndReportingNames,
+            VALUE: null,
+            UNIT: virtualMeterBaseAndReportingUnits
+          }}
+          reportingLabels={virtualMeterReportingLabels}
+          reportingData={virtualMeterReportingData}
+          baseLabels={virtualMeterBaseLabels}
+          baseData={virtualMeterBaseData}
+          rates={virtualMeterReportingRates}
+          options={virtualMeterReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </div>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: virtualMeterBaseAndReportingNames,
-          VALUE: virtualMeterReportingSubtotals,
-          UNIT: virtualMeterBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: virtualMeterBaseAndReportingNames,
-          VALUE: virtualMeterBaseSubtotals,
-          UNIT: virtualMeterBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: virtualMeterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: virtualMeterBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Costs CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: virtualMeterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: virtualMeterBaseAndReportingUnits
-        }}
-        reportingLabels={virtualMeterReportingLabels}
-        reportingData={virtualMeterReportingData}
-        baseLabels={virtualMeterBaseLabels}
-        baseData={virtualMeterBaseData}
-        rates={virtualMeterReportingRates}
-        options={virtualMeterReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
     </Fragment>
   );
 };
