@@ -126,7 +126,7 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [TCEShareData, setTCEShareData] = useState([]);
@@ -281,6 +281,9 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
+
     // Reinitialize tables
     setDetailedDataTableData([]);
     let isResponseOK = false;
@@ -789,6 +792,8 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -1176,133 +1181,135 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['subtotal_per_unit_area']}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+
           <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
+            rate={totalInTCE['increment_rate'] || ''}
             title={t('Reporting Period Consumption CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
             })}
-            color="success"
+            color="warning"
             footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)"
           >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
+            {totalInTCE['value'] && (
+              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
             )}
           </CardSummary>
-        ))}
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+              UNIT: '(TCO2E)'
+            })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCO2E['value_per_unit_area']}
+            footunit="(TCO2E/M²)"
+          >
+            {totalInTCO2E['value'] && (
+              <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+            )}
+          </CardSummary>
+        </div>
+        <Row noGutters>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
+          </Col>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          </Col>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+          </Col>
+        </Row>
 
-        <CardSummary
-          rate={totalInTCE['increment_rate'] || ''}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCE['value_per_unit_area']}
-          footunit="(TCE/M²)"
-        >
-          {totalInTCE['value'] && (
-            <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}
-        </CardSummary>
-        <CardSummary
-          rate={totalInTCO2E['increment_rate'] || ''}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-            UNIT: '(TCO2E)'
-          })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCO2E['value_per_unit_area']}
-          footunit="(TCO2E/M²)"
-        >
-          {totalInTCO2E['value'] && (
-            <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}
-        </CardSummary>
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: tenantBaseAndReportingNames,
+            VALUE: tenantReportingSubtotals,
+            UNIT: tenantBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: tenantBaseAndReportingNames,
+            VALUE: tenantBaseSubtotals,
+            UNIT: tenantBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: tenantBaseAndReportingNames,
+            VALUE: null,
+            UNIT: tenantBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: tenantBaseAndReportingNames,
+            VALUE: null,
+            UNIT: tenantBaseAndReportingUnits
+          }}
+          reportingLabels={tenantReportingLabels}
+          reportingData={tenantReportingData}
+          baseLabels={tenantBaseLabels}
+          baseData={tenantBaseData}
+          rates={tenantReportingRates}
+          options={tenantReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <WorkingDaysConsumptionTable
+          data={workingDaysConsumptionTableData}
+          columns={workingDaysConsumptionTableColumns}
+        />
+        <br />
+
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </div>
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
-        </Col>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
-        </Col>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
-        </Col>
-      </Row>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: tenantBaseAndReportingNames,
-          VALUE: tenantReportingSubtotals,
-          UNIT: tenantBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: tenantBaseAndReportingNames,
-          VALUE: tenantBaseSubtotals,
-          UNIT: tenantBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: tenantBaseAndReportingNames,
-          VALUE: null,
-          UNIT: tenantBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: tenantBaseAndReportingNames,
-          VALUE: null,
-          UNIT: tenantBaseAndReportingUnits
-        }}
-        reportingLabels={tenantReportingLabels}
-        reportingData={tenantReportingData}
-        baseLabels={tenantBaseLabels}
-        baseData={tenantBaseData}
-        rates={tenantReportingRates}
-        options={tenantReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <WorkingDaysConsumptionTable
-        data={workingDaysConsumptionTableData}
-        columns={workingDaysConsumptionTableColumns}
-      />
-      <br />
-
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
     </Fragment>
   );
 };
