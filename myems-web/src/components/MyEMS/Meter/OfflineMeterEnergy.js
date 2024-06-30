@@ -120,7 +120,7 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [offlineMeterEnergyCategory, setOfflineMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergyConsumptionInCategory, setReportingPeriodEnergyConsumptionInCategory] = useState(0);
@@ -416,7 +416,8 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
-
+    // hide result data
+    setResultDataHidden(true);
     // Reinitialize tables
     setDetailedDataTableData([]);
 
@@ -666,6 +667,8 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -854,111 +857,115 @@ const OfflineMeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        <CardSummary
-          rate={reportingPeriodEnergyConsumptionRate}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: offlineMeterEnergyCategory['name'],
-            UNIT: '(' + offlineMeterEnergyCategory['unit'] + ')'
-          })}
-          color="success"
-        >
-          <CountUp
-            end={reportingPeriodEnergyConsumptionInCategory}
-            duration={2}
-            prefix=""
-            separator=","
-            decimals={2}
-            decimal="."
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <Fragment>
+          <div className="card-deck">
+            <CardSummary
+              rate={reportingPeriodEnergyConsumptionRate}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: offlineMeterEnergyCategory['name'],
+                UNIT: '(' + offlineMeterEnergyCategory['unit'] + ')'
+              })}
+              color="success"
+            >
+              <CountUp
+                end={reportingPeriodEnergyConsumptionInCategory}
+                duration={2}
+                prefix=""
+                separator=","
+                decimals={2}
+                decimal="."
+              />
+            </CardSummary>
+            <CardSummary
+              rate={reportingPeriodEnergyConsumptionRate}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: t('Ton of Standard Coal'),
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodEnergyConsumptionInTCE}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+            <CardSummary
+              rate={reportingPeriodEnergyConsumptionRate}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                UNIT: '(T)'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodEnergyConsumptionInCO2}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+          </div>
+
+          <MultiTrendChart
+            reportingTitle={{
+              name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: offlineMeterReportingSubtotals,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            baseTitle={{
+              name: 'Base Period Consumption CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: offlineMeterBaseSubtotals,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            reportingTooltipTitle={{
+              name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: null,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            baseTooltipTitle={{
+              name: 'Base Period Consumption CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: null,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            reportingLabels={offlineMeterReportingLabels}
+            reportingData={offlineMeterReportingData}
+            baseLabels={offlineMeterBaseLabels}
+            baseData={offlineMeterBaseData}
+            rates={offlineMeterReportingRates}
+            options={offlineMeterReportingOptions}
           />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergyConsumptionRate}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergyConsumptionInTCE}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
+
+          <MultipleLineChart
+            reportingTitle={t('Operating Characteristic Curve')}
+            baseTitle=""
+            labels={parameterLineChartLabels}
+            data={parameterLineChartData}
+            options={parameterLineChartOptions}
           />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergyConsumptionRate}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-            UNIT: '(T)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergyConsumptionInCO2}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
+          <br />
+          <DetailedDataTable
+            data={detailedDataTableData}
+            title={t('Detailed Data')}
+            columns={detailedDataTableColumns}
+            pagesize={50}
           />
-        </CardSummary>
+        </Fragment>
       </div>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: offlineMeterBaseAndReportingNames,
-          VALUE: offlineMeterReportingSubtotals,
-          UNIT: offlineMeterBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: offlineMeterBaseAndReportingNames,
-          VALUE: offlineMeterBaseSubtotals,
-          UNIT: offlineMeterBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: offlineMeterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: offlineMeterBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: offlineMeterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: offlineMeterBaseAndReportingUnits
-        }}
-        reportingLabels={offlineMeterReportingLabels}
-        reportingData={offlineMeterReportingData}
-        baseLabels={offlineMeterBaseLabels}
-        baseData={offlineMeterBaseData}
-        rates={offlineMeterReportingRates}
-        options={offlineMeterReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
     </Fragment>
   );
 };
