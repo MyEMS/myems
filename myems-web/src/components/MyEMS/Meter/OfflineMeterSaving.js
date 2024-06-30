@@ -120,7 +120,7 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [offlineMeterEnergyCategory, setOfflineMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergySavingInCategory, setReportingPeriodEnergySavingInCategory] = useState(0);
@@ -416,6 +416,8 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -666,6 +668,8 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -854,7 +858,7 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Fragment>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
         <div className="card-deck">
           <CardSummary
             rate={reportingPeriodEnergySavingRate}
@@ -961,7 +965,7 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           columns={detailedDataTableColumns}
           pagesize={50}
         />
-      </Fragment>
+      </div>
     </Fragment>
   );
 };

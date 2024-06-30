@@ -120,7 +120,7 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [offlineMeterEnergyCategory, setOfflineMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergySavingInCategory, setReportingPeriodEnergySavingInCategory] = useState(0);
@@ -416,6 +416,8 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -666,6 +668,8 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -854,114 +858,116 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Fragment>
-        <div className="card-deck">
-          <CardSummary
-            rate={reportingPeriodEnergySavingRate}
-            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-              CATEGORY: offlineMeterEnergyCategory['name'],
-              UNIT: '(' + offlineMeterEnergyCategory['unit'] + ')'
-            })}
-            color="success"
-          >
-            <CountUp
-              end={reportingPeriodEnergySavingInCategory}
-              duration={2}
-              prefix=""
-              separator=","
-              decimals={2}
-              decimal="."
-            />
-          </CardSummary>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <Fragment>
+          <div className="card-deck">
+            <CardSummary
+              rate={reportingPeriodEnergySavingRate}
+              title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+                CATEGORY: offlineMeterEnergyCategory['name'],
+                UNIT: '(' + offlineMeterEnergyCategory['unit'] + ')'
+              })}
+              color="success"
+            >
+              <CountUp
+                end={reportingPeriodEnergySavingInCategory}
+                duration={2}
+                prefix=""
+                separator=","
+                decimals={2}
+                decimal="."
+              />
+            </CardSummary>
 
-          <CardSummary
-            rate={reportingPeriodEnergySavingRate}
-            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-              CATEGORY: t('Ton of Standard Coal'),
-              UNIT: '(TCE)'
-            })}
-            color="warning"
-          >
-            <CountUp
-              end={reportingPeriodEnergySavingInTCE}
-              duration={2}
-              prefix=""
-              separator=","
-              decimal="."
-              decimals={2}
-            />
-          </CardSummary>
-          <CardSummary
-            rate={reportingPeriodEnergySavingRate}
-            title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
-              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-              UNIT: '(T)'
-            })}
-            color="warning"
-          >
-            <CountUp
-              end={reportingPeriodEnergySavingInCO2}
-              duration={2}
-              prefix=""
-              separator=","
-              decimal="."
-              decimals={2}
-            />
-          </CardSummary>
-        </div>
+            <CardSummary
+              rate={reportingPeriodEnergySavingRate}
+              title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+                CATEGORY: t('Ton of Standard Coal'),
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodEnergySavingInTCE}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+            <CardSummary
+              rate={reportingPeriodEnergySavingRate}
+              title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
+                CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                UNIT: '(T)'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodEnergySavingInCO2}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+          </div>
 
-        <MultiTrendChart
-          reportingTitle={{
-            name: 'Reporting Period Saving CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: offlineMeterBaseAndReportingNames,
-            VALUE: offlineMeterReportingSubtotals,
-            UNIT: offlineMeterBaseAndReportingUnits
-          }}
-          baseTitle={{
-            name: 'Base Period Saving CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: offlineMeterBaseAndReportingNames,
-            VALUE: offlineMeterBaseSubtotals,
-            UNIT: offlineMeterBaseAndReportingUnits
-          }}
-          reportingTooltipTitle={{
-            name: 'Reporting Period Saving CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: offlineMeterBaseAndReportingNames,
-            VALUE: null,
-            UNIT: offlineMeterBaseAndReportingUnits
-          }}
-          baseTooltipTitle={{
-            name: 'Base Period Saving CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: offlineMeterBaseAndReportingNames,
-            VALUE: null,
-            UNIT: offlineMeterBaseAndReportingUnits
-          }}
-          reportingLabels={offlineMeterReportingLabels}
-          reportingData={offlineMeterReportingData}
-          baseLabels={offlineMeterBaseLabels}
-          baseData={offlineMeterBaseData}
-          rates={offlineMeterReportingRates}
-          options={offlineMeterReportingOptions}
-        />
+          <MultiTrendChart
+            reportingTitle={{
+              name: 'Reporting Period Saving CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: offlineMeterReportingSubtotals,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            baseTitle={{
+              name: 'Base Period Saving CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: offlineMeterBaseSubtotals,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            reportingTooltipTitle={{
+              name: 'Reporting Period Saving CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: null,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            baseTooltipTitle={{
+              name: 'Base Period Saving CATEGORY VALUE UNIT',
+              substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+              CATEGORY: offlineMeterBaseAndReportingNames,
+              VALUE: null,
+              UNIT: offlineMeterBaseAndReportingUnits
+            }}
+            reportingLabels={offlineMeterReportingLabels}
+            reportingData={offlineMeterReportingData}
+            baseLabels={offlineMeterBaseLabels}
+            baseData={offlineMeterBaseData}
+            rates={offlineMeterReportingRates}
+            options={offlineMeterReportingOptions}
+          />
 
-        <MultipleLineChart
-          reportingTitle={t('Operating Characteristic Curve')}
-          baseTitle=""
-          labels={parameterLineChartLabels}
-          data={parameterLineChartData}
-          options={parameterLineChartOptions}
-        />
-        <br />
-        <DetailedDataTable
-          data={detailedDataTableData}
-          title={t('Detailed Data')}
-          columns={detailedDataTableColumns}
-          pagesize={50}
-        />
-      </Fragment>
+          <MultipleLineChart
+            reportingTitle={t('Operating Characteristic Curve')}
+            baseTitle=""
+            labels={parameterLineChartLabels}
+            data={parameterLineChartData}
+            options={parameterLineChartOptions}
+          />
+          <br />
+          <DetailedDataTable
+            data={detailedDataTableData}
+            title={t('Detailed Data')}
+            columns={detailedDataTableColumns}
+            pagesize={50}
+          />
+        </Fragment>
+      </div>
     </Fragment>
   );
 };
