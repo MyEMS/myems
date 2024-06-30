@@ -61,6 +61,7 @@ app.controller('DataSourceController', function(
 			{"id":"mqtt-md4220", "name": "MQTT MD4220"},
 			{"id":"mqtt-seg", "name": "MQTT SEG"},
 			{"id":"mqtt-weilan", "name": "MQTT WEILAN"},
+			{"id":"mqtt-xintianli", "name": "MQTT XINTIANLI"},
 			{"id":"mqtt-zhongxian", "name": "MQTT ZHONGXIAN"},
 			{"id":"mqtt", "name": "MQTT"},
 			{"id":"mysql", "name": "MySQL"},
