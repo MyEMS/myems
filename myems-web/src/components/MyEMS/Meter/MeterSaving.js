@@ -121,7 +121,7 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergySavingInCategory, setReportingPeriodEnergySavingInCategory] = useState(0);
@@ -440,6 +440,8 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -689,6 +691,8 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
           setSpinnerHidden(true);
@@ -883,111 +887,113 @@ const MeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        <CardSummary
-          rate={reportingPeriodEnergySavingRate}
-          title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-            CATEGORY: meterEnergyCategory['name'],
-            UNIT: '(' + meterEnergyCategory['unit'] + ')'
-          })}
-          color="success"
-        >
-          <CountUp
-            end={reportingPeriodEnergySavingInCategory}
-            duration={2}
-            prefix=""
-            separator=","
-            decimals={2}
-            decimal="."
-          />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergySavingRate}
-          title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergySavingInTCE}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
-          />
-        </CardSummary>
-        <CardSummary
-          rate={reportingPeriodEnergySavingRate}
-          title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
-            CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-            UNIT: '(T)'
-          })}
-          color="warning"
-        >
-          <CountUp
-            end={reportingPeriodEnergySavingInCO2}
-            duration={2}
-            prefix=""
-            separator=","
-            decimal="."
-            decimals={2}
-          />
-        </CardSummary>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          <CardSummary
+            rate={reportingPeriodEnergySavingRate}
+            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+              CATEGORY: meterEnergyCategory['name'],
+              UNIT: '(' + meterEnergyCategory['unit'] + ')'
+            })}
+            color="success"
+          >
+            <CountUp
+              end={reportingPeriodEnergySavingInCategory}
+              duration={2}
+              prefix=""
+              separator=","
+              decimals={2}
+              decimal="."
+            />
+          </CardSummary>
+          <CardSummary
+            rate={reportingPeriodEnergySavingRate}
+            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergySavingInTCE}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
+          </CardSummary>
+          <CardSummary
+            rate={reportingPeriodEnergySavingRate}
+            title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
+              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+              UNIT: '(T)'
+            })}
+            color="warning"
+          >
+            <CountUp
+              end={reportingPeriodEnergySavingInCO2}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={2}
+            />
+          </CardSummary>
+        </div>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Saving CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: meterBaseAndReportingNames,
+            VALUE: meterReportingSubtotals,
+            UNIT: meterBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Saving CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: meterBaseAndReportingNames,
+            VALUE: meterBaseSubtotals,
+            UNIT: meterBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Saving CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: meterBaseAndReportingNames,
+            VALUE: null,
+            UNIT: meterBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Saving CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: meterBaseAndReportingNames,
+            VALUE: null,
+            UNIT: meterBaseAndReportingUnits
+          }}
+          reportingLabels={meterReportingLabels}
+          reportingData={meterReportingData}
+          baseLabels={meterBaseLabels}
+          baseData={meterBaseData}
+          rates={meterReportingRates}
+          options={meterReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </div>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Saving CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: meterBaseAndReportingNames,
-          VALUE: meterReportingSubtotals,
-          UNIT: meterBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Saving CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: meterBaseAndReportingNames,
-          VALUE: meterBaseSubtotals,
-          UNIT: meterBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Saving CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: meterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: meterBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Saving CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: meterBaseAndReportingNames,
-          VALUE: null,
-          UNIT: meterBaseAndReportingUnits
-        }}
-        reportingLabels={meterReportingLabels}
-        reportingData={meterReportingData}
-        baseLabels={meterBaseLabels}
-        baseData={meterBaseData}
-        rates={meterReportingRates}
-        options={meterReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
     </Fragment>
   );
 };

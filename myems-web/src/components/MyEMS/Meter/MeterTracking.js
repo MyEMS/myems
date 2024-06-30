@@ -110,7 +110,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   // Results
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [startIntegrityRate, setStartIntegrityRate] = useState(0);
@@ -378,7 +378,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
-
+    // hide result data
+    setResultDataHidden(true);
     // Reinitialize tables
     setMeterList([]);
 
@@ -443,6 +444,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -569,18 +572,20 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        <CardSummary title={t('Start Integrity Rate')} color="success">
-          <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
-        </CardSummary>
-        <CardSummary title={t('End Integrity Rate')} color="success">
-          <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
-        </CardSummary>
-        <CardSummary title={t('Full Integrity Rate')} color="warning">
-          <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
-        </CardSummary>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          <CardSummary title={t('Start Integrity Rate')} color="success">
+            <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+          <CardSummary title={t('End Integrity Rate')} color="success">
+            <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+          <CardSummary title={t('Full Integrity Rate')} color="warning">
+            <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+        </div>
+        <DetailedDataTable data={meterList} title={t('Meter List')} columns={columns} pagesize={50} />
       </div>
-      <DetailedDataTable data={meterList} title={t('Meter List')} columns={columns} pagesize={50} />
     </Fragment>
   );
 };
