@@ -121,6 +121,7 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -426,6 +427,8 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -783,6 +786,8 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -971,153 +976,155 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      {cardSummaryList.map(cardSummaryItem => (
-        <div className="card-deck" key={cardSummaryItem['name']}>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'mean'}
-            rate={cardSummaryItem['mean_increment_rate']}
-            title={t('Reporting Period CATEGORY Mean UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['mean'] && (
-              <CountUp end={cardSummaryItem['mean']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'median'}
-            rate={cardSummaryItem['median_increment_rate']}
-            title={t('Reporting Period CATEGORY Median UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['median'] && (
-              <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'minimum'}
-            rate={cardSummaryItem['minimum_increment_rate']}
-            title={t('Reporting Period CATEGORY Minimum UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['minimum'] && (
-              <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'maximum'}
-            rate={cardSummaryItem['maximum_increment_rate']}
-            title={t('Reporting Period CATEGORY Maximum UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['maximum'] && (
-              <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'stdev'}
-            rate={cardSummaryItem['stdev_increment_rate']}
-            title={t('Reporting Period CATEGORY Stdev UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['stdev'] && (
-              <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['name'] + 'variance'}
-            rate={cardSummaryItem['variance_increment_rate']}
-            title={t('Reporting Period CATEGORY Variance UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['variance'] && (
-              <CountUp
-                end={cardSummaryItem['variance']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        </div>
-      ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {cardSummaryList.map(cardSummaryItem => (
+          <div className="card-deck" key={cardSummaryItem['name']}>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'mean'}
+              rate={cardSummaryItem['mean_increment_rate']}
+              title={t('Reporting Period CATEGORY Mean UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['mean'] && (
+                <CountUp end={cardSummaryItem['mean']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'median'}
+              rate={cardSummaryItem['median_increment_rate']}
+              title={t('Reporting Period CATEGORY Median UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['median'] && (
+                <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'minimum'}
+              rate={cardSummaryItem['minimum_increment_rate']}
+              title={t('Reporting Period CATEGORY Minimum UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['minimum'] && (
+                <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'maximum'}
+              rate={cardSummaryItem['maximum_increment_rate']}
+              title={t('Reporting Period CATEGORY Maximum UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['maximum'] && (
+                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'stdev'}
+              rate={cardSummaryItem['stdev_increment_rate']}
+              title={t('Reporting Period CATEGORY Stdev UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['stdev'] && (
+                <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['name'] + 'variance'}
+              rate={cardSummaryItem['variance_increment_rate']}
+              title={t('Reporting Period CATEGORY Variance UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['variance'] && (
+                <CountUp
+                  end={cardSummaryItem['variance']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          </div>
+        ))}
 
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentReportingSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentBaseSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingLabels={combinedEquipmentReportingLabels}
-        reportingData={combinedEquipmentReportingData}
-        baseLabels={combinedEquipmentBaseLabels}
-        baseData={combinedEquipmentBaseData}
-        rates={combinedEquipmentReportingRates}
-        options={combinedEquipmentReportingOptions}
-      />
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentReportingSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentBaseSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingLabels={combinedEquipmentReportingLabels}
+          reportingData={combinedEquipmentReportingData}
+          baseLabels={combinedEquipmentBaseLabels}
+          baseData={combinedEquipmentBaseData}
+          rates={combinedEquipmentReportingRates}
+          options={combinedEquipmentReportingOptions}
+        />
 
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
-      <AssociatedEquipmentTable
-        data={associatedEquipmentTableData}
-        title={t('Associated Equipment Data')}
-        columns={associatedEquipmentTableColumns}
-      />
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
+        <AssociatedEquipmentTable
+          data={associatedEquipmentTableData}
+          title={t('Associated Equipment Data')}
+          columns={associatedEquipmentTableColumns}
+        />
+      </div>
     </Fragment>
   );
 };

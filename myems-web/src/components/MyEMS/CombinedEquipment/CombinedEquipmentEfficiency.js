@@ -121,7 +121,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
 
@@ -444,6 +444,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -1043,6 +1045,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -1231,128 +1235,130 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      {cardSummaryList.map(cardSummaryItem => (
-        <div className="card-deck" key={cardSummaryItem['name']}>
-          <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
-            title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
-              NAME: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['cumulation'] && (
-              <CountUp
-                end={cardSummaryItem['cumulation']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['numerator_name']}
-            rate={cardSummaryItem['increment_rates_num']}
-            title={t('Reporting Period Output CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'] + '-' + cardSummaryItem['numerator_name'],
-              UNIT: '(' + cardSummaryItem['numerator_unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['numerator_cumulation'] && (
-              <CountUp
-                end={cardSummaryItem['numerator_cumulation']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-          <CardSummary
-            key={cardSummaryItem['denominator_name']}
-            rate={cardSummaryItem['increment_rates_den']}
-            title={t('Reporting Period Consumption CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'] + '-' + cardSummaryItem['denominator_name'],
-              UNIT: '(' + cardSummaryItem['denominator_unit'] + ')'
-            })}
-            color="success"
-          >
-            {cardSummaryItem['denominator_cumulation'] && (
-              <CountUp
-                end={cardSummaryItem['denominator_cumulation']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        </div>
-      ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {cardSummaryList.map(cardSummaryItem => (
+          <div className="card-deck" key={cardSummaryItem['name']}>
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Cumulative Efficiency NAME UNIT', {
+                NAME: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['cumulation'] && (
+                <CountUp
+                  end={cardSummaryItem['cumulation']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['numerator_name']}
+              rate={cardSummaryItem['increment_rates_num']}
+              title={t('Reporting Period Output CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'] + '-' + cardSummaryItem['numerator_name'],
+                UNIT: '(' + cardSummaryItem['numerator_unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['numerator_cumulation'] && (
+                <CountUp
+                  end={cardSummaryItem['numerator_cumulation']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+            <CardSummary
+              key={cardSummaryItem['denominator_name']}
+              rate={cardSummaryItem['increment_rates_den']}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'] + '-' + cardSummaryItem['denominator_name'],
+                UNIT: '(' + cardSummaryItem['denominator_unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['denominator_cumulation'] && (
+                <CountUp
+                  end={cardSummaryItem['denominator_cumulation']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          </div>
+        ))}
 
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentReportingSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentBaseSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-          substitute: ['NAME', 'VALUE', 'UNIT'],
-          NAME: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingLabels={combinedEquipmentReportingLabels}
-        reportingData={combinedEquipmentReportingData}
-        baseLabels={combinedEquipmentBaseLabels}
-        baseData={combinedEquipmentBaseData}
-        rates={combinedEquipmentReportingRates}
-        options={combinedEquipmentReportingOptions}
-      />
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentReportingSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentBaseSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingLabels={combinedEquipmentReportingLabels}
+          reportingData={combinedEquipmentReportingData}
+          baseLabels={combinedEquipmentBaseLabels}
+          baseData={combinedEquipmentBaseData}
+          rates={combinedEquipmentReportingRates}
+          options={combinedEquipmentReportingOptions}
+        />
 
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
-      <AssociatedEquipmentTable
-        data={associatedEquipmentTableData}
-        title={t('Associated Equipment Data')}
-        columns={associatedEquipmentTableColumns}
-      />
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
+        <AssociatedEquipmentTable
+          data={associatedEquipmentTableData}
+          title={t('Associated Equipment Data')}
+          columns={associatedEquipmentTableColumns}
+        />
+      </div>
     </Fragment>
   );
 };

@@ -127,7 +127,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [TCEShareData, setTCEShareData] = useState([]);
@@ -303,6 +303,9 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
+
     // Reinitialize tables
     setDetailedDataTableData([]);
     setAssociatedEquipmentTableData([]);
@@ -776,6 +779,8 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -1162,143 +1167,145 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              rate={cardSummaryItem['increment_rate']}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: cardSummaryItem['name'],
+                UNIT: '(' + cardSummaryItem['unit'] + ')'
+              })}
+              color="success"
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+
           <CardSummary
-            key={cardSummaryItem['name']}
-            rate={cardSummaryItem['increment_rate']}
+            rate={totalInTCE['increment_rate'] || ''}
             title={t('Reporting Period Consumption CATEGORY UNIT', {
-              CATEGORY: cardSummaryItem['name'],
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
             })}
-            color="success"
+            color="warning"
           >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
+            {totalInTCE['value'] && (
+              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
             )}
           </CardSummary>
-        ))}
+          <CardSummary
+            rate={totalInTCO2E['increment_rate'] || ''}
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+              UNIT: '(TCO2E)'
+            })}
+            color="warning"
+          >
+            {totalInTCO2E['value'] && (
+              <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+            )}
+          </CardSummary>
+        </div>
 
-        <CardSummary
-          rate={totalInTCE['increment_rate'] || ''}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-        >
-          {totalInTCE['value'] && (
-            <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}
-        </CardSummary>
-        <CardSummary
-          rate={totalInTCO2E['increment_rate'] || ''}
-          title={t('Reporting Period Consumption CATEGORY UNIT', {
-            CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-            UNIT: '(TCO2E)'
-          })}
-          color="warning"
-        >
-          {totalInTCO2E['value'] && (
-            <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}
-        </CardSummary>
+        <Row noGutters>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
+          </Col>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          </Col>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+          </Col>
+        </Row>
+
+        <MultiTrendChart
+          reportingTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentReportingSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: combinedEquipmentBaseSubtotals,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Consumption CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: combinedEquipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: combinedEquipmentBaseAndReportingUnits
+          }}
+          reportingLabels={combinedEquipmentReportingLabels}
+          reportingData={combinedEquipmentReportingData}
+          baseLabels={combinedEquipmentBaseLabels}
+          baseData={combinedEquipmentBaseData}
+          rates={combinedEquipmentReportingRates}
+          options={combinedEquipmentReportingOptions}
+        />
+
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+
+        <div>
+          {associatedEquipmentNamesOfAssociatedReportPeriodList.map((associatedEquipmentName, index) => (
+            <LineChart
+              key={associatedEquipmentName}
+              reportingTitle={
+                associatedEquipmentName +
+                '-' +
+                t('Reporting Period Consumption CATEGORY VALUE UNIT', { CATEGORY: null, VALUE: null, UNIT: null })
+              }
+              baseTitle=""
+              labels={associatedEquipmentLineChartLabelsList[index]}
+              data={associatedEquipmentLineChartDataList[index]}
+              options={associatedEquipmentLineChartOptionsList[index]}
+            />
+          ))}
+        </div>
+
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+        <br />
+        <AssociatedEquipmentTable
+          data={associatedEquipmentTableData}
+          title={t('Associated Equipment Data')}
+          columns={associatedEquipmentTableColumns}
+        />
       </div>
-
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
-        </Col>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
-        </Col>
-        <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
-        </Col>
-      </Row>
-
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentReportingSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: combinedEquipmentBaseSubtotals,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingTooltipTitle={{
-          name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        baseTooltipTitle={{
-          name: 'Base Period Consumption CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: combinedEquipmentBaseAndReportingNames,
-          VALUE: null,
-          UNIT: combinedEquipmentBaseAndReportingUnits
-        }}
-        reportingLabels={combinedEquipmentReportingLabels}
-        reportingData={combinedEquipmentReportingData}
-        baseLabels={combinedEquipmentBaseLabels}
-        baseData={combinedEquipmentBaseData}
-        rates={combinedEquipmentReportingRates}
-        options={combinedEquipmentReportingOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-
-      <div>
-        {associatedEquipmentNamesOfAssociatedReportPeriodList.map((associatedEquipmentName, index) => (
-          <LineChart
-            key={associatedEquipmentName}
-            reportingTitle={
-              associatedEquipmentName +
-              '-' +
-              t('Reporting Period Consumption CATEGORY VALUE UNIT', { CATEGORY: null, VALUE: null, UNIT: null })
-            }
-            baseTitle=""
-            labels={associatedEquipmentLineChartLabelsList[index]}
-            data={associatedEquipmentLineChartDataList[index]}
-            options={associatedEquipmentLineChartOptionsList[index]}
-          />
-        ))}
-      </div>
-
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
-      <br />
-      <AssociatedEquipmentTable
-        data={associatedEquipmentTableData}
-        title={t('Associated Equipment Data')}
-        columns={associatedEquipmentTableColumns}
-      />
     </Fragment>
   );
 };
