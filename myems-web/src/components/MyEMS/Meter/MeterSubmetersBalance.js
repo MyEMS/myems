@@ -107,7 +107,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [
@@ -317,6 +317,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -499,6 +501,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -649,107 +653,109 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Fragment>
-        <div className="card-deck">
-          <CardSummary
-            title={t('Reporting Period Master Meter Consumption CATEGORY UNIT', {
-              CATEGORY: meterEnergyCategory['name'],
-              UNIT: '(' + meterEnergyCategory['unit'] + ')'
-            })}
-            color="success"
-          >
-            <CountUp
-              end={reportingPeriodMasterMeterConsumptionInCategory}
-              duration={2}
-              prefix=""
-              separator=","
-              decimals={2}
-              decimal="."
-            />
-          </CardSummary>
-          <CardSummary
-            title={t('Reporting Period Submeters Consumption CATEGORY UNIT', {
-              CATEGORY: meterEnergyCategory['name'],
-              UNIT: '(' + meterEnergyCategory['unit'] + ')'
-            })}
-            color="warning"
-          >
-            <CountUp
-              end={reportingPeriodSubmetersConsumptionInCategory}
-              duration={2}
-              prefix=""
-              separator=","
-              decimal="."
-              decimals={2}
-            />
-          </CardSummary>
-          <CardSummary
-            title={t('Reporting Period Difference CATEGORY UNIT', {
-              CATEGORY: meterEnergyCategory['name'],
-              UNIT: '(' + meterEnergyCategory['unit'] + ')'
-            })}
-            color="warning"
-          >
-            <CountUp
-              end={reportingPeriodDifferenceInCategory}
-              duration={2}
-              prefix=""
-              separator=","
-              decimal="."
-              decimals={2}
-            />
-          </CardSummary>
-          <CardSummary title={t('Reporting Period Percentage Difference') + '(%)'} color="warning">
-            <CountUp
-              end={reportingPeriodPercentageDifference}
-              duration={2}
-              prefix=""
-              separator=","
-              decimal="."
-              decimals={2}
-            />
-          </CardSummary>
-        </div>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <Fragment>
+          <div className="card-deck">
+            <CardSummary
+              title={t('Reporting Period Master Meter Consumption CATEGORY UNIT', {
+                CATEGORY: meterEnergyCategory['name'],
+                UNIT: '(' + meterEnergyCategory['unit'] + ')'
+              })}
+              color="success"
+            >
+              <CountUp
+                end={reportingPeriodMasterMeterConsumptionInCategory}
+                duration={2}
+                prefix=""
+                separator=","
+                decimals={2}
+                decimal="."
+              />
+            </CardSummary>
+            <CardSummary
+              title={t('Reporting Period Submeters Consumption CATEGORY UNIT', {
+                CATEGORY: meterEnergyCategory['name'],
+                UNIT: '(' + meterEnergyCategory['unit'] + ')'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodSubmetersConsumptionInCategory}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+            <CardSummary
+              title={t('Reporting Period Difference CATEGORY UNIT', {
+                CATEGORY: meterEnergyCategory['name'],
+                UNIT: '(' + meterEnergyCategory['unit'] + ')'
+              })}
+              color="warning"
+            >
+              <CountUp
+                end={reportingPeriodDifferenceInCategory}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+            <CardSummary title={t('Reporting Period Percentage Difference') + '(%)'} color="warning">
+              <CountUp
+                end={reportingPeriodPercentageDifference}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            </CardSummary>
+          </div>
 
-        <LineChart
-          reportingTitle={t('Reporting Period Difference CATEGORY VALUE UNIT', {
-            CATEGORY: meterEnergyCategory['name'],
-            VALUE: reportingPeriodDifferenceInCategory.toFixed(2),
-            UNIT: '(' + meterEnergyCategory['unit'] + ')'
-          })}
-          baseTitle={
-            t('Reporting Period Master Meter Consumption CATEGORY VALUE UNIT', {
+          <LineChart
+            reportingTitle={t('Reporting Period Difference CATEGORY VALUE UNIT', {
               CATEGORY: meterEnergyCategory['name'],
-              VALUE: reportingPeriodMasterMeterConsumptionInCategory.toFixed(2),
+              VALUE: reportingPeriodDifferenceInCategory.toFixed(2),
               UNIT: '(' + meterEnergyCategory['unit'] + ')'
-            }) +
-            ' - ' +
-            t('Reporting Period Submeters Consumption CATEGORY VALUE UNIT', {
-              CATEGORY: meterEnergyCategory['name'],
-              VALUE: reportingPeriodSubmetersConsumptionInCategory.toFixed(2),
-              UNIT: '(' + meterEnergyCategory['unit'] + ')'
-            })
-          }
-          labels={meterLineChartLabels}
-          data={meterLineChartData}
-          options={meterLineChartOptions}
-        />
+            })}
+            baseTitle={
+              t('Reporting Period Master Meter Consumption CATEGORY VALUE UNIT', {
+                CATEGORY: meterEnergyCategory['name'],
+                VALUE: reportingPeriodMasterMeterConsumptionInCategory.toFixed(2),
+                UNIT: '(' + meterEnergyCategory['unit'] + ')'
+              }) +
+              ' - ' +
+              t('Reporting Period Submeters Consumption CATEGORY VALUE UNIT', {
+                CATEGORY: meterEnergyCategory['name'],
+                VALUE: reportingPeriodSubmetersConsumptionInCategory.toFixed(2),
+                UNIT: '(' + meterEnergyCategory['unit'] + ')'
+              })
+            }
+            labels={meterLineChartLabels}
+            data={meterLineChartData}
+            options={meterLineChartOptions}
+          />
 
-        <MultipleLineChart
-          reportingTitle={t('Operating Characteristic Curve')}
-          baseTitle=""
-          labels={parameterLineChartLabels}
-          data={parameterLineChartData}
-          options={parameterLineChartOptions}
-        />
-        <br />
-        <DetailedDataTable
-          data={detailedDataTableData}
-          title={t('Detailed Data')}
-          columns={detailedDataTableColumns}
-          pagesize={50}
-        />
-      </Fragment>
+          <MultipleLineChart
+            reportingTitle={t('Operating Characteristic Curve')}
+            baseTitle=""
+            labels={parameterLineChartLabels}
+            data={parameterLineChartData}
+            options={parameterLineChartOptions}
+          />
+          <br />
+          <DetailedDataTable
+            data={detailedDataTableData}
+            title={t('Detailed Data')}
+            columns={detailedDataTableColumns}
+            pagesize={50}
+          />
+        </Fragment>
+      </div>
     </Fragment>
   );
 };

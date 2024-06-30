@@ -102,7 +102,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [meterLineChartOptions, setMeterLineChartOptions] = useState([]);
   const [meterLineChartData, setMeterLineChartData] = useState({});
@@ -303,6 +303,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -427,6 +429,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -556,29 +560,30 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <MultipleLineChart
+          reportingTitle={t('Trend Values')}
+          baseTitle
+          labels={meterLineChartLabels}
+          data={meterLineChartData}
+          options={meterLineChartOptions}
+        />
 
-      <MultipleLineChart
-        reportingTitle={t('Trend Values')}
-        baseTitle
-        labels={meterLineChartLabels}
-        data={meterLineChartData}
-        options={meterLineChartOptions}
-      />
-
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
-      <br />
-      <DetailedDataTable
-        data={detailedDataTableData}
-        title={t('Detailed Data')}
-        columns={detailedDataTableColumns}
-        pagesize={50}
-      />
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
+      </div>
     </Fragment>
   );
 };
