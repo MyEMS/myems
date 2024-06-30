@@ -157,7 +157,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [invoice, setInvoice] = useState(undefined);
   const [subtotal, setSubtotal] = useState(0);
@@ -335,6 +335,8 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+     setResultDataHidden(true);
 
     let isResponseOK = false;
     fetch(
@@ -421,6 +423,8 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -547,118 +551,120 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Card className="mb-3">
-        {invoice !== undefined && (
-          <CardBody>
-            <Row className="justify-content-between align-items-center">
-              <Col md>
-                <h5 className="mb-2 mb-md-0">
-                  {t('Lease Contract Number')}: {invoice.summary.lease_number}
-                </h5>
-              </Col>
-            </Row>
-          </CardBody>
-        )}
-      </Card>
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <Card className="mb-3">
+          {invoice !== undefined && (
+            <CardBody>
+              <Row className="justify-content-between align-items-center">
+                <Col md>
+                  <h5 className="mb-2 mb-md-0">
+                    {t('Lease Contract Number')}: {invoice.summary.lease_number}
+                  </h5>
+                </Col>
+              </Row>
+            </CardBody>
+          )}
+        </Card>
 
-      <Card>
-        {invoice !== undefined && (
-          <CardBody>
-            <InvoiceHeader institution={invoice.institution} logo={invoice.logo} address={invoice.address} t={t} />
-            <Row className="justify-content-between align-items-center">
-              <Col>
-                <h6 className="text-500">{t('Bill To')}</h6>
-                <h5>{invoice.user.name}</h5>
-                <p className="fs--1" dangerouslySetInnerHTML={createMarkup(invoice.user.address)} />
-                <p className="fs--1">
-                  <a href={`mailto:${invoice.user.email}`}>{invoice.user.email}</a>
-                  <br />
-                  <a href={`tel:${invoice.user.cell.split('-').join('')}`}>{invoice.user.cell}</a>
-                </p>
-              </Col>
-              <Col sm="auto" className="ml-auto">
-                <div className="table-responsive">
-                  <Table size="sm" borderless className="fs--1">
+        <Card>
+          {invoice !== undefined && (
+            <CardBody>
+              <InvoiceHeader institution={invoice.institution} logo={invoice.logo} address={invoice.address} t={t} />
+              <Row className="justify-content-between align-items-center">
+                <Col>
+                  <h6 className="text-500">{t('Bill To')}</h6>
+                  <h5>{invoice.user.name}</h5>
+                  <p className="fs--1" dangerouslySetInnerHTML={createMarkup(invoice.user.address)} />
+                  <p className="fs--1">
+                    <a href={`mailto:${invoice.user.email}`}>{invoice.user.email}</a>
+                    <br />
+                    <a href={`tel:${invoice.user.cell.split('-').join('')}`}>{invoice.user.cell}</a>
+                  </p>
+                </Col>
+                <Col sm="auto" className="ml-auto">
+                  <div className="table-responsive">
+                    <Table size="sm" borderless className="fs--1">
+                      <tbody>
+                        <tr>
+                          <th className="text-sm-right">{t('Bill Number')}:</th>
+                          <td>{invoice.summary.invoice_no}</td>
+                        </tr>
+                        <tr>
+                          <th className="text-sm-right">{t('Lease Contract Number')}:</th>
+                          <td>{invoice.summary.lease_number}</td>
+                        </tr>
+                        <tr>
+                          <th className="text-sm-right">{t('Bill Date')}:</th>
+                          <td>{invoice.summary.invoice_date}</td>
+                        </tr>
+                        <tr>
+                          <th className="text-sm-right">{t('Payment Due Date')}:</th>
+                          <td>{invoice.summary.payment_due}</td>
+                        </tr>
+                        <tr className="alert-success font-weight-bold">
+                          <th className="text-sm-right">{t('Amount Payable')}:</th>
+                          <td>{formatCurrency(invoice.summary.amount_due, invoice.currency)}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
+                </Col>
+              </Row>
+              <div className="table-responsive mt-4 fs--1">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr className="bg-primary text-white">
+                      <th className="border-0">{t('Energy Category')}</th>
+                      <th className="border-0 text-center">{t('Billing Period Start')}</th>
+                      <th className="border-0 text-center">{t('Billing Period End')}</th>
+                      <th className="border-0 text-center">{t('Quantity')}</th>
+                      <th className="border-0 text-right">{t('Unit')}</th>
+                      <th className="border-0 text-right">{t('Amount')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {isIterableArray(invoice.products) &&
+                      invoice.products.map((product, index) => <ProductTr {...product} key={index} />)}
+                  </tbody>
+                </Table>
+              </div>
+              <Row noGutters className="justify-content-end">
+                <Col xs="auto">
+                  <Table size="sm" borderless className="fs--1 text-right">
                     <tbody>
                       <tr>
-                        <th className="text-sm-right">{t('Bill Number')}:</th>
-                        <td>{invoice.summary.invoice_no}</td>
+                        <th className="text-900">{t('Subtotal')}:</th>
+                        <td className="font-weight-semi-bold">{formatCurrency(subtotal, invoice.currency)}</td>
                       </tr>
                       <tr>
-                        <th className="text-sm-right">{t('Lease Contract Number')}:</th>
-                        <td>{invoice.summary.lease_number}</td>
+                        <th className="text-900">{t('VAT Output Tax')}:</th>
+                        <td className="font-weight-semi-bold">{formatCurrency(tax, invoice.currency)}</td>
                       </tr>
-                      <tr>
-                        <th className="text-sm-right">{t('Bill Date')}:</th>
-                        <td>{invoice.summary.invoice_date}</td>
-                      </tr>
-                      <tr>
-                        <th className="text-sm-right">{t('Payment Due Date')}:</th>
-                        <td>{invoice.summary.payment_due}</td>
-                      </tr>
-                      <tr className="alert-success font-weight-bold">
-                        <th className="text-sm-right">{t('Amount Payable')}:</th>
-                        <td>{formatCurrency(invoice.summary.amount_due, invoice.currency)}</td>
+                      <tr className="border-top">
+                        <th className="text-900">{t('Total Amount Payable')}:</th>
+                        <td className="font-weight-semi-bold">{formatCurrency(total, invoice.currency)}</td>
                       </tr>
                     </tbody>
                   </Table>
-                </div>
-              </Col>
-            </Row>
-            <div className="table-responsive mt-4 fs--1">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr className="bg-primary text-white">
-                    <th className="border-0">{t('Energy Category')}</th>
-                    <th className="border-0 text-center">{t('Billing Period Start')}</th>
-                    <th className="border-0 text-center">{t('Billing Period End')}</th>
-                    <th className="border-0 text-center">{t('Quantity')}</th>
-                    <th className="border-0 text-right">{t('Unit')}</th>
-                    <th className="border-0 text-right">{t('Amount')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {isIterableArray(invoice.products) &&
-                    invoice.products.map((product, index) => <ProductTr {...product} key={index} />)}
-                </tbody>
-              </Table>
-            </div>
-            <Row noGutters className="justify-content-end">
-              <Col xs="auto">
-                <Table size="sm" borderless className="fs--1 text-right">
-                  <tbody>
-                    <tr>
-                      <th className="text-900">{t('Subtotal')}:</th>
-                      <td className="font-weight-semi-bold">{formatCurrency(subtotal, invoice.currency)}</td>
-                    </tr>
-                    <tr>
-                      <th className="text-900">{t('VAT Output Tax')}:</th>
-                      <td className="font-weight-semi-bold">{formatCurrency(tax, invoice.currency)}</td>
-                    </tr>
-                    <tr className="border-top">
-                      <th className="text-900">{t('Total Amount Payable')}:</th>
-                      <td className="font-weight-semi-bold">{formatCurrency(total, invoice.currency)}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-          </CardBody>
-        )}
+                </Col>
+              </Row>
+            </CardBody>
+          )}
 
-        {
-          //todo: get the bank account infomation from API
-          /* <CardFooter className="bg-light">
-          <p className="fs--1 mb-0">
-            <strong>{t('Please make sure to pay on or before the payment due date above')}, {t('Send money to the following account')}:</strong><br />
-            {t('Acount Name')}: MyEMS商场有限公司<br />
-            {t('Bank Name')}: 中国银行股份有限公司北京王府井支行<br />
-            {t('Bank Address')}: 中国北京市东城区王府井大街<br />
-            {t('RMB Account')}: 1188228822882288<br />
-          </p>
-        </CardFooter> */
-        }
-      </Card>
+          {
+            //todo: get the bank account infomation from API
+            /* <CardFooter className="bg-light">
+            <p className="fs--1 mb-0">
+              <strong>{t('Please make sure to pay on or before the payment due date above')}, {t('Send money to the following account')}:</strong><br />
+              {t('Acount Name')}: MyEMS商场有限公司<br />
+              {t('Bank Name')}: 中国银行股份有限公司北京王府井支行<br />
+              {t('Bank Address')}: 中国北京市东城区王府井大街<br />
+              {t('RMB Account')}: 1188228822882288<br />
+            </p>
+          </CardFooter> */
+          }
+        </Card>
+      </div>
     </Fragment>
   );
 };
