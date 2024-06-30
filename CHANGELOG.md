@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added svg actions to myems-api, myems-admin
 - added phase_of_lifecycle to microgird
 - added work order (preview) to myems-web
+- added new protocol mqtt-xintianli
 ### Changed
 - replaced svg with svg_id in microgrid
 - replaced svg with svg_id in energy storage power station
