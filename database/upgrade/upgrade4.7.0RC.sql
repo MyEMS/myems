@@ -28,6 +28,53 @@ VALUES
 (40002,'Work Order Repair','/workorder/repair',40000,1),
 (40003,'Work Order Inspection','/workorder/inspection',40000,1);
 
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_protocols` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `code` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_protocols_index_1` ON `myems_system_db`.`tbl_protocols` (`name`);
+
+INSERT INTO myems_system_db.tbl_protocols (id,name,code)
+VALUES
+(1,'bacnet-ip', 'bacnet-ip'),
+(2,'cassandra', 'cassandra'),
+(3,'clickhouse', 'clickhouse'),
+(4,'coap', 'coap'),
+(5,'controllogix', 'controllogix'),
+(6,'dlt645', 'dlt645'),
+(7,'dtu-rtu', 'dtu-rtu'),
+(8,'dtu-tcp', 'dtu-tcp'),
+(9,'dtu-mqtt', 'dtu-mqtt'),
+(10,'elexon-bmrs', 'elexon-bmrs'),
+(11,'iec104', 'iec104'),
+(12,'influxdb', 'influxdb'),
+(13,'lora', 'lora'),
+(14,'modbus-rtu', 'modbus-rtu'),
+(15,'modbus-tcp', 'modbus-tcp'),
+(16,'mongodb', 'mongodb'),
+(17,'mqtt-acrel', 'mqtt-acrel'),
+(18,'mqtt-adw300', 'mqtt-adw300'),
+(19,'mqtt-huiju', 'mqtt-huiju'),
+(20,'mqtt-md4220', 'mqtt-md4220'),
+(21,'mqtt-seg', 'mqtt-seg'),
+(22,'mqtt-weilan', 'mqtt-weilan'),
+(23,'mqtt-xintianli', 'mqtt-xintianli'),
+(24,'mqtt-zhongxian', 'mqtt-zhongxian'),
+(25,'mqtt', 'mqtt'),
+(26,'mysql', 'mysql'),
+(27,'opc-ua', 'opc-ua'),
+(28,'oracle', 'oracle'),
+(29,'postgresql', 'postgresql'),
+(30,'profibus', 'profibus'),
+(31,'profinet', 'profinet'),
+(32,'s7', 's7'),
+(33,'simulation', 'simulation'),
+(34,'sqlserver', 'sqlserver'),
+(35,'tdengine', 'tdengine'),
+(36,'weather', 'weather');
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.7.0RC', release_date='2024-07-07' WHERE id=1;
 
