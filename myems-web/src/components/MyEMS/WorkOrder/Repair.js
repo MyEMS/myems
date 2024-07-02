@@ -35,6 +35,8 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { APIBaseURL, settings } from '../../../config';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
+import { endOfDay } from 'date-fns';
 
 const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -44,7 +46,31 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
   const [endDatetime, setEndDatetime] = useState(current_moment);
   const [priority, setPriority] = useState('all');
   const [status, setStatus] = useState('all');
-
+const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days'),
+    formattedMonthPattern: 'yyyy-MM-dd'
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   //Results
   const [faults, setFaults] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -94,20 +120,22 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
-  let onStartDatetimeChange = newDateTime => {
-    setStartDatetime(newDateTime);
-  };
+  // Callback fired when value changed
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
 
-  let onEndDatetimeChange = newDateTime => {
-    setEndDatetime(newDateTime);
+    }
   };
-
-  var getStartDatetime = function(currentDate) {
-    return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getEndDatetime = function(currentDate) {
-    return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  // Callback fired when value clean
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
   };
 
   const subjectFormatter = (dataField, { url }) => (
@@ -740,30 +768,21 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
               <Col sm={2}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="startDatetime">
-                    {t('Reporting Period Begins')}
+              <FormGroup className="form-group">
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
                   </Label>
-                  <Datetime
-                    id="startDatetime"
-                    value={startDatetime}
-                    onChange={onStartDatetimeChange}
-                    isValidDate={getStartDatetime}
-                    closeOnSelect={true}
-                  />
-                </FormGroup>
-              </Col>
-              <Col sm={2}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="endDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime
-                    id="endDatetime"
-                    value={endDatetime}
-                    onChange={onEndDatetimeChange}
-                    isValidDate={getEndDatetime}
-                    closeOnSelect={true}
+                  <br />
+                  <DateRangePickerWrapper
+                    id="reportingPeriodDateRangePicker"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="sm"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
@@ -801,7 +820,6 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <div className="card-deck">
-        <Spinner color="primary" hidden={spinnerHidden} />
         <CardSummary rate={''} title={t('Total Number of Work Orders')} footunit={''} color="info">
           {1 && <CountUp end={totalFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
