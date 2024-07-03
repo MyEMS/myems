@@ -30,7 +30,6 @@ import AppContext from '../../../context/Context';
 import StackBarChart from './StackBarChart';
 
 const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
-  const [isDashboardFetched, setIsDashboardFetched] = useState(false);
   const [activeTabLeft, setActiveTabLeft] = useState('1');
   const toggleTabLeft = tab => {
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
@@ -48,8 +47,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
-  //Results
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
+  //Results
   const [totalRatedCapacity, setTotalRatedCapacity] = useState({});
   const [totalRatedPower, setTotalRatedPower] = useState({});
   const [totalCharge, setTotalCharge] = useState({});
@@ -179,6 +179,12 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
+      // disable submit button
+      setSubmitButtonDisabled(true);
+      // show spinner
+      setSpinnerHidden(false);
+      // hide result data
+      setResultDataHidden(true);
 
       let isResponseOK = false;
       fetch(
@@ -202,8 +208,12 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         .then(json => {
           if (isResponseOK) {
             console.log(json);
+            // enable submit button
+            setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
+            // show result data
+            setResultDataHidden(false);
 
             let energyStoragePowerStation = json['energy_storage_power_station'];
             let totalRatedCapacity = energyStoragePowerStation['rated_capacity'];
@@ -569,114 +579,112 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               </ButtonGroup>
             </FormGroup>
           </Col>
+          <Col xs="auto">
+              <FormGroup>
+                <Spinner color="primary" hidden={spinnerHidden} />
+              </FormGroup>
+          </Col>
         </Row>
       </Form>
-      <div className="card-deck">
-        <Spinner color="primary" hidden={spinnerHidden} />
-        <Spinner color="secondary" hidden={spinnerHidden} />
-        <Spinner color="success" hidden={spinnerHidden} />
-        <Spinner color="danger" hidden={spinnerHidden} />
-        <Spinner color="warning" hidden={spinnerHidden} />
-        <Spinner color="info" hidden={spinnerHidden} />
-        <Spinner color="light" hidden={spinnerHidden} />
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <div className="card-deck">
+          <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
+            {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
+            {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="electricity">
+            {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary rate={''} title={t('Total Discharge')} footunit={'kWh'} color="electricity">
+            {1 && <CountUp end={totalDischarge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+          <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
+            {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          </CardSummary>
+        </div>
 
-        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
-          {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
-          {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="electricity">
-          {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Discharge')} footunit={'kWh'} color="electricity">
-          {1 && <CountUp end={totalDischarge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
-          {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-        </CardSummary>
-      </div>
-
-      <Row noGutters>
-        <Col lg={6} xl={6} className="mb-3 pr-lg-2">
-          <div className="mb-3 card" style={{ height: '100%' }}>
-            <Nav tabs>
-              <NavItem className="cursor-pointer">
-                <NavLink
-                  className={classNames({ active: activeTabLeft === '1' })}
-                  onClick={() => {
-                    toggleTabLeft('1');
-                  }}
-                >
-                  <h6>{t('Energy Indicator')}</h6>
-                </NavLink>
-              </NavItem>
-              <NavItem className="cursor-pointer">
-                <NavLink
-                  className={classNames({ active: activeTabLeft === '2' })}
-                  onClick={() => {
-                    toggleTabLeft('2');
-                  }}
-                >
-                  <h6>{t('Revenue Indicator')}</h6>
-                </NavLink>
-              </NavItem>
-              {/* <NavItem className="cursor-pointer">
-                <NavLink
-                  className={classNames({ active: activeTabLeft === '3' })}
-                  onClick={() => {
-                    toggleTabLeft('3');
-                  }}
-                >
-                  <h6>{t('Carbon Indicator')}</h6>
-                </NavLink>
-              </NavItem> */}
-            </Nav>
-            <TabContent activeTab={activeTabLeft}>
-                <TabPane tabId="1">
-                  <StackBarChart
-                    labels={energyLabels}
-                    chargeData={chargeEnergyData}
-                    dischargeData={dischargeEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="2">
-                  <StackBarChart
-                    labels={billingLabels}
-                    chargeData={chargeBillingData}
-                    dischargeData={dischargeBillingData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                {/* <TabPane tabId="3">
-                  <StackBarChart
-                    labels={carbonLabels}
-                    chargeData={chargeCarbonData}
-                    dischargeData={dischargeCarbonData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane> */}
-              </TabContent>
-          </div>
-        </Col>
-        <Col lg={6} xl={6} className="mb-3 pr-lg-2">
-          {settings.showOnlineMap ? (
+        <Row noGutters>
+          <Col lg={6} xl={6} className="mb-3 pr-lg-2">
             <div className="mb-3 card" style={{ height: '100%' }}>
-              <CustomizeMapBox
-                Latitude={rootLatitude}
-                Longitude={rootLongitude}
-                Zoom={4}
-                Geojson={geojson['features']}
-              />
+              <Nav tabs>
+                <NavItem className="cursor-pointer">
+                  <NavLink
+                    className={classNames({ active: activeTabLeft === '1' })}
+                    onClick={() => {
+                      toggleTabLeft('1');
+                    }}
+                  >
+                    <h6>{t('Energy Indicator')}</h6>
+                  </NavLink>
+                </NavItem>
+                <NavItem className="cursor-pointer">
+                  <NavLink
+                    className={classNames({ active: activeTabLeft === '2' })}
+                    onClick={() => {
+                      toggleTabLeft('2');
+                    }}
+                  >
+                    <h6>{t('Revenue Indicator')}</h6>
+                  </NavLink>
+                </NavItem>
+                {/* <NavItem className="cursor-pointer">
+                  <NavLink
+                    className={classNames({ active: activeTabLeft === '3' })}
+                    onClick={() => {
+                      toggleTabLeft('3');
+                    }}
+                  >
+                    <h6>{t('Carbon Indicator')}</h6>
+                  </NavLink>
+                </NavItem> */}
+              </Nav>
+              <TabContent activeTab={activeTabLeft}>
+                  <TabPane tabId="1">
+                    <StackBarChart
+                      labels={energyLabels}
+                      chargeData={chargeEnergyData}
+                      dischargeData={dischargeEnergyData}
+                      periodTypes={periodTypes}
+                    />
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <StackBarChart
+                      labels={billingLabels}
+                      chargeData={chargeBillingData}
+                      dischargeData={dischargeBillingData}
+                      periodTypes={periodTypes}
+                    />
+                  </TabPane>
+                  {/* <TabPane tabId="3">
+                    <StackBarChart
+                      labels={carbonLabels}
+                      chargeData={chargeCarbonData}
+                      dischargeData={dischargeCarbonData}
+                      periodTypes={periodTypes}
+                    />
+                  </TabPane> */}
+                </TabContent>
             </div>
-          ) : (
-            <></>
-          )}
-        </Col>
+          </Col>
+          <Col lg={6} xl={6} className="mb-3 pr-lg-2">
+            {settings.showOnlineMap ? (
+              <div className="mb-3 card" style={{ height: '100%' }}>
+                <CustomizeMapBox
+                  Latitude={rootLatitude}
+                  Longitude={rootLongitude}
+                  Zoom={4}
+                  Geojson={geojson['features']}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </Col>
 
-      </Row>
-
+        </Row>
+      </div>
     </Fragment>
   );
 };
