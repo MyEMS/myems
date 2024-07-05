@@ -209,6 +209,7 @@ class Reporting:
         for row in digital_value_latest_rows:
             digital_value_latest_dict[row[0]] = row[1]
 
+        battery_state_point_id = None
         cursor_system.execute(" SELECT battery_state_point_id "
                               " FROM tbl_energy_storage_containers_batteries "
                               " WHERE energy_storage_container_id = %s "
