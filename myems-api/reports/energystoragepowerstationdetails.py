@@ -219,7 +219,7 @@ class Reporting:
         if row_point is not None:
             battery_state_point_id = row_point[0]
 
-        if digital_value_latest_dict.get(battery_state_point_id) is not None:
+        if battery_state_point_id is not None and digital_value_latest_dict.get(battery_state_point_id) is not None:
             battery_state_point_value = digital_value_latest_dict.get(battery_state_point_id)
 
         cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
