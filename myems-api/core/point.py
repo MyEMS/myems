@@ -589,15 +589,14 @@ class PointItem:
                        " WHERE battery_state_point_id = %s "
                        "   OR soc_point_id = %s "
                        "   OR power_point_id = %s "
-                       " LIMIT 1 ",
-                        (id_, id_, id_,))
+                       " LIMIT 1 ", (id_, id_, id_,))
         row_energy_storage_container_battery = cursor.fetchone()
         if row_energy_storage_container_battery is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
-                                    title='API.BAD_REQUEST',
-                                    description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES')
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES')
 
         # check if this point is being used by energy storage container grid
         cursor.execute(" SELECT name "
@@ -643,7 +642,8 @@ class PointItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS')
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS')
 
         cursor.execute(" DELETE FROM tbl_points WHERE id = %s ", (id_,))
         cnx.commit()
