@@ -7,11 +7,23 @@ app.controller('DistributionSystemController', function(
 	$translate,
 	$uibModal,
 	DistributionSystemService,
+    SVGService,
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
 
 	$scope.getAllDistributionSystems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -29,8 +41,16 @@ app.controller('DistributionSystemController', function(
 			templateUrl: 'views/settings/distributionsystem/distributionsystem.model.html',
 			controller: 'ModalAddDistributionSystemCtrl',
 			windowClass: "animated fadeIn",
+			resolve: {
+				params: function () {
+					return {
+						svgs: angular.copy($scope.svgs),
+					};
+				}
+			}
 		});
 		modalInstance.result.then(function(distributionsystem) {
+			distributionsystem.svg_id = distributionsystem.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			DistributionSystemService.addDistributionSystem(distributionsystem, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -65,13 +85,15 @@ app.controller('DistributionSystemController', function(
 			resolve: {
 				params: function() {
 					return {
-						distributionsystem: angular.copy(distributionsystem)
+						distributionsystem: angular.copy(distributionsystem),
+						svgs: angular.copy($scope.svgs)
 					};
 				}
 			}
 		});
 
 		modalInstance.result.then(function(modifiedDistributionSystem) {
+			modifiedDistributionSystem.svg_id = modifiedDistributionSystem.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			DistributionSystemService.editDistributionSystem(modifiedDistributionSystem, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -227,11 +249,13 @@ app.controller('DistributionSystemController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	$scope.getAllSVGs();
 	$scope.getAllDistributionSystems();
 });
 
-app.controller("ModalAddDistributionSystemCtrl", function(  $scope,  $uibModalInstance) {
+app.controller("ModalAddDistributionSystemCtrl", function(  $scope,  $uibModalInstance, params) {
   $scope.operation = "DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM";
+  $scope.svgs=params.svgs;
   $scope.ok = function() {
     $uibModalInstance.close($scope.distributionsystem);
   };
@@ -243,6 +267,7 @@ app.controller("ModalAddDistributionSystemCtrl", function(  $scope,  $uibModalIn
 
 app.controller("ModalEditDistributionSystemCtrl", function($scope, $uibModalInstance,  params) {
   $scope.operation = "DISTRIBUTION_SYSTEM.EDIT_DISTRIBUTION_SYSTEM";
+  $scope.svgs=params.svgs;
   $scope.distributionsystem = params.distributionsystem;
 
   $scope.ok = function() {

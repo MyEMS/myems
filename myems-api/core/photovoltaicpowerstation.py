@@ -46,9 +46,21 @@ class PhotovoltaicPowerStationCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_power, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -57,9 +69,6 @@ class PhotovoltaicPowerStationCollection:
         result = list()
         if rows_spaces is not None and len(rows_spaces) > 0:
             for row in rows_spaces:
-                contact = contact_dict.get(row[8], None)
-                cost_center = cost_center_dict.get(row[9], None)
-
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
@@ -68,9 +77,9 @@ class PhotovoltaicPowerStationCollection:
                                "latitude": row[5],
                                "longitude": row[6],
                                "rated_power": row[7],
-                               "contact": contact,
-                               "cost_center": cost_center,
-                               "svg": row[10],
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
+                               "svg": svg_dict.get(row[10], None),
                                "description": row[11],
                                "qrcode": 'photovoltaicpowerstation:' + row[2]}
                 result.append(meta_result)
@@ -154,12 +163,12 @@ class PhotovoltaicPowerStationCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -202,9 +211,20 @@ class PhotovoltaicPowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
-                      "     contact_id, cost_center_id, svg, description) "
+                      "     contact_id, cost_center_id, svg_id, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
@@ -215,7 +235,7 @@ class PhotovoltaicPowerStationCollection:
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -270,9 +290,20 @@ class PhotovoltaicPowerStationItem:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_power, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -284,8 +315,6 @@ class PhotovoltaicPowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -294,9 +323,9 @@ class PhotovoltaicPowerStationItem:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "svg": row[10],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
+                           "svg": svg_dict.get(row[10], None),
                            "description": row[11],
                            "qrcode": 'photovoltaicpowerstation:' + row[2]}
 
@@ -409,12 +438,12 @@ class PhotovoltaicPowerStationItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -466,9 +495,20 @@ class PhotovoltaicPowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (new_values['data']['svg_id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         update_row = (" UPDATE tbl_photovoltaic_power_stations "
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, rated_power = %s,"
-                      "     contact_id = %s, cost_center_id = %s, svg = %s, description = %s "
+                      "     contact_id = %s, cost_center_id = %s, svg_id = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
@@ -478,7 +518,7 @@ class PhotovoltaicPowerStationItem:
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     description,
                                     id_))
         cnx.commit()
@@ -533,9 +573,21 @@ class PhotovoltaicPowerStationExport:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_power, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -547,8 +599,6 @@ class PhotovoltaicPowerStationExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -557,9 +607,9 @@ class PhotovoltaicPowerStationExport:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "svg": row[10],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
+                           "svg": svg_dict.get(row[10], None),
                            "description": row[11]}
 
         resp.text = json.dumps(meta_result)
@@ -651,11 +701,12 @@ class PhotovoltaicPowerStationImport:
         cost_center_id = new_values['cost_center']['id']
 
         if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
+                'id' not in new_values['svg'].keys() or \
+                not isinstance(new_values['svg']['id'], int) or \
+                new_values['svg']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['svg']['id']
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -698,9 +749,20 @@ class PhotovoltaicPowerStationImport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
-                      "     contact_id, cost_center_id, svg, description) "
+                      "     contact_id, cost_center_id, svg_id, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
@@ -711,7 +773,7 @@ class PhotovoltaicPowerStationImport:
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -743,33 +805,9 @@ class PhotovoltaicPowerStationClone:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
-
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
-
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_power, "
-                 "        contact_id, cost_center_id, svg, description "
+                 "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -779,8 +817,6 @@ class PhotovoltaicPowerStationClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
         else:
-            contact = contact_dict.get(row[8], None)
-            cost_center = cost_center_dict.get(row[9], None)
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -789,9 +825,9 @@ class PhotovoltaicPowerStationClone:
                            "latitude": row[5],
                            "longitude": row[6],
                            "rated_power": row[7],
-                           "contact": contact,
-                           "cost_center": cost_center,
-                           "svg": row[10],
+                           "contact_id": row[8],
+                           "cost_center_id": row[9],
+                           "svg_id": row[10],
                            "description": row[11]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
@@ -801,7 +837,7 @@ class PhotovoltaicPowerStationClone:
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
                           "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
-                          "     contact_id, cost_center_id, svg, description) "
+                          "     contact_id, cost_center_id, svg_id, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
@@ -810,9 +846,9 @@ class PhotovoltaicPowerStationClone:
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['rated_power'],
-                                        meta_result['contact']['id'],
-                                        meta_result['cost_center']['id'],
-                                        meta_result['svg'],
+                                        meta_result['contact_id'],
+                                        meta_result['cost_center_id'],
+                                        meta_result['svg_id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()

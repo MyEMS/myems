@@ -38,9 +38,15 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.SVG' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.SVG' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <textarea ng-model="combinedequipment.svg" rows="10" cols="50" name="combinedequipmentsvg" class="form-control" placeholder="<svg></svg>"></textarea>
+                    <ui-select ng-model="combinedequipment.svg.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.CAMERA_URL' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>

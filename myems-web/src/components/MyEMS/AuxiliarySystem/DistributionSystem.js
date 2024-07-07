@@ -71,7 +71,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [images, setImages] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
-  const [SVGSystemReportDict, setSVGSystemReportDict] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -110,7 +109,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
           let images = {};
           json.forEach((currentValue, index) => {
             images[currentValue['value']] = { __html: currentValue['svg'] };
-            setSVGSystemReportDict({ __html: currentValue['svg'] });
           });
           setImages(images);
           setSpinnerHidden(true);

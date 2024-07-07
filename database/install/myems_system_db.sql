@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments` (
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT,
   `camera_url` VARCHAR(1000),
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
@@ -226,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_distribution_systems` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_distribution_systems_index_1` ON `myems_system_db`.`tbl_distribution_systems` (`name`);
@@ -313,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers` (
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_index_1` ON `myems_system_db`.`tbl_energy_storage_containers` (`name`);
@@ -503,7 +503,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments` (
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT,
   `camera_url` VARCHAR(1000),
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
@@ -1078,7 +1078,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
@@ -1957,7 +1957,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_power_plants` (
   `uuid` CHAR(36) NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `balancing_price_point_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_virtual_power_plants_index_1` ON `myems_system_db`.`tbl_virtual_power_plants` (`name`);
@@ -2010,7 +2010,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_wind_farms` (
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg` LONGTEXT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_wind_farms_index_1` ON `myems_system_db`.`tbl_wind_farms` (`name`);

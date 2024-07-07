@@ -8,13 +8,14 @@ app.controller('PhotovoltaicPowerStationController', function(
     $uibModal,
     CostCenterService,
     ContactService,
+    SVGService,
     PhotovoltaicPowerStationService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-	
+
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -33,6 +34,17 @@ app.controller('PhotovoltaicPowerStationController', function(
 				$scope.contacts = response.data;
 			} else {
 				$scope.contacts = [];
+			}
+		});
+	};
+
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
 			}
 		});
 	};
@@ -58,6 +70,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -65,6 +78,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		modalInstance.result.then(function(photovoltaicpowerstation) {
 			photovoltaicpowerstation.cost_center_id = photovoltaicpowerstation.cost_center.id;
 			photovoltaicpowerstation.contact_id = photovoltaicpowerstation.contact.id;
+			photovoltaicpowerstation.svg_id = photovoltaicpowerstation.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			PhotovoltaicPowerStationService.addPhotovoltaicPowerStation(photovoltaicpowerstation, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -100,7 +114,8 @@ app.controller('PhotovoltaicPowerStationController', function(
 					return {
 						photovoltaicpowerstation: angular.copy(photovoltaicpowerstation),
 						costcenters:angular.copy($scope.costcenters),
-						contacts:angular.copy($scope.contacts)
+						contacts:angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -109,6 +124,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		modalInstance.result.then(function(modifiedPhotovoltaicPowerStation) {
 			modifiedPhotovoltaicPowerStation.cost_center_id=modifiedPhotovoltaicPowerStation.cost_center.id;
 			modifiedPhotovoltaicPowerStation.contact_id=modifiedPhotovoltaicPowerStation.contact.id;
+			modifiedPhotovoltaicPowerStation.svg_id = modifiedPhotovoltaicPowerStation.svg.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			PhotovoltaicPowerStationService.editPhotovoltaicPowerStation(modifiedPhotovoltaicPowerStation, headers, function(response) {
@@ -265,6 +281,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 	$scope.getAllPhotovoltaicPowerStations();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllSVGs();
 	$scope.$on('handleBroadcastPhotovoltaicPowerStationChanged', function(event) {
   		$scope.getAllPhotovoltaicPowerStations();
 	});
@@ -275,6 +292,7 @@ app.controller('ModalAddPhotovoltaicPowerStationCtrl', function($scope, $uibModa
 	$scope.operation = "SETTING.ADD_PHOTOVOLTAIC_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.photovoltaicpowerstation);
 	};
@@ -289,6 +307,7 @@ app.controller('ModalEditPhotovoltaicPowerStationCtrl', function($scope, $uibMod
 	$scope.photovoltaicpowerstation = params.photovoltaicpowerstation;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.photovoltaicpowerstation);
 	};

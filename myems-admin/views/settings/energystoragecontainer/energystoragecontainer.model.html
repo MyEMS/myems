@@ -62,10 +62,12 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.SVG' | translate}}</label>
                 <div class="col-sm-9">
-                    <textarea ng-model="energystoragecontainer.svg" rows="10" cols="50" name="energystoragecontainersvg" class="form-control" required="" placeholder="<svg></svg>"></textarea>
-                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainersvg.$invalid && form_energystoragecontainer.energystoragecontainersvg.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainersvg.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_SVG' | translate}}</small>
-                    </div>
+                    <ui-select ng-model="energystoragecontainer.svg.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="form-group">

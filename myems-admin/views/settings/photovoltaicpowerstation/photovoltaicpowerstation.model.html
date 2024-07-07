@@ -88,10 +88,12 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.SVG' | translate}}</label>
                 <div class="col-sm-10">
-                    <textarea ng-model="photovoltaicpowerstation.svg" rows="10" cols="50" name="photovoltaicpowerstationsvg" class="form-control" required="" placeholder="<svg></svg>"></textarea>
-                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationsvg.$invalid && form_photovoltaicpowerstation.photovoltaicpowerstationsvg.$dirty">
-                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationsvg.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_SVG' | translate}}</small>
-                    </div>
+                    <ui-select ng-model="photovoltaicpowerstation.svg.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>

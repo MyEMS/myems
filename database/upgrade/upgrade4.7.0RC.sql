@@ -15,11 +15,41 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_svgs` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_svgs_index_1` ON `myems_system_db`.`tbl_svgs` (`name`);
 
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_combined_equipments ADD `svg_id` BIGINT AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_combined_equipments DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_distribution_systems ADD `svg_id` BIGINT NOT NULL AFTER `uuid`;
+ALTER TABLE myems_system_db.tbl_distribution_systems DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_energy_storage_containers ADD `svg_id` BIGINT AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
 ALTER TABLE myems_system_db.tbl_energy_storage_power_stations ADD `svg_id` BIGINT NOT NULL AFTER `cost_center_id`;
 ALTER TABLE myems_system_db.tbl_energy_storage_power_stations DROP COLUMN svg;
 
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_equipments ADD `svg_id` BIGINT AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_equipments DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations ADD `svg_id` BIGINT NOT NULL AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
 ALTER TABLE myems_system_db.tbl_microgrids ADD `svg_id` BIGINT NOT NULL AFTER `serial_number`;
 ALTER TABLE myems_system_db.tbl_microgrids DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_virtual_power_plants ADD `svg_id` BIGINT NOT NULL AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_virtual_power_plants DROP COLUMN svg;
+
+-- WARNING: THIS ACTION WILL DELETE SVG SOURCE CODE, SAVE SVG SOURCE CODE TO tbl_svgs OR A TEXT FILE FIRST
+ALTER TABLE myems_system_db.tbl_wind_farms ADD `svg_id` BIGINT NOT NULL AFTER `cost_center_id`;
+ALTER TABLE myems_system_db.tbl_wind_farms DROP COLUMN svg;
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
@@ -79,3 +109,4 @@ VALUES
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.7.0RC', release_date='2024-07-07' WHERE id=1;
 
 COMMIT;
+

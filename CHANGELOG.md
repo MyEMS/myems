@@ -11,6 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new protocol mqtt-xintianli
 - added protocols table to database
 ### Changed
+- replaced svg with svg_id in combined equipment
+- replaced svg with svg_id in distribution system
+- replaced svg with svg_id in energy storage container
+- replaced svg with svg_id in equipment
+- replaced svg with svg_id in photovoltaic power station
+- replaced svg with svg_id in virtual plant
+- replaced svg with svg_id in wind farm
 - replaced svg with svg_id in microgrid
 - replaced svg with svg_id in energy storage power station
 - set data result hidden by default for space reports in myems-web

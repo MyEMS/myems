@@ -9,6 +9,7 @@ app.controller('VirtualPowerPlantController', function(
     VirtualPowerPlantService,
     CostCenterService,
 	PointService,
+    SVGService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -47,6 +48,17 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
+
 	$scope.addVirtualPowerPlant = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/virtualpowerplant/virtualpowerplant.model.html',
@@ -57,6 +69,7 @@ app.controller('VirtualPowerPlantController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						points: angular.copy($scope.points),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -64,6 +77,7 @@ app.controller('VirtualPowerPlantController', function(
 		modalInstance.result.then(function(virtualpowerplant) {
 			virtualpowerplant.cost_center_id = virtualpowerplant.cost_center.id;
 			virtualpowerplant.balancing_price_point_id = virtualpowerplant.balancing_price_point.id;
+			virtualpowerplant.svg_id = virtualpowerplant.svg.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			VirtualPowerPlantService.addVirtualPowerPlant(virtualpowerplant, headers, function(response) {
@@ -101,6 +115,7 @@ app.controller('VirtualPowerPlantController', function(
 						virtualpowerplant: angular.copy(virtualpowerplant),
 						costcenters: angular.copy($scope.costcenters),
 						points: angular.copy($scope.points),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -265,6 +280,7 @@ app.controller('VirtualPowerPlantController', function(
 	$scope.getAllVirtualPowerPlants();
 	$scope.getAllCostCenters();
 	$scope.getAllPoints();
+	$scope.getAllSVGs();
 
 	$scope.$on('handleBroadcastVirtualPowerPlantChanged', function(event) {
   		$scope.getAllVirtualPowerPlants();
@@ -276,6 +292,7 @@ app.controller('ModalAddVirtualPowerPlantCtrl', function($scope, $uibModalInstan
 	$scope.operation = "SETTING.ADD_VIRTUAL_POWER_PLANT";
 	$scope.costcenters=params.costcenters;
 	$scope.points=params.points;
+	$scope.svgs=params.svgs;
 
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.virtualpowerplant);
@@ -291,6 +308,7 @@ app.controller('ModalEditVirtualPowerPlantCtrl', function($scope, $uibModalInsta
 	$scope.virtualpowerplant = params.virtualpowerplant;
 	$scope.costcenters=params.costcenters;
 	$scope.points=params.points;
+	$scope.svgs=params.svgs;
 
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.virtualpowerplant);
