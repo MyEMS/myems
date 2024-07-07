@@ -28,8 +28,19 @@ class DistributionSystemCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
-                 "        svg, description "
+                 "        svg_id, description "
                  " FROM tbl_distribution_systems "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -42,7 +53,7 @@ class DistributionSystemCollection:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "svg": row[3],
+                               "svg": svg_dict.get(row[3], None),
                                "description": row[4]}
                 result.append(meta_result)
 
@@ -71,12 +82,12 @@ class DistributionSystemCollection:
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -97,12 +108,23 @@ class DistributionSystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_distribution_systems "
-                      "    (name, uuid, svg, description) "
+                      "    (name, uuid, svg_id, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    svg,
+                                    svg_id,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -138,8 +160,19 @@ class DistributionSystemItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
-                 "        svg, description "
+                 "        svg_id, description "
                  " FROM tbl_distribution_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -154,7 +187,7 @@ class DistributionSystemItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "svg": svg_dict.get(row[3], None),
                            "description": row[4]}
 
         resp.text = json.dumps(meta_result)
@@ -214,12 +247,12 @@ class DistributionSystemItem:
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_NAME')
         name = str.strip(new_values['data']['name'])
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
+        if 'svg_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['svg_id'], int) or \
+                new_values['data']['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['data']['svg_id']
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -240,11 +273,22 @@ class DistributionSystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (new_values['data']['svg_id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         update_row = (" UPDATE tbl_distribution_systems "
-                      " SET name = %s, svg = %s, description = %s "
+                      " SET name = %s, svg_id = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    svg,
+                                    svg_id,
                                     description,
                                     id_))
         cnx.commit()
@@ -334,8 +378,20 @@ class DistributionSystemExport:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
-                 "        svg, description "
+                 "        svg_id, description "
                  " FROM tbl_distribution_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -348,7 +404,7 @@ class DistributionSystemExport:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "svg": svg_dict.get(row[3], None),
                            "description": row[4],
                            "circuits": None}
             query = (" SELECT id, name, uuid, "
@@ -424,11 +480,12 @@ class DistributionSystemImport:
         name = str.strip(new_values['name'])
 
         if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
+                'id' not in new_values['svg'].keys() or \
+                not isinstance(new_values['svg']['id'], int) or \
+                new_values['svg']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['svg']['id']
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -449,12 +506,23 @@ class DistributionSystemImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_distribution_systems "
-                      "    (name, uuid, svg, description) "
+                      "    (name, uuid, svg_id, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    svg,
+                                    svg_id,
                                     description))
         new_id = cursor.lastrowid
         if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
@@ -533,7 +601,7 @@ class DistributionSystemClone:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        svg, description "
+                 "        svg_id, description "
                  " FROM tbl_distribution_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -546,7 +614,7 @@ class DistributionSystemClone:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "svg": row[3],
+                           "svg_id": row[3],
                            "description": row[4],
                            "circuits": None}
             query = (" SELECT id, name, uuid, "
@@ -591,11 +659,11 @@ class DistributionSystemClone:
                         + (datetime.now()
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_distribution_systems "
-                          "    (name, uuid, svg, description) "
+                          "    (name, uuid, svg_id, description) "
                           " VALUES (%s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
-                                        meta_result['svg'],
+                                        meta_result['svg_id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:

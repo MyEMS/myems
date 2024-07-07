@@ -45,8 +45,21 @@ class EnergyStorageContainerCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg, description "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_energy_storage_containers "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -62,7 +75,7 @@ class EnergyStorageContainerCollection:
                                "rated_power": row[4],
                                "contact": contact_dict.get(row[5], None),
                                "cost_center": cost_center_dict.get(row[6], None),
-                               "svg": row[7],
+                               "svg": svg_dict.get(row[7], None),
                                "description": row[8],
                                "qrcode": 'energystoragecontainer:' + row[2]}
                 result.append(meta_result)
@@ -122,12 +135,12 @@ class EnergyStorageContainerCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+        if 'svg_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg_id'], int) and \
+                new_values['data']['svg_id'] > 0:
+            svg_id = new_values['data']['svg_id']
+        else:
+            svg_id = None
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -170,8 +183,20 @@ class EnergyStorageContainerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (svg_id,))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_energy_storage_containers "
-                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, svg, description) "
+                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
@@ -179,7 +204,7 @@ class EnergyStorageContainerCollection:
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -234,8 +259,19 @@ class EnergyStorageContainerItem:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg, description "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_energy_storage_containers "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -254,7 +290,7 @@ class EnergyStorageContainerItem:
                            "rated_power": row[4],
                            "contact": contact_dict.get(row[5], None),
                            "cost_center": cost_center_dict.get(row[6], None),
-                           "svg": row[7],
+                           "svg": svg_dict.get(row[7], None),
                            "description": row[8],
                            "qrcode": 'energystoragecontainer:' + row[2]}
 
@@ -362,12 +398,12 @@ class EnergyStorageContainerItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
+        if 'svg_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg_id'], int) and \
+                new_values['data']['svg_id'] > 0:
+            svg_id = new_values['data']['svg_id']
+        else:
+            svg_id = None
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -419,16 +455,28 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (new_values['data']['svg_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
+
         update_row = (" UPDATE tbl_energy_storage_containers "
                       " SET name = %s, rated_capacity = %s, rated_power = %s, contact_id = %s, cost_center_id = %s, "
-                      "     svg = %s, description = %s "
+                      "     svg_id = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     rated_capacity,
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     description,
                                     id_))
         cnx.commit()

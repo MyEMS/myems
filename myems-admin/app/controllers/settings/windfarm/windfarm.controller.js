@@ -8,6 +8,7 @@ app.controller('WindFarmController', function(
     $uibModal,
     CostCenterService,
     ContactService,
+    SVGService,
     WindFarmService,
     toaster,
     SweetAlert) {
@@ -37,6 +38,17 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
+
 	$scope.getAllWindFarms = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WindFarmService.getAllWindFarms(headers, function (response) {
@@ -58,6 +70,7 @@ app.controller('WindFarmController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -65,6 +78,7 @@ app.controller('WindFarmController', function(
 		modalInstance.result.then(function(windfarm) {
 			windfarm.cost_center_id = windfarm.cost_center.id;
 			windfarm.contact_id = windfarm.contact.id;
+			windfarm.svg_id = windfarm.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			WindFarmService.addWindFarm(windfarm, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -100,7 +114,8 @@ app.controller('WindFarmController', function(
 					return {
 						windfarm: angular.copy(windfarm),
 						costcenters:angular.copy($scope.costcenters),
-						contacts:angular.copy($scope.contacts)
+						contacts:angular.copy($scope.contacts),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -109,6 +124,7 @@ app.controller('WindFarmController', function(
 		modalInstance.result.then(function(modifiedWindFarm) {
 			modifiedWindFarm.cost_center_id=modifiedWindFarm.cost_center.id;
 			modifiedWindFarm.contact_id=modifiedWindFarm.contact.id;
+			modifiedWindFarm.svg_id=modifiedWindFarm.svg.id;
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			WindFarmService.editWindFarm(modifiedWindFarm, headers, function(response) {
@@ -265,6 +281,7 @@ app.controller('WindFarmController', function(
 	$scope.getAllWindFarms();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllSVGs();
 	$scope.$on('handleBroadcastWindFarmChanged', function(event) {
   		$scope.getAllWindFarms();
 	});
@@ -275,6 +292,7 @@ app.controller('ModalAddWindFarmCtrl', function($scope, $uibModalInstance,params
 	$scope.operation = "SETTING.ADD_WIND_FARM";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.windfarm);
 	};
@@ -289,6 +307,7 @@ app.controller('ModalEditWindFarmCtrl', function($scope, $uibModalInstance, para
 	$scope.windfarm = params.windfarm;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.windfarm);
 	};

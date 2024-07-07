@@ -448,7 +448,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg_id\":1, \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments",
@@ -521,7 +521,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Combined Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXXs\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Combined Chiller Plant\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg_id\":1, \"camera_url\":\"http://XXXs\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/combinedequipments/1",
@@ -1594,7 +1594,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"组合式设备_1\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"camera_url\": \"http://XXX\",\r\n    \"description\": \"description\",\r\n    \"equipments\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"设备1\",\r\n            \"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\r\n        }\r\n    ],\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"parameters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"serial number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"bfa8b106\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"manufacturer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"York\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"maintainer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"Johnson Controls\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"name\": \"use life start\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2016-01-01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"use life end\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2025-12-31\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"model number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"CH01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"name\": \"nominal cooling capacity\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"90.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"name\": \"nominal cooling input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"name\": \"nominal cooling cop\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"5\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"name\": \"nominal cooling operating current\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"120.000 A\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"name\": \"rated input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"name\": \"nominal chilled water flow rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"30 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"name\": \"nominal cooling water flow_rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"50 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"name\": \"status\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 1,\r\n                \"name\": \"Active Energy Import Tariff 1\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 15,\r\n            \"name\": \"inlet chilled water temperature\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 2,\r\n                \"name\": \"Working hours counter\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 16,\r\n            \"name\": \"chilled_water instantaneous flow rate\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 3,\r\n                \"name\": \"Current a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 17,\r\n            \"name\": \"instantaneous power\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 4,\r\n                \"name\": \"Active Power a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"name\": \"组合式设备_1\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"camera_url\": \"http://XXX\",\r\n    \"description\": \"description\",\r\n    \"equipments\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"设备1\",\r\n            \"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\r\n        }\r\n    ],\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"parameters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"serial number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"bfa8b106\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"manufacturer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"York\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"maintainer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"Johnson Controls\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"name\": \"use life start\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2016-01-01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"use life end\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2025-12-31\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"model number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"CH01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"name\": \"nominal cooling capacity\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"90.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"name\": \"nominal cooling input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"name\": \"nominal cooling cop\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"5\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"name\": \"nominal cooling operating current\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"120.000 A\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"name\": \"rated input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"name\": \"nominal chilled water flow rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"30 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"name\": \"nominal cooling water flow_rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"50 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"name\": \"status\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 1,\r\n                \"name\": \"Active Energy Import Tariff 1\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 15,\r\n            \"name\": \"inlet chilled water temperature\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 2,\r\n                \"name\": \"Working hours counter\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 16,\r\n            \"name\": \"chilled_water instantaneous flow rate\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 3,\r\n                \"name\": \"Current a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 17,\r\n            \"name\": \"instantaneous power\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 4,\r\n                \"name\": \"Active Power a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3368,7 +3368,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"示例配电系统2\", \"svg\":\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\", \"description\":\"demo description\"}}"
+									"raw": "{\"data\":{\"name\":\"示例配电系统2\", \"svg_id\":1, \"description\":\"demo description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/distributionsystems",
@@ -3441,7 +3441,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"示例配电系统1\", \"svg\":\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\", \"description\":\"demo description\"}}"
+									"raw": "{\"data\":{\"name\":\"示例配电系统1\", \"svg_id\":2, \"description\":\"demo description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/distributionsystems/1",
@@ -3552,7 +3552,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"示例配电系统_2\",\r\n    \"svg\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?><svg width=\\\"5cm\\\" height=\\\"4cm\\\" version=\\\"1.1\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\"><desc>Four separate rectangles</desc><rect x=\\\".5cm\\\" y=\\\".5cm\\\" width=\\\"2cm\\\" height=\\\"1cm\\\"/></svg>\",\r\n    \"description\": \"demo distribution system\",\r\n    \"circuits\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"AHa01\",\r\n            \"uuid\": \"52f7abe1-ba0e-47a6-a327-4faac42a1d11\",\r\n            \"distribution_room\": \"1ES\",\r\n            \"switchgear\": \"AHa01\",\r\n            \"peak_load\": 5100.000,\r\n            \"peak_current\": 1250.000,\r\n            \"customers\": \"11#电源进线1WHj2\",\r\n            \"meters\": \"AHa01\",\r\n            \"points\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"name\": \"Active Energy Import Tariff 1\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"name\": \"示例配电系统_1\",\r\n    \"svg\": {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"demo distribution system\",\r\n    \"circuits\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"AHa01\",\r\n            \"uuid\": \"52f7abe1-ba0e-47a6-a327-4faac42a1d11\",\r\n            \"distribution_room\": \"1ES\",\r\n            \"switchgear\": \"AHa01\",\r\n            \"peak_load\": 5100.000,\r\n            \"peak_current\": 1250.000,\r\n            \"customers\": \"11#电源进线1WHj2\",\r\n            \"meters\": \"AHa01\",\r\n            \"points\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"name\": \"Active Energy Import Tariff 1\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5391,7 +5391,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1,  \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -5429,7 +5429,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":300.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":300.000, \"contact_id\":1, \"cost_center_id\":1,  \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1",
@@ -7019,7 +7019,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Beijing Office\",\n    \"uuid\": \"7297cfc1-8978-487b-a14b-fedb9b3525f5\",\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\n    \"postal_code\": \"100000\",\n    \"latitude\": 39.909429,\n    \"longitude\": 116.416993,\n    \"rated_capacity\": 600.000,\n    \"rated_power\": 100.000,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"svg\": \"<svg></svg>\",\n    \"is_cost_data_displayed\":false, \n    \"description\": \"Classic\"\n}"
+									"raw": "{\n    \"name\": \"Beijing Office\",\n    \"uuid\": \"7297cfc1-8978-487b-a14b-fedb9b3525f5\",\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\n    \"postal_code\": \"100000\",\n    \"latitude\": 39.909429,\n    \"longitude\": 116.416993,\n    \"rated_capacity\": 600.000,\n    \"rated_power\": 100.000,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"svg\": {\n        \"id\": 1,\n        \"name\": \"SVG1\",\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n    },\n    \"is_cost_data_displayed\":false, \n    \"description\": \"Classic\"\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/import",
@@ -7133,7 +7133,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":false, \"cost_center_id\":1, \"svg_id\":1, \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments",
@@ -7206,46 +7206,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/equipments/1",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"equipments",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Clone an Equipment by ID",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
-										"description": "Login first to get a valid token"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"description": "Create API Key at myems-admin",
-										"disabled": true
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{}}"
+									"raw": "{\"data\":{\"name\":\"new MyEMS Chiller\", \"is_input_counted\":true, \"is_output_counted\":true, \"cost_center_id\":1, \"svg_id\":1, \"camera_url\":\"http://XXX\", \"description\":\"equipment description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/equipments/1",
@@ -8166,7 +8127,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"设备_1\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"camera_url\": \"http://XXX\",\r\n    \"description\": \"description\",\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"parameters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"serial number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"bfa8b106\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"manufacturer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"York\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"maintainer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"Johnson Controls\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"name\": \"use life start\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2016-01-01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"use life end\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2025-12-31\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"model number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"CH01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"name\": \"nominal cooling capacity\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"90.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"name\": \"nominal cooling input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"name\": \"nominal cooling cop\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"5\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"name\": \"nominal cooling operating current\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"120.000 A\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"name\": \"rated input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"name\": \"nominal chilled water flow rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"30 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"name\": \"nominal cooling water flow_rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"50 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"name\": \"status\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 1,\r\n                \"name\": \"Active Energy Import Tariff 1\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 15,\r\n            \"name\": \"inlet chilled water temperature\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 2,\r\n                \"name\": \"Working hours counter\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 16,\r\n            \"name\": \"chilled_water instantaneous flow rate\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 3,\r\n                \"name\": \"Current a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 17,\r\n            \"name\": \"instantaneous power\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 4,\r\n                \"name\": \"Active Power a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 18,\r\n            \"name\": \"COP\",\r\n            \"parameter_type\": \"fraction\",\r\n            \"constant\": null,\r\n            \"point\": null,\r\n            \"numerator_meter\": {\r\n                \"type\": \"meter\",\r\n                \"id\": 1,\r\n                \"name\": \"计量表1\",\r\n                \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\r\n            },\r\n            \"denominator_meter\": {\r\n                \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\r\n            }\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"name\": \"设备_1\",\r\n    \"is_input_counted\": true,\r\n    \"is_output_counted\": false,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"camera_url\": \"http://XXX\",\r\n    \"description\": \"description\",\r\n    \"commands\": null,\r\n    \"meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"计量表1\",\r\n            \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"offline_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"离线表1\",\r\n            \"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"virtual_meters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"虚拟表1\",\r\n            \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\r\n            \"energy_category\": {\r\n                \"id\": 1,\r\n                \"name\": \"电\",\r\n                \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n            },\r\n            \"is_output\": false\r\n        }\r\n    ],\r\n    \"parameters\": [\r\n        {\r\n            \"id\": 1,\r\n            \"name\": \"serial number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"bfa8b106\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"manufacturer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"York\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"maintainer\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"Johnson Controls\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"name\": \"use life start\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2016-01-01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"use life end\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"2025-12-31\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"model number\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"CH01\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"name\": \"nominal cooling capacity\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"90.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"name\": \"nominal cooling input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"name\": \"nominal cooling cop\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"5\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"name\": \"nominal cooling operating current\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"120.000 A\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"name\": \"rated input power\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"100.000 kW\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"name\": \"nominal chilled water flow rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"30 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"name\": \"nominal cooling water flow_rate\",\r\n            \"parameter_type\": \"constant\",\r\n            \"constant\": \"50 m2/h\",\r\n            \"point\": null,\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"name\": \"status\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 1,\r\n                \"name\": \"Active Energy Import Tariff 1\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 15,\r\n            \"name\": \"inlet chilled water temperature\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 2,\r\n                \"name\": \"Working hours counter\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 16,\r\n            \"name\": \"chilled_water instantaneous flow rate\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 3,\r\n                \"name\": \"Current a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 17,\r\n            \"name\": \"instantaneous power\",\r\n            \"parameter_type\": \"point\",\r\n            \"constant\": null,\r\n            \"point\": {\r\n                \"id\": 4,\r\n                \"name\": \"Active Power a\"\r\n            },\r\n            \"numerator_meter\": null,\r\n            \"denominator_meter\": null\r\n        },\r\n        {\r\n            \"id\": 18,\r\n            \"name\": \"COP\",\r\n            \"parameter_type\": \"fraction\",\r\n            \"constant\": null,\r\n            \"point\": null,\r\n            \"numerator_meter\": {\r\n                \"type\": \"meter\",\r\n                \"id\": 1,\r\n                \"name\": \"计量表1\",\r\n                \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\r\n            },\r\n            \"denominator_meter\": {\r\n                \"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\r\n            }\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -9698,7 +9659,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 300.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\": \"<svg></svg>\",\r\n    \"is_cost_data_displayed\": false,\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 300.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"serial_number\": \"S1234567890\",\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"is_cost_data_displayed\": false,\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -12682,7 +12643,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations",
@@ -12720,7 +12681,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":500.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":500.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1",
@@ -12830,7 +12791,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -21646,6 +21607,44 @@
 							"response": []
 						},
 						{
+							"name": "Create New Virtual Power Plant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/virtualpowerplants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"virtualpowerplants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Update a Virtual Power Plant",
 							"request": {
 								"method": "PUT",
@@ -21669,7 +21668,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing VPP1\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"New\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing VPP1\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg_id\":1, \"description\":\"New\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/virtualpowerplants/1",
@@ -21796,44 +21795,6 @@
 							"response": []
 						},
 						{
-							"name": "Create New Virtual Power Plant",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "User-UUID",
-										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-										"description": "Any admin users' UUID"
-									},
-									{
-										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
-										"description": "Login first to get a valid token"
-									},
-									{
-										"key": "API-Key",
-										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-										"description": "Create API Key at myems-admin",
-										"disabled": true
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing VPP\", \"cost_center_id\":1, \"balancing_price_point_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
-								},
-								"url": {
-									"raw": "{{base_url}}/virtualpowerplants",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"virtualpowerplants"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "DELETE a Microgrid from Virtual Power Plant",
 							"request": {
 								"method": "DELETE",
@@ -21930,7 +21891,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing VPP_1\",\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"balancing_price_point\": {\r\n        \"id\": 1,\r\n        \"name\": \"Active Energy Import Tariff 1\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing VPP_1\",\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"balancing_price_point\": {\r\n        \"id\": 1,\r\n        \"name\": \"Active Energy Import Tariff 1\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -23016,7 +22977,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms",
@@ -23054,7 +23015,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":800.000, \"contact_id\":1, \"cost_center_id\":1, \"svg\":\"<svg></svg>\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":800.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms/1",
@@ -23164,7 +23125,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 800.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": \"<svg></svg>\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 800.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

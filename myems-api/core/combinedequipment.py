@@ -39,10 +39,21 @@ class CombinedEquipmentCollection:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, camera_url, description "
+                 "        cost_center_id, svg_id, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -57,7 +68,7 @@ class CombinedEquipmentCollection:
                                "is_input_counted": bool(row[3]),
                                "is_output_counted": bool(row[4]),
                                "cost_center": cost_center_dict.get(row[5], None),
-                               "svg": row[6],
+                               "svg": svg_dict.get(row[6], None),
                                "camera_url": row[7],
                                "description": row[8],
                                "qrcode": 'combinedequipment:' + row[2]}
@@ -107,19 +118,12 @@ class CombinedEquipmentCollection:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
-
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
+        if 'svg_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg_id'], int) and \
+                new_values['data']['svg_id'] > 0:
+            svg_id = new_values['data']['svg_id']
         else:
-            description = None
+            svg_id = None
 
         if 'camera_url' in new_values['data'].keys() and \
                 new_values['data']['camera_url'] is not None and \
@@ -127,6 +131,13 @@ class CombinedEquipmentCollection:
             camera_url = str.strip(new_values['data']['camera_url'])
         else:
             camera_url = None
+
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -152,16 +163,28 @@ class CombinedEquipmentCollection:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
 
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (svg_id,))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_combined_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, svg, camera_url, description) "
+                      "     cost_center_id, svg_id, camera_url, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     camera_url,
                                     description))
         new_id = cursor.lastrowid
@@ -210,9 +233,20 @@ class CombinedEquipmentItem:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, camera_url, description "
+                 "        cost_center_id, svg_id, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -230,7 +264,7 @@ class CombinedEquipmentItem:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": row[6],
+                           "svg": svg_dict.get(row[6], None),
                            "camera_url": row[7],
                            "description": row[8],
                            "qrcode": 'combinedequipment:' + row[2]}
@@ -331,19 +365,12 @@ class CombinedEquipmentItem:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['data']['cost_center_id']
 
-        if 'svg' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['svg'], str) or \
-                len(str.strip(new_values['data']['svg'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['data']['svg'])
-
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
+        if 'svg_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg_id'], int) and \
+                new_values['data']['svg_id'] > 0:
+            svg_id = new_values['data']['svg_id']
         else:
-            description = None
+            svg_id = None
 
         if 'camera_url' in new_values['data'].keys() and \
                 new_values['data']['camera_url'] is not None and \
@@ -351,6 +378,13 @@ class CombinedEquipmentItem:
             camera_url = str.strip(new_values['data']['camera_url'])
         else:
             camera_url = None
+
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -384,15 +418,27 @@ class CombinedEquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (new_values['data']['svg_id'],))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
+
         update_row = (" UPDATE tbl_combined_equipments "
                       " SET name = %s, is_input_counted = %s, is_output_counted = %s, "
-                      "     cost_center_id = %s, svg = %s, camera_url = %s, description = %s "
+                      "     cost_center_id = %s, svg_id = %s, camera_url = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     camera_url,
                                     description,
                                     id_))
@@ -425,7 +471,7 @@ class CombinedEquipmentItem:
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT name, is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, camera_url, description "
+                 "        cost_center_id, svg_id, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -437,10 +483,9 @@ class CombinedEquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
         else:
-
             add_values = (" INSERT INTO tbl_combined_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, svg, camera_url, description) "
+                          "     cost_center_id, svg_id, camera_url, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (row[0] + ' Copy',
                                         str(uuid.uuid4()),
@@ -2277,9 +2322,21 @@ class CombinedEquipmentExport:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, camera_url, description "
+                 "        cost_center_id, svg_id, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -2295,7 +2352,7 @@ class CombinedEquipmentExport:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": row[6],
+                           "svg": svg_dict.get(row[6], None),
                            "camera_url": row[7],
                            "description": row[8],
                            "equipments": None,
@@ -2572,19 +2629,13 @@ class CombinedEquipmentImport:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['cost_center']['id']
 
-        if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
-
-        if 'description' in new_values.keys() and \
-                new_values['description'] is not None and \
-                len(str(new_values['description'])) > 0:
-            description = str.strip(new_values['description'])
+        if 'svg' in new_values.keys() and \
+                'id' in new_values['svg'].keys() and \
+                isinstance(new_values['svg']['id'], int) and \
+                new_values['svg']['id'] > 0:
+            svg_id = new_values['svg']['id']
         else:
-            description = None
+            svg_id = None
 
         if 'camera_url' in new_values.keys() and \
                 new_values['camera_url'] is not None and \
@@ -2592,6 +2643,13 @@ class CombinedEquipmentImport:
             camera_url = str.strip(new_values['camera_url'])
         else:
             camera_url = None
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2616,17 +2674,28 @@ class CombinedEquipmentImport:
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.COST_CENTER_NOT_FOUND')
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (svg_id,))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_combined_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, svg, camera_url, description) "
+                      "     cost_center_id, svg_id, camera_url, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
-                                    svg,
+                                    svg_id,
                                     camera_url,
                                     description))
         new_id = cursor.lastrowid
@@ -2941,7 +3010,7 @@ class CombinedEquipmentClone:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg, camera_url, description "
+                 "        cost_center_id, svg_id, camera_url, description "
                  " FROM tbl_combined_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -2957,7 +3026,7 @@ class CombinedEquipmentClone:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": row[6],
+                           "svg_id": row[6],
                            "camera_url": row[7],
                            "description": row[8],
                            "equipments": None,
@@ -3187,14 +3256,14 @@ class CombinedEquipmentClone:
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_combined_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, svg, camera_url, description) "
+                          "     cost_center_id, svg_id, camera_url, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['is_input_counted'],
                                         meta_result['is_output_counted'],
                                         meta_result['cost_center']['id'],
-                                        meta_result['svg'],
+                                        meta_result['svg_id'],
                                         meta_result['camera_url'],
                                         meta_result['description']))
             new_id = cursor.lastrowid

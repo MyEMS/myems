@@ -8,6 +8,7 @@ app.controller('EquipmentController', function(
 	$uibModal,
 	EquipmentService,
 	CostCenterService,
+    SVGService,
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -35,6 +36,18 @@ app.controller('EquipmentController', function(
 			}
 		});
 	};
+
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
+
 	$scope.addEquipment = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/equipment/equipment.model.html',
@@ -44,13 +57,17 @@ app.controller('EquipmentController', function(
 				params: function() {
 					return {
 						costcenters: angular.copy($scope.costcenters),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
 		});
 		modalInstance.result.then(function(equipment) {
-		  equipment.cost_center_id = equipment.cost_center.id;
-		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+			equipment.cost_center_id = equipment.cost_center.id;
+			if (angular.isDefined(equipment.svg) && angular.isDefined(equipment.svg.id)) {
+				equipment.svg_id = equipment.svg.id;
+			}
+			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EquipmentService.addEquipment(equipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
@@ -86,6 +103,7 @@ app.controller('EquipmentController', function(
 					return {
 						equipment: angular.copy(equipment),
 						costcenters: angular.copy($scope.costcenters),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -93,6 +111,9 @@ app.controller('EquipmentController', function(
 
 		modalInstance.result.then(function(modifiedEquipment) {
 		  	modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
+			if (angular.isDefined(modifiedEquipment.svg) && angular.isDefined(modifiedEquipment.svg.id)) {
+				modifiedEquipment.svg_id = modifiedEquipment.svg.id;
+			}
 		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EquipmentService.editEquipment(modifiedEquipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -248,12 +269,14 @@ app.controller('EquipmentController', function(
 	};
 
 	$scope.getAllCostCenters();
+	$scope.getAllSVGs();
 	$scope.getAllEquipments();
 });
 
 app.controller("ModalAddEquipmentCtrl", function(  $scope,  $uibModalInstance, params) {
   	$scope.operation = "EQUIPMENT.ADD_EQUIPMENT";
   	$scope.costcenters = params.costcenters;
+	$scope.svgs=params.svgs;
   	$scope.disabled = false;
   	$scope.equipment = {
     	is_input_counted: false,
@@ -270,7 +293,8 @@ app.controller("ModalAddEquipmentCtrl", function(  $scope,  $uibModalInstance, p
 
 app.controller("ModalEditEquipmentCtrl", function($scope, $uibModalInstance,  params) {
   	$scope.operation = "EQUIPMENT.EDIT_EQUIPMENT";
-	  $scope.costcenters = params.costcenters;
+	$scope.costcenters = params.costcenters;
+	$scope.svgs=params.svgs;
   	$scope.disabled = true;
   	$scope.equipment = params.equipment;
 

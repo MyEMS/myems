@@ -8,6 +8,7 @@ app.controller('CombinedEquipmentController', function (
     $uibModal,
     CombinedEquipmentService,
     CostCenterService,
+    SVGService,
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -35,6 +36,17 @@ app.controller('CombinedEquipmentController', function (
 			}
 		});
 	};
+
+	$scope.getAllSVGs = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
+		SVGService.getAllSVGs(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.svgs = response.data;
+			} else {
+				$scope.svgs = [];
+			}
+		});
+	};
 	$scope.addCombinedEquipment = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/combinedequipment/combinedequipment.model.html',
@@ -44,12 +56,16 @@ app.controller('CombinedEquipmentController', function (
 				params: function () {
 					return {
 						costcenters: angular.copy($scope.costcenters),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
 		});
 		modalInstance.result.then(function (combinedequipment) {
 			combinedequipment.cost_center_id = combinedequipment.cost_center.id;
+			if (angular.isDefined(combinedequipment.svg) && angular.isDefined(combinedequipment.svg.id)) {
+				combinedequipment.svg_id = combinedequipment.svg.id;
+			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			CombinedEquipmentService.addCombinedEquipment(combinedequipment, headers,function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -86,6 +102,7 @@ app.controller('CombinedEquipmentController', function (
 					return {
 						combinedequipment: angular.copy(combinedequipment),
 						costcenters: angular.copy($scope.costcenters),
+						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -94,6 +111,9 @@ app.controller('CombinedEquipmentController', function (
 		modalInstance.result.then(function (modifiedCombinedEquipment) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			modifiedCombinedEquipment.cost_center_id = modifiedCombinedEquipment.cost_center.id;
+			if (angular.isDefined(modifiedCombinedEquipment.svg) && angular.isDefined(modifiedCombinedEquipment.svg.id)) {
+				modifiedCombinedEquipment.svg_id = modifiedCombinedEquipment.svg.id;
+			}
 			CombinedEquipmentService.editCombinedEquipment(modifiedCombinedEquipment, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
@@ -156,7 +176,7 @@ app.controller('CombinedEquipmentController', function (
 				}
 			});
 	};
-	
+
 	$scope.exportCombinedEquipment = function(combinedequipment) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.exportCombinedEquipment(combinedequipment, headers, function(response) {
@@ -249,12 +269,14 @@ app.controller('CombinedEquipmentController', function (
 	};
 
 	$scope.getAllCostCenters();
+	$scope.getAllSVGs();
 	$scope.getAllCombinedEquipments();
 });
 
 app.controller("ModalAddCombinedEquipmentCtrl", function ($scope, $uibModalInstance, params) {
 	$scope.operation = "COMBINED_EQUIPMENT.ADD_COMBINED_EQUIPMENT";
 	$scope.costcenters = params.costcenters;
+	$scope.svgs=params.svgs;
 	$scope.disabled = false;
 	$scope.combinedequipment = {
 		is_input_counted: false,
@@ -272,6 +294,7 @@ app.controller("ModalAddCombinedEquipmentCtrl", function ($scope, $uibModalInsta
 app.controller("ModalEditCombinedEquipmentCtrl", function ($scope, $uibModalInstance, params) {
 	$scope.operation = "COMBINED_EQUIPMENT.EDIT_COMBINED_EQUIPMENT";
 	$scope.costcenters = params.costcenters;
+	$scope.svgs=params.svgs;
 	$scope.disabled = true;
 	$scope.combinedequipment = params.combinedequipment;
 
