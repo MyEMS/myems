@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Warning
+- This upgrade will delete svg from some tables, save svg source code to tbl_svgs or text file first
 ### Added
 - added svg actions to myems-api, myems-admin
 - added phase_of_lifecycle to microgird
