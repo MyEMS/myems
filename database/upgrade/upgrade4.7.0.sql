@@ -106,7 +106,7 @@ VALUES
 (36,'weather', 'weather');
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.7.0RC', release_date='2024-07-07' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.7.0', release_date='2024-07-08' WHERE id=1;
 
 COMMIT;
 

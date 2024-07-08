@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.7.0] - 2024-07-08
 ### Warning
 - This upgrade will delete svg from some tables, save svg source code to tbl_svgs or text file first
 ### Added
@@ -35,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added check relations statements to point on_delete action in myems-api
 - fixed issue of on_delete action in myems-api
 ### Removed
-
+- None
 
 ## [v4.6.0] - 2024-06-09
 ### Added
@@ -1735,8 +1741,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.6.0...HEAD
-[4.5.0]: https://github.com/MyEMS/myems/compare/v4.6.0...v4.5.0
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.7.0...HEAD
+[4.7.0]: https://github.com/MyEMS/myems/compare/v4.7.0...v4.6.0
+[4.6.0]: https://github.com/MyEMS/myems/compare/v4.6.0...v4.5.0
 [4.5.0]: https://github.com/MyEMS/myems/compare/v4.5.0...v4.4.0
 [4.4.0]: https://github.com/MyEMS/myems/compare/v4.4.0...v4.3.0
 [4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
