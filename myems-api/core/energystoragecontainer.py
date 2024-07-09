@@ -3028,8 +3028,7 @@ class EnergyStorageContainerClone:
                            "contact_id": row[5],
                            "cost_center_id": row[6],
                            "svg_id": row[7],
-                           "description": row[8],
-                           "qrcode": 'energystoragecontainer:' + row[2]}
+                           "description": row[8],}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
