@@ -3010,7 +3010,7 @@ class EnergyStorageContainerClone:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg, description "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_energy_storage_containers "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -3027,7 +3027,7 @@ class EnergyStorageContainerClone:
                            "rated_power": row[4],
                            "contact_id": row[5],
                            "cost_center_id": row[6],
-                           "svg": row[7],
+                           "svg_id": row[7],
                            "description": row[8],
                            "qrcode": 'energystoragecontainer:' + row[2]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -3037,7 +3037,7 @@ class EnergyStorageContainerClone:
                 (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
             add_values = (" INSERT INTO tbl_energy_storage_containers "
                           "    (name, uuid, rated_capacity, rated_power, contact_id, "
-                          "     cost_center_id, svg, description) "
+                          "     cost_center_id, svg_id, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
@@ -3045,7 +3045,7 @@ class EnergyStorageContainerClone:
                                         meta_result['rated_power'],
                                         meta_result['contact_id'],
                                         meta_result['cost_center_id'],
-                                        meta_result['svg'],
+                                        meta_result['svg_id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()

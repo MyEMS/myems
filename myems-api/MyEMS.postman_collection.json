@@ -5379,7 +5379,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "f426c08c74be8a10152e56e8479f7b10b963c0ff5f101f053d7014cc33db8e9a8e73b00238af26f1cff7378ede46ba2dd33ff35267e43b54f4dadd3217c0acb4",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5391,7 +5391,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1,  \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":\"1\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -5417,7 +5417,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "f426c08c74be8a10152e56e8479f7b10b963c0ff5f101f053d7014cc33db8e9a8e73b00238af26f1cff7378ede46ba2dd33ff35267e43b54f4dadd3217c0acb4",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5427,17 +5427,15 @@
 										"disabled": true
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1,  \"description\":\"Classic\"}}"
-								},
 								"url": {
-									"raw": "{{base_url}}/energystoragecontainers",
+									"raw": "{{base_url}}/energystoragecontainers/1/clone",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"energystoragecontainers"
+										"energystoragecontainers",
+										"1",
+										"clone"
 									]
 								}
 							},
