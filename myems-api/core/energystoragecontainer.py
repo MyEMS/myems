@@ -3028,7 +3028,7 @@ class EnergyStorageContainerClone:
                            "contact_id": row[5],
                            "cost_center_id": row[6],
                            "svg_id": row[7],
-                           "description": row[8],}
+                           "description": row[8]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
@@ -3053,3 +3053,84 @@ class EnergyStorageContainerClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/energystoragecontainers/' + str(new_id)
+
+
+class EnergyStorageContainerExport:
+    @staticmethod
+    def __init__():
+        """"Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        svg_dict = dict()
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description "
+                 " FROM tbl_energy_storage_containers "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "rated_capacity": row[3],
+                           "rated_power": row[4],
+                           "contact": contact_dict.get(row[5], None),
+                           "cost_center": cost_center_dict.get(row[6], None),
+                           "svg_id": svg_dict.get(row[7], None),
+                           "description": row[8]}
+
+        resp.text = json.dumps(meta_result)
