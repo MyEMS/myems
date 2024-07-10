@@ -349,6 +349,8 @@ api.add_route('/energystoragecontainers/{id_}/schedules',
               energystoragecontainer.EnergyStorageContainerScheduleCollection())
 api.add_route('/energystoragecontainers/{id_}/schedules/{sid}',
               energystoragecontainer.EnergyStorageContainerScheduleItem())
+api.add_route('/energystoragecontainers/{id_}/clone',
+              energystoragecontainer.EnergyStorageContainerClone())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())

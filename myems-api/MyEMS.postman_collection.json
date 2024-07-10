@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2eb5e36a-120d-48ae-875a-8dbcd1fa898c",
+		"_postman_id": "bccefcdb-c194-45ed-91ef-2bed14bdf0c8",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -5379,7 +5379,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "f426c08c74be8a10152e56e8479f7b10b963c0ff5f101f053d7014cc33db8e9a8e73b00238af26f1cff7378ede46ba2dd33ff35267e43b54f4dadd3217c0acb4",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5391,7 +5391,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1,  \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":\"1\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -5400,6 +5400,42 @@
 									],
 									"path": [
 										"energystoragecontainers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone an Energy Storage Container by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "f426c08c74be8a10152e56e8479f7b10b963c0ff5f101f053d7014cc33db8e9a8e73b00238af26f1cff7378ede46ba2dd33ff35267e43b54f4dadd3217c0acb4",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"clone"
 									]
 								}
 							},
