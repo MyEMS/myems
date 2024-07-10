@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bccefcdb-c194-45ed-91ef-2bed14bdf0c8",
+		"_postman_id": "945ab7b0-5e55-41b0-8182-4abaffc0b8b3",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32357384"
@@ -5362,6 +5362,42 @@
 									"path": [
 										"energystoragecontainers",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export an Energy Storage Container by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "f39361b073bbe2e106175da78ecf1246a02bf7f5b660f2983b280021dc7792517b735667f503b2cc0a00788464378cf7a1c45851b83e1cab59934c9d73afe0ae",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"1",
+										"export"
 									]
 								}
 							},
