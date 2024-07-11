@@ -426,7 +426,7 @@
 												<th class="text-center">{{'SETTING.SCHEDULE_START_TIME' | translate}}</th>
 												<th class="text-center">{{'SETTING.SCHEDULE_END_TIME' | translate}}</th>
 												<th class="text-center">{{'SETTING.PEAK_TYPE' | translate}}</th>
-												<th class="text-center">{{'SETTING.SCHEDULE_POWER' | translate}}</th>
+												<th class="text-center">{{'SETTING.SCHEDULE_POWER' | translate}} kW</th>
 												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 											</tr>
 											<tr>
@@ -521,7 +521,7 @@
 												</select>
 												</td>
 												<td class="text-center sm">
-													<input type="number" min="0" step="0.01" ng-model="t.power" class="form-control input-sm">
+													<input type="number" min="-10000" step="0.01" ng-model="t.power" class="form-control input-sm">
 												</td>
 												<td class="text-center sm">
 													<a class="btn btn-primary btn-rounded btn-xs" ng-click="addEnergyStorageContainerSchedule(t)" >{{'SETTING.ADD' | translate}}</a>
