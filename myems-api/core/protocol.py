@@ -86,6 +86,15 @@ class ProtocolCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
 
+        cursor.execute(" SELECT code "
+                       " FROM tbl_protocols "
+                       " WHERE code = %s ", (code,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
+
         add_row = (" INSERT INTO tbl_protocols "
                    "     (name, code) "
                    " VALUES (%s, %s) ")
@@ -162,54 +171,7 @@ class ProtocolItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PROTOCOL_NOT_FOUND')
-# TODO: replace contact_id
-        # check relation with shopfloors
-        cursor.execute(" SELECT id "
-                       " FROM tbl_shopfloors "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_shopfloors = cursor.fetchall()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
-
-        # check relation with spaces
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
-
-        # check relation with stores
-        cursor.execute(" SELECT id "
-                       " FROM tbl_stores "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
-
-        # check relation with tenants
-        cursor.execute(" SELECT id "
-                       " FROM tbl_tenants "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+# TODO:
 
         cursor.execute(" DELETE FROM tbl_protocols WHERE id = %s ", (id_,))
         cnx.commit()
@@ -271,6 +233,15 @@ class ProtocolItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT code "
+                       " FROM tbl_protocols "
+                       " WHERE code = %s ", (code,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_protocols "
                       " SET name = %s, code = %s "
