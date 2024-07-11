@@ -13506,7 +13506,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"protocol1\", \"code\":\"protocol1\"}}"
+									"raw": "{\"data\":{\"name\":\"modbus-tcp\", \"code\":\"modbus-tcp\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/protocols",
@@ -13544,7 +13544,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"protocol1\", \"code\":\"protocol1\"}}"
+									"raw": "{\"data\":{\"name\":\"modbus-tcp\", \"code\":\"modbus-tcp\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/protocols/3",
