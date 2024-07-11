@@ -9,7 +9,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg
+    windfarm, energyplanfile, svg, protocol
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -567,6 +567,11 @@ api.add_route('/privileges',
               privilege.PrivilegeCollection())
 api.add_route('/privileges/{id_}',
               privilege.PrivilegeItem())
+
+api.add_route('/protocols',
+              protocol.ProtocolCollection())
+api.add_route('/protocols/{id_}',
+              protocol.ProtocolItem())
 
 api.add_route('/rules',
               rule.RuleCollection())
