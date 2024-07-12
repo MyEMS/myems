@@ -3187,14 +3187,16 @@ class EnergyStorageContainerImport:
                                    description='API.INVALID_RATED_POWER')
         rated_power = new_values['rated_power']
 
-        if 'id' not in new_values['contact'].keys() or \
+        if 'contact' not in new_values.keys() or \
+                'id' not in new_values['contact'].keys() or \
                 not isinstance(new_values['contact']['id'], int) or \
                 new_values['contact']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONTACT_ID')
         contact_id = new_values['contact']['id']
 
-        if 'id' not in new_values['cost_center'].keys() or \
+        if 'cost_center' not in new_values.keys() or \
+                'id' not in new_values['cost_center'].keys() or \
                 not isinstance(new_values['cost_center']['id'], int) or \
                 new_values['cost_center']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
