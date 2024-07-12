@@ -3134,3 +3134,148 @@ class EnergyStorageContainerExport:
                            "description": row[8]}
 
         resp.text = json.dumps(meta_result)
+
+
+class EnergyStorageContainerImport:
+    @staticmethod
+    def __init__():
+        """"Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values.keys() or \
+                not isinstance(new_values['name'], str) or \
+                len(str.strip(new_values['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_NAME')
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        name = str.strip(new_values['name']) + \
+               (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+
+        if 'rated_capacity' not in new_values.keys() or \
+                not (isinstance(new_values['rated_capacity'], float) or
+                     isinstance(new_values['rated_capacity'], int)) or \
+                new_values['rated_capacity'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_CAPACITY')
+        rated_capacity = new_values['rated_capacity']
+
+        if 'rated_power' not in new_values.keys() or \
+                not (isinstance(new_values['rated_power'], float) or
+                     isinstance(new_values['rated_power'], int)) or \
+                new_values['rated_power'] <= 0.0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_RATED_POWER')
+        rated_power = new_values['rated_power']
+
+        if 'id' not in new_values['contact'].keys() or \
+                not isinstance(new_values['contact']['id'], int) or \
+                new_values['contact']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTACT_ID')
+        contact_id = new_values['contact']['id']
+
+        if 'id' not in new_values['cost_center'].keys() or \
+                not isinstance(new_values['cost_center']['id'], int) or \
+                new_values['cost_center']['id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+        cost_center_id = new_values['cost_center']['id']
+
+        if 'svg_id' in new_values['svg_id'].keys() and \
+                isinstance(new_values['svg_id']['id'], int) and \
+                new_values['svg_id']['id'] > 0:
+            svg_id = new_values['svg_id']['id']
+        else:
+            svg_id = None
+
+        if 'description' in new_values.keys() and \
+                new_values['description'] is not None and \
+                len(str(new_values['description'])) > 0:
+            description = str.strip(new_values['description'])
+        else:
+            description = None
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE name = %s ", (name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_contacts "
+                       " WHERE id = %s ",
+                       (new_values['contact']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.CONTACT_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_cost_centers "
+                       " WHERE id = %s ",
+                       (new_values['cost_center']['id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.COST_CENTER_NOT_FOUND')
+
+        if svg_id is not None:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_svgs "
+                           " WHERE id = %s ",
+                           (svg_id,))
+            row = cursor.fetchone()
+            if row is None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.SVG_NOT_FOUND')
+
+        add_values = (" INSERT INTO tbl_energy_storage_containers "
+                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, svg_id, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    rated_capacity,
+                                    rated_power,
+                                    contact_id,
+                                    cost_center_id,
+                                    svg_id,
+                                    description))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragecontainers/' + str(new_id)
