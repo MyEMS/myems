@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "68799a4a-5d3a-4405-9fa2-7de1624badc4",
+		"_postman_id": "6a96e345-3fed-4f92-9803-4004acf2e069",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36323627"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -5436,6 +5436,45 @@
 									],
 									"path": [
 										"energystoragecontainers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import Energy Storage Container from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "b8a8ad6135900d3357089492b512f5d295ac5fd51fe8be64eeda4cb1503f26d589cb2412cd58d926844c89eabe3c27baf075f30ae8c7bc35ba6500ea8890ec20",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Beijing Office\",\r\n    \"uuid\": \"9b963448-1235-4239-b0c9-c71d926cec5f\",\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"albert\",\r\n        \"uuid\": \"076ea179-5a7e-4a48-9fcd-f452f95f5376\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"动力中心\",\r\n        \"uuid\": \"6fc174dc-9c57-4934-9896-9226e696dbf2\"\r\n    },\r\n    \"svg_id\": {\r\n        \"id\": 1,\r\n        \"name\": \"高压配电\",\r\n        \"uuid\": \"c677d1b4-a482-4aad-9192-380a0d832e5f\"\r\n    },\r\n    \"description\": \"Classic\",\r\n    \"qrcode\": \"energystoragecontainer:9b963448-1235-4239-b0c9-c71d926cec5f\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/energystoragecontainers/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"energystoragecontainers",
+										"import"
 									]
 								}
 							},
