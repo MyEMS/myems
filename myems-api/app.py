@@ -353,6 +353,8 @@ api.add_route('/energystoragecontainers/{id_}/clone',
               energystoragecontainer.EnergyStorageContainerClone())
 api.add_route('/energystoragecontainers/{id_}/export',
               energystoragecontainer.EnergyStorageContainerExport)
+api.add_route('/energystoragecontainers/import',
+              energystoragecontainer.EnergyStorageContainerImport())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
