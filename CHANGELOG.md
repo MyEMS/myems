@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated tariff price to keep 5 decimal places in database and myems-admin 
 ### Fixed
+- aligned timestamps of parameters for microgrid details report
 ### Removed
 
 ## [v4.7.0] - 2024-07-08
