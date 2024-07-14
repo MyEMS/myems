@@ -63,7 +63,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
     }
   ]);
   const [lastMoment, setLastMoment] = useState(moment());
-  const [lineLabels, setLinaLabels] = useState([]);
+  const [lineLabels, setLineLabels] = useState([]);
 
   let handleChange = arr => {
     if (arr.length < 1) {
@@ -126,7 +126,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       };
     }
     setNodes(tempNodes);
-    setLinaLabels(labels[values[0]]);
+    setLineLabels(labels[values[0]]);
     setValues(['a0']);
     setOldValues(['a0']);
   }, [data, labels, options]);
@@ -189,7 +189,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       tempNodes.splice(i, 1);
     }
     setNodes(tempNodes);
-    setLinaLabels(labels[values[0]]);
+    setLineLabels(labels[values[0]]);
   }, [lastMoment]);
 
   let getOption = () => {
