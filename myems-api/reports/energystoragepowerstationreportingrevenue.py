@@ -25,13 +25,14 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
     # Step 3: query associated energy storage containers
-    # Step 4: query associated batteries data
-    # Step 5: query associated grids data
-    # Step 6: query associated loads data
-    # Step 7: query associated power conversion systems data
-    # Step 8: query associated sensors data
-    # Step 9: query associated points data
-    # Step 10: construct the report
+    # Step 4: query associated batteries
+    # Step 5: query associated grids
+    # Step 6: query associated loads
+    # Step 7: query associated power conversion systems
+    # Step 8: query associated sensors
+    # Step 9: query associated meters data
+    # Step 10: query associated points data
+    # Step 11: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):

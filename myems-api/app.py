@@ -67,7 +67,7 @@ from reports import metertrend
 from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgridlist
-from reports import microgridreporting
+from reports import microgridreportingenergy
 from reports import microgridsenergy
 from reports import microgridsbilling
 from reports import microgridscarbon
@@ -668,6 +668,10 @@ api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
               space.SpaceMeterItem())
+api.add_route('/spaces/{id_}/microgrids',
+              space.SpaceMicrogridCollection())
+api.add_route('/spaces/{id_}/microgrids/{mid}',
+              space.SpaceMicrogridItem())
 api.add_route('/spaces/{id_}/export',
               space.SpaceExport())
 api.add_route('/spaces/import',
@@ -1052,8 +1056,8 @@ api.add_route('/reports/microgriddetails',
               microgriddetails.Reporting())
 api.add_route('/reports/microgridlist',
               microgridlist.Reporting())
-api.add_route('/reports/microgridreporting',
-              microgridreporting.Reporting())
+api.add_route('/reports/microgridreportingenergy',
+              microgridreportingenergy.Reporting())
 api.add_route('/reports/microgridsenergy',
               microgridsenergy.Reporting())
 api.add_route('/reports/microgridsbilling',

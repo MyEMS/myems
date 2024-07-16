@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a96e345-3fed-4f92-9803-4004acf2e069",
+		"_postman_id": "9ef531c4-5029-4923-bc10-57b21c0835fb",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -9576,7 +9576,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"value": "0b5457b93012e59380ff23d844113bbc68b82a6418dd634b769eb1c6c3f08b18f417bf8f6be4400f427af670eeec18cb99bc26480e132be313d7b844c8664f6a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -9645,7 +9645,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "7a4bcdb432699959d71ce39b3eced148e9af6f2106ad2921585b84e9e4385b7e0078125c0f980159989f43016dc127d5ed28b389c84cc53a8891660819c3693c",
+										"value": "0b5457b93012e59380ff23d844113bbc68b82a6418dd634b769eb1c6c3f08b18f417bf8f6be4400f427af670eeec18cb99bc26480e132be313d7b844c8664f6a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -15964,7 +15964,7 @@
 							"response": []
 						},
 						{
-							"name": "Bind an Energe Storage Power Station to a Space",
+							"name": "Bind an Energy Storage Power Station to a Space",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -15987,7 +15987,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"equipment_id\":1}}"
+									"raw": "{\"data\":{\"energy_storage_power_station_id\":1}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/spaces/1/energystoragepowerstations",
@@ -16004,7 +16004,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE an Energy Storage Power Station from Space",
+							"name": "Unbind an Energy Storage Power Station from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -16117,7 +16117,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE an Equipment from Space",
+							"name": "Unbind an Equipment from Space",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -16260,6 +16260,119 @@
 										"spaces",
 										"1",
 										"meters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Microgrids of a Space",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0b5457b93012e59380ff23d844113bbc68b82a6418dd634b769eb1c6c3f08b18f417bf8f6be4400f427af670eeec18cb99bc26480e132be313d7b844c8664f6a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bind a Microgrid to a Space",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0b5457b93012e59380ff23d844113bbc68b82a6418dd634b769eb1c6c3f08b18f417bf8f6be4400f427af670eeec18cb99bc26480e132be313d7b844c8664f6a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"microgrid_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/microgrids",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"microgrids"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unbind a Microgrid from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "0b5457b93012e59380ff23d844113bbc68b82a6418dd634b769eb1c6c3f08b18f417bf8f6be4400f427af670eeec18cb99bc26480e132be313d7b844c8664f6a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/microgrids/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"microgrids",
 										"1"
 									]
 								}

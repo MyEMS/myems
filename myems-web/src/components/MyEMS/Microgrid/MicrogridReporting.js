@@ -34,10 +34,10 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { Link, useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
-const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
+
+const MicrogridReportingEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();
   const uuid = location.search.split('=')[1];
@@ -114,7 +114,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
-  const [microgridSearchHidden, setMicrogridSearchHidden] = useState(false);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
+
   //Results
   const [microgridName, setMicrogridName] = useState();
   const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
@@ -124,136 +125,115 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
   const [microgridRatedPower, setMicrogridRatedPower] = useState();
   const [microgridLatitude, setMicrogridLatitude] = useState();
   const [microgridLongitude, setMicrogridLongitude] = useState();
-  const [microgridSVG, setMicrogridSVG] = useState();
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
   const [microgridBaseLabels, setMicrogridBaseLabels] = useState({ a0: [] });
   const [microgridBaseData, setMicrogridBaseData] = useState({ a0: [] });
   const [microgridReportingNames, setMicrogridReportingNames] = useState({ a0: '' });
   const [microgridReportingUnits, setMicrogridReportingUnits] = useState({ a0: '()' });
-  const [microgridReportingSubtotals, setMicrogridReportingSubtotals] = useState({ a0: (0).toFixed(2) });
+  const [microgridReportingSubtotals, setMicrogridReportingSubtotals] = useState({
+    a0: (0).toFixed(2)
+  });
   const [microgridReportingLabels, setMicrogridReportingLabels] = useState({ a0: [] });
   const [microgridReportingData, setMicrogridReportingData] = useState({ a0: [] });
   const [microgridReportingOptions, setMicrogridReportingOptions] = useState([]);
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
+
+  const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
-  const [detailedDataTableData, setDetailedDataTableData] = useState([]);
+
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
-    if (uuid === null || !uuid) {
-      setSpaceCascaderHidden(false);
-      setMicrogridSearchHidden(false);
-      fetch(APIBaseURL + '/spaces/tree', {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
+    setSpaceCascaderHidden(false);
+    fetch(APIBaseURL + '/spaces/tree', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        console.log(response);
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
       })
-        .then(response => {
-          console.log(response);
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        })
-        .then(json => {
-          console.log(json);
-          if (isResponseOK) {
-            // rename keys
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            setCascaderOptions(json);
-            setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
-            // get Microgrids by root Space ID
-            let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/microgrids', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
+      .then(json => {
+        console.log(json);
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          // get Microgrids by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/microgrids', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
             })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOK = true;
-                }
-                return response.json();
-              })
-              .then(json => {
-                if (isResponseOK) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  console.log(json);
-                  setMicrogridList(json[0]);
-                  setFilteredMicrogridList(json[0]);
-                  if (json[0].length > 0) {
-                    setSelectedMicrogrid(json[0][0].value);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                  } else {
-                    setSelectedMicrogrid(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                  }
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setMicrogridList(json[0]);
+                setFilteredMicrogridList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedMicrogrid(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
                 } else {
-                  toast.error(t(json.description));
+                  setSelectedMicrogrid(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
                 }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            // end of get Microgrids by root Space ID
-          } else {
-            toast.error(t(json.description));
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      setSpaceCascaderHidden(true);
-      setMicrogridSearchHidden(true);
-      let url =
-        APIBaseURL +
-        '/reports/microgridreporting?' +
-        'uuid=' +
-        uuid +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language;
-      loadData(url);
-    }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get Microgrids by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
   const loadData = url => {
@@ -263,6 +243,8 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -286,10 +268,6 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           console.log(json);
-          if (uuid !== null && uuid) {
-            setFilteredMicrogridList([{ id: json['microgrid']['id'], label: json['microgrid']['name'] }]);
-            setSelectedMicrogrid(json['microgrid']['id']);
-          }
           setMicrogridName(json['microgrid']['name']);
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
@@ -298,7 +276,6 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridRatedPower(json['microgrid']['rated_power']);
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
-          setMicrogridSVG({ __html: json['microgrid']['svg'] });
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -369,12 +346,164 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridReportingOptions(options);
           setExcelBytesBase64(json['excel_bytes_base64']);
 
+          if (!isBasePeriodTimestampExists(json['base_period'])) {
+            let detailed_value_list = [];
+            if (json['reporting_period']['timestamps'].length > 0) {
+              json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+                let detailed_value = {};
+                detailed_value['id'] = timestampIndex;
+                detailed_value['startdatetime'] = currentTimestamp;
+                json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['a' + energyCategoryIndex] =
+                    json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
+                });
+                detailed_value_list.push(detailed_value);
+              });
+            }
+
+            let detailed_value = {};
+            detailed_value['id'] = detailed_value_list.length;
+            detailed_value['startdatetime'] = t('Subtotal');
+            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+              detailed_value['a' + index] = currentValue;
+            });
+            detailed_value_list.push(detailed_value);
+            setTimeout(() => {
+              setDetailedDataTableData(detailed_value_list);
+            }, 0);
+
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'startdatetime',
+              text: t('Datetime'),
+              sort: true
+            });
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'a' + index,
+                text: currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            setDetailedDataTableColumns(detailed_column_list);
+
+          } else {
+            /*
+                        * Tip:
+                        *     json['base_period']['names'] ===  json['reporting_period']['names']
+                        *     json['base_period']['units'] ===  json['reporting_period']['units']
+                        * */
+            let detailed_column_list = [];
+            detailed_column_list.push({
+              dataField: 'basePeriodDatetime',
+              text: t('Base Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            json['base_period']['names'].forEach((currentValue, index) => {
+              let unit = json['base_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'a' + index,
+                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            detailed_column_list.push({
+              dataField: 'reportingPeriodDatetime',
+              text: t('Reporting Period') + ' - ' + t('Datetime'),
+              sort: true
+            });
+
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              detailed_column_list.push({
+                dataField: 'b' + index,
+                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+            setDetailedDataTableColumns(detailed_column_list);
+
+            let detailed_value_list = [];
+            if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
+              const max_timestamps_length =
+                json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
+                  ? json['base_period']['timestamps'][0].length
+                  : json['reporting_period']['timestamps'][0].length;
+              for (let index = 0; index < max_timestamps_length; index++) {
+                let detailed_value = {};
+                detailed_value['id'] = index;
+                detailed_value['basePeriodDatetime'] =
+                  index < json['base_period']['timestamps'][0].length
+                    ? json['base_period']['timestamps'][0][index]
+                    : null;
+                json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['a' + energyCategoryIndex] =
+                    index < json['base_period']['values'][energyCategoryIndex].length
+                      ? json['base_period']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value['reportingPeriodDatetime'] =
+                  index < json['reporting_period']['timestamps'][0].length
+                    ? json['reporting_period']['timestamps'][0][index]
+                    : null;
+                json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                  detailed_value['b' + energyCategoryIndex] =
+                    index < json['reporting_period']['values'][energyCategoryIndex].length
+                      ? json['reporting_period']['values'][energyCategoryIndex][index]
+                      : null;
+                });
+                detailed_value_list.push(detailed_value);
+              }
+
+              let detailed_value = {};
+              detailed_value['id'] = detailed_value_list.length;
+              detailed_value['basePeriodDatetime'] = t('Subtotal');
+              json['base_period']['subtotals'].forEach((currentValue, index) => {
+                detailed_value['a' + index] = currentValue;
+              });
+              detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+              json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+                detailed_value['b' + index] = currentValue;
+              });
+              detailed_value_list.push(detailed_value);
+              setTimeout(() => {
+                setDetailedDataTableData(detailed_value_list);
+              }, 0);
+            }
+          }
+
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
           setSpinnerHidden(true);
@@ -439,7 +568,9 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
 
   const onSearchMicrogrid = ({ target }) => {
     const keyword = target.value.toLowerCase();
-    const filteredResult = microgridList.filter(microgrid => microgrid.label.toLowerCase().includes(keyword));
+    const filteredResult = microgridList.filter(microgrid =>
+      microgrid.label.toLowerCase().includes(keyword)
+    );
     setFilteredMicrogridList(keyword.length ? filteredResult : microgridList);
     if (filteredResult.length > 0) {
       setSelectedMicrogrid(filteredResult[0].value);
@@ -552,6 +683,21 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
     setReportingPeriodDateRange([null, null]);
   };
 
+  const isBasePeriodTimestampExists = base_period_data => {
+    const timestamps = base_period_data['timestamps'];
+
+    if (timestamps.length === 0) {
+      return false;
+    }
+
+    for (let i = 0; i < timestamps.length; i++) {
+      if (timestamps[i].length > 0) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -567,7 +713,7 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
 
     let url =
       APIBaseURL +
-      '/reports/microgridreporting?' +
+      '/reports/microgridreportingenergy?' +
       'id=' +
       selectedMicrogrid +
       '&periodtype=' +
@@ -631,7 +777,6 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} onChange={onSearchMicrogrid} hidden={microgridSearchHidden} />
                     <CustomInput
                       type="select"
                       id="microgridSelect"
@@ -762,71 +907,81 @@ const MicrogridReporting = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="card-deck">
-        {cardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={cardSummaryItem['name']}
-            title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')'}
-            color="success"
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={2}
-              />
-            )}
-          </CardSummary>
-        ))}
+      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        {/* <div className="card-deck" >
+          {cardSummaryList.map(cardSummaryItem => (
+            <CardSummary
+              key={cardSummaryItem['name']}
+              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')'}
+              color="success"
+            >
+              {cardSummaryItem['subtotal'] && (
+                <CountUp
+                  end={cardSummaryItem['subtotal']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          ))}
+        </div> */}
+        <br />
+        <DetailedDataTable
+          data={detailedDataTableData}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+          hidden={true}
+        />
+        {/* <MultiTrendChart
+          reportingTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: microgridReportingNames,
+            VALUE: microgridReportingSubtotals,
+            UNIT: microgridReportingUnits
+          }}
+          baseTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: { a0: (0).toFixed(2) },
+            UNIT: { a0: '()' }
+          }}
+          reportingTooltipTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: null,
+            UNIT: { a0: '()' }
+          }}
+          baseTooltipTitle={{
+            name: 'CATEGORY VALUE UNIT',
+            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
+            CATEGORY: { a0: '' },
+            VALUE: null,
+            UNIT: { a0: '()' }
+          }}
+          reportingLabels={microgridReportingLabels}
+          reportingData={microgridReportingData}
+          baseLabels={microgridReportingLabels}
+          baseData={microgridReportingData}
+          rates={{ a0: [] }}
+          options={microgridReportingOptions}
+        /> */}
+        <MultipleLineChart
+          reportingTitle={t('Operating Characteristic Curve')}
+          baseTitle=""
+          labels={parameterLineChartLabels}
+          data={parameterLineChartData}
+          options={parameterLineChartOptions}
+        />
       </div>
-      <MultiTrendChart
-        reportingTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: microgridReportingNames,
-          VALUE: microgridReportingSubtotals,
-          UNIT: microgridReportingUnits
-        }}
-        baseTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: { a0: (0).toFixed(2) },
-          UNIT: { a0: '()' }
-        }}
-        reportingTooltipTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: null,
-          UNIT: { a0: '()' }
-        }}
-        baseTooltipTitle={{
-          name: 'CATEGORY VALUE UNIT',
-          substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-          CATEGORY: { a0: '' },
-          VALUE: null,
-          UNIT: { a0: '()' }
-        }}
-        reportingLabels={microgridReportingLabels}
-        reportingData={microgridReportingData}
-        baseLabels={microgridReportingLabels}
-        baseData={microgridReportingData}
-        rates={{ a0: [] }}
-        options={microgridReportingOptions}
-      />
-      <MultipleLineChart
-        reportingTitle={t('Operating Characteristic Curve')}
-        baseTitle=""
-        labels={parameterLineChartLabels}
-        data={parameterLineChartData}
-        options={parameterLineChartOptions}
-      />
     </Fragment>
   );
 };
 
-export default withTranslation()(withRedirect(MicrogridReporting));
+export default withTranslation()(withRedirect(MicrogridReportingEnergy));
