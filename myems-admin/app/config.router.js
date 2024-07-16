@@ -553,6 +553,44 @@ app
                             ]
                         }
                     })
+                    .state('settings.protocol', {
+                        url: "/protocol",
+                        templateUrl: "views/settings/protocol/protocol.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.PROTOCOL',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/protocol/protocol.service.js',
+                                                    'app/controllers/settings/protocol/protocol.master.controller.js',
+                                                    'app/controllers/settings/protocol/protocol.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.datasource', {
                         url: "/data-source",
                         templateUrl: "views/settings/datasource/datasource.html",
