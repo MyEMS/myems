@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added clone action to energy storage container in myems-api
 - added export action to energy storage container in myems-api
 - added actions for protocol in myems-api
+- added space associated microgrids actions in myems-api
+- added microgrid energy report
 ### Changed
 - updated tariff price to keep 5 decimal places in database and myems-admin 
 ### Fixed

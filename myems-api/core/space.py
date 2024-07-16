@@ -1542,6 +1542,184 @@ class SpaceMeterItem:
         resp.status = falcon.HTTP_204
 
 
+class SpaceMicrogridCollection:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        query = (" SELECT e.id, e.name, e.uuid, e.phase_of_lifecycle "
+                 " FROM tbl_spaces s, tbl_spaces_microgrids se, tbl_microgrids e "
+                 " WHERE se.space_id = s.id AND e.id = se.microgrid_id AND s.id = %s "
+                 " ORDER BY e.phase_of_lifecycle, e.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'microgrid_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['microgrid_id'], int) or \
+                new_values['data']['microgrid_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+        microgrid_id = new_values['data']['microgrid_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " from tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (microgrid_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        query = (" SELECT id " 
+                 " FROM tbl_spaces_microgrids "
+                 " WHERE space_id = %s AND microgrid_id = %s")
+        cursor.execute(query, (id_, microgrid_id,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.SPACE_MICROGRID_RELATION_EXISTS')
+
+        add_row = (" INSERT INTO tbl_spaces_microgrids (space_id, microgrid_id) "
+                   " VALUES (%s, %s) ")
+        cursor.execute(add_row, (id_, microgrid_id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/spaces/' + str(id_) + '/microgrids/' + str(microgrid_id)
+
+
+class SpaceMicrogridItem:
+    @staticmethod
+    def __init__():
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, mid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, mid):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        if not mid.isdigit() or int(mid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_MICROGRID_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_microgrids "
+                       " WHERE id = %s ", (mid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.MICROGRID_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_spaces_microgrids "
+                       " WHERE space_id = %s AND microgrid_id = %s ", (id_, mid))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_MICROGRID_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_spaces_microgrids "
+                       " WHERE space_id = %s AND microgrid_id = %s ", (id_, mid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+
 class SpaceOfflineMeterCollection:
     @staticmethod
     def __init__():

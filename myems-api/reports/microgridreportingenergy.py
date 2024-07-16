@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.energystoragepowerstationreportingenergy
+import excelexporters.microgridreportingenergy
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -23,16 +23,19 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the energy storage power station
-    # Step 3: query associated energy storage containers
-    # Step 4: query associated batteries
-    # Step 5: query associated grids
-    # Step 6: query associated loads
-    # Step 7: query associated power conversion systems
-    # Step 8: query associated sensors
-    # Step 9: query associated meters data
-    # Step 10: query associated points data
-    # Step 11: construct the report
+    # Step 2: query the microgrid
+    # Step 3: query associated batteries
+    # Step 4: query associated ev chargers
+    # Step 5: query associated generators
+    # Step 6: query associated grids
+    # Step 7: query associated heat pumps
+    # Step 8: query associated loads
+    # Step 9: query associated photovoltaics
+    # Step 10: query associated power conversion systems
+    # Step 11: query associated sensors
+    # Step 12: query associated meters data
+    # Step 13: query associated points data
+    # Step 14: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -43,10 +46,10 @@ class Reporting:
         else:
             api_key_control(req)
         print(req.params)
-        # this procedure accepts energy storage power station id or
-        # energy storage power station uuid to identify a energy storage power station
-        energy_storage_power_station_id = req.params.get('id')
-        energy_storage_power_station_uuid = req.params.get('uuid')
+        # this procedure accepts microgrid id or
+        # microgrid uuid to identify a microgrid
+        microgrid_id = req.params.get('id')
+        microgrid_uuid = req.params.get('uuid')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -58,22 +61,22 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if energy_storage_power_station_id is None and energy_storage_power_station_uuid is None:
+        if microgrid_id is None and microgrid_uuid is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                   description='API.INVALID_MICROGRID_ID')
 
-        if energy_storage_power_station_id is not None:
-            energy_storage_power_station_id = str.strip(energy_storage_power_station_id)
-            if not energy_storage_power_station_id.isdigit() or int(energy_storage_power_station_id) <= 0:
+        if microgrid_id is not None:
+            microgrid_id = str.strip(microgrid_id)
+            if not microgrid_id.isdigit() or int(microgrid_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                       description='API.INVALID_MICROGRID_ID')
 
-        if energy_storage_power_station_uuid is not None:
+        if microgrid_uuid is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(energy_storage_power_station_uuid))
+            match = regex.match(str.strip(microgrid_uuid))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
+                                       description='API.INVALID_MICROGRID_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -169,7 +172,7 @@ class Reporting:
         _ = trans.gettext
 
         ################################################################################################################
-        # Step 2: query the energy storage power station
+        # Step 2: query the microgrid
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -225,30 +228,30 @@ class Reporting:
                                                             "kgce": row_energy_category[3],
                                                             "kgco2e": row_energy_category[4]}
 
-        if energy_storage_power_station_id is not None:
+        if microgrid_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
-                     " FROM tbl_energy_storage_power_stations "
+                     " FROM tbl_microgrids "
                      " WHERE id = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_id,))
+            cursor_system.execute(query, (microgrid_id,))
             row = cursor_system.fetchone()
-        elif energy_storage_power_station_uuid is not None:
+        elif microgrid_uuid is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
-                     " FROM tbl_energy_storage_power_stations "
+                     " FROM tbl_microgrids "
                      " WHERE uuid = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_uuid,))
+            cursor_system.execute(query, (microgrid_uuid,))
             row = cursor_system.fetchone()
 
         if row is None:
             cursor_system.close()
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+                                   description='API.MICROGRID_NOT_FOUND')
         else:
-            energy_storage_power_station_id = row[0]
+            microgrid_id = row[0]
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -260,36 +263,18 @@ class Reporting:
                            "rated_power": row[8],
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
-                           "qrcode": 'energy_storage_power_station:' + row[2]}
+                           "qrcode": 'microgrid:' + row[2]}
 
         point_list = list()
         meter_list = list()
 
         ################################################################################################################
-        # Step 3: query associated energy storage containers
-        ################################################################################################################
-        # todo: query multiple energy storage containers
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers sc, "
-                              "      tbl_energy_storage_containers c "
-                              " WHERE sc.energy_storage_power_station_id = %s "
-                              "      AND sc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
-                              (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-
-        ################################################################################################################
-        # Step 4: query associated batteries
+        # Step 4: query associated batteries data
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.soc_point_id = p.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_batteries mb, tbl_points p "
+                              " WHERE mb.microgrid_id = %s AND mb.soc_point_id = p.id ",
+                              (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
@@ -298,9 +283,9 @@ class Reporting:
                                "object_type": row_point[3]})
 
         cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.power_point_id = p.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_batteries mb, tbl_points p "
+                              " WHERE mb.microgrid_id = %s AND mb.power_point_id = p.id ",
+                              (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
@@ -309,9 +294,9 @@ class Reporting:
                                "object_type": row_point[3]})
 
         cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.charge_meter_id = m.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.microgrid_id = %s AND mb.charge_meter_id = m.id ",
+                              (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
@@ -319,9 +304,9 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.discharge_meter_id = m.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                              " WHERE mb.microgrid_id = %s AND mb.discharge_meter_id = m.id ",
+                              (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
@@ -329,12 +314,20 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 5: query associated grids
+        # Step 4: query associated ev chargers
+        ################################################################################################################
+
+        ################################################################################################################
+        # Step 5: query associated generators
+        ################################################################################################################
+
+        ################################################################################################################
+        # Step 6: query associated grids
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_points p "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.power_point_id = p.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_grids mg, tbl_points p "
+                              " WHERE mg.microgrid_id = %s AND mg.power_point_id = p.id ",
+                              (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
@@ -343,9 +336,9 @@ class Reporting:
                                "object_type": row_point[3]})
 
         cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.buy_meter_id = m.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_grids mg, tbl_meters m "
+                              " WHERE mg.microgrid_id = %s AND mg.buy_meter_id = m.id ",
+                              (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
@@ -353,9 +346,9 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.sell_meter_id = m.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_grids mg, tbl_meters m "
+                              " WHERE mg.microgrid_id = %s AND mg.sell_meter_id = m.id ",
+                              (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
@@ -363,12 +356,16 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 6: query associated loads
+        # Step 7: query associated heat pumps
+        ################################################################################################################
+
+        ################################################################################################################
+        # Step 8: query associated loads
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_points p "
-                              " WHERE ml.energy_storage_container_id = %s AND ml.power_point_id = p.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_loads ml, tbl_points p "
+                              " WHERE ml.microgrid_id = %s AND ml.power_point_id = p.id ",
+                              (microgrid_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
@@ -377,9 +374,9 @@ class Reporting:
                                "object_type": row_point[3]})
 
         cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_meters m "
-                              " WHERE ml.energy_storage_container_id = %s AND ml.meter_id = m.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_microgrids_loads ml, tbl_meters m "
+                              " WHERE ml.microgrid_id = %s AND ml.meter_id = m.id ",
+                              (microgrid_id,))
         row_meter = cursor_system.fetchone()
         if row_meter is not None:
             meter_list.append({"id": row_meter[0],
@@ -387,17 +384,22 @@ class Reporting:
                                "energy_category_id": row_meter[2]})
 
         ################################################################################################################
-        # Step 7: query associated power conversion systems
+        # Step 9: query associated photovoltaics
         ################################################################################################################
         # todo
 
         ################################################################################################################
-        # Step 8: query associated sensors
+        # Step 10: query associated power conversion systems
         ################################################################################################################
         # todo
 
         ################################################################################################################
-        # Step 9: query associated meters data
+        # Step 11: query associated sensors
+        ################################################################################################################
+        # todo
+
+        ################################################################################################################
+        # Step 12: query associated meters data
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -503,7 +505,7 @@ class Reporting:
                 meter_reporting_list.append(meter_report)
 
         ################################################################################################################
-        # Step 10: query associated points data
+        # Step 13: query associated points data
         ################################################################################################################
 
         parameters_data = dict()
@@ -618,10 +620,10 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 14: construct the report
         ################################################################################################################
         result = dict()
-        result['energy_storage_power_station'] = meta_result
+        result['microgrid'] = meta_result
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -661,9 +663,9 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.energystoragepowerstationreportingenergy.\
+                excelexporters.microgridreportingenergy.\
                 export(result,
-                       result['energy_storage_power_station']['name'],
+                       result['microgrid']['name'],
                        reporting_period_start_datetime_local,
                        reporting_period_end_datetime_local,
                        base_period_start_datetime_local,
