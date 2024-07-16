@@ -427,7 +427,7 @@ class Reporting:
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()
         parameters_data['values'] = list()
-        print('point_list:' + str(point_list))
+
         for point in point_list:
             point_values = []
             point_timestamps = []
