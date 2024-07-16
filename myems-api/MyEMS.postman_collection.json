@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a96e345-3fed-4f92-9803-4004acf2e069",
+		"_postman_id": "07ea33cd-32fe-42be-8670-85eb8f084457",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "36323627"
 	},
 	"item": [
 		{
@@ -13628,6 +13628,122 @@
 									"path": [
 										"protocols",
 										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Protocol by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/protocols/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"protocols",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Protocol from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"modbus-tcp\",\n    \"code\": \"modbus-tcp\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/protocols/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"protocols",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Protocol by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/protocols/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"protocols",
+										"1",
+										"clone"
 									]
 								}
 							},

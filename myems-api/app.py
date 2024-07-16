@@ -353,8 +353,6 @@ api.add_route('/energystoragecontainers/{id_}/clone',
               energystoragecontainer.EnergyStorageContainerClone())
 api.add_route('/energystoragecontainers/{id_}/export',
               energystoragecontainer.EnergyStorageContainerExport)
-api.add_route('/energystoragecontainers/import',
-              energystoragecontainer.EnergyStorageContainerImport())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
@@ -574,6 +572,12 @@ api.add_route('/protocols',
               protocol.ProtocolCollection())
 api.add_route('/protocols/{id_}',
               protocol.ProtocolItem())
+api.add_route('/protocols/{id_}/export',
+              protocol.ProtocolExport())
+api.add_route('/protocols/import',
+              protocol.ProtocolImport())
+api.add_route('/protocols/{id_}/clone',
+              protocol.ProtocolClone())
 
 api.add_route('/rules',
               rule.RuleCollection())
