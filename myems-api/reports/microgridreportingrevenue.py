@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.microgridreportingenergy
+import excelexporters.microgridreportingrevenue
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -180,8 +180,8 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
+        cursor_billing = cnx_billing.cursor()
 
         # query all contacts in system
         query = (" SELECT id, name, uuid "
@@ -408,16 +408,16 @@ class Reporting:
         meter_base_list = list()
 
         for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   base_start_datetime_utc,
-                                   base_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
+            cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    base_start_datetime_utc,
+                                    base_end_datetime_utc))
+            rows_meter_hourly = cursor_billing.fetchall()
 
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
                 print('rows_meter_hourly:' + str(rows_meter_hourly))
@@ -459,16 +459,16 @@ class Reporting:
         meter_reporting_list = list()
 
         for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   reporting_start_datetime_utc,
-                                   reporting_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
+            cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id = %s "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s "
+                                   " ORDER BY start_datetime_utc ",
+                                   (meter['id'],
+                                    reporting_start_datetime_utc,
+                                    reporting_end_datetime_utc))
+            rows_meter_hourly = cursor_billing.fetchall()
             if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
                 rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                                     reporting_start_datetime_utc,
@@ -610,10 +610,10 @@ class Reporting:
         if cnx_system:
             cnx_system.close()
 
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
+        if cursor_billing:
+            cursor_billing.close()
+        if cnx_billing:
+            cnx_billing.close()
 
         if cursor_historical:
             cursor_historical.close()
@@ -663,7 +663,7 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.microgridreportingenergy.\
+                excelexporters.microgridreportingrevenue.\
                 export(result,
                        result['microgrid']['name'],
                        reporting_period_start_datetime_local,
