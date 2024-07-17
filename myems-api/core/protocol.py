@@ -237,7 +237,7 @@ class ProtocolItem:
 
         cursor.execute(" SELECT code "
                        " FROM tbl_protocols "
-                       " WHERE code = %s ", (code,))
+                       " WHERE code = %s AND id != %s ", (code, id_))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
