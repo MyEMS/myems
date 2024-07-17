@@ -947,23 +947,30 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-      const dateDifference = moment(DateRange[1]).valueOf() - moment(DateRange[0]).valueOf();
+      const dateDifferenceInSeconds = moment(DateRange[1]).valueOf()/1000 - moment(DateRange[0]).valueOf()/1000;
       if (periodType === 'hourly') {
-        if (dateDifference >= 94608000000) {
+        if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
           setPeriodType('yearly');
-        } else if (dateDifference >= 15768000000) {
+        } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
           setPeriodType('monthly');
-        } else if (dateDifference >= 2592000000) {
+        } else if (dateDifferenceInSeconds > 30 * 24 * 60 * 60) {
+          // more than 30 days
           setPeriodType('daily');
+          document.getElementById('periodType').value = 'daily';
         }
       } else if (periodType === 'daily') {
-        if (dateDifference >= 94608000000) {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
           setPeriodType('yearly');
-        } else if (dateDifference >= 15768000000) {
+        } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
           setPeriodType('monthly');
         }
       } else if (periodType === 'monthly') {
-        if (dateDifference >= 94608000000) {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
           setPeriodType('yearly');
         }
       }
