@@ -536,7 +536,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -557,7 +557,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b0',
               text: t('Reporting Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -572,7 +572,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b1',
               text: t('Reporting Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -623,7 +623,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -645,7 +645,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -714,7 +714,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a0',
               text: t('Base Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -729,7 +729,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a1',
               text: t('Base Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -744,7 +744,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b0',
               text: t('Reporting Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -759,7 +759,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b1',
               text: t('Reporting Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -834,7 +834,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a' + 2 * index,
               text: currentValue + ' (' + unit + ')',
               sort: true,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -846,7 +846,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a' + (2 * index + 1),
               text: t('Percentage'),
               sort: true,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2) + '%';
                 } else {
@@ -947,6 +947,33 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      const dateDifferenceInSeconds = moment(DateRange[1]).valueOf()/1000 - moment(DateRange[0]).valueOf()/1000;
+      if (periodType === 'hourly') {
+        if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+        } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+        } else if (dateDifferenceInSeconds > 30 * 24 * 60 * 60) {
+          // more than 30 days
+          setPeriodType('daily');
+          document.getElementById('periodType').value = 'daily';
+        }
+      } else if (periodType === 'daily') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+        } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+        }
+      } else if (periodType === 'monthly') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+        }
+      }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
           moment(DateRange[0])
@@ -1192,7 +1219,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
@@ -1333,7 +1360,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         />
         <br />
 
-        <ChildSpacesTable data={childSpacesTableData} title={t('Child Spaces Data')} columns={childSpacesTableColumns} />
+        <ChildSpacesTable
+          data={childSpacesTableData}
+          title={t('Child Spaces Data')}
+          columns={childSpacesTableColumns}
+        />
       </div>
     </Fragment>
   );
