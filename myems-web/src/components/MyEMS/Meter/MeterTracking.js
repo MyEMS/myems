@@ -386,17 +386,17 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/metertracking?' +
-        'spaceid=' +
-        selectedSpaceID +
-        '&energyCategory=' +
-        energyCategory +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/metertracking?' +
+      'spaceid=' +
+      selectedSpaceID +
+      '&energyCategory=' +
+      energyCategory +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -572,7 +572,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           <CardSummary title={t('Start Integrity Rate')} color="success">
             <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
