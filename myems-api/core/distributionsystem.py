@@ -29,7 +29,7 @@ class DistributionSystemCollection:
         cursor = cnx.cursor()
 
         svg_dict = dict()
-        query = (" SELECT id, name, uuid "
+        query = (" SELECT id, name, uuid, source_code "
                  " FROM tbl_svgs ")
         cursor.execute(query)
         rows_svgs = cursor.fetchall()
@@ -37,7 +37,8 @@ class DistributionSystemCollection:
             for row in rows_svgs:
                 svg_dict[row[0]] = {"id": row[0],
                                     "name": row[1],
-                                    "uuid": row[2]}
+                                    "uuid": row[2],
+                                    "source_code": row[3]}
 
         query = (" SELECT id, name, uuid, "
                  "        svg_id, description "
@@ -161,7 +162,7 @@ class DistributionSystemItem:
         cursor = cnx.cursor()
 
         svg_dict = dict()
-        query = (" SELECT id, name, uuid "
+        query = (" SELECT id, name, uuid, source_code "
                  " FROM tbl_svgs ")
         cursor.execute(query)
         rows_svgs = cursor.fetchall()
@@ -169,7 +170,8 @@ class DistributionSystemItem:
             for row in rows_svgs:
                 svg_dict[row[0]] = {"id": row[0],
                                     "name": row[1],
-                                    "uuid": row[2]}
+                                    "uuid": row[2],
+                                    "source_code": row[3]}
 
         query = (" SELECT id, name, uuid, "
                  "        svg_id, description "

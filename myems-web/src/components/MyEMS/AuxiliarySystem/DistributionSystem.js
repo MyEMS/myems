@@ -108,7 +108,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
           let images = {};
           json.forEach((currentValue, index) => {
-            images[currentValue['value']] = { __html: currentValue['svg'] };
+            images[currentValue['value']] = { __html: currentValue['svg']['source_code'] };
           });
           setImages(images);
           setSpinnerHidden(true);
