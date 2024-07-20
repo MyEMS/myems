@@ -312,15 +312,15 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/metertrend?' +
-        'meterid=' +
-        selectedMeter +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/metertrend?' +
+      'meterid=' +
+      selectedMeter +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -560,7 +560,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <MultipleLineChart
           reportingTitle={t('Trend Values')}
           baseTitle

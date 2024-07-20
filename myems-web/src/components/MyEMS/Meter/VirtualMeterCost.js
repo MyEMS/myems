@@ -348,6 +348,38 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      const dateDifferenceInSeconds = moment(DateRange[1]).valueOf() / 1000 - moment(DateRange[0]).valueOf() / 1000;
+      if (periodType === 'hourly') {
+        if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+          document.getElementById('periodType').value = 'monthly';
+        } else if (dateDifferenceInSeconds > 30 * 24 * 60 * 60) {
+          // more than 30 days
+          setPeriodType('daily');
+          document.getElementById('periodType').value = 'daily';
+        }
+      } else if (periodType === 'daily') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+          document.getElementById('periodType').value = 'monthly';
+        }
+      } else if (periodType === 'monthly') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        }
+      }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
           moment(DateRange[0])
@@ -424,21 +456,21 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/virtualmetercost?' +
-        'virtualmeterid=' +
-        selectedVirtualMeter +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/virtualmetercost?' +
+      'virtualmeterid=' +
+      selectedVirtualMeter +
+      '&periodtype=' +
+      periodType +
+      '&baseperiodstartdatetime=' +
+      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&baseperiodenddatetime=' +
+      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -545,7 +577,7 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -589,7 +621,7 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                   json['virtual_meter']['unit_of_measure'] +
                   ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -612,7 +644,7 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                   json['virtual_meter']['unit_of_measure'] +
                   ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -857,7 +889,7 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           <CardSummary
             rate={reportingPeriodEnergyCostRate}
