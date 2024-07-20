@@ -200,15 +200,15 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/offlinemeterbatch?' +
-        'spaceid=' +
-        selectedSpaceID +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/offlinemeterbatch?' +
+      'spaceid=' +
+      selectedSpaceID +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -270,7 +270,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a' + index,
               text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
               sort: true,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -397,7 +397,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <DetailedDataTable data={meterList} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} />
       </div>
     </Fragment>

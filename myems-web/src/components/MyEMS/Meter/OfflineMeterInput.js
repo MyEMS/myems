@@ -122,13 +122,13 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     await fetch(
       APIBaseURL +
-        '/reports/offlinemeterdaily?' +
-        'offlinemeterid=' +
-        Offlinemeter +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+      '/reports/offlinemeterdaily?' +
+      'offlinemeterid=' +
+      Offlinemeter +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
       {
         method: 'GET',
         headers: {
