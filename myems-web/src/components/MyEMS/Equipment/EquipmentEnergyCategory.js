@@ -510,7 +510,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -539,7 +539,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -561,7 +561,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -753,6 +753,38 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      const dateDifferenceInSeconds = moment(DateRange[1]).valueOf() / 1000 - moment(DateRange[0]).valueOf() / 1000;
+      if (periodType === 'hourly') {
+        if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+          document.getElementById('periodType').value = 'monthly';
+        } else if (dateDifferenceInSeconds > 30 * 24 * 60 * 60) {
+          // more than 30 days
+          setPeriodType('daily');
+          document.getElementById('periodType').value = 'daily';
+        }
+      } else if (periodType === 'daily') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
+          // more than 6 months
+          setPeriodType('monthly');
+          document.getElementById('periodType').value = 'monthly';
+        }
+      } else if (periodType === 'monthly') {
+        if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
+          // more than 3 years
+          setPeriodType('yearly');
+          document.getElementById('periodType').value = 'yearly';
+        }
+      }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
           moment(DateRange[0])
@@ -1018,7 +1050,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
