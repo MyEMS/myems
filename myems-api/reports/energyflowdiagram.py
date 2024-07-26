@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
+import excelexporters.energyflowdiagram
 from core.useractivity import access_control, api_key_control
 import config
 
@@ -39,6 +40,8 @@ class Reporting:
         energy_flow_diagram_id = req.params.get('energyflowdiagramid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -93,6 +96,13 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+                len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
         ################################################################################################################
         # Step 2: query the energy flow diagram
         ################################################################################################################
@@ -266,7 +276,8 @@ class Reporting:
         ################################################################################################################
 
         result = {'nodes': list(),
-                  'links': list()}
+                  'links': list(),
+                  'excel_bytes_base64': None}
         if meta_result['nodes'] is not None and len(meta_result['nodes']) > 0:
             for node in meta_result['nodes']:
                 result['nodes'].append({'name': node['name']})
@@ -275,4 +286,12 @@ class Reporting:
                 result['links'].append({'source': link['source_node']['name'],
                                         'target': link['target_node']['name'],
                                         'value': link['value']})
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.energyflowdiagram.export(result,
+                                                  meta_result['name'],
+                                                  reporting_period_start_datetime_local,
+                                                  reporting_period_end_datetime_local,
+                                                  language)
+
         resp.text = json.dumps(result)
