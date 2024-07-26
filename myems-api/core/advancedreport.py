@@ -8,8 +8,7 @@ import config
 
 
 class AdvancedReportCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes AdvancedReportCollection"""
         pass
 
@@ -163,8 +162,7 @@ class AdvancedReportCollection:
 
 
 class AdvancedReportItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ReportItem"""
         pass
 
@@ -368,8 +366,7 @@ class AdvancedReportItem:
 
 
 class AdvancedReportRun:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ReportItem"""
         pass
 
@@ -412,8 +409,7 @@ class AdvancedReportRun:
 
 
 class AdvancedReportExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ReportExport"""
         pass
 
@@ -476,8 +472,7 @@ class AdvancedReportExport:
 
 
 class AdvancedReportImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes AdvancedReportImport"""
         pass
 
@@ -579,8 +574,7 @@ class AdvancedReportImport:
 
 
 class AdvancedReportClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ReportClone"""
         pass
 
