@@ -28,7 +28,7 @@
     "chartjs-plugin-datalabels": "^2.1.0",
     "classnames": "^2.2.6",
     "echarts": "^5.2.2",
-    "echarts-for-react": "^2.0.16",
+    "echarts-for-react": "^3.0.2",
     "element-resize-event": "^3.0.3",
     "emoji-mart": "^3.0.0",
     "express-rate-limit": "^5.3.0",
