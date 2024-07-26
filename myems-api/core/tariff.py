@@ -8,8 +8,7 @@ import config
 
 
 class TariffCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TariffCollection"""
         pass
 
@@ -201,8 +200,7 @@ class TariffCollection:
 
 
 class TariffItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TariffItem"""
         pass
 
@@ -455,8 +453,7 @@ class TariffItem:
 
 
 class TariffExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TariffExport"""
         pass
 
@@ -533,8 +530,7 @@ class TariffExport:
 
 
 class TariffImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TariffImport"""
         pass
 
@@ -657,8 +653,7 @@ class TariffImport:
 
 
 class TariffClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TariffClone"""
         pass
 

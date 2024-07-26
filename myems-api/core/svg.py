@@ -8,8 +8,7 @@ import config
 
 
 class SVGCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SVGCollection"""
         pass
 
@@ -135,8 +134,7 @@ class SVGCollection:
 
 
 class SVGItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SVGItem"""
         pass
 
@@ -273,8 +271,7 @@ class SVGItem:
 
 
 class SVGExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SVGExport"""
         pass
 
@@ -318,8 +315,7 @@ class SVGExport:
 
 
 class SVGImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SVGImport"""
         pass
 
@@ -391,8 +387,7 @@ class SVGImport:
 
 
 class SVGClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SVGClone"""
         pass
 

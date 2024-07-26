@@ -8,8 +8,7 @@ import config
 
 
 class ContactCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ContactCollection"""
         pass
 
@@ -128,8 +127,7 @@ class ContactCollection:
 
 
 class ContactItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ContactItem"""
         pass
 

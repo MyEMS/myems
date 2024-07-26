@@ -8,8 +8,7 @@ import config
 
 
 class ShopfloorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorCollection"""
         pass
 
@@ -193,8 +192,7 @@ class ShopfloorCollection:
 
 
 class ShopfloorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorItem"""
         pass
 
@@ -458,8 +456,7 @@ class ShopfloorItem:
 
 
 class ShopfloorEquipmentCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorEquipmentCollection"""
         pass
 
@@ -574,8 +571,7 @@ class ShopfloorEquipmentCollection:
 
 
 class ShopfloorEquipmentItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorEquipmentItem"""
         pass
 
@@ -636,8 +632,7 @@ class ShopfloorEquipmentItem:
 
 
 class ShopfloorMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorMeterCollection"""
         pass
 
@@ -765,8 +760,7 @@ class ShopfloorMeterCollection:
 
 
 class ShopfloorMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorMeterItem"""
         pass
 
@@ -826,8 +820,7 @@ class ShopfloorMeterItem:
 
 
 class ShopfloorOfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorOfflineMeterCollection"""
         pass
 
@@ -955,8 +948,7 @@ class ShopfloorOfflineMeterCollection:
 
 
 class ShopfloorOfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorOfflineMeterItem"""
         pass
 
@@ -1017,8 +1009,7 @@ class ShopfloorOfflineMeterItem:
 
 
 class ShopfloorPointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorPointCollection"""
         pass
 
@@ -1145,8 +1136,7 @@ class ShopfloorPointCollection:
 
 
 class ShopfloorPointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorPointItem"""
         pass
 
@@ -1207,8 +1197,7 @@ class ShopfloorPointItem:
 
 
 class ShopfloorSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorSensorCollection"""
         pass
 
@@ -1323,8 +1312,7 @@ class ShopfloorSensorCollection:
 
 
 class ShopfloorSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorSensorItem"""
         pass
 
@@ -1384,8 +1372,7 @@ class ShopfloorSensorItem:
 
 
 class ShopfloorVirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorVirtualMeterCollection"""
         pass
 
@@ -1513,8 +1500,7 @@ class ShopfloorVirtualMeterCollection:
 
 
 class ShopfloorVirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorVirtualMeterItem"""
         pass
 
@@ -1575,8 +1561,7 @@ class ShopfloorVirtualMeterItem:
 
 
 class ShopfloorWorkingCalendarCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorWorkingCalendarCollection Class"""
         pass
 
@@ -1691,8 +1676,7 @@ class ShopfloorWorkingCalendarCollection:
 
 
 class ShopfloorWorkingCalendarItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorWorkingCalendarItem Class"""
         pass
 
@@ -1753,8 +1737,7 @@ class ShopfloorWorkingCalendarItem:
 
 
 class ShopfloorCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1869,8 +1852,7 @@ class ShopfloorCommandCollection:
 
 
 class ShopfloorCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1930,8 +1912,7 @@ class ShopfloorCommandItem:
 
 
 class ShopfloorExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorExport"""
         pass
 
@@ -2177,8 +2158,7 @@ class ShopfloorExport:
 
 
 class ShopfloorImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ShopfloorImport"""
         pass
 
@@ -2493,8 +2473,7 @@ class ShopfloorImport:
 
 
 class ShopfloorClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Shopfloorclone"""
         pass
 

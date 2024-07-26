@@ -10,8 +10,7 @@ import config
 
 
 class SpaceCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -292,8 +291,7 @@ class SpaceCollection:
 
 
 class SpaceItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -681,8 +679,7 @@ class SpaceItem:
 
 
 class SpaceChildrenCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -818,8 +815,7 @@ class SpaceChildrenCollection:
 
 
 class SpaceCombinedEquipmentCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -934,8 +930,7 @@ class SpaceCombinedEquipmentCollection:
 
 
 class SpaceCombinedEquipmentItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -996,8 +991,7 @@ class SpaceCombinedEquipmentItem:
 
 
 class SpaceEnergyStoragePowerStationCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1112,8 +1106,7 @@ class SpaceEnergyStoragePowerStationCollection:
 
 
 class SpaceEnergyStoragePowerStationItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1174,8 +1167,7 @@ class SpaceEnergyStoragePowerStationItem:
 
 
 class SpaceEquipmentCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1290,8 +1282,7 @@ class SpaceEquipmentCollection:
 
 
 class SpaceEquipmentItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1351,8 +1342,7 @@ class SpaceEquipmentItem:
 
 
 class SpaceMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1480,8 +1470,7 @@ class SpaceMeterCollection:
 
 
 class SpaceMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1543,8 +1532,7 @@ class SpaceMeterItem:
 
 
 class SpaceMicrogridCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1659,8 +1647,7 @@ class SpaceMicrogridCollection:
 
 
 class SpaceMicrogridItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1721,8 +1708,7 @@ class SpaceMicrogridItem:
 
 
 class SpaceOfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1850,8 +1836,7 @@ class SpaceOfflineMeterCollection:
 
 
 class SpaceOfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1912,8 +1897,7 @@ class SpaceOfflineMeterItem:
 
 
 class SpacePointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2040,8 +2024,7 @@ class SpacePointCollection:
 
 
 class SpacePointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2102,8 +2085,7 @@ class SpacePointItem:
 
 
 class SpaceSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2218,8 +2200,7 @@ class SpaceSensorCollection:
 
 
 class SpaceSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2279,8 +2260,7 @@ class SpaceSensorItem:
 
 
 class SpaceShopfloorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2395,8 +2375,7 @@ class SpaceShopfloorCollection:
 
 
 class SpaceShopfloorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2456,8 +2435,7 @@ class SpaceShopfloorItem:
 
 
 class SpaceStoreCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2572,8 +2550,7 @@ class SpaceStoreCollection:
 
 
 class SpaceStoreItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2633,8 +2610,7 @@ class SpaceStoreItem:
 
 
 class SpaceTenantCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2749,8 +2725,7 @@ class SpaceTenantCollection:
 
 
 class SpaceTenantItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2810,8 +2785,7 @@ class SpaceTenantItem:
 
 
 class SpaceVirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2939,8 +2913,7 @@ class SpaceVirtualMeterCollection:
 
 
 class SpaceVirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3001,8 +2974,7 @@ class SpaceVirtualMeterItem:
 
 
 class SpaceTreeCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3115,8 +3087,7 @@ class SpaceTreeCollection:
 
 # Get energy categories of all meters in the space tree
 class SpaceTreeMetersEnergyCategoryCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3188,8 +3159,7 @@ class SpaceTreeMetersEnergyCategoryCollection:
 
 
 class SpaceWorkingCalendarCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SpaceWorkingCalendarCollection Class"""
         pass
 
@@ -3304,8 +3274,7 @@ class SpaceWorkingCalendarCollection:
 
 
 class SpaceWorkingCalendarItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes SpaceWorkingCalendarItem Class"""
         pass
 
@@ -3366,8 +3335,7 @@ class SpaceWorkingCalendarItem:
 
 
 class SpaceCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3482,8 +3450,7 @@ class SpaceCommandCollection:
 
 
 class SpaceCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3543,8 +3510,7 @@ class SpaceCommandItem:
 
 
 class SpaceExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3973,8 +3939,7 @@ class SpaceExport:
 
 
 class SpaceImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -4453,8 +4418,7 @@ class SpaceImport:
 
 
 class SpaceClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

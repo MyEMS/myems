@@ -8,8 +8,7 @@ import config
 
 
 class MeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterCollection"""
         pass
 
@@ -279,8 +278,7 @@ class MeterCollection:
 
 
 class MeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterItem"""
         pass
 
@@ -855,8 +853,7 @@ class MeterItem:
 
 
 class MeterSubmeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterSubmeterCollection"""
         pass
 
@@ -960,8 +957,7 @@ class MeterSubmeterCollection:
 
 
 class MeterPointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterPointCollection"""
         pass
 
@@ -1083,8 +1079,7 @@ class MeterPointCollection:
 
 
 class MeterPointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterPointItem"""
         pass
 
@@ -1145,8 +1140,7 @@ class MeterPointItem:
 
 
 class MeterCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1261,8 +1255,7 @@ class MeterCommandCollection:
 
 
 class MeterCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1322,8 +1315,7 @@ class MeterCommandItem:
 
 
 class MeterExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterExport"""
         pass
 
@@ -1439,8 +1431,7 @@ class MeterExport:
 
 
 class MeterImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MeterImport"""
         pass
 
@@ -1676,8 +1667,7 @@ class MeterImport:
 
 
 class MeterClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

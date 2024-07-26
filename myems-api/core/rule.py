@@ -8,8 +8,7 @@ import config
 
 
 class RuleCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleCollection"""
         pass
 
@@ -202,8 +201,7 @@ class RuleCollection:
 
 
 class RuleItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleItem"""
         pass
 
@@ -439,8 +437,7 @@ class RuleItem:
 
 
 class RuleRun:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleItem"""
         pass
 
@@ -482,8 +479,7 @@ class RuleRun:
 
 
 class RuleExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleExport"""
         pass
 
@@ -551,8 +547,7 @@ class RuleExport:
 
 
 class RuleImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleImport"""
         pass
 
@@ -688,8 +683,7 @@ class RuleImport:
 
 
 class RuleClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes RuleClone"""
         pass
 

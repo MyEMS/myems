@@ -8,8 +8,7 @@ import config
 
 
 class VirtualPowerPlantCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualPowerPlantCollection"""
         pass
 
@@ -198,8 +197,7 @@ class VirtualPowerPlantCollection:
 
 
 class VirtualPowerPlantItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualPowerPlantItem"""
         pass
 
@@ -435,8 +433,7 @@ class VirtualPowerPlantItem:
 
 
 class VirtualPowerPlantMicrogridCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -551,8 +548,7 @@ class VirtualPowerPlantMicrogridCollection:
 
 
 class VirtualPowerPlantMicrogridItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -613,8 +609,7 @@ class VirtualPowerPlantMicrogridItem:
 
 
 class VirtualPowerPlantExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualPowerPlantExport"""
         pass
 
@@ -697,8 +692,7 @@ class VirtualPowerPlantExport:
 
 
 class VirtualPowerPlantImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualPowerPlantImport"""
         pass
 
@@ -819,8 +813,7 @@ class VirtualPowerPlantImport:
 
 
 class VirtualPowerPlantClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualPowerPlantExport"""
         pass
 

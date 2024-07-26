@@ -7,8 +7,7 @@ import config
 
 
 class EnergyItemCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyItemCollection"""
         pass
 
@@ -124,8 +123,7 @@ class EnergyItemCollection:
 
 
 class EnergyItemItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyItemItem"""
         pass
 

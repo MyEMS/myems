@@ -7,8 +7,7 @@ import config
 
 
 class TextMessageCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TextMessageCollection"""
         pass
 
@@ -225,8 +224,7 @@ class TextMessageCollection:
 
 
 class TextMessageItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TextMessageItem"""
         pass
 

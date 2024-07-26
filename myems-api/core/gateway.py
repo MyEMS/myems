@@ -8,8 +8,7 @@ import config
 
 
 class GatewayCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayCollection"""
         pass
 
@@ -110,8 +109,7 @@ class GatewayCollection:
 
 
 class GatewayItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayItem"""
         pass
 
@@ -268,8 +266,7 @@ class GatewayItem:
 
 
 class GatewayDataSourceCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayDataSourceCollection"""
         pass
 
@@ -333,8 +330,7 @@ class GatewayDataSourceCollection:
 
 class GatewayExport:
 
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayExport"""
         pass
 
@@ -385,8 +381,7 @@ class GatewayExport:
 
 
 class GatewayImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayImport"""
         pass
 
@@ -450,8 +445,7 @@ class GatewayImport:
 
 
 class GatewayClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes GatewayClone"""
         pass
 

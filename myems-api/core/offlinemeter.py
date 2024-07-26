@@ -8,8 +8,7 @@ import config
 
 
 class OfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes OfflineMeterCollection"""
         pass
 
@@ -238,8 +237,7 @@ class OfflineMeterCollection:
 
 
 class OfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes OfflineMeterItem"""
         pass
 
@@ -640,8 +638,7 @@ class OfflineMeterItem:
 
 
 class OfflineMeterExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes OfflineMeterExport"""
         pass
 
@@ -729,8 +726,7 @@ class OfflineMeterExport:
 
 
 class OfflineMeterImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes OfflineMeterImport"""
         pass
 
@@ -885,8 +881,7 @@ class OfflineMeterImport:
 
 
 class OfflineMeterClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes OfflineMeterClone"""
         pass
 

@@ -7,8 +7,7 @@ import config
 
 
 class StoreTypeCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """ Initializes StoreTypeCollection"""
         pass
 
@@ -120,8 +119,7 @@ class StoreTypeCollection:
 
 
 class StoreTypeItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """ Initializes StoreTypeItem"""
         pass
 

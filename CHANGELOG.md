@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - aligned timestamps of parameters for microgrid details report
 - aligned timestamps of parameters for energy storage power station details report
+- removed @staticmethod from __init__ methods in myems-api
 ### Removed
 
 ## [v4.7.0] - 2024-07-08

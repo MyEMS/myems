@@ -11,8 +11,7 @@ import config
 
 
 class CommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandCollection"""
         pass
 
@@ -137,8 +136,7 @@ class CommandCollection:
 
 
 class CommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandItem"""
         pass
 
@@ -397,8 +395,7 @@ class CommandItem:
 
 
 class CommandSend:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandSend"""
         pass
 
@@ -488,8 +485,7 @@ class CommandSend:
 
 
 class CommandExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandItem"""
         pass
 
@@ -535,8 +531,7 @@ class CommandExport:
 
 
 class CommandImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandCollection"""
         pass
 
@@ -627,8 +622,7 @@ class CommandImport:
 
 
 class CommandClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CommandItem"""
         pass
 

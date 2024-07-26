@@ -9,8 +9,7 @@ from decimal import Decimal
 
 
 class DataSourceCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataSourceCollection"""
         pass
 
@@ -192,8 +191,7 @@ class DataSourceCollection:
 
 
 class DataSourceItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataSourceItem"""
         pass
 
@@ -426,8 +424,7 @@ class DataSourceItem:
 
 
 class DataSourcePointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataSourcePointCollection"""
         pass
 
@@ -529,8 +526,7 @@ class DataSourcePointCollection:
 
 
 class DataSourceExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataSourceExport"""
         pass
 
@@ -624,8 +620,7 @@ class DataSourceExport:
 
 
 class DataSourceImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataSourceImport"""
         pass
 
@@ -777,8 +772,7 @@ class DataSourceImport:
 
 
 class DataSourceClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

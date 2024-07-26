@@ -11,8 +11,7 @@ import config
 
 
 class KnowledgeFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes KnowledgeFileCollection"""
         pass
 
@@ -171,8 +170,7 @@ class KnowledgeFileCollection:
 
 
 class KnowledgeFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes KnowledgeFileItem"""
         pass
 
@@ -278,8 +276,7 @@ class KnowledgeFileItem:
 
 
 class KnowledgeFileRestore:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes KnowledgeFileRestore"""
         pass
 

@@ -7,8 +7,7 @@ import config
 
 
 class CostCenterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostCenterCollection"""
         pass
 
@@ -112,8 +111,7 @@ class CostCenterCollection:
 
 
 class CostCenterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostCenterItem"""
         pass
 
@@ -384,8 +382,7 @@ class CostCenterItem:
 
 
 class CostCenterTariffCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostCenterTariffCollection"""
         pass
 
@@ -495,8 +492,7 @@ class CostCenterTariffCollection:
 
 
 class CostCenterTariffItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostCenterTariffItem"""
         pass
 

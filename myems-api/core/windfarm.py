@@ -8,8 +8,7 @@ import config
 
 
 class WindFarmCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WindFarmCollection"""
         pass
 
@@ -248,8 +247,7 @@ class WindFarmCollection:
 
 
 class WindFarmItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WindFarmItem"""
         pass
 
@@ -531,8 +529,7 @@ class WindFarmItem:
 
 
 class WindFarmExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WindFarmItem"""
         pass
 
@@ -617,8 +614,7 @@ class WindFarmExport:
 
 
 class WindFarmImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WindFarmCollection"""
         pass
 
@@ -786,8 +782,7 @@ class WindFarmImport:
 
 
 class WindFarmClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WindFarmItem"""
         pass
 

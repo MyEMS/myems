@@ -11,8 +11,7 @@ from core.useractivity import access_control, api_key_control
 
 
 class Reporting:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

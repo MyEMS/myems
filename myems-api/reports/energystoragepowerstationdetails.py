@@ -9,8 +9,7 @@ import config
 
 
 class Reporting:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -28,6 +27,7 @@ class Reporting:
     # Step 6: query associated loads on containers
     # Step 7: query associated power conversion systems on containers
     #     Step 7.1 query energy indicator data
+    #     Step 7.2 query revenue indicator data
     # Step 9: query associated sensors on containers
     # Step 10: query associated points data on containers
     # Step 11: construct the report

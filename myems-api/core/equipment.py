@@ -8,8 +8,7 @@ import config
 
 
 class EquipmentCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentCollection"""
         pass
 
@@ -198,8 +197,7 @@ class EquipmentCollection:
 
 
 class EquipmentItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentItem"""
         pass
 
@@ -617,8 +615,7 @@ class EquipmentItem:
 
 
 class EquipmentParameterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentParameterCollection"""
         pass
 
@@ -1322,8 +1319,7 @@ class EquipmentParameterItem:
 
 
 class EquipmentMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentMeterCollection"""
         pass
 
@@ -1460,8 +1456,7 @@ class EquipmentMeterCollection:
 
 
 class EquipmentMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentMeterItem"""
         pass
 
@@ -1521,8 +1516,7 @@ class EquipmentMeterItem:
 
 
 class EquipmentOfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentOfflineMeterCollection"""
         pass
 
@@ -1659,8 +1653,7 @@ class EquipmentOfflineMeterCollection:
 
 
 class EquipmentOfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentOfflineMeterItem"""
         pass
 
@@ -1721,8 +1714,7 @@ class EquipmentOfflineMeterItem:
 
 
 class EquipmentVirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentVirtualMeterCollection"""
         pass
 
@@ -1859,8 +1851,7 @@ class EquipmentVirtualMeterCollection:
 
 
 class EquipmentVirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentVirtualMeterItem"""
         pass
 
@@ -1921,8 +1912,7 @@ class EquipmentVirtualMeterItem:
 
 
 class EquipmentCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2039,8 +2029,7 @@ class EquipmentCommandCollection:
 
 
 class EquipmentCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2100,8 +2089,7 @@ class EquipmentCommandItem:
 
 
 class EquipmentExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentExport"""
         pass
 
@@ -2361,8 +2349,7 @@ class EquipmentExport:
 
 
 class EquipmentImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentImport"""
         pass
 
@@ -2715,8 +2702,7 @@ class EquipmentImport:
 
 
 class EquipmentClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes EquipmentClone"""
         pass
 

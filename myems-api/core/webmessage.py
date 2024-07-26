@@ -8,8 +8,7 @@ import config
 
 
 class WebMessageCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WebMessageCollection"""
         pass
 
@@ -182,8 +181,7 @@ class WebMessageCollection:
 
 
 class WebMessageStatusNewCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WebMessageStatusNewCollection"""
         pass
 
@@ -402,8 +400,7 @@ class WebMessageStatusNewCollection:
 
 
 class WebMessageItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WebMessageItem"""
         pass
 
@@ -717,8 +714,7 @@ class WebMessageItem:
 
 
 class WebMessageBatch:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WebMessageBatch"""
         pass
 

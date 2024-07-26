@@ -12,8 +12,7 @@ import config
 
 
 class UserCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -215,8 +214,7 @@ class UserCollection:
 
 
 class UserItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -470,8 +468,7 @@ class UserItem:
 
 
 class UserLogin:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -651,8 +648,7 @@ class UserLogin:
 
 
 class UserLogout:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -696,8 +692,7 @@ class UserLogout:
 
 
 class ChangePassword:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -825,8 +820,7 @@ class ChangePassword:
 
 
 class ResetPassword:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -948,8 +942,7 @@ class ResetPassword:
 
 
 class Unlock:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1019,8 +1012,7 @@ class Unlock:
 
 
 class ForgotPassword:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1131,8 +1123,7 @@ class ForgotPassword:
 
 
 class EmailMessageCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EmailMessageCollection"""
         pass
 
@@ -1344,8 +1335,7 @@ class EmailMessageCollection:
 
 
 class EmailMessageItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EmailMessageItem"""
         pass
 
@@ -1562,8 +1552,7 @@ class EmailMessageItem:
 
 
 class NewUserCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1741,8 +1730,7 @@ class NewUserCollection:
 
 
 class NewUserItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1916,8 +1904,7 @@ class NewUserItem:
 
 
 class NewUserApprove:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

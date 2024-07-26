@@ -8,8 +8,7 @@ import config
 
 
 class DistributionSystemCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemCollection"""
         pass
 
@@ -137,8 +136,7 @@ class DistributionSystemCollection:
 
 
 class DistributionSystemItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemItem"""
         pass
 
@@ -302,8 +300,7 @@ class DistributionSystemItem:
 
 
 class DistributionSystemDistributionCircuitCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemDistributionCircuitCollection"""
         pass
 
@@ -356,8 +353,7 @@ class DistributionSystemDistributionCircuitCollection:
 
 
 class DistributionSystemExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemExport"""
         pass
 
@@ -451,8 +447,7 @@ class DistributionSystemExport:
 
 
 class DistributionSystemImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemImport"""
         pass
 
@@ -577,8 +572,7 @@ class DistributionSystemImport:
 
 
 class DistributionSystemClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionSystemClone"""
         pass
 

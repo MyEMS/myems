@@ -8,8 +8,7 @@ from core.useractivity import user_logger, admin_control
 
 
 class WechatMessageCollection(object):
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WechatMessageCollection"""
         pass
 
@@ -250,8 +249,7 @@ class WechatMessageCollection(object):
 
 
 class WechatMessageItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WechatMessageItem"""
         pass
 

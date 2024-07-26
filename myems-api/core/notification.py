@@ -7,8 +7,7 @@ from core.useractivity import user_logger, admin_control, access_control, api_ke
 
 
 class NotificationCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes NotificationCollection"""
         pass
 
@@ -155,8 +154,7 @@ class NotificationCollection:
 
 
 class NotificationItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes NotificationItem"""
         pass
 

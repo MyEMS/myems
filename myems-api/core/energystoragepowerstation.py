@@ -8,8 +8,7 @@ import config
 
 
 class EnergyStoragePowerStationCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -275,8 +274,7 @@ class EnergyStoragePowerStationCollection:
 
 
 class EnergyStoragePowerStationItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -591,8 +589,7 @@ class EnergyStoragePowerStationItem:
 
 
 class EnergyStoragePowerStationContainerCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -706,8 +703,7 @@ class EnergyStoragePowerStationContainerCollection:
 
 
 class EnergyStoragePowerStationContainerItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -768,8 +764,7 @@ class EnergyStoragePowerStationContainerItem:
 
 
 class EnergyStoragePowerStationUserCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -879,8 +874,7 @@ class EnergyStoragePowerStationUserCollection:
 
 
 class EnergyStoragePowerStationUserItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -943,8 +937,7 @@ class EnergyStoragePowerStationUserItem:
 
 
 class EnergyStoragePowerStationImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -1135,8 +1128,7 @@ class EnergyStoragePowerStationImport:
 
 
 class EnergyStoragePowerStationExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -1222,8 +1214,7 @@ class EnergyStoragePowerStationExport:
 
 
 class EnergyStoragePowerStationClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

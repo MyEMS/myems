@@ -8,8 +8,7 @@ import config
 
 
 class PhotovoltaicPowerStationCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PhotovoltaicPowerStationCollection"""
         pass
 
@@ -247,8 +246,7 @@ class PhotovoltaicPowerStationCollection:
 
 
 class PhotovoltaicPowerStationItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PhotovoltaicPowerStationItem"""
         pass
 
@@ -530,8 +528,7 @@ class PhotovoltaicPowerStationItem:
 
 
 class PhotovoltaicPowerStationExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PhotovoltaicPowerStationExport"""
         pass
 
@@ -616,8 +613,7 @@ class PhotovoltaicPowerStationExport:
 
 
 class PhotovoltaicPowerStationImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PhotovoltaicPowerStationImport"""
         pass
 
@@ -785,8 +781,7 @@ class PhotovoltaicPowerStationImport:
 
 
 class PhotovoltaicPowerStationClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PhotovoltaicPowerStationClone"""
         pass
 
