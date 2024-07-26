@@ -9,8 +9,7 @@ import config
 
 
 class DataRepairFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataRepairFileCollection"""
         pass
 
@@ -146,8 +145,7 @@ class DataRepairFileCollection:
 
 
 class DataRepairFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataRepairFileItem"""
         pass
 
@@ -232,8 +230,7 @@ class DataRepairFileItem:
 
 
 class DataRepairFileRestore:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes DataRepairFileRestore"""
         pass
 

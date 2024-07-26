@@ -3,8 +3,7 @@ import simplejson as json
 
 
 class Reporting:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Reporting"""
         pass
 

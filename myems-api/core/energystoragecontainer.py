@@ -8,8 +8,7 @@ from datetime import datetime, timedelta
 
 
 class EnergyStorageContainerCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -217,8 +216,7 @@ class EnergyStorageContainerCollection:
 
 
 class EnergyStorageContainerItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -489,8 +487,7 @@ class EnergyStorageContainerItem:
 
 
 class EnergyStorageContainerSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -602,8 +599,7 @@ class EnergyStorageContainerSensorCollection:
 
 
 class EnergyStorageContainerSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -664,8 +660,7 @@ class EnergyStorageContainerSensorItem:
 
 
 class EnergyStorageContainerBatteryCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -925,8 +920,7 @@ class EnergyStorageContainerBatteryCollection:
 
 
 class EnergyStorageContainerBatteryItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1253,8 +1247,7 @@ class EnergyStorageContainerBatteryItem:
 
 
 class EnergyStorageContainerCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1300,8 +1293,7 @@ class EnergyStorageContainerCommandCollection:
 
 
 class EnergyStorageContainerGridCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1512,8 +1504,7 @@ class EnergyStorageContainerGridCollection:
 
 
 class EnergyStorageContainerGridItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1780,8 +1771,7 @@ class EnergyStorageContainerGridItem:
 
 
 class EnergyStorageContainerLoadCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1972,8 +1962,7 @@ class EnergyStorageContainerLoadCollection:
 
 
 class EnergyStorageContainerLoadItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2219,8 +2208,7 @@ class EnergyStorageContainerLoadItem:
 
 
 class EnergyStorageContainerPowerconversionsystemCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2422,8 +2410,7 @@ class EnergyStorageContainerPowerconversionsystemCollection:
 
 
 class EnergyStorageContainerPowerconversionsystemItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2691,8 +2678,7 @@ class EnergyStorageContainerPowerconversionsystemItem:
 
 
 class EnergyStorageContainerScheduleCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2798,8 +2784,7 @@ class EnergyStorageContainerScheduleCollection:
 
 
 class EnergyStorageContainerScheduleItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -2988,8 +2973,7 @@ class EnergyStorageContainerScheduleItem:
 
 
 class EnergyStorageContainerClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -3056,8 +3040,7 @@ class EnergyStorageContainerClone:
 
 
 class EnergyStorageContainerExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -3137,8 +3120,7 @@ class EnergyStorageContainerExport:
 
 
 class EnergyStorageContainerImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Class"""
         pass
 
@@ -3169,7 +3151,7 @@ class EnergyStorageContainerImport:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
         name = str.strip(new_values['name']) + \
-               (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
         if 'rated_capacity' not in new_values.keys() or \
                 not (isinstance(new_values['rated_capacity'], float) or

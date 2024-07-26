@@ -9,8 +9,7 @@ import config
 
 
 class CostFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostFileCollection"""
         pass
 
@@ -146,8 +145,7 @@ class CostFileCollection:
 
 
 class CostFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostFileItem"""
         pass
 
@@ -234,8 +232,7 @@ class CostFileItem:
 
 
 class CostFileRestore:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes CostFileRestore"""
         pass
 

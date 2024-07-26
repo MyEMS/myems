@@ -7,8 +7,7 @@ import config
 
 
 class PointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointCollection"""
         pass
 
@@ -227,8 +226,7 @@ class PointCollection:
 
 
 class PointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointItem"""
         pass
 
@@ -830,8 +828,7 @@ class PointItem:
 
 
 class PointLimit:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointLimit"""
         pass
 
@@ -912,8 +909,7 @@ class PointLimit:
 
 
 class PointExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointExport"""
         pass
 
@@ -975,8 +971,7 @@ class PointExport:
 
 
 class PointImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointImport"""
         pass
 
@@ -1147,8 +1142,7 @@ class PointImport:
 
 
 class PointClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes PointClone"""
         pass
 

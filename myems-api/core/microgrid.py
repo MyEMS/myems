@@ -8,8 +8,7 @@ import config
 
 
 class MicrogridCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes MicrogridCollection"""
         pass
 
@@ -285,8 +284,7 @@ class MicrogridCollection:
 
 
 class MicrogridItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes MicrogridItem"""
         pass
 
@@ -643,8 +641,7 @@ class MicrogridItem:
 
 
 class MicrogridBatteryCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridBatteryCollection"""
         pass
 
@@ -904,8 +901,7 @@ class MicrogridBatteryCollection:
 
 
 class MicrogridBatteryItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridBatteryItem"""
         pass
 
@@ -1232,8 +1228,7 @@ class MicrogridBatteryItem:
 
 
 class MicrogridCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1277,8 +1272,7 @@ class MicrogridCommandCollection:
 
 
 class MicrogridEVChargerCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridEVChargerCollection"""
         pass
 
@@ -1470,8 +1464,7 @@ class MicrogridEVChargerCollection:
 
 
 class MicrogridEVChargerItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridEVChargerItem"""
         pass
 
@@ -1716,8 +1709,7 @@ class MicrogridEVChargerItem:
 
 
 class MicrogridGeneratorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridGeneratorCollection"""
         pass
 
@@ -1908,8 +1900,7 @@ class MicrogridGeneratorCollection:
 
 
 class MicrogridGeneratorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridGeneratorItem"""
         pass
 
@@ -2155,8 +2146,7 @@ class MicrogridGeneratorItem:
 
 
 class MicrogridGridCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridGridCollection"""
         pass
 
@@ -2366,8 +2356,7 @@ class MicrogridGridCollection:
 
 
 class MicrogridGridItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridGridItem"""
         pass
 
@@ -2634,8 +2623,7 @@ class MicrogridGridItem:
 
 
 class MicrogridHeatpumpCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridHeatpumpCollection"""
         pass
 
@@ -2865,8 +2853,7 @@ class MicrogridHeatpumpCollection:
 
 
 class MicrogridHeatpumpItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridHeatpumpItem"""
         pass
 
@@ -3153,8 +3140,7 @@ class MicrogridHeatpumpItem:
 
 
 class MicrogridLoadCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridLoadCollection"""
         pass
 
@@ -3345,8 +3331,7 @@ class MicrogridLoadCollection:
 
 
 class MicrogridLoadItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridLoadItem"""
         pass
 
@@ -3592,8 +3577,7 @@ class MicrogridLoadItem:
 
 
 class MicrogridPhotovoltaicCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridPhotovoltaicCollection"""
         pass
 
@@ -3785,8 +3769,7 @@ class MicrogridPhotovoltaicCollection:
 
 
 class MicrogridPhotovoltaicItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridPhotovoltaicItem"""
         pass
 
@@ -4032,8 +4015,7 @@ class MicrogridPhotovoltaicItem:
 
 
 class MicrogridPowerconversionsystemCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridPowerconversionsystemCollection"""
         pass
 
@@ -4234,8 +4216,7 @@ class MicrogridPowerconversionsystemCollection:
 
 
 class MicrogridPowerconversionsystemItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes MicrogridPowerconversionsystemItem"""
         pass
 
@@ -4504,8 +4485,7 @@ class MicrogridPowerconversionsystemItem:
 
 
 class MicrogridScheduleCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -4611,8 +4591,7 @@ class MicrogridScheduleCollection:
 
 
 class MicrogridScheduleItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -4801,8 +4780,7 @@ class MicrogridScheduleItem:
 
 
 class MicrogridSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -4912,8 +4890,7 @@ class MicrogridSensorCollection:
 
 
 class MicrogridSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -4974,8 +4951,7 @@ class MicrogridSensorItem:
 
 
 class MicrogridUserCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -5085,8 +5061,7 @@ class MicrogridUserCollection:
 
 
 class MicrogridUserItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -5148,8 +5123,7 @@ class MicrogridUserItem:
 
 
 class MicrogridExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes MicrogridExport"""
         pass
 
@@ -5225,8 +5199,7 @@ class MicrogridExport:
 
 
 class MicrogridImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes MicrogridImport"""
         pass
 
@@ -5406,8 +5379,7 @@ class MicrogridImport:
 
 
 class MicrogridClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes MicrogridClone"""
         pass
 

@@ -8,8 +8,7 @@ import config
 
 
 class VirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualMeterCollection"""
         pass
 
@@ -344,8 +343,7 @@ class VirtualMeterCollection:
 
 
 class VirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualMeterItem"""
         pass
 
@@ -875,8 +873,7 @@ class VirtualMeterItem:
 
 
 class VirtualMeterExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualMeterItem"""
         pass
 
@@ -1014,8 +1011,7 @@ class VirtualMeterExport:
 
 
 class VirtualMeterImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualMeterImport"""
         pass
 
@@ -1225,8 +1221,7 @@ class VirtualMeterImport:
 
 
 class VirtualMeterClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes VirtualMeterClone"""
         pass
 

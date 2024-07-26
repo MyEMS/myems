@@ -9,8 +9,7 @@ import config
 
 
 class OfflineMeterFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes OfflineMeterFileCollection"""
         pass
 
@@ -155,8 +154,7 @@ class OfflineMeterFileCollection:
 
 
 class OfflineMeterFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes OfflineMeterFileItem"""
         pass
 
@@ -241,8 +239,7 @@ class OfflineMeterFileItem:
 
 
 class OfflineMeterFileRestore:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes OfflineMeterFileRestore"""
         pass
 

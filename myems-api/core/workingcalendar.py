@@ -7,8 +7,7 @@ import config
 
 
 class WorkingCalendarCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WorkingCalendarCollection"""
         pass
 
@@ -97,8 +96,7 @@ class WorkingCalendarCollection:
 
 
 class WorkingCalendarItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WorkingCalendarItem"""
         pass
 
@@ -281,8 +279,7 @@ class WorkingCalendarItem:
 
 
 class NonWorkingDayCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes NonWorkingDayCollection"""
         pass
 
@@ -383,8 +380,7 @@ class NonWorkingDayCollection:
 
 
 class NonWorkingDayItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes NonWorkingDayItem"""
         pass
 
@@ -515,8 +511,7 @@ class NonWorkingDayItem:
 
 
 class WorkingCalendarExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WorkingCalendarExport"""
         pass
 
@@ -573,8 +568,7 @@ class WorkingCalendarExport:
 
 
 class WorkingCalendarImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WorkingCalendarImport"""
         pass
 
@@ -665,8 +659,7 @@ class WorkingCalendarImport:
 
 
 class WorkingCalendarClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes WorkingCalendarClone"""
         pass
 

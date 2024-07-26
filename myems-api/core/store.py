@@ -8,8 +8,7 @@ import config
 
 
 class StoreCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreCollection"""
         pass
 
@@ -253,8 +252,7 @@ class StoreCollection:
 
 
 class StoreItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreItem"""
         pass
 
@@ -577,8 +575,7 @@ class StoreItem:
 
 
 class StoreMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreMeterCollection"""
         pass
 
@@ -706,8 +703,7 @@ class StoreMeterCollection:
 
 
 class StoreMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -767,8 +763,7 @@ class StoreMeterItem:
 
 
 class StoreOfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -896,8 +891,7 @@ class StoreOfflineMeterCollection:
 
 
 class StoreOfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -958,8 +952,7 @@ class StoreOfflineMeterItem:
 
 
 class StorePointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1086,8 +1079,7 @@ class StorePointCollection:
 
 
 class StorePointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1148,8 +1140,7 @@ class StorePointItem:
 
 
 class StoreSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1264,8 +1255,7 @@ class StoreSensorCollection:
 
 
 class StoreSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1325,8 +1315,7 @@ class StoreSensorItem:
 
 
 class StoreVirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1454,8 +1443,7 @@ class StoreVirtualMeterCollection:
 
 
 class StoreVirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1516,8 +1504,7 @@ class StoreVirtualMeterItem:
 
 
 class StoreWorkingCalendarCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes StoreWorkingCalendarCollection Class"""
         pass
 
@@ -1632,8 +1619,7 @@ class StoreWorkingCalendarCollection:
 
 
 class StoreWorkingCalendarItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes StoreWorkingCalendarItem Class"""
         pass
 
@@ -1694,8 +1680,7 @@ class StoreWorkingCalendarItem:
 
 
 class StoreCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1810,8 +1795,7 @@ class StoreCommandCollection:
 
 
 class StoreCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1871,8 +1855,7 @@ class StoreCommandItem:
 
 
 class StoreExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreExport"""
         pass
 
@@ -2113,8 +2096,7 @@ class StoreExport:
 
 
 class StoreImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreImport"""
         pass
 
@@ -2448,8 +2430,7 @@ class StoreImport:
 
 
 class StoreClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes StoreClone"""
         pass
 

@@ -9,8 +9,7 @@ import config
 
 
 class AdvancedReportFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -119,8 +118,7 @@ class AdvancedReportFileCollection:
 
 
 class AdvancedReportFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

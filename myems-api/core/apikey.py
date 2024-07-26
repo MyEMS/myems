@@ -9,8 +9,7 @@ from core.useractivity import admin_control
 
 
 class ApiKeyCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ApiKeyCollection"""
         pass
 
@@ -104,8 +103,7 @@ class ApiKeyCollection:
 
 
 class ApiKeyItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes ApiKeyItem"""
         pass
 

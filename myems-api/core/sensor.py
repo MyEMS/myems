@@ -8,8 +8,7 @@ import config
 
 
 class SensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorCollection"""
         pass
 
@@ -103,8 +102,7 @@ class SensorCollection:
 
 
 class SensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorItem"""
         pass
 
@@ -305,8 +303,7 @@ class SensorItem:
 
 
 class SensorPointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorPointCollection"""
         pass
 
@@ -418,8 +415,7 @@ class SensorPointCollection:
 
 
 class SensorPointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorPointItem"""
         pass
 
@@ -479,8 +475,7 @@ class SensorPointItem:
 
 
 class SensorExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         pass
 
     @staticmethod
@@ -535,8 +530,7 @@ class SensorExport:
 
 
 class SensorImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorImport"""
         pass
 
@@ -621,8 +615,7 @@ class SensorImport:
 
 class SensorClone:
 
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes SensorClone"""
         pass
 

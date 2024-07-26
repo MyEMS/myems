@@ -8,8 +8,7 @@ import config
 
 
 class Reporting:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes Reporting"""
         pass
 
@@ -289,9 +288,9 @@ class Reporting:
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
                 excelexporters.energyflowdiagram.export(result,
-                                                  meta_result['name'],
-                                                  reporting_period_start_datetime_local,
-                                                  reporting_period_end_datetime_local,
-                                                  language)
+                                                        meta_result['name'],
+                                                        reporting_period_start_datetime_local,
+                                                        reporting_period_end_datetime_local,
+                                                        language)
 
         resp.text = json.dumps(result)

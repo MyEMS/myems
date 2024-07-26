@@ -7,8 +7,7 @@ import config
 
 
 class TenantTypeCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -123,8 +122,7 @@ class TenantTypeCollection:
 
 
 class TenantTypeItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 

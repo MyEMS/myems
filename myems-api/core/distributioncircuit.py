@@ -7,8 +7,7 @@ import config
 
 
 class DistributionCircuitCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionCircuitCollection"""
         pass
 
@@ -180,8 +179,7 @@ class DistributionCircuitCollection:
 
 
 class DistributionCircuitItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionCircuitItem"""
         pass
 
@@ -401,8 +399,7 @@ class DistributionCircuitItem:
 
 
 class DistributionCircuitPointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionCircuitPointCollection"""
         pass
 
@@ -528,8 +525,7 @@ class DistributionCircuitPointCollection:
 
 
 class DistributionCircuitPointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes DistributionCircuitPointItem"""
         pass
 

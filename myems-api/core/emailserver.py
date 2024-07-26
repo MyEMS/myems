@@ -8,8 +8,7 @@ import config
 
 
 class EmailServerCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EmailServerCollection"""
         pass
 
@@ -144,8 +143,7 @@ class EmailServerCollection:
 
 
 class EmailServerItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EmailServerItem"""
         pass
 

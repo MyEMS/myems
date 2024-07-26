@@ -9,8 +9,7 @@ import config
 
 
 class ProtocolCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ContactCollection"""
         pass
 
@@ -112,8 +111,7 @@ class ProtocolCollection:
 
 
 class ProtocolItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ContactItem"""
         pass
 
@@ -259,8 +257,7 @@ class ProtocolItem:
 
 
 class ProtocolExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ProtocolItem"""
         pass
 
@@ -303,8 +300,7 @@ class ProtocolExport:
 
 
 class ProtocolImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ProtocolCollection"""
         pass
 
@@ -377,8 +373,7 @@ class ProtocolImport:
 
 
 class ProtocolClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes ProtocolItem"""
         pass
 

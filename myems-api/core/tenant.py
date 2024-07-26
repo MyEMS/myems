@@ -8,8 +8,7 @@ import config
 
 
 class TenantCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TenantCollection"""
         pass
 
@@ -303,8 +302,7 @@ class TenantCollection:
 
 
 class TenantItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TenantItem"""
         pass
 
@@ -675,8 +673,7 @@ class TenantItem:
 
 
 class TenantMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -806,8 +803,7 @@ class TenantMeterCollection:
 
 
 class TenantMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -867,8 +863,7 @@ class TenantMeterItem:
 
 
 class TenantOfflineMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -998,8 +993,7 @@ class TenantOfflineMeterCollection:
 
 
 class TenantOfflineMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1060,8 +1054,7 @@ class TenantOfflineMeterItem:
 
 
 class TenantPointCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1190,8 +1183,7 @@ class TenantPointCollection:
 
 
 class TenantPointItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1252,8 +1244,7 @@ class TenantPointItem:
 
 
 class TenantSensorCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1370,8 +1361,7 @@ class TenantSensorCollection:
 
 
 class TenantSensorItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1431,8 +1421,7 @@ class TenantSensorItem:
 
 
 class TenantVirtualMeterCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1562,8 +1551,7 @@ class TenantVirtualMeterCollection:
 
 
 class TenantVirtualMeterItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1624,8 +1612,7 @@ class TenantVirtualMeterItem:
 
 
 class TenantWorkingCalendarCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes TenantWorkingCalendarCollection Class"""
         pass
 
@@ -1742,8 +1729,7 @@ class TenantWorkingCalendarCollection:
 
 
 class TenantWorkingCalendarItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes TenantWorkingCalendarItem Class"""
         pass
 
@@ -1804,8 +1790,7 @@ class TenantWorkingCalendarItem:
 
 
 class TenantCommandCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1922,8 +1907,7 @@ class TenantCommandCollection:
 
 
 class TenantCommandItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """Initializes Class"""
         pass
 
@@ -1983,8 +1967,7 @@ class TenantCommandItem:
 
 
 class TenantExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TenantExport"""
         pass
 
@@ -2241,8 +2224,7 @@ class TenantExport:
 
 
 class TenantImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TenantImport"""
         pass
 
@@ -2612,8 +2594,7 @@ class TenantImport:
 
 
 class TenantClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes TenantClone"""
         pass
 

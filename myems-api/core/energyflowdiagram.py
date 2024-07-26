@@ -8,8 +8,7 @@ import config
 
 
 class EnergyFlowDiagramCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramCollection"""
         pass
 
@@ -176,8 +175,7 @@ class EnergyFlowDiagramCollection:
 
 
 class EnergyFlowDiagramItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramItem"""
         pass
 
@@ -389,8 +387,7 @@ class EnergyFlowDiagramItem:
 
 
 class EnergyFlowDiagramLinkCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramLinkCollection"""
         pass
 
@@ -649,8 +646,7 @@ class EnergyFlowDiagramLinkCollection:
 
 
 class EnergyFlowDiagramLinkItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramLinkItem"""
         pass
 
@@ -961,8 +957,7 @@ class EnergyFlowDiagramLinkItem:
 
 
 class EnergyFlowDiagramNodeCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramNodeCollection"""
         pass
 
@@ -1072,8 +1067,7 @@ class EnergyFlowDiagramNodeCollection:
 
 
 class EnergyFlowDiagramNodeItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramNodeItem"""
         pass
 
@@ -1237,8 +1231,7 @@ class EnergyFlowDiagramNodeItem:
 
 
 class EnergyFlowDiagramExport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramExport"""
         pass
 
@@ -1363,8 +1356,7 @@ class EnergyFlowDiagramExport:
 
 
 class EnergyFlowDiagramImport:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramImport"""
         pass
 
@@ -1570,8 +1562,7 @@ class EnergyFlowDiagramImport:
 
 
 class EnergyFlowDiagramClone:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyFlowDiagramClone"""
         pass
 

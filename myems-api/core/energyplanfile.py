@@ -9,8 +9,7 @@ import config
 
 
 class EnergyPlanFileCollection:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyPlanFileCollection"""
         pass
 
@@ -155,8 +154,7 @@ class EnergyPlanFileCollection:
 
 
 class EnergyPlanFileItem:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyPlanFileItem"""
         pass
 
@@ -241,8 +239,7 @@ class EnergyPlanFileItem:
 
 
 class EnergyPlanFileRestore:
-    @staticmethod
-    def __init__():
+    def __init__(self):
         """"Initializes EnergyPlanFileRestore"""
         pass
 
