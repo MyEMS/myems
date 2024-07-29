@@ -342,7 +342,6 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        today_start_datetime_utc = None
         today_end_datetime_utc = datetime.utcnow()
         today_end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
         today_start_datetime_local = today_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -393,6 +392,53 @@ class Reporting:
         row = cursor_energy.fetchone()
         if row is not None:
             total_discharge_energy_value = row[0]
+
+        # Step 7.2 query revenue indicator data
+        today_charge_revenue_value = Decimal(0.0)
+        today_discharge_revenue_value = Decimal(0.0)
+        total_charge_revenue_value = Decimal(0.0)
+        total_discharge_revenue_value = Decimal(0.0)
+
+        # query meter revenue
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s "
+                               "     AND start_datetime_utc >= %s "
+                               "     AND start_datetime_utc < %s ",
+                               (charge_meter_id,
+                                today_start_datetime_utc,
+                                today_end_datetime_utc))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            today_charge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s "
+                               "     AND start_datetime_utc >= %s "
+                               "     AND start_datetime_utc < %s ",
+                               (discharge_meter_id,
+                                today_start_datetime_utc,
+                                today_end_datetime_utc))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            today_discharge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s ",
+                               (charge_meter_id,))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            total_charge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s ",
+                               (discharge_meter_id,))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            total_discharge_revenue_value = row[0]
         ################################################################################################################
         # Step 8: query associated schedules on containers
         ################################################################################################################
@@ -642,6 +688,13 @@ class Reporting:
         result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
         result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
         result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
+
+        result['revenue_indicators'] = dict()
+        result['revenue_indicators']['today_charge_revenue_value'] = today_charge_revenue_value
+        result['revenue_indicators']['today_discharge_revenue_value'] = today_discharge_revenue_value
+        result['revenue_indicators']['total_charge_revenue_value'] = total_charge_revenue_value
+        result['revenue_indicators']['total_discharge_revenue_value'] = total_discharge_revenue_value
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
