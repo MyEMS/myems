@@ -77,6 +77,18 @@ class Reporting:
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
 
+        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy = cnx_energy.cursor()
+
+        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
+        cursor_billing = cnx_billing.cursor()
+
+        cnx_carbon = mysql.connector.connect(**config.myems_carbon_db)
+        cursor_carbon = cnx_carbon.cursor()
+
+        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+        cursor_historical = cnx_historical.cursor()
+
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor_system.execute(query)
@@ -166,8 +178,7 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated batteries
         ################################################################################################################
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+
         energy_value_latest_dict = dict()
         query = (" SELECT point_id, actual_value "
                  " FROM tbl_energy_value_latest ")
@@ -226,7 +237,7 @@ class Reporting:
                                "name": row_point[1]+'.P',
                                "units": row_point[2],
                                "object_type": row_point[3]})
-
+        charge_meter_id = None
         cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
                               " FROM tbl_microgrids_batteries mb, tbl_meters m "
                               " WHERE mb.microgrid_id = %s AND mb.charge_meter_id = m.id ",
@@ -236,7 +247,9 @@ class Reporting:
             meter_list.append({"id": row_meter[0],
                                "name": row_meter[1] + '.Charge',
                                "energy_category_id": row_meter[2]})
+            charge_meter_id = row_meter[0]
 
+        discharge_meter_id = None
         cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
                               " FROM tbl_microgrids_batteries mb, tbl_meters m "
                               " WHERE mb.microgrid_id = %s AND mb.discharge_meter_id = m.id ",
@@ -246,55 +259,160 @@ class Reporting:
             meter_list.append({"id": row_meter[0],
                                "name": row_meter[1] + '.Discharge',
                                "energy_category_id": row_meter[2]})
+            discharge_meter_id = row_meter[0]
 
         ################################################################################################################
         # Step 4: query associated power conversion systems
         ################################################################################################################
         # Step 4.1 query energy indicator data
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        today_end_datetime_utc = datetime.utcnow()
+        today_end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+        today_start_datetime_local = today_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_start_datetime_utc = today_start_datetime_local - timedelta(minutes=timezone_offset)
+
         today_charge_energy_value = Decimal(0.0)
         today_discharge_energy_value = Decimal(0.0)
         total_charge_energy_value = Decimal(0.0)
         total_discharge_energy_value = Decimal(0.0)
-        cursor_system.execute(" SELECT run_state_point_id, "
-                              "        today_charge_energy_point_id, "
-                              "        today_discharge_energy_point_id, "
-                              "        total_charge_energy_point_id, "
-                              "        total_discharge_energy_point_id "
-                              " FROM tbl_microgrids_power_conversion_systems "
-                              " WHERE microgrid_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            pcs_run_state_point_id = row_point[0]
-            today_charge_energy_point_id = row_point[1]
-            today_discharge_energy_point_id = row_point[2]
-            total_charge_energy_point_id = row_point[3]
-            total_discharge_energy_point_id = row_point[4]
 
-        if digital_value_latest_dict.get(pcs_run_state_point_id) is not None:
-            pcs_run_state_point_value = digital_value_latest_dict.get(pcs_run_state_point_id)
+        # query meter energy
+        cursor_energy.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (charge_meter_id,
+                               today_start_datetime_utc,
+                               today_end_datetime_utc))
+        row = cursor_energy.fetchone()
+        if row is not None:
+            today_charge_energy_value = row[0]
 
-        if analog_value_latest_dict.get(today_charge_energy_point_id) is not None:
-            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
-        elif energy_value_latest_dict.get(today_charge_energy_point_id) is not None:
-            today_charge_energy_value = analog_value_latest_dict.get(today_charge_energy_point_id)
+        cursor_energy.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (discharge_meter_id,
+                               today_start_datetime_utc,
+                               today_end_datetime_utc))
+        row = cursor_energy.fetchone()
+        if row is not None:
+            today_discharge_energy_value = row[0]
 
-        if analog_value_latest_dict.get(today_discharge_energy_point_id) is not None:
-            today_discharge_energy_value = analog_value_latest_dict.get(today_discharge_energy_point_id)
-        elif energy_value_latest_dict.get(today_discharge_energy_point_id) is not None:
-            today_discharge_energy_value = energy_value_latest_dict.get(today_discharge_energy_point_id)
+        cursor_energy.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s ",
+                              (charge_meter_id,))
+        row = cursor_energy.fetchone()
+        if row is not None:
+            total_charge_energy_value = row[0]
 
-        if analog_value_latest_dict.get(total_charge_energy_point_id) is not None:
-            total_charge_energy_value = analog_value_latest_dict.get(total_charge_energy_point_id)
-        elif energy_value_latest_dict.get(total_charge_energy_point_id) is not None:
-            total_charge_energy_value = energy_value_latest_dict.get(total_charge_energy_point_id)
+        cursor_energy.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s ",
+                              (discharge_meter_id,))
+        row = cursor_energy.fetchone()
+        if row is not None:
+            total_discharge_energy_value = row[0]
 
-        if analog_value_latest_dict.get(total_discharge_energy_point_id) is not None:
-            total_discharge_energy_value = analog_value_latest_dict.get(total_discharge_energy_point_id)
-        elif energy_value_latest_dict.get(total_discharge_energy_point_id) is not None:
-            total_discharge_energy_value = energy_value_latest_dict.get(total_discharge_energy_point_id)
+        # Step 4.2 query revenue indicator data
+        today_charge_revenue_value = Decimal(0.0)
+        today_discharge_revenue_value = Decimal(0.0)
+        total_charge_revenue_value = Decimal(0.0)
+        total_discharge_revenue_value = Decimal(0.0)
+
+        # query meter revenue
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s "
+                               "     AND start_datetime_utc >= %s "
+                               "     AND start_datetime_utc < %s ",
+                               (charge_meter_id,
+                                today_start_datetime_utc,
+                                today_end_datetime_utc))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            today_charge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s "
+                               "     AND start_datetime_utc >= %s "
+                               "     AND start_datetime_utc < %s ",
+                               (discharge_meter_id,
+                                today_start_datetime_utc,
+                                today_end_datetime_utc))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            today_discharge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s ",
+                               (charge_meter_id,))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            total_charge_revenue_value = row[0]
+
+        cursor_billing.execute(" SELECT SUM(actual_value) "
+                               " FROM tbl_meter_hourly "
+                               " WHERE meter_id = %s ",
+                               (discharge_meter_id,))
+        row = cursor_billing.fetchone()
+        if row is not None:
+            total_discharge_revenue_value = row[0]
+
+        # Step 4.3 query carbon indicator data
+        today_charge_carbon_value = Decimal(0.0)
+        today_discharge_carbon_value = Decimal(0.0)
+        total_charge_carbon_value = Decimal(0.0)
+        total_discharge_carbon_value = Decimal(0.0)
+
+        # query meter carbon
+        cursor_carbon.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (charge_meter_id,
+                               today_start_datetime_utc,
+                               today_end_datetime_utc))
+        row = cursor_carbon.fetchone()
+        if row is not None:
+            today_charge_carbon_value = row[0]
+
+        cursor_carbon.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (discharge_meter_id,
+                               today_start_datetime_utc,
+                               today_end_datetime_utc))
+        row = cursor_carbon.fetchone()
+        if row is not None:
+            today_discharge_carbon_value = row[0]
+
+        cursor_carbon.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s ",
+                              (charge_meter_id,))
+        row = cursor_carbon.fetchone()
+        if row is not None:
+            total_charge_carbon_value = row[0]
+
+        cursor_carbon.execute(" SELECT SUM(actual_value) "
+                              " FROM tbl_meter_hourly "
+                              " WHERE meter_id = %s ",
+                              (discharge_meter_id,))
+        row = cursor_carbon.fetchone()
+        if row is not None:
+            total_discharge_carbon_value = row[0]
 
         ################################################################################################################
         # Step 5: query associated evchargers
@@ -673,7 +791,15 @@ class Reporting:
         pcs_parameters_data['names'] = list()
         pcs_parameters_data['timestamps'] = list()
         pcs_parameters_data['values'] = list()
-        if pcs_run_state_point_id is not None:
+        cursor_system.execute(" SELECT run_state_point_id "
+                              " FROM tbl_microgrids_power_conversion_systems "
+                              " WHERE microgrid_id = %s "
+                              " ORDER BY id "
+                              " LIMIT 1 ",
+                              (microgrid_id,))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            pcs_run_state_point_id = row_point[0]
             point_values = []
             point_timestamps = []
             query = (" SELECT utc_date_time, actual_value "
@@ -768,6 +894,19 @@ class Reporting:
         result['energy_indicators']['today_discharge_energy_value'] = today_discharge_energy_value
         result['energy_indicators']['total_charge_energy_value'] = total_charge_energy_value
         result['energy_indicators']['total_discharge_energy_value'] = total_discharge_energy_value
+
+        result['revenue_indicators'] = dict()
+        result['revenue_indicators']['today_charge_revenue_value'] = today_charge_revenue_value
+        result['revenue_indicators']['today_discharge_revenue_value'] = today_discharge_revenue_value
+        result['revenue_indicators']['total_charge_revenue_value'] = total_charge_revenue_value
+        result['revenue_indicators']['total_discharge_revenue_value'] = total_discharge_revenue_value
+
+        result['carbon_indicators'] = dict()
+        result['carbon_indicators']['today_charge_carbon_value'] = today_charge_carbon_value
+        result['carbon_indicators']['today_discharge_carbon_value'] = today_discharge_carbon_value
+        result['carbon_indicators']['total_charge_carbon_value'] = total_charge_carbon_value
+        result['carbon_indicators']['total_discharge_carbon_value'] = total_discharge_carbon_value
+
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],

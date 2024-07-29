@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import {
   Card,
   CardBody,
@@ -30,10 +30,12 @@ import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
 import classNames from 'classnames';
+import AppContext from '../../../context/Context';
 
 const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const microgridUUID = location.search.split('=')[1];
+  const { currency } = useContext(AppContext);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -100,6 +102,16 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [totalDischargeEnergyValue, setTotalDischargeEnergyValue] = useState();
   const [totalEfficiency, setTotalEfficiency] = useState();
 
+  const [todayChargeRevenueValue, setTodayChargeRevenueValue] = useState();
+  const [todayDischargeRevenueValue, setTodayDischargeRevenueValue] = useState();
+  const [totalChargeRevenueValue, setTotalChargeRevenueValue] = useState();
+  const [totalDischargeRevenueValue, setTotalDischargeRevenueValue] = useState();
+
+  const [todayChargeCarbonValue, setTodayChargeCarbonValue] = useState();
+  const [todayDischargeCarbonValue, setTodayDischargeCarbonValue] = useState();
+  const [totalChargeCarbonValue, setTotalChargeCarbonValue] = useState();
+  const [totalDischargeCarbonValue, setTotalDischargeCarbonValue] = useState();
+
   const [scheduleXaxisData, setScheduleXaxisData] = useState();
   const [scheduleSeriesName, setScheduleSeriesName] = useState();
   const [scheduleSeriesData, setScheduleSeriesData] = useState();
@@ -146,15 +158,27 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
           setMicrogridSVG({ __html: json['microgrid']['svg'] });
+
           setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
           setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);
           setTotalChargeEnergyValue(json['energy_indicators']['total_charge_energy_value']);
           setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
+
           if (json['energy_indicators']['total_charge_energy_value'] > 0) {
             setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2))
           } else {
             setTotalEfficiency(0)
           }
+
+          setTodayChargeRevenueValue(json['revenue_indicators']['today_charge_revenue_value']);
+          setTodayDischargeRevenueValue(json['revenue_indicators']['today_discharge_revenue_value']);
+          setTotalChargeRevenueValue(json['revenue_indicators']['total_charge_revenue_value']);
+          setTotalDischargeRevenueValue(json['revenue_indicators']['total_discharge_revenue_value']);
+
+          setTodayChargeCarbonValue(json['carbon_indicators']['today_charge_carbon_value']);
+          setTodayDischargeCarbonValue(json['carbon_indicators']['today_discharge_carbon_value']);
+          setTotalChargeCarbonValue(json['carbon_indicators']['total_charge_carbon_value']);
+          setTotalDischargeCarbonValue(json['carbon_indicators']['total_discharge_carbon_value']);
 
           setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
           '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
@@ -340,8 +364,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Efficiency')}</th>
+                          <th className="pl-0 pb-0">{t('Total Efficiency')}</th>
                           <th className="pr-0 text-right">{totalEfficiency}%</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0 pb-0">Discharge Achievement Rate</th>
+                          <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / microgridRatedCapacity).toFixed(2)}%</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -357,27 +385,27 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                       <tbody>
                         <tr className="border-bottom">
                           <th className="pl-0">{t('Today\'s Cost')}</th>
-                          <th className="pr-0 text-right">900.00 </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Total Cost')}</th>
-                          <th className="pr-0 text-right ">90000.00</th>
+                          <th className="pr-0 text-right">{todayChargeRevenueValue} {currency}</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Today\'s Revenue')}</th>
-                          <th className="pr-0 text-right">1000.00</th>
+                          <th className="pr-0 text-right">{todayDischargeRevenueValue} {currency}</th>
+                        </tr>
+                        <tr className="border-bottom">
+                          <th className="pl-0">{t('Total Cost')}</th>
+                          <th className="pr-0 text-right ">{totalChargeRevenueValue} {currency}</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Revenue')}</th>
-                          <th className="pr-0 text-right">100000.00</th>
+                          <th className="pr-0 text-right">{totalDischargeRevenueValue} {currency}</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Today\'s Profit')}</th>
-                          <th className="pr-0 text-right">100.00</th>
+                          <th className="pr-0 text-right">{(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} {currency}</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Profit')}</th>
-                          <th className="pr-0 text-right">10000.00</th>
+                          <th className="pr-0 text-right">{(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} {currency}</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -392,28 +420,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Today\'s Cost')}</th>
-                          <th className="pr-0 text-right">900.00 </th>
+                          <th className="pl-0">{t('Today\'s Emission')} </th>
+                          <th className="pr-0 text-right">{todayChargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Total Cost')}</th>
-                          <th className="pr-0 text-right ">90000.00</th>
+                          <th className="pl-0 pb-0">{t('Today\'s Reduction')}</th>
+                          <th className="pr-0 text-right">{todayDischargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Revenue')}</th>
-                          <th className="pr-0 text-right">1000.00</th>
+                          <th className="pl-0">{t('Total Emission')}</th>
+                          <th className="pr-0 text-right ">{totalChargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Revenue')}</th>
-                          <th className="pr-0 text-right">100000.00</th>
+                          <th className="pl-0 pb-0">{t('Total Reduction')}</th>
+                          <th className="pr-0 text-right">{totalDischargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Profit')}</th>
-                          <th className="pr-0 text-right">100.00</th>
+                          <th className="pl-0 pb-0">{t('Today\'s Net Reduction')}</th>
+                          <th className="pr-0 text-right">{(todayDischargeCarbonValue - todayChargeCarbonValue).toFixed(2)} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Profit')}</th>
-                          <th className="pr-0 text-right">10000.00</th>
+                          <th className="pl-0 pb-0">{t('Total Net Reduction')}</th>
+                          <th className="pr-0 text-right">{(totalDischargeCarbonValue - totalChargeCarbonValue).toFixed(2)} kgCO2</th>
                         </tr>
                       </tbody>
                     </Table>
