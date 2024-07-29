@@ -116,6 +116,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [totalDischargeEnergyValue, setTotalDischargeEnergyValue] = useState();
   const [totalEfficiency, setTotalEfficiency] = useState();
 
+  const [todayChargeRevenueValue, setTodayChargeRevenueValue] = useState();
+  const [todayDischargeRevenueValue, setTodayDischargeRevenueValue] = useState();
+  const [totalChargeRevenueValue, setTotalChargeRevenueValue] = useState();
+  const [totalDischargeRevenueValue, setTotalDischargeRevenueValue] = useState();
+
   const [scheduleXaxisData, setScheduleXaxisData] = useState();
   const [scheduleSeriesName, setScheduleSeriesName] = useState();
   const [scheduleSeriesData, setScheduleSeriesData] = useState();
@@ -268,15 +273,22 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
+
           setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
           setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);
           setTotalChargeEnergyValue(json['energy_indicators']['total_charge_energy_value']);
           setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
+
           if (json['energy_indicators']['total_charge_energy_value'] > 0) {
             setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2))
           } else {
             setTotalEfficiency(0)
           }
+
+          setTodayChargeRevenueValue(json['revenue_indicators']['today_charge_revenue_value']);
+          setTodayDischargeRevenueValue(json['revenue_indicators']['today_discharge_revenue_value']);
+          setTotalChargeRevenueValue(json['revenue_indicators']['total_charge_revenue_value']);
+          setTotalDischargeRevenueValue(json['revenue_indicators']['total_discharge_revenue_value']);
 
           setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
           '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
@@ -586,6 +598,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pl-0 pb-0">综合效率</th>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">放电达成率</th>
+                            <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / energyStoragePowerStationRatedCapacity).toFixed(2)}%</th>
+                          </tr>
                         </tbody>
                       </Table>
                     </CardBody>
@@ -600,27 +616,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                         <tbody>
                           <tr className="border-bottom">
                             <th className="pl-0">今日成本</th>
-                            <th className="pr-0 text-right">0 元</th>
+                            <th className="pr-0 text-right">{todayChargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0">今日收入</th>
-                            <th className="pr-0 text-right ">0 元</th>
+                            <th className="pr-0 text-right ">{todayDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">累计成本</th>
-                            <th className="pr-0 text-right">0 元</th>
+                            <th className="pr-0 text-right">{totalChargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">累计收入</th>
-                            <th className="pr-0 text-right">0 元</th>
+                            <th className="pr-0 text-right">{totalDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">今日盈利</th>
-                            <th className="pr-0 text-right">0 元</th>
+                            <th className="pr-0 text-right">{(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">累计盈利</th>
-                            <th className="pr-0 text-right">0 元</th>
+                            <th className="pr-0 text-right">{(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} 元</th>
                           </tr>
                         </tbody>
                       </Table>
@@ -749,7 +765,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                            <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kW</th>
+                            <th className="pr-0 text-right">{energyStoragePowerStationRatedCapacity} kWh</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t('Rated Power')} </th>

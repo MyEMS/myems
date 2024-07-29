@@ -88,7 +88,7 @@ const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) =>
     },
     plugins: {
       legend: {
-        display: false
+        display: true
       }
     },
     interaction: {
