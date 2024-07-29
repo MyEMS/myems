@@ -5,7 +5,7 @@ FROM node:latest as build-stage
 WORKDIR /opt
 COPY . .
 
-# use this for node v17.x.x or v18.x.x, note that the default command maybe slow at sometime
+# use this for node v17.x.x or above, note that the default command maybe slow at sometime
 RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
 
 # use this if above command is slow or unavialiable
