@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Warning
+- Changed Dockerfile WORKDIR from '/code' to '/app', **MUST** replace '/code/.env' with '/app/.env' in docker run commands
 ### Added
 - added clone action to energy storage container in myems-api
 - added export action to energy storage container in myems-api
@@ -21,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - aligned timestamps of parameters for energy storage power station details report
 - removed @staticmethod from __init__ methods in myems-api
 ### Removed
+- None
 
 ## [v4.7.0] - 2024-07-08
 ### Warning
