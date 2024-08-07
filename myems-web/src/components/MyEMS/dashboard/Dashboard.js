@@ -113,19 +113,19 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
         fetch(
           APIBaseURL +
-            '/reports/dashboard?' +
-            'useruuid=' +
-            user_uuid +
-            '&periodtype=' +
-            periodType +
-            '&baseperiodstartdatetime=' +
-            (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&baseperiodenddatetime=' +
-            (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&reportingperiodstartdatetime=' +
-            reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&reportingperiodenddatetime=' +
-            reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+          '/reports/dashboard?' +
+          'useruuid=' +
+          user_uuid +
+          '&periodtype=' +
+          periodType +
+          '&baseperiodstartdatetime=' +
+          (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&baseperiodenddatetime=' +
+          (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&reportingperiodstartdatetime=' +
+          reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+          '&reportingperiodenddatetime=' +
+          reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
           {
             method: 'GET',
             headers: {
@@ -161,8 +161,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting_period_input']['subtotals_per_unit_area'][index];
                 labels.push(
                   t('CATEGORY Consumption UNIT', { CATEGORY: null, UNIT: null }) +
-                    cardSummaryItem['name'] +
-                    cardSummaryItem['unit']
+                  cardSummaryItem['name'] +
+                  cardSummaryItem['unit']
                 );
                 thisYearBarList.push(cardSummaryItem);
               });
@@ -178,8 +178,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting_period_cost']['subtotals_per_unit_area'][index];
                 labels.push(
                   t('CATEGORY Costs UNIT', { CATEGORY: null, UNIT: null }) +
-                    cardSummaryItem['name'] +
-                    cardSummaryItem['unit']
+                  cardSummaryItem['name'] +
+                  cardSummaryItem['unit']
                 );
                 thisYearBarList.push(cardSummaryItem);
               });
@@ -311,7 +311,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 thisMonthItem['unit'] = json['reporting_period_input']['units'][index];
                 thisMonthItem['subtotal'] =
                   json['reporting_period_input']['values'][index][
-                    json['reporting_period_input']['values'][index].length - 1
+                  json['reporting_period_input']['values'][index].length - 1
                   ];
                 thisMonthItem['increment_rate'] =
                   parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
@@ -344,7 +344,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 thisMonthItem['unit'] = json['reporting_period_cost']['units'][index];
                 thisMonthItem['subtotal'] =
                   json['reporting_period_cost']['values'][index][
-                    json['reporting_period_cost']['values'][index].length - 1
+                  json['reporting_period_cost']['values'][index].length - 1
                   ];
                 thisMonthItem['increment_rate'] =
                   parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
@@ -427,7 +427,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   dataField: 'a' + index,
                   text: t('CATEGORY Consumption UNIT', { CATEGORY: currentValue, UNIT: '(' + unit + ')' }),
                   sort: true,
-                  formatter: function(decimalValue) {
+                  formatter: function (decimalValue) {
                     if (typeof decimalValue === 'number') {
                       return decimalValue.toFixed(2);
                     } else {
@@ -442,7 +442,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   dataField: 'b' + index,
                   text: t('CATEGORY Costs UNIT', { CATEGORY: currentValue, UNIT: '(' + unit + ')' }),
                   sort: true,
-                  formatter: function(decimalValue) {
+                  formatter: function (decimalValue) {
                     if (typeof decimalValue === 'number') {
                       return decimalValue.toFixed(2);
                     } else {
@@ -649,21 +649,25 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-        <CardSummary
-          rate={totalInTCE['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
-            CATEGORY: t('Ton of Standard Coal'),
-            UNIT: '(TCE)'
-          })}
-          color="warning"
-          footnote={t('Per Unit Area')}
-          footvalue={totalInTCE['value_per_unit_area']}
-          footunit="(TCE/M²)"
-        >
-          {totalInTCE['value'] && (
-            <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}
-        </CardSummary>
+        {settings.showTCEData ? (
+          <CardSummary
+            rate={totalInTCE['increment_rate'] || ''}
+            title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+              CATEGORY: t('Ton of Standard Coal'),
+              UNIT: '(TCE)'
+            })}
+            color="warning"
+            footnote={t('Per Unit Area')}
+            footvalue={totalInTCE['value_per_unit_area']}
+            footunit="(TCE/M²)"
+          >
+            {totalInTCE['value'] && (
+              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+            )}
+          </CardSummary>
+        ) : (
+          <></>
+        )}
         <CardSummary
           rate={totalInTCO2E['increment_rate'] || ''}
           title={t("This Year's Consumption CATEGORY VALUE UNIT", {
@@ -726,7 +730,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={costShareData} title={t('Costs by Energy Category')} />
         </Col>
         <Col className="mb-3 pr-lg-2 mb-3">
-          <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          {settings.showTCEData ? (
+            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          ) : (
+            <></>
+          )}
         </Col>
         <Col className="mb-3 pr-lg-2 mb-3">
           <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
