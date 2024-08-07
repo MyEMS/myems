@@ -46,6 +46,7 @@ from reports import energystoragepowerstationdetails
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreportingrevenue
 from reports import energystoragepowerstationreportingenergy
+from reports import energystoragepowerstationreportingparameters
 from reports import energystoragepowerstationcollectionenergy
 from reports import energystoragepowerstationitemenergy
 from reports import energystoragepowerstationcollectionbilling
@@ -992,6 +993,8 @@ api.add_route('/reports/energystoragepowerstationreportingrevenue',
               energystoragepowerstationreportingrevenue.Reporting())
 api.add_route('/reports/energystoragepowerstationreportingenergy',
               energystoragepowerstationreportingenergy.Reporting())
+api.add_route('/reports/energystoragepowerstationreportingparameters',
+              energystoragepowerstationreportingparameters.Reporting())
 api.add_route('/reports/energystoragepowerstationcollectionenergy',
               energystoragepowerstationcollectionenergy.Reporting())
 api.add_route('/reports/energystoragepowerstationitemenergy',

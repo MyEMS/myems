@@ -953,32 +953,498 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            <MultipleLineChart
-              reportingTitle=""
-              baseTitle=""
-              labels={PCSParameterLineChartLabels}
-              data={PCSParameterLineChartData}
-              options={PCSParameterLineChartOptions}
-            />
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>PCS#1</th>
+                      <th>工作状态: 运行</th>
+                      <th>并网状态: 并网</th>
+                      <th>设备状态: -</th>
+                      <th>控制模式: -</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电量功率</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>当日充电量: 437 kWh</td>
+                      <td>总交流有功功率: 8.0 kW</td>
+                      <td>A相有功功率: -</td>
+                      <td>A相无功功率: -</td>
+                      <td>A相视在功率: -</td>
+                    </tr>
+                    <tr>
+                      <td>当日放电量: 629 kWh</td>
+                      <td>总交流无功功率: 0.0 kvar</td>
+                      <td>B相有功功率: -</td>
+                      <td>B相无功功率: -</td>
+                      <td>B相视在功率: -</td>
+                    </tr>
+                    <tr>
+                      <td>交流频率: 49.96 Hz</td>
+                      <td>总交流视在功率: 8.0kVA</td>
+                      <td>C相有功功率: -</td>
+                      <td>C相无功功率: -</td>
+                      <td>C相视在功率: -</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>总交流功率因数: 0.9990</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电压电流</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>AB电压: 230 V</td>
+                      <td>AB电流: -</td>
+                      <td>A相电压: -</td>
+                      <td>A相电流: 12 A</td>
+                      <td>PCS模块温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>BC电压: 232 V</td>
+                      <td>BC电流: -</td>
+                      <td>B相电压: -</td>
+                      <td>B相电流: 10 A</td>
+                      <td>PCS环境温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>CA电压: 230 V</td>
+                      <td>CA电流: -</td>
+                      <td>C相电压: -</td>
+                      <td>C相电流: 13 A</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>温度</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>A1模块温度: 32.4 ℃</td>
+                      <td>A2模块温度: 32.2 ℃</td>
+                      <td>进风口温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>B1模块温度: 32.4 ℃</td>
+                      <td>B2模块温度: 32.9 ℃</td>
+                      <td>出风口温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>C1模块温度: 32.5 ℃</td>
+                      <td>C2模块温度: 32.5 ℃</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>直流</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>直流功率: 8 kW</td>
+                      <td>直流电压: 787 V</td>
+                      <td>直流电流: 10 A</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
           </TabPane>
           <TabPane tabId="5">
-            <MultipleLineChart
-              reportingTitle=""
-              baseTitle=""
-              labels={BMSParameterLineChartLabels}
-              data={BMSParameterLineChartData}
-              options={BMSParameterLineChartOptions}
-            />
-
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电池堆#1</th>
+                      <th>充放电状态: 放电</th>
+                      <th>运行状态: -</th>
+                      <th>设与PCS通信: -</th>
+                      <th>与EMS通信: 正常</th>
+                      <th>并网状态: 并网</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped >
+                  <tbody>
+                    <tr>
+                      <td>总电压: 240.3 V</td>
+                      <td>SOC: 100.0 %</td>
+                      <td>充电限制功率: -</td>
+                      <td>可充电量: 0.0 kWh</td>
+                      <td>平均温度: 28.5 ℃</td>
+                    </tr>
+                    <tr>
+                      <td>总电流: 0.0 A</td>
+                      <td>SOH: 100.0 %</td>
+                      <td>放电限制功率: -</td>
+                      <td>B可放电量: 0.0 kWh</td>
+                      <td>平均电压: 3.3 V</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <tbody>
+                    <tr>
+                      <td>绝缘值: 5209 kΩ</td>
+                      <td>最高温度: 29 ℃ | 5 #</td>
+                      <td>最高电压: 3.364 V | 37 #</td>
+                    </tr>
+                    <tr>
+                      <td>正极绝缘值: 6111 kΩ</td>
+                      <td>最低温度: 28 ℃ | 10 #</td>
+                      <td>最低电压: 3.332 V | 46 #</td>
+                    </tr>
+                    <tr>
+                      <td>负极绝缘值: 5209 kΩ</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电池簇#1</th>
+                      <th>充放电状态: 放电</th>
+                      <th>运行状态: -</th>
+                      <th>并网状态: 并网</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
+                  <tbody>
+                    <tr>
+                      <td>SOC：100.0 %</td>
+                      <td>电压：240.3 V</td>
+                      <td>最高温度：29 ℃</td>
+                      <td>最高电压：3.332 V</td>
+                      <td>绝缘值：5209 kΩ</td>
+                      <td>接触器主正：-</td>
+                    </tr>
+                    <tr>
+                      <td>SOH：100.0 %</td>
+                      <td>电流：0.0 A</td>
+                      <td>最低温度：28 ℃</td>
+                      <td>最低电压：3.332 V</td>
+                      <td>正极绝缘值：6111 kΩ</td>
+                      <td>接触器预充：-</td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>功率：-</td>
+                      <td>平均温度：28.5 ℃</td>
+                      <td>平均电压：3.3 V</td>
+                      <td>负极绝缘值：5209 kΩ</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
           </TabPane>
           <TabPane tabId="6">
-
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>储能电表</th>
+                      <th>总有功功率: - kW</th>
+                      <th>A相有功功率: - kW</th>
+                      <th>B相有功功率: - kW</th>
+                      <th>B相有功功率: - W</th>
+                      <th>总视在功率: - kVA</th>
+                      <th>A相视在功率: - kVA</th>
+                      <th>B相视在功率: - kVA</th>
+                      <th>C相视在功率: - kVA</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>储能电表</th>
+                      <th>总 kWh</th>
+                      <th>尖 kWh</th>
+                      <th>峰 kWh</th>
+                      <th>平 kWh</th>
+                      <th>谷 kWh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">日正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">日反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>负载电表</th>
+                      <th>总有功功率: - kW</th>
+                      <th>A相有功功率: - kW</th>
+                      <th>B相有功功率: - kW</th>
+                      <th>B相有功功率: - W</th>
+                      <th>总视在功率: - kVA</th>
+                      <th>A相视在功率: - kVA</th>
+                      <th>B相视在功率: - kVA</th>
+                      <th>C相视在功率: - kVA</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>负载电表</th>
+                      <th>总 kWh</th>
+                      <th>尖 kWh</th>
+                      <th>峰 kWh</th>
+                      <th>平 kWh</th>
+                      <th>谷 kWh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">日正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">日反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电网电表</th>
+                      <th>总有功功率: - kW</th>
+                      <th>A相有功功率: - kW</th>
+                      <th>B相有功功率: - kW</th>
+                      <th>B相有功功率: - W</th>
+                      <th>总视在功率: - kVA</th>
+                      <th>A相视在功率: - kVA</th>
+                      <th>B相视在功率: - kVA</th>
+                      <th>C相视在功率: - kVA</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>电网电表</th>
+                      <th>总 kWh</th>
+                      <th>尖 kWh</th>
+                      <th>峰 kWh</th>
+                      <th>平 kWh</th>
+                      <th>谷 kWh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">日正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">日反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计正向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">累计反向总电能</th>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
           </TabPane>
           <TabPane tabId="7">
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <thead>
+                    <tr>
+                      <th>空调#1</th>
+                      <th>工作状态: 运行</th>
+                      <th>室内风机: 停机</th>
+                      <th>室外风机: 停机</th>
+                      <th>应急风机: -</th>
+                      <th>压缩机: -</th>
+                      <th>电加热: -</th>
+                    </tr>
+                  </thead>
+                </Table>
+                <Table striped className="border-bottom">
 
+                  <tbody>
+                    <tr>
+                      <td>电流: -</td>
+                      <td>盘管温度: 35.6 ℃</td>
+                      <td>出风温度: -</td>
+                      <td>制热开启温度: -</td>
+                      <td>高温告警温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>交流电压: -</td>
+                      <td>柜外温度: -</td>
+                      <td>回风温度: 34.3 ℃</td>
+                      <td>制热关闭温度: -</td>
+                      <td>低温告警温度: -</td>
+                    </tr>
+                    <tr>
+                      <td>直流电压: -</td>
+                      <td>柜内温度: -</td>
+                      <td>排气温度: -</td>
+                      <td>制冷开启温度: -</td>
+                      <td>高温告警点: -</td>
+                    </tr>
+                    <tr>
+                      <td>-</td>
+                      <td>冷凝温度: 36.3 ℃</td>
+                      <td>柜内温度: -</td>
+                      <td>制冷关闭温度: -</td>
+                      <td>-</td>
+                    </tr>
+                  </tbody>
+                </Table>
+
+              </CardBody>
+            </Card>
           </TabPane>
           <TabPane tabId="8">
+            <Card className="mb-3 fs--1">
+              <CardBody className="bg-light">
+                <Table striped className="border-bottom">
+                  <tbody>
+                    <tr>
+                      <td>消防故障等级: -</td>
+                      <td>消防火警等级: -</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>电池箱内异常气体浓度: -ppm</td>
+                      <td>电池箱内环境温度: -℃</td>
+                      <td>电池箱内火焰: -</td>
+                    </tr>
+                  </tbody>
+                </Table>
 
+              </CardBody>
+            </Card>
           </TabPane>
         </TabContent>
       </div>
