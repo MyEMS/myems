@@ -20,7 +20,7 @@ export const settings = {
   showOnlineMap: false, // if you wnat to turn off online map feature, please set showOnlineMap to false
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
-  showTCEShareData: false
+  showTCEData: false // if you want to turn off showTCEData feature, please set showTCEData to false
 };
 
 const config = { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

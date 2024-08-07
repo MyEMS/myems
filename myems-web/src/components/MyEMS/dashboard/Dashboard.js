@@ -649,7 +649,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-        {settings.showTCEShareData ? (
+        {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
             title={t("This Year's Consumption CATEGORY VALUE UNIT", {
@@ -730,7 +730,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <SharePie data={costShareData} title={t('Costs by Energy Category')} />
         </Col>
         <Col className="mb-3 pr-lg-2 mb-3">
-          {settings.showTCEShareData ? (
+          {settings.showTCEData ? (
             <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
           ) : (
             <></>
