@@ -211,8 +211,9 @@ import EnergyStoragePowerStationCollectionDashboard from '../components/MyEMS/En
 import EnergyStoragePowerStationItemDashboard from '../components/MyEMS/EnergyStoragePowerStation/ItemDashboard';
 import EnergyStoragePowerStationList from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationList';
 import EnergyStoragePowerStationDetails from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationDetails';
-import EnergyStoragePowerStationReportingRevenue from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingRevenue';
 import EnergyStoragePowerStationReportingEnergy from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingEnergy';
+import EnergyStoragePowerStationReportingParameters from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingParameters';
+import EnergyStoragePowerStationReportingRevenue from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingRevenue';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -489,6 +490,7 @@ const MyEMSRoutes = () => (
     <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
     <Route path="/energystoragepowerstation/reportingrevenue" exact component={EnergyStoragePowerStationReportingRevenue} />
     <Route path="/energystoragepowerstation/reportingenergy" exact component={EnergyStoragePowerStationReportingEnergy} />
+    <Route path="/energystoragepowerstation/reportingparameters" exact component={EnergyStoragePowerStationReportingParameters} />
     <Route path="/energystoragepowerstation/alarm" exact component={FDDFault} />
     <Route path="/energystoragepowerstation/maintenance" exact component={EnergyStoragePowerStationDetails} />
 
