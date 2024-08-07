@@ -17,9 +17,10 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW
-  showOnlineMap: false, // if you wnat to turn off online map feature, please set showOnlineMap to false
+  showOnlineMap: false, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
-  cookieExpireTime: 1000 * 60 * 60 //cookie expires time in milliseconds
+  cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
+  showTCEData: false // indicates if show Tonne of Coal Equivalent data on dashboard and reports
 };
 
 const config = { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

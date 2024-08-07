@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added microgrid renevue report
 - added microgrid carbon report
 - added period type list automaticly adjustment logic in myems-web
+- added config entry to indicate if show TCE data on dashboard in myems-web
 ### Changed
 - updated tariff price to keep 5 decimal places in database and myems-admin
 ### Fixed
