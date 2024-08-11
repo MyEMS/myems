@@ -152,7 +152,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let lastYearBarList = [];
               json['reporting_period_input']['names'].forEach((currentValue, index) => {
                 let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
+                cardSummaryItem['name'] = json['reporting_period_input']['names'][index]; totalInTCE
                 cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
                 cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
                 cardSummaryItem['increment_rate'] =
@@ -731,8 +731,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
 
         {settings.showTCEData ? (
-            <Col className="mb-3 pr-lg-2 mb-3">
-              <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
           </Col>
         ) : (
           <></>

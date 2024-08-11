@@ -465,21 +465,21 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/tenantsaving?' +
-        'tenantid=' +
-        selectedTenant +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
+      '/reports/tenantsaving?' +
+      'tenantid=' +
+      selectedTenant +
+      '&periodtype=' +
+      periodType +
+      '&baseperiodstartdatetime=' +
+      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&baseperiodenddatetime=' +
+      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+      '&reportingperiodstartdatetime=' +
+      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&reportingperiodenddatetime=' +
+      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+      '&language=' +
+      language,
       {
         method: 'GET',
         headers: {
@@ -677,7 +677,7 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -706,7 +706,7 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -728,7 +728,7 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -986,7 +986,7 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
@@ -1014,21 +1014,25 @@ const TenantSaving = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
           ))}
 
-          <CardSummary
-            rate={totalInTCE['increment_rate'] || ''}
-            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-              CATEGORY: t('Ton of Standard Coal'),
-              UNIT: '(TCE)'
-            })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCE['value_per_unit_area']}
-            footunit="(TCE/M²)"
-          >
-            {totalInTCE['value'] && (
-              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
+          {settings.showTotalInTCE ? (
+            <CardSummary
+              rate={totalInTCE['increment_rate'] || ''}
+              title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+                CATEGORY: t('Ton of Standard Coal'),
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+              footnote={t('Per Unit Area')}
+              footvalue={totalInTCE['value_per_unit_area']}
+              footunit="(TCE/M²)"
+            >
+              {totalInTCE['value'] && (
+                <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+          ) : (
+            <></>
+          )}
           <CardSummary
             rate={totalInTCO2E['increment_rate'] || ''}
             title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
