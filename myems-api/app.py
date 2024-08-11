@@ -1,6 +1,8 @@
 import falcon
 from falcon_cors import CORS
 from falcon_multipart.middleware import MultipartMiddleware
+# for debugging this api on Linux or macOS
+from wsgiref import simple_server
 
 from core import advancedreport, apikey, command, energyflowdiagram, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
@@ -1197,6 +1199,12 @@ api.add_route('/reports/virtualmetercost',
 # END Routes for Enterprise Edition
 ########################################################################################################################
 
-
+# # for debugging on Windows
 # from waitress import serve
-# serve(api, host='0.0.0.0', port=8886)
+# serve(api, host='0.0.0.0', port=8000)
+
+
+# for debugging on Linux or macOS
+if __name__ == '__main__':
+    httpd = simple_server.make_server('0.0.0.0', 8000, api)
+    httpd.serve_forever()
