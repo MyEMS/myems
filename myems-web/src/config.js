@@ -20,8 +20,7 @@ export const settings = {
   showOnlineMap: false, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
-  showTCEData: false, // indicates if show Tonne of Coal Equivalent data on dashboard and reports
-  showTotalInTCE: false // indicates if show Tonne of Coal on dashboard and reports
+  showTCEData: false // indicates if show Tonne of Coal Equivalent data on dashboard and reports
 };
 
 const config = { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

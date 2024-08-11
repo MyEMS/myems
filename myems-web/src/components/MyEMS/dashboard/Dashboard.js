@@ -152,7 +152,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let lastYearBarList = [];
               json['reporting_period_input']['names'].forEach((currentValue, index) => {
                 let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['reporting_period_input']['names'][index]; totalInTCE
+                cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
                 cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
                 cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
                 cardSummaryItem['increment_rate'] =

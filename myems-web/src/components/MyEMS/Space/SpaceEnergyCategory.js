@@ -1252,7 +1252,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
           ))}
 
-          {settings.showTotalInTCE ? (
+          {settings.showTCEData ? (
             <CardSummary
               rate={totalInTCE['increment_rate'] || ''}
               title={t('Reporting Period Consumption CATEGORY UNIT', {
