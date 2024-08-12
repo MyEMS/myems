@@ -731,8 +731,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         </Col>
 
         {settings.showTCEData ? (
-            <Col className="mb-3 pr-lg-2 mb-3">
-              <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
           </Col>
         ) : (
           <></>
