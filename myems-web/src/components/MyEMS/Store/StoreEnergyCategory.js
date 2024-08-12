@@ -520,7 +520,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -541,7 +541,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b0',
               text: t('Reporting Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -556,7 +556,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b1',
               text: t('Reporting Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -607,7 +607,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -629,7 +629,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function(decimalValue) {
+                formatter: function (decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -698,7 +698,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a0',
               text: t('Base Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -713,7 +713,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a1',
               text: t('Base Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -728,7 +728,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b0',
               text: t('Reporting Period') + ' - ' + t('Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -743,7 +743,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b1',
               text: t('Reporting Period') + ' - ' + t('Non Working Days'),
               sort: false,
-              formatter: function(decimalValue) {
+              formatter: function (decimalValue) {
                 if (typeof decimalValue === 'number') {
                   if (decimalValue === 0) {
                     return '-';
@@ -1215,7 +1215,7 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
@@ -1243,21 +1243,25 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
           ))}
 
-          <CardSummary
-            rate={totalInTCE['increment_rate'] || ''}
-            title={t('Reporting Period Consumption CATEGORY UNIT', {
-              CATEGORY: t('Ton of Standard Coal'),
-              UNIT: '(TCE)'
-            })}
-            color="warning"
-            footnote={t('Per Unit Area')}
-            footvalue={totalInTCE['value_per_unit_area']}
-            footunit="(TCE/M²)"
-          >
-            {totalInTCE['value'] && (
-              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
+          {settings.showTCEData ? (
+            <CardSummary
+              rate={totalInTCE['increment_rate'] || ''}
+              title={t('Reporting Period Consumption CATEGORY UNIT', {
+                CATEGORY: t('Ton of Standard Coal'),
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+              footnote={t('Per Unit Area')}
+              footvalue={totalInTCE['value_per_unit_area']}
+              footunit="(TCE/M²)"
+            >
+              {totalInTCE['value'] && (
+                <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+          ) : (
+            <></>
+          )}
           <CardSummary
             rate={totalInTCO2E['increment_rate'] || ''}
             title={t('Reporting Period Consumption CATEGORY UNIT', {

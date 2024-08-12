@@ -1006,18 +1006,22 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
           ))}
 
-          <CardSummary
-            rate={totalInTCE['increment_rate'] || ''}
-            title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
-              CATEGORY: t('Ton of Standard Coal'),
-              UNIT: '(TCE)'
-            })}
-            color="warning"
-          >
-            {totalInTCE['value'] && (
-              <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
-            )}
-          </CardSummary>
+          {settings.showTCEData ? (
+            <CardSummary
+              rate={totalInTCE['increment_rate'] || ''}
+              title={t('Reporting Period Saving CATEGORY (Baseline - Actual) UNIT', {
+                CATEGORY: t('Ton of Standard Coal'),
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+            >
+              {totalInTCE['value'] && (
+                <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+              )}
+            </CardSummary>
+          ) : (
+            <></>
+          )}
           <CardSummary
             rate={totalInTCO2E['increment_rate'] || ''}
             title={t('Reporting Period Decreased CATEGORY (Baseline - Actual) UNIT', {
