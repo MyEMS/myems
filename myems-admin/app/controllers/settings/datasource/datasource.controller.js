@@ -8,6 +8,7 @@ app.controller('DataSourceController', function(
 	$translate,
 	DataSourceService,
 	GatewayService,
+	ProtocolService,
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -39,43 +40,14 @@ app.controller('DataSourceController', function(
 	};
 
 	$scope.getAllProtocols = function() {
-		$scope.protocols = [
-			{"id":"modbus-tcp", "name": "Modbus TCP"},
-			{"id":"bacnet-ip", "name": "BACnet/IP"},
-			{"id":"cassandra", "name": "Cassandra"},
-			{"id":"clickhouse", "name": "ClickHouse"},
-			{"id":"coap", "name": "CoAP"},
-			{"id":"controllogix", "name": "ControlLogix"},
-			{"id":"dlt645", "name": "DL/T645"},
-			{"id":"dtu-rtu", "name": "DTU-RTU"},
-			{"id":"dtu-tcp", "name": "DTU-TCP"},
-			{"id":"dtu-mqtt", "name": "DTU-MQTT"},
-			{"id":"elexon-bmrs", "name": "Elexon BMRS"},
-			{"id":"iec104", "name": "IEC104"},
-			{"id":"influxdb", "name": "InfluxDB"},
-			{"id":"modbus-rtu", "name": "Modbus RTU"},
-			{"id":"mongodb", "name": "MongoDB"},
-			{"id":"mqtt-acrel", "name": "MQTT ACREL"},
-			{"id":"mqtt-adw300", "name": "MQTT ADW300"},
-			{"id":"mqtt-huiju", "name": "MQTT HUIJU"},
-			{"id":"mqtt-md4220", "name": "MQTT MD4220"},
-			{"id":"mqtt-seg", "name": "MQTT SEG"},
-			{"id":"mqtt-weilan", "name": "MQTT WEILAN"},
-			{"id":"mqtt-xintianli", "name": "MQTT XINTIANLI"},
-			{"id":"mqtt-zhongxian", "name": "MQTT ZHONGXIAN"},
-			{"id":"mqtt", "name": "MQTT"},
-			{"id":"mysql", "name": "MySQL"},
-			{"id":"opc-ua", "name": "OPC-UA"},
-			{"id":"oracle", "name": "Oracle"},
-			{"id":"postgresql", "name": "PostgreSQL"},
-			{"id":"profibus", "name": "PROFIBUS"},
-			{"id":"profinet", "name": "PROFINET"},
-			{"id":"s7", "name": "S7"},
-			{"id":"simulation", "name": "Simulation"},
-			{"id":"sqlserver", "name": "SQL Server"},
-			{"id":"tdengine", "name": "TDengine"},
-			{"id":"weather", "name": "Weather"}
-		];
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		ProtocolService.getAllProtocols(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.protocols = response.data;
+			} else {
+				$scope.protocols = [];
+			}
+		});
 	};
 
 	$scope.addDataSource = function() {

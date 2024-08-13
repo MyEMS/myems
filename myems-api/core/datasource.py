@@ -96,47 +96,33 @@ class DataSourceCollection:
                                    description='API.INVALID_GATEWAY_ID')
         gateway_id = new_values['data']['gateway_id']
 
-        if 'protocol' not in new_values['data'].keys() \
-                or new_values['data']['protocol'] not in \
-                ('bacnet-ip',
-                 'cassandra',
-                 'clickhouse',
-                 'coap',
-                 'controllogix',
-                 'dlt645',
-                 'dtu-rtu',
-                 'dtu-tcp',
-                 'dtu-mqtt',
-                 'elexon-bmrs',
-                 'iec104',
-                 'influxdb',
-                 'lora',
-                 'modbus-rtu',
-                 'modbus-tcp',
-                 'mongodb',
-                 'mqtt-acrel',
-                 'mqtt-adw300',
-                 'mqtt-huiju',
-                 'mqtt-md4220',
-                 'mqtt-seg',
-                 'mqtt-weilan',
-                 'mqtt-xintianli',
-                 'mqtt-zhongxian',
-                 'mqtt',
-                 'mysql',
-                 'opc-ua',
-                 'oracle',
-                 'postgresql',
-                 'profibus',
-                 'profinet',
-                 's7',
-                 'simulation',
-                 'sqlserver',
-                 'tdengine',
-                 'weather',):
+        if 'protocol' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['protocol'], str) or \
+                len(str.strip(new_values['data']['protocol'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, code "
+                 " FROM tbl_protocols ")
+        cursor.execute(query)
+        rows_protocols = cursor.fetchall()
+
+        procotol_dict = dict()
+        if rows_protocols is not None and len(rows_protocols) > 0:
+            for row in rows_protocols:
+                procotol_dict[row[2]] = {"id": row[0],
+                                         "name": row[1],
+                                         "code": row[2]}
+
+        if protocol not in procotol_dict.keys():
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
 
         if 'connection' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['connection'], str) or \
@@ -151,9 +137,6 @@ class DataSourceCollection:
             description = str.strip(new_values['data']['description'])
         else:
             description = None
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
@@ -329,47 +312,33 @@ class DataSourceItem:
                                    description='API.INVALID_GATEWAY_ID')
         gateway_id = new_values['data']['gateway_id']
 
-        if 'protocol' not in new_values['data'].keys() \
-                or new_values['data']['protocol'] not in \
-                ('bacnet-ip',
-                 'cassandra',
-                 'clickhouse',
-                 'coap',
-                 'controllogix',
-                 'dlt645',
-                 'dtu-rtu',
-                 'dtu-tcp',
-                 'dtu-mqtt',
-                 'elexon-bmrs',
-                 'iec104',
-                 'influxdb',
-                 'lora',
-                 'modbus-rtu',
-                 'modbus-tcp',
-                 'mongodb',
-                 'mqtt-acrel',
-                 'mqtt-adw300',
-                 'mqtt-huiju',
-                 'mqtt-md4220',
-                 'mqtt-seg',
-                 'mqtt-weilan',
-                 'mqtt-xintianli',
-                 'mqtt-zhongxian',
-                 'mqtt',
-                 'mysql',
-                 'opc-ua',
-                 'oracle',
-                 'postgresql',
-                 'profibus',
-                 'profinet',
-                 's7',
-                 'simulation',
-                 'sqlserver',
-                 'tdengine',
-                 'weather',):
+        if 'protocol' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['protocol'], str) or \
+                len(str.strip(new_values['data']['protocol'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, code "
+                 " FROM tbl_protocols ")
+        cursor.execute(query)
+        rows_protocols = cursor.fetchall()
+
+        procotol_dict = dict()
+        if rows_protocols is not None and len(rows_protocols) > 0:
+            for row in rows_protocols:
+                procotol_dict[row[2]] = {"id": row[0],
+                                         "name": row[1],
+                                         "code": row[2]}
+
+        if protocol not in procotol_dict.keys():
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
 
         if 'connection' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['connection'], str) or \
@@ -384,9 +353,6 @@ class DataSourceItem:
             description = str.strip(new_values['data']['description'])
         else:
             description = None
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
