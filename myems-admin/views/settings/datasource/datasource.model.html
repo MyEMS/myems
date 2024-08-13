@@ -31,7 +31,7 @@
                 <div class="col-sm-10">
                     <ui-select ng-model="datasource.protocol" name="datasource.protocol" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="protocol.id as protocol in protocols | filter: $select.search">
+                        <ui-select-choices repeat="protocol.code as protocol in protocols | filter: $select.search">
                             <div ng-bind-html="protocol.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
