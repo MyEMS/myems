@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.8.0] - 2024-08-13
 ### Warning
 - Changed Dockerfile WORKDIR from '/code' to '/app', **MUST** replace '/code/.env' with '/app/.env' in docker run commands
 ### Added
@@ -1759,7 +1765,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.7.0...HEAD
+[Unreleased]: https://github.com/MyEMS/myems/compare/v4.8.0...HEAD
+[4.8.0]: https://github.com/MyEMS/myems/compare/v4.8.0...v4.7.0
 [4.7.0]: https://github.com/MyEMS/myems/compare/v4.7.0...v4.6.0
 [4.6.0]: https://github.com/MyEMS/myems/compare/v4.6.0...v4.5.0
 [4.5.0]: https://github.com/MyEMS/myems/compare/v4.5.0...v4.4.0
