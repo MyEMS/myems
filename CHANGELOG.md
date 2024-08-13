@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v4.8.0] - 2024-08-13
 ### Warning
-- Changed Dockerfile WORKDIR from '/code' to '/app', **MUST** replace '/code/.env' with '/app/.env' in docker run commands
+- **MUST** replace '/code/.env' with '/app/.env' in docker run commands because WORKDIR in Dockerfile was changed from '/code' to '/app'
 ### Added
 - added clone action to energy storage container in myems-api
 - added export action to energy storage container in myems-api
