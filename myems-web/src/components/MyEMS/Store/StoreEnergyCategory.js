@@ -1282,9 +1282,13 @@ const StoreEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           <Col className="mb-3 pr-lg-2 mb-3">
             <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
           </Col>
-          <Col className="mb-3 pr-lg-2 mb-3">
-            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
-          </Col>
+          {settings.showTCEData ? (
+            <Col className="mb-3 pr-lg-2 mb-3">
+              <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+            </Col>
+          ) : (
+            <></>
+          )}
           <Col className="mb-3 pr-lg-2 mb-3">
             <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
           </Col>
