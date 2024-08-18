@@ -18,8 +18,7 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
 
-def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, base_period_start_datetime,
-           base_period_end_datetime, period_type, language):
+def export(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -33,8 +32,6 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
                               name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
-                              base_period_start_datetime,
-                              base_period_end_datetime,
                               period_type,
                               language)
     ####################################################################################################################
@@ -59,8 +56,7 @@ def export(report, name, reporting_start_datetime_local, reporting_end_datetime_
     return base64_message
 
 
-def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local,
-                   base_period_start_datetime, base_period_end_datetime, period_type, language):
+def generate_excel(report, name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
     trans = get_translation(language)
     trans.install()
     _ = trans.gettext
