@@ -292,7 +292,53 @@ class Reporting:
         ################################################################################################################
         # Step 7: query associated power conversion systems
         ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
+                              " WHERE pcs.energy_storage_container_id = %s AND "
+                              "       pcs.today_charge_energy_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.TodayCharge',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
+                              " WHERE pcs.energy_storage_container_id = %s AND "
+                              "       pcs.today_discharge_energy_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.TodayDischarge',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
+                              " WHERE pcs.energy_storage_container_id = %s AND "
+                              "       pcs.total_charge_energy_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.TotalCharge',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
+
+        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
+                              " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
+                              " WHERE pcs.energy_storage_container_id = %s AND "
+                              "       pcs.total_discharge_energy_point_id = p.id ",
+                              (container_list[0]['id'],))
+        row_point = cursor_system.fetchone()
+        if row_point is not None:
+            point_list.append({"id": row_point[0],
+                               "name": row_point[1] + '.TotalDischarge',
+                               "units": row_point[2],
+                               "object_type": row_point[3]})
 
         ################################################################################################################
         # Step 8: query associated sensors
