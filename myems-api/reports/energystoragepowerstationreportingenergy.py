@@ -47,8 +47,6 @@ class Reporting:
         energy_storage_power_station_id = req.params.get('id')
         energy_storage_power_station_uuid = req.params.get('uuid')
         period_type = req.params.get('periodtype')
-        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
@@ -86,38 +84,6 @@ class Reporting:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-
-        base_start_datetime_utc = None
-        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
-            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
-            try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = \
-                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            # nomalize the start datetime
-            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
-            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
-            try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-
-        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
-                base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -402,57 +368,6 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        meter_base_list = list()
-
-        for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   base_start_datetime_utc,
-                                   base_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
-
-            if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
-                print('rows_meter_hourly:' + str(rows_meter_hourly))
-                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                print('rows_meter_periodically:' + str(rows_meter_periodically))
-                meter_report = dict()
-                meter_report['timestamps'] = list()
-                meter_report['values'] = list()
-                meter_report['subtotal'] = Decimal(0.0)
-
-                for row_meter_periodically in rows_meter_periodically:
-                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
-
-                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-
-                    meter_report['timestamps'].append(current_datetime)
-                    meter_report['values'].append(actual_value)
-                    meter_report['subtotal'] += actual_value
-                    meter_report['name'] = meter['name']
-                    meter_report['unit_of_measure'] = \
-                        energy_category_dict[meter['energy_category_id']]['unit_of_measure']
-
-                meter_base_list.append(meter_report)
-
         meter_reporting_list = list()
 
         for meter in meter_list:
@@ -626,20 +541,6 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
-        result['base_period'] = dict()
-        result['base_period']['names'] = list()
-        result['base_period']['units'] = list()
-        result['base_period']['timestamps'] = list()
-        result['base_period']['values'] = list()
-        result['base_period']['subtotals'] = list()
-
-        if meter_base_list is not None and len(meter_base_list) > 0:
-            for meter_report in meter_base_list:
-                result['base_period']['names'].append(meter_report['name'])
-                result['base_period']['units'].append(meter_report['unit_of_measure'])
-                result['base_period']['timestamps'].append(meter_report['timestamps'])
-                result['base_period']['values'].append(meter_report['values'])
-                result['base_period']['subtotals'].append(meter_report['subtotal'])
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -665,8 +566,6 @@ class Reporting:
                        result['energy_storage_power_station']['name'],
                        reporting_period_start_datetime_local,
                        reporting_period_end_datetime_local,
-                       base_period_start_datetime_local,
-                       base_period_end_datetime_local,
                        period_type,
                        language)
         resp.text = json.dumps(result)

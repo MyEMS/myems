@@ -28,7 +28,6 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
-import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { Link, useLocation } from 'react-router-dom';
