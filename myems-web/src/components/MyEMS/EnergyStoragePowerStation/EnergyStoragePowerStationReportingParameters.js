@@ -540,63 +540,6 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
         </CardBody>
       </Card>
       <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
-        {/* <div className="card-deck" >
-          {cardSummaryList.map(cardSummaryItem => (
-            <CardSummary
-              key={cardSummaryItem['name']}
-              title={cardSummaryItem['name'] + '(' + cardSummaryItem['unit'] + ')'}
-              color="success"
-            >
-              {cardSummaryItem['subtotal'] && (
-                <CountUp
-                  end={cardSummaryItem['subtotal']}
-                  duration={2}
-                  prefix=""
-                  separator=","
-                  decimal="."
-                  decimals={2}
-                />
-              )}
-            </CardSummary>
-          ))}
-        </div> */}
-
-        {/* <MultiTrendChart
-          reportingTitle={{
-            name: 'CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: energyStoragePowerStationReportingNames,
-            VALUE: energyStoragePowerStationReportingSubtotals,
-            UNIT: energyStoragePowerStationReportingUnits
-          }}
-          baseTitle={{
-            name: 'CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: { a0: '' },
-            VALUE: { a0: (0).toFixed(2) },
-            UNIT: { a0: '()' }
-          }}
-          reportingTooltipTitle={{
-            name: 'CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: { a0: '' },
-            VALUE: null,
-            UNIT: { a0: '()' }
-          }}
-          baseTooltipTitle={{
-            name: 'CATEGORY VALUE UNIT',
-            substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-            CATEGORY: { a0: '' },
-            VALUE: null,
-            UNIT: { a0: '()' }
-          }}
-          reportingLabels={energyStoragePowerStationReportingLabels}
-          reportingData={energyStoragePowerStationReportingData}
-          baseLabels={energyStoragePowerStationReportingLabels}
-          baseData={energyStoragePowerStationReportingData}
-          rates={{ a0: [] }}
-          options={energyStoragePowerStationReportingOptions}
-        /> */}
         <MultipleLineChart
           reportingTitle={t('Operating Characteristic Curve')}
           baseTitle=""

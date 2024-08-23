@@ -616,7 +616,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('1');
                     }}
                   >
-                    <h6>{t('Energy Indicator')}</h6>
+                    <h6>充电能量指标</h6>
                   </NavLink>
                 </NavItem>
                 <NavItem className="cursor-pointer">
@@ -626,45 +626,59 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('2');
                     }}
                   >
-                    <h6>{t('Revenue Indicator')}</h6>
+                    <h6>放电能量指标</h6>
                   </NavLink>
                 </NavItem>
-                {/* <NavItem className="cursor-pointer">
+                <NavItem className="cursor-pointer">
                   <NavLink
                     className={classNames({ active: activeTabLeft === '3' })}
                     onClick={() => {
                       toggleTabLeft('3');
                     }}
                   >
-                    <h6>{t('Carbon Indicator')}</h6>
+                    <h6>充电成本指标</h6>
                   </NavLink>
-                </NavItem> */}
+                </NavItem>
+                <NavItem className="cursor-pointer">
+                  <NavLink
+                    className={classNames({ active: activeTabLeft === '4' })}
+                    onClick={() => {
+                      toggleTabLeft('4');
+                    }}
+                  >
+                    <h6>放电收益指标</h6>
+                  </NavLink>
+                </NavItem>
               </Nav>
               <TabContent activeTab={activeTabLeft}>
                   <TabPane tabId="1">
                     <StackBarChart
                       labels={energyLabels}
                       chargeData={chargeEnergyData}
-                      dischargeData={dischargeEnergyData}
                       periodTypes={periodTypes}
                     />
                   </TabPane>
                   <TabPane tabId="2">
                     <StackBarChart
-                      labels={billingLabels}
-                      chargeData={chargeBillingData}
-                      dischargeData={dischargeBillingData}
+                      labels={energyLabels}
+                      chargeData={dischargeEnergyData}
                       periodTypes={periodTypes}
                     />
                   </TabPane>
-                  {/* <TabPane tabId="3">
+                  <TabPane tabId="3">
                     <StackBarChart
-                      labels={carbonLabels}
-                      chargeData={chargeCarbonData}
-                      dischargeData={dischargeCarbonData}
+                      labels={billingLabels}
+                      chargeData={chargeBillingData}
                       periodTypes={periodTypes}
                     />
-                  </TabPane> */}
+                  </TabPane>
+                  <TabPane tabId="4">
+                    <StackBarChart
+                      labels={billingLabels}
+                      chargeData={dischargeBillingData}
+                      periodTypes={periodTypes}
+                    />
+                  </TabPane>
                 </TabContent>
             </div>
           </Col>
