@@ -122,10 +122,6 @@ Web UI:
 密码：!MyEMS1
 
 
-### Docker-Compose 快速部署
-
-详见 [https://myems.io/docs/installation/docker-compose](https://myems.io/docs/installation/docker-compose)
-
 ## 集成测试合作计划
 
 详见 [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
