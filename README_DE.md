@@ -125,10 +125,6 @@ Benutzername: administrator@myems.io
 Passwort: !MyEMS1
 
 
-### Docker Compose Schnelle Bereitstellung
-
-Sehen [https://myems.io/de/docs/installation/docker-compose](https://myems.io/de/docs/installation/docker-compose)
-
 ## Kooperationsplan für Integrationstests
 
 Sehen [https://myems.io/de/docs/cooperation](https://myems.io/de/docs/cooperation)

@@ -123,10 +123,6 @@ User Name: administrator@myems.io
 Password: !MyEMS1
 
 
-### Docker Compose Repaid Deployment
-
-See [https://myems.io/en/docs/installation/docker-compose)](https://myems.io/en/docs/installation/docker-compose)
-
 ## Integration Testing Cooperation Plan
 
 See [https://myems.io/en/docs/cooperation](https://myems.io/en/docs/cooperation)
