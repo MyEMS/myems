@@ -110,25 +110,20 @@ MyEMS Admin UI: 8001
 
 
 ### Voreingestelltes Passwort
-<details>
-  <summary>Admin UI</summary>
 
-```
-administrator
+Admin UI:
 
-!MyEMS1
-```
-</details>
+Benutzername: administrator
 
-<details>
-  <summary>Web UI</summary>
+Passwort: !MyEMS1
 
-```
-administrator@myems.io
 
-!MyEMS1
-```
-</details>
+Web UI:
+
+Benutzername: administrator@myems.io
+
+Passwort: !MyEMS1
+
 
 ### Docker Compose Schnelle Bereitstellung
 

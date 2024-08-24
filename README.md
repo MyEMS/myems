@@ -107,25 +107,20 @@ MyEMS API: 8000
 MyEMS Admin UI: 8001
 
 ### 默认密码
-<details>
-  <summary>Admin UI</summary>
 
-```
-administrator
+Admin UI:
 
-!MyEMS1
-```
-</details>
+用户名：administrator
 
-<details>
-  <summary>Web UI</summary>
+密码：!MyEMS1
 
-```
-administrator@myems.io
 
-!MyEMS1
-```
-</details>
+Web UI:
+
+用户名：administrator@myems.io
+
+密码：!MyEMS1
+
 
 ### Docker-Compose 快速部署
 
@@ -144,6 +139,7 @@ administrator@myems.io
 群号: 792528967
 
 ![QQ群](/docs/images/qq-group.png)
+
 
 ## 视频
 
