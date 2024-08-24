@@ -108,25 +108,20 @@ MyEMS API: 8000
 MyEMS Admin UI: 8001
 
 ### Default Passwords
-<details>
-  <summary>Admin UI</summary>
 
-```
-administrator
+Admin UI:
 
-!MyEMS1
-```
-</details>
+User Name: administrator
 
-<details>
-  <summary>Web UI</summary>
+Password: !MyEMS1
 
-```
-administrator@myems.io
 
-!MyEMS1
-```
-</details>
+Web UI:
+
+User Name: administrator@myems.io
+
+Password: !MyEMS1
+
 
 ### Docker Compose Repaid Deployment
 
