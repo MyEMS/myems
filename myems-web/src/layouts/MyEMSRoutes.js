@@ -497,7 +497,7 @@ const MyEMSRoutes = () => (
     {/*Work Order*/}
     <Route path="/workorder/inspection" exact component={WorkOrderInspection} />
     <Route path="/workorder/installation" exact component={WorkOrderInstallation} />
-    <Route path="/workorder/reapair" exact component={WorkOrderRepair} />
+    <Route path="/workorder/repair" exact component={WorkOrderRepair} />
 
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
