@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added config entry to indicate if show TCE data on reports in myems-web
 ### Changed
 - updated energy storage power station reportings
+- changed meter search box size to small
 ### Fixed
 ### Removed
 
