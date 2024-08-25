@@ -387,9 +387,16 @@ class Reporting:
                                                                                     reporting_end_datetime_utc,
                                                                                     period_type)
                 meter_report = dict()
+                meter_report['name'] = meter['name']
+                meter_report['energy_category_id'] = meter['energy_category_id']
+                meter_report['unit_of_measure'] = energy_category_dict[meter['energy_category_id']]['unit_of_measure']
                 meter_report['timestamps'] = list()
                 meter_report['values'] = list()
                 meter_report['subtotal'] = Decimal(0.0)
+                meter_report['toppeak'] = Decimal(0.0)
+                meter_report['onpeak'] = Decimal(0.0)
+                meter_report['midpeak'] = Decimal(0.0)
+                meter_report['offpeak'] = Decimal(0.0)
 
                 for row_meter_periodically in rows_meter_periodically:
                     current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -406,13 +413,24 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y')
 
                     actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-
                     meter_report['timestamps'].append(current_datetime)
                     meter_report['values'].append(actual_value)
                     meter_report['subtotal'] += actual_value
-                    meter_report['name'] = meter['name']
-                    meter_report['unit_of_measure'] = \
-                        energy_category_dict[meter['energy_category_id']]['unit_of_measure']
+
+                tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                       meter['energy_category_id'],
+                                                                       reporting_start_datetime_utc,
+                                                                       reporting_end_datetime_utc)
+                for row in rows_meter_hourly:
+                    peak_type = tariff_dict.get(row[0], None)
+                    if peak_type == 'toppeak':
+                        meter_report['toppeak'] += row[1]
+                    elif peak_type == 'onpeak':
+                        meter_report['onpeak'] += row[1]
+                    elif peak_type == 'midpeak':
+                        meter_report['midpeak'] += row[1]
+                    elif peak_type == 'offpeak':
+                        meter_report['offpeak'] += row[1]
 
                 meter_reporting_list.append(meter_report)
 
@@ -544,19 +562,28 @@ class Reporting:
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
         result['reporting_period']['units'] = list()
         result['reporting_period']['subtotals'] = list()
-        result['reporting_period']['increment_rates'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
+        result['reporting_period']['toppeaks'] = list()
+        result['reporting_period']['onpeaks'] = list()
+        result['reporting_period']['midpeaks'] = list()
+        result['reporting_period']['offpeaks'] = list()
 
         if meter_reporting_list is not None and len(meter_reporting_list) > 0:
             for meter_report in meter_reporting_list:
                 result['reporting_period']['names'].append(meter_report['name'])
+                result['reporting_period']['energy_category_ids'].append(meter_report['energy_category_id'])
                 result['reporting_period']['units'].append(meter_report['unit_of_measure'])
                 result['reporting_period']['timestamps'].append(meter_report['timestamps'])
                 result['reporting_period']['values'].append(meter_report['values'])
                 result['reporting_period']['subtotals'].append(meter_report['subtotal'])
+                result['reporting_period']['toppeaks'].append(meter_report['toppeak'])
+                result['reporting_period']['onpeaks'].append(meter_report['onpeak'])
+                result['reporting_period']['midpeaks'].append(meter_report['midpeak'])
+                result['reporting_period']['offpeaks'].append(meter_report['offpeak'])
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
