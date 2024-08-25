@@ -303,6 +303,8 @@ app.controller('ModalAddRuleCtrl', function($scope, $uibModalInstance, params) {
 			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04'];
 		} else if ($scope.rule.category === 'VIRTUALMETER') {
 			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04'];
+		} else if ($scope.rule.category === 'DIGITALPOINT') {
+			$scope.fddCodeOptions = ['DIGITALPOINT01'];
 		}
 	};
 
@@ -341,9 +343,11 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04'];
 		} else if ($scope.rule.category === 'VIRTUALMETER') {
 			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04'];
+		} else if ($scope.rule.category === 'DIGITALPOINT') {
+			$scope.fddCodeOptions = ['DIGITALPOINT01'];
 		}
 	};
-    
+
 	// init
 	$scope.updateFddCodeOptions();
 	$scope.ok = function() {
