@@ -788,7 +788,7 @@ const MeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} onChange={onSearchMeter} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchMeter} />
                     <CustomInput
                       type="select"
                       id="meterSelect"

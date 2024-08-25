@@ -753,7 +753,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} onChange={onSearchMeter} hidden={meterSearchHidden} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchMeter} hidden={meterSearchHidden} />
                     <CustomInput
                       type="select"
                       id="meterSelect"

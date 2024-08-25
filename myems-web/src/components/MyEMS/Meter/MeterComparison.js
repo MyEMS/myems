@@ -713,7 +713,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} onChange={onSearchMeter1} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchMeter1} />
                     <CustomInput
                       type="select"
                       id="meterSelect1"
@@ -755,7 +755,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} onChange={onSearchMeter2} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchMeter2} />
                     <CustomInput
                       type="select"
                       id="meterSelect2"
