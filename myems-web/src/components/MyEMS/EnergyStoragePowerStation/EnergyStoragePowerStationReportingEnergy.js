@@ -15,12 +15,9 @@ import {
   CustomInput,
   Spinner
 } from 'reactstrap';
-import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import CardSummary from '../common/CardSummary';
-import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -29,10 +26,9 @@ import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
-import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -113,7 +109,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
   const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
   const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
 
-  const [cardSummaryList, setCardSummaryList] = useState([]);
   const [energyStoragePowerStationBaseLabels, setEnergyStoragePowerStationBaseLabels] = useState({ a0: [] });
   const [energyStoragePowerStationBaseData, setEnergyStoragePowerStationBaseData] = useState({ a0: [] });
   const [energyStoragePowerStationReportingNames, setEnergyStoragePowerStationReportingNames] = useState({ a0: '' });
@@ -128,6 +123,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
+  const [timeOfUseDataTableData, setTimeOfUseDataTableData] = useState([]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
@@ -234,6 +230,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
     setResultDataHidden(true);
 
     // Reinitialize tables
+    setTimeOfUseDataTableData([]);
     setDetailedDataTableData([]);
 
     let isResponseOK = false;
@@ -280,19 +277,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
-
-          let cardSummaryArray = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let cardSummaryItem = {};
-            cardSummaryItem['name'] = json['reporting_period']['names'][index];
-            cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-            cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-            cardSummaryItem['increment_rate'] =
-              parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
-
-            cardSummaryArray.push(cardSummaryItem);
-          });
-          setCardSummaryList(cardSummaryArray);
 
           let base_and_reporting_names = {};
           json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -358,6 +342,59 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             });
           });
           setDetailedDataTableColumns(detailed_column_list);
+
+          let time_of_use_value_list = [];
+          // toppeak
+          let time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = '尖';
+          json['reporting_period']['toppeaks'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+
+          // onpeak
+          time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = '峰';
+          json['reporting_period']['onpeaks'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+
+          //midpeak
+          time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = '平';
+          json['reporting_period']['midpeaks'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+
+          //offpeak
+          time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = '谷';
+          json['reporting_period']['offpeaks'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+
+          time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = t('Subtotal');
+          json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+          setTimeout(() => {
+            setTimeOfUseDataTableData(time_of_use_value_list);
+          }, 0);
 
           let detailed_value_list = [];
           if (json['reporting_period']['timestamps'].length > 0) {
@@ -480,7 +517,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
     let customInputTarget = document.getElementById('energyStoragePowerStationSelect');
     customInputTarget.value = filteredResult[0].value;
   };
-
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
@@ -694,6 +730,13 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
         </CardBody>
       </Card>
       <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+        <DetailedDataTable
+          data={timeOfUseDataTableData}
+          title='分时数据'
+          columns={detailedDataTableColumns}
+          pagesize={50}
+          hidden={true}
+        />
         <DetailedDataTable
           data={detailedDataTableData}
           title={t('Detailed Data')}
