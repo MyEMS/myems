@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated energy storage power station reportings
 - changed meter search box size to small
 ### Fixed
+- fixed typo in myems-web routes
 ### Removed
 
 ## [v4.8.0] - 2024-08-13
