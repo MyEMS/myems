@@ -28,7 +28,6 @@ import ButtonIcon from '../../common/ButtonIcon';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import Datetime from 'react-datetime';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -42,8 +41,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
 
   // Query Parameters
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().startOf('month'));
-  const [endDatetime, setEndDatetime] = useState(current_moment);
   const [priority, setPriority] = useState('all');
   const [status, setStatus] = useState('all');
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
@@ -282,8 +279,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
-    console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(priority);
     console.log(status);
 
@@ -306,9 +301,9 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
         '/webmessages?' +
         'startdatetime=' +
-        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&enddatetime=' +
-        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&priority=' +
         priority +
         '&status=' +
@@ -417,9 +412,9 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -517,9 +512,9 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -611,9 +606,9 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -767,7 +762,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col sm={2}>
+              <Col xs={6} sm={3}>
               <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
                     {t('Reporting Period')}

@@ -28,11 +28,12 @@ import ButtonIcon from '../../common/ButtonIcon';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import Datetime from 'react-datetime';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
+import { endOfDay } from 'date-fns';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import moment from 'moment';
 import { APIBaseURL, settings } from '../../../config';
 
@@ -40,10 +41,33 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
 
   // Query Parameters
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().startOf('month'));
-  const [endDatetime, setEndDatetime] = useState(current_moment);
   const [priority, setPriority] = useState('all');
   const [status, setStatus] = useState('all');
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .subtract(1, 'weeks')
+      .toDate(),
+    current_moment.toDate()
+  ]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days'),
+    formattedMonthPattern: 'yyyy-MM-dd'
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
 
   //Results
   const [faults, setFaults] = useState([]);
@@ -92,22 +116,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
     setImmediate(() => {
       setIsSelected(!!table.current.selectionContext.selected.length);
     });
-  };
-
-  let onStartDatetimeChange = newDateTime => {
-    setStartDatetime(newDateTime);
-  };
-
-  let onEndDatetimeChange = newDateTime => {
-    setEndDatetime(newDateTime);
-  };
-
-  var getStartDatetime = function(currentDate) {
-    return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getEndDatetime = function(currentDate) {
-    return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
   };
 
   const subjectFormatter = (dataField, { url }) => (
@@ -186,18 +194,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       sort: true
     },
     {
-      dataField: 'start_datetime',
-      text: t('Notification Start Datetime'),
-      classes: 'py-2 align-middle',
-      sort: true
-    },
-    {
-      dataField: 'end_datetime',
-      text: t('Notification End Datetime'),
-      classes: 'py-2 align-middle',
-      sort: true
-    },
-    {
       dataField: 'status',
       text: t('Notification Status'),
       classes: 'py-2 align-middle',
@@ -250,12 +246,30 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   });
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
+
+  // Callback fired when value changed
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+
+    }
+  };
+
+  // Callback fired when value clean
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
+  };
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
-    console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
     console.log(priority);
     console.log(status);
 
@@ -278,9 +292,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
         '/webmessages?' +
         'startdatetime=' +
-        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&enddatetime=' +
-        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&priority=' +
         priority +
         '&status=' +
@@ -319,12 +333,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               fault['subject'] = currentValue['subject'];
               fault['message'] = currentValue['message'];
               fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
               fault['status'] = currentValue['status'];
@@ -389,9 +397,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -425,12 +433,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['subject'] = json[index]['subject'];
                     fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
                     fault['status'] = json[index]['status'];
@@ -489,9 +491,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -525,12 +527,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['subject'] = json[index]['subject'];
                     fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
                     fault['status'] = json[index]['status'];
@@ -583,9 +579,9 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
               '&priority=' +
               priority +
               '&status=' +
@@ -619,12 +615,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['subject'] = json[index]['subject'];
                     fault['message'] = json[index]['message'];
                     fault['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
                     fault['status'] = json[index]['status'];
@@ -739,31 +729,22 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col sm={2}>
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="startDatetime">
-                    {t('Reporting Period Begins')}
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
                   </Label>
-                  <Datetime
-                    id="startDatetime"
-                    value={startDatetime}
-                    onChange={onStartDatetimeChange}
-                    isValidDate={getStartDatetime}
-                    closeOnSelect={true}
-                  />
-                </FormGroup>
-              </Col>
-              <Col sm={2}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="endDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime
-                    id="endDatetime"
-                    value={endDatetime}
-                    onChange={onEndDatetimeChange}
-                    isValidDate={getEndDatetime}
-                    closeOnSelect={true}
+                  <br />
+                  <DateRangePickerWrapper
+                    id="reportingPeriodDateRangePicker"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="sm"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t('Select Date Range')}
                   />
                 </FormGroup>
               </Col>
