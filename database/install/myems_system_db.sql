@@ -366,10 +366,53 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   `energy_storage_container_id` BIGINT NOT NULL,
   `run_state_point_id` BIGINT NOT NULL,
   `rated_output_power` DECIMAL(18, 3) NOT NULL,
-  `today_charge_energy_point_id` BIGINT NOT NULL,
-  `today_discharge_energy_point_id` BIGINT NOT NULL,
-  `total_charge_energy_point_id` BIGINT NOT NULL,
-  `total_discharge_energy_point_id` BIGINT NOT NULL,
+  `today_charge_energy_point_id` BIGINT NULL,
+  `today_discharge_energy_point_id` BIGINT NULL,
+  `total_charge_energy_point_id` BIGINT NULL,
+  `total_discharge_energy_point_id` BIGINT NULL,
+  `working_status_point_id` BIGINT NULL,
+  `grid_connection_status_point_id` BIGINT NULL,
+  `device_status_point_id` BIGINT NULL,
+  `control_mode_point_id` BIGINT NULL,
+  `total_ac_active_power_point_id` BIGINT NULL,
+  `total_ac_reactive_power_point_id` BIGINT NULL,
+  `total_ac_apparent_power_point_id` BIGINT NULL,
+  `total_ac_power_factor_point_id` BIGINT NULL,
+  `ac_frequency_point_id` BIGINT NULL,
+  `phase_a_active_power_point_id` BIGINT NULL,
+  `phase_b_active_power_point_id` BIGINT NULL,
+  `phase_c_active_power_point_id` BIGINT NULL,
+  `phase_a_reactive_power_point_id` BIGINT NULL,
+  `phase_b_reactive_power_point_id` BIGINT NULL,
+  `phase_c_reactive_power_point_id` BIGINT NULL,
+  `phase_a_apparent_power_point_id` BIGINT NULL,
+  `phase_b_apparent_power_point_id` BIGINT NULL,
+  `phase_c_apparent_power_point_id` BIGINT NULL,
+  `ab_voltage_point_id` BIGINT NULL,
+  `bc_voltage_point_id` BIGINT NULL,
+  `ca_voltage_point_id` BIGINT NULL,
+  `ab_current_point_id` BIGINT NULL,
+  `bc_current_point_id` BIGINT NULL,
+  `ca_current_point_id` BIGINT NULL,
+  `phase_a_voltage_point_id` BIGINT NULL,
+  `phase_b_voltage_point_id` BIGINT NULL,
+  `phase_c_voltage_point_id` BIGINT NULL,
+  `phase_a_current_point_id` BIGINT NULL,
+  `phase_b_current_point_id` BIGINT NULL,
+  `phase_c_current_point_id` BIGINT NULL,
+  `pcs_module_temperature_point_id` BIGINT NULL,
+  `pcs_ambient_temperature_point_id` BIGINT NULL,
+  `a1_module_temperature_point_id` BIGINT NULL,
+  `b1_module_temperature_point_id` BIGINT NULL,
+  `c1_module_temperature_point_id` BIGINT NULL,
+  `a2_module_temperature_point_id` BIGINT NULL,
+  `b2_module_temperature_point_id` BIGINT NULL,
+  `c2_module_temperature_point_id` BIGINT NULL,
+  `air_inlet_temperature_point_id` BIGINT NULL,
+  `air_outlet_temperature_point_id` BIGINT NULL,
+  `dc_power_point_id` BIGINT NULL,
+  `dc_voltage_point_id` BIGINT NULL,
+  `dc_current_point_id` BIGINT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_pcs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` (`energy_storage_container_id`);
@@ -1992,7 +2035,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.8.0', '2024-08-13');
+(1, '4.9.0RC', '2024-09-09');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
