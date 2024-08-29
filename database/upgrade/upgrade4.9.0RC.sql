@@ -6,6 +6,76 @@
 
 START TRANSACTION;
 
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `minimum_voltage_battery_cell_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `minimum_voltage_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `maximum_voltage_battery_cell_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `maximum_voltage_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `minimum_temperature_battery_cell_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `minimum_temperature_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `maximum_temperature_battery_cell_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `maximum_temperature_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `negative_insulation_value_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `positive_insulation_value_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `insulation_value_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `average_voltage_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `average_temperature_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `dischargeable_capacity_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `rechargeable_capacity_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `discharge_limit_power_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `charging_power_limit_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `soh_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `total_current_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `total_voltage_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `grid_status_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `communication_status_with_ems_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_batteries
+ADD `communication_status_with_pcs_point_id` BIGINT NULL AFTER `nominal_voltage`;
+
+
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems MODIFY COLUMN today_charge_energy_point_id bigint NULL;
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems MODIFY COLUMN today_discharge_energy_point_id bigint NULL;
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems MODIFY COLUMN total_charge_energy_point_id bigint NULL;
