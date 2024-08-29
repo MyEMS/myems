@@ -644,42 +644,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   </Fragment>
                 </Card>
               </TabPane>
-              {/* <TabPane tabId="3">
-                <Card className="mb-3 fs--1">
-                  <Fragment>
-                    <CardBody className="pt-0">
-                      <Table borderless className="fs--1 mb-0">
-                        <tbody>
-                          <tr className="border-bottom">
-                            <th className="pl-0">今日充电量</th>
-                            <th className="pr-0 text-right">0 kWh</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0">今日放电量</th>
-                            <th className="pr-0 text-right ">0 kWh</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计充电量</th>
-                            <th className="pr-0 text-right">0 kWh</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计放电量</th>
-                            <th className="pr-0 text-right">0 kWh</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">综合效率</th>
-                            <th className="pr-0 text-right">0%</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">放电达成率</th>
-                            <th className="pr-0 text-right">0%</th>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </CardBody>
-                  </Fragment>
-                </Card>
-              </TabPane> */}
             </TabContent>
           </Col>
           <Col lg="6" className="pr-lg-2" key={uuidv4()}>
@@ -720,7 +684,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pr-0 text-right">正常</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0">1# PCS</th>
+                            <th className="pl-0">1#PCS</th>
                             <th className="pr-0 text-right">正常</th>
                           </tr>
                           <tr className="border-bottom">
@@ -1016,30 +980,26 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <th></th>
                       <th></th>
                       <th></th>
-                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>AB电压: 230 V</td>
+                      <td>AB电压: 405 V</td>
                       <td>AB电流: -</td>
                       <td>A相电压: -</td>
                       <td>A相电流: 12 A</td>
-                      <td>PCS模块温度: -</td>
                     </tr>
                     <tr>
-                      <td>BC电压: 232 V</td>
+                      <td>BC电压: 403 V</td>
                       <td>BC电流: -</td>
                       <td>B相电压: -</td>
                       <td>B相电流: 10 A</td>
-                      <td>PCS环境温度: -</td>
                     </tr>
                     <tr>
-                      <td>CA电压: 230 V</td>
+                      <td>CA电压: 409 V</td>
                       <td>CA电流: -</td>
                       <td>C相电压: -</td>
                       <td>C相电流: 13 A</td>
-                      <td>-</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -1057,15 +1017,18 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <td>A1模块温度: 32.4 ℃</td>
                       <td>A2模块温度: 32.2 ℃</td>
                       <td>进风口温度: -</td>
+                      <td>PCS模块温度: -</td>
                     </tr>
                     <tr>
                       <td>B1模块温度: 32.4 ℃</td>
                       <td>B2模块温度: 32.9 ℃</td>
                       <td>出风口温度: -</td>
+                      <td>PCS环境温度: -</td>
                     </tr>
                     <tr>
                       <td>C1模块温度: 32.5 ℃</td>
                       <td>C2模块温度: 32.5 ℃</td>
+                      <td></td>
                       <td></td>
                     </tr>
                   </tbody>
@@ -1099,7 +1062,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <th>电池堆#1</th>
                       <th>充放电状态: 放电</th>
                       <th>运行状态: -</th>
-                      <th>设与PCS通信: -</th>
+                      <th>与PCS通信: -</th>
                       <th>与EMS通信: 正常</th>
                       <th>并网状态: 并网</th>
                     </tr>
@@ -1118,7 +1081,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <td>总电流: 0.0 A</td>
                       <td>SOH: 100.0 %</td>
                       <td>放电限制功率: -</td>
-                      <td>B可放电量: 0.0 kWh</td>
+                      <td>可放电量: 0.0 kWh</td>
                       <td>平均电压: 3.3 V</td>
                     </tr>
                   </tbody>
@@ -1142,44 +1105,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     </tr>
                   </tbody>
                 </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电池簇#1</th>
-                      <th>充放电状态: 放电</th>
-                      <th>运行状态: -</th>
-                      <th>并网状态: 并网</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-                  <tbody>
-                    <tr>
-                      <td>SOC：100.0 %</td>
-                      <td>电压：240.3 V</td>
-                      <td>最高温度：29 ℃</td>
-                      <td>最高电压：3.332 V</td>
-                      <td>绝缘值：5209 kΩ</td>
-                      <td>接触器主正：-</td>
-                    </tr>
-                    <tr>
-                      <td>SOH：100.0 %</td>
-                      <td>电流：0.0 A</td>
-                      <td>最低温度：28 ℃</td>
-                      <td>最低电压：3.332 V</td>
-                      <td>正极绝缘值：6111 kΩ</td>
-                      <td>接触器预充：-</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td>功率：-</td>
-                      <td>平均温度：28.5 ℃</td>
-                      <td>平均电压：3.3 V</td>
-                      <td>负极绝缘值：5209 kΩ</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </Table>
+
               </CardBody>
             </Card>
           </TabPane>
