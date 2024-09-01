@@ -130,12 +130,16 @@ Web UI:
 
 ![开源能源管理系统](/docs/images/qrcode_for_mp_weixin.jpg)
 
-## QQ交流群
+
+## 微信群
+
+![微信群](/docs/images/qr_code_wechat_group.png)
+
+## QQ群
 
 群号: 792528967
 
-![QQ群](/docs/images/qq-group.png)
-
+![QQ群](/docs/images/qr_code_qq_group.png)
 
 ## 视频
 
