@@ -131,11 +131,15 @@ See [https://myems.io/en/docs/cooperation](https://myems.io/en/docs/cooperation)
 
 ![Open Source Energy Management System](/docs/images/qrcode_for_mp_weixin.jpg)
 
+## WeChat Group
+
+![WeChat Group](/docs/images/qr_code_wechat_group.png)
+
 ## QQ Group
 
 Group Number: 792528967
 
-![QQ Group 1](/docs/images/qq-group.png)
+![QQ Group 1](/docs/images/qr_code_qq_group.png)
 
 ## Videos
 
