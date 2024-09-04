@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated `myems_system_db`.`tbl_energy_storage_containers_batteries` in database
 ### Fixed
 - fixed typo in myems-web routes
+- fixed virtual point checkbox issue in myems-admin
 ### Removed
 
 ## [v4.8.0] - 2024-08-13
