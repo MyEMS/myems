@@ -78,7 +78,7 @@
                 <div class="col-sm-8">
                     <div class="checkbox checkbox-success">
                         <input id="chk_point_isvirtual" type="checkbox" ng-model="point.is_virtual" ng-checked="point.is_virtual"
-                        ng-disabled="form_point.pointobject_type.$modelValue != 'ANALOG_VALUE'">
+                        ng-disabled="form_point.pointobject_type.$modelValue == 'DIGITAL_VALUE'">
                         <label for="chk_point_isvirtual">{{'POINT.IS_VIRTUAL' | translate}}</label>
                     </div>
                 </div>
