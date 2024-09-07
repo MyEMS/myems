@@ -191,7 +191,7 @@ ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_syste
 ADD `total_ac_power_factor_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
 
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems
-ADD `total_ac_apparent_power_point_id` NULL BIGINT AFTER `total_discharge_energy_point_id`;
+ADD `total_ac_apparent_power_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
 
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems
 ADD `total_ac_reactive_power_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
