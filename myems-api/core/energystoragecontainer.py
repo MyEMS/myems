@@ -714,6 +714,29 @@ class EnergyStorageContainerBatteryCollection:
         query = (" SELECT id, name, uuid, "
                  "        battery_state_point_id, soc_point_id, power_point_id, "
                  "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                 "        communication_status_with_pcs_point_id, "
+                 "        communication_status_with_ems_point_id, "
+                 "        grid_status_point_id, "
+                 "        total_voltage_point_id, "
+                 "        total_current_point_id, "
+                 "        soh_point_id, "
+                 "        charging_power_limit_point_id, "
+                 "        discharge_limit_power_point_id, "
+                 "        rechargeable_capacity_point_id, "
+                 "        dischargeable_capacity_point_id, "
+                 "        average_temperature_point_id, "
+                 "        average_voltage_point_id, "
+                 "        insulation_value_point_id, "
+                 "        positive_insulation_value_point_id, "
+                 "        negative_insulation_value_point_id, "
+                 "        maximum_temperature_point_id, "
+                 "        maximum_temperature_battery_cell_point_id, "
+                 "        minimum_temperature_point_id, "
+                 "        minimum_temperature_battery_cell_point_id, "
+                 "        maximum_voltage_point_id, "
+                 "        maximum_voltage_battery_cell_point_id, "
+                 "        minimum_voltage_point_id, "
+                 "        minimum_voltage_battery_cell_point_id "
                  " FROM tbl_energy_storage_containers_batteries "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -733,7 +756,31 @@ class EnergyStorageContainerBatteryCollection:
                                "discharge_meter": meter_dict.get(row[7]),
                                "rated_capacity": row[8],
                                "rated_power": row[9],
-                               "nominal_voltage": row[10]}
+                               "nominal_voltage": row[10],
+                               "communication_status_with_pcs_point": point_dict.get(row[11]),
+                               "communication_status_with_ems_point": point_dict.get(row[12]),
+                               "grid_status_point": point_dict.get(row[13]),
+                               "total_voltage_point": point_dict.get(row[14]),
+                               "total_current_point": point_dict.get(row[15]),
+                               "soh_point": point_dict.get(row[16]),
+                               "charging_power_limit_point": point_dict.get(row[17]),
+                               "discharge_limit_power_point": point_dict.get(row[18]),
+                               "rechargeable_capacity_point": point_dict.get(row[19]),
+                               "dischargeable_capacity_point": point_dict.get(row[20]),
+                               "average_temperature_point": point_dict.get(row[21]),
+                               "average_voltage_point": point_dict.get(row[22]),
+                               "insulation_value_point": point_dict.get(row[23]),
+                               "positive_insulation_value_point": point_dict.get(row[24]),
+                               "negative_insulation_value_point": point_dict.get(row[25]),
+                               "maximum_temperature_point": point_dict.get(row[26]),
+                               "maximum_temperature_battery_cell_point": point_dict.get(row[27]),
+                               "minimum_temperature_point": point_dict.get(row[28]),
+                               "minimum_temperature_battery_cell_point": point_dict.get(row[29]),
+                               "maximum_voltage_point": point_dict.get(row[30]),
+                               "maximum_voltage_battery_cell_point": point_dict.get(row[31]),
+                               "minimum_voltage_point": point_dict.get(row[32]),
+                               "minimum_voltage_battery_cell_point": point_dict.get(row[33])
+                               }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -831,6 +878,144 @@ class EnergyStorageContainerBatteryCollection:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = float(new_values['data']['nominal_voltage'])
 
+        communication_status_with_pcs_point_id = None
+        communication_status_with_ems_point_id = None
+        grid_status_point_id = None
+        total_voltage_point_id = None
+        total_current_point_id = None
+        soh_point_id = None
+        charging_power_limit_point_id = None
+        discharge_limit_power_point_id = None
+        rechargeable_capacity_point_id = None
+        dischargeable_capacity_point_id = None
+        average_temperature_point_id = None
+        average_voltage_point_id = None
+        insulation_value_point_id = None
+        positive_insulation_value_point_id = None
+        negative_insulation_value_point_id = None
+        maximum_temperature_point_id = None
+        maximum_temperature_battery_cell_point_id = None
+        minimum_temperature_point_id = None
+        minimum_temperature_battery_cell_point_id = None
+        maximum_voltage_point_id = None
+        maximum_voltage_battery_cell_point_id = None
+        minimum_voltage_point_id = None
+        minimum_voltage_battery_cell_point_id = None
+        if 'communication_status_with_pcs_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['communication_status_with_pcs_point_id'], int) and \
+                new_values['data']['communication_status_with_pcs_point_id'] > 0:
+            communication_status_with_pcs_point_id = new_values['data']['communication_status_with_pcs_point_id']
+
+        if 'communication_status_with_ems_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['communication_status_with_ems_point_id'], int) and \
+                new_values['data']['communication_status_with_ems_point_id'] > 0:
+            communication_status_with_ems_point_id = new_values['data']['communication_status_with_ems_point_id']
+
+        if 'grid_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['grid_status_point_id'], int) and \
+                new_values['data']['grid_status_point_id'] > 0:
+            grid_status_point_id = new_values['data']['grid_status_point_id']
+
+        if 'total_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_voltage_point_id'], int) and \
+                new_values['data']['total_voltage_point_id'] > 0:
+            total_voltage_point_id = new_values['data']['total_voltage_point_id']
+
+        if 'total_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_current_point_id'], int) and \
+                new_values['data']['total_current_point_id'] > 0:
+            total_current_point_id = new_values['data']['total_current_point_id']
+
+        if 'soh_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['soh_point_id'], int) and \
+                new_values['data']['soh_point_id'] > 0:
+            soh_point_id = new_values['data']['soh_point_id']
+
+        if 'charging_power_limit_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['charging_power_limit_point_id'], int) and \
+                new_values['data']['charging_power_limit_point_id'] > 0:
+            charging_power_limit_point_id = new_values['data']['charging_power_limit_point_id']
+
+        if 'discharge_limit_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['discharge_limit_power_point_id'], int) and \
+                new_values['data']['discharge_limit_power_point_id'] > 0:
+            discharge_limit_power_point_id = new_values['data']['discharge_limit_power_point_id']
+
+        if 'rechargeable_capacity_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['rechargeable_capacity_point_id'], int) and \
+                new_values['data']['rechargeable_capacity_point_id'] > 0:
+            rechargeable_capacity_point_id = new_values['data']['rechargeable_capacity_point_id']
+
+        if 'dischargeable_capacity_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dischargeable_capacity_point_id'], int) and \
+                new_values['data']['dischargeable_capacity_point_id'] > 0:
+            dischargeable_capacity_point_id = new_values['data']['dischargeable_capacity_point_id']
+
+        if 'average_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['average_temperature_point_id'], int) and \
+                new_values['data']['average_temperature_point_id'] > 0:
+            average_temperature_point_id = new_values['data']['average_temperature_point_id']
+
+        if 'average_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['average_voltage_point_id'], int) and \
+                new_values['data']['average_voltage_point_id'] > 0:
+            average_voltage_point_id = new_values['data']['average_voltage_point_id']
+
+        if 'insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['insulation_value_point_id'], int) and \
+                new_values['data']['insulation_value_point_id'] > 0:
+            insulation_value_point_id = new_values['data']['insulation_value_point_id']
+
+        if 'positive_insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['positive_insulation_value_point_id'], int) and \
+                new_values['data']['positive_insulation_value_point_id'] > 0:
+            positive_insulation_value_point_id = new_values['data']['positive_insulation_value_point_id']
+
+        if 'negative_insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['negative_insulation_value_point_id'], int) and \
+                new_values['data']['negative_insulation_value_point_id'] > 0:
+            negative_insulation_value_point_id = new_values['data']['negative_insulation_value_point_id']
+
+        if 'maximum_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_temperature_point_id'], int) and \
+                new_values['data']['maximum_temperature_point_id'] > 0:
+            maximum_temperature_point_id = new_values['data']['maximum_temperature_point_id']
+
+        if 'maximum_temperature_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_temperature_battery_cell_point_id'], int) and \
+                new_values['data']['maximum_temperature_battery_cell_point_id'] > 0:
+            maximum_temperature_battery_cell_point_id = new_values['data']['maximum_temperature_battery_cell_point_id']
+
+        if 'minimum_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_temperature_point_id'], int) and \
+                new_values['data']['minimum_temperature_point_id'] > 0:
+            minimum_temperature_point_id = new_values['data']['minimum_temperature_point_id']
+
+        if 'minimum_temperature_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_temperature_battery_cell_point_id'], int) and \
+                new_values['data']['minimum_temperature_battery_cell_point_id'] > 0:
+            minimum_temperature_battery_cell_point_id = new_values['data']['minimum_temperature_battery_cell_point_id']
+
+        if 'maximum_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_voltage_point_id'], int) and \
+                new_values['data']['maximum_voltage_point_id'] > 0:
+            maximum_voltage_point_id = new_values['data']['maximum_voltage_point_id']
+
+        if 'maximum_voltage_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_voltage_battery_cell_point_id'], int) and \
+                new_values['data']['maximum_voltage_battery_cell_point_id'] > 0:
+            maximum_voltage_battery_cell_point_id = new_values['data']['maximum_voltage_battery_cell_point_id']
+
+        if 'minimum_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_voltage_point_id'], int) and \
+                new_values['data']['minimum_voltage_point_id'] > 0:
+            minimum_voltage_point_id = new_values['data']['minimum_voltage_point_id']
+
+        if 'minimum_voltage_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_voltage_battery_cell_point_id'], int) and \
+                new_values['data']['minimum_voltage_battery_cell_point_id'] > 0:
+            minimum_voltage_battery_cell_point_id = new_values['data']['minimum_voltage_battery_cell_point_id']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -897,8 +1082,34 @@ class EnergyStorageContainerBatteryCollection:
         add_values = (" INSERT INTO tbl_energy_storage_containers_batteries "
                       "    (name, uuid, energy_storage_container_id, "
                       "     battery_state_point_id, soc_point_id, power_point_id, "
-                      "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage, "
+                      "     communication_status_with_pcs_point_id, "
+                      "     communication_status_with_ems_point_id, "
+                      "     grid_status_point_id, "
+                      "     total_voltage_point_id, "
+                      "     total_current_point_id, "
+                      "     soh_point_id, "
+                      "     charging_power_limit_point_id, "
+                      "     discharge_limit_power_point_id, "
+                      "     rechargeable_capacity_point_id, "
+                      "     dischargeable_capacity_point_id, "
+                      "     average_temperature_point_id, "
+                      "     average_voltage_point_id, "
+                      "     insulation_value_point_id, "
+                      "     positive_insulation_value_point_id, "
+                      "     negative_insulation_value_point_id, "
+                      "     maximum_temperature_point_id, "
+                      "     maximum_temperature_battery_cell_point_id, "
+                      "     minimum_temperature_point_id, "
+                      "     minimum_temperature_battery_cell_point_id, "
+                      "     maximum_voltage_point_id, "
+                      "     maximum_voltage_battery_cell_point_id, "
+                      "     minimum_voltage_point_id, "
+                      "     minimum_voltage_battery_cell_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,"
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,"
+                      "         %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -909,7 +1120,31 @@ class EnergyStorageContainerBatteryCollection:
                                     discharge_meter_id,
                                     rated_capacity,
                                     rated_power,
-                                    nominal_voltage))
+                                    nominal_voltage,
+                                    communication_status_with_pcs_point_id,
+                                    communication_status_with_ems_point_id,
+                                    grid_status_point_id,
+                                    total_voltage_point_id,
+                                    total_current_point_id,
+                                    soh_point_id,
+                                    charging_power_limit_point_id,
+                                    discharge_limit_power_point_id,
+                                    rechargeable_capacity_point_id,
+                                    dischargeable_capacity_point_id,
+                                    average_temperature_point_id,
+                                    average_voltage_point_id,
+                                    insulation_value_point_id,
+                                    positive_insulation_value_point_id,
+                                    negative_insulation_value_point_id,
+                                    maximum_temperature_point_id,
+                                    maximum_temperature_battery_cell_point_id,
+                                    minimum_temperature_point_id,
+                                    minimum_temperature_battery_cell_point_id,
+                                    maximum_voltage_point_id,
+                                    maximum_voltage_battery_cell_point_id,
+                                    minimum_voltage_point_id,
+                                    minimum_voltage_battery_cell_point_id
+                                    ))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -988,7 +1223,30 @@ class EnergyStorageContainerBatteryItem:
 
         query = (" SELECT id, name, uuid, energy_storage_container_id, "
                  "       battery_state_point_id, soc_point_id, power_point_id, "
-                 "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                 "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage, "
+                 "       communication_status_with_pcs_point_id, "
+                 "       communication_status_with_ems_point_id, "
+                 "       grid_status_point_id, "
+                 "       total_voltage_point_id, "
+                 "       total_current_point_id, "
+                 "       soh_point_id, "
+                 "       charging_power_limit_point_id, "
+                 "       discharge_limit_power_point_id, "
+                 "       rechargeable_capacity_point_id, "
+                 "       dischargeable_capacity_point_id, "
+                 "       average_temperature_point_id, "
+                 "       average_voltage_point_id, "
+                 "       insulation_value_point_id, "
+                 "       positive_insulation_value_point_id, "
+                 "       negative_insulation_value_point_id, "
+                 "       maximum_temperature_point_id, "
+                 "       maximum_temperature_battery_cell_point_id, "
+                 "       minimum_temperature_point_id, "
+                 "       minimum_temperature_battery_cell_point_id, "
+                 "       maximum_voltage_point_id, "
+                 "       maximum_voltage_battery_cell_point_id, "
+                 "       minimum_voltage_point_id, "
+                 "       minimum_voltage_battery_cell_point_id "
                  " FROM tbl_energy_storage_containers_batteries "
                  " WHERE id = %s ")
         cursor.execute(query, (bid,))
@@ -1011,7 +1269,31 @@ class EnergyStorageContainerBatteryItem:
                            "discharge_meter": meter_dict.get(row[8]),
                            "rated_capacity": row[9],
                            "rated_power": row[10],
-                           "nominal_voltage": row[11]}
+                           "nominal_voltage": row[11],
+                           "communication_status_with_pcs_point": point_dict.get(row[12]),
+                           "communication_status_with_ems_point": point_dict.get(row[13]),
+                           "grid_status_point": point_dict.get(row[14]),
+                           "total_voltage_point": point_dict.get(row[15]),
+                           "total_current_point": point_dict.get(row[16]),
+                           "soh_point": point_dict.get(row[17]),
+                           "charging_power_limit_point": point_dict.get(row[18]),
+                           "discharge_limit_power_point": point_dict.get(row[19]),
+                           "rechargeable_capacity_point": point_dict.get(row[20]),
+                           "dischargeable_capacity_point": point_dict.get(row[21]),
+                           "average_temperature_point": point_dict.get(row[22]),
+                           "average_voltage_point": point_dict.get(row[23]),
+                           "insulation_value_point": point_dict.get(row[24]),
+                           "positive_insulation_value_point": point_dict.get(row[25]),
+                           "negative_insulation_value_point": point_dict.get(row[26]),
+                           "maximum_temperature_point": point_dict.get(row[27]),
+                           "maximum_temperature_battery_cell_point": point_dict.get(row[28]),
+                           "minimum_temperature_point": point_dict.get(row[29]),
+                           "minimum_temperature_battery_cell_point": point_dict.get(row[30]),
+                           "maximum_voltage_point": point_dict.get(row[31]),
+                           "maximum_voltage_battery_cell_point": point_dict.get(row[32]),
+                           "minimum_voltage_point": point_dict.get(row[33]),
+                           "minimum_voltage_battery_cell_point": point_dict.get(row[34])
+                           }
 
         resp.text = json.dumps(meta_result)
 
@@ -1139,6 +1421,145 @@ class EnergyStorageContainerBatteryItem:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = float(new_values['data']['nominal_voltage'])
 
+        communication_status_with_pcs_point_id = None
+        communication_status_with_ems_point_id = None
+        grid_status_point_id = None
+        total_voltage_point_id = None
+        total_current_point_id = None
+        soh_point_id = None
+        charging_power_limit_point_id = None
+        discharge_limit_power_point_id = None
+        rechargeable_capacity_point_id = None
+        dischargeable_capacity_point_id = None
+        average_temperature_point_id = None
+        average_voltage_point_id = None
+        insulation_value_point_id = None
+        positive_insulation_value_point_id = None
+        negative_insulation_value_point_id = None
+        maximum_temperature_point_id = None
+        maximum_temperature_battery_cell_point_id = None
+        minimum_temperature_point_id = None
+        minimum_temperature_battery_cell_point_id = None
+        maximum_voltage_point_id = None
+        maximum_voltage_battery_cell_point_id = None
+        minimum_voltage_point_id = None
+        minimum_voltage_battery_cell_point_id = None
+
+        if 'communication_status_with_pcs_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['communication_status_with_pcs_point_id'], int) and \
+                new_values['data']['communication_status_with_pcs_point_id'] > 0:
+            communication_status_with_pcs_point_id = new_values['data']['communication_status_with_pcs_point_id']
+
+        if 'communication_status_with_ems_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['communication_status_with_ems_point_id'], int) and \
+                new_values['data']['communication_status_with_ems_point_id'] > 0:
+            communication_status_with_ems_point_id = new_values['data']['communication_status_with_ems_point_id']
+
+        if 'grid_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['grid_status_point_id'], int) and \
+                new_values['data']['grid_status_point_id'] > 0:
+            grid_status_point_id = new_values['data']['grid_status_point_id']
+
+        if 'total_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_voltage_point_id'], int) and \
+                new_values['data']['total_voltage_point_id'] > 0:
+            total_voltage_point_id = new_values['data']['total_voltage_point_id']
+
+        if 'total_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_current_point_id'], int) and \
+                new_values['data']['total_current_point_id'] > 0:
+            total_current_point_id = new_values['data']['total_current_point_id']
+
+        if 'soh_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['soh_point_id'], int) and \
+                new_values['data']['soh_point_id'] > 0:
+            soh_point_id = new_values['data']['soh_point_id']
+
+        if 'charging_power_limit_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['charging_power_limit_point_id'], int) and \
+                new_values['data']['charging_power_limit_point_id'] > 0:
+            charging_power_limit_point_id = new_values['data']['charging_power_limit_point_id']
+
+        if 'discharge_limit_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['discharge_limit_power_point_id'], int) and \
+                new_values['data']['discharge_limit_power_point_id'] > 0:
+            discharge_limit_power_point_id = new_values['data']['discharge_limit_power_point_id']
+
+        if 'rechargeable_capacity_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['rechargeable_capacity_point_id'], int) and \
+                new_values['data']['rechargeable_capacity_point_id'] > 0:
+            rechargeable_capacity_point_id = new_values['data']['rechargeable_capacity_point_id']
+
+        if 'dischargeable_capacity_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dischargeable_capacity_point_id'], int) and \
+                new_values['data']['dischargeable_capacity_point_id'] > 0:
+            dischargeable_capacity_point_id = new_values['data']['dischargeable_capacity_point_id']
+
+        if 'average_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['average_temperature_point_id'], int) and \
+                new_values['data']['average_temperature_point_id'] > 0:
+            average_temperature_point_id = new_values['data']['average_temperature_point_id']
+
+        if 'average_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['average_voltage_point_id'], int) and \
+                new_values['data']['average_voltage_point_id'] > 0:
+            average_voltage_point_id = new_values['data']['average_voltage_point_id']
+
+        if 'insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['insulation_value_point_id'], int) and \
+                new_values['data']['insulation_value_point_id'] > 0:
+            insulation_value_point_id = new_values['data']['insulation_value_point_id']
+
+        if 'positive_insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['positive_insulation_value_point_id'], int) and \
+                new_values['data']['positive_insulation_value_point_id'] > 0:
+            positive_insulation_value_point_id = new_values['data']['positive_insulation_value_point_id']
+
+        if 'negative_insulation_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['negative_insulation_value_point_id'], int) and \
+                new_values['data']['negative_insulation_value_point_id'] > 0:
+            negative_insulation_value_point_id = new_values['data']['negative_insulation_value_point_id']
+
+        if 'maximum_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_temperature_point_id'], int) and \
+                new_values['data']['maximum_temperature_point_id'] > 0:
+            maximum_temperature_point_id = new_values['data']['maximum_temperature_point_id']
+
+        if 'maximum_temperature_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_temperature_battery_cell_point_id'], int) and \
+                new_values['data']['maximum_temperature_battery_cell_point_id'] > 0:
+            maximum_temperature_battery_cell_point_id = new_values['data']['maximum_temperature_battery_cell_point_id']
+
+        if 'minimum_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_temperature_point_id'], int) and \
+                new_values['data']['minimum_temperature_point_id'] > 0:
+            minimum_temperature_point_id = new_values['data']['minimum_temperature_point_id']
+
+        if 'minimum_temperature_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_temperature_battery_cell_point_id'], int) and \
+                new_values['data']['minimum_temperature_battery_cell_point_id'] > 0:
+            minimum_temperature_battery_cell_point_id = new_values['data']['minimum_temperature_battery_cell_point_id']
+
+        if 'maximum_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_voltage_point_id'], int) and \
+                new_values['data']['maximum_voltage_point_id'] > 0:
+            maximum_voltage_point_id = new_values['data']['maximum_voltage_point_id']
+
+        if 'maximum_voltage_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['maximum_voltage_battery_cell_point_id'], int) and \
+                new_values['data']['maximum_voltage_battery_cell_point_id'] > 0:
+            maximum_voltage_battery_cell_point_id = new_values['data']['maximum_voltage_battery_cell_point_id']
+
+        if 'minimum_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_voltage_point_id'], int) and \
+                new_values['data']['minimum_voltage_point_id'] > 0:
+            minimum_voltage_point_id = new_values['data']['minimum_voltage_point_id']
+
+        if 'minimum_voltage_battery_cell_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['minimum_voltage_battery_cell_point_id'], int) and \
+                new_values['data']['minimum_voltage_battery_cell_point_id'] > 0:
+            minimum_voltage_battery_cell_point_id = new_values['data']['minimum_voltage_battery_cell_point_id']
+        print(new_values)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1225,7 +1646,30 @@ class EnergyStorageContainerBatteryItem:
                       " SET name = %s, energy_storage_container_id = %s, "
                       "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
                       "     charge_meter_id = %s, discharge_meter_id = %s, "
-                      "     rated_capacity = %s,  rated_power = %s, nominal_voltage = %s "
+                      "     rated_capacity = %s,  rated_power = %s, nominal_voltage = %s, "
+                      "     communication_status_with_pcs_point_id = %s, "
+                      "     communication_status_with_ems_point_id = %s, "
+                      "     grid_status_point_id = %s, "
+                      "     total_voltage_point_id = %s, "
+                      "     total_current_point_id = %s, "
+                      "     soh_point_id = %s, "
+                      "     charging_power_limit_point_id = %s, "
+                      "     discharge_limit_power_point_id = %s, "
+                      "     rechargeable_capacity_point_id = %s, "
+                      "     dischargeable_capacity_point_id = %s, "
+                      "     average_temperature_point_id = %s, "
+                      "     average_voltage_point_id = %s, "
+                      "     insulation_value_point_id = %s, "
+                      "     positive_insulation_value_point_id = %s, "
+                      "     negative_insulation_value_point_id = %s, "
+                      "     maximum_temperature_point_id = %s, "
+                      "     maximum_temperature_battery_cell_point_id = %s, "
+                      "     minimum_temperature_point_id = %s, "
+                      "     minimum_temperature_battery_cell_point_id = %s, "
+                      "     maximum_voltage_point_id = %s, "
+                      "     maximum_voltage_battery_cell_point_id = %s, "
+                      "     minimum_voltage_point_id = %s, "
+                      "     minimum_voltage_battery_cell_point_id = %s) "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
@@ -1237,6 +1681,29 @@ class EnergyStorageContainerBatteryItem:
                                     rated_capacity,
                                     rated_power,
                                     nominal_voltage,
+                                    communication_status_with_pcs_point_id,
+                                    communication_status_with_ems_point_id,
+                                    grid_status_point_id,
+                                    total_voltage_point_id,
+                                    total_current_point_id,
+                                    soh_point_id,
+                                    charging_power_limit_point_id,
+                                    discharge_limit_power_point_id,
+                                    rechargeable_capacity_point_id,
+                                    dischargeable_capacity_point_id,
+                                    average_temperature_point_id,
+                                    average_voltage_point_id,
+                                    insulation_value_point_id,
+                                    positive_insulation_value_point_id,
+                                    negative_insulation_value_point_id,
+                                    maximum_temperature_point_id,
+                                    maximum_temperature_battery_cell_point_id,
+                                    minimum_temperature_point_id,
+                                    minimum_temperature_battery_cell_point_id,
+                                    maximum_voltage_point_id,
+                                    maximum_voltage_battery_cell_point_id,
+                                    minimum_voltage_point_id,
+                                    minimum_voltage_battery_cell_point_id,
                                     bid))
         cnx.commit()
 
@@ -2259,9 +2726,54 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                         "name": row[1]}
 
         query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power, "
-                 "        today_charge_energy_point_id, today_discharge_energy_point_id,  "
-                 "        total_charge_energy_point_id, total_discharge_energy_point_id  "
-                 " FROM tbl_energy_storage_containers_power_conversion_systems "
+                 "        today_charge_energy_point_id, "
+                 "        today_discharge_energy_point_id, "
+                 "        total_charge_energy_point_id, "
+                 "        total_discharge_energy_point_id, "
+                 "        working_status_point_id, "
+                 "        grid_connection_status_point_id, "
+                 "        device_status_point_id, "
+                 "        control_mode_point_id, "
+                 "        total_ac_active_power_point_id, "
+                 "        total_ac_reactive_power_point_id, "
+                 "        total_ac_apparent_power_point_id, "
+                 "        total_ac_power_factor_point_id, "
+                 "        ac_frequency_point_id, "
+                 "        phase_a_active_power_point_id, "
+                 "        phase_b_active_power_point_id, "
+                 "        phase_c_active_power_point_id, "
+                 "        phase_a_reactive_power_point_id, "
+                 "        phase_b_reactive_power_point_id, "
+                 "        phase_c_reactive_power_point_id, "
+                 "        phase_a_apparent_power_point_id, "
+                 "        phase_b_apparent_power_point_id, "
+                 "        phase_c_apparent_power_point_id, "
+                 "        ab_voltage_point_id, "
+                 "        bc_voltage_point_id, "
+                 "        ca_voltage_point_id, "
+                 "        ab_current_point_id, "
+                 "        bc_current_point_id, "
+                 "        ca_current_point_id, "
+                 "        phase_a_voltage_point_id, "
+                 "        phase_b_voltage_point_id, "
+                 "        phase_c_voltage_point_id, "
+                 "        phase_a_current_point_id, "
+                 "        phase_b_current_point_id, "
+                 "        phase_c_current_point_id, "
+                 "        pcs_module_temperature_point_id, "
+                 "        pcs_ambient_temperature_point_id, "
+                 "        a1_module_temperature_point_id, "
+                 "        b1_module_temperature_point_id, "
+                 "        c1_module_temperature_point_id, "
+                 "        a2_module_temperature_point_id, "
+                 "        b2_module_temperature_point_id, "
+                 "        c2_module_temperature_point_id, "
+                 "        air_inlet_temperature_point_id, "
+                 "        air_outlet_temperature_point_id, "
+                 "        dc_power_point_id, "
+                 "        dc_voltage_point_id, "
+                 "        dc_current_point_id  "
+                 "        FROM tbl_energy_storage_containers_power_conversion_systems "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
         cursor.execute(query, (id_,))
@@ -2279,6 +2791,49 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                "today_discharge_energy_point": point_dict.get(row[6]),
                                "total_charge_energy_point": point_dict.get(row[7]),
                                "total_discharge_energy_point": point_dict.get(row[8]),
+                               "working_status_point": point_dict.get(row[9]),
+                               "grid_connection_status_point": point_dict.get(row[10]),
+                               "device_status_point": point_dict.get(row[11]),
+                               "control_mode_point": point_dict.get(row[12]),
+                               "total_ac_active_power_point": point_dict.get(row[13]),
+                               "total_ac_reactive_power_point": point_dict.get(row[14]),
+                               "total_ac_apparent_power_point": point_dict.get(row[15]),
+                               "total_ac_power_factor_point": point_dict.get(row[16]),
+                               "ac_frequency_point": point_dict.get(row[17]),
+                               "phase_a_active_power_point": point_dict.get(row[18]),
+                               "phase_b_active_power_point": point_dict.get(row[19]),
+                               "phase_c_active_power_point": point_dict.get(row[20]),
+                               "phase_a_reactive_power_point": point_dict.get(row[21]),
+                               "phase_b_reactive_power_point": point_dict.get(row[22]),
+                               "phase_c_reactive_power_point": point_dict.get(row[23]),
+                               "phase_a_apparent_power_point": point_dict.get(row[24]),
+                               "phase_b_apparent_power_point": point_dict.get(row[25]),
+                               "phase_c_apparent_power_point": point_dict.get(row[26]),
+                               "ab_voltage_point": point_dict.get(row[27]),
+                               "bc_voltage_point": point_dict.get(row[28]),
+                               "ca_voltage_point": point_dict.get(row[29]),
+                               "ab_current_point": point_dict.get(row[30]),
+                               "bc_current_point": point_dict.get(row[31]),
+                               "ca_current_point": point_dict.get(row[32]),
+                               "phase_a_voltage_point": point_dict.get(row[33]),
+                               "phase_b_voltage_point": point_dict.get(row[34]),
+                               "phase_c_voltage_point": point_dict.get(row[35]),
+                               "phase_a_current_point": point_dict.get(row[36]),
+                               "phase_b_current_point": point_dict.get(row[37]),
+                               "phase_c_current_point": point_dict.get(row[38]),
+                               "pcs_module_temperature_point": point_dict.get(row[39]),
+                               "pcs_ambient_temperature_point": point_dict.get(row[40]),
+                               "a1_module_temperature_point": point_dict.get(row[41]),
+                               "b1_module_temperature_point": point_dict.get(row[42]),
+                               "c1_module_temperature_point": point_dict.get(row[43]),
+                               "a2_module_temperature_point": point_dict.get(row[44]),
+                               "b2_module_temperature_point": point_dict.get(row[45]),
+                               "c2_module_temperature_point": point_dict.get(row[46]),
+                               "air_inlet_temperature_point": point_dict.get(row[47]),
+                               "air_outlet_temperature_point": point_dict.get(row[48]),
+                               "dc_power_point": point_dict.get(row[49]),
+                               "dc_voltage_point": point_dict.get(row[50]),
+                               "dc_current_point": point_dict.get(row[51])
                                }
                 result.append(meta_result)
 
@@ -2334,33 +2889,288 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        if 'today_charge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['today_charge_energy_point_id'], int) or \
-                new_values['data']['today_charge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TODAY_CHARGE_ENERGY_POINT_ID')
-        today_charge_energy_point_id = new_values['data']['today_charge_energy_point_id']
+        today_charge_energy_point_id = None
+        today_discharge_energy_point_id = None
+        total_charge_energy_point_id = None
+        total_discharge_energy_point_id = None
+        working_status_point_id = None
+        grid_connection_status_point_id = None
+        device_status_point_id = None
+        control_mode_point_id = None
+        total_ac_active_power_point_id = None
+        total_ac_reactive_power_point_id = None
+        total_ac_apparent_power_point_id = None
+        total_ac_power_factor_point_id = None
+        ac_frequency_point_id = None
+        phase_a_active_power_point_id = None
+        phase_b_active_power_point_id = None
+        phase_c_active_power_point_id = None
+        phase_a_reactive_power_point_id = None
+        phase_b_reactive_power_point_id = None
+        phase_c_reactive_power_point_id = None
+        phase_a_apparent_power_point_id = None
+        phase_b_apparent_power_point_id = None
+        phase_c_apparent_power_point_id = None
+        ab_voltage_point_id = None
+        bc_voltage_point_id = None
+        ca_voltage_point_id = None
+        ab_current_point_id = None
+        bc_current_point_id = None
+        ca_current_point_id = None
+        phase_a_voltage_point_id = None
+        phase_b_voltage_point_id = None
+        phase_c_voltage_point_id = None
+        phase_a_current_point_id = None
+        phase_b_current_point_id = None
+        phase_c_current_point_id = None
+        pcs_module_temperature_point_id = None
+        pcs_ambient_temperature_point_id = None
+        a1_module_temperature_point_id = None
+        b1_module_temperature_point_id = None
+        c1_module_temperature_point_id = None
+        a2_module_temperature_point_id = None
+        b2_module_temperature_point_id = None
+        c2_module_temperature_point_id = None
+        air_inlet_temperature_point_id = None
+        air_outlet_temperature_point_id = None
+        dc_power_point_id = None
+        dc_voltage_point_id = None
+        dc_current_point_id = None
 
-        if 'today_discharge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['today_discharge_energy_point_id'], int) or \
-                new_values['data']['today_discharge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TODAY_DISCHARGE_ENERGY_POINT_ID')
-        today_discharge_energy_point_id = new_values['data']['today_discharge_energy_point_id']
+        if 'today_charge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['today_charge_energy_point_id'], int) and \
+                new_values['data']['today_charge_energy_point_id'] > 0:
+            today_charge_energy_point_id = new_values['data']['today_charge_energy_point_id']
 
-        if 'total_charge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['total_charge_energy_point_id'], int) or \
-                new_values['data']['total_charge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOTAL_CHARGE_POINT_ID')
-        total_charge_energy_point_id = new_values['data']['total_charge_energy_point_id']
+        if 'today_discharge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['today_discharge_energy_point_id'], int) and \
+                new_values['data']['today_discharge_energy_point_id'] > 0:
+            today_discharge_energy_point_id = new_values['data']['today_discharge_energy_point_id']
 
-        if 'total_discharge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['total_discharge_energy_point_id'], int) or \
-                new_values['data']['total_discharge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOTAL_DISCHARGE_POINT_ID')
-        total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
+        if 'total_charge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_charge_energy_point_id'], int) and \
+                new_values['data']['total_charge_energy_point_id'] > 0:
+            total_charge_energy_point_id = new_values['data']['total_charge_energy_point_id']
+
+        if 'total_discharge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_discharge_energy_point_id'], int) and \
+                new_values['data']['total_discharge_energy_point_id'] > 0:
+            total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
+
+        if 'working_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['working_status_point_id'], int) and \
+                new_values['data']['working_status_point_id'] > 0:
+            working_status_point_id = new_values['data']['working_status_point_id']
+
+        if 'grid_connection_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['grid_connection_status_point_id'], int) and \
+                new_values['data']['grid_connection_status_point_id'] > 0:
+            grid_connection_status_point_id = new_values['data']['grid_connection_status_point_id']
+
+        if 'device_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['device_status_point_id'], int) and \
+                new_values['data']['device_status_point_id'] > 0:
+            device_status_point_id = new_values['data']['device_status_point_id']
+
+        if 'control_mode_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['control_mode_point_id'], int) and \
+                new_values['data']['control_mode_point_id'] > 0:
+            control_mode_point_id = new_values['data']['control_mode_point_id']
+
+        if 'total_ac_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_active_power_point_id'], int) and \
+                new_values['data']['total_ac_active_power_point_id'] > 0:
+            total_ac_active_power_point_id = new_values['data']['total_ac_active_power_point_id']
+
+        if 'total_ac_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_reactive_power_point_id'], int) and \
+                new_values['data']['total_ac_reactive_power_point_id'] > 0:
+            total_ac_reactive_power_point_id = new_values['data']['total_ac_reactive_power_point_id']
+
+        if 'total_ac_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_apparent_power_point_id'], int) and \
+                new_values['data']['total_ac_apparent_power_point_id'] > 0:
+            total_ac_apparent_power_point_id = new_values['data']['total_ac_apparent_power_point_id']
+
+        if 'total_ac_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_power_factor_point_id'], int) and \
+                new_values['data']['total_ac_power_factor_point_id'] > 0:
+            total_ac_power_factor_point_id = new_values['data']['total_ac_power_factor_point_id']
+
+        if 'ac_frequency_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ac_frequency_point_id'], int) and \
+                new_values['data']['ac_frequency_point_id'] > 0:
+            ac_frequency_point_id = new_values['data']['ac_frequency_point_id']
+
+        if 'phase_a_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_active_power_point_id'], int) and \
+                new_values['data']['phase_a_active_power_point_id'] > 0:
+            phase_a_active_power_point_id = new_values['data']['phase_a_active_power_point_id']
+
+        if 'phase_b_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_active_power_point_id'], int) and \
+                new_values['data']['phase_b_active_power_point_id'] > 0:
+            phase_b_active_power_point_id = new_values['data']['phase_b_active_power_point_id']
+
+        if 'phase_c_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_active_power_point_id'], int) and \
+                new_values['data']['phase_c_active_power_point_id'] > 0:
+            phase_c_active_power_point_id = new_values['data']['phase_c_active_power_point_id']
+
+        if 'phase_a_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_reactive_power_point_id'], int) and \
+                new_values['data']['phase_a_reactive_power_point_id'] > 0:
+            phase_a_reactive_power_point_id = new_values['data']['phase_a_reactive_power_point_id']
+
+        if 'phase_b_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_reactive_power_point_id'], int) and \
+                new_values['data']['phase_b_reactive_power_point_id'] > 0:
+            phase_b_reactive_power_point_id = new_values['data']['phase_b_reactive_power_point_id']
+
+        if 'phase_c_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_reactive_power_point_id'], int) and \
+                new_values['data']['phase_c_reactive_power_point_id'] > 0:
+            phase_c_reactive_power_point_id = new_values['data']['phase_c_reactive_power_point_id']
+
+        if 'phase_a_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_apparent_power_point_id'], int) and \
+                new_values['data']['phase_a_apparent_power_point_id'] > 0:
+            phase_a_apparent_power_point_id = new_values['data']['phase_a_apparent_power_point_id']
+
+        if 'phase_b_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_apparent_power_point_id'], int) and \
+                new_values['data']['phase_b_apparent_power_point_id'] > 0:
+            phase_b_apparent_power_point_id = new_values['data']['phase_b_apparent_power_point_id']
+
+        if 'phase_c_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_apparent_power_point_id'], int) and \
+                new_values['data']['phase_c_apparent_power_point_id'] > 0:
+            phase_c_apparent_power_point_id = new_values['data']['phase_c_apparent_power_point_id']
+
+        if 'ab_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ab_voltage_point_id'], int) and \
+                new_values['data']['ab_voltage_point_id'] > 0:
+            ab_voltage_point_id = new_values['data']['ab_voltage_point_id']
+
+        if 'bc_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['bc_voltage_point_id'], int) and \
+                new_values['data']['bc_voltage_point_id'] > 0:
+            bc_voltage_point_id = new_values['data']['bc_voltage_point_id']
+
+        if 'ca_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ca_voltage_point_id'], int) and \
+                new_values['data']['ca_voltage_point_id'] > 0:
+            ca_voltage_point_id = new_values['data']['ca_voltage_point_id']
+
+        if 'ab_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ab_current_point_id'], int) and \
+                new_values['data']['ab_current_point_id'] > 0:
+            ab_current_point_id = new_values['data']['ab_current_point_id']
+
+        if 'bc_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['bc_current_point_id'], int) and \
+                new_values['data']['bc_current_point_id'] > 0:
+            bc_current_point_id = new_values['data']['bc_current_point_id']
+
+        if 'ca_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ca_current_point_id'], int) and \
+                new_values['data']['ca_current_point_id'] > 0:
+            ca_current_point_id = new_values['data']['ca_current_point_id']
+
+        if 'phase_a_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_voltage_point_id'], int) and \
+                new_values['data']['phase_a_voltage_point_id'] > 0:
+            phase_a_voltage_point_id = new_values['data']['phase_a_voltage_point_id']
+
+        if 'phase_b_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_voltage_point_id'], int) and \
+                new_values['data']['phase_b_voltage_point_id'] > 0:
+            phase_b_voltage_point_id = new_values['data']['phase_b_voltage_point_id']
+
+        if 'phase_c_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_voltage_point_id'], int) and \
+                new_values['data']['phase_c_voltage_point_id'] > 0:
+            phase_c_voltage_point_id = new_values['data']['phase_c_voltage_point_id']
+
+        if 'phase_a_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_current_point_id'], int) and \
+                new_values['data']['phase_a_current_point_id'] > 0:
+            phase_a_current_point_id = new_values['data']['phase_a_current_point_id']
+
+        if 'phase_b_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_current_point_id'], int) and \
+                new_values['data']['phase_b_current_point_id'] > 0:
+            phase_b_current_point_id = new_values['data']['phase_b_current_point_id']
+
+        if 'phase_c_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_current_point_id'], int) and \
+                new_values['data']['phase_c_current_point_id'] > 0:
+            phase_c_current_point_id = new_values['data']['phase_c_current_point_id']
+
+        if 'pcs_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['pcs_module_temperature_point_id'], int) and \
+                new_values['data']['pcs_module_temperature_point_id'] > 0:
+            pcs_module_temperature_point_id = new_values['data']['pcs_module_temperature_point_id']
+
+        if 'pcs_ambient_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['pcs_ambient_temperature_point_id'], int) and \
+                new_values['data']['pcs_ambient_temperature_point_id'] > 0:
+            pcs_ambient_temperature_point_id = new_values['data']['pcs_ambient_temperature_point_id']
+
+        if 'a1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['a1_module_temperature_point_id'], int) and \
+                new_values['data']['a1_module_temperature_point_id'] > 0:
+            a1_module_temperature_point_id = new_values['data']['a1_module_temperature_point_id']
+
+        if 'b1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['b1_module_temperature_point_id'], int) and \
+                new_values['data']['b1_module_temperature_point_id'] > 0:
+            b1_module_temperature_point_id = new_values['data']['b1_module_temperature_point_id']
+
+        if 'c1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['c1_module_temperature_point_id'], int) and \
+                new_values['data']['c1_module_temperature_point_id'] > 0:
+            c1_module_temperature_point_id = new_values['data']['c1_module_temperature_point_id']
+
+        if 'a2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['a2_module_temperature_point_id'], int) and \
+                new_values['data']['a2_module_temperature_point_id'] > 0:
+            a2_module_temperature_point_id = new_values['data']['a2_module_temperature_point_id']
+
+        if 'b2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['b2_module_temperature_point_id'], int) and \
+                new_values['data']['b2_module_temperature_point_id'] > 0:
+            b2_module_temperature_point_id = new_values['data']['b2_module_temperature_point_id']
+
+        if 'c2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['c2_module_temperature_point_id'], int) and \
+                new_values['data']['c2_module_temperature_point_id'] > 0:
+            c2_module_temperature_point_id = new_values['data']['c2_module_temperature_point_id']
+
+        if 'air_inlet_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['air_inlet_temperature_point_id'], int) and \
+                new_values['data']['air_inlet_temperature_point_id'] > 0:
+            air_inlet_temperature_point_id = new_values['data']['air_inlet_temperature_point_id']
+
+        if 'air_outlet_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['air_outlet_temperature_point_id'], int) and \
+                new_values['data']['air_outlet_temperature_point_id'] > 0:
+            air_outlet_temperature_point_id = new_values['data']['air_outlet_temperature_point_id']
+
+        if 'dc_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_power_point_id'], int) and \
+                new_values['data']['dc_power_point_id'] > 0:
+            dc_power_point_id = new_values['data']['dc_power_point_id']
+
+        if 'dc_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_voltage_point_id'], int) and \
+                new_values['data']['dc_voltage_point_id'] > 0:
+            dc_voltage_point_id = new_values['data']['dc_voltage_point_id']
+
+        if 'dc_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_current_point_id'], int) and \
+                new_values['data']['dc_current_point_id'] > 0:
+            dc_current_point_id = new_values['data']['dc_current_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2387,9 +3197,59 @@ class EnergyStorageContainerPowerconversionsystemCollection:
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_power_conversion_systems "
                       "     (name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power, "
-                      "      today_charge_energy_point_id, today_discharge_energy_point_id,"
-                      "      total_charge_energy_point_id, total_discharge_energy_point_id) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "      today_charge_energy_point_id, "
+                      "      today_discharge_energy_point_id,"
+                      "      total_charge_energy_point_id, "
+                      "      total_discharge_energy_point_id, "
+                      "      working_status_point_id, "
+                      "      grid_connection_status_point_id, "
+                      "      device_status_point_id, "
+                      "      control_mode_point_id, "
+                      "      total_ac_active_power_point_id, "
+                      "      total_ac_reactive_power_point_id, "
+                      "      total_ac_apparent_power_point_id, "
+                      "      total_ac_power_factor_point_id, "
+                      "      ac_frequency_point_id, "
+                      "      phase_a_active_power_point_id, "
+                      "      phase_b_active_power_point_id, "
+                      "      phase_c_active_power_point_id, "
+                      "      phase_a_reactive_power_point_id, "
+                      "      phase_b_reactive_power_point_id, "
+                      "      phase_c_reactive_power_point_id, "
+                      "      phase_a_apparent_power_point_id, "
+                      "      phase_b_apparent_power_point_id, "
+                      "      phase_c_apparent_power_point_id, "
+                      "      ab_voltage_point_id, "
+                      "      bc_voltage_point_id, "
+                      "      ca_voltage_point_id, "
+                      "      ab_current_point_id, "
+                      "      bc_current_point_id, "
+                      "      ca_current_point_id, "
+                      "      phase_a_voltage_point_id, "
+                      "      phase_b_voltage_point_id, "
+                      "      phase_c_voltage_point_id, "
+                      "      phase_a_current_point_id, "
+                      "      phase_b_current_point_id, "
+                      "      phase_c_current_point_id, "
+                      "      pcs_module_temperature_point_id, "
+                      "      pcs_ambient_temperature_point_id, "
+                      "      a1_module_temperature_point_id, "
+                      "      b1_module_temperature_point_id, "
+                      "      c1_module_temperature_point_id, "
+                      "      a2_module_temperature_point_id, "
+                      "      b2_module_temperature_point_id, "
+                      "      c2_module_temperature_point_id, "
+                      "      air_inlet_temperature_point_id, "
+                      "      air_outlet_temperature_point_id, "
+                      "      dc_power_point_id, "
+                      "      dc_voltage_point_id, "
+                      "      dc_current_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " 
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -2398,7 +3258,50 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                     today_charge_energy_point_id,
                                     today_discharge_energy_point_id,
                                     total_charge_energy_point_id,
-                                    total_discharge_energy_point_id
+                                    total_discharge_energy_point_id,
+                                    working_status_point_id,
+                                    grid_connection_status_point_id,
+                                    device_status_point_id,
+                                    control_mode_point_id,
+                                    total_ac_active_power_point_id,
+                                    total_ac_reactive_power_point_id,
+                                    total_ac_apparent_power_point_id,
+                                    total_ac_power_factor_point_id,
+                                    ac_frequency_point_id,
+                                    phase_a_active_power_point_id,
+                                    phase_b_active_power_point_id,
+                                    phase_c_active_power_point_id,
+                                    phase_a_reactive_power_point_id,
+                                    phase_b_reactive_power_point_id,
+                                    phase_c_reactive_power_point_id,
+                                    phase_a_apparent_power_point_id,
+                                    phase_b_apparent_power_point_id,
+                                    phase_c_apparent_power_point_id,
+                                    ab_voltage_point_id,
+                                    bc_voltage_point_id,
+                                    ca_voltage_point_id,
+                                    ab_current_point_id,
+                                    bc_current_point_id,
+                                    ca_current_point_id,
+                                    phase_a_voltage_point_id,
+                                    phase_b_voltage_point_id,
+                                    phase_c_voltage_point_id,
+                                    phase_a_current_point_id,
+                                    phase_b_current_point_id,
+                                    phase_c_current_point_id,
+                                    pcs_module_temperature_point_id,
+                                    pcs_ambient_temperature_point_id,
+                                    a1_module_temperature_point_id,
+                                    b1_module_temperature_point_id,
+                                    c1_module_temperature_point_id,
+                                    a2_module_temperature_point_id,
+                                    b2_module_temperature_point_id,
+                                    c2_module_temperature_point_id,
+                                    air_inlet_temperature_point_id,
+                                    air_outlet_temperature_point_id,
+                                    dc_power_point_id,
+                                    dc_voltage_point_id,
+                                    dc_current_point_id
                                     ))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -2487,8 +3390,53 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                         "name": row[1]}
 
         query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power, "
-                 "        today_charge_energy_point_id, today_discharge_energy_point_id, "
-                 "        total_charge_energy_point_id, total_discharge_energy_point_id "
+                 "        today_charge_energy_point_id, "
+                 "        today_discharge_energy_point_id, "
+                 "        total_charge_energy_point_id, "
+                 "        total_discharge_energy_point_id, "
+                 "        working_status_point_id, "
+                 "        grid_connection_status_point_id, "
+                 "        device_status_point_id, "
+                 "        control_mode_point_id, "
+                 "        total_ac_active_power_point_id, "
+                 "        total_ac_reactive_power_point_id, "
+                 "        total_ac_apparent_power_point_id, "
+                 "        total_ac_power_factor_point_id, "
+                 "        ac_frequency_point_id, "
+                 "        phase_a_active_power_point_id, "
+                 "        phase_b_active_power_point_id, "
+                 "        phase_c_active_power_point_id, "
+                 "        phase_a_reactive_power_point_id, "
+                 "        phase_b_reactive_power_point_id, "
+                 "        phase_c_reactive_power_point_id, "
+                 "        phase_a_apparent_power_point_id, "
+                 "        phase_b_apparent_power_point_id, "
+                 "        phase_c_apparent_power_point_id, "
+                 "        ab_voltage_point_id, "
+                 "        bc_voltage_point_id, "
+                 "        ca_voltage_point_id, "
+                 "        ab_current_point_id, "
+                 "        bc_current_point_id, "
+                 "        ca_current_point_id, "
+                 "        phase_a_voltage_point_id, "
+                 "        phase_b_voltage_point_id, "
+                 "        phase_c_voltage_point_id, "
+                 "        phase_a_current_point_id, "
+                 "        phase_b_current_point_id, "
+                 "        phase_c_current_point_id, "
+                 "        pcs_module_temperature_point_id, "
+                 "        pcs_ambient_temperature_point_id, "
+                 "        a1_module_temperature_point_id, "
+                 "        b1_module_temperature_point_id, "
+                 "        c1_module_temperature_point_id, "
+                 "        a2_module_temperature_point_id, "
+                 "        b2_module_temperature_point_id, "
+                 "        c2_module_temperature_point_id, "
+                 "        air_inlet_temperature_point_id, "
+                 "        air_outlet_temperature_point_id, "
+                 "        dc_power_point_id, "
+                 "        dc_voltage_point_id, "
+                 "        dc_current_point_id  "
                  " FROM tbl_energy_storage_containers_power_conversion_systems "
                  " WHERE id = %s ")
         cursor.execute(query, (pid,))
@@ -2509,7 +3457,51 @@ class EnergyStorageContainerPowerconversionsystemItem:
                            "today_charge_energy_point": point_dict.get(row[6]),
                            "today_discharge_energy_point": point_dict.get(row[7]),
                            "total_charge_energy_point": point_dict.get(row[8]),
-                           "total_discharge_energy_point": point_dict.get(row[9])}
+                           "total_discharge_energy_point": point_dict.get(row[9]),
+                           "working_status_point": point_dict.get(row[10]),
+                           "grid_connection_status_point": point_dict.get(row[11]),
+                           "device_status_point": point_dict.get(row[12]),
+                           "control_mode_point": point_dict.get(row[13]),
+                           "total_ac_active_power_point": point_dict.get(row[14]),
+                           "total_ac_reactive_power_point": point_dict.get(row[15]),
+                           "total_ac_apparent_power_point": point_dict.get(row[16]),
+                           "total_ac_power_factor_point": point_dict.get(row[17]),
+                           "ac_frequency_point": point_dict.get(row[18]),
+                           "phase_a_active_power_point": point_dict.get(row[19]),
+                           "phase_b_active_power_point": point_dict.get(row[20]),
+                           "phase_c_active_power_point": point_dict.get(row[21]),
+                           "phase_a_reactive_power_point": point_dict.get(row[22]),
+                           "phase_b_reactive_power_point": point_dict.get(row[23]),
+                           "phase_c_reactive_power_point": point_dict.get(row[24]),
+                           "phase_a_apparent_power_point": point_dict.get(row[25]),
+                           "phase_b_apparent_power_point": point_dict.get(row[26]),
+                           "phase_c_apparent_power_point": point_dict.get(row[27]),
+                           "ab_voltage_point": point_dict.get(row[28]),
+                           "bc_voltage_point": point_dict.get(row[29]),
+                           "ca_voltage_point": point_dict.get(row[30]),
+                           "ab_current_point": point_dict.get(row[31]),
+                           "bc_current_point": point_dict.get(row[32]),
+                           "ca_current_point": point_dict.get(row[33]),
+                           "phase_a_voltage_point": point_dict.get(row[34]),
+                           "phase_b_voltage_point": point_dict.get(row[35]),
+                           "phase_c_voltage_point": point_dict.get(row[36]),
+                           "phase_a_current_point": point_dict.get(row[37]),
+                           "phase_b_current_point": point_dict.get(row[38]),
+                           "phase_c_current_point": point_dict.get(row[39]),
+                           "pcs_module_temperature_point": point_dict.get(row[40]),
+                           "pcs_ambient_temperature_point": point_dict.get(row[41]),
+                           "a1_module_temperature_point": point_dict.get(row[42]),
+                           "b1_module_temperature_point": point_dict.get(row[43]),
+                           "c1_module_temperature_point": point_dict.get(row[44]),
+                           "a2_module_temperature_point": point_dict.get(row[45]),
+                           "b2_module_temperature_point": point_dict.get(row[46]),
+                           "c2_module_temperature_point": point_dict.get(row[47]),
+                           "air_inlet_temperature_point": point_dict.get(row[48]),
+                           "air_outlet_temperature_point": point_dict.get(row[49]),
+                           "dc_power_point": point_dict.get(row[50]),
+                           "dc_voltage_point": point_dict.get(row[51]),
+                           "dc_current_point": point_dict.get(row[52])
+                           }
 
         resp.text = json.dumps(meta_result)
 
@@ -2595,33 +3587,288 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        if 'today_charge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['today_charge_energy_point_id'], int) or \
-                new_values['data']['today_charge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TODAY_CHARGE_ENERGY_POINT_ID')
-        today_charge_energy_point_id = new_values['data']['today_charge_energy_point_id']
+        today_charge_energy_point_id = None
+        today_discharge_energy_point_id = None
+        total_charge_energy_point_id = None
+        total_discharge_energy_point_id = None
+        working_status_point_id = None
+        grid_connection_status_point_id = None
+        device_status_point_id = None
+        control_mode_point_id = None
+        total_ac_active_power_point_id = None
+        total_ac_reactive_power_point_id = None
+        total_ac_apparent_power_point_id = None
+        total_ac_power_factor_point_id = None
+        ac_frequency_point_id = None
+        phase_a_active_power_point_id = None
+        phase_b_active_power_point_id = None
+        phase_c_active_power_point_id = None
+        phase_a_reactive_power_point_id = None
+        phase_b_reactive_power_point_id = None
+        phase_c_reactive_power_point_id = None
+        phase_a_apparent_power_point_id = None
+        phase_b_apparent_power_point_id = None
+        phase_c_apparent_power_point_id = None
+        ab_voltage_point_id = None
+        bc_voltage_point_id = None
+        ca_voltage_point_id = None
+        ab_current_point_id = None
+        bc_current_point_id = None
+        ca_current_point_id = None
+        phase_a_voltage_point_id = None
+        phase_b_voltage_point_id = None
+        phase_c_voltage_point_id = None
+        phase_a_current_point_id = None
+        phase_b_current_point_id = None
+        phase_c_current_point_id = None
+        pcs_module_temperature_point_id = None
+        pcs_ambient_temperature_point_id = None
+        a1_module_temperature_point_id = None
+        b1_module_temperature_point_id = None
+        c1_module_temperature_point_id = None
+        a2_module_temperature_point_id = None
+        b2_module_temperature_point_id = None
+        c2_module_temperature_point_id = None
+        air_inlet_temperature_point_id = None
+        air_outlet_temperature_point_id = None
+        dc_power_point_id = None
+        dc_voltage_point_id = None
+        dc_current_point_id = None
 
-        if 'today_discharge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['today_discharge_energy_point_id'], int) or \
-                new_values['data']['today_discharge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TODAY_DISCHARGE_ENERGY_POINT_ID')
-        today_discharge_energy_point_id = new_values['data']['today_discharge_energy_point_id']
+        if 'today_charge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['today_charge_energy_point_id'], int) and \
+                new_values['data']['today_charge_energy_point_id'] > 0:
+            today_charge_energy_point_id = new_values['data']['today_charge_energy_point_id']
 
-        if 'total_charge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['total_charge_energy_point_id'], int) or \
-                new_values['data']['total_charge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOTAL_CHARGE_POINT_ID')
-        total_charge_energy_point_id = new_values['data']['total_charge_energy_point_id']
+        if 'today_discharge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['today_discharge_energy_point_id'], int) and \
+                new_values['data']['today_discharge_energy_point_id'] > 0:
+            today_discharge_energy_point_id = new_values['data']['today_discharge_energy_point_id']
 
-        if 'total_discharge_energy_point_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['total_discharge_energy_point_id'], int) or \
-                new_values['data']['total_discharge_energy_point_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_TOTAL_DISCHARGE_POINT_ID')
-        total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
+        if 'total_charge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_charge_energy_point_id'], int) and \
+                new_values['data']['total_charge_energy_point_id'] > 0:
+            total_charge_energy_point_id = new_values['data']['total_charge_energy_point_id']
+
+        if 'total_discharge_energy_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_discharge_energy_point_id'], int) and \
+                new_values['data']['total_discharge_energy_point_id'] > 0:
+            total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
+
+        if 'working_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['working_status_point_id'], int) and \
+                new_values['data']['working_status_point_id'] > 0:
+            working_status_point_id = new_values['data']['working_status_point_id']
+
+        if 'grid_connection_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['grid_connection_status_point_id'], int) and \
+                new_values['data']['grid_connection_status_point_id'] > 0:
+            grid_connection_status_point_id = new_values['data']['grid_connection_status_point_id']
+
+        if 'device_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['device_status_point_id'], int) and \
+                new_values['data']['device_status_point_id'] > 0:
+            device_status_point_id = new_values['data']['device_status_point_id']
+
+        if 'control_mode_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['control_mode_point_id'], int) and \
+                new_values['data']['control_mode_point_id'] > 0:
+            control_mode_point_id = new_values['data']['control_mode_point_id']
+
+        if 'total_ac_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_active_power_point_id'], int) and \
+                new_values['data']['total_ac_active_power_point_id'] > 0:
+            total_ac_active_power_point_id = new_values['data']['total_ac_active_power_point_id']
+
+        if 'total_ac_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_reactive_power_point_id'], int) and \
+                new_values['data']['total_ac_reactive_power_point_id'] > 0:
+            total_ac_reactive_power_point_id = new_values['data']['total_ac_reactive_power_point_id']
+
+        if 'total_ac_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_apparent_power_point_id'], int) and \
+                new_values['data']['total_ac_apparent_power_point_id'] > 0:
+            total_ac_apparent_power_point_id = new_values['data']['total_ac_apparent_power_point_id']
+
+        if 'total_ac_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_ac_power_factor_point_id'], int) and \
+                new_values['data']['total_ac_power_factor_point_id'] > 0:
+            total_ac_power_factor_point_id = new_values['data']['total_ac_power_factor_point_id']
+
+        if 'ac_frequency_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ac_frequency_point_id'], int) and \
+                new_values['data']['ac_frequency_point_id'] > 0:
+            ac_frequency_point_id = new_values['data']['ac_frequency_point_id']
+
+        if 'phase_a_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_active_power_point_id'], int) and \
+                new_values['data']['phase_a_active_power_point_id'] > 0:
+            phase_a_active_power_point_id = new_values['data']['phase_a_active_power_point_id']
+
+        if 'phase_b_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_active_power_point_id'], int) and \
+                new_values['data']['phase_b_active_power_point_id'] > 0:
+            phase_b_active_power_point_id = new_values['data']['phase_b_active_power_point_id']
+
+        if 'phase_c_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_active_power_point_id'], int) and \
+                new_values['data']['phase_c_active_power_point_id'] > 0:
+            phase_c_active_power_point_id = new_values['data']['phase_c_active_power_point_id']
+
+        if 'phase_a_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_reactive_power_point_id'], int) and \
+                new_values['data']['phase_a_reactive_power_point_id'] > 0:
+            phase_a_reactive_power_point_id = new_values['data']['phase_a_reactive_power_point_id']
+
+        if 'phase_b_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_reactive_power_point_id'], int) and \
+                new_values['data']['phase_b_reactive_power_point_id'] > 0:
+            phase_b_reactive_power_point_id = new_values['data']['phase_b_reactive_power_point_id']
+
+        if 'phase_c_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_reactive_power_point_id'], int) and \
+                new_values['data']['phase_c_reactive_power_point_id'] > 0:
+            phase_c_reactive_power_point_id = new_values['data']['phase_c_reactive_power_point_id']
+
+        if 'phase_a_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_apparent_power_point_id'], int) and \
+                new_values['data']['phase_a_apparent_power_point_id'] > 0:
+            phase_a_apparent_power_point_id = new_values['data']['phase_a_apparent_power_point_id']
+
+        if 'phase_b_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_apparent_power_point_id'], int) and \
+                new_values['data']['phase_b_apparent_power_point_id'] > 0:
+            phase_b_apparent_power_point_id = new_values['data']['phase_b_apparent_power_point_id']
+
+        if 'phase_c_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_apparent_power_point_id'], int) and \
+                new_values['data']['phase_c_apparent_power_point_id'] > 0:
+            phase_c_apparent_power_point_id = new_values['data']['phase_c_apparent_power_point_id']
+
+        if 'ab_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ab_voltage_point_id'], int) and \
+                new_values['data']['ab_voltage_point_id'] > 0:
+            ab_voltage_point_id = new_values['data']['ab_voltage_point_id']
+
+        if 'bc_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['bc_voltage_point_id'], int) and \
+                new_values['data']['bc_voltage_point_id'] > 0:
+            bc_voltage_point_id = new_values['data']['bc_voltage_point_id']
+
+        if 'ca_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ca_voltage_point_id'], int) and \
+                new_values['data']['ca_voltage_point_id'] > 0:
+            ca_voltage_point_id = new_values['data']['ca_voltage_point_id']
+
+        if 'ab_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ab_current_point_id'], int) and \
+                new_values['data']['ab_current_point_id'] > 0:
+            ab_current_point_id = new_values['data']['ab_current_point_id']
+
+        if 'bc_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['bc_current_point_id'], int) and \
+                new_values['data']['bc_current_point_id'] > 0:
+            bc_current_point_id = new_values['data']['bc_current_point_id']
+
+        if 'ca_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ca_current_point_id'], int) and \
+                new_values['data']['ca_current_point_id'] > 0:
+            ca_current_point_id = new_values['data']['ca_current_point_id']
+
+        if 'phase_a_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_voltage_point_id'], int) and \
+                new_values['data']['phase_a_voltage_point_id'] > 0:
+            phase_a_voltage_point_id = new_values['data']['phase_a_voltage_point_id']
+
+        if 'phase_b_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_voltage_point_id'], int) and \
+                new_values['data']['phase_b_voltage_point_id'] > 0:
+            phase_b_voltage_point_id = new_values['data']['phase_b_voltage_point_id']
+
+        if 'phase_c_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_voltage_point_id'], int) and \
+                new_values['data']['phase_c_voltage_point_id'] > 0:
+            phase_c_voltage_point_id = new_values['data']['phase_c_voltage_point_id']
+
+        if 'phase_a_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_a_current_point_id'], int) and \
+                new_values['data']['phase_a_current_point_id'] > 0:
+            phase_a_current_point_id = new_values['data']['phase_a_current_point_id']
+
+        if 'phase_b_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_b_current_point_id'], int) and \
+                new_values['data']['phase_b_current_point_id'] > 0:
+            phase_b_current_point_id = new_values['data']['phase_b_current_point_id']
+
+        if 'phase_c_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['phase_c_current_point_id'], int) and \
+                new_values['data']['phase_c_current_point_id'] > 0:
+            phase_c_current_point_id = new_values['data']['phase_c_current_point_id']
+
+        if 'pcs_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['pcs_module_temperature_point_id'], int) and \
+                new_values['data']['pcs_module_temperature_point_id'] > 0:
+            pcs_module_temperature_point_id = new_values['data']['pcs_module_temperature_point_id']
+
+        if 'pcs_ambient_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['pcs_ambient_temperature_point_id'], int) and \
+                new_values['data']['pcs_ambient_temperature_point_id'] > 0:
+            pcs_ambient_temperature_point_id = new_values['data']['pcs_ambient_temperature_point_id']
+
+        if 'a1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['a1_module_temperature_point_id'], int) and \
+                new_values['data']['a1_module_temperature_point_id'] > 0:
+            a1_module_temperature_point_id = new_values['data']['a1_module_temperature_point_id']
+
+        if 'b1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['b1_module_temperature_point_id'], int) and \
+                new_values['data']['b1_module_temperature_point_id'] > 0:
+            b1_module_temperature_point_id = new_values['data']['b1_module_temperature_point_id']
+
+        if 'c1_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['c1_module_temperature_point_id'], int) and \
+                new_values['data']['c1_module_temperature_point_id'] > 0:
+            c1_module_temperature_point_id = new_values['data']['c1_module_temperature_point_id']
+
+        if 'a2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['a2_module_temperature_point_id'], int) and \
+                new_values['data']['a2_module_temperature_point_id'] > 0:
+            a2_module_temperature_point_id = new_values['data']['a2_module_temperature_point_id']
+
+        if 'b2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['b2_module_temperature_point_id'], int) and \
+                new_values['data']['b2_module_temperature_point_id'] > 0:
+            b2_module_temperature_point_id = new_values['data']['b2_module_temperature_point_id']
+
+        if 'c2_module_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['c2_module_temperature_point_id'], int) and \
+                new_values['data']['c2_module_temperature_point_id'] > 0:
+            c2_module_temperature_point_id = new_values['data']['c2_module_temperature_point_id']
+
+        if 'air_inlet_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['air_inlet_temperature_point_id'], int) and \
+                new_values['data']['air_inlet_temperature_point_id'] > 0:
+            air_inlet_temperature_point_id = new_values['data']['air_inlet_temperature_point_id']
+
+        if 'air_outlet_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['air_outlet_temperature_point_id'], int) and \
+                new_values['data']['air_outlet_temperature_point_id'] > 0:
+            air_outlet_temperature_point_id = new_values['data']['air_outlet_temperature_point_id']
+
+        if 'dc_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_power_point_id'], int) and \
+                new_values['data']['dc_power_point_id'] > 0:
+            dc_power_point_id = new_values['data']['dc_power_point_id']
+
+        if 'dc_voltage_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_voltage_point_id'], int) and \
+                new_values['data']['dc_voltage_point_id'] > 0:
+            dc_voltage_point_id = new_values['data']['dc_voltage_point_id']
+
+        if 'dc_current_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['dc_current_point_id'], int) and \
+                new_values['data']['dc_current_point_id'] > 0:
+            dc_current_point_id = new_values['data']['dc_current_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2657,9 +3904,54 @@ class EnergyStorageContainerPowerconversionsystemItem:
         update_row = (" UPDATE tbl_energy_storage_containers_power_conversion_systems "
                       " SET name = %s, energy_storage_container_id = %s, run_state_point_id = %s, "
                       "     rated_output_power = %s, "
-                      "     today_charge_energy_point_id = %s, today_discharge_energy_point_id = %s, "
-                      "     total_charge_energy_point_id = %s, total_discharge_energy_point_id = %s "
-                      " WHERE id = %s ")
+                      "     today_charge_energy_point_id = %s, "
+                      "     today_discharge_energy_point_id = %s, "
+                      "     total_charge_energy_point_id = %s, "
+                      "     total_discharge_energy_point_id = %s, "
+                      "     working_status_point_id = %s, "
+                      "     grid_connection_status_point_id = %s, "
+                      "     device_status_point_id = %s, "
+                      "     control_mode_point_id = %s, "
+                      "     total_ac_active_power_point_id = %s, "
+                      "     total_ac_reactive_power_point_id = %s, "
+                      "     total_ac_apparent_power_point_id = %s, "
+                      "     total_ac_power_factor_point_id = %s, "
+                      "     ac_frequency_point_id = %s, "
+                      "     phase_a_active_power_point_id = %s, "
+                      "     phase_b_active_power_point_id = %s, "
+                      "     phase_c_active_power_point_id = %s, "
+                      "     phase_a_reactive_power_point_id = %s, "
+                      "     phase_b_reactive_power_point_id = %s, "
+                      "     phase_c_reactive_power_point_id = %s, "
+                      "     phase_a_apparent_power_point_id = %s, "
+                      "     phase_b_apparent_power_point_id = %s, "
+                      "     phase_c_apparent_power_point_id = %s, "
+                      "     ab_voltage_point_id = %s, "
+                      "     bc_voltage_point_id = %s, "
+                      "     ca_voltage_point_id = %s, "
+                      "     ab_current_point_id = %s, "
+                      "     bc_current_point_id = %s, "
+                      "     ca_current_point_id = %s, "
+                      "     phase_a_voltage_point_id = %s, "
+                      "     phase_b_voltage_point_id = %s, "
+                      "     phase_c_voltage_point_id = %s, "
+                      "     phase_a_current_point_id = %s, "
+                      "     phase_b_current_point_id = %s, "
+                      "     phase_c_current_point_id = %s, "
+                      "     pcs_module_temperature_point_id = %s, "
+                      "     pcs_ambient_temperature_point_id = %s, "
+                      "     a1_module_temperature_point_id = %s, "
+                      "     b1_module_temperature_point_id = %s, "
+                      "     c1_module_temperature_point_id = %s, "
+                      "     a2_module_temperature_point_id = %s, "
+                      "     b2_module_temperature_point_id = %s, "
+                      "     c2_module_temperature_point_id = %s, "
+                      "     air_inlet_temperature_point_id = %s, "
+                      "     air_outlet_temperature_point_id = %s, "
+                      "     dc_power_point_id = %s, "
+                      "     dc_voltage_point_id = %s, "
+                      "     dc_current_point_id = %s "
+                      "     WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
                                     run_state_point_id,
@@ -2668,6 +3960,49 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                     today_discharge_energy_point_id,
                                     total_charge_energy_point_id,
                                     total_discharge_energy_point_id,
+                                    working_status_point_id,
+                                    grid_connection_status_point_id,
+                                    device_status_point_id,
+                                    control_mode_point_id,
+                                    total_ac_active_power_point_id,
+                                    total_ac_reactive_power_point_id,
+                                    total_ac_apparent_power_point_id,
+                                    total_ac_power_factor_point_id,
+                                    ac_frequency_point_id,
+                                    phase_a_active_power_point_id,
+                                    phase_b_active_power_point_id,
+                                    phase_c_active_power_point_id,
+                                    phase_a_reactive_power_point_id,
+                                    phase_b_reactive_power_point_id,
+                                    phase_c_reactive_power_point_id,
+                                    phase_a_apparent_power_point_id,
+                                    phase_b_apparent_power_point_id,
+                                    phase_c_apparent_power_point_id,
+                                    ab_voltage_point_id,
+                                    bc_voltage_point_id,
+                                    ca_voltage_point_id,
+                                    ab_current_point_id,
+                                    bc_current_point_id,
+                                    ca_current_point_id,
+                                    phase_a_voltage_point_id,
+                                    phase_b_voltage_point_id,
+                                    phase_c_voltage_point_id,
+                                    phase_a_current_point_id,
+                                    phase_b_current_point_id,
+                                    phase_c_current_point_id,
+                                    pcs_module_temperature_point_id,
+                                    pcs_ambient_temperature_point_id,
+                                    a1_module_temperature_point_id,
+                                    b1_module_temperature_point_id,
+                                    c1_module_temperature_point_id,
+                                    a2_module_temperature_point_id,
+                                    b2_module_temperature_point_id,
+                                    c2_module_temperature_point_id,
+                                    air_inlet_temperature_point_id,
+                                    air_outlet_temperature_point_id,
+                                    dc_power_point_id,
+                                    dc_voltage_point_id,
+                                    dc_current_point_id,
                                     pid))
         cnx.commit()
 
