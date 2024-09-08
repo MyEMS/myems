@@ -713,7 +713,7 @@ class EnergyStorageContainerBatteryCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                 "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage, "
                  "        communication_status_with_pcs_point_id, "
                  "        communication_status_with_ems_point_id, "
                  "        grid_status_point_id, "
