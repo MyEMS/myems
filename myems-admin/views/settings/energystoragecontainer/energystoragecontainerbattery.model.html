@@ -5,16 +5,16 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerbattery" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</label>
+                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' | translate}}</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' | translate}}</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.battery_state_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.soc_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -35,8 +35,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -46,8 +46,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.charge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
@@ -57,8 +57,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.discharge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
@@ -68,32 +68,32 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kWh)</label>
-                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kWh)</label>
+                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</label>
-                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</label>
+                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</label>
-                <div class="col-sm-9"><input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</label>
+                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.COMMUNICATION_STATUS_WITH_PCS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.COMMUNICATION_STATUS_WITH_PCS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.communication_status_with_pcs_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -104,8 +104,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.COMMUNICATION_STATUS_WITH_EMS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.COMMUNICATION_STATUS_WITH_EMS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.communication_status_with_ems_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -116,8 +116,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.GRID_STATUS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.GRID_STATUS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.grid_status_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -128,8 +128,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.total_voltage_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -140,8 +140,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_CURRENT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.TOTAL_CURRENT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.total_current_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -152,8 +152,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.SOH_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SOH_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.soh_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -164,8 +164,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGING_POWER_LIMIT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGING_POWER_LIMIT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.charging_power_limit_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -176,8 +176,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_LIMIT_POWER_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_LIMIT_POWER_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.discharge_limit_power_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -188,8 +188,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RECHARGEABLE_CAPACITY_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RECHARGEABLE_CAPACITY_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.rechargeable_capacity_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -200,8 +200,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGEABLE_CAPACITY_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGEABLE_CAPACITY_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.dischargeable_capacity_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -212,8 +212,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.AVERAGE_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.AVERAGE_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.average_temperature_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -224,8 +224,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.AVERAGE_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.AVERAGE_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.average_voltage_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -236,8 +236,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.insulation_value_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -248,8 +248,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.POSITIVE_INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POSITIVE_INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.positive_insulation_value_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -260,8 +260,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.NEGATIVE_INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NEGATIVE_INSULATION_VALUE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.negative_insulation_value_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -272,8 +272,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.maximum_temperature_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -284,8 +284,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_TEMPERATURE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_TEMPERATURE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.maximum_temperature_battery_cell_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -296,8 +296,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.minimum_temperature_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -308,8 +308,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_TEMPERATURE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_TEMPERATURE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.minimum_temperature_battery_cell_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -320,8 +320,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.maximum_voltage_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -332,8 +332,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_VOLTAGE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MAXIMUM_VOLTAGE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.maximum_voltage_battery_cell_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -344,8 +344,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_VOLTAGE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.minimum_voltage_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
@@ -356,8 +356,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_VOLTAGE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.MINIMUM_VOLTAGE_BATTERY_CELL_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.minimum_voltage_battery_cell_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
