@@ -6,8 +6,8 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from core.utilities import round2
+from decimal import Decimal
 import plotly.graph_objects as go
-
 
 
 ####################################################################################################################
@@ -70,10 +70,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     node_value = list()
     source = list()
     labels = list()
-    color= ['rgba(25,202,173, 0.8)', 'rgba(140,199,181, 0.8)', 'rgba(160,238,225, 0.8)', 'rgba(190,231,233, 0.8)', 'rgba(190,237,199,0.8)',
-    'rgba(109,91,7,0.8)', 'rgba(27,167,4,0.8)', 'rgba(108,234,12,0.8)', 'rgba(202,217,14,0.8)', 'rgba(70,6,12,0.8)',
-    'rgba(246,10,15,0.8)', 'rgba(240,5,15,0.8)']
-    node_color_list= list()
+    color = ['rgba(25,202,173, 0.8)', 'rgba(140,199,181, 0.8)', 'rgba(160,238,225, 0.8)', 'rgba(190,231,233, 0.8)',
+             'rgba(190,237,199,0.8)', 'rgba(109,91,7,0.8)', 'rgba(27,167,4,0.8)', 'rgba(108,234,12,0.8)',
+             'rgba(202,217,14,0.8)', 'rgba(70,6,12,0.8)', 'rgba(246,10,15,0.8)', 'rgba(240,5,15,0.8)']
+    node_color_list = list()
     for key, node in enumerate(report['nodes']):
         nodes.append(node['name'])
         node_value.append(0)
@@ -81,9 +81,10 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     for link in report['links']:
         source.append(nodes.index(link['source']))
         target.append(nodes.index(link['target']))
-        values.append(float(link['value']))
-        node_value[nodes.index(link['source'])] = node_value[nodes.index(link['source'])] - link['value']
-        node_value[nodes.index(link['target'])] = node_value[nodes.index(link['target'])] + link['value']
+        link_value = Decimal(link['value']) if link['value'] is not None else Decimal(0.0)
+        values.append(link_value)
+        node_value[nodes.index(link['source'])] = node_value[nodes.index(link['source'])] - link_value
+        node_value[nodes.index(link['target'])] = node_value[nodes.index(link['target'])] + link_value
     for key, value in enumerate(nodes):
         labels.append(value + ':' + str(node_value[key].copy_abs()))
 
@@ -106,7 +107,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     # Font
     name_font = Font(name='Arial', size=15, bold=True)
     title_font = Font(name='Arial', size=15, bold=True)
-    data_font = Font(name='Franklin Gothic Book', size=11)
 
     table_fill = PatternFill(fill_type='solid', fgColor='90ee90')
     f_border = Border(left=Side(border_style='medium'),
@@ -199,34 +199,23 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
 
         current_row_number += 1
 
-        
     fig = go.Figure(data=[go.Sankey(
-        valueformat = ".0f",
-        valuesuffix = "TWh",
+        valueformat=".0f",
+        valuesuffix="TWh",
         # Define nodes
-        node = dict(
-        pad = 15,
-        thickness = 15,
-        line = dict(color = "black", width = 0.5),
-        label =  labels,
-        color =  node_color_list
-        ),
+        node=dict(pad=15, thickness=15, line=dict(color="black", width=0.5), label=labels, color=node_color_list),
         # Add links
-        link = dict(
-        source =  source,
-        target =  target,
-        value =  values
-    ))])
+        link=dict(source=source, target=target, value=values)
+    )])
 
-    fig.update_layout(title_text= name,
-                    font_size=10)
+    fig.update_layout(title_text=name, font_size=10)
     
     # Save image file
     fig.write_image("sankey.png")  
 
     # Insert image
     img = Image("sankey.png")
-    ws.add_image(img, 'B' + str(current_row_number))  # 在单元格 A1 处插入图像
+    ws.add_image(img, 'B' + str(current_row_number))
 
     current_row_number += 1
 
