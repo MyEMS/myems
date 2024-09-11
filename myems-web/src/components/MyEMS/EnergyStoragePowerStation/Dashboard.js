@@ -46,8 +46,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [dischargeBillingData, setDischargeBillingData] = useState({});
   const [chargeCarbonData, setChargeCarbonData] = useState({});
   const [dischargeCarbonData, setDischargeCarbonData] = useState({});
-  const [energyLabels, setEnergyLabels] = useState([]);
-  const [billingLabels, setBillingLabels] = useState([]);
+  const [chargeEnergyLabels, setChargeEnergyLabels] = useState([]);
+  const [dischargeEnergyLabels, setDischargeEnergyLabels] = useState([]);
+  const [chargeBillingLabels, setChargeBillingLabels] = useState([]);
+  const [dischargeBillingLabels, setDischargeBillingLabels] = useState([]);
   const [carbonLabels, setCarbonLabels] = useState([]);
   const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
@@ -217,10 +219,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
-              setEnergyLabels([
+              setChargeEnergyLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
                 json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
+              setDischargeEnergyLabels([
+                json['reporting']['discharge_7_days']['timestamps_array'][0],
+                json['reporting']['discharge_this_month']['timestamps_array'][0],
+                json['reporting']['discharge_this_year']['timestamps_array'][0]
               ]);
             }
           });
@@ -287,10 +294,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
-              setBillingLabels([
+              setChargeBillingLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
                 json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
+              setDischargeBillingLabels([
+                json['reporting']['discharge_7_days']['timestamps_array'][0],
+                json['reporting']['discharge_this_month']['timestamps_array'][0],
+                json['reporting']['discharge_this_year']['timestamps_array'][0]
               ]);
             }
           });
@@ -463,28 +475,32 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <TabContent activeTab={activeTabLeft}>
                 <TabPane tabId="1">
                   <StackBarChart
-                    labels={energyLabels}
+                    labels={chargeEnergyLabels}
+                    unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
                     chargeData={chargeEnergyData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
                 <TabPane tabId="2">
                   <StackBarChart
-                    labels={energyLabels}
+                    labels={dischargeEnergyLabels}
+                    unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
                     chargeData={dischargeEnergyData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
                 <TabPane tabId="3">
                   <StackBarChart
-                    labels={billingLabels}
+                    labels={chargeBillingLabels}
+                    unit={ t('Charge UNIT', { UNIT: chargeBillingData['unit'] })}
                     chargeData={chargeBillingData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
                 <TabPane tabId="4">
                   <StackBarChart
-                    labels={billingLabels}
+                    labels={dischargeBillingLabels}
+                    unit={t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] })}
                     chargeData={dischargeBillingData}
                     periodTypes={periodTypes}
                   />

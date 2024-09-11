@@ -17,7 +17,7 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
 
-const StackBarChart = ({ labels, chargeData, periodTypes, t }) => {
+const StackBarChart = ({ labels, unit, chargeData, periodTypes, t }) => {
   const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
@@ -40,8 +40,8 @@ const StackBarChart = ({ labels, chargeData, periodTypes, t }) => {
       if (chargeData['subtotals_array'] !== undefined && chargeData['subtotals_array'].length > 0) {
         chargeData['subtotals_array'][index].forEach((item, itemIndex) => {
           dataArray.push({
-            label: chargeData['station_names_array'][itemIndex] + ' ' + t('Charge UNIT', { UNIT: chargeData['unit'] }),
-            stack: t('Charge UNIT', { UNIT: chargeData['unit'] }),
+            label: chargeData['station_names_array'][itemIndex] + ' ' + unit,
+            stack: unit,
             data: item,
             backgroundColor: colors[itemIndex % 5]
           });
@@ -52,7 +52,7 @@ const StackBarChart = ({ labels, chargeData, periodTypes, t }) => {
         datasets: dataArray
       });
     }
-  }, [labels, chargeData, option]);
+  }, [labels, unit, chargeData, option]);
 
   const options = {
     scales: {
