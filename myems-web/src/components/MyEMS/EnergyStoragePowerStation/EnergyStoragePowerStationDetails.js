@@ -34,7 +34,12 @@ import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
+import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
+import PCSDetails from './PCSDetails';
+import BMSDetails from './BMSDetails';
+import MeterDetails from './MeterDetails';
+
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -74,6 +79,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [activeTabLeft, setActiveTabLeft] = useState('1');
   const toggleTabLeft = tab => {
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
+
   };
 
   const [activeTabRight, setActiveTabRight] = useState('1');
@@ -82,9 +88,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   };
 
   const [activeTabBottom, setActiveTabBottom] = useState('1');
-  const toggleTabBottom = tab => {
-    if (activeTabBottom !== tab) setActiveTabBottom(tab);
-  };
 
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -130,13 +133,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
-  const [PCSParameterLineChartLabels, setPCSParameterLineChartLabels] = useState([]);
-  const [PCSParameterLineChartData, setPCSParameterLineChartData] = useState({});
-  const [PCSParameterLineChartOptions, setPCSParameterLineChartOptions] = useState([]);
+  const [PCSDetailsList, setPCSDetailsList] = useState([]);
+  const [BMSDetailsList, setBMSDetailsList] = useState([]);
+  const [MeterDetailsList, setMeterDetailsList] = useState([]);
 
-  const [BMSParameterLineChartLabels, setBMSParameterLineChartLabels] = useState([]);
-  const [BMSParameterLineChartData, setBMSParameterLineChartData] = useState({});
-  const [BMSParameterLineChartOptions, setBMSParameterLineChartOptions] = useState([]);
 
   useEffect(() => {
     console.log("uuid:");
@@ -320,44 +320,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setParameterLineChartOptions(names);
 
-          // pcs parameters
-          timestamps = {};
-          json['pcs_parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setPCSParameterLineChartLabels(timestamps);
-
-          values = {};
-          json['pcs_parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setPCSParameterLineChartData(values);
-
-          names = [];
-          json['pcs_parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setPCSParameterLineChartOptions(names);
-
-          // bms parameters
-          timestamps = {};
-          json['battery_parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setBMSParameterLineChartLabels(timestamps);
-
-          values = {};
-          json['battery_parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setBMSParameterLineChartData(values);
-
-          names = [];
-          json['battery_parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setBMSParameterLineChartOptions(names);
-
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -483,6 +445,84 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   useInterval(() => {
     refreshSVGData();
   }, 1000 * 10);
+
+  // PCS
+  const fetchPCSDetails = url => {
+    console.log('fetchPCSDetails with url:' + url);
+
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setPCSDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // BMS
+  const fetchBMSDetails = url => {
+    console.log('fetchBMSDetails with url:' + url);
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setBMSDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Meters
+  const fetchMetersData = url => {
+    console.log('fetchMetersData with url:' + url);
+  }
+  // HVAC
+  const fetchHVACData = url => {
+    console.log('fetchHVACData with url:' + url);
+  }
+  // Fire Control
+  const fetchFireControlData = url => {
+    console.log('fetchFireControlData with url:' + url);
+  }
 
   return (
     <Fragment>
@@ -750,7 +790,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '1' })}
               onClick={() => {
-                toggleTabBottom('1');
+                setActiveTabBottom('1');
               }}
             >
               <h6>{t('Operating Characteristic Curve')}</h6>
@@ -760,7 +800,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '2' })}
               onClick={() => {
-                toggleTabBottom('2');
+                setActiveTabBottom('2');
               }}
             >
               <h6>{t('Strategy Management')}</h6>
@@ -770,7 +810,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '3' })}
               onClick={() => {
-                toggleTabBottom('3');
+                setActiveTabBottom('3');
               }}
             >
               <h6>{t('Fault Alarms')}</h6>
@@ -781,7 +821,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
-                toggleTabBottom('4');
+                setActiveTabBottom('4');
+                //PCS
+                fetchPCSDetails(APIBaseURL + '/reports/energystoragepowerstationdetailspcs?id=' + selectedStation)
               }}
             >
               <h6>PCS</h6>
@@ -792,7 +834,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '5' })}
               onClick={() => {
-                toggleTabBottom('5');
+                setActiveTabBottom('5');
+                fetchBMSDetails(APIBaseURL + '/reports/energystoragepowerstationdetailsbms?id=' + selectedStation)
               }}
             >
               <h6>BMS</h6>
@@ -803,7 +846,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '6' })}
               onClick={() => {
-                toggleTabBottom('6');
+                setActiveTabBottom('6');
+                fetchMetersData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
               }}
             >
               <h6>电表</h6>
@@ -814,7 +858,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '7' })}
               onClick={() => {
-                toggleTabBottom('7');
+                setActiveTabBottom('7');
+                fetchHVACData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
               }}
             >
               <h6>空调</h6>
@@ -825,7 +870,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '8' })}
               onClick={() => {
-                toggleTabBottom('8');
+                setActiveTabBottom('8');
+                fetchFireControlData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
               }}
             >
               <h6>消防</h6>
@@ -917,386 +963,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>PCS#1</th>
-                      <th>工作状态: 运行</th>
-                      <th>并网状态: 并网</th>
-                      <th>设备状态: -</th>
-                      <th>控制模式: -</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电量功率</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>当日充电量: 437 kWh</td>
-                      <td>总交流有功功率: 8.0 kW</td>
-                      <td>A相有功功率: -</td>
-                      <td>A相无功功率: -</td>
-                      <td>A相视在功率: -</td>
-                    </tr>
-                    <tr>
-                      <td>当日放电量: 629 kWh</td>
-                      <td>总交流无功功率: 0.0 kvar</td>
-                      <td>B相有功功率: -</td>
-                      <td>B相无功功率: -</td>
-                      <td>B相视在功率: -</td>
-                    </tr>
-                    <tr>
-                      <td>交流频率: 49.96 Hz</td>
-                      <td>总交流视在功率: 8.0kVA</td>
-                      <td>C相有功功率: -</td>
-                      <td>C相无功功率: -</td>
-                      <td>C相视在功率: -</td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td>总交流功率因数: 0.9990</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电压电流</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>AB电压: 405 V</td>
-                      <td>AB电流: -</td>
-                      <td>A相电压: -</td>
-                      <td>A相电流: 12 A</td>
-                    </tr>
-                    <tr>
-                      <td>BC电压: 403 V</td>
-                      <td>BC电流: -</td>
-                      <td>B相电压: -</td>
-                      <td>B相电流: 10 A</td>
-                    </tr>
-                    <tr>
-                      <td>CA电压: 409 V</td>
-                      <td>CA电流: -</td>
-                      <td>C相电压: -</td>
-                      <td>C相电流: 13 A</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>温度</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>A1模块温度: 32.4 ℃</td>
-                      <td>A2模块温度: 32.2 ℃</td>
-                      <td>进风口温度: -</td>
-                      <td>PCS模块温度: -</td>
-                    </tr>
-                    <tr>
-                      <td>B1模块温度: 32.4 ℃</td>
-                      <td>B2模块温度: 32.9 ℃</td>
-                      <td>出风口温度: -</td>
-                      <td>PCS环境温度: -</td>
-                    </tr>
-                    <tr>
-                      <td>C1模块温度: 32.5 ℃</td>
-                      <td>C2模块温度: 32.5 ℃</td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>直流</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>直流功率: 8 kW</td>
-                      <td>直流电压: 787 V</td>
-                      <td>直流电流: 10 A</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="5">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电池堆#1</th>
-                      <th>充放电状态: 放电</th>
-                      <th>运行状态: -</th>
-                      <th>与PCS通信: -</th>
-                      <th>与EMS通信: 正常</th>
-                      <th>并网状态: 并网</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped >
-                  <tbody>
-                    <tr>
-                      <td>总电压: 240.3 V</td>
-                      <td>SOC: 100.0 %</td>
-                      <td>充电限制功率: -</td>
-                      <td>可充电量: 0.0 kWh</td>
-                      <td>平均温度: 28.5 ℃</td>
-                    </tr>
-                    <tr>
-                      <td>总电流: 0.0 A</td>
-                      <td>SOH: 100.0 %</td>
-                      <td>放电限制功率: -</td>
-                      <td>可放电量: 0.0 kWh</td>
-                      <td>平均电压: 3.3 V</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <tbody>
-                    <tr>
-                      <td>绝缘值: 5209 kΩ</td>
-                      <td>最高温度: 29 ℃ | 5 #</td>
-                      <td>最高电压: 3.364 V | 37 #</td>
-                    </tr>
-                    <tr>
-                      <td>正极绝缘值: 6111 kΩ</td>
-                      <td>最低温度: 28 ℃ | 10 #</td>
-                      <td>最低电压: 3.332 V | 46 #</td>
-                    </tr>
-                    <tr>
-                      <td>负极绝缘值: 5209 kΩ</td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </Table>
-
-              </CardBody>
-            </Card>
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="6">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>储能电表</th>
-                      <th>总有功功率: - kW</th>
-                      <th>A相有功功率: - kW</th>
-                      <th>B相有功功率: - kW</th>
-                      <th>B相有功功率: - W</th>
-                      <th>总视在功率: - kVA</th>
-                      <th>A相视在功率: - kVA</th>
-                      <th>B相视在功率: - kVA</th>
-                      <th>C相视在功率: - kVA</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>储能电表</th>
-                      <th>总 kWh</th>
-                      <th>尖 kWh</th>
-                      <th>峰 kWh</th>
-                      <th>平 kWh</th>
-                      <th>谷 kWh</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">日正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">日反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>负载电表</th>
-                      <th>总有功功率: - kW</th>
-                      <th>A相有功功率: - kW</th>
-                      <th>B相有功功率: - kW</th>
-                      <th>B相有功功率: - W</th>
-                      <th>总视在功率: - kVA</th>
-                      <th>A相视在功率: - kVA</th>
-                      <th>B相视在功率: - kVA</th>
-                      <th>C相视在功率: - kVA</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>负载电表</th>
-                      <th>总 kWh</th>
-                      <th>尖 kWh</th>
-                      <th>峰 kWh</th>
-                      <th>平 kWh</th>
-                      <th>谷 kWh</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">日正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">日反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电网电表</th>
-                      <th>总有功功率: - kW</th>
-                      <th>A相有功功率: - kW</th>
-                      <th>B相有功功率: - kW</th>
-                      <th>B相有功功率: - W</th>
-                      <th>总视在功率: - kVA</th>
-                      <th>A相视在功率: - kVA</th>
-                      <th>B相视在功率: - kVA</th>
-                      <th>C相视在功率: - kVA</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>电网电表</th>
-                      <th>总 kWh</th>
-                      <th>尖 kWh</th>
-                      <th>峰 kWh</th>
-                      <th>平 kWh</th>
-                      <th>谷 kWh</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">日正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">日反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计正向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">累计反向总电能</th>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
+            <MeterDetails
+
+            />
           </TabPane>
           <TabPane tabId="7">
             <Card className="mb-3 fs--1">
