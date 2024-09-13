@@ -7,11 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added config entry to indicate if show TCE data on reports in myems-web
 - added diagram to energy flow diagram excel exporter (need to rerun 'sudo pip install -r requirements.txt' to upgrade)
+- added tbl_space_hourly to myems_production_db in database
 ### Changed
 - updated energy storage power station reportings
 - changed meter search box size to small
-- updated `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` in database
-- updated `myems_system_db`.`tbl_energy_storage_containers_batteries` in database
+- updated tbl_energy_storage_containers_power_conversion_systems of myems_system_db in database
+- updated tbl_energy_storage_containers_batteries of myems_system_db in database
 ### Fixed
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
