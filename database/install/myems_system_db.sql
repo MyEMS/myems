@@ -734,6 +734,8 @@ VALUES
 (110,'Carbon','/space/carbon',100,0),
 (111,'Environment Monitor','/space/environmentmonitor',100,0),
 (112,'Plan','/space/plan',100,1),
+(113,'Production','/space/production',100,1),
+(114,'Enter Production','/space/enterproduction',100,1),
 (200,'Equipment Data','/equipment',NULL,0),
 (201,'Energy Category Data','/equipment/energycategory',200,0),
 (202,'Energy Item Data','/equipment/energyitem',200,0),
