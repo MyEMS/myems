@@ -82,6 +82,22 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shopfloors_teams` (
   PRIMARY KEY (`id`));
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_production_db`.`tbl_space_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_production_db`.`tbl_space_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_space_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `product_id` BIGINT NOT NULL,
+  `product_count` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_space_hourly_index_1`
+ON `myems_production_db`.`tbl_space_hourly` (`space_id`, `product_id`, `start_datetime_utc`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_teams`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_production_db`.`tbl_teams` ;

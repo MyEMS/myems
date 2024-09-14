@@ -211,6 +211,20 @@ ADD `grid_connection_status_point_id` BIGINT NULL AFTER `total_discharge_energy_
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems
 ADD `working_status_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
 
+CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_space_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `product_id` BIGINT NOT NULL,
+  `product_count` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_space_hourly_index_1`
+ON `myems_production_db`.`tbl_space_hourly` (`space_id`, `product_id`, `start_datetime_utc`);
+
+INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
+VALUES
+(113,'Production','/space/production',100,1),
+(114,'Enter Production','/space/enterproduction',100,1);
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
