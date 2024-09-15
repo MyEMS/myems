@@ -226,6 +226,104 @@ VALUES
 (113,'Production','/space/production',100,1),
 (114,'Enter Production','/space/enterproduction',100,1);
 
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_energy_net_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_energy_export_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_energy_import_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `total_power_factor_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `apparent_power_c_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `apparent_power_b_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `apparent_power_a_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `total_apparent_power_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `reactive_power_c_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `reactive_power_b_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `reactive_power_a_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `total_reactive_power_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_power_c_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_power_b_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `active_power_a_point_id` BIGINT NULL AFTER `capacity`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_grids
+ADD `total_active_power_point_id` BIGINT NULL AFTER `capacity`;
+
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_energy_net_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_energy_export_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_energy_import_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `total_power_factor_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `apparent_power_c_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `apparent_power_b_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `apparent_power_a_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `total_apparent_power_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `reactive_power_c_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `reactive_power_b_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `reactive_power_a_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `total_reactive_power_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_power_c_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_power_b_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `active_power_a_point_id` BIGINT NULL AFTER `rated_input_power`;
+
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+ADD `total_active_power_point_id` BIGINT NULL AFTER `rated_input_power`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
 
