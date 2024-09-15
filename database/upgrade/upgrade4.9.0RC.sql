@@ -370,6 +370,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvac
 CREATE INDEX `tbl_energy_storage_containers_hvacs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_hvacs` (`energy_storage_container_id`);
 
+DROP TABLE myems_system_db.tbl_energy_storage_containers_sensors;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
 

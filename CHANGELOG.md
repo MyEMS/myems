@@ -21,7 +21,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
 ### Removed
-
+- removed tbl_energy_storage_containers_sensors from myems_system_db in database
+- removed sensors form energystoragecontainers in myems-api
+- removed sensors from energystoragecontainers in myems-admin
+- 
 ## [v4.8.0] - 2024-08-13
 ### Warning
 - **MUST** replace '/code/.env' with '/app/.env' in docker run commands because WORKDIR in Dockerfile was changed from '/code' to '/app'

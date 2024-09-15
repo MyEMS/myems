@@ -330,10 +330,6 @@ api.add_route('/energystoragecontainers',
               energystoragecontainer.EnergyStorageContainerCollection())
 api.add_route('/energystoragecontainers/{id_}',
               energystoragecontainer.EnergyStorageContainerItem())
-api.add_route('/energystoragecontainers/{id_}/sensors',
-              energystoragecontainer.EnergyStorageContainerSensorCollection())
-api.add_route('/energystoragecontainers/{id_}/sensors/{sid}',
-              energystoragecontainer.EnergyStorageContainerSensorItem())
 api.add_route('/energystoragecontainers/{id_}/batteries',
               energystoragecontainer.EnergyStorageContainerBatteryCollection())
 api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
