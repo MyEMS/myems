@@ -378,6 +378,129 @@ CREATE INDEX `tbl_energy_storage_containers_commands_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_commands` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `inside_temperature_point_id` BIGINT, -- 内置温度值
+  `outside_temperature_point_id` BIGINT, -- 外置温度值
+  `temperature_alarm_point_id` BIGINT, -- 温度报警状态
+  `smoke_sensor_value_point_id` BIGINT, -- 烟雾传感器值
+  `smoke_sensor_alarm_point_id` BIGINT, -- 烟雾传感器报警状态
+  `battery_safety_detection_sensor_value_point_id` BIGINT, -- 电池安全检测传感器值
+  `battery_safety_detection_sensor_alarm_point_id` BIGINT, -- 电池安全检测传感器报警状态
+  `fire_extinguishing_device_status_point_id` BIGINT, -- 灭火装置状态值
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_firecontrols_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_grids`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `buy_meter_id` BIGINT NOT NULL,
+  `sell_meter_id` BIGINT NOT NULL,
+  `capacity` DECIMAL(18, 3) NOT NULL,
+  `total_active_power_point_id` BIGINT,
+  `active_power_a_point_id` BIGINT,
+  `active_power_b_point_id` BIGINT,
+  `active_power_c_point_id` BIGINT,
+  `total_reactive_power_point_id` BIGINT,
+  `reactive_power_a_point_id` BIGINT,
+  `reactive_power_b_point_id` BIGINT,
+  `reactive_power_c_point_id` BIGINT,
+  `total_apparent_power_point_id` BIGINT,
+  `apparent_power_a_point_id` BIGINT,
+  `apparent_power_b_point_id` BIGINT,
+  `apparent_power_c_point_id` BIGINT,
+  `total_power_factor_point_id` BIGINT,
+  `active_energy_import_point_id` BIGINT,
+  `active_energy_export_point_id` BIGINT,
+  `active_energy_net_point_id` BIGINT,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_grids` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `working_status_point_id` BIGINT,
+  `indoor_fan_status_point_id` BIGINT,
+  `outdoor_fan_status_point_id` BIGINT,
+  `emergency_fan_status_point_id` BIGINT,
+  `compressor_status_point_id` BIGINT,
+  `electric_heating_status_point_id` BIGINT,
+  `coil_temperature_point_id` BIGINT,
+  `temperature_outside_point_id` BIGINT,
+  `temperature_inside_point_id` BIGINT,
+  `condensation_temperature_point_id` BIGINT,
+  `outlet_air_temperature_point_id` BIGINT,
+  `return_air_temperature_point_id` BIGINT,
+  `exhaust_temperature_point_id` BIGINT,
+  `heating_on_temperature_point_id` BIGINT,
+  `heating_off_temperature_point_id` BIGINT,
+  `cooling_on_temperature_point_id` BIGINT,
+  `cooling_off_temperature_point_id` BIGINT,
+  `high_temperature_alarm_set_point_id` BIGINT,
+  `low_temperature_alarm_set_point_id` BIGINT,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_hvacs_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_hvacs` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_loads`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `meter_id` BIGINT NOT NULL,
+  `rated_input_power` DECIMAL(18, 3) NOT NULL,
+  `total_active_power_point_id` BIGINT,
+  `active_power_a_point_id` BIGINT,
+  `active_power_b_point_id` BIGINT,
+  `active_power_c_point_id` BIGINT,
+  `total_reactive_power_point_id` BIGINT,
+  `reactive_power_a_point_id` BIGINT,
+  `reactive_power_b_point_id` BIGINT,
+  `reactive_power_c_point_id` BIGINT,
+  `total_apparent_power_point_id` BIGINT,
+  `apparent_power_a_point_id` BIGINT,
+  `apparent_power_b_point_id` BIGINT,
+  `apparent_power_c_point_id` BIGINT,
+  `total_power_factor_point_id` BIGINT,
+  `active_energy_import_point_id` BIGINT,
+  `active_energy_export_point_id` BIGINT,
+  `active_energy_net_point_id` BIGINT,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_loads` (`energy_storage_container_id`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` ;
@@ -439,74 +562,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_pcs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` (`energy_storage_container_id`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_containers_grids`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `uuid` CHAR(36) NOT NULL,
-  `energy_storage_container_id` BIGINT NOT NULL,
-  `power_point_id` BIGINT NOT NULL,
-  `buy_meter_id` BIGINT NOT NULL,
-  `sell_meter_id` BIGINT NOT NULL,
-  `capacity` DECIMAL(18, 3) NOT NULL,
-  `total_active_power_point_id` BIGINT,
-  `active_power_a_point_id` BIGINT,
-  `active_power_b_point_id` BIGINT,
-  `active_power_c_point_id` BIGINT,
-  `total_reactive_power_point_id` BIGINT,
-  `reactive_power_a_point_id` BIGINT,
-  `reactive_power_b_point_id` BIGINT,
-  `reactive_power_c_point_id` BIGINT,
-  `total_apparent_power_point_id` BIGINT,
-  `apparent_power_a_point_id` BIGINT,
-  `apparent_power_b_point_id` BIGINT,
-  `apparent_power_c_point_id` BIGINT,
-  `total_power_factor_point_id` BIGINT,
-  `active_energy_import_point_id` BIGINT,
-  `active_energy_export_point_id` BIGINT,
-  `active_energy_net_point_id` BIGINT,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
-ON `myems_system_db`.`tbl_energy_storage_containers_grids` (`energy_storage_container_id`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_containers_loads`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `uuid` CHAR(36) NOT NULL,
-  `energy_storage_container_id` BIGINT NOT NULL,
-  `power_point_id` BIGINT NOT NULL,
-  `meter_id` BIGINT NOT NULL,
-  `rated_input_power` DECIMAL(18, 3) NOT NULL,
-  `total_active_power_point_id` BIGINT,
-  `active_power_a_point_id` BIGINT,
-  `active_power_b_point_id` BIGINT,
-  `active_power_c_point_id` BIGINT,
-  `total_reactive_power_point_id` BIGINT,
-  `reactive_power_a_point_id` BIGINT,
-  `reactive_power_b_point_id` BIGINT,
-  `reactive_power_c_point_id` BIGINT,
-  `total_apparent_power_point_id` BIGINT,
-  `apparent_power_a_point_id` BIGINT,
-  `apparent_power_b_point_id` BIGINT,
-  `apparent_power_c_point_id` BIGINT,
-  `total_power_factor_point_id` BIGINT,
-  `active_energy_import_point_id` BIGINT,
-  `active_energy_export_point_id` BIGINT,
-  `active_energy_net_point_id` BIGINT,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
-ON `myems_system_db`.`tbl_energy_storage_containers_loads` (`energy_storage_container_id`);
-
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_schedules`
