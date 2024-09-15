@@ -324,6 +324,52 @@ ADD `active_power_a_point_id` BIGINT NULL AFTER `rated_input_power`;
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
 ADD `total_active_power_point_id` BIGINT NULL AFTER `rated_input_power`;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `inside_temperature_point_id` BIGINT, -- 内置温度值
+  `outside_temperature_point_id` BIGINT, -- 外置温度值
+  `temperature_alarm_point_id` BIGINT, -- 温度报警状态
+  `smoke_sensor_value_point_id` BIGINT, -- 烟雾传感器值
+  `smoke_sensor_alarm_point_id` BIGINT, -- 烟雾传感器报警状态
+  `battery_safety_detection_sensor_value_point_id` BIGINT, -- 电池安全检测传感器值
+  `battery_safety_detection_sensor_alarm_point_id` BIGINT, -- 电池安全检测传感器报警状态
+  `fire_extinguishing_device_status_point_id` BIGINT, -- 灭火装置状态值
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_firecontrols_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (`energy_storage_container_id`);
+
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `working_status_point_id` BIGINT,
+  `indoor_fan_status_point_id` BIGINT,
+  `outdoor_fan_status_point_id` BIGINT,
+  `emergency_fan_status_point_id` BIGINT,
+  `compressor_status_point_id` BIGINT,
+  `electric_heating_status_point_id` BIGINT,
+  `coil_temperature_point_id` BIGINT,
+  `temperature_outside_point_id` BIGINT,
+  `temperature_inside_point_id` BIGINT,
+  `condensation_temperature_point_id` BIGINT,
+  `outlet_air_temperature_point_id` BIGINT,
+  `return_air_temperature_point_id` BIGINT,
+  `exhaust_temperature_point_id` BIGINT,
+  `heating_on_temperature_point_id` BIGINT,
+  `heating_off_temperature_point_id` BIGINT,
+  `cooling_on_temperature_point_id` BIGINT,
+  `cooling_off_temperature_point_id` BIGINT,
+  `high_temperature_alarm_set_point_id` BIGINT,
+  `low_temperature_alarm_set_point_id` BIGINT,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_hvacs_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_hvacs` (`energy_storage_container_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
 
