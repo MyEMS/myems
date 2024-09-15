@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added diagram to energy flow diagram excel exporter (need to rerun 'sudo pip install -r requirements.txt' to upgrade)
 - added tbl_space_hourly to myems_production_db in database
 - added new menu items
+- added tbl_energy_storage_containers_firecontrols to myems_system_db in database
+- added tbl_energy_storage_containers_hvacs to myems_system_db in database
+- 
 ### Changed
 - updated energy storage power station reportings
 - changed meter search box size to small
