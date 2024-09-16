@@ -5793,7 +5793,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5829,7 +5829,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5866,7 +5866,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5878,7 +5878,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 30,\n \"total_active_power_point_id\":2,\n \"active_power_a_point_id\":3,\n \"active_power_b_point_id\":4,\n \"active_power_c_point_id\":5,\n \"total_reactive_power_point_id\":6,\n \"reactive_power_a_point_id\":7,\n \"reactive_power_b_point_id\":8,\n \"reactive_power_c_point_id\":9,\n \"total_apparent_power_point_id\":10,\n \"apparent_power_a_point_id\":11,\n \"apparent_power_b_point_id\":12,\n \"apparent_power_c_point_id\":13,\n \"total_power_factor_point_id\":null,\n \"active_energy_import_point_id\":null,\n \"active_energy_export_point_id\":null,\n \"active_energy_net_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/grids",
@@ -5906,7 +5906,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5918,7 +5918,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 500}}"
+									"raw": "{\"data\":{\"name\":\"Grid\", \"power_point_id\":1, \"buy_meter_id\":1, \"sell_meter_id\":2, \"capacity\": 500,\n \"total_active_power_point_id\":2,\n \"active_power_a_point_id\":3,\n \"active_power_b_point_id\":4,\n \"active_power_c_point_id\":5,\n \"total_reactive_power_point_id\":6,\n \"reactive_power_a_point_id\":7,\n \"reactive_power_b_point_id\":8,\n \"reactive_power_c_point_id\":9,\n \"total_apparent_power_point_id\":10,\n \"apparent_power_a_point_id\":11,\n \"apparent_power_b_point_id\":12,\n \"apparent_power_c_point_id\":13,\n \"total_power_factor_point_id\":null,\n \"active_energy_import_point_id\":null,\n \"active_energy_export_point_id\":null,\n \"active_energy_net_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/grids/1",
@@ -5947,7 +5947,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -5984,7 +5984,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -6020,7 +6020,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -6057,7 +6057,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -6069,7 +6069,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 30}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 30,\n \"total_active_power_point_id\":2,\n \"active_power_a_point_id\":3,\n \"active_power_b_point_id\":4,\n \"active_power_c_point_id\":5,\n \"total_reactive_power_point_id\":6,\n \"reactive_power_a_point_id\":7,\n \"reactive_power_b_point_id\":8,\n \"reactive_power_c_point_id\":9,\n \"total_apparent_power_point_id\":null,\n \"apparent_power_a_point_id\":null,\n \"apparent_power_b_point_id\":null,\n \"apparent_power_c_point_id\":null,\n \"total_power_factor_point_id\":null,\n \"active_energy_import_point_id\":null,\n \"active_energy_export_point_id\":null,\n \"active_energy_net_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/loads",
@@ -6097,7 +6097,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "b436afafd495b18fbac593c9cef57a5fc82114fbcaaef1bac47f2f94fb2c48cf870a2ab79ec8b37a6cd311c0a51ce0383eb72fe17b16e3b3bf36df9e12257320",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -6109,7 +6109,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 500}}"
+									"raw": "{\"data\":{\"name\":\"Load\", \"power_point_id\":1, \"meter_id\":1, \"rated_input_power\": 500,\n \"total_active_power_point_id\":2,\n \"active_power_a_point_id\":3,\n \"active_power_b_point_id\":4,\n \"active_power_c_point_id\":5,\n \"total_reactive_power_point_id\":6,\n \"reactive_power_a_point_id\":7,\n \"reactive_power_b_point_id\":8,\n \"reactive_power_c_point_id\":9,\n \"total_apparent_power_point_id\":null,\n \"apparent_power_a_point_id\":null,\n \"apparent_power_b_point_id\":null,\n \"apparent_power_c_point_id\":null,\n \"total_power_factor_point_id\":null,\n \"active_energy_import_point_id\":null,\n \"active_energy_export_point_id\":null,\n \"active_energy_net_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/loads/1",
@@ -6138,7 +6138,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "e11f0dbbe082be9ef7e1599ce7fc8139eef64acdf7d4894ec51f7dc9af6c040770bc9c16a092b4c258ebef6085f9055b1e53e7e5c99622900eeef20a0a10ecea",
 										"description": "Login first to get a valid token"
 									},
 									{
