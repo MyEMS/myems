@@ -5,6 +5,7 @@ import simplejson as json
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 
 class EnergyStorageContainerCollection:
@@ -315,19 +316,28 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_sensors "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
-
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
+                       " WHERE energy_storage_container_id = %s ", (id_, ))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_users "
@@ -484,179 +494,6 @@ class EnergyStorageContainerItem:
         cnx.close()
 
         resp.status = falcon.HTTP_200
-
-
-class EnergyStorageContainerSensorCollection:
-    def __init__(self):
-        """Initializes Class"""
-        pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
-    def on_get(req, resp, id_):
-        access_control(req)
-        if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
-        query = (" SELECT s.id, s.name, s.uuid "
-                 " FROM tbl_energy_storage_containers e, "
-                 "      tbl_energy_storage_containers_sensors es, tbl_sensors s "
-                 " WHERE es.energy_storage_container_id = e.id AND s.id = es.sensor_id AND e.id = %s "
-                 " ORDER BY s.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
-
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                result.append(meta_result)
-
-        resp.text = json.dumps(result)
-
-    @staticmethod
-    @user_logger
-    def on_post(req, resp, id_):
-        """Handles POST requests"""
-        admin_control(req)
-        try:
-            raw_json = req.stream.read().decode('utf-8')
-        except Exception as ex:
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
-
-        if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        new_values = json.loads(raw_json)
-
-        if 'sensor_id' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['sensor_id'], int) or \
-                new_values['data']['sensor_id'] <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SENSOR_ID')
-        sensor_id = new_values['data']['sensor_id']
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (sensor_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-
-        query = (" SELECT id " 
-                 " FROM tbl_energy_storage_containers_sensors "
-                 " WHERE energy_storage_container_id = %s AND sensor_id = %s")
-        cursor.execute(query, (id_, sensor_id,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_EXISTS')
-
-        add_row = (" INSERT INTO tbl_energy_storage_containers_sensors "
-                   "        (energy_storage_container_id, sensor_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, sensor_id,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
-
-        resp.status = falcon.HTTP_201
-        resp.location = '/energystoragecontainers/' + str(id_) + '/sensors/' + str(sensor_id)
-
-
-class EnergyStorageContainerSensorItem:
-    def __init__(self):
-        """Initializes Class"""
-        pass
-
-    @staticmethod
-    def on_options(req, resp, id_, sid):
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
-    @user_logger
-    def on_delete(req, resp, id_, sid):
-        admin_control(req)
-        if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        if not sid.isdigit() or int(sid) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SENSOR_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_sensors "
-                       " WHERE energy_storage_container_id = %s AND sensor_id = %s ", (id_, sid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_NOT_FOUND')
-
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_sensors "
-                       " WHERE energy_storage_container_id = %s AND sensor_id = %s ", (id_, sid))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
-
-        resp.status = falcon.HTTP_204
 
 
 class EnergyStorageContainerBatteryCollection:
@@ -862,21 +699,21 @@ class EnergyStorageContainerBatteryCollection:
                      isinstance(new_values['data']['rated_capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_CAPACITY')
-        rated_capacity = float(new_values['data']['rated_capacity'])
+        rated_capacity = Decimal(new_values['data']['rated_capacity'])
 
         if 'rated_power' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_power'], float) or
                      isinstance(new_values['data']['rated_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_POWER')
-        rated_power = float(new_values['data']['rated_power'])
+        rated_power = Decimal(new_values['data']['rated_power'])
 
         if 'nominal_voltage' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['nominal_voltage'], float) or
                      isinstance(new_values['data']['nominal_voltage'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOMINAL_VOLTAGE')
-        nominal_voltage = float(new_values['data']['nominal_voltage'])
+        nominal_voltage = Decimal(new_values['data']['nominal_voltage'])
 
         communication_status_with_pcs_point_id = None
         communication_status_with_ems_point_id = None
@@ -1405,21 +1242,21 @@ class EnergyStorageContainerBatteryItem:
                      isinstance(new_values['data']['rated_capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_CAPACITY')
-        rated_capacity = float(new_values['data']['rated_capacity'])
+        rated_capacity = Decimal(new_values['data']['rated_capacity'])
 
         if 'rated_power' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_power'], float) or
                      isinstance(new_values['data']['rated_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_POWER')
-        rated_power = float(new_values['data']['rated_power'])
+        rated_power = Decimal(new_values['data']['rated_power'])
 
         if 'nominal_voltage' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['nominal_voltage'], float) or
                      isinstance(new_values['data']['nominal_voltage'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NOMINAL_VOLTAGE')
-        nominal_voltage = float(new_values['data']['nominal_voltage'])
+        nominal_voltage = Decimal(new_values['data']['nominal_voltage'])
 
         communication_status_with_pcs_point_id = None
         communication_status_with_ems_point_id = None
@@ -1812,7 +1649,23 @@ class EnergyStorageContainerGridCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        power_point_id, buy_meter_id, sell_meter_id, capacity "
+                 "        power_point_id, buy_meter_id, sell_meter_id, capacity, "
+                 "        total_active_power_point_id, "
+                 "        active_power_a_point_id, "
+                 "        active_power_b_point_id, "
+                 "        active_power_c_point_id, "
+                 "        total_reactive_power_point_id, "
+                 "        reactive_power_a_point_id, "
+                 "        reactive_power_b_point_id, "
+                 "        reactive_power_c_point_id, "
+                 "        total_apparent_power_point_id, "
+                 "        apparent_power_a_point_id, "
+                 "        apparent_power_b_point_id, "
+                 "        apparent_power_c_point_id, "
+                 "        total_power_factor_point_id, "
+                 "        active_energy_import_point_id, "
+                 "        active_energy_export_point_id, "
+                 "        active_energy_net_point_id "
                  " FROM tbl_energy_storage_containers_grids "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -1828,7 +1681,24 @@ class EnergyStorageContainerGridCollection:
                                "power_point": point_dict.get(row[3]),
                                "buy_meter": meter_dict.get(row[4]),
                                "sell_meter": meter_dict.get(row[5]),
-                               "capacity": row[6]}
+                               "capacity": row[6],
+                               "total_active_power_point": point_dict.get(row[7]),
+                               "active_power_a_point": point_dict.get(row[8]),
+                               "active_power_b_point": point_dict.get(row[9]),
+                               "active_power_c_point": point_dict.get(row[10]),
+                               "total_reactive_power_point": point_dict.get(row[11]),
+                               "reactive_power_a_point": point_dict.get(row[12]),
+                               "reactive_power_b_point": point_dict.get(row[13]),
+                               "reactive_power_c_point": point_dict.get(row[14]),
+                               "total_apparent_power_point": point_dict.get(row[15]),
+                               "apparent_power_a_point": point_dict.get(row[16]),
+                               "apparent_power_b_point": point_dict.get(row[17]),
+                               "apparent_power_c_point": point_dict.get(row[19]),
+                               "total_power_factor_point": point_dict.get(row[19]),
+                               "active_energy_import_point": point_dict.get(row[20]),
+                               "active_energy_export_point": point_dict.get(row[21]),
+                               "active_energy_net_point_id": point_dict.get(row[22]),
+                               }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1895,7 +1765,104 @@ class EnergyStorageContainerGridCollection:
                      isinstance(new_values['data']['capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+        capacity = Decimal(new_values['data']['capacity'])
+
+        total_active_power_point_id = None
+        active_power_a_point_id = None
+        active_power_b_point_id = None
+        active_power_c_point_id = None
+        total_reactive_power_point_id = None
+        reactive_power_a_point_id = None
+        reactive_power_b_point_id = None
+        reactive_power_c_point_id = None
+        total_apparent_power_point_id = None
+        apparent_power_a_point_id = None
+        apparent_power_b_point_id = None
+        apparent_power_c_point_id = None
+        total_power_factor_point_id = None
+        active_energy_import_point_id = None
+        active_energy_export_point_id = None
+        active_energy_net_point_id = None
+
+        if 'total_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_active_power_point_id'], int) and \
+                new_values['data']['total_active_power_point_id'] > 0:
+            total_active_power_point_id = new_values['data']['total_active_power_point_id']
+
+        if 'active_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_a_point_id'], int) and \
+                new_values['data']['active_power_a_point_id'] > 0:
+            active_power_a_point_id = new_values['data']['active_power_a_point_id']
+
+        if 'active_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_b_point_id'], int) and \
+                new_values['data']['active_power_b_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_b_point_id']
+
+        if 'active_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_c_point_id'], int) and \
+                new_values['data']['active_power_c_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_c_point_id']
+
+        if 'total_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
+                new_values['data']['total_reactive_power_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['total_reactive_power_point_id']
+
+        if 'reactive_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
+                new_values['data']['reactive_power_a_point_id'] > 0:
+            reactive_power_a_point_id = new_values['data']['reactive_power_a_point_id']
+
+        if 'reactive_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_b_point_id'], int) and \
+                new_values['data']['reactive_power_b_point_id'] > 0:
+            reactive_power_b_point_id = new_values['data']['reactive_power_b_point_id']
+
+        if 'reactive_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_c_point_id'], int) and \
+                new_values['data']['reactive_power_c_point_id'] > 0:
+            reactive_power_c_point_id = new_values['data']['reactive_power_c_point_id']
+
+        if 'total_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_apparent_power_point_id'], int) and \
+                new_values['data']['total_apparent_power_point_id'] > 0:
+            total_apparent_power_point_id = new_values['data']['total_apparent_power_point_id']
+
+        if 'apparent_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_a_point_id'], int) and \
+                new_values['data']['apparent_power_a_point_id'] > 0:
+            apparent_power_a_point_id = new_values['data']['apparent_power_a_point_id']
+
+        if 'apparent_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_b_point_id'], int) and \
+                new_values['data']['apparent_power_b_point_id'] > 0:
+            apparent_power_b_point_id = new_values['data']['apparent_power_b_point_id']
+
+        if 'apparent_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_c_point_id'], int) and \
+                new_values['data']['apparent_power_c_point_id'] > 0:
+            apparent_power_c_point_id = new_values['data']['apparent_power_c_point_id']
+
+        if 'total_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_power_factor_point_id'], int) and \
+                new_values['data']['total_power_factor_point_id'] > 0:
+            total_power_factor_point_id = new_values['data']['total_power_factor_point_id']
+
+        if 'active_energy_import_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_import_point_id'], int) and \
+                new_values['data']['active_energy_import_point_id'] > 0:
+            active_energy_import_point_id = new_values['data']['active_energy_import_point_id']
+
+        if 'active_energy_export_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_export_point_id'], int) and \
+                new_values['data']['active_energy_export_point_id'] > 0:
+            active_energy_export_point_id = new_values['data']['active_energy_export_point_id']
+
+        if 'active_energy_net_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_net_point_id'], int) and \
+                new_values['data']['active_energy_net_point_id'] > 0:
+            active_energy_net_point_id = new_values['data']['active_energy_net_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -1952,15 +1919,50 @@ class EnergyStorageContainerGridCollection:
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_grids "
                       "    (name, uuid, energy_storage_container_id, power_point_id, "
-                      "     buy_meter_id, sell_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                      "     buy_meter_id, sell_meter_id, capacity, "
+                      "     total_active_power_point_id, "
+                      "     active_power_a_point_id, "
+                      "     active_power_b_point_id, "
+                      "     active_power_c_point_id, "
+                      "     total_reactive_power_point_id, "
+                      "     reactive_power_a_point_id, "
+                      "     reactive_power_b_point_id, "
+                      "     reactive_power_c_point_id, "
+                      "     total_apparent_power_point_id, "
+                      "     apparent_power_a_point_id, "
+                      "     apparent_power_b_point_id, "
+                      "     apparent_power_c_point_id, "
+                      "     total_power_factor_point_id, "
+                      "     active_energy_import_point_id, "
+                      "     active_energy_export_point_id, "
+                      "     active_energy_net_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
                                     power_point_id,
                                     buy_meter_id,
                                     sell_meter_id,
-                                    capacity))
+                                    capacity,
+                                    total_active_power_point_id,
+                                    active_power_a_point_id,
+                                    active_power_b_point_id,
+                                    active_power_c_point_id,
+                                    total_reactive_power_point_id,
+                                    reactive_power_a_point_id,
+                                    reactive_power_b_point_id,
+                                    reactive_power_c_point_id,
+                                    total_apparent_power_point_id,
+                                    apparent_power_a_point_id,
+                                    apparent_power_b_point_id,
+                                    apparent_power_c_point_id,
+                                    total_power_factor_point_id,
+                                    active_energy_import_point_id,
+                                    active_energy_export_point_id,
+                                    active_energy_net_point_id
+                                    ))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -2037,7 +2039,23 @@ class EnergyStorageContainerGridItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, "
-                 "        buy_meter_id, sell_meter_id, capacity "
+                 "        buy_meter_id, sell_meter_id, capacity, "
+                 "        total_active_power_point_id, "
+                 "        active_power_a_point_id, "
+                 "        active_power_b_point_id, "
+                 "        active_power_c_point_id, "
+                 "        total_reactive_power_point_id, "
+                 "        reactive_power_a_point_id, "
+                 "        reactive_power_b_point_id, "
+                 "        reactive_power_c_point_id, "
+                 "        total_apparent_power_point_id, "
+                 "        apparent_power_a_point_id, "
+                 "        apparent_power_b_point_id, "
+                 "        apparent_power_c_point_id, "
+                 "        total_power_factor_point_id, "
+                 "        active_energy_import_point_id, "
+                 "        active_energy_export_point_id, "
+                 "        active_energy_net_point_id "
                  " FROM tbl_energy_storage_containers_grids "
                  " WHERE id = %s ")
         cursor.execute(query, (gid,))
@@ -2056,7 +2074,24 @@ class EnergyStorageContainerGridItem:
                            "power_point": point_dict.get(row[4]),
                            "buy_meter": meter_dict.get(row[5]),
                            "sell_meter": meter_dict.get(row[6]),
-                           "capacity": row[7]}
+                           "capacity": row[7],
+                           "total_active_power_point": point_dict.get(row[8]),
+                           "active_power_a_point": point_dict.get(row[9]),
+                           "active_power_b_point": point_dict.get(row[10]),
+                           "active_power_c_point": point_dict.get(row[11]),
+                           "total_reactive_power_point": point_dict.get(row[12]),
+                           "reactive_power_a_point": point_dict.get(row[13]),
+                           "reactive_power_b_point": point_dict.get(row[14]),
+                           "reactive_power_c_point": point_dict.get(row[15]),
+                           "total_apparent_power_point": point_dict.get(row[16]),
+                           "apparent_power_a_point": point_dict.get(row[17]),
+                           "apparent_power_b_point": point_dict.get(row[18]),
+                           "apparent_power_c_point": point_dict.get(row[19]),
+                           "total_power_factor_point": point_dict.get(row[20]),
+                           "active_energy_import_point": point_dict.get(row[21]),
+                           "active_energy_export_point": point_dict.get(row[22]),
+                           "active_energy_net_point_id": point_dict.get(row[23]),
+                           }
 
         resp.text = json.dumps(meta_result)
 
@@ -2155,7 +2190,103 @@ class EnergyStorageContainerGridItem:
                      isinstance(new_values['data']['capacity'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CAPACITY')
-        capacity = float(new_values['data']['capacity'])
+        capacity = Decimal(new_values['data']['capacity'])
+        total_active_power_point_id = None
+        active_power_a_point_id = None
+        active_power_b_point_id = None
+        active_power_c_point_id = None
+        total_reactive_power_point_id = None
+        reactive_power_a_point_id = None
+        reactive_power_b_point_id = None
+        reactive_power_c_point_id = None
+        total_apparent_power_point_id = None
+        apparent_power_a_point_id = None
+        apparent_power_b_point_id = None
+        apparent_power_c_point_id = None
+        total_power_factor_point_id = None
+        active_energy_import_point_id = None
+        active_energy_export_point_id = None
+        active_energy_net_point_id = None
+
+        if 'total_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_active_power_point_id'], int) and \
+                new_values['data']['total_active_power_point_id'] > 0:
+            total_active_power_point_id = new_values['data']['total_active_power_point_id']
+
+        if 'active_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_a_point_id'], int) and \
+                new_values['data']['active_power_a_point_id'] > 0:
+            active_power_a_point_id = new_values['data']['active_power_a_point_id']
+
+        if 'active_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_b_point_id'], int) and \
+                new_values['data']['active_power_b_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_b_point_id']
+
+        if 'active_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_c_point_id'], int) and \
+                new_values['data']['active_power_c_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_c_point_id']
+
+        if 'total_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
+                new_values['data']['total_reactive_power_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['total_reactive_power_point_id']
+
+        if 'reactive_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
+                new_values['data']['reactive_power_a_point_id'] > 0:
+            reactive_power_a_point_id = new_values['data']['reactive_power_a_point_id']
+
+        if 'reactive_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_b_point_id'], int) and \
+                new_values['data']['reactive_power_b_point_id'] > 0:
+            reactive_power_b_point_id = new_values['data']['reactive_power_b_point_id']
+
+        if 'reactive_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_c_point_id'], int) and \
+                new_values['data']['reactive_power_c_point_id'] > 0:
+            reactive_power_c_point_id = new_values['data']['reactive_power_c_point_id']
+
+        if 'total_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_apparent_power_point_id'], int) and \
+                new_values['data']['total_apparent_power_point_id'] > 0:
+            total_apparent_power_point_id = new_values['data']['total_apparent_power_point_id']
+
+        if 'apparent_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_a_point_id'], int) and \
+                new_values['data']['apparent_power_a_point_id'] > 0:
+            apparent_power_a_point_id = new_values['data']['apparent_power_a_point_id']
+
+        if 'apparent_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_b_point_id'], int) and \
+                new_values['data']['apparent_power_b_point_id'] > 0:
+            apparent_power_b_point_id = new_values['data']['apparent_power_b_point_id']
+
+        if 'apparent_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_c_point_id'], int) and \
+                new_values['data']['apparent_power_c_point_id'] > 0:
+            apparent_power_c_point_id = new_values['data']['apparent_power_c_point_id']
+
+        if 'total_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_power_factor_point_id'], int) and \
+                new_values['data']['total_power_factor_point_id'] > 0:
+            total_power_factor_point_id = new_values['data']['total_power_factor_point_id']
+
+        if 'active_energy_import_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_import_point_id'], int) and \
+                new_values['data']['active_energy_import_point_id'] > 0:
+            active_energy_import_point_id = new_values['data']['active_energy_import_point_id']
+
+        if 'active_energy_export_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_export_point_id'], int) and \
+                new_values['data']['active_energy_export_point_id'] > 0:
+            active_energy_export_point_id = new_values['data']['active_energy_export_point_id']
+
+        if 'active_energy_net_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_net_point_id'], int) and \
+                new_values['data']['active_energy_net_point_id'] > 0:
+            active_energy_net_point_id = new_values['data']['active_energy_net_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2220,14 +2351,46 @@ class EnergyStorageContainerGridItem:
 
         update_row = (" UPDATE tbl_energy_storage_containers_grids "
                       " SET name = %s, energy_storage_container_id = %s, "
-                      "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
-                      " WHERE id = %s ")
+                      "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s, "
+                      "     total_active_power_point_id = %s, "
+                      "     active_power_a_point_id = %s, "
+                      "     active_power_b_point_id = %s, "
+                      "     active_power_c_point_id = %s, "
+                      "     total_reactive_power_point_id = %s, "
+                      "     reactive_power_a_point_id = %s, "
+                      "     reactive_power_b_point_id = %s, "
+                      "     reactive_power_c_point_id = %s, "
+                      "     total_apparent_power_point_id = %s, "
+                      "     apparent_power_a_point_id = %s, "
+                      "     apparent_power_b_point_id = %s, "
+                      "     apparent_power_c_point_id = %s, "
+                      "     total_power_factor_point_id = %s, "
+                      "     active_energy_import_point_id = %s, "
+                      "     active_energy_export_point_id = %s, "
+                      "     active_energy_net_point_id = %s "
+                      "     WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
                                     power_point_id,
                                     buy_meter_id,
                                     sell_meter_id,
                                     capacity,
+                                    total_active_power_point_id,
+                                    active_power_a_point_id,
+                                    active_power_b_point_id,
+                                    active_power_c_point_id,
+                                    total_reactive_power_point_id,
+                                    reactive_power_a_point_id,
+                                    reactive_power_b_point_id,
+                                    reactive_power_c_point_id,
+                                    total_apparent_power_point_id,
+                                    apparent_power_a_point_id,
+                                    apparent_power_b_point_id,
+                                    apparent_power_c_point_id,
+                                    total_power_factor_point_id,
+                                    active_energy_import_point_id,
+                                    active_energy_export_point_id,
+                                    active_energy_net_point_id,
                                     gid))
         cnx.commit()
 
@@ -2290,7 +2453,23 @@ class EnergyStorageContainerLoadCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, rated_input_power "
+                 "        power_point_id, meter_id, rated_input_power, "
+                 "        total_active_power_point_id, "
+                 "        active_power_a_point_id, "
+                 "        active_power_b_point_id, "
+                 "        active_power_c_point_id, "
+                 "        total_reactive_power_point_id, "
+                 "        reactive_power_a_point_id, "
+                 "        reactive_power_b_point_id, "
+                 "        reactive_power_c_point_id, "
+                 "        total_apparent_power_point_id, "
+                 "        apparent_power_a_point_id, "
+                 "        apparent_power_b_point_id, "
+                 "        apparent_power_c_point_id, "
+                 "        total_power_factor_point_id, "
+                 "        active_energy_import_point_id, "
+                 "        active_energy_export_point_id, "
+                 "        active_energy_net_point_id "
                  " FROM tbl_energy_storage_containers_loads "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -2305,7 +2484,23 @@ class EnergyStorageContainerLoadCollection:
                                "uuid": row[2],
                                "power_point": point_dict.get(row[3]),
                                "meter": meter_dict.get(row[4]),
-                               "rated_input_power": row[5]}
+                               "rated_input_power": row[5],
+                               "total_active_power_point": point_dict.get(row[6]),
+                               "active_power_a_point": point_dict.get(row[7]),
+                               "active_power_b_point": point_dict.get(row[8]),
+                               "active_power_c_point": point_dict.get(row[9]),
+                               "total_reactive_power_point": point_dict.get(row[10]),
+                               "reactive_power_a_point": point_dict.get(row[11]),
+                               "reactive_power_b_point": point_dict.get(row[12]),
+                               "reactive_power_c_point": point_dict.get(row[13]),
+                               "total_apparent_power_point": point_dict.get(row[14]),
+                               "apparent_power_a_point": point_dict.get(row[15]),
+                               "apparent_power_b_point": point_dict.get(row[16]),
+                               "apparent_power_c_point": point_dict.get(row[17]),
+                               "total_power_factor_point": point_dict.get(row[18]),
+                               "active_energy_import_point": point_dict.get(row[19]),
+                               "active_energy_export_point": point_dict.get(row[20]),
+                               "active_energy_net_point": point_dict.get(row[21])}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2365,7 +2560,104 @@ class EnergyStorageContainerLoadCollection:
                      isinstance(new_values['data']['rated_input_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_INPUT_POWER')
-        rated_input_power = float(new_values['data']['rated_input_power'])
+        rated_input_power = Decimal(new_values['data']['rated_input_power'])
+
+        total_active_power_point_id = None
+        active_power_a_point_id = None
+        active_power_b_point_id = None
+        active_power_c_point_id = None
+        total_reactive_power_point_id = None
+        reactive_power_a_point_id = None
+        reactive_power_b_point_id = None
+        reactive_power_c_point_id = None
+        total_apparent_power_point_id = None
+        apparent_power_a_point_id = None
+        apparent_power_b_point_id = None
+        apparent_power_c_point_id = None
+        total_power_factor_point_id = None
+        active_energy_import_point_id = None
+        active_energy_export_point_id = None
+        active_energy_net_point_id = None
+
+        if 'total_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_active_power_point_id'], int) and \
+                new_values['data']['total_active_power_point_id'] > 0:
+            total_active_power_point_id = new_values['data']['total_active_power_point_id']
+
+        if 'active_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_a_point_id'], int) and \
+                new_values['data']['active_power_a_point_id'] > 0:
+            active_power_a_point_id = new_values['data']['active_power_a_point_id']
+
+        if 'active_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_b_point_id'], int) and \
+                new_values['data']['active_power_b_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_b_point_id']
+
+        if 'active_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_c_point_id'], int) and \
+                new_values['data']['active_power_c_point_id'] > 0:
+            active_power_c_point_id = new_values['data']['active_power_c_point_id']
+
+        if 'total_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
+                new_values['data']['total_reactive_power_point_id'] > 0:
+            total_reactive_power_point_id = new_values['data']['total_reactive_power_point_id']
+
+        if 'reactive_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
+                new_values['data']['reactive_power_a_point_id'] > 0:
+            reactive_power_a_point_id = new_values['data']['reactive_power_a_point_id']
+
+        if 'reactive_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_b_point_id'], int) and \
+                new_values['data']['reactive_power_b_point_id'] > 0:
+            reactive_power_b_point_id = new_values['data']['reactive_power_b_point_id']
+
+        if 'reactive_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_c_point_id'], int) and \
+                new_values['data']['reactive_power_c_point_id'] > 0:
+            reactive_power_c_point_id = new_values['data']['reactive_power_c_point_id']
+
+        if 'total_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_apparent_power_point_id'], int) and \
+                new_values['data']['total_apparent_power_point_id'] > 0:
+            total_apparent_power_point_id = new_values['data']['total_apparent_power_point_id']
+
+        if 'apparent_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_a_point_id'], int) and \
+                new_values['data']['apparent_power_a_point_id'] > 0:
+            apparent_power_a_point_id = new_values['data']['apparent_power_a_point_id']
+
+        if 'apparent_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_b_point_id'], int) and \
+                new_values['data']['apparent_power_b_point_id'] > 0:
+            apparent_power_b_point_id = new_values['data']['apparent_power_b_point_id']
+
+        if 'apparent_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_c_point_id'], int) and \
+                new_values['data']['apparent_power_c_point_id'] > 0:
+            apparent_power_c_point_id = new_values['data']['apparent_power_c_point_id']
+
+        if 'total_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_power_factor_point_id'], int) and \
+                new_values['data']['total_power_factor_point_id'] > 0:
+            total_power_factor_point_id = new_values['data']['total_power_factor_point_id']
+
+        if 'active_energy_import_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_import_point_id'], int) and \
+                new_values['data']['active_energy_import_point_id'] > 0:
+            active_energy_import_point_id = new_values['data']['active_energy_import_point_id']
+
+        if 'active_energy_export_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_export_point_id'], int) and \
+                new_values['data']['active_energy_export_point_id'] > 0:
+            active_energy_export_point_id = new_values['data']['active_energy_export_point_id']
+
+        if 'active_energy_net_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_net_point_id'], int) and \
+                new_values['data']['active_energy_net_point_id'] > 0:
+            active_energy_net_point_id = new_values['data']['active_energy_net_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2411,14 +2703,49 @@ class EnergyStorageContainerLoadCollection:
                                    description='API.METER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_loads "
-                      "    (name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power,"
+                      "     total_active_power_point_id,"
+                      "     active_power_a_point_id,"
+                      "     active_power_b_point_id,"
+                      "     active_power_c_point_id,"
+                      "     total_reactive_power_point_id,"
+                      "     reactive_power_a_point_id,"
+                      "     reactive_power_b_point_id,"
+                      "     reactive_power_c_point_id,"
+                      "     total_apparent_power_point_id,"
+                      "     apparent_power_a_point_id,"
+                      "     apparent_power_b_point_id,"
+                      "     apparent_power_c_point_id,"
+                      "     total_power_factor_point_id,"
+                      "     active_energy_import_point_id,"
+                      "     active_energy_export_point_id,"
+                      "     active_energy_net_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,"
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,"
+                      "         %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
                                     power_point_id,
                                     meter_id,
-                                    rated_input_power))
+                                    rated_input_power,
+                                    total_active_power_point_id,
+                                    active_power_a_point_id,
+                                    active_power_b_point_id,
+                                    active_power_c_point_id,
+                                    total_reactive_power_point_id,
+                                    reactive_power_a_point_id,
+                                    reactive_power_b_point_id,
+                                    reactive_power_c_point_id,
+                                    total_apparent_power_point_id,
+                                    apparent_power_a_point_id,
+                                    apparent_power_b_point_id,
+                                    apparent_power_c_point_id,
+                                    total_power_factor_point_id,
+                                    active_energy_import_point_id,
+                                    active_energy_export_point_id,
+                                    active_energy_net_point_id
+                                    ))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -2494,7 +2821,24 @@ class EnergyStorageContainerLoadItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power "
+        query = (" SELECT id, name, uuid, "
+                 "        energy_storage_container_id, power_point_id, meter_id, rated_input_power, "
+                 "        total_active_power_point_id, "
+                 "        active_power_a_point_id, "
+                 "        active_power_b_point_id, "
+                 "        active_power_c_point_id, "
+                 "        total_reactive_power_point_id, "
+                 "        reactive_power_a_point_id, "
+                 "        reactive_power_b_point_id, "
+                 "        reactive_power_c_point_id, "
+                 "        total_apparent_power_point_id, "
+                 "        apparent_power_a_point_id, "
+                 "        apparent_power_b_point_id, "
+                 "        apparent_power_c_point_id, "
+                 "        total_power_factor_point_id, "
+                 "        active_energy_import_point_id, "
+                 "        active_energy_export_point_id, "
+                 "        active_energy_net_point_id "
                  " FROM tbl_energy_storage_containers_loads "
                  " WHERE id = %s ")
         cursor.execute(query, (lid,))
@@ -2512,7 +2856,23 @@ class EnergyStorageContainerLoadItem:
                            "energy_storage_container": energy_storage_container_dict.get(row[3]),
                            "power_point": point_dict.get(row[4]),
                            "meter": meter_dict.get(row[5]),
-                           "rated_input_power": row[6]}
+                           "rated_input_power": row[6],
+                           "total_active_power_point": point_dict.get(row[7]),
+                           "active_power_a_point": point_dict.get(row[8]),
+                           "active_power_b_point": point_dict.get(row[9]),
+                           "active_power_c_point": point_dict.get(row[10]),
+                           "total_reactive_power_point": point_dict.get(row[11]),
+                           "reactive_power_a_point": point_dict.get(row[12]),
+                           "reactive_power_b_point": point_dict.get(row[13]),
+                           "reactive_power_c_point": point_dict.get(row[14]),
+                           "total_apparent_power_point": point_dict.get(row[15]),
+                           "apparent_power_a_point": point_dict.get(row[16]),
+                           "apparent_power_b_point": point_dict.get(row[17]),
+                           "apparent_power_c_point": point_dict.get(row[18]),
+                           "total_power_factor_point": point_dict.get(row[19]),
+                           "active_energy_import_point": point_dict.get(row[20]),
+                           "active_energy_export_point": point_dict.get(row[21]),
+                           "active_energy_net_point": point_dict.get(row[22])}
 
         resp.text = json.dumps(meta_result)
 
@@ -2603,7 +2963,104 @@ class EnergyStorageContainerLoadItem:
                      isinstance(new_values['data']['rated_input_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_INPUT_POWER')
-        rated_input_power = float(new_values['data']['rated_input_power'])
+        rated_input_power = Decimal(new_values['data']['rated_input_power'])
+
+        total_active_power_point_id = None
+        active_power_a_point_id = None
+        active_power_b_point_id = None
+        active_power_c_point_id = None
+        total_reactive_power_point_id = None
+        reactive_power_a_point_id = None
+        reactive_power_b_point_id = None
+        reactive_power_c_point_id = None
+        total_apparent_power_point_id = None
+        apparent_power_a_point_id = None
+        apparent_power_b_point_id = None
+        apparent_power_c_point_id = None
+        total_power_factor_point_id = None
+        active_energy_import_point_id = None
+        active_energy_export_point_id = None
+        active_energy_net_point_id = None
+
+        if 'total_active_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_active_power_point_id'], int) and \
+                new_values['data']['total_active_power_point_id'] > 0:
+            total_active_power_point_id = new_values['data']['total_active_power_point_id']
+
+        if 'active_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_a_point_id'], int) and \
+                new_values['data']['active_power_a_point_id'] > 0:
+            active_power_a_point_id = new_values['data']['active_power_a_point_id']
+
+        if 'active_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_b_point_id'], int) and \
+                new_values['data']['active_power_b_point_id'] > 0:
+            active_power_b_point_id = new_values['data']['active_power_b_point_id']
+
+        if 'active_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_power_c_point_id'], int) and \
+                new_values['data']['active_power_c_point_id'] > 0:
+            active_power_c_point_id = new_values['data']['active_power_c_point_id']
+
+        if 'total_reactive_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
+                new_values['data']['total_reactive_power_point_id'] > 0:
+            total_reactive_power_point_id = new_values['data']['total_reactive_power_point_id']
+
+        if 'reactive_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
+                new_values['data']['reactive_power_a_point_id'] > 0:
+            reactive_power_a_point_id = new_values['data']['reactive_power_a_point_id']
+
+        if 'reactive_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_b_point_id'], int) and \
+                new_values['data']['reactive_power_b_point_id'] > 0:
+            reactive_power_b_point_id = new_values['data']['reactive_power_b_point_id']
+
+        if 'reactive_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['reactive_power_c_point_id'], int) and \
+                new_values['data']['reactive_power_c_point_id'] > 0:
+            reactive_power_c_point_id = new_values['data']['reactive_power_c_point_id']
+
+        if 'total_apparent_power_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_apparent_power_point_id'], int) and \
+                new_values['data']['total_apparent_power_point_id'] > 0:
+            total_apparent_power_point_id = new_values['data']['total_apparent_power_point_id']
+
+        if 'apparent_power_a_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_a_point_id'], int) and \
+                new_values['data']['apparent_power_a_point_id'] > 0:
+            apparent_power_a_point_id = new_values['data']['apparent_power_a_point_id']
+
+        if 'apparent_power_b_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_b_point_id'], int) and \
+                new_values['data']['apparent_power_b_point_id'] > 0:
+            apparent_power_b_point_id = new_values['data']['apparent_power_b_point_id']
+
+        if 'apparent_power_c_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['apparent_power_c_point_id'], int) and \
+                new_values['data']['apparent_power_c_point_id'] > 0:
+            apparent_power_c_point_id = new_values['data']['apparent_power_c_point_id']
+
+        if 'total_power_factor_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['total_power_factor_point_id'], int) and \
+                new_values['data']['total_power_factor_point_id'] > 0:
+            total_power_factor_point_id = new_values['data']['total_power_factor_point_id']
+
+        if 'active_energy_import_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_import_point_id'], int) and \
+                new_values['data']['active_energy_import_point_id'] > 0:
+            active_energy_import_point_id = new_values['data']['active_energy_import_point_id']
+
+        if 'active_energy_export_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_export_point_id'], int) and \
+                new_values['data']['active_energy_export_point_id'] > 0:
+            active_energy_export_point_id = new_values['data']['active_energy_export_point_id']
+
+        if 'active_energy_net_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['active_energy_net_point_id'], int) and \
+                new_values['data']['active_energy_net_point_id'] > 0:
+            active_energy_net_point_id = new_values['data']['active_energy_net_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -2658,13 +3115,45 @@ class EnergyStorageContainerLoadItem:
 
         update_row = (" UPDATE tbl_energy_storage_containers_loads "
                       " SET name = %s, energy_storage_container_id = %s, power_point_id = %s, "
-                      "     meter_id = %s, rated_input_power = %s "
+                      "     meter_id = %s, rated_input_power = %s, "
+                      "     total_active_power_point_id = %s, "
+                      "     active_power_a_point_id = %s, "
+                      "     active_power_b_point_id = %s, "
+                      "     active_power_c_point_id = %s, "
+                      "     total_reactive_power_point_id = %s, "
+                      "     reactive_power_a_point_id = %s, "
+                      "     reactive_power_b_point_id = %s, "
+                      "     reactive_power_c_point_id = %s, "
+                      "     total_apparent_power_point_id = %s, "
+                      "     apparent_power_a_point_id = %s, "
+                      "     apparent_power_b_point_id = %s, "
+                      "     apparent_power_c_point_id = %s, "
+                      "     total_power_factor_point_id = %s, "
+                      "     active_energy_import_point_id = %s, "
+                      "     active_energy_export_point_id = %s, "
+                      "     active_energy_net_point_id = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
                                     power_point_id,
                                     meter_id,
                                     rated_input_power,
+                                    total_active_power_point_id,
+                                    active_power_a_point_id,
+                                    active_power_b_point_id,
+                                    active_power_c_point_id,
+                                    total_reactive_power_point_id,
+                                    reactive_power_a_point_id,
+                                    reactive_power_b_point_id,
+                                    reactive_power_c_point_id,
+                                    total_apparent_power_point_id,
+                                    apparent_power_a_point_id,
+                                    apparent_power_b_point_id,
+                                    apparent_power_c_point_id,
+                                    total_power_factor_point_id,
+                                    active_energy_import_point_id,
+                                    active_energy_export_point_id,
+                                    active_energy_net_point_id,
                                     lid))
         cnx.commit()
 
@@ -2887,7 +3376,7 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                      isinstance(new_values['data']['rated_output_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_OUTPUT_POWER')
-        rated_output_power = float(new_values['data']['rated_output_power'])
+        rated_output_power = Decimal(new_values['data']['rated_output_power'])
 
         today_charge_energy_point_id = None
         today_discharge_energy_point_id = None
@@ -3585,7 +4074,7 @@ class EnergyStorageContainerPowerconversionsystemItem:
                      isinstance(new_values['data']['rated_output_power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_OUTPUT_POWER')
-        rated_output_power = float(new_values['data']['rated_output_power'])
+        rated_output_power = Decimal(new_values['data']['rated_output_power'])
 
         today_charge_energy_point_id = None
         today_discharge_energy_point_id = None
@@ -4268,7 +4757,7 @@ class EnergyStorageContainerScheduleItem:
                      isinstance(new_values['data']['power'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POWER')
-        power = float(new_values['data']['power'])
+        power = Decimal(new_values['data']['power'])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
