@@ -87,6 +87,25 @@ app.controller('EnergyStorageContainerGridController', function(
 			energystoragecontainergrid.power_point_id = energystoragecontainergrid.power_point.id;
 			energystoragecontainergrid.buy_meter_id = energystoragecontainergrid.buy_meter.id;
 			energystoragecontainergrid.sell_meter_id = energystoragecontainergrid.sell_meter.id;
+			energystoragecontainergrid.power_point_id = energystoragecontainergrid.power_point.id;
+			energystoragecontainergrid.total_active_power_point_id = energystoragecontainergrid.total_active_power_point.id;
+			energystoragecontainergrid.active_power_a_point_id = energystoragecontainergrid.active_power_a_point.id;
+			energystoragecontainergrid.active_power_b_point_id = energystoragecontainergrid.active_power_b_point.id;
+			energystoragecontainergrid.active_power_c_point_id = energystoragecontainergrid.active_power_c_point.id;
+			energystoragecontainergrid.total_reactive_power_point_id = energystoragecontainergrid.total_reactive_power_point.id;
+			energystoragecontainergrid.reactive_power_a_point_id = energystoragecontainergrid.reactive_power_a_point.id;
+			energystoragecontainergrid.reactive_power_b_point_id = energystoragecontainergrid.reactive_power_b_point.id;
+			energystoragecontainergrid.reactive_power_c_point_id = energystoragecontainergrid.reactive_power_c_point.id;
+			energystoragecontainergrid.total_apparent_power_point_id = energystoragecontainergrid.total_apparent_power_point.id;
+			energystoragecontainergrid.apparent_power_a_point_id = energystoragecontainergrid.apparent_power_a_point.id;
+			energystoragecontainergrid.apparent_power_b_point_id = energystoragecontainergrid.apparent_power_b_point.id;
+			energystoragecontainergrid.apparent_power_c_point_id = energystoragecontainergrid.apparent_power_c_point.id;
+			energystoragecontainergrid.total_power_factor_point_id = energystoragecontainergrid.total_power_factor_point.id;
+			energystoragecontainergrid.active_energy_import_point_id = energystoragecontainergrid.active_energy_import_point.id;
+			energystoragecontainergrid.active_energy_export_point_id = energystoragecontainergrid.active_energy_export_point.id;
+			energystoragecontainergrid.active_energy_net_point_id = energystoragecontainergrid.active_energy_net_point.id;
+
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyStorageContainerGridService.addEnergyStorageContainerGrid($scope.currentEnergyStorageContainer.id, energystoragecontainergrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 201) {
@@ -133,6 +152,23 @@ app.controller('EnergyStorageContainerGridController', function(
 			modifiedEnergyStorageContainerGrid.power_point_id = modifiedEnergyStorageContainerGrid.power_point.id;
 			modifiedEnergyStorageContainerGrid.buy_meter_id = modifiedEnergyStorageContainerGrid.buy_meter.id;
 			modifiedEnergyStorageContainerGrid.sell_meter_id = modifiedEnergyStorageContainerGrid.sell_meter.id;
+			modifiedEnergyStorageContainerGrid.total_active_power_point_id = modifiedEnergyStorageContainerGrid.total_active_power_point.id;
+			modifiedEnergyStorageContainerGrid.active_power_a_point_id = modifiedEnergyStorageContainerGrid.active_power_a_point.id;
+			modifiedEnergyStorageContainerGrid.active_power_b_point_id = modifiedEnergyStorageContainerGrid.active_power_b_point.id;
+			modifiedEnergyStorageContainerGrid.active_power_c_point_id = modifiedEnergyStorageContainerGrid.active_power_c_point.id;
+			modifiedEnergyStorageContainerGrid.total_reactive_power_point_id = modifiedEnergyStorageContainerGrid.total_reactive_power_point.id;
+			modifiedEnergyStorageContainerGrid.reactive_power_a_point_id = modifiedEnergyStorageContainerGrid.reactive_power_a_point.id;
+			modifiedEnergyStorageContainerGrid.reactive_power_b_point_id = modifiedEnergyStorageContainerGrid.reactive_power_b_point.id;
+			modifiedEnergyStorageContainerGrid.reactive_power_c_point_id = modifiedEnergyStorageContainerGrid.reactive_power_c_point.id;
+			modifiedEnergyStorageContainerGrid.total_apparent_power_point_id = modifiedEnergyStorageContainerGrid.total_apparent_power_point.id;
+			modifiedEnergyStorageContainerGrid.apparent_power_a_point_id = modifiedEnergyStorageContainerGrid.apparent_power_a_point.id;
+			modifiedEnergyStorageContainerGrid.apparent_power_b_point_id = modifiedEnergyStorageContainerGrid.apparent_power_b_point.id;
+			modifiedEnergyStorageContainerGrid.apparent_power_c_point_id = modifiedEnergyStorageContainerGrid.apparent_power_c_point.id;
+			modifiedEnergyStorageContainerGrid.total_power_factor_point_id = modifiedEnergyStorageContainerGrid.total_power_factor_point.id;
+			modifiedEnergyStorageContainerGrid.active_energy_import_point_id = modifiedEnergyStorageContainerGrid.active_energy_import_point.id;
+			modifiedEnergyStorageContainerGrid.active_energy_export_point_id = modifiedEnergyStorageContainerGrid.active_energy_export_point.id;
+			modifiedEnergyStorageContainerGrid.active_energy_net_point_id = modifiedEnergyStorageContainerGrid.active_energy_net_point.id;
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyStorageContainerGridService.editEnergyStorageContainerGrid($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerGrid, headers, function (response) {
   				if (angular.isDefined(response.status) && response.status === 200) {
