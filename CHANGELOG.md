@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed meter search box size to small
 - updated tbl_energy_storage_containers_power_conversion_systems of myems_system_db in database
 - updated tbl_energy_storage_containers_batteries of myems_system_db in database
+- updated energy storage container actions in myems-api
 ### Fixed
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
