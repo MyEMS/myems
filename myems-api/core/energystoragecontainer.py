@@ -1596,6 +1596,486 @@ class EnergyStorageContainerCommandCollection:
         resp.text = json.dumps(result)
 
 
+class EnergyStorageContainerFirecontrolCollection:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        inside_temperature_point_id, "
+                 "        outside_temperature_point_id, "
+                 "        temperature_alarm_point_id, "
+                 "        smoke_sensor_value_point_id, "
+                 "        smoke_sensor_alarm_point_id, "
+                 "        battery_safety_detection_sensor_value_point_id, "
+                 "        battery_safety_detection_sensor_alarm_point_id, "
+                 "        fire_extinguishing_device_status_point_id "
+                 " FROM tbl_energy_storage_containers_firecontrols "
+                 " WHERE energy_storage_container_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "inside_temperature_point": point_dict.get(row[3]),
+                               "outside_temperature_point": point_dict.get(row[4]),
+                               "temperature_alarm_point": point_dict.get(row[5]),
+                               "smoke_sensor_value_point": point_dict.get(row[6]),
+                               "smoke_sensor_alarm_point": point_dict.get(row[7]),
+                               "battery_safety_detection_sensor_value_point": point_dict.get(row[8]),
+                               "battery_safety_detection_sensor_alarm_point": point_dict.get(row[9]),
+                               "fire_extinguishing_device_status_point": point_dict.get(row[10])
+                               }
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
+        name = str.strip(new_values['data']['name'])
+
+        inside_temperature_point_id = None
+        outside_temperature_point_id = None
+        temperature_alarm_point_id = None
+        smoke_sensor_value_point_id = None
+        smoke_sensor_alarm_point_id = None
+        battery_safety_detection_sensor_value_point_id = None
+        battery_safety_detection_sensor_alarm_point_id = None
+        fire_extinguishing_device_status_point_id = None
+
+        if 'inside_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['inside_temperature_point_id'], int) and \
+                new_values['data']['inside_temperature_point_id'] > 0:
+            inside_temperature_point_id = new_values['data']['inside_temperature_point_id']
+
+        if 'outside_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outside_temperature_point_id'], int) and \
+                new_values['data']['outside_temperature_point_id'] > 0:
+            outside_temperature_point_id = new_values['data']['outside_temperature_point_id']
+
+        if 'temperature_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_alarm_point_id'], int) and \
+                new_values['data']['temperature_alarm_point_id'] > 0:
+            temperature_alarm_point_id = new_values['data']['temperature_alarm_point_id']
+
+        if 'smoke_sensor_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['smoke_sensor_value_point_id'], int) and \
+                new_values['data']['smoke_sensor_value_point_id'] > 0:
+            smoke_sensor_value_point_id = new_values['data']['smoke_sensor_value_point_id']
+
+        if 'smoke_sensor_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['smoke_sensor_alarm_point_id'], int) and \
+                new_values['data']['smoke_sensor_alarm_point_id'] > 0:
+            smoke_sensor_alarm_point_id = new_values['data']['smoke_sensor_alarm_point_id']
+
+        if 'battery_safety_detection_sensor_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_safety_detection_sensor_value_point_id'], int) and \
+                new_values['data']['battery_safety_detection_sensor_value_point_id'] > 0:
+            battery_safety_detection_sensor_value_point_id = \
+                new_values['data']['battery_safety_detection_sensor_value_point_id']
+
+        if 'battery_safety_detection_sensor_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_safety_detection_sensor_alarm_point_id'], int) and \
+                new_values['data']['battery_safety_detection_sensor_alarm_point_id'] > 0:
+            battery_safety_detection_sensor_alarm_point_id = \
+                new_values['data']['battery_safety_detection_sensor_alarm_point_id']
+
+        if 'fire_extinguishing_device_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['fire_extinguishing_device_status_point_id'], int) and \
+                new_values['data']['fire_extinguishing_device_status_point_id'] > 0:
+            fire_extinguishing_device_status_point_id = new_values['data']['fire_extinguishing_device_status_point_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ",
+                       (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE energy_storage_container_id = %s AND name = %s ",
+                       (id_, name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
+
+        add_values = (" INSERT INTO tbl_energy_storage_containers_firecontrols "
+                      "    (name, uuid, energy_storage_container_id, "
+                      "     inside_temperature_point_id, "
+                      "     outside_temperature_point_id, "
+                      "     temperature_alarm_point_id, "
+                      "     smoke_sensor_value_point_id, "
+                      "     smoke_sensor_alarm_point_id, "
+                      "     battery_safety_detection_sensor_value_point_id, "
+                      "     battery_safety_detection_sensor_alarm_point_id, "
+                      "     fire_extinguishing_device_status_point_id)"
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    id_,
+                                    inside_temperature_point_id,
+                                    outside_temperature_point_id,
+                                    temperature_alarm_point_id,
+                                    smoke_sensor_value_point_id,
+                                    smoke_sensor_alarm_point_id,
+                                    battery_safety_detection_sensor_value_point_id,
+                                    battery_safety_detection_sensor_alarm_point_id,
+                                    fire_extinguishing_device_status_point_id
+                                    ))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragecontainers/' + str(id_) + '/firecontrols/' + str(new_id)
+
+
+class EnergyStorageContainerFirecontrolItem:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, fid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_, fid):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+        if not fid.isdigit() or int(fid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_storage_containers ")
+        cursor.execute(query)
+        rows_energystoragecontainers = cursor.fetchall()
+
+        energy_storage_container_dict = dict()
+        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+            for row in rows_energystoragecontainers:
+                energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                         "name": row[1],
+                                                         "uuid": row[2]}
+
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        inside_temperature_point_id, "
+                 "        outside_temperature_point_id, "
+                 "        temperature_alarm_point_id, "
+                 "        smoke_sensor_value_point_id, "
+                 "        smoke_sensor_alarm_point_id, "
+                 "        battery_safety_detection_sensor_value_point_id, "
+                 "        battery_safety_detection_sensor_alarm_point_id, "
+                 "        fire_extinguishing_device_status_point_id "
+                 " FROM tbl_energy_storage_containers_firecontrols "
+                 " WHERE id = %s ")
+        cursor.execute(query, (fid,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "inside_temperature_point": point_dict.get(row[3]),
+                           "outside_temperature_point": point_dict.get(row[4]),
+                           "temperature_alarm_point": point_dict.get(row[5]),
+                           "smoke_sensor_value_point": point_dict.get(row[6]),
+                           "smoke_sensor_alarm_point": point_dict.get(row[7]),
+                           "battery_safety_detection_sensor_value_point": point_dict.get(row[8]),
+                           "battery_safety_detection_sensor_alarm_point": point_dict.get(row[9]),
+                           "fire_extinguishing_device_status_point": point_dict.get(row[10])
+                           }
+
+        resp.text = json.dumps(meta_result)
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, fid):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+        if not fid.isdigit() or int(fid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE id = %s ", (fid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE id = %s ", (fid,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_, fid):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        if not fid.isdigit() or int(fid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
+        name = str.strip(new_values['data']['name'])
+        inside_temperature_point_id = None
+        outside_temperature_point_id = None
+        temperature_alarm_point_id = None
+        smoke_sensor_value_point_id = None
+        smoke_sensor_alarm_point_id = None
+        battery_safety_detection_sensor_value_point_id = None
+        battery_safety_detection_sensor_alarm_point_id = None
+        fire_extinguishing_device_status_point_id = None
+
+        if 'inside_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['inside_temperature_point_id'], int) and \
+                new_values['data']['inside_temperature_point_id'] > 0:
+            inside_temperature_point_id = new_values['data']['inside_temperature_point_id']
+        if 'outside_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outside_temperature_point_id'], int) and \
+                new_values['data']['outside_temperature_point_id'] > 0:
+            outside_temperature_point_id = new_values['data']['outside_temperature_point_id']
+        if 'temperature_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_alarm_point_id'], int) and \
+                new_values['data']['temperature_alarm_point_id'] > 0:
+            temperature_alarm_point_id = new_values['data']['temperature_alarm_point_id']
+        if 'smoke_sensor_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['smoke_sensor_value_point_id'], int) and \
+                new_values['data']['smoke_sensor_value_point_id'] > 0:
+            smoke_sensor_value_point_id = new_values['data']['smoke_sensor_value_point_id']
+        if 'smoke_sensor_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['smoke_sensor_alarm_point_id'], int) and \
+                new_values['data']['smoke_sensor_alarm_point_id'] > 0:
+            smoke_sensor_alarm_point_id = new_values['data']['smoke_sensor_alarm_point_id']
+        if 'battery_safety_detection_sensor_value_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_safety_detection_sensor_value_point_id'], int) and \
+                new_values['data']['battery_safety_detection_sensor_value_point_id'] > 0:
+            battery_safety_detection_sensor_value_point_id = \
+                new_values['data']['battery_safety_detection_sensor_value_point_id']
+        if 'battery_safety_detection_sensor_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_safety_detection_sensor_alarm_point_id'], int) and \
+                new_values['data']['battery_safety_detection_sensor_alarm_point_id'] > 0:
+            battery_safety_detection_sensor_alarm_point_id = \
+                new_values['data']['battery_safety_detection_sensor_alarm_point_id']
+        if 'fire_extinguishing_device_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['fire_extinguishing_device_status_point_id'], int) and \
+                new_values['data']['fire_extinguishing_device_status_point_id'] > 0:
+            fire_extinguishing_device_status_point_id = \
+                new_values['data']['fire_extinguishing_device_status_point_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE id = %s ", (fid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_firecontrols "
+                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                       (id_, name, fid))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
+
+        update_row = (" UPDATE tbl_energy_storage_containers_firecontrols "
+                      " SET name = %s, "
+                      "     inside_temperature_point_id = %s, "
+                      "     outside_temperature_point_id = %s, "
+                      "     temperature_alarm_point_id = %s, "
+                      "     smoke_sensor_value_point_id = %s, "
+                      "     smoke_sensor_alarm_point_id = %s, "
+                      "     battery_safety_detection_sensor_value_point_id = %s, "
+                      "     battery_safety_detection_sensor_alarm_point_id = %s, "
+                      "     fire_extinguishing_device_status_point_id = %s "
+                      "     WHERE id = %s ")
+        cursor.execute(update_row, (name,
+                                    inside_temperature_point_id,
+                                    outside_temperature_point_id,
+                                    temperature_alarm_point_id,
+                                    smoke_sensor_value_point_id,
+                                    smoke_sensor_alarm_point_id,
+                                    battery_safety_detection_sensor_value_point_id,
+                                    battery_safety_detection_sensor_alarm_point_id,
+                                    fire_extinguishing_device_status_point_id,
+                                    fid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+
 class EnergyStorageContainerGridCollection:
     def __init__(self):
         """Initializes Class"""
@@ -2392,6 +2872,675 @@ class EnergyStorageContainerGridItem:
                                     active_energy_export_point_id,
                                     active_energy_net_point_id,
                                     gid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+
+class EnergyStorageContainerHVACCollection:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, "
+                 " working_status_point_id, "
+                 " indoor_fan_status_point_id, "
+                 " outdoor_fan_status_point_id, "
+                 " emergency_fan_status_point_id, "
+                 " compressor_status_point_id, "
+                 " electric_heating_status_point_id, "
+                 " coil_temperature_point_id, "
+                 " temperature_outside_point_id, "
+                 " temperature_inside_point_id, "
+                 " condensation_temperature_point_id, "
+                 " outlet_air_temperature_point_id, "
+                 " return_air_temperature_point_id, "
+                 " exhaust_temperature_point_id, "
+                 " heating_on_temperature_point_id, "
+                 " heating_off_temperature_point_id, "
+                 " cooling_on_temperature_point_id, "
+                 " cooling_off_temperature_point_id, "
+                 " high_temperature_alarm_set_point_id, "
+                 " low_temperature_alarm_set_point_id "
+                 " FROM tbl_energy_storage_containers_hvacs "
+                 " WHERE energy_storage_container_id = %s "
+                 " ORDER BY name ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "working_status_point": point_dict.get(row[3]),
+                               "indoor_fan_status_point": point_dict.get(row[4]),
+                               "outdoor_fan_status_point": point_dict.get(row[5]),
+                               "emergency_fan_status_point": point_dict.get(row[6]),
+                               "compressor_status_point": point_dict.get(row[7]),
+                               "electric_heating_status_point": point_dict.get(row[8]),
+                               "coil_temperature_point": point_dict.get(row[9]),
+                               "temperature_outside_point": point_dict.get(row[10]),
+                               "temperature_inside_point": point_dict.get(row[11]),
+                               "condensation_temperature_point": point_dict.get(row[12]),
+                               "outlet_air_temperature_point": point_dict.get(row[13]),
+                               "return_air_temperature_point": point_dict.get(row[14]),
+                               "exhaust_temperature_point": point_dict.get(row[15]),
+                               "heating_on_temperature_point": point_dict.get(row[16]),
+                               "heating_off_temperature_point": point_dict.get(row[17]),
+                               "cooling_on_temperature_point": point_dict.get(row[18]),
+                               "cooling_off_temperature_point": point_dict.get(row[19]),
+                               "high_temperature_alarm_set_point": point_dict.get(row[20]),
+                               "low_temperature_alarm_set_point": point_dict.get(row[21])
+                               }
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_NAME')
+        name = str.strip(new_values['data']['name'])
+
+        working_status_point_id = None
+        indoor_fan_status_point_id = None
+        outdoor_fan_status_point_id = None
+        emergency_fan_status_point_id = None
+        compressor_status_point_id = None
+        electric_heating_status_point_id = None
+        coil_temperature_point_id = None
+        temperature_outside_point_id = None
+        temperature_inside_point_id = None
+        condensation_temperature_point_id = None
+        outlet_air_temperature_point_id = None
+        return_air_temperature_point_id = None
+        exhaust_temperature_point_id = None
+        heating_on_temperature_point_id = None
+        heating_off_temperature_point_id = None
+        cooling_on_temperature_point_id = None
+        cooling_off_temperature_point_id = None
+        high_temperature_alarm_set_point_id = None
+        low_temperature_alarm_set_point_id = None
+
+        if 'working_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['working_status_point_id'], int) and \
+                new_values['data']['working_status_point_id'] > 0:
+            working_status_point_id = new_values['data']['working_status_point_id']
+        if 'indoor_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['indoor_fan_status_point_id'], int) and \
+                new_values['data']['indoor_fan_status_point_id'] > 0:
+            indoor_fan_status_point_id = new_values['data']['indoor_fan_status_point_id']
+        if 'outdoor_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outdoor_fan_status_point_id'], int) and \
+                new_values['data']['outdoor_fan_status_point_id'] > 0:
+            outdoor_fan_status_point_id = new_values['data']['outdoor_fan_status_point_id']
+        if 'emergency_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['emergency_fan_status_point_id'], int) and \
+                new_values['data']['emergency_fan_status_point_id'] > 0:
+            emergency_fan_status_point_id = new_values['data']['emergency_fan_status_point_id']
+        if 'compressor_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['compressor_status_point_id'], int) and \
+                new_values['data']['compressor_status_point_id'] > 0:
+            compressor_status_point_id = new_values['data']['compressor_status_point_id']
+        if 'electric_heating_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electric_heating_status_point_id'], int) and \
+                new_values['data']['electric_heating_status_point_id'] > 0:
+            electric_heating_status_point_id = new_values['data']['electric_heating_status_point_id']
+        if 'coil_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['coil_temperature_point_id'], int) and \
+                new_values['data']['coil_temperature_point_id'] > 0:
+            coil_temperature_point_id = new_values['data']['coil_temperature_point_id']
+        if 'temperature_outside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_outside_point_id'], int) and \
+                new_values['data']['temperature_outside_point_id'] > 0:
+            temperature_outside_point_id = new_values['data']['temperature_outside_point_id']
+        if 'temperature_inside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_inside_point_id'], int) and \
+                new_values['data']['temperature_inside_point_id'] > 0:
+            temperature_inside_point_id = new_values['data']['temperature_inside_point_id']
+        if 'condensation_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['condensation_temperature_point_id'], int) and \
+                new_values['data']['condensation_temperature_point_id'] > 0:
+            condensation_temperature_point_id = new_values['data']['condensation_temperature_point_id']
+        if 'outlet_air_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outlet_air_temperature_point_id'], int) and \
+                new_values['data']['outlet_air_temperature_point_id'] > 0:
+            outlet_air_temperature_point_id = new_values['data']['outlet_air_temperature_point_id']
+        if 'return_air_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['return_air_temperature_point_id'], int) and \
+                new_values['data']['return_air_temperature_point_id'] > 0:
+            return_air_temperature_point_id = new_values['data']['return_air_temperature_point_id']
+        if 'exhaust_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['exhaust_temperature_point_id'], int) and \
+                new_values['data']['exhaust_temperature_point_id'] > 0:
+            exhaust_temperature_point_id = new_values['data']['exhaust_temperature_point_id']
+        if 'heating_on_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_on_temperature_point_id'], int) and \
+                new_values['data']['heating_on_temperature_point_id'] > 0:
+            heating_on_temperature_point_id = new_values['data']['heating_on_temperature_point_id']
+        if 'heating_off_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_off_temperature_point_id'], int) and \
+                new_values['data']['heating_off_temperature_point_id'] > 0:
+            heating_off_temperature_point_id = new_values['data']['heating_off_temperature_point_id']
+        if 'cooling_on_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_on_temperature_point_id'], int) and \
+                new_values['data']['cooling_on_temperature_point_id'] > 0:
+            cooling_on_temperature_point_id = new_values['data']['cooling_on_temperature_point_id']
+        if 'cooling_off_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_off_temperature_point_id'], int) and \
+                new_values['data']['cooling_off_temperature_point_id'] > 0:
+            cooling_off_temperature_point_id = new_values['data']['cooling_off_temperature_point_id']
+        if 'high_temperature_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['high_temperature_alarm_set_point_id'], int) and \
+                new_values['data']['high_temperature_alarm_set_point_id'] > 0:
+            high_temperature_alarm_set_point_id = new_values['data']['high_temperature_alarm_set_point_id']
+
+        if 'low_temperature_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['low_temperature_alarm_set_point_id'], int) and \
+                new_values['data']['low_temperature_alarm_set_point_id'] > 0:
+            low_temperature_alarm_set_point_id = new_values['data']['low_temperature_alarm_set_point_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ",
+                       (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_hvacs "
+                       " WHERE energy_storage_container_id = %s AND name = %s ",
+                       (id_, name,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
+
+        add_values = (" INSERT INTO tbl_energy_storage_containers_hvacs "
+                      "    (name, uuid, energy_storage_container_id, "
+                      "     working_status_point_id, "
+                      "     indoor_fan_status_point_id, "
+                      "     outdoor_fan_status_point_id, "
+                      "     emergency_fan_status_point_id, "
+                      "     compressor_status_point_id, "
+                      "     electric_heating_status_point_id, "
+                      "     coil_temperature_point_id, "
+                      "     temperature_outside_point_id, "
+                      "     temperature_inside_point_id, "
+                      "     condensation_temperature_point_id, "
+                      "     outlet_air_temperature_point_id, "
+                      "     return_air_temperature_point_id, "
+                      "     exhaust_temperature_point_id, "
+                      "     heating_on_temperature_point_id, "
+                      "     heating_off_temperature_point_id, "
+                      "     cooling_on_temperature_point_id, "
+                      "     cooling_off_temperature_point_id, "
+                      "     high_temperature_alarm_set_point_id, "
+                      "     low_temperature_alarm_set_point_id) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s) ")
+        cursor.execute(add_values, (name,
+                                    str(uuid.uuid4()),
+                                    id_,
+                                    working_status_point_id,
+                                    indoor_fan_status_point_id,
+                                    outdoor_fan_status_point_id,
+                                    emergency_fan_status_point_id,
+                                    compressor_status_point_id,
+                                    electric_heating_status_point_id,
+                                    coil_temperature_point_id,
+                                    temperature_outside_point_id,
+                                    temperature_inside_point_id,
+                                    condensation_temperature_point_id,
+                                    outlet_air_temperature_point_id,
+                                    return_air_temperature_point_id,
+                                    exhaust_temperature_point_id,
+                                    heating_on_temperature_point_id,
+                                    heating_off_temperature_point_id,
+                                    cooling_on_temperature_point_id,
+                                    cooling_off_temperature_point_id,
+                                    high_temperature_alarm_set_point_id,
+                                    low_temperature_alarm_set_point_id
+                                    ))
+        new_id = cursor.lastrowid
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragecontainers/' + str(id_) + '/hvacs/' + str(new_id)
+
+
+class EnergyStorageContainerHVACItem:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, hid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_, hid):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+        if not hid.isdigit() or int(hid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_energy_storage_containers ")
+        cursor.execute(query)
+        rows_energystoragecontainers = cursor.fetchall()
+
+        energy_storage_container_dict = dict()
+        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+            for row in rows_energystoragecontainers:
+                energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                         "name": row[1],
+                                                         "uuid": row[2]}
+
+        # query point dict
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+
+        point_dict = dict()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        working_status_point_id, "
+                 "        indoor_fan_status_point_id, "
+                 "        outdoor_fan_status_point_id, "
+                 "        emergency_fan_status_point_id, "
+                 "        compressor_status_point_id, "
+                 "        electric_heating_status_point_id, "
+                 "        coil_temperature_point_id, "
+                 "        temperature_outside_point_id, "
+                 "        temperature_inside_point_id, "
+                 "        condensation_temperature_point_id, "
+                 "        outlet_air_temperature_point_id, "
+                 "        return_air_temperature_point_id, "
+                 "        exhaust_temperature_point_id, "
+                 "        heating_on_temperature_point_id, "
+                 "        heating_off_temperature_point_id, "
+                 "        cooling_on_temperature_point_id, "
+                 "        cooling_off_temperature_point_id, "
+                 "        high_temperature_alarm_set_point_id, "
+                 "        low_temperature_alarm_set_point_id "
+                 " FROM tbl_energy_storage_containers_hvacs "
+                 " WHERE id = %s ")
+        cursor.execute(query, (hid,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+        else:
+            meta_result = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "working_status_point": point_dict.get(row[3]),
+                           "indoor_fan_status_point": point_dict.get(row[4]),
+                           "outdoor_fan_status_point": point_dict.get(row[5]),
+                           "emergency_fan_status_point": point_dict.get(row[6]),
+                           "compressor_status_point": point_dict.get(row[7]),
+                           "electric_heating_status_point": point_dict.get(row[8]),
+                           "coil_temperature_point": point_dict.get(row[9]),
+                           "temperature_outside_point": point_dict.get(row[10]),
+                           "temperature_inside_point": point_dict.get(row[11]),
+                           "condensation_temperature_point": point_dict.get(row[12]),
+                           "outlet_air_temperature_point": point_dict.get(row[13]),
+                           "return_air_temperature_point": point_dict.get(row[14]),
+                           "exhaust_temperature_point": point_dict.get(row[15]),
+                           "heating_on_temperature_point": point_dict.get(row[16]),
+                           "heating_off_temperature_point": point_dict.get(row[17]),
+                           "cooling_on_temperature_point": point_dict.get(row[18]),
+                           "cooling_off_temperature_point": point_dict.get(row[19]),
+                           "high_temperature_alarm_set_point": point_dict.get(row[20]),
+                           "low_temperature_alarm_set_point": point_dict.get(row[21])
+                           }
+
+        resp.text = json.dumps(meta_result)
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, hid):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+        if not hid.isdigit() or int(hid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_hvacs "
+                       " WHERE id = %s ", (hid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
+                       " WHERE id = %s ", (hid,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_, hid):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        if not hid.isdigit() or int(hid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'name' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['name'], str) or \
+                len(str.strip(new_values['data']['name'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_NAME')
+        name = str.strip(new_values['data']['name'])
+        working_status_point_id = None
+        indoor_fan_status_point_id = None
+        outdoor_fan_status_point_id = None
+        emergency_fan_status_point_id = None
+        compressor_status_point_id = None
+        electric_heating_status_point_id = None
+        coil_temperature_point_id = None
+        temperature_outside_point_id = None
+        temperature_inside_point_id = None
+        condensation_temperature_point_id = None
+        outlet_air_temperature_point_id = None
+        return_air_temperature_point_id = None
+        exhaust_temperature_point_id = None
+        heating_on_temperature_point_id = None
+        heating_off_temperature_point_id = None
+        cooling_on_temperature_point_id = None
+        cooling_off_temperature_point_id = None
+        high_temperature_alarm_set_point_id = None
+        low_temperature_alarm_set_point_id = None
+
+        if 'working_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['working_status_point_id'], int) and \
+                new_values['data']['working_status_point_id'] > 0:
+            working_status_point_id = new_values['data']['working_status_point_id']
+        if 'indoor_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['indoor_fan_status_point_id'], int) and \
+                new_values['data']['indoor_fan_status_point_id'] > 0:
+            indoor_fan_status_point_id = new_values['data']['indoor_fan_status_point_id']
+        if 'outdoor_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outdoor_fan_status_point_id'], int) and \
+                new_values['data']['outdoor_fan_status_point_id'] > 0:
+            outdoor_fan_status_point_id = new_values['data']['outdoor_fan_status_point_id']
+        if 'emergency_fan_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['emergency_fan_status_point_id'], int) and \
+                new_values['data']['emergency_fan_status_point_id'] > 0:
+            emergency_fan_status_point_id = new_values['data']['emergency_fan_status_point_id']
+        if 'compressor_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['compressor_status_point_id'], int) and \
+                new_values['data']['compressor_status_point_id'] > 0:
+            compressor_status_point_id = new_values['data']['compressor_status_point_id']
+        if 'electric_heating_status_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electric_heating_status_point_id'], int) and \
+                new_values['data']['electric_heating_status_point_id'] > 0:
+            electric_heating_status_point_id = new_values['data']['electric_heating_status_point_id']
+        if 'coil_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['coil_temperature_point_id'], int) and \
+                new_values['data']['coil_temperature_point_id'] > 0:
+            coil_temperature_point_id = new_values['data']['coil_temperature_point_id']
+        if 'temperature_outside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_outside_point_id'], int) and \
+                new_values['data']['temperature_outside_point_id'] > 0:
+            temperature_outside_point_id = new_values['data']['temperature_outside_point_id']
+        if 'temperature_inside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['temperature_inside_point_id'], int) and \
+                new_values['data']['temperature_inside_point_id'] > 0:
+            temperature_inside_point_id = new_values['data']['temperature_inside_point_id']
+        if 'condensation_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['condensation_temperature_point_id'], int) and \
+                new_values['data']['condensation_temperature_point_id'] > 0:
+            condensation_temperature_point_id = new_values['data']['condensation_temperature_point_id']
+        if 'outlet_air_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['outlet_air_temperature_point_id'], int) and \
+                new_values['data']['outlet_air_temperature_point_id'] > 0:
+            outlet_air_temperature_point_id = new_values['data']['outlet_air_temperature_point_id']
+        if 'return_air_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['return_air_temperature_point_id'], int) and \
+                new_values['data']['return_air_temperature_point_id'] > 0:
+            return_air_temperature_point_id = new_values['data']['return_air_temperature_point_id']
+        if 'exhaust_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['exhaust_temperature_point_id'], int) and \
+                new_values['data']['exhaust_temperature_point_id'] > 0:
+            exhaust_temperature_point_id = new_values['data']['exhaust_temperature_point_id']
+        if 'heating_on_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_on_temperature_point_id'], int) and \
+                new_values['data']['heating_on_temperature_point_id'] > 0:
+            heating_on_temperature_point_id = new_values['data']['heating_on_temperature_point_id']
+        if 'heating_off_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_off_temperature_point_id'], int) and \
+                new_values['data']['heating_off_temperature_point_id'] > 0:
+            heating_off_temperature_point_id = new_values['data']['heating_off_temperature_point_id']
+        if 'cooling_on_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_on_temperature_point_id'], int) and \
+                new_values['data']['cooling_on_temperature_point_id'] > 0:
+            cooling_on_temperature_point_id = new_values['data']['cooling_on_temperature_point_id']
+        if 'cooling_off_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_off_temperature_point_id'], int) and \
+                new_values['data']['cooling_off_temperature_point_id'] > 0:
+            cooling_off_temperature_point_id = new_values['data']['cooling_off_temperature_point_id']
+        if 'high_temperature_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['high_temperature_alarm_set_point_id'], int) and \
+                new_values['data']['high_temperature_alarm_set_point_id'] > 0:
+            high_temperature_alarm_set_point_id = new_values['data']['high_temperature_alarm_set_point_id']
+
+        if 'low_temperature_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['low_temperature_alarm_set_point_id'], int) and \
+                new_values['data']['low_temperature_alarm_set_point_id'] > 0:
+            low_temperature_alarm_set_point_id = new_values['data']['low_temperature_alarm_set_point_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_hvacs "
+                       " WHERE id = %s ", (hid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_energy_storage_containers_hvacs "
+                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                       (id_, name, hid))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
+
+        update_row = (" UPDATE tbl_energy_storage_containers_hvacs "
+                      " SET name = %s, "
+                      "     working_status_point_id = %s, "
+                      "     indoor_fan_status_point_id = %s, "
+                      "     outdoor_fan_status_point_id = %s, "
+                      "     emergency_fan_status_point_id = %s, "
+                      "     compressor_status_point_id = %s, "
+                      "     electric_heating_status_point_id = %s, "
+                      "     coil_temperature_point_id = %s, "
+                      "     temperature_outside_point_id = %s, "
+                      "     temperature_inside_point_id = %s, "
+                      "     condensation_temperature_point_id = %s, "
+                      "     outlet_air_temperature_point_id = %s, "
+                      "     return_air_temperature_point_id = %s, "
+                      "     exhaust_temperature_point_id = %s, "
+                      "     heating_on_temperature_point_id = %s, "
+                      "     heating_off_temperature_point_id = %s, "
+                      "     cooling_on_temperature_point_id = %s, "
+                      "     cooling_off_temperature_point_id = %s, "
+                      "     high_temperature_alarm_set_point_id = %s, "
+                      "     low_temperature_alarm_set_point_id = %s "
+                      "     WHERE id = %s ")
+        cursor.execute(update_row, (name,
+                                    working_status_point_id,
+                                    indoor_fan_status_point_id,
+                                    outdoor_fan_status_point_id,
+                                    emergency_fan_status_point_id,
+                                    compressor_status_point_id,
+                                    electric_heating_status_point_id,
+                                    coil_temperature_point_id,
+                                    temperature_outside_point_id,
+                                    temperature_inside_point_id,
+                                    condensation_temperature_point_id,
+                                    outlet_air_temperature_point_id,
+                                    return_air_temperature_point_id,
+                                    exhaust_temperature_point_id,
+                                    heating_on_temperature_point_id,
+                                    heating_off_temperature_point_id,
+                                    cooling_on_temperature_point_id,
+                                    cooling_off_temperature_point_id,
+                                    high_temperature_alarm_set_point_id,
+                                    low_temperature_alarm_set_point_id,
+                                    hid))
         cnx.commit()
 
         cursor.close()

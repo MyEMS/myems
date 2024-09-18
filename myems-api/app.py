@@ -334,10 +334,18 @@ api.add_route('/energystoragecontainers/{id_}/batteries',
               energystoragecontainer.EnergyStorageContainerBatteryCollection())
 api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
               energystoragecontainer.EnergyStorageContainerBatteryItem())
+api.add_route('/energystoragecontainers/{id_}/firecontrols',
+              energystoragecontainer.EnergyStorageContainerFirecontrolCollection())
+api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}',
+              energystoragecontainer.EnergyStorageContainerFirecontrolItem())
 api.add_route('/energystoragecontainers/{id_}/grids',
               energystoragecontainer.EnergyStorageContainerGridCollection())
 api.add_route('/energystoragecontainers/{id_}/grids/{gid}',
               energystoragecontainer.EnergyStorageContainerGridItem())
+api.add_route('/energystoragecontainers/{id_}/hvacs',
+              energystoragecontainer.EnergyStorageContainerHVACCollection())
+api.add_route('/energystoragecontainers/{id_}/hvacs/{hid}',
+              energystoragecontainer.EnergyStorageContainerHVACItem())
 api.add_route('/energystoragecontainers/{id_}/loads',
               energystoragecontainer.EnergyStorageContainerLoadCollection())
 api.add_route('/energystoragecontainers/{id_}/loads/{lid}',
