@@ -36,8 +36,10 @@ import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
-import PCSDetails from './PCSDetails';
 import BMSDetails from './BMSDetails';
+import FirecontrolDetails from './FirecontrolDetails';
+import PCSDetails from './PCSDetails';
+import HVACDetails from './HVACDetails';
 import MeterDetails from './MeterDetails';
 
 
@@ -133,8 +135,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
-  const [PCSDetailsList, setPCSDetailsList] = useState([]);
+
   const [BMSDetailsList, setBMSDetailsList] = useState([]);
+  const [FirecontrolDetailsList, setFirecontrolDetailsList] = useState([]);
+  const [HVACDetailsList, setHVACDetailsList] = useState([]);
+  const [PCSDetailsList, setPCSDetailsList] = useState([]);
   const [MeterDetailsList, setMeterDetailsList] = useState([]);
 
 
@@ -447,7 +452,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }, 1000 * 10);
 
   // PCS
-  const fetchPCSDetails = url => {
+  const fetchPCSDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailspcs?id=' + selectedStation
     console.log('fetchPCSDetails with url:' + url);
 
     let isResponseOK = false;
@@ -480,7 +486,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   }
   // BMS
-  const fetchBMSDetails = url => {
+  const fetchBMSDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsbms?id=' + selectedStation
     console.log('fetchBMSDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
@@ -512,16 +519,76 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   }
   // Meters
-  const fetchMetersData = url => {
-    console.log('fetchMetersData with url:' + url);
+  const fetchMetersDetails = () => {
+    // todo
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsmeters?id=' + selectedStation
+    console.log('fetchMetersDetails with url:' + url);
   }
   // HVAC
-  const fetchHVACData = url => {
-    console.log('fetchHVACData with url:' + url);
+  const fetchHVACDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailshvac?id=' + selectedStation
+    console.log('fetchHVACDetails with url:' + url);
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setHVACDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   // Fire Control
-  const fetchFireControlData = url => {
-    console.log('fetchFireControlData with url:' + url);
+  const fetchFireControlDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsfirecontrol?id=' + selectedStation
+    console.log('fetchFireControlDetails with url:' + url);
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setFirecontrolDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   return (
@@ -822,8 +889,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
                 setActiveTabBottom('4');
-                //PCS
-                fetchPCSDetails(APIBaseURL + '/reports/energystoragepowerstationdetailspcs?id=' + selectedStation)
+                fetchPCSDetails()
               }}
             >
               <h6>PCS</h6>
@@ -835,7 +901,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '5' })}
               onClick={() => {
                 setActiveTabBottom('5');
-                fetchBMSDetails(APIBaseURL + '/reports/energystoragepowerstationdetailsbms?id=' + selectedStation)
+                fetchBMSDetails();
               }}
             >
               <h6>BMS</h6>
@@ -847,7 +913,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '6' })}
               onClick={() => {
                 setActiveTabBottom('6');
-                fetchMetersData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
+                fetchMetersDetails();
               }}
             >
               <h6>电表</h6>
@@ -859,7 +925,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '7' })}
               onClick={() => {
                 setActiveTabBottom('7');
-                fetchHVACData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
+                fetchHVACDetails();
               }}
             >
               <h6>空调</h6>
@@ -871,7 +937,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '8' })}
               onClick={() => {
                 setActiveTabBottom('8');
-                fetchFireControlData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation)
+                fetchFireControlDetails();
               }}
             >
               <h6>消防</h6>
@@ -974,78 +1040,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             />
           </TabPane>
           <TabPane tabId="7">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>空调#1</th>
-                      <th>工作状态: 运行</th>
-                      <th>室内风机: 停机</th>
-                      <th>室外风机: 停机</th>
-                      <th>应急风机: -</th>
-                      <th>压缩机: -</th>
-                      <th>电加热: -</th>
-                    </tr>
-                  </thead>
-                </Table>
-                <Table striped className="border-bottom">
-
-                  <tbody>
-                    <tr>
-                      <td>电流: -</td>
-                      <td>盘管温度: 35.6 ℃</td>
-                      <td>出风温度: -</td>
-                      <td>制热开启温度: -</td>
-                      <td>高温告警温度: -</td>
-                    </tr>
-                    <tr>
-                      <td>交流电压: -</td>
-                      <td>柜外温度: -</td>
-                      <td>回风温度: 34.3 ℃</td>
-                      <td>制热关闭温度: -</td>
-                      <td>低温告警温度: -</td>
-                    </tr>
-                    <tr>
-                      <td>直流电压: -</td>
-                      <td>柜内温度: -</td>
-                      <td>排气温度: -</td>
-                      <td>制冷开启温度: -</td>
-                      <td>高温告警点: -</td>
-                    </tr>
-                    <tr>
-                      <td>-</td>
-                      <td>冷凝温度: 36.3 ℃</td>
-                      <td>柜内温度: -</td>
-                      <td>制冷关闭温度: -</td>
-                      <td>-</td>
-                    </tr>
-                  </tbody>
-                </Table>
-
-              </CardBody>
-            </Card>
+          {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="8">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <tbody>
-                    <tr>
-                      <td>消防故障等级: -</td>
-                      <td>消防火警等级: -</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>电池箱内异常气体浓度: -ppm</td>
-                      <td>电池箱内环境温度: -℃</td>
-                      <td>电池箱内火焰: -</td>
-                    </tr>
-                  </tbody>
-                </Table>
-
-              </CardBody>
-            </Card>
+          {isIterableArray(FirecontrolDetailsList) && FirecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
           </TabPane>
         </TabContent>
       </div>

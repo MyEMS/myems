@@ -495,7 +495,7 @@ export const energyStoragePowerStationRoutes = {
 export const workOrderRoutes = {
   name: 'Work Order',
   to: '/workorder',
-  icon: 'building',
+  icon: 'tools',
   children: [
     { to: '/workorder/installation', name: 'Work Order Installation' },
     { to: '/workorder/repair', name: 'Work Order Repair' },
