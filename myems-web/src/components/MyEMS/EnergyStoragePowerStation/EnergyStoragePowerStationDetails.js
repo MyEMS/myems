@@ -41,6 +41,7 @@ import FirecontrolDetails from './FirecontrolDetails';
 import PCSDetails from './PCSDetails';
 import HVACDetails from './HVACDetails';
 import MeterDetails from './MeterDetails';
+import DeviceStatusDetails from './DeviceStatusDetails';
 
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
@@ -113,6 +114,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
   const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
+  const [gatewayStatus, setGatewayStatus] = useState();
+  const [PCSStatus, setPCSStatus] = useState();
+  const [BMSStatus, setBMSStatus] = useState();
+  const [HVACStatus, setHVACStatus] = useState();
+  const [gridMeterStatus, setGridMeterStatus] = useState();
+  const [loadMeterStatus, setLoadMeterStatus] = useState();
 
 
   const [todayChargeEnergyValue, setTodayChargeEnergyValue] = useState();
@@ -137,10 +144,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
 
   const [BMSDetailsList, setBMSDetailsList] = useState([]);
-  const [FirecontrolDetailsList, setFirecontrolDetailsList] = useState([]);
+  const [firecontrolDetailsList, setFirecontrolDetailsList] = useState([]);
   const [HVACDetailsList, setHVACDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
-  const [MeterDetailsList, setMeterDetailsList] = useState([]);
+  const [meterDetailsList, setMeterDetailsList] = useState([]);
 
 
   useEffect(() => {
@@ -520,9 +527,38 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }
   // Meters
   const fetchMetersDetails = () => {
-    // todo
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsmeters?id=' + selectedStation
+
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsmeter?id=' + selectedStation
     console.log('fetchMetersDetails with url:' + url);
+
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setMeterDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   // HVAC
   const fetchHVACDetails = () => {
@@ -686,27 +722,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <Table borderless className="fs--1 mb-0">
                         <tbody>
                           <tr className="border-bottom">
-                            <th className="pl-0">今日充电量</th>
+                            <th className="pl-0">{t("Today's Charge")}</th>
                             <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0">今日放电量</th>
+                            <th className="pl-0">{t("Today's Discharge")}</th>
                             <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计充电量</th>
+                            <th className="pl-0 pb-0">{t("Total Charge")}</th>
                             <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计放电量</th>
+                            <th className="pl-0 pb-0">{t("Total Disharge")}</th>
                             <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">综合效率</th>
+                            <th className="pl-0 pb-0">{t("Total Efficiency")}</th>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">放电达成率</th>
+                            <th className="pl-0 pb-0">{t("Discharge Rchievement Rate")}</th>
                             <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / energyStoragePowerStationRatedCapacity).toFixed(2)}%</th>
                           </tr>
                         </tbody>
@@ -722,27 +758,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       <Table borderless className="fs--1 mb-0">
                         <tbody>
                           <tr className="border-bottom">
-                            <th className="pl-0">今日成本</th>
+                            <th className="pl-0">{t("Today's Cost")}</th>
                             <th className="pr-0 text-right">{todayChargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0">今日收入</th>
+                            <th className="pl-0">{t("Today's Income")}</th>
                             <th className="pr-0 text-right ">{todayDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计成本</th>
+                            <th className="pl-0 pb-0">{t("Total Cost")}</th>
                             <th className="pr-0 text-right">{totalChargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计收入</th>
+                            <th className="pl-0 pb-0">{t("Total Income")}</th>
                             <th className="pr-0 text-right">{totalDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">今日盈利</th>
+                            <th className="pl-0 pb-0">{t("Today's Revenue")}</th>
                             <th className="pr-0 text-right">{(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">累计盈利</th>
+                            <th className="pl-0 pb-0">{t("Total Revenue")}</th>
                             <th className="pr-0 text-right">{(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} 元</th>
                           </tr>
                         </tbody>
@@ -765,7 +801,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     toggleTabRight('1');
                   }}
                 >
-                  <h6>设备状态</h6>
+                  <h6>{t('Device Status')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -775,46 +811,21 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     toggleTabRight('2');
                   }}
                 >
-                  <h6>电站信息</h6>
+                  <h6>{t("Baisc Information")}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
             <TabContent activeTab={activeTabRight}>
               <TabPane tabId="1">
-                <Card className="mb-3 fs--1">
-                  <Fragment>
-                    <CardBody className="pt-0">
-                      <Table borderless className="fs--1 mb-0">
-                        <tbody>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">通信网关</th>
-                            <th className="pr-0 text-right">正常</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0">1#PCS</th>
-                            <th className="pr-0 text-right">正常</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0">1#电池堆</th>
-                            <th className="pr-0 text-right ">正常</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">1#空调</th>
-                            <th className="pr-0 text-right">正常</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">1#网关表</th>
-                            <th className="pr-0 text-right">正常</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">1#用户表</th>
-                            <th className="pr-0 text-right">正常</th>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </CardBody>
-                  </Fragment>
-                </Card>
+                <DeviceStatusDetails
+                  id={selectedStation}
+                  gatewayStatus={gatewayStatus}
+                  PCSStatus={PCSStatus}
+                  BMSStatus={BMSStatus}
+                  HVACStatus={HVACStatus}
+                  gridMeterStatus={gridMeterStatus}
+                  loadMeterStatus={loadMeterStatus}
+                />
               </TabPane>
               <TabPane tabId="2">
                 <Card className="mb-3 fs--1">
@@ -916,7 +927,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchMetersDetails();
               }}
             >
-              <h6>电表</h6>
+              <h6>{t('Meter')}</h6>
             </NavLink>
           </NavItem>
 
@@ -928,7 +939,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchHVACDetails();
               }}
             >
-              <h6>空调</h6>
+              <h6>{t('HVAC')}</h6>
             </NavLink>
           </NavItem>
 
@@ -940,7 +951,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchFireControlDetails();
               }}
             >
-              <h6>消防</h6>
+              <h6>{t('Fire Control')}</h6>
             </NavLink>
           </NavItem>
         </Nav>
@@ -1035,15 +1046,13 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="6">
-            <MeterDetails
-
-            />
+            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="7">
-          {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
+            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="8">
-          {isIterableArray(FirecontrolDetailsList) && FirecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
+            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
           </TabPane>
         </TabContent>
       </div>

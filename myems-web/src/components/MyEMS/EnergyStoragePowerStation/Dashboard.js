@@ -438,7 +438,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('1');
                   }}
                 >
-                  <h6>充电能量指标</h6>
+                  <h6>{t('Charge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -448,7 +448,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('2');
                   }}
                 >
-                  <h6>放电能量指标</h6>
+                  <h6>{t('Discharge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -458,7 +458,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('3');
                   }}
                 >
-                  <h6>充电成本指标</h6>
+                  <h6>{t('Charge Cost Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -468,7 +468,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('4');
                   }}
                 >
-                  <h6>放电收益指标</h6>
+                  <h6>{t('Discharge Revenue Indicator')}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
