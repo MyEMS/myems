@@ -29,8 +29,7 @@ class Reporting:
     # Step 7: query associated power conversion systems on containers
     #     Step 7.1 query energy indicator data
     #     Step 7.2 query revenue indicator data
-    # Step 9: query associated sensors on containers
-    # Step 10: query associated points data on containers
+    # Step 8: query associated points data on containers
     # Step 11: construct the report
     ####################################################################################################################
     @staticmethod
@@ -479,13 +478,9 @@ class Reporting:
                                       "peak_type": peak_type,
                                       "power": row_schedule[3]})
             print('schedule_list:' + str(schedule_list))
-        ################################################################################################################
-        # Step 9: query associated sensors on containers
-        ################################################################################################################
-        # todo
 
         ################################################################################################################
-        # Step 10: query associated points data on containers
+        # Step 8: query associated points data on containers
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
