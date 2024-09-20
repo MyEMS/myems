@@ -15,7 +15,6 @@ const PCSDetails = ({
   today_discharge_energy_point,
   total_charge_energy_point,
   total_discharge_energy_point,
-  working_status_point,
   grid_connection_status_point,
   device_status_point,
   control_mode_point,
@@ -68,7 +67,7 @@ const PCSDetails = ({
           <thead>
             <tr>
               <th>{name}</th>
-              <th>工作状态: {working_status_point}</th>
+              <th>运行状态: {run_state_point}</th>
               <th>并网状态: {grid_connection_status_point}</th>
               <th>设备状态: {device_status_point}</th>
               <th>控制模式: {control_mode_point}</th>
@@ -102,16 +101,16 @@ const PCSDetails = ({
               <td>B相视在功率: {phase_b_apparent_power_point} kVA</td>
             </tr>
             <tr>
-              <td>交流频率: {ac_frequency_point} Hz</td>
+            <td>总充电量: {total_charge_energy_point} kWh</td>
               <td>总交流视在功率: {total_ac_apparent_power_point} kVA</td>
               <td>C相有功功率: {phase_c_active_power_point} kW</td>
               <td>C相无功功率: {phase_c_reactive_power_point} kvar</td>
               <td>C相视在功率: {phase_c_apparent_power_point} kVA</td>
             </tr>
             <tr>
-              <td></td>
+              <td>总放电量: {total_discharge_energy_point} kWh</td>
               <td>总交流功率因数: {total_ac_power_factor_point}</td>
-              <td></td>
+              <td>交流频率: {ac_frequency_point} Hz</td>
               <td></td>
               <td></td>
             </tr>
@@ -208,7 +207,6 @@ PCSDetails.propTypes = {
   today_discharge_energy_point: PropTypes.number,
   total_charge_energy_point: PropTypes.number,
   total_discharge_energy_point: PropTypes.number,
-  working_status_point: PropTypes.number,
   grid_connection_status_point: PropTypes.number,
   device_status_point: PropTypes.number,
   control_mode_point: PropTypes.number,

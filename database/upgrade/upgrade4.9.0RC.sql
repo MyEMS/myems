@@ -208,9 +208,6 @@ ADD `device_status_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`
 ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems
 ADD `grid_connection_status_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
 
-ALTER TABLE myems_system_db.tbl_energy_storage_containers_power_conversion_systems
-ADD `working_status_point_id` BIGINT NULL AFTER `total_discharge_energy_point_id`;
-
 CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_space_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `space_id` BIGINT NOT NULL,
