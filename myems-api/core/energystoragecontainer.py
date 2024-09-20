@@ -4368,7 +4368,6 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                  "        today_discharge_energy_point_id, "
                  "        total_charge_energy_point_id, "
                  "        total_discharge_energy_point_id, "
-                 "        working_status_point_id, "
                  "        grid_connection_status_point_id, "
                  "        device_status_point_id, "
                  "        control_mode_point_id, "
@@ -4429,49 +4428,48 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                "today_discharge_energy_point": point_dict.get(row[6]),
                                "total_charge_energy_point": point_dict.get(row[7]),
                                "total_discharge_energy_point": point_dict.get(row[8]),
-                               "working_status_point": point_dict.get(row[9]),
-                               "grid_connection_status_point": point_dict.get(row[10]),
-                               "device_status_point": point_dict.get(row[11]),
-                               "control_mode_point": point_dict.get(row[12]),
-                               "total_ac_active_power_point": point_dict.get(row[13]),
-                               "total_ac_reactive_power_point": point_dict.get(row[14]),
-                               "total_ac_apparent_power_point": point_dict.get(row[15]),
-                               "total_ac_power_factor_point": point_dict.get(row[16]),
-                               "ac_frequency_point": point_dict.get(row[17]),
-                               "phase_a_active_power_point": point_dict.get(row[18]),
-                               "phase_b_active_power_point": point_dict.get(row[19]),
-                               "phase_c_active_power_point": point_dict.get(row[20]),
-                               "phase_a_reactive_power_point": point_dict.get(row[21]),
-                               "phase_b_reactive_power_point": point_dict.get(row[22]),
-                               "phase_c_reactive_power_point": point_dict.get(row[23]),
-                               "phase_a_apparent_power_point": point_dict.get(row[24]),
-                               "phase_b_apparent_power_point": point_dict.get(row[25]),
-                               "phase_c_apparent_power_point": point_dict.get(row[26]),
-                               "ab_voltage_point": point_dict.get(row[27]),
-                               "bc_voltage_point": point_dict.get(row[28]),
-                               "ca_voltage_point": point_dict.get(row[29]),
-                               "ab_current_point": point_dict.get(row[30]),
-                               "bc_current_point": point_dict.get(row[31]),
-                               "ca_current_point": point_dict.get(row[32]),
-                               "phase_a_voltage_point": point_dict.get(row[33]),
-                               "phase_b_voltage_point": point_dict.get(row[34]),
-                               "phase_c_voltage_point": point_dict.get(row[35]),
-                               "phase_a_current_point": point_dict.get(row[36]),
-                               "phase_b_current_point": point_dict.get(row[37]),
-                               "phase_c_current_point": point_dict.get(row[38]),
-                               "pcs_module_temperature_point": point_dict.get(row[39]),
-                               "pcs_ambient_temperature_point": point_dict.get(row[40]),
-                               "a1_module_temperature_point": point_dict.get(row[41]),
-                               "b1_module_temperature_point": point_dict.get(row[42]),
-                               "c1_module_temperature_point": point_dict.get(row[43]),
-                               "a2_module_temperature_point": point_dict.get(row[44]),
-                               "b2_module_temperature_point": point_dict.get(row[45]),
-                               "c2_module_temperature_point": point_dict.get(row[46]),
-                               "air_inlet_temperature_point": point_dict.get(row[47]),
-                               "air_outlet_temperature_point": point_dict.get(row[48]),
-                               "dc_power_point": point_dict.get(row[49]),
-                               "dc_voltage_point": point_dict.get(row[50]),
-                               "dc_current_point": point_dict.get(row[51])
+                               "grid_connection_status_point": point_dict.get(row[9]),
+                               "device_status_point": point_dict.get(row[10]),
+                               "control_mode_point": point_dict.get(row[11]),
+                               "total_ac_active_power_point": point_dict.get(row[12]),
+                               "total_ac_reactive_power_point": point_dict.get(row[13]),
+                               "total_ac_apparent_power_point": point_dict.get(row[14]),
+                               "total_ac_power_factor_point": point_dict.get(row[15]),
+                               "ac_frequency_point": point_dict.get(row[16]),
+                               "phase_a_active_power_point": point_dict.get(row[17]),
+                               "phase_b_active_power_point": point_dict.get(row[18]),
+                               "phase_c_active_power_point": point_dict.get(row[19]),
+                               "phase_a_reactive_power_point": point_dict.get(row[20]),
+                               "phase_b_reactive_power_point": point_dict.get(row[21]),
+                               "phase_c_reactive_power_point": point_dict.get(row[22]),
+                               "phase_a_apparent_power_point": point_dict.get(row[23]),
+                               "phase_b_apparent_power_point": point_dict.get(row[24]),
+                               "phase_c_apparent_power_point": point_dict.get(row[25]),
+                               "ab_voltage_point": point_dict.get(row[26]),
+                               "bc_voltage_point": point_dict.get(row[27]),
+                               "ca_voltage_point": point_dict.get(row[28]),
+                               "ab_current_point": point_dict.get(row[29]),
+                               "bc_current_point": point_dict.get(row[30]),
+                               "ca_current_point": point_dict.get(row[31]),
+                               "phase_a_voltage_point": point_dict.get(row[32]),
+                               "phase_b_voltage_point": point_dict.get(row[33]),
+                               "phase_c_voltage_point": point_dict.get(row[34]),
+                               "phase_a_current_point": point_dict.get(row[35]),
+                               "phase_b_current_point": point_dict.get(row[36]),
+                               "phase_c_current_point": point_dict.get(row[37]),
+                               "pcs_module_temperature_point": point_dict.get(row[38]),
+                               "pcs_ambient_temperature_point": point_dict.get(row[39]),
+                               "a1_module_temperature_point": point_dict.get(row[40]),
+                               "b1_module_temperature_point": point_dict.get(row[41]),
+                               "c1_module_temperature_point": point_dict.get(row[42]),
+                               "a2_module_temperature_point": point_dict.get(row[43]),
+                               "b2_module_temperature_point": point_dict.get(row[44]),
+                               "c2_module_temperature_point": point_dict.get(row[45]),
+                               "air_inlet_temperature_point": point_dict.get(row[46]),
+                               "air_outlet_temperature_point": point_dict.get(row[47]),
+                               "dc_power_point": point_dict.get(row[48]),
+                               "dc_voltage_point": point_dict.get(row[49]),
+                               "dc_current_point": point_dict.get(row[50])
                                }
                 result.append(meta_result)
 
@@ -4531,7 +4529,6 @@ class EnergyStorageContainerPowerconversionsystemCollection:
         today_discharge_energy_point_id = None
         total_charge_energy_point_id = None
         total_discharge_energy_point_id = None
-        working_status_point_id = None
         grid_connection_status_point_id = None
         device_status_point_id = None
         control_mode_point_id = None
@@ -4594,11 +4591,6 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                 isinstance(new_values['data']['total_discharge_energy_point_id'], int) and \
                 new_values['data']['total_discharge_energy_point_id'] > 0:
             total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
-
-        if 'working_status_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['working_status_point_id'], int) and \
-                new_values['data']['working_status_point_id'] > 0:
-            working_status_point_id = new_values['data']['working_status_point_id']
 
         if 'grid_connection_status_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['grid_connection_status_point_id'], int) and \
@@ -4839,7 +4831,6 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                       "      today_discharge_energy_point_id,"
                       "      total_charge_energy_point_id, "
                       "      total_discharge_energy_point_id, "
-                      "      working_status_point_id, "
                       "      grid_connection_status_point_id, "
                       "      device_status_point_id, "
                       "      control_mode_point_id, "
@@ -4883,11 +4874,11 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                       "      dc_voltage_point_id, "
                       "      dc_current_point_id) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " 
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s) ")
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -4897,7 +4888,6 @@ class EnergyStorageContainerPowerconversionsystemCollection:
                                     today_discharge_energy_point_id,
                                     total_charge_energy_point_id,
                                     total_discharge_energy_point_id,
-                                    working_status_point_id,
                                     grid_connection_status_point_id,
                                     device_status_point_id,
                                     control_mode_point_id,
@@ -5032,7 +5022,6 @@ class EnergyStorageContainerPowerconversionsystemItem:
                  "        today_discharge_energy_point_id, "
                  "        total_charge_energy_point_id, "
                  "        total_discharge_energy_point_id, "
-                 "        working_status_point_id, "
                  "        grid_connection_status_point_id, "
                  "        device_status_point_id, "
                  "        control_mode_point_id, "
@@ -5096,49 +5085,48 @@ class EnergyStorageContainerPowerconversionsystemItem:
                            "today_discharge_energy_point": point_dict.get(row[7]),
                            "total_charge_energy_point": point_dict.get(row[8]),
                            "total_discharge_energy_point": point_dict.get(row[9]),
-                           "working_status_point": point_dict.get(row[10]),
-                           "grid_connection_status_point": point_dict.get(row[11]),
-                           "device_status_point": point_dict.get(row[12]),
-                           "control_mode_point": point_dict.get(row[13]),
-                           "total_ac_active_power_point": point_dict.get(row[14]),
-                           "total_ac_reactive_power_point": point_dict.get(row[15]),
-                           "total_ac_apparent_power_point": point_dict.get(row[16]),
-                           "total_ac_power_factor_point": point_dict.get(row[17]),
-                           "ac_frequency_point": point_dict.get(row[18]),
-                           "phase_a_active_power_point": point_dict.get(row[19]),
-                           "phase_b_active_power_point": point_dict.get(row[20]),
-                           "phase_c_active_power_point": point_dict.get(row[21]),
-                           "phase_a_reactive_power_point": point_dict.get(row[22]),
-                           "phase_b_reactive_power_point": point_dict.get(row[23]),
-                           "phase_c_reactive_power_point": point_dict.get(row[24]),
-                           "phase_a_apparent_power_point": point_dict.get(row[25]),
-                           "phase_b_apparent_power_point": point_dict.get(row[26]),
-                           "phase_c_apparent_power_point": point_dict.get(row[27]),
-                           "ab_voltage_point": point_dict.get(row[28]),
-                           "bc_voltage_point": point_dict.get(row[29]),
-                           "ca_voltage_point": point_dict.get(row[30]),
-                           "ab_current_point": point_dict.get(row[31]),
-                           "bc_current_point": point_dict.get(row[32]),
-                           "ca_current_point": point_dict.get(row[33]),
-                           "phase_a_voltage_point": point_dict.get(row[34]),
-                           "phase_b_voltage_point": point_dict.get(row[35]),
-                           "phase_c_voltage_point": point_dict.get(row[36]),
-                           "phase_a_current_point": point_dict.get(row[37]),
-                           "phase_b_current_point": point_dict.get(row[38]),
-                           "phase_c_current_point": point_dict.get(row[39]),
-                           "pcs_module_temperature_point": point_dict.get(row[40]),
-                           "pcs_ambient_temperature_point": point_dict.get(row[41]),
-                           "a1_module_temperature_point": point_dict.get(row[42]),
-                           "b1_module_temperature_point": point_dict.get(row[43]),
-                           "c1_module_temperature_point": point_dict.get(row[44]),
-                           "a2_module_temperature_point": point_dict.get(row[45]),
-                           "b2_module_temperature_point": point_dict.get(row[46]),
-                           "c2_module_temperature_point": point_dict.get(row[47]),
-                           "air_inlet_temperature_point": point_dict.get(row[48]),
-                           "air_outlet_temperature_point": point_dict.get(row[49]),
-                           "dc_power_point": point_dict.get(row[50]),
-                           "dc_voltage_point": point_dict.get(row[51]),
-                           "dc_current_point": point_dict.get(row[52])
+                           "grid_connection_status_point": point_dict.get(row[10]),
+                           "device_status_point": point_dict.get(row[11]),
+                           "control_mode_point": point_dict.get(row[12]),
+                           "total_ac_active_power_point": point_dict.get(row[13]),
+                           "total_ac_reactive_power_point": point_dict.get(row[14]),
+                           "total_ac_apparent_power_point": point_dict.get(row[15]),
+                           "total_ac_power_factor_point": point_dict.get(row[16]),
+                           "ac_frequency_point": point_dict.get(row[17]),
+                           "phase_a_active_power_point": point_dict.get(row[18]),
+                           "phase_b_active_power_point": point_dict.get(row[19]),
+                           "phase_c_active_power_point": point_dict.get(row[20]),
+                           "phase_a_reactive_power_point": point_dict.get(row[21]),
+                           "phase_b_reactive_power_point": point_dict.get(row[22]),
+                           "phase_c_reactive_power_point": point_dict.get(row[23]),
+                           "phase_a_apparent_power_point": point_dict.get(row[24]),
+                           "phase_b_apparent_power_point": point_dict.get(row[25]),
+                           "phase_c_apparent_power_point": point_dict.get(row[26]),
+                           "ab_voltage_point": point_dict.get(row[27]),
+                           "bc_voltage_point": point_dict.get(row[28]),
+                           "ca_voltage_point": point_dict.get(row[29]),
+                           "ab_current_point": point_dict.get(row[30]),
+                           "bc_current_point": point_dict.get(row[31]),
+                           "ca_current_point": point_dict.get(row[32]),
+                           "phase_a_voltage_point": point_dict.get(row[33]),
+                           "phase_b_voltage_point": point_dict.get(row[34]),
+                           "phase_c_voltage_point": point_dict.get(row[35]),
+                           "phase_a_current_point": point_dict.get(row[36]),
+                           "phase_b_current_point": point_dict.get(row[37]),
+                           "phase_c_current_point": point_dict.get(row[38]),
+                           "pcs_module_temperature_point": point_dict.get(row[39]),
+                           "pcs_ambient_temperature_point": point_dict.get(row[40]),
+                           "a1_module_temperature_point": point_dict.get(row[41]),
+                           "b1_module_temperature_point": point_dict.get(row[42]),
+                           "c1_module_temperature_point": point_dict.get(row[43]),
+                           "a2_module_temperature_point": point_dict.get(row[44]),
+                           "b2_module_temperature_point": point_dict.get(row[45]),
+                           "c2_module_temperature_point": point_dict.get(row[46]),
+                           "air_inlet_temperature_point": point_dict.get(row[47]),
+                           "air_outlet_temperature_point": point_dict.get(row[48]),
+                           "dc_power_point": point_dict.get(row[49]),
+                           "dc_voltage_point": point_dict.get(row[50]),
+                           "dc_current_point": point_dict.get(row[51])
                            }
 
         resp.text = json.dumps(meta_result)
@@ -5229,7 +5217,6 @@ class EnergyStorageContainerPowerconversionsystemItem:
         today_discharge_energy_point_id = None
         total_charge_energy_point_id = None
         total_discharge_energy_point_id = None
-        working_status_point_id = None
         grid_connection_status_point_id = None
         device_status_point_id = None
         control_mode_point_id = None
@@ -5292,11 +5279,6 @@ class EnergyStorageContainerPowerconversionsystemItem:
                 isinstance(new_values['data']['total_discharge_energy_point_id'], int) and \
                 new_values['data']['total_discharge_energy_point_id'] > 0:
             total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
-
-        if 'working_status_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['working_status_point_id'], int) and \
-                new_values['data']['working_status_point_id'] > 0:
-            working_status_point_id = new_values['data']['working_status_point_id']
 
         if 'grid_connection_status_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['grid_connection_status_point_id'], int) and \
@@ -5546,7 +5528,6 @@ class EnergyStorageContainerPowerconversionsystemItem:
                       "     today_discharge_energy_point_id = %s, "
                       "     total_charge_energy_point_id = %s, "
                       "     total_discharge_energy_point_id = %s, "
-                      "     working_status_point_id = %s, "
                       "     grid_connection_status_point_id = %s, "
                       "     device_status_point_id = %s, "
                       "     control_mode_point_id = %s, "
@@ -5598,7 +5579,6 @@ class EnergyStorageContainerPowerconversionsystemItem:
                                     today_discharge_energy_point_id,
                                     total_charge_energy_point_id,
                                     total_discharge_energy_point_id,
-                                    working_status_point_id,
                                     grid_connection_status_point_id,
                                     device_status_point_id,
                                     control_mode_point_id,

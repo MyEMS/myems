@@ -516,7 +516,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   `today_discharge_energy_point_id` BIGINT NULL,
   `total_charge_energy_point_id` BIGINT NULL,
   `total_discharge_energy_point_id` BIGINT NULL,
-  `working_status_point_id` BIGINT NULL,
   `grid_connection_status_point_id` BIGINT NULL,
   `device_status_point_id` BIGINT NULL,
   `control_mode_point_id` BIGINT NULL,
