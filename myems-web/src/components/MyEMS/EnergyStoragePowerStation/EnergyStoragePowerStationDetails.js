@@ -24,7 +24,6 @@ import {
 import Cascader from 'rc-cascader';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -36,6 +35,7 @@ import { useLocation } from 'react-router-dom';
 import Datetime from 'react-datetime';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
+import ScheduleDetails from './ScheduleDetails';
 import BMSDetails from './BMSDetails';
 import FirecontrolDetails from './FirecontrolDetails';
 import PCSDetails from './PCSDetails';
@@ -302,18 +302,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setTotalChargeRevenueValue(json['revenue_indicators']['total_charge_revenue_value']);
           setTotalDischargeRevenueValue(json['revenue_indicators']['total_discharge_revenue_value']);
 
-          setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
-          '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
-          '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00',
-          '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '23:59:59']);
-          setScheduleSeriesName('Power');
-          setScheduleSeriesData(json['schedule']['series_data']);
-          let schedule_mark_area_data = [];
-          json['schedule']['schedule_list'].forEach((schedule_item, index) => {
-            schedule_mark_area_data.push([{name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day']}, {xAxis: schedule_item['end_time_of_day']}])
-          });
-          setScheduleMarkAreaData(schedule_mark_area_data);
-
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -458,9 +446,53 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     refreshSVGData();
   }, 1000 * 10);
 
+  // Schedule
+  const fetchScheduleDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/schedule'
+    console.log('fetchScheduleDetails with url:' + url);
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
+          '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
+          '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00',
+          '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '23:59:59']);
+          setScheduleSeriesName('Power');
+          setScheduleSeriesData(json['schedule']['series_data']);
+          let schedule_mark_area_data = [];
+          json['schedule']['schedule_list'].forEach((schedule_item, index) => {
+            schedule_mark_area_data.push([{name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day']}, {xAxis: schedule_item['end_time_of_day']}])
+          });
+          setScheduleMarkAreaData(schedule_mark_area_data);
+
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   // PCS
   const fetchPCSDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailspcs?id=' + selectedStation
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/pcs'
     console.log('fetchPCSDetails with url:' + url);
 
     let isResponseOK = false;
@@ -494,7 +526,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }
   // BMS
   const fetchBMSDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsbms?id=' + selectedStation
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/bms'
     console.log('fetchBMSDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
@@ -528,7 +560,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Meters
   const fetchMetersDetails = () => {
 
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsmeter?id=' + selectedStation
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/meter'
     console.log('fetchMetersDetails with url:' + url);
 
     let isResponseOK = false;
@@ -562,7 +594,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }
   // HVAC
   const fetchHVACDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailshvac?id=' + selectedStation
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/hvac'
     console.log('fetchHVACDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
@@ -595,7 +627,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }
   // Fire Control
   const fetchFireControlDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetailsfirecontrol?id=' + selectedStation
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/firecontrol'
     console.log('fetchFireControlDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
@@ -879,6 +911,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '2' })}
               onClick={() => {
                 setActiveTabBottom('2');
+                fetchScheduleDetails();
               }}
             >
               <h6>{t('Strategy Management')}</h6>
@@ -966,16 +999,13 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             />
           </TabPane>
           <TabPane tabId="2">
-            <Card className="mb-3 fs--1">
-              <CardBody className="bg-light">
-                <SectionLineChart
-                  xaxisData={scheduleXaxisData}
-                  seriesName={scheduleSeriesName}
-                  seriesData={scheduleSeriesData}
-                  markAreaData={scheduleMarkAreaData}
-                />
-              </CardBody>
-            </Card>
+            <ScheduleDetails
+                xaxisData={scheduleXaxisData}
+                seriesName={scheduleSeriesName}
+                seriesData={scheduleSeriesData}
+                markAreaData={scheduleMarkAreaData}
+            />
+
           </TabPane>
           <TabPane tabId="3">
             <Card className="mb-3 fs--1">

@@ -23,11 +23,8 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
     # Step 3: query associated containers
-    # Step 4: query analog points latest values
-    # Step 5: query energy points latest values
-    # Step 6: query digital points latest values
-    # Step 7: query the points of firecontrols
-    # Step 8: construct the report
+    # Step 4: query associated schedules on containers
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp, id_):
@@ -45,6 +42,7 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
         energy_storage_power_station_id = id_
+
         ################################################################################################################
         # Step 2: query the energy storage power station
         ################################################################################################################
@@ -93,79 +91,45 @@ class Reporting:
         print('container_list:' + str(container_list))
 
         ################################################################################################################
-        # Step 4: query analog points latest values
+        # Step 4: query associated schedules on containers
         ################################################################################################################
-        latest_value_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_analog_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = row[1]
-
-        ################################################################################################################
-        # Step 5: query energy points latest values
-        ################################################################################################################
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_energy_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = row[1]
-
-        ################################################################################################################
-        # Step 6: query digital points latest values
-        ################################################################################################################
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = row[1]
-
-        ################################################################################################################
-        # Step 7: query the points of firecontrols
-        ################################################################################################################
-
-        # query pcs parameters
-        hvac_list = list()
-
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              "        inside_temperature_point_id, "
-                              "        outside_temperature_point_id, "
-                              "        temperature_alarm_point_id, "
-                              "        smoke_sensor_value_point_id, "
-                              "        smoke_sensor_alarm_point_id, "
-                              "        battery_safety_detection_sensor_value_point_id, "
-                              "        battery_safety_detection_sensor_alarm_point_id, "
-                              "        fire_extinguishing_device_status_point_id "
-                              " FROM tbl_energy_storage_containers_firecontrols "
+        schedule_list = list()
+        schedule_series_data = list()
+        cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
+                              " FROM tbl_energy_storage_containers_schedules "
                               " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
+                              " ORDER BY start_time_of_day ",
                               (container_list[0]['id'],))
-        rows_firecontrol = cursor_system.fetchall()
-        if rows_firecontrol is not None and len(rows_firecontrol) > 0:
-            for row in rows_firecontrol:
-                current_firecontrol = dict()
-                current_firecontrol['id'] = row[0]
-                current_firecontrol['name'] = row[1]
-                current_firecontrol['uuid'] = row[2]
-                current_firecontrol['inside_temperature_point'] = latest_value_dict.get(row[3], None)
-                current_firecontrol['outside_temperature_point'] = latest_value_dict.get(row[4], None)
-                current_firecontrol['temperature_alarm_point'] = latest_value_dict.get(row[5], None)
-                current_firecontrol['smoke_sensor_value_point'] = latest_value_dict.get(row[6], None)
-                current_firecontrol['smoke_sensor_alarm_point'] = latest_value_dict.get(row[7], None)
-                current_firecontrol['battery_safety_detection_sensor_value_point'] = latest_value_dict.get(row[8], None)
-                current_firecontrol['battery_safety_detection_sensor_alarm_point'] = latest_value_dict.get(row[9], None)
-                current_firecontrol['fire_extinguishing_device_status_point'] = latest_value_dict.get(row[10], None)
-                hvac_list.append(current_firecontrol)
+        rows_schedules = cursor_system.fetchall()
+        if rows_schedules is None or len(rows_schedules) == 0:
+            pass
+        else:
+            for row_schedule in rows_schedules:
+                start_time = row_schedule[0]
+                end_time = row_schedule[1]
+                current_time = start_time
+                if row_schedule[2] == 'toppeak':
+                    peak_type = 'Top-Peak'
+                elif row_schedule[2] == 'onpeak':
+                    peak_type = 'On-Peak'
+                elif row_schedule[2] == 'midpeak':
+                    peak_type = 'Mid-Peak'
+                elif row_schedule[2] == 'offpeak':
+                    peak_type = 'Off-Peak'
+                else:
+                    peak_type = 'Unknown'
+
+                while current_time < end_time:
+                    schedule_series_data.append(row_schedule[3])
+                    current_time = current_time + timedelta(minutes=30)
+
+                schedule_list.append({"start_time_of_day": '0' + str(start_time) if len(str(start_time)) == 7
+                                      else str(start_time),
+                                      "end_time_of_day": '0' + str(end_time) if len(str(end_time)) == 7
+                                      else str(end_time),
+                                      "peak_type": peak_type,
+                                      "power": row_schedule[3]})
+            print('schedule_list:' + str(schedule_list))
 
         if cursor_system:
             cursor_system.close()
@@ -177,6 +141,12 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 8: construct the report
+        # Step 5: construct the report
         ################################################################################################################
-        resp.text = json.dumps(hvac_list)
+        result = dict()
+
+        result['schedule'] = dict()
+        result['schedule']['series_data'] = schedule_series_data
+        result['schedule']['schedule_list'] = schedule_list
+
+        resp.text = json.dumps(result)
