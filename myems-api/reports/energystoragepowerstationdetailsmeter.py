@@ -15,7 +15,7 @@ class Reporting:
         pass
 
     @staticmethod
-    def on_options(req, resp):
+    def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     ####################################################################################################################
@@ -30,38 +30,21 @@ class Reporting:
     # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
-    def on_get(req, resp):
+    def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
-        # this procedure accepts energy storage power station id or uuid
-        energy_storage_power_station_id = req.params.get('id')
-        energy_storage_power_station_uuid = req.params.get('uuid')
 
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if energy_storage_power_station_id is None and energy_storage_power_station_uuid is None:
+        if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
-
-        if energy_storage_power_station_id is not None:
-            energy_storage_power_station_id = str.strip(energy_storage_power_station_id)
-            if not energy_storage_power_station_id.isdigit() or int(energy_storage_power_station_id) <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
-
-        if energy_storage_power_station_uuid is not None:
-            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(energy_storage_power_station_uuid))
-            if not bool(match):
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
-
+        energy_storage_power_station_id = id_
         ################################################################################################################
         # Step 2: query the energy storage power station
         ################################################################################################################
@@ -76,12 +59,6 @@ class Reporting:
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE id = %s ")
             cursor_system.execute(query, (energy_storage_power_station_id,))
-            row = cursor_system.fetchone()
-        elif energy_storage_power_station_uuid is not None:
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE uuid = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_uuid,))
             row = cursor_system.fetchone()
 
         if row is None:

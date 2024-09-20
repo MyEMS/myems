@@ -50,6 +50,7 @@ from reports import energystoragepowerstationdetailsfirecontrol
 from reports import energystoragepowerstationdetailshvac
 from reports import energystoragepowerstationdetailsmeter
 from reports import energystoragepowerstationdetailspcs
+from reports import energystoragepowerstationdetailsschedule
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreportingrevenue
 from reports import energystoragepowerstationreportingenergy
@@ -998,16 +999,18 @@ api.add_route('/reports/energystoragepowerstationitemdashboard',
               energystoragepowerstationitemdashboard.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails',
               energystoragepowerstationdetails.Reporting())
-api.add_route('/reports/energystoragepowerstationdetailsbms',
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/bms',
               energystoragepowerstationdetailsbms.Reporting())
-api.add_route('/reports/energystoragepowerstationdetailsfirecontrol',
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/firecontrol',
               energystoragepowerstationdetailsfirecontrol.Reporting())
-api.add_route('/reports/energystoragepowerstationdetailshvac',
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/hvac',
               energystoragepowerstationdetailshvac.Reporting())
-api.add_route('/reports/energystoragepowerstationdetailsmeter',
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/meter',
               energystoragepowerstationdetailsmeter.Reporting())
-api.add_route('/reports/energystoragepowerstationdetailspcs',
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/pcs',
               energystoragepowerstationdetailspcs.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/schedule',
+              energystoragepowerstationdetailsschedule.Reporting())
 api.add_route('/reports/energystoragepowerstationlist',
               energystoragepowerstationlist.Reporting())
 api.add_route('/reports/energystoragepowerstationreportingrevenue',

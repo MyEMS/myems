@@ -30,7 +30,7 @@ class Reporting:
     #     Step 7.1 query energy indicator data
     #     Step 7.2 query revenue indicator data
     # Step 8: query associated points data on containers
-    # Step 11: construct the report
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -438,46 +438,6 @@ class Reporting:
         row = cursor_billing.fetchone()
         if row is not None:
             total_discharge_revenue_value = row[0]
-        ################################################################################################################
-        # Step 8: query associated schedules on containers
-        ################################################################################################################
-        schedule_list = list()
-        schedule_series_data = list()
-        cursor_system.execute(" SELECT start_time_of_day, end_time_of_day, peak_type, power "
-                              " FROM tbl_energy_storage_containers_schedules "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY start_time_of_day ",
-                              (container_list[0]['id'],))
-        rows_schedules = cursor_system.fetchall()
-        if rows_schedules is None or len(rows_schedules) == 0:
-            pass
-        else:
-            for row_schedule in rows_schedules:
-                start_time = row_schedule[0]
-                end_time = row_schedule[1]
-                current_time = start_time
-                if row_schedule[2] == 'toppeak':
-                    peak_type = 'Top-Peak'
-                elif row_schedule[2] == 'onpeak':
-                    peak_type = 'On-Peak'
-                elif row_schedule[2] == 'midpeak':
-                    peak_type = 'Mid-Peak'
-                elif row_schedule[2] == 'offpeak':
-                    peak_type = 'Off-Peak'
-                else:
-                    peak_type = 'Unknown'
-
-                while current_time < end_time:
-                    schedule_series_data.append(row_schedule[3])
-                    current_time = current_time + timedelta(minutes=30)
-
-                schedule_list.append({"start_time_of_day": '0' + str(start_time) if len(str(start_time)) == 7
-                                      else str(start_time),
-                                      "end_time_of_day": '0' + str(end_time) if len(str(end_time)) == 7
-                                      else str(end_time),
-                                      "peak_type": peak_type,
-                                      "power": row_schedule[3]})
-            print('schedule_list:' + str(schedule_list))
 
         ################################################################################################################
         # Step 8: query associated points data on containers
@@ -662,7 +622,7 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 9: construct the report
         ################################################################################################################
         result = dict()
         result['energy_storage_power_station'] = meta_result
@@ -673,10 +633,6 @@ class Reporting:
         result['reporting_period']['increment_rates'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
-
-        result['schedule'] = dict()
-        result['schedule']['series_data'] = schedule_series_data
-        result['schedule']['schedule_list'] = schedule_list
 
         result['energy_indicators'] = dict()
         result['energy_indicators']['today_charge_energy_value'] = today_charge_energy_value
