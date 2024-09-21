@@ -11,13 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added new menu items
 - added tbl_energy_storage_containers_firecontrols to myems_system_db in database
 - added tbl_energy_storage_containers_hvacs to myems_system_db in database
-- 
+-
 ### Changed
 - updated energy storage power station reportings
 - changed meter search box size to small
 - updated tbl_energy_storage_containers_power_conversion_systems of myems_system_db in database
 - updated tbl_energy_storage_containers_batteries of myems_system_db in database
 - updated energy storage container actions in myems-api
+- updated tbl_menus of myems_system_db in database
+- updated routes in myems-web
 ### Fixed
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
@@ -25,7 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 - removed sensors form energystoragecontainers in myems-api
 - removed sensors from energystoragecontainers in myems-admin
-- 
+-
 ## [v4.8.0] - 2024-08-13
 ### Warning
 - **MUST** replace '/code/.env' with '/app/.env' in docker run commands because WORKDIR in Dockerfile was changed from '/code' to '/app'
