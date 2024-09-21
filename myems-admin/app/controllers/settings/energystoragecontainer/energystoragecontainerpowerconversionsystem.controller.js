@@ -124,11 +124,6 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 			} else {
 				energystoragecontainerpowerconversionsystem.total_ac_apparent_power_point_id = undefined;
 			}
-			if (energystoragecontainerpowerconversionsystem.working_status_point != null && energystoragecontainerpowerconversionsystem.working_status_point.id != null ) {
-				energystoragecontainerpowerconversionsystem.working_status_point_id = energystoragecontainerpowerconversionsystem.working_status_point.id;
-			} else {
-				energystoragecontainerpowerconversionsystem.working_status_point_id = undefined;
-			}
 			if (energystoragecontainerpowerconversionsystem.grid_connection_status_point != null && energystoragecontainerpowerconversionsystem.grid_connection_status_point.id != null ) {
 				energystoragecontainerpowerconversionsystem.grid_connection_status_point_id = energystoragecontainerpowerconversionsystem.grid_connection_status_point.id;
 			} else {
@@ -405,11 +400,6 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 				modifiedEnergyStorageContainerPowerconversionsystem.total_ac_apparent_power_point_id = modifiedEnergyStorageContainerPowerconversionsystem.total_ac_apparent_power_point.id;
 			} else {
 				modifiedEnergyStorageContainerPowerconversionsystem.total_ac_apparent_power_point_id = undefined;
-			}
-			if (modifiedEnergyStorageContainerPowerconversionsystem.working_status_point != null && modifiedEnergyStorageContainerPowerconversionsystem.working_status_point.id != null ) {
-				modifiedEnergyStorageContainerPowerconversionsystem.working_status_point_id = modifiedEnergyStorageContainerPowerconversionsystem.working_status_point.id;
-			} else {
-				modifiedEnergyStorageContainerPowerconversionsystem.working_status_point_id = undefined;
 			}
 			if (modifiedEnergyStorageContainerPowerconversionsystem.grid_connection_status_point != null && modifiedEnergyStorageContainerPowerconversionsystem.grid_connection_status_point.id != null ) {
 				modifiedEnergyStorageContainerPowerconversionsystem.grid_connection_status_point_id = modifiedEnergyStorageContainerPowerconversionsystem.grid_connection_status_point.id;
