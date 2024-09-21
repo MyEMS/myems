@@ -908,29 +908,7 @@ VALUES
 (800,'Auxiliary System','/auxiliarysystem',NULL,0),
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),
-(900,'Fault Detection & Diagnostics','/fdd',NULL,1),
-(1000,'Monitoring','/monitoring',NULL,1),
-(1001,'Space Equipments','/monitoring/spaceequipments',1000,0),
-(1002,'Combined Equipments','/monitoring/combinedequipments',1000,0),
-(1100,'Advanced Reporting','/advancedreporting',NULL,1),
-(1200,'Knowledge Base','/knowledgebase',NULL,0),
-(1300,'Microgrid','/microgrid',NULL,1),
-(1301,'Microgrid Details','/microgrid/details',1300,1),
-(1302,'Microgrid Reporting','/microgrid/reporting',1300,1),
-(1400,'Energy Storage Power Station','/energystoragepowerstation',NULL,1),
-(1401,'Energy Storage Power Station List','/energystoragepowerstation/list',1400,1),
-(1402,'Energy Storage Power Station Details','/energystoragepowerstation/details',1400,1),
-(1403,'Energy Storage Power Station Reporting','/energystoragepowerstation/reporting',1400,1),
-(1404,'Energy Storage Power Station Alarm','/energystoragepowerstation/alarm',1400,1),
-(1405,'Energy Storage Power Station Maintenance','/energystoragepowerstation/maintenance',1400,1),
-(1500,'Photovoltaic Power Station','/photovoltaicpowerstation',NULL,1),
-(1501,'Photovoltaic Power Station Details','/photovoltaicpowerstation/details',1500,1),
-(1600,'Wind Farm','/windfarm',NULL,1),
-(1601,'Wind Farm Details','/windfarm/details',1600,1),
-(40000,'Work Order','/workorder',NULL,1),
-(40001,'Work Order Installation','/workorder/installation',40000,1),
-(40002,'Work Order Repair','/workorder/repair',40000,1),
-(40003,'Work Order Inspection','/workorder/inspection',40000,1);
+(1200,'Knowledge Base','/knowledgebase',NULL,0);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_meters`
