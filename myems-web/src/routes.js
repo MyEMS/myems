@@ -471,60 +471,6 @@ export const auxiliarySystemRoutes = {
   ]
 };
 
-export const microgridRoutes = {
-  name: 'Microgrid',
-  to: '/microgrid',
-  icon: 'building'
-};
-
-export const energyStoragePowerStationRoutes = {
-  name: 'Energy Storage Power Station',
-  to: '/energystoragepowerstation',
-  icon: 'building',
-  children: [
-    { to: '/energystoragepowerstation/list', name: 'Energy Storage Power Station List' },
-    { to: '/energystoragepowerstation/details', name: 'Energy Storage Power Station Details' },
-    { to: '/energystoragepowerstation/reportingrevenue', name: 'Energy Storage Power Station Reporting Revenue' },
-    { to: '/energystoragepowerstation/reportingenergy', name: 'Energy Storage Power Station Reporting Energy' },
-    { to: '/energystoragepowerstation/reportinparameters', name: 'Energy Storage Power Station Reporting Parameters' },
-    { to: '/energystoragepowerstation/alarm', name: 'Energy Storage Power Station Alarm' },
-    { to: '/energystoragepowerstation/maintenance', name: 'Energy Storage Power Station Maintenance' },
-  ]
-};
-
-export const workOrderRoutes = {
-  name: 'Work Order',
-  to: '/workorder',
-  icon: 'tools',
-  children: [
-    { to: '/workorder/installation', name: 'Work Order Installation' },
-    { to: '/workorder/repair', name: 'Work Order Repair' },
-    { to: '/workorder/inspection', name: 'Work Order Inspection' },
-  ]
-};
-
-export const fddRoutes = {
-  name: 'Fault Alarm',
-  to: '/fdd',
-  icon: 'bell'
-};
-
-export const monitoringRoutes = {
-  name: 'Monitoring',
-  to: '/monitoring',
-  icon: 'eye',
-  children: [
-    { to: '/monitoring/spaceequipments', name: 'Space Equipments' },
-    { to: '/monitoring/combinedequipments', name: 'Combined Equipments' }
-  ]
-};
-
-export const advancedReportingRoutes = {
-  name: 'Advanced Reporting',
-  to: '/advancedreporting',
-  exact: true,
-  icon: 'book'
-};
 
 export const knowledgeBaseRoutes = {
   name: 'Knowledge Base',
@@ -557,11 +503,5 @@ export default [
   shopfloorRoutes,
   combinedEquipmentRoutes,
   auxiliarySystemRoutes,
-  microgridRoutes,
-  energyStoragePowerStationRoutes,
-  workOrderRoutes,
-  fddRoutes,
-  monitoringRoutes,
-  advancedReportingRoutes,
   knowledgeBaseRoutes
 ];

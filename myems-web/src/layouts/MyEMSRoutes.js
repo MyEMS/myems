@@ -201,19 +201,10 @@ import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/C
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
-// Microgrid
-import MicrogridList from '../components/MyEMS/Microgrid/MicrogridList';
-import MicrogridDetails from '../components/MyEMS/Microgrid/MicrogridDetails';
-import MicrogridReporting from '../components/MyEMS/Microgrid/MicrogridReporting';
-// Energy Storage Power Statioin
-import EnergyStoragePowerStationDashboard from '../components/MyEMS/EnergyStoragePowerStation/Dashboard';
-import EnergyStoragePowerStationCollectionDashboard from '../components/MyEMS/EnergyStoragePowerStation/CollectionDashboard';
-import EnergyStoragePowerStationItemDashboard from '../components/MyEMS/EnergyStoragePowerStation/ItemDashboard';
-import EnergyStoragePowerStationList from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationList';
-import EnergyStoragePowerStationDetails from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationDetails';
-import EnergyStoragePowerStationReportingEnergy from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingEnergy';
-import EnergyStoragePowerStationReportingParameters from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingParameters';
-import EnergyStoragePowerStationReportingRevenue from '../components/MyEMS/EnergyStoragePowerStation/EnergyStoragePowerStationReportingRevenue';
+// Knowledge Base
+import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
+// Notification
+import Notification from '../components/MyEMS/Notification/Notification';
 // FDD
 import FDDFault from '../components/MyEMS/FDD/Fault';
 // Monitoring
@@ -221,14 +212,7 @@ import SpaceEquipments from '../components/MyEMS/Monitoring/SpaceEquipments';
 import CombinedEquipments from '../components/MyEMS/Monitoring/CombinedEquipments';
 // Advanced Reporting
 import AdvancedReporting from '../components/MyEMS/AdvancedReporting/AdvancedReporting';
-// Knowledge Base
-import KnowledgeBase from '../components/MyEMS/KnowledgeBase/KnowledgeBase';
-// Notification
-import Notification from '../components/MyEMS/Notification/Notification';
-// WorkOrder
-import WorkOrderInspection from '../components/MyEMS/WorkOrder/Inspection';
-import WorkOrderInstallation from '../components/MyEMS/WorkOrder/Installation';
-import WorkOrderRepair from '../components/MyEMS/WorkOrder/Repair';
+
 
 // const InboxRoutes = ({ match: { url } }) => (
 //   <InboxProvider>
@@ -480,25 +464,15 @@ const MyEMSRoutes = () => (
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
     <Route path="/auxiliarysystem/distributionsystem" exact component={DistributionSystem} />
 
-    {/*Microgrid*/}
-    <Route path="/microgrid" exact component={MicrogridList} />
-    <Route path="/microgrid/details" exact component={MicrogridDetails} />
-    <Route path="/microgrid/reporting" exact component={MicrogridReporting} />
+    {/*Knowledge Base*/}
+    <Route path="/knowledgebase" exact component={KnowledgeBase} />
 
-    {/*EnergyStoragePowerStation*/}
-    <Route path="/energystoragepowerstation/list" exact component={EnergyStoragePowerStationList} />
-    <Route path="/energystoragepowerstation/details" exact component={EnergyStoragePowerStationDetails} />
-    <Route path="/energystoragepowerstation/reportingrevenue" exact component={EnergyStoragePowerStationReportingRevenue} />
-    <Route path="/energystoragepowerstation/reportingenergy" exact component={EnergyStoragePowerStationReportingEnergy} />
-    <Route path="/energystoragepowerstation/reportingparameters" exact component={EnergyStoragePowerStationReportingParameters} />
-    <Route path="/energystoragepowerstation/alarm" exact component={FDDFault} />
-    <Route path="/energystoragepowerstation/maintenance" exact component={EnergyStoragePowerStationDetails} />
+    {/* Notification */}
+    <Route path="/notification" exact component={Notification} />
 
-    {/*Work Order*/}
-    <Route path="/workorder/inspection" exact component={WorkOrderInspection} />
-    <Route path="/workorder/installation" exact component={WorkOrderInstallation} />
-    <Route path="/workorder/repair" exact component={WorkOrderRepair} />
-
+    {/*Redirect*/}
+    <Redirect to="/errors/404" />
+    
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
 
@@ -509,14 +483,6 @@ const MyEMSRoutes = () => (
     {/*Advanced Reporting*/}
     <Route path="/advancedreporting" exact component={AdvancedReporting} />
 
-    {/*Knowledge Base*/}
-    <Route path="/knowledgebase" exact component={KnowledgeBase} />
-
-    {/* Notification */}
-    <Route path="/notification" exact component={Notification} />
-
-    {/*Redirect*/}
-    <Redirect to="/errors/404" />
   </Switch>
 );
 
