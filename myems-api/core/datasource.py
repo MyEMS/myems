@@ -460,7 +460,7 @@ class DataSourcePointCollection:
                     latest_value = analog_value_dict.get(row[0], None)
                     latest_value = int(latest_value) if latest_value is not None else None
                 elif row[2] == 'DIGITAL_VALUE':
-                    latest_value = analog_value_dict.get(row[0], None)
+                    latest_value = digital_value_dict.get(row[0], None)
                     latest_value = Decimal(latest_value) if latest_value is not None else None
                 elif row[2] == 'ENERGY_VALUE':
                     latest_value = energy_value_dict.get(row[0], None)
