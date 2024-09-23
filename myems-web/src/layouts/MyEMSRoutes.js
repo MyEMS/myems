@@ -469,9 +469,6 @@ const MyEMSRoutes = () => (
 
     {/* Notification */}
     <Route path="/notification" exact component={Notification} />
-
-    {/*Redirect*/}
-    <Redirect to="/errors/404" />
     
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
@@ -483,6 +480,9 @@ const MyEMSRoutes = () => (
     {/*Advanced Reporting*/}
     <Route path="/advancedreporting" exact component={AdvancedReporting} />
 
+    {/*Redirect*/}
+    {/* MAKE SURE THIS IS THE LATEST ROUTE */}
+    <Redirect to="/errors/404" />
   </Switch>
 );
 
