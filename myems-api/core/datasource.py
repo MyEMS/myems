@@ -458,10 +458,10 @@ class DataSourcePointCollection:
             for row in rows_point:
                 if row[2] == 'ANALOG_VALUE':
                     latest_value = analog_value_dict.get(row[0], None)
-                    latest_value = int(latest_value) if latest_value is not None else None
-                elif row[2] == 'DIGITAL_VALUE':
-                    latest_value = analog_value_dict.get(row[0], None)
                     latest_value = Decimal(latest_value) if latest_value is not None else None
+                elif row[2] == 'DIGITAL_VALUE':
+                    latest_value = digital_value_dict.get(row[0], None)
+                    latest_value = int(latest_value) if latest_value is not None else None
                 elif row[2] == 'ENERGY_VALUE':
                     latest_value = energy_value_dict.get(row[0], None)
                     latest_value = Decimal(latest_value) if latest_value is not None else None
@@ -474,7 +474,7 @@ class DataSourcePointCollection:
                                "low_limit": row[5],
                                "higher_limit": row[6],
                                "lower_limit": row[7],
-                               "ratio": float(row[8]),
+                               "ratio": Decimal(row[8]),
                                "is_trend": bool(row[9]),
                                "is_virtual": bool(row[10]),
                                "address": row[11],
