@@ -5,10 +5,8 @@ import time
 from datetime import datetime
 from decimal import Decimal
 from multiprocessing import Pool
-
 import mysql.connector
 from sympy import sympify, Piecewise, symbols
-
 import config
 
 
@@ -119,10 +117,20 @@ def worker(virtual_point):
     ####################################################################################################################
     # step 1: get start datetime and end datetime
     ####################################################################################################################
+    if virtual_point['object_type'] == 'ANALOG_VALUE':
+        table_name = "tbl_analog_value"
+    elif virtual_point['object_type'] == 'ENERGY_VALUE':
+        table_name = "tbl_energy_value"
+    else:
+        if cursor_historical_db:
+            cursor_historical_db.close()
+        if cnx_historical_db:
+            cnx_historical_db.close()
+        return "variable point type should not be DIGITAL_VALUE " + " for '" + virtual_point['name'] + "'"
 
     try:
         query = (" SELECT MAX(utc_date_time) "
-                 " FROM tbl_analog_value "
+                 " FROM " + table_name +
                  " WHERE point_id = %s ")
         cursor_historical_db.execute(query, (virtual_point['id'],))
         row = cursor_historical_db.fetchone()
@@ -337,56 +345,51 @@ def worker(virtual_point):
     print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
-        if virtual_point['object_type'] == 'ANALOG_VALUE':
-            table_name = "tbl_analog_value"
-        elif virtual_point['object_type'] == 'ENERGY_VALUE':
-            table_name = "tbl_energy_value"
-        else:
-            return "variable point type should not be DIGITAL_VALUE " + " for '" + virtual_point['name'] + "'"
-
         latest_meta_data = normalized_values[0]
+
+        while len(normalized_values) > 0:
+            insert_100 = normalized_values[:100]
+            normalized_values = normalized_values[100:]
+
+            try:
+                add_values = (" INSERT INTO " + table_name +
+                              " (point_id, utc_date_time, actual_value) "
+                              " VALUES  ")
+
+                for meta_data in insert_100:
+                    add_values += " (" + str(virtual_point['id']) + ","
+                    add_values += "'" + meta_data['utc_date_time'].isoformat()[0:19] + "',"
+                    add_values += str(meta_data['actual_value']) + "), "
+
+                    if meta_data['utc_date_time'] > latest_meta_data['utc_date_time']:
+                        latest_meta_data = meta_data
+
+                # print("add_values:" + add_values)
+                # trim ", " at the end of string and then execute
+                cursor_historical_db.execute(add_values[:-2])
+                cnx_historical_db.commit()
+            except Exception as e:
+                if cursor_historical_db:
+                    cursor_historical_db.close()
+                if cnx_historical_db:
+                    cnx_historical_db.close()
+                return "Error in step 5.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
+
         try:
-            add_values = (" INSERT INTO " + table_name +
-                          " (point_id, utc_date_time, actual_value) "
-                          " VALUES  ")
-
-            for meta_data in normalized_values:
-                add_values += " (" + str(virtual_point['id']) + ","
-                add_values += "'" + meta_data['utc_date_time'].isoformat()[0:19] + "',"
-                add_values += str(meta_data['actual_value']) + "), "
-
-                if meta_data['utc_date_time'] > latest_meta_data['utc_date_time']:
-                    latest_meta_data = meta_data
-
-            print("add_values:" + add_values)
-            # trim ", " at the end of string and then execute
-            cursor_historical_db.execute(add_values[:-2])
-            cnx_historical_db.commit()
-        except Exception as e:
-            if cursor_historical_db:
-                cursor_historical_db.close()
-            if cnx_historical_db:
-                cnx_historical_db.close()
-            return "Error in step 5.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
-
-        try:
-            # update tbl_analog_value_latest
+            # update tbl_analog_value_latest or tbl_energy_value_latest
             delete_value = " DELETE FROM " + table_name + "_latest WHERE point_id = {} ".format(virtual_point['id'])
+            # print("delete_value:" + delete_value)
+            cursor_historical_db.execute(delete_value)
+            cnx_historical_db.commit()
+
             latest_value = (" INSERT INTO " + table_name + "_latest (point_id, utc_date_time, actual_value) "
                             " VALUES ({}, '{}', {}) "
                             .format(virtual_point['id'],
                                     latest_meta_data['utc_date_time'].isoformat()[0:19],
                                     latest_meta_data['actual_value']))
-
-            print("delete_value:" + delete_value)
-            print("latest_value:" + latest_value)
-
-            cursor_historical_db.execute(delete_value)
-            cnx_historical_db.commit()
-
+            # print("latest_value:" + latest_value)
             cursor_historical_db.execute(latest_value)
             cnx_historical_db.commit()
-
         except Exception as e:
             if cursor_historical_db:
                 cursor_historical_db.close()

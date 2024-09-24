@@ -35,7 +35,7 @@ minutes_to_clean = config('MINUTES_TO_CLEAN', default=30, cast=int)
 
 # indicates from when (in UTC timezone) to calculate if the energy data is empty or were cleared
 # format string: "%Y-%m-%d %H:%M:%S"
-start_datetime_utc = config('START_DATETIME_UTC', default='2019-12-31 16:00:00')
+start_datetime_utc = config('START_DATETIME_UTC', default='2021-12-31 16:00:00')
 
 # indicates the project's time zone offset from UTC
 utc_offset = config('UTC_OFFSET', default='+08:00')
