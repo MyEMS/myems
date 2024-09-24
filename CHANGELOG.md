@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
 - fixed issue of getting all points of data source in myems-api
+- fixed issue of virtual point in myems-normalization
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 - removed sensors form energystoragecontainers in myems-api
