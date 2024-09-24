@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated energy storage container actions in myems-api
 - updated tbl_menus of myems_system_db in database
 - updated routes in myems-web
+- updated default start datetime utc from '2019-12-31 16:00:00' to '2021-12-31 16:00:00'
 ### Fixed
 - fixed typo in myems-web routes
 - fixed virtual point checkbox issue in myems-admin
