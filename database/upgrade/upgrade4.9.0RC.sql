@@ -369,6 +369,14 @@ ON `myems_system_db`.`tbl_energy_storage_containers_hvacs` (`energy_storage_cont
 
 DROP TABLE myems_system_db.tbl_energy_storage_containers_sensors;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_energy_flow_diagrams` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `energy_flow_diagram_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_energy_flow_diagrams_index_1`
+ON `myems_system_db`.`tbl_spaces_energy_flow_diagrams` (`space_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
 
