@@ -89,6 +89,14 @@ myems_carbon_db = {
     'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
 }
 
+myems_production_db = {
+    'host': config('MYEMS_PRODUCTION_DB_HOST', default='127.0.0.1'),
+    'port': config('MYEMS_PRODUCTION_DB_PORT', default=3306, cast=int),
+    'database': config('MYEMS_PRODUCTION_DB_DATABASE', default='myems_production_db'),
+    'user': config('MYEMS_PRODUCTION_DB_USER', default='root'),
+    'password': config('MYEMS_PRODUCTION_DB_PASSWORD', default='!MyEMS1'),
+}
+
 myems_mqtt_broker = {
     'host': config('MYEMS_MQTT_BROKER_HOST', default='127.0.0.1'),
     'port': config('MYEMS_MQTT_BROKER_PORT', default=1883, cast=int),

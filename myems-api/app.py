@@ -61,6 +61,7 @@ from reports import energystoragepowerstationcollectionbilling
 from reports import energystoragepowerstationitembilling
 from reports import energystoragepowerstationcollectioncarbon
 from reports import energystoragepowerstationitemcarbon
+from reports import enterproduction
 from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
@@ -1057,6 +1058,8 @@ api.add_route('/reports/equipmentstatistics',
               equipmentstatistics.Reporting())
 api.add_route('/reports/equipmenttracking',
               equipmenttracking.Reporting())
+api.add_route('/reports/enterproduction',
+              enterproduction.Reporting())
 api.add_route('/reports/fddfault',
               fddfault.Reporting())
 api.add_route('/reports/meterbatch',
