@@ -1492,6 +1492,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_commands` (
 CREATE INDEX `tbl_spaces_commands_index_1` ON `myems_system_db`.`tbl_spaces_commands` (`space_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_energy_flow_diagrams`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_energy_flow_diagrams` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_energy_flow_diagrams` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `energy_flow_diagram_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_energy_flow_diagrams_index_1`
+ON `myems_system_db`.`tbl_spaces_energy_flow_diagrams` (`space_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces_energy_storage_power_stations`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_energy_storage_power_stations` ;
