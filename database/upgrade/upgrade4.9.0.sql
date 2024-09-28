@@ -378,7 +378,7 @@ CREATE INDEX `tbl_spaces_energy_flow_diagrams_index_1`
 ON `myems_system_db`.`tbl_spaces_energy_flow_diagrams` (`space_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0RC', release_date='2024-09-09' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.9.0', release_date='2024-09-29' WHERE id=1;
 
 COMMIT;
 
