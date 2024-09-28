@@ -132,7 +132,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
                   title: json[index]['name'],
                   description: json[index]['description'],
                   uuid: json[index]['uuid'],
-                  url: '/energystoragepowerstation/details'
+                  url: '/singleenergystoragepowerstation/details'
                 }
               });
             });

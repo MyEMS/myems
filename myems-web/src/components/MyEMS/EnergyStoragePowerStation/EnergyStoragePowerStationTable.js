@@ -18,7 +18,7 @@ const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStati
   const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
 
   const nameFormatter = (nameuuid) => (
-    <Link to={"/energystoragepowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold" target="_blank">
+    <Link to={"/singleenergystoragepowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold" target="_blank">
       {nameuuid.substring(0, nameuuid.length-36)}
     </Link>
   );

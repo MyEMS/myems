@@ -132,7 +132,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       title: energyStoragePowerStationItem['name'],
                       description: energyStoragePowerStationItem['description'],
                       uuid: energyStoragePowerStationItem['uuid'],
-                      url: '/energystoragepowerstation/details'
+                      url: '/singleenergystoragepowerstation/details'
                     }
                   });
                 }
