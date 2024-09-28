@@ -48,7 +48,7 @@ const EnergyStoragePowerStationListItem = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/energystoragepowerstation/details?uuid=${uuid}`} target="_blank">
+              <Link className="d-block h-100" to={`/singleenergystoragepowerstation/details?uuid=${uuid}`} target="_blank">
                 <img
                   alt=""
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
@@ -76,7 +76,7 @@ const EnergyStoragePowerStationListItem = ({
             <Row>
               <Col lg={7}>
                 <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/energystoragepowerstation/details?uuid=${uuid}`} target="_blank">
+                  <Link to={`/singleenergystoragepowerstation/details?uuid=${uuid}`} target="_blank">
                     {name}
                   </Link>
                 </h5>
@@ -175,7 +175,7 @@ const EnergyStoragePowerStationListItem = ({
                     icon="tv"
                     iconClassName="ml-2 d-none d-md-inline-block"
                     className="w-lg-100 mt-2"
-                    onClick={() => window.open(`energystoragepowerstation/details?uuid=${uuid}`, '_blank')}
+                    onClick={() => window.open(`singleenergystoragepowerstation/details?uuid=${uuid}`, '_blank')}
                   >
                     {t('Monitoring')}
                   </ButtonIcon>

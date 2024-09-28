@@ -766,7 +766,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Disharge")}</th>
+                            <th className="pl-0 pb-0">{t("Total Discharge")}</th>
                             <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
@@ -774,7 +774,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Discharge Rchievement Rate")}</th>
+                            <th className="pl-0 pb-0">{t("Discharge Achievement Rate")}</th>
                             <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / energyStoragePowerStationRatedCapacity).toFixed(2)}%</th>
                           </tr>
                         </tbody>
@@ -843,7 +843,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     toggleTabRight('2');
                   }}
                 >
-                  <h6>{t("Baisc Information")}</h6>
+                  <h6>{t("Basic Information")}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
