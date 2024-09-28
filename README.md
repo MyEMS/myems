@@ -1,9 +1,8 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.8.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.9.0</h1>
 <h4 align="center">领先的开源能源管理系统</h4>
-<h4 align="center">Gitee推荐项目</h4>
 
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
  [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
@@ -35,6 +34,8 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+
+![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)
 
 
 ## MyEMS社区版功能

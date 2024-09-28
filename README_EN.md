@@ -3,7 +3,6 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.8.0</h1>
 <h4 align="center">Leading Open Source Energy Management System</h4>
-<h4 align="center">Recommended by Gitee</h4>
 
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
  [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
@@ -34,6 +33,8 @@ MyEMS open source energy management system is used for electricity, water, gas a
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+
+![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)
 
 
 ## Features of MyEMS Community Edition
