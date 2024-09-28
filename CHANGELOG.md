@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--
+- added myems_production_db config to example.env in myems-api
 ### Changed
 -
 ### Fixed
@@ -1798,28 +1798,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://github.com/MyEMS/myems/compare/v4.9.0...HEAD
-[4.9.0]: https://github.com/MyEMS/myems/compare/v4.9.0...v4.8.0
-[4.8.0]: https://github.com/MyEMS/myems/compare/v4.8.0...v4.7.0
-[4.7.0]: https://github.com/MyEMS/myems/compare/v4.7.0...v4.6.0
-[4.6.0]: https://github.com/MyEMS/myems/compare/v4.6.0...v4.5.0
-[4.5.0]: https://github.com/MyEMS/myems/compare/v4.5.0...v4.4.0
-[4.4.0]: https://github.com/MyEMS/myems/compare/v4.4.0...v4.3.0
-[4.3.0]: https://github.com/MyEMS/myems/compare/v4.3.0...v4.2.0
-[4.2.0]: https://github.com/MyEMS/myems/compare/v4.2.0...v4.1.0
-[4.1.0]: https://github.com/MyEMS/myems/compare/v4.1.0...v4.0.0
-[4.0.0]: https://github.com/MyEMS/myems/compare/v4.0.0...v3.12.0
-[3.12.0]: https://github.com/MyEMS/myems/compare/v3.12.0...v3.11.0
-[3.11.0]: https://github.com/MyEMS/myems/compare/v3.11.0...v3.10.0
-[3.10.0]: https://github.com/MyEMS/myems/compare/v3.10.0...v3.9.0
-[3.9.0]: https://github.com/MyEMS/myems/compare/v3.9.0...v3.8.0
-[3.8.0]: https://github.com/MyEMS/myems/compare/v3.8.0...v3.7.0
-[3.7.0]: https://github.com/MyEMS/myems/compare/v3.7.0...v3.6.0
-[3.6.0]: https://github.com/MyEMS/myems/compare/v3.6.0...v3.5.0
-[3.5.0]: https://github.com/MyEMS/myems/compare/v3.5.0...v3.4.0
-[3.4.0]: https://github.com/MyEMS/myems/compare/v3.4.0...v3.3.0
-[3.3.0]: https://github.com/MyEMS/myems/compare/v3.3.0...v3.2.0
-[3.2.0]: https://github.com/MyEMS/myems/compare/v3.1.0...v3.2.0
-[3.1.0]: https://github.com/MyEMS/myems/compare/v3.0.0...v3.1.0
-[3.0.0]: https://github.com/MyEMS/myems/releases/tag/v3.0.0
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.9.0...HEAD
+[4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
+[4.8.0]: https://gitee.com/MyEMS/myems/compare/v4.7.0...v4.8.0
+[4.7.0]: https://gitee.com/MyEMS/myems/compare/v4.6.0...v4.7.0
+[4.6.0]: https://gitee.com/MyEMS/myems/compare/v4.5.0...v4.6.0
+[4.5.0]: https://gitee.com/MyEMS/myems/compare/v4.4.0...v4.5.0
+[4.4.0]: https://gitee.com/MyEMS/myems/compare/v4.3.0...v4.4.0
+[4.3.0]: https://gitee.com/MyEMS/myems/compare/v4.2.0...v4.3.0
+[4.2.0]: https://gitee.com/MyEMS/myems/compare/v4.1.0...v4.2.0
+[4.1.0]: https://gitee.com/MyEMS/myems/compare/v4.0.0...v4.1.0
+[4.0.0]: https://gitee.com/MyEMS/myems/compare/v3.12.0...v4.0.0
+[3.12.0]: https://gitee.com/MyEMS/myems/compare/v3.11.0...v3.12.0
+[3.11.0]: https://gitee.com/MyEMS/myems/compare/v3.10.0...v3.11.0
+[3.10.0]: https://gitee.com/MyEMS/myems/compare/v3.9.0...v3.10.0
+[3.9.0]: https://gitee.com/MyEMS/myems/compare/v3.8.0...v3.9.0
+[3.8.0]: https://gitee.com/MyEMS/myems/compare/v3.7.0...v3.8.0
+[3.7.0]: https://gitee.com/MyEMS/myems/compare/v3.6.0...v3.7.0
+[3.6.0]: https://gitee.com/MyEMS/myems/compare/v3.5.0...v3.6.0
+[3.5.0]: https://gitee.com/MyEMS/myems/compare/v3.4.0...v3.5.0
+[3.4.0]: https://gitee.com/MyEMS/myems/compare/v3.3.0...v3.4.0
+[3.3.0]: https://gitee.com/MyEMS/myems/compare/v3.2.0...v3.3.0
+[3.2.0]: https://gitee.com/MyEMS/myems/compare/v3.1.0...v3.2.0
+[3.1.0]: https://gitee.com/MyEMS/myems/compare/v3.0.0...v3.1.0
+[3.0.0]: https://gitee.com/MyEMS/myems/releases/tag/v3.0.0
 
