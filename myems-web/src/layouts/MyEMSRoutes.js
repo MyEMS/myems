@@ -371,7 +371,7 @@ const MyEMSRoutes = () => (
     <Route path="/space/saving" exact component={SpaceSaving} />
     <Route path="/space/plan" exact component={SpacePlan} />
     <Route path="/space/environmentmonitor" exact component={SpaceEnvironmentMonitor} />
-    <Route path="/space/production" exact component={EnterProduction} />
+    <Route path="/space/enterproduction" exact component={EnterProduction} />
 
     {/*Equipment*/}
     <Route path="/equipment/batch" exact component={EquipmentBatch} />
@@ -471,7 +471,7 @@ const MyEMSRoutes = () => (
 
     {/* Notification */}
     <Route path="/notification" exact component={Notification} />
-    
+
     {/*FDD*/}
     <Route path="/fdd" exact component={FDDFault} />
 
