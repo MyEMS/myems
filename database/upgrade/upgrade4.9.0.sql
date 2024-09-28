@@ -326,14 +326,14 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_fire
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `energy_storage_container_id` BIGINT NOT NULL,
-  `inside_temperature_point_id` BIGINT, -- 内置温度值
-  `outside_temperature_point_id` BIGINT, -- 外置温度值
-  `temperature_alarm_point_id` BIGINT, -- 温度报警状态
-  `smoke_sensor_value_point_id` BIGINT, -- 烟雾传感器值
-  `smoke_sensor_alarm_point_id` BIGINT, -- 烟雾传感器报警状态
-  `battery_safety_detection_sensor_value_point_id` BIGINT, -- 电池安全检测传感器值
-  `battery_safety_detection_sensor_alarm_point_id` BIGINT, -- 电池安全检测传感器报警状态
-  `fire_extinguishing_device_status_point_id` BIGINT, -- 灭火装置状态值
+  `inside_temperature_point_id` BIGINT,
+  `outside_temperature_point_id` BIGINT,
+  `temperature_alarm_point_id` BIGINT,
+  `smoke_sensor_value_point_id` BIGINT,
+  `smoke_sensor_alarm_point_id` BIGINT,
+  `battery_safety_detection_sensor_value_point_id` BIGINT,
+  `battery_safety_detection_sensor_alarm_point_id` BIGINT,
+  `fire_extinguishing_device_status_point_id` BIGINT,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_firecontrols_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (`energy_storage_container_id`);
