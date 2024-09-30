@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "de33b7bd-4acf-4f50-978c-b8b937e60d82",
+		"_postman_id": "2b75b3d0-5792-493d-87d9-6732ef051d70",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "32357384"
 	},
 	"item": [
 		{
@@ -16437,7 +16437,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c9077a0e50ab513eb31ac21969fd8aa8d0c9e7f4bc98d15941d76a3e488c805934fbe7f2f0d031b3a3be712b4cd460df8ff5e657d12f9fb81444bed2c6559035",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -16456,6 +16456,42 @@
 										"spaces",
 										"1",
 										"equipments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Energy Flow Diagrams of a Space",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "49c5f1afa67d8c02653dad2aac05a60806ce8c0c4e23f920791e8b7af3519c02075b264d77cf5dac898feb182468de6b43ee8c55acd54c63fbdb44f812bb928a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/energyflowdiagrams",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"energyflowdiagrams"
 									]
 								}
 							},
@@ -16502,6 +16538,46 @@
 							"response": []
 						},
 						{
+							"name": "Bind an Energy Flow Diagram to a Space",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "49c5f1afa67d8c02653dad2aac05a60806ce8c0c4e23f920791e8b7af3519c02075b264d77cf5dac898feb182468de6b43ee8c55acd54c63fbdb44f812bb928a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"energy_flow_diagram_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/energyflowdiagrams",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"energyflowdiagrams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Unbind an Equipment from Space",
 							"request": {
 								"method": "DELETE",
@@ -16532,6 +16608,43 @@
 										"spaces",
 										"1",
 										"equipments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unbind an Energy Flow Diagram from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "49c5f1afa67d8c02653dad2aac05a60806ce8c0c4e23f920791e8b7af3519c02075b264d77cf5dac898feb182468de6b43ee8c55acd54c63fbdb44f812bb928a",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/energyflowdiagrams/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"energyflowdiagrams",
 										"1"
 									]
 								}

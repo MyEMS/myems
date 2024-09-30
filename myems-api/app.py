@@ -696,6 +696,10 @@ api.add_route('/spaces/import',
               space.SpaceImport())
 api.add_route('/spaces/{id_}/clone',
               space.SpaceClone())
+api.add_route('/spaces/{id_}/energyflowdiagrams',
+              space.SpaceEnergyFlowDiagramCollection())
+api.add_route('/spaces/{id_}/energyflowdiagrams/{eid}',
+              space.SpaceEnergyFlowDiagramItem())
 
 # Get energy categories of all meters in the space tree
 api.add_route('/spaces/{id_}/treemetersenergycategories',
