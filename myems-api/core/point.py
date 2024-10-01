@@ -4,7 +4,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
 import config
-
+from decimal import Decimal
 
 class PointCollection:
     def __init__(self):
@@ -55,8 +55,8 @@ class PointCollection:
                                "low_limit": row[6],
                                "higher_limit": row[7],
                                "lower_limit": row[8],
-                               "ratio": float(row[9]),
-                               "offset_constant": float(row[10]),
+                               "ratio": Decimal(row[9]),
+                               "offset_constant": Decimal(row[10]),
                                "is_trend": bool(row[11]),
                                "is_virtual": bool(row[12]),
                                "address": row[13],
@@ -145,14 +145,14 @@ class PointCollection:
             lower_limit = new_values['data']['lower_limit']
 
         if 'ratio' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['ratio'], float) or
+                not (isinstance(new_values['data']['ratio'], Decimal) or
                      isinstance(new_values['data']['ratio'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
 
         if 'offset_constant' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['offset_constant'], float) or
+                not (isinstance(new_values['data']['offset_constant'], Decimal) or
                      isinstance(new_values['data']['offset_constant'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFSET_CONSTANT_VALUE')
@@ -289,8 +289,8 @@ class PointItem:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "offset_constant": float(row[10]),
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
                   "is_trend": bool(row[11]),
                   "is_virtual": bool(row[12]),
                   "address": row[13],
@@ -746,14 +746,14 @@ class PointItem:
             lower_limit = new_values['data']['lower_limit']
 
         if 'ratio' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['ratio'], float) or
+                not (isinstance(new_values['data']['ratio'], Decimal) or
                      isinstance(new_values['data']['ratio'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
 
         if 'offset_constant' not in new_values['data'].keys() or \
-                not (isinstance(new_values['data']['offset_constant'], float) or
+                not (isinstance(new_values['data']['offset_constant'], Decimal) or
                      isinstance(new_values['data']['offset_constant'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFSET_CONSTANT_VALUE')
@@ -982,8 +982,8 @@ class PointExport:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "offset_constant": float(row[10]),
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
                   "is_trend": bool(row[11]),
                   "is_virtual": bool(row[12]),
                   "address": row[13],
@@ -1080,14 +1080,14 @@ class PointImport:
             lower_limit = new_values['lower_limit']
 
         if 'ratio' not in new_values.keys() or \
-                not (isinstance(new_values['ratio'], float) or
+                not (isinstance(new_values['ratio'], Decimal) or
                      isinstance(new_values['ratio'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['ratio']
 
         if 'offset_constant' not in new_values.keys() or \
-                not (isinstance(new_values['offset_constant'], float) or
+                not (isinstance(new_values['offset_constant'], Decimal) or
                      isinstance(new_values['offset_constant'], int)):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFSET_CONSTANT_VALUE')
@@ -1222,8 +1222,8 @@ class PointClone:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "offset_constant": float(row[10]),
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
                   "is_trend": bool(row[11]),
                   "is_virtual": bool(row[12]),
                   "address": row[13],
