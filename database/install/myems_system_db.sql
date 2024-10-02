@@ -1232,6 +1232,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `lower_limit` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service',
   `is_in_alarm` BOOL DEFAULT FALSE NOT NULL COMMENT 'Used in FDD Service',
   `ratio` DECIMAL(18, 3) DEFAULT 1.000 NOT NULL,
+  `offset_constant` DECIMAL(18, 3) DEFAULT 0.000 NOT NULL,
   `is_trend` BOOL NOT NULL,
   `is_virtual` BOOL DEFAULT FALSE NOT NULL,
   `address` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
@@ -2137,7 +2138,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.9.0', '2024-09-28');
+(1, '4.10.0RC', '2024-10-18');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
