@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2b75b3d0-5792-493d-87d9-6732ef051d70",
+		"_postman_id": "7a63b7a0-07b9-430e-9545-62ad07aa259a",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32357384"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -13244,7 +13244,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13278,7 +13278,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13313,7 +13313,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13325,7 +13325,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1,\"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1, \"offset_constant\":0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points",
@@ -13386,7 +13386,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13398,7 +13398,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"offset_constant\":12.0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points/1",
@@ -13464,7 +13464,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13500,7 +13500,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13512,7 +13512,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null\r\n}",
+									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"offset_constant\": 0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

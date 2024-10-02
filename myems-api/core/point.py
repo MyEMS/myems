@@ -4,7 +4,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control
 import config
-
+from decimal import Decimal
 
 class PointCollection:
     def __init__(self):
@@ -35,7 +35,7 @@ class PointCollection:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                  "        is_trend, is_virtual, address, description "
                  " FROM tbl_points ")
         cursor.execute(query)
@@ -55,11 +55,12 @@ class PointCollection:
                                "low_limit": row[6],
                                "higher_limit": row[7],
                                "lower_limit": row[8],
-                               "ratio": float(row[9]),
-                               "is_trend": bool(row[10]),
-                               "is_virtual": bool(row[11]),
-                               "address": row[12],
-                               "description": row[13]}
+                               "ratio": Decimal(row[9]),
+                               "offset_constant": Decimal(row[10]),
+                               "is_trend": bool(row[11]),
+                               "is_virtual": bool(row[12]),
+                               "address": row[13],
+                               "description": row[14]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -93,7 +94,8 @@ class PointCollection:
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['object_type']) not in ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                or str.strip(new_values['data']['object_type']) not in \
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -149,6 +151,13 @@ class PointCollection:
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
 
+        if 'offset_constant' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['offset_constant'], float) or
+                     isinstance(new_values['data']['offset_constant'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OFFSET_CONSTANT_VALUE')
+        offset_constant = new_values['data']['offset_constant']
+
         if 'is_trend' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_trend'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -201,8 +210,8 @@ class PointCollection:
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -212,6 +221,7 @@ class PointCollection:
                                    higher_limit,
                                    lower_limit,
                                    ratio,
+                                   offset_constant,
                                    is_trend,
                                    is_virtual,
                                    address,
@@ -258,7 +268,7 @@ class PointItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                  "        is_trend, is_virtual, address, description "
                  " FROM tbl_points "
                  " WHERE id = %s ")
@@ -279,11 +289,12 @@ class PointItem:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "is_trend": bool(row[10]),
-                  "is_virtual": bool(row[11]),
-                  "address": row[12],
-                  "description": row[13]}
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
+                  "is_trend": bool(row[11]),
+                  "is_virtual": bool(row[12]),
+                  "address": row[13],
+                  "description": row[14]}
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -433,13 +444,13 @@ class PointItem:
                                    description='API.THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS')
 
         # check if this point is being used by distribution integrator
-        cursor.execute("SELECT name "
-                       "FROM tbl_integrators "
-                       "WHERE high_temperature_point_id = %s "
-                       "   OR low_temperature_point_id = %s "
-                       "   OR flow_point_id = %s "
-                       "   OR result_point_id = %s "
-                       "LIMIT 1",
+        cursor.execute(" SELECT name "
+                       " FROM tbl_integrators "
+                       " WHERE high_temperature_point_id = %s "
+                       "    OR low_temperature_point_id = %s "
+                       "    OR flow_point_id = %s "
+                       "    OR result_point_id = %s "
+                       " LIMIT 1",
                        (id_, id_, id_, id_))
         row_integrator = cursor.fetchone()
         if row_integrator is not None:
@@ -450,12 +461,12 @@ class PointItem:
                                    description='API.THERE_IS_RELATION_WITH_INTEGRATORS')
 
         # check if this point is being used by microgrid battery
-        cursor.execute("SELECT microgrid_id "
-                       "FROM tbl_microgrids_batteries "
-                       "WHERE battery_state_point_id = %s "
-                       "   OR soc_point_id = %s "
-                       "   OR power_point_id = %s "
-                       "LIMIT 1",
+        cursor.execute(" SELECT microgrid_id "
+                       " FROM tbl_microgrids_batteries "
+                       " WHERE battery_state_point_id = %s "
+                       "    OR soc_point_id = %s "
+                       "    OR power_point_id = %s "
+                       " LIMIT 1",
                        (id_, id_, id_))
         row_microgrid_battery = cursor.fetchone()
         if row_microgrid_battery is not None:
@@ -684,7 +695,8 @@ class PointItem:
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['object_type']) not in ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                or str.strip(new_values['data']['object_type']) not in \
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -739,6 +751,13 @@ class PointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['data']['ratio']
+
+        if 'offset_constant' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['offset_constant'], float) or
+                     isinstance(new_values['data']['offset_constant'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OFFSET_CONSTANT_VALUE')
+        offset_constant = new_values['data']['offset_constant']
 
         if 'is_trend' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_trend'], bool):
@@ -802,8 +821,8 @@ class PointItem:
         update_row = (" UPDATE tbl_points "
                       " SET name = %s, data_source_id = %s, "
                       "     object_type = %s, units = %s, "
-                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s,ratio = %s, "
-                      "     is_trend = %s, is_virtual = %s, address = %s, description = %s "
+                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, "
+                      "     offset_constant = %s, is_trend = %s, is_virtual = %s, address = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     data_source_id,
@@ -814,6 +833,7 @@ class PointItem:
                                     higher_limit,
                                     lower_limit,
                                     ratio,
+                                    offset_constant,
                                     is_trend,
                                     is_virtual,
                                     address,
@@ -941,7 +961,7 @@ class PointExport:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                  "        is_trend, is_virtual, address, description "
                  " FROM tbl_points "
                  " WHERE id = %s ")
@@ -962,11 +982,12 @@ class PointExport:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "is_trend": bool(row[10]),
-                  "is_virtual": bool(row[11]),
-                  "address": row[12],
-                  "description": row[13]}
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
+                  "is_trend": bool(row[11]),
+                  "is_virtual": bool(row[12]),
+                  "address": row[13],
+                  "description": row[14]}
         resp.text = json.dumps(result)
 
 
@@ -1065,6 +1086,13 @@ class PointImport:
                                    description='API.INVALID_RATIO_VALUE')
         ratio = new_values['ratio']
 
+        if 'offset_constant' not in new_values.keys() or \
+                not (isinstance(new_values['offset_constant'], float) or
+                     isinstance(new_values['offset_constant'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_OFFSET_CONSTANT_VALUE')
+        offset_constant = new_values['offset_constant']
+
         if 'is_trend' not in new_values.keys() or \
                 not isinstance(new_values['is_trend'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1117,8 +1145,8 @@ class PointImport:
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -1128,6 +1156,7 @@ class PointImport:
                                    higher_limit,
                                    lower_limit,
                                    ratio,
+                                   offset_constant,
                                    is_trend,
                                    is_virtual,
                                    address,
@@ -1174,7 +1203,7 @@ class PointClone:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                  "        is_trend, is_virtual, address, description "
                  " FROM tbl_points "
                  " WHERE id = %s ")
@@ -1193,11 +1222,12 @@ class PointClone:
                   "low_limit": row[6],
                   "higher_limit": row[7],
                   "lower_limit": row[8],
-                  "ratio": float(row[9]),
-                  "is_trend": bool(row[10]),
-                  "is_virtual": bool(row[11]),
-                  "address": row[12],
-                  "description": row[13]}
+                  "ratio": Decimal(row[9]),
+                  "offset_constant": Decimal(row[10]),
+                  "is_trend": bool(row[11]),
+                  "is_virtual": bool(row[12]),
+                  "address": row[13],
+                  "description": row[14]}
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -1206,8 +1236,8 @@ class PointClone:
                        + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (new_name,
                                    result['data_source']['id'],
                                    result['object_type'],
@@ -1217,6 +1247,7 @@ class PointClone:
                                    result['higher_limit'],
                                    result['lower_limit'],
                                    result['ratio'],
+                                   result['offset_constant'],
                                    result['is_trend'],
                                    result['is_virtual'],
                                    result['address'],
@@ -1229,4 +1260,3 @@ class PointClone:
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)
 
-        
