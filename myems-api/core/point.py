@@ -94,8 +94,8 @@ class PointCollection:
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
-                or str.strip(new_values['data']['object_type']) not in (
-        'ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                or str.strip(new_values['data']['object_type']) not in \
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -209,9 +209,9 @@ class PointCollection:
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -444,13 +444,13 @@ class PointItem:
                                    description='API.THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS')
 
         # check if this point is being used by distribution integrator
-        cursor.execute("SELECT name "
-                       "FROM tbl_integrators "
-                       "WHERE high_temperature_point_id = %s "
-                       "   OR low_temperature_point_id = %s "
-                       "   OR flow_point_id = %s "
-                       "   OR result_point_id = %s "
-                       "LIMIT 1",
+        cursor.execute(" SELECT name "
+                       " FROM tbl_integrators "
+                       " WHERE high_temperature_point_id = %s "
+                       "    OR low_temperature_point_id = %s "
+                       "    OR flow_point_id = %s "
+                       "    OR result_point_id = %s "
+                       " LIMIT 1",
                        (id_, id_, id_, id_))
         row_integrator = cursor.fetchone()
         if row_integrator is not None:
@@ -461,12 +461,12 @@ class PointItem:
                                    description='API.THERE_IS_RELATION_WITH_INTEGRATORS')
 
         # check if this point is being used by microgrid battery
-        cursor.execute("SELECT microgrid_id "
-                       "FROM tbl_microgrids_batteries "
-                       "WHERE battery_state_point_id = %s "
-                       "   OR soc_point_id = %s "
-                       "   OR power_point_id = %s "
-                       "LIMIT 1",
+        cursor.execute(" SELECT microgrid_id "
+                       " FROM tbl_microgrids_batteries "
+                       " WHERE battery_state_point_id = %s "
+                       "    OR soc_point_id = %s "
+                       "    OR power_point_id = %s "
+                       " LIMIT 1",
                        (id_, id_, id_))
         row_microgrid_battery = cursor.fetchone()
         if row_microgrid_battery is not None:
@@ -695,8 +695,8 @@ class PointItem:
         data_source_id = new_values['data']['data_source_id']
 
         if 'object_type' not in new_values['data'].keys() \
-                or str.strip(new_values['data']['object_type']) not in (
-        'ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                or str.strip(new_values['data']['object_type']) not in \
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -821,8 +821,8 @@ class PointItem:
         update_row = (" UPDATE tbl_points "
                       " SET name = %s, data_source_id = %s, "
                       "     object_type = %s, units = %s, "
-                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, offset_constant = %s, "
-                      "     is_trend = %s, is_virtual = %s, address = %s, description = %s "
+                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, "
+                      "     offset_constant = %s, is_trend = %s, is_virtual = %s, address = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     data_source_id,
@@ -1144,9 +1144,9 @@ class PointImport:
                                    description='API.INVALID_DATA_SOURCE_ID')
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -1235,9 +1235,9 @@ class PointClone:
                     + (datetime.now()
                        + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                     "                         is_trend, is_virtual, address, description) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                     "                         offset_constant, is_trend, is_virtual, address, description) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (new_name,
                                    result['data_source']['id'],
                                    result['object_type'],
