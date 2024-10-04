@@ -56,9 +56,6 @@ app.controller('PointController', function(
 		});
 		modalInstance.result.then(function(point) {
 			point.data_source_id = $scope.currentDataSource;
-			if(point.ratio==""){
-				point.ratio = undefined;
-			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			PointService.addPoint(point, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -100,9 +97,6 @@ app.controller('PointController', function(
 
 		modalInstance.result.then(function(modifiedPoint) {
 			modifiedPoint.data_source_id = $scope.currentDataSource;
-			if(modifiedPoint.ratio==""){
-				modifiedPoint.ratio = undefined;
-			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			PointService.editPoint(modifiedPoint, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -269,7 +263,10 @@ app.controller('PointController', function(
 app.controller('ModalAddPointCtrl', function($scope, $uibModalInstance) {
 
 	$scope.operation = "SETTING.ADD_POINT";
-	$scope.point = {};
+	$scope.point = {
+        ratio: 1,
+        offset_constant: 0
+	};
 	$scope.point.object_type = "ENERGY_VALUE";
 	$scope.point.is_trend = true;
 	$scope.point.is_virtual = false;
