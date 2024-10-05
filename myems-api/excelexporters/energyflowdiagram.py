@@ -76,7 +76,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     node_color_list = list()
     for key, node in enumerate(report['nodes']):
         nodes.append(node['name'])
-        node_value.append(0)
+        node_value.append(Decimal(0.0))
         node_color_list.append(color[key % len(color)])
     for link in report['links']:
         source.append(nodes.index(link['source']))
