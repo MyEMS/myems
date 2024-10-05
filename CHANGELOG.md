@@ -5,16 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added myems_production_db config to example.env in myems-api
-- added offset_constant to point in database
-- added offset_constant to point in myems-api
-- 
 ### Changed
--
+### Fixed
+### Removed
+
+## [v4.9.1] - 2024-10-05
+### Added
+- added myems_production_db config to example.env in myems-api
+- added offset_constant to point
+### Changed
+- None
 ### Fixed
 - fixed AttributeError of energy flow diagram in myems-api
 ### Removed
--
+- None
 
 ## [v4.9.0] - 2024-09-28
 ### Added

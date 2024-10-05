@@ -63,7 +63,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             continue
 
         try:
-            query = (" SELECT id, name, object_type, is_trend, ratio, address "
+            query = (" SELECT id, name, object_type, is_trend, ratio, offset_constant, address "
                      " FROM tbl_points "
                      " WHERE data_source_id = %s AND is_virtual = 0 "
                      " ORDER BY id ")
@@ -98,7 +98,8 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                                "object_type": row_point[2],
                                "is_trend": row_point[3],
                                "ratio": row_point[4],
-                               "address": row_point[5]})
+                               "offset_constant": row_point[5],
+                               "address": row_point[6]})
 
         ################################################################################################################
         # Step 3: Read point values from Modbus slaves
@@ -220,24 +221,25 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
 
                 if point['object_type'] == 'ANALOG_VALUE':
                     # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
-                    # 3 decimals, so values that can be stored in the salary column range
+                    # 3 decimals, so values that can be stored in the column range
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         analog_value_list.append({'point_id': point['id'],
                                                   'is_trend': point['is_trend'],
-                                                  'value': Decimal(value) * point['ratio']})
+                                                  'value': Decimal(value) * point['ratio'] + point['offset_constant']})
                 elif point['object_type'] == 'ENERGY_VALUE':
                     # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
-                    # 3 decimals, so values that can be stored in the salary column range
+                    # 3 decimals, so values that can be stored in the column range
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         energy_value_list.append({'point_id': point['id'],
                                                   'is_trend': point['is_trend'],
-                                                  'value': Decimal(value) * point['ratio']})
+                                                  'value': Decimal(value) * point['ratio'] + point['offset_constant']})
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     digital_value_list.append({'point_id': point['id'],
                                                'is_trend': point['is_trend'],
-                                               'value': int(value) * int(point['ratio'])})
+                                               'value': int(value) * int(point['ratio']) + int(point['offset_constant'])
+                                               })
 
             # end of foreach point loop
 
