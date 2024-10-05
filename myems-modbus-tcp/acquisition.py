@@ -221,7 +221,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
 
                 if point['object_type'] == 'ANALOG_VALUE':
                     # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
-                    # 3 decimals, so values that can be stored in the salary column range
+                    # 3 decimals, so values that can be stored in the column range
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         analog_value_list.append({'point_id': point['id'],
@@ -229,7 +229,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                                                   'value': Decimal(value) * point['ratio'] + point['offset_constant']})
                 elif point['object_type'] == 'ENERGY_VALUE':
                     # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
-                    # 3 decimals, so values that can be stored in the salary column range
+                    # 3 decimals, so values that can be stored in the column range
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         energy_value_list.append({'point_id': point['id'],
@@ -238,7 +238,8 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     digital_value_list.append({'point_id': point['id'],
                                                'is_trend': point['is_trend'],
-                                               'value': int(value) * int(point['ratio']) + int(point['offset_constant'])})
+                                               'value': int(value) * int(point['ratio']) + int(point['offset_constant'])
+                                               })
 
             # end of foreach point loop
 
