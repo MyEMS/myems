@@ -21298,7 +21298,7 @@
 							"response": []
 						},
 						{
-							"name": "GET an Text Message by ID",
+							"name": "GET aText Message by ID",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -21371,7 +21371,7 @@
 							"response": []
 						},
 						{
-							"name": "Update an Text Message",
+							"name": "Update a Text Message",
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -21415,7 +21415,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE an Text Message by ID",
+							"name": "DELETE a Text Message by ID",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -21443,6 +21443,211 @@
 									],
 									"path": [
 										"textmessages",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Ticket Ⓔ",
+					"item": [
+						{
+							"name": "GET All Tickets",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "115ee3c0a03111a3f1b76d52b56ab964b29283ac04c38737fff08fe054c09e6e5b02d0de825674b1618a9e6691fd2b045cc5ae2fb0a3b2f95ec85c882f8afbbe",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tickets?startdatetime=2021-12-11T00:00:00&enddatetime=2021-12-21T00:00:00&status=all",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tickets"
+									],
+									"query": [
+										{
+											"key": "startdatetime",
+											"value": "2021-12-11T00:00:00"
+										},
+										{
+											"key": "enddatetime",
+											"value": "2021-12-21T00:00:00"
+										},
+										{
+											"key": "status",
+											"value": "all"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Ticket by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "115ee3c0a03111a3f1b76d52b56ab964b29283ac04c38737fff08fe054c09e6e5b02d0de825674b1618a9e6691fd2b045cc5ae2fb0a3b2f95ec85c882f8afbbe",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tickets/49",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tickets",
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Ticket",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"rule_id\":1, \"recipient_name\":\"myems\", \"recipient_mobile\":\"13888888888\", \"message\":\"report_01_2021年12月24日\", \"acknowledge_code\":\"123456\", \"created_datetime\":\"2021-12-24T00:00:00\", \"scheduled_datetime\":\"2021-12-24T00:00:00\"}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/tickets",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Ticket",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tickets/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tickets",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Ticket by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tickets/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tickets",
 										"2"
 									]
 								}

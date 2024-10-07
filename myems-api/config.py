@@ -104,6 +104,13 @@ myems_mqtt_broker = {
     'password': config('MYEMS_MQTT_BROKER_PASSWORD', default='!MyEMS123'),
 }
 
+myems_workflow = {
+    'base_url': config('MYEMS_WORKFLOW_BASE_URL', default='http://192.168.1.8/api/v1.0/'),
+    'token': config('MYEMS_WORKFLOW_TOKEN', default='3d1ccf4c-83f2-11ef-a5fd-29e7d25a1ee6'),
+    'app_name': config('MYEMS_WORKFLOW_APP_NAME', default='myems'),
+    'user_name': config('MYEMS_WORKFLOW_USER_NAME', default='admin'),
+}
+
 # indicated in how many minutes to calculate meter energy consumption
 # 30 for half hourly period
 # 60 for hourly period

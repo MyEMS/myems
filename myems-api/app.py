@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol
+    windfarm, energyplanfile, svg, protocol, ticket
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -858,6 +858,11 @@ api.add_route('/textmessages',
               textmessage.TextMessageCollection())
 api.add_route('/textmessages/{id_}',
               textmessage.TextMessageItem())
+
+api.add_route('/tickets',
+              ticket.TicketCollection())
+api.add_route('/tickets/{id_}',
+              ticket.TicketItem())
 
 api.add_route('/timezones',
               timezone.TimezoneCollection())
