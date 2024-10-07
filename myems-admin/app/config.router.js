@@ -891,6 +891,8 @@ app
                                                     'app/services/settings/space/spacesensor.service.js',
                                                     'app/services/settings/space/spaceworkingcalendar.service.js',
                                                     'app/services/settings/space/spacecommand.service.js',
+                                                    'app/services/settings/space/spaceenergyflowdiagram.service.js',
+                                                    'app/services/settings/energyflowdiagram/energyflowdiagram.service.js',
                                                     'app/controllers/settings/space/space.controller.js',
                                                     'app/controllers/settings/space/spacemeter.controller.js',
                                                     'app/controllers/settings/space/spaceequipment.controller.js',
@@ -906,6 +908,7 @@ app
                                                     'app/controllers/settings/space/spacecommand.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
+                                                    'app/controllers/settings/space/spaceenergyflowdiagram.controller.js',
                                                 ]
                                             }]);
                                         }
