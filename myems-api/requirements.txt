@@ -13,3 +13,4 @@ python-decouple
 paho-mqtt==2.1.0
 plotly
 kaleido
+requests
