@@ -150,64 +150,140 @@ def generate_excel(report,
         wb.save(filename)
 
         return filename
+
     ####################################################################################################################
-    # First: Total
-    # 7: title
-    # 8: table title
-    # 9~11 table_data
-    # Total: 5 rows
-    # if has not energy data: set low height for rows
+    # Time-Of-Use Data
+    # 6: title
+    # 7: table title
+    # 8~12 table_data
+    # Total: 7 rows
     ####################################################################################################################
     reporting_period_data = report['reporting_period']
-    if "names" not in reporting_period_data.keys() or \
-            reporting_period_data['names'] is None or \
-            len(reporting_period_data['names']) == 0:
-        for i in range(7, 10 + 1):
+    print(reporting_period_data)
+    if "toppeaks" not in reporting_period_data.keys() or \
+            reporting_period_data['toppeaks'] is None or \
+            len(reporting_period_data['toppeaks']) == 0:
+        for i in range(6, 12 + 1):
             ws.row_dimensions[i].height = 0.1
     else:
         ws['B7'].font = title_font
         ws['B7'] = name
 
-        category = reporting_period_data['names']
-        ca_len = len(category)
+        ws.row_dimensions[7].height = 60
+        ws['B7'].fill = table_fill
+        ws['B7'].font = name_font
+        ws['B7'].alignment = c_c_alignment
+        ws['B7'].border = f_border
 
-        ws.row_dimensions[8].height = 60
-        ws['B8'].fill = table_fill
+        ws['B8'].font = title_font
+        ws['B8'].alignment = c_c_alignment
+        ws['B8'] = _('TopPeak')
         ws['B8'].border = f_border
 
         ws['B9'].font = title_font
         ws['B9'].alignment = c_c_alignment
-        ws['B9'] = _('Total')
+        ws['B9'] = _('OnPeak')
         ws['B9'].border = f_border
 
-        for i in range(0, ca_len):
+        ws['B10'].font = title_font
+        ws['B10'].alignment = c_c_alignment
+        ws['B10'] = _('MidPeak')
+        ws['B10'].border = f_border
+
+        ws['B11'].font = title_font
+        ws['B11'].alignment = c_c_alignment
+        ws['B11'] = _('OffPeak')
+        ws['B11'].border = f_border
+
+        ws['B12'].font = title_font
+        ws['B12'].alignment = c_c_alignment
+        ws['B12'] = _('Subtotal')
+        ws['B12'].border = f_border
+
+        for i in range(len(reporting_period_data['names'])):
             col = chr(ord('C') + i)
-            ws[col + '8'].fill = table_fill
-            ws[col + '8'].font = name_font
+
+            ws[col + '7'].fill = table_fill
+            ws[col + '7'].font = name_font
+            ws[col + '7'].alignment = c_c_alignment
+            ws[col + '7'].border = f_border
+            ws[col + '7'] = reporting_period_data['names'][i] + '(' + reporting_period_data['units'][i] + ')'
+
+            ws[col + '8'].font = title_font
             ws[col + '8'].alignment = c_c_alignment
-            ws[col + '8'] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
             ws[col + '8'].border = f_border
+            ws[col + '8'] = round2(reporting_period_data['toppeaks'][i], 2)
 
-            ws[col + '9'].font = name_font
+            ws[col + '9'].font = title_font
             ws[col + '9'].alignment = c_c_alignment
-            ws[col + '9'] = round2(reporting_period_data['subtotals'][i], 2)
             ws[col + '9'].border = f_border
+            ws[col + '9'] = round2(reporting_period_data['onpeaks'][i], 2)
+
+            ws[col + '10'].font = title_font
+            ws[col + '10'].alignment = c_c_alignment
+            ws[col + '10'].border = f_border
+            ws[col + '10'] = round2(reporting_period_data['midpeaks'][i], 2)
+
+            ws[col + '11'].font = title_font
+            ws[col + '11'].alignment = c_c_alignment
+            ws[col + '11'].border = f_border
+            ws[col + '11'] = round2(reporting_period_data['offpeaks'][i], 2)
+
+            ws[col + '12'].font = title_font
+            ws[col + '12'].alignment = c_c_alignment
+            ws[col + '12'].border = f_border
+            ws[col + '12'] = round2(reporting_period_data['subtotals'][i], 2)
 
     ####################################################################################################################
-    # Second: Electricity Consumption by Time-Of-Use
-    # 12: title
-    # 13: table title
-    # 14~17 table_data
-    # Total: 6 rows
+    # Details Data
+    # 15: table head
+    # 16 ~ 16+N table body
+    # Total: N+2 rows
+    # if has not energy data: set low height for rows
     ####################################################################################################################
 
-    ####################################################################################################################
-    # Third: Ton of Standard Coal(TCE) by Energy Category
-    # current_row_number: title
-    # current_row_number + 1: table title
-    # current_row_number + 1 + ca_len table_data
-    # Total: 2 + ca_len rows
-    ####################################################################################################################
+    if "names" not in reporting_period_data.keys() or \
+            reporting_period_data['names'] is None or \
+            len(reporting_period_data['names']) == 0:
+        for i in range(14, 16 + 1):
+            ws.row_dimensions[i].height = 0.1
+    else:
+        ws.row_dimensions[8].height = 60
+        ws['B15'].fill = table_fill
+        ws['B15'].font = name_font
+        ws['B15'].border = f_border
+        ws['B15'] = name
+
+        for i in range(0, len(reporting_period_data['names'])):
+            col = chr(ord('C') + i)
+            ws[col + '15'].fill = table_fill
+            ws[col + '15'].font = name_font
+            ws[col + '15'].alignment = c_c_alignment
+            ws[col + '15'] = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
+            ws[col + '15'].border = f_border
+
+            timestamps_length = len(reporting_period_data['timestamps'][0])
+            for j in range(0, timestamps_length):
+                ws['B' + str(16 + j)].font = name_font
+                ws['B' + str(16 + j)].alignment = c_c_alignment
+                ws['B' + str(16 + j)] = reporting_period_data['timestamps'][0][j]
+                ws['B' + str(16 + j)].border = f_border
+
+                ws[col + str(16+j)].font = name_font
+                ws[col + str(16+j)].alignment = c_c_alignment
+                ws[col + str(16+j)] = round2(reporting_period_data['values'][i][j], 2)
+                ws[col + str(16+j)].border = f_border
+
+            ws[col + str(16 + timestamps_length)].font = name_font
+            ws[col + str(16 + timestamps_length)].alignment = c_c_alignment
+            ws[col + str(16 + timestamps_length)] = round2(reporting_period_data['subtotals'][i], 2)
+            ws[col + str(16 + timestamps_length)].border = f_border
+
+        ws['B' + str(16 + len(reporting_period_data['timestamps'][0]))].font = title_font
+        ws['B' + str(16 + len(reporting_period_data['timestamps'][0]))].alignment = c_c_alignment
+        ws['B' + str(16 + len(reporting_period_data['timestamps'][0]))] = _('Total')
+        ws['B' + str(16 + len(reporting_period_data['timestamps'][0]))].border = f_border
+
     current_row_number = 19
 
     ####################################################################################################################
