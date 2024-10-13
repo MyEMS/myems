@@ -1,6 +1,3 @@
-# 由于运营商网络问题，可能会导致您拉取镜像变慢，使用镜像加速服务
-# 阿里云控制台: 容器镜像服务 / 镜像工具 / 镜像加速器
-
 FROM python:slim
 
 RUN apt update && apt install -y nano telnet
