@@ -784,6 +784,63 @@
 						</div>
 					</uib-tab>
 
+					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}">
+						<div class="panel-body" ng-controller="SpaceEnergyFlowDiagramController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_SPACE' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="spacetreewithenergyflowdiagram"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SPACE.N_S_ENERGY_FLOW_DIAGRAM' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+										    x-hjc-drop-target="true"
+											x-on-drop="pairEnergyFlowDiagram(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{spaceenergyflowdiagram.name}}"
+												ng-repeat="spaceenergyflowdiagram in spaceenergyflowdiagrams" x-hjc-draggable="true">
+												{{spaceenergyflowdiagram.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteEnergyFlowDiagramPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading"> {{'SPACE.ENERGY_FLOW_DIAGRAM_LIST' | translate}} </div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="760">
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="energyflowdiagram in energyflowdiagrams" x-hjc-draggable="true">
+												{{energyflowdiagram.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
 				</uib-tabset>
 			</div>
 		</div>
