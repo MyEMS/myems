@@ -2,7 +2,7 @@
 app.factory('SpaceEnergyFlowDiagramService', function($http) {
     return {
         addPair: function(spaceID,energyflowdiagramID, headers, callback) {
-            $http.post(getAPI()+'spaces/'+spaceID+'/energyflowdiagrams',{data:{'energyflowdiagram_id':energyflowdiagramID}}, {headers})
+            $http.post(getAPI()+'spaces/'+spaceID+'/energyflowdiagrams',{data:{'energy_flow_diagram_id':energyflowdiagramID}}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
