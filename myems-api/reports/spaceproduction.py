@@ -25,12 +25,12 @@ class Reporting:
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
-        # if 'API-KEY' not in req.headers or \
-        #         not isinstance(req.headers['API-KEY'], str) or \
-        #         len(str.strip(req.headers['API-KEY'])) == 0:
-        #     access_control(req)
-        # else:
-        #     api_key_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
         space_id = req.params.get('spaceid')
         product_id = req.params.get('productid')
         period_type = req.params.get('periodtype')

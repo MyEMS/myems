@@ -334,7 +334,7 @@ export const spaceRoutes = {
     { to: '/space/plan', name: 'Plan' },
     { to: '/space/environmentmonitor', name: 'Environment Monitor' },
     { to: '/space/enterproduction', name: 'Enter Production' },
-    { to: '/space/productionenergy', name: 'Production Energy' }
+    { to: '/space/production', name: 'Space Production' }
   ]
 };
 

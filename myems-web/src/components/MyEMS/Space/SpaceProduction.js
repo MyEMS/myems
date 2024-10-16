@@ -44,7 +44,7 @@ const periodTypeOptions = [
   { value: 'daily', label: 'Daily' }
 ];
 
-const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
+const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -368,7 +368,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/productionenergy?' +
+      '/reports/spaceproduction?' +
       'spaceid=' +
       selectedSpaceID +
       '&productid=1' + 
@@ -526,7 +526,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
           if (!isBasePeriodTimestampExists(json['base_period'])) {
             let detailed_value_list = [];
             if (json['reporting_production']['timestamps'].length > 0) {
-              json['reporting_production']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+              json['reporting_production']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
                 let detailed_value = {};
                 detailed_value['id'] = timestampIndex;
                 detailed_value['startdatetime'] = currentTimestamp;
@@ -754,7 +754,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'ProductionEnergyConsumption.xlsx';
+    const fileName = 'SpaceProduction.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
@@ -773,7 +773,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Production Energy')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Space Production')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -913,6 +913,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
         <div className="card-deck">
         <CardSummary
+              rate={''}
               key={'baseCardSummaryItem'}
               title={t('Base Period Production PRODUCT VALUE UNIT', {
                 VALUE: baseCardSummaryItem['name'],
@@ -932,6 +933,7 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
               )}
             </CardSummary>
             <CardSummary
+              rate={''}
               key={'reportingCardSummaryItem'}
               title={t('Reporting Period Production PRODUCT VALUE UNIT', {
                 VALUE: reportingCardSummaryItem['name'],
@@ -1047,4 +1049,4 @@ const ProductionEnergyConsumption = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(ProductionEnergyConsumption));
+export default withTranslation()(withRedirect(SpaceProduction));
