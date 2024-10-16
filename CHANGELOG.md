@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added ticket Ⓔ actions to myems-api
+- added space production report
 ### Changed
 ### Fixed
 ### Removed

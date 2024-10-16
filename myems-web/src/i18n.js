@@ -35,6 +35,7 @@ const resources = {
       Saving: 'Saving',
       Plan: 'Plan',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Equipment Tracking',
       'Environment Monitor': 'Environment Monitor',
       'Meter Energy': 'Meter Energy',
@@ -239,6 +240,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Reporting Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Base Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Reporting Period Consumption {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -1210,6 +1213,7 @@ const resources = {
       Saving: '节能分析',
       Plan: '计划分析',
       'Production': '产量',
+      'Space Production': '产量能耗分析',
       'Equipment Tracking': '设备台账',
       'Environment Monitor': '环境监测',
       'Meter Energy': '计量表能耗分析',
@@ -1407,6 +1411,8 @@ const resources = {
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} 报告期消耗 {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': '报告期产量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': '基准期产量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': '报告期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': '基准期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': '报告期消耗 {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -2367,6 +2373,7 @@ const resources = {
       Saving: 'Sparen',
       Plan: 'Planen',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Ausrüstung Datei',
       'Environment Monitor': 'Umgebungsmonitor',
       'Meter Energy': 'Meter Energie ',
@@ -2572,6 +2579,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Verbrauch des Berichtszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Verbrauch des Basiszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Verbrauch des Berichtszeitraums {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -3576,6 +3585,7 @@ const resources = {
       Saving: 'Épargne',
       Plan: 'Plan',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Suivi de l’équipement',
       'Environment Monitor': 'Moniteur d’environnement',
       'Meter Energy': 'Compteur d’énergie',
@@ -3783,6 +3793,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Rapports Période Consommation {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Base Période Consommation {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Rapports Période Consommation {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -4764,6 +4776,7 @@ const resources = {
       Saving: 'Ahorro',
       Plan: 'Plan',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Seguimiento de equipos',
       'Environment Monitor': 'Monitor de entorno',
       'Meter Energy': 'Energía del medidor',
@@ -4970,6 +4983,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Consumo del período de informe {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Consumo del período base {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Consumo del período de informe {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -5958,6 +5973,7 @@ const resources = {
       Saving: 'Спасительный',
       Plan: 'План',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Отслеживание оборудования',
       'Environment Monitor': 'Монитор окружающей среды',
       'Meter Energy': 'Счетчик энергии',
@@ -6164,6 +6180,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Потребление за отчетный период {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Потребление за базовый период {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Потребление за отчетный период {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -7151,6 +7169,7 @@ const resources = {
       Saving: 'حفظ',
       Plan: 'يخطط',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'تتبع المعدات',
       'Environment Monitor': 'مراقب البيئة',
       'Meter Energy': 'طاقة المتر',
@@ -7353,6 +7372,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'استهلاك فترة الأساس {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'استهلاك الفترة المشمولة بالتقرير {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -8333,6 +8354,7 @@ const resources = {
       Saving: 'Tiết kiệm',
       Plan: 'Kế hoạch',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Theo dõi thiết bị',
       'Environment Monitor': 'Giám sát môi trường',
       'Meter Energy': 'Năng lượng đo',
@@ -8535,6 +8557,8 @@ const resources = {
         '{{COMBINED_EQUIPMENT}} Tiêu thụ kỳ báo cáo {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Tiêu thụ kỳ báo cáo {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Tiêu thụ thời gian cơ sở {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Tiêu thụ kỳ báo cáo {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -9513,6 +9537,7 @@ const resources = {
       Saving: 'การประหยัด',
       Plan: 'วางแผน',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'การติดตามอุปกรณ์',
       'Environment Monitor': 'การตรวจสอบสภาพแวดล้อม',
       'Meter Energy': 'เครื่องวัดพลังงาน',
@@ -9717,6 +9742,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'การบริโภคช่วงฐาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'ปริมาณการใช้ในรอบระยะเวลารายงาน {{ITEM}} {{CATEGORY}} {{UNIT}}',
@@ -10692,6 +10719,7 @@ const resources = {
       Saving: 'Tasarruf',
       Plan: 'Plan',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Ekipman Takibi',
       'Environment Monitor': 'Ortam İzleyicisi',
       'Meter Energy': 'Sayaç Enerjisi',
@@ -10896,6 +10924,8 @@ const resources = {
         '{{COMBINED_EQUIPMENT}} Raporlama Dönemi Tüketimi {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Raporlama Dönemi Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Baz Dönem Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Raporlama Dönemi Tüketimi {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -11874,6 +11904,7 @@ const resources = {
       Saving: 'Menyimpan',
       Plan: 'Rancang',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Penjejakan Peralatan',
       'Environment Monitor': 'Monitor Alam Sekitar',
       'Meter Energy': 'Tenaga Meter',
@@ -12079,6 +12110,8 @@ const resources = {
         '{{COMBINED_EQUIPMENT}} Tempoh Pelaporan Penggunaan {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Tempoh Pelaporan Penggunaan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Tempoh Asas Penggunaan {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Tempoh Pelaporan Penggunaan {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -13061,6 +13094,7 @@ const resources = {
       Saving: 'Analis Penyimpanan Energi',
       Plan: 'Rencana',
       'Production': 'Production',
+      'Space Production': 'Space Production',
       'Equipment Tracking': 'Buku Peralatan',
       'Environment Monitor': 'Monitoring Lingkungan',
       'Meter Energy': 'Analis Konsumsi Energi Dari Meter',
@@ -13265,6 +13299,8 @@ const resources = {
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT':
         'Konsum Selama Periode Laporan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Konsum Periode Dasar {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Konsum Selama Periode Laporan {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -14260,6 +14296,7 @@ const resources = {
       Saving: '節能分析',
       Plan: '計劃分析',
       'Production': '產量',
+      'Space Production': '產量能耗分析',
       'Equipment Tracking': '設備台賬',
       'Environment Monitor': '環境監測',
       'Meter Energy': '計量表能耗分析',
@@ -14460,6 +14497,8 @@ const resources = {
         '{{COMBINED_EQUIPMENT}} 報告期消耗 {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': '報告期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Production PRODUCT VALUE UNIT': '報告期產量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': '基準期產量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': '基準期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': '報告期消耗 {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT': '報告期消耗 {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
