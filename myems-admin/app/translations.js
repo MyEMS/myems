@@ -1099,6 +1099,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Unbind Energy Storage Container Success',
                 BIND_USER_SUCCESS: 'Bind User Success',
                 UNBIND_USER_SUCCESS: 'Unbind User Success',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Bind Energy Flow Diagram Success',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Unbind Energy Flow Diagram Success',
 
                 CAPTCHA_ERROR: 'Captcha Error'
             },
@@ -2839,6 +2841,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: '解绑储能集装箱成功',
                 BIND_USER_SUCCESS: '绑定用户成功',
                 UNBIND_USER_SUCCESS: '解绑用户成功',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: '绑定能流图成功',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: '解绑绑能流图成功',
 
                 CAPTCHA_ERROR: '验证码错误',
             },
@@ -4579,6 +4583,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Lösen der Bindung von Energiespeicherbehältern erfolgreich',
                 BIND_USER_SUCCESS: 'Benutzerbindung erfolgreich',
                 UNBIND_USER_SUCCESS: 'Benutzer erfolgreich gelöst',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Erfolg des Bind-Energieflussdiagramms',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Erfolg des Energieflussdiagramms aufheben',
 
                 CAPTCHA_ERROR: 'Captcha-Fehler',
             },
@@ -6316,6 +6322,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Débloquer avec succès les contraintes des conteneurs de stockage d’énergie',
                 BIND_USER_SUCCESS: 'Liaison utilisateur réussie',
                 UNBIND_USER_SUCCESS: 'L\'utilisateur se dissocie avec succès',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Succès du diagramme de flux d’énergie de liaison',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Succès du Power Flow Diagram de remplacement',
 
                 CAPTCHA_ERROR: 'Erreur Captcha'
             },
@@ -8055,6 +8063,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Desbloquear con éxito los grilletes de los contenedores de almacenamiento de energía',
                 BIND_USER_SUCCESS: 'La vinculación del usuario es exitosa',
                 UNBIND_USER_SUCCESS: 'El usuario se desvincula exitosamente',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Éxito del diagrama de flujo de energía de enlace',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Éxito del diagrama de flujo de potencia de sustitución',
 
                 CAPTCHA_ERROR: 'Captcha Error'
             },
@@ -9794,6 +9804,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Успешное снятие ограничений емкости для хранения энергии',
                 BIND_USER_SUCCESS: 'Привязка пользователя прошла успешно',
                 UNBIND_USER_SUCCESS: 'Пользователь успешно отвязывает',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Успешное создание диаграммы расхода энергии в звене',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Успешная блок-схема замены питания',
 
                 CAPTCHA_ERROR: 'Ошибка капчи'
             },
@@ -11532,6 +11544,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'نجحت في فك قيود الطاقة تخزين الحاويات',
                 BIND_USER_SUCCESS: 'تم ربط المستخدم بنجاح',
                 UNBIND_USER_SUCCESS: 'تم إلغاء ربط المستخدم بنجاح',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'إنشاء ناجح لمخطط استهلاك الطاقة الارتباط',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'مخطط كتلة استبدال الطاقة الناجح',
 
                 CAPTCHA_ERROR: 'خطأ كلمة التحقق'
             },
@@ -13270,6 +13284,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Giải phóng thành công các tàu lưu trữ năng lượng',
                 BIND_USER_SUCCESS: 'Liên kết người dùng thành công',
                 UNBIND_USER_SUCCESS: 'Người dùng hủy liên kết thành công',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Sơ đồ dòng năng lượng liên kết thành công',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Sơ đồ dòng năng lượng Unbind thành công',
 
                 CAPTCHA_ERROR: 'Mã xác minh không chính xác'
             },
@@ -15006,6 +15022,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'ประสบความสำเร็จในการปลดล็อกพันธนาการของภาชนะจัดเก็บพลังงาน',
                 BIND_USER_SUCCESS: 'การเชื่อมโยงผู้ใช้สำเร็จ',
                 UNBIND_USER_SUCCESS: 'ผู้ใช้ยกเลิกการเชื่อมโยงสำเร็จ',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'แผนภาพการไหลของพลังงานลิงค์ที่ประสบความสําเร็จ',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'แผนภาพการไหลของพลังงานปลดผูกสําเร็จ',
 
                 CAPTCHA_ERROR: 'ข้อผิดพลาด Captcha'
             },
@@ -16743,6 +16761,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Enerji depolama içereni bağlama başarısız',
                 BIND_USER_SUCCESS: 'Kullanıcı bağlama başarılı',
                 UNBIND_USER_SUCCESS: 'Kullanıcının bağlantısını başarıyla kaldırıyor',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Başarılı Bağlantı Enerji Akış Şeması',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Başarılı bir şekilde bağlanmamış enerji akış diyagramı',
 
                 CAPTCHA_ERROR: 'Captcha Hatası'
             },
@@ -18479,6 +18499,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Nyahikat Penyimpan tenaga berjaya',
                 BIND_USER_SUCCESS: 'Bind Kejayaan Pengguna',
                 UNBIND_USER_SUCCESS: 'Unbind Kejayaan Pengguna',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Bagan Aliran Energi Koneksi yang Berhasil',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Diagram aliran energi yang tidak berhasil dihubungkan',
 
                 CAPTCHA_ERROR: 'Ralat Captcha'
             },
@@ -20216,6 +20238,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: 'Unbind Energy Storage Container sukses',
                 BIND_USER_SUCCESS: 'Mengikat Kesuksesan Pengguna',
                 UNBIND_USER_SUCCESS: 'Membatalkan Kesuksesan Pengguna',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Bagan Aliran Energi Koneksi yang Berhasil',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: 'Diagram aliran energi yang tidak berhasil dihubungkan',
 
                 CAPTCHA_ERROR: 'Kesalahan Captcha'
             },
@@ -21958,6 +21982,8 @@ function config($translateProvider) {
                 UNBIND_ENERGY_STORAGE_CONTAINER_SUCCESS: '解綁儲能集裝箱成功',
                 BIND_USER_SUCCESS: '綁定⽤⼾成功',
                 UNBIND_USER_SUCCESS: '解綁⽤⼾成功',
+                BIND_ENERGYFLOWDIAGRAM_SUCCESS: '綁定能流圖成功',
+                UNBIND_ENERGYFLOWDIAGRAM_SUCCESS: '解綁能流圖成功',
 
                 CAPTCHA_ERROR: '驗證碼錯誤',
             },
