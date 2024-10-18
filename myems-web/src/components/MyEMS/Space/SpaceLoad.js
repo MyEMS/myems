@@ -412,10 +412,12 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
             cardSummaryItem['average_increment_rate'] =
               parseFloat(json['reporting_period']['averages_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['average_per_unit_area'] = json['reporting_period']['averages_per_unit_area'][index];
+            cardSummaryItem['average_per_capita'] = json['reporting_period']['averages_per_capita'][index];
             cardSummaryItem['maximum'] = json['reporting_period']['maximums'][index];
             cardSummaryItem['maximum_increment_rate'] =
               parseFloat(json['reporting_period']['maximums_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['maximum_per_unit_area'] = json['reporting_period']['maximums_per_unit_area'][index];
+            cardSummaryItem['maximum_per_capita'] = json['reporting_period']['maximums_per_capita'][index];
             cardSummaryItem['factor'] = json['reporting_period']['factors'][index];
             cardSummaryItem['factor_increment_rate'] =
               parseFloat(json['reporting_period']['factors_increment_rate'][index] * 100).toFixed(2) + '%';
@@ -880,6 +882,9 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['average_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['average_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['average'] && (
                 <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -896,6 +901,9 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['maximum_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['maximum_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['maximum'] && (
                 <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />

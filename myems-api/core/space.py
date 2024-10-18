@@ -79,7 +79,7 @@ class SpaceCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description, number "
                  " FROM tbl_spaces "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -101,7 +101,8 @@ class SpaceCollection:
                                "latitude": row[10],
                                "longitude": row[11],
                                "description": row[12],
-                               "qrcode": "space:" + row[2]}
+                               "qrcode": "space:" + row[2],
+                               "number": row[13]}
                 result.append(meta_result)
 
         cursor.close()
@@ -208,6 +209,13 @@ class SpaceCollection:
         else:
             description = None
 
+        if 'number' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['number'], int) or \
+                new_values['data']['number'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NUMBER')
+        number = new_values['data']['number']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -267,8 +275,8 @@ class SpaceCollection:
 
         add_values = (" INSERT INTO tbl_spaces "
                       "    (name, uuid, parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                      "     contact_id, cost_center_id, latitude, longitude, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, latitude, longitude, description, number) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     parent_space_id,
@@ -280,7 +288,8 @@ class SpaceCollection:
                                     cost_center_id,
                                     latitude,
                                     longitude,
-                                    description))
+                                    description,
+                                    number))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -364,7 +373,7 @@ class SpaceItem:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description, number "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -389,7 +398,8 @@ class SpaceItem:
                            "latitude": row[10],
                            "longitude": row[11],
                            "description": row[12],
-                           "qrcode": "space:" + row[2]}
+                           "qrcode": "space:" + row[2],
+                           "number": row[13]}
 
         resp.text = json.dumps(meta_result)
 
@@ -587,6 +597,13 @@ class SpaceItem:
         else:
             description = None
 
+        if 'number' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['number'], int) or \
+                new_values['data']['number'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NUMBER')
+        number = new_values['data']['number']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -656,7 +673,7 @@ class SpaceItem:
         update_row = (" UPDATE tbl_spaces "
                       " SET name = %s, parent_space_id = %s, area = %s, timezone_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, contact_id = %s, cost_center_id = %s, "
-                      "     latitude = %s, longitude = %s, description = %s "
+                      "     latitude = %s, longitude = %s, description = %s, number = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     parent_space_id,
@@ -669,6 +686,7 @@ class SpaceItem:
                                     latitude,
                                     longitude,
                                     description,
+                                    number,
                                     id_))
         cnx.commit()
 
@@ -704,7 +722,7 @@ class SpaceChildrenCollection:
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description, number "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -779,12 +797,13 @@ class SpaceChildrenCollection:
         result['current']['longitude'] = row_current_space[11]
         result['current']['description'] = row_current_space[12]
         result['current']['qrcode'] = 'space:' + row_current_space[2]
+        result['current']['number'] = row_current_space[13]
 
         result['children'] = list()
 
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "        contact_id, cost_center_id, latitude, longitude, description, number "
                  " FROM tbl_spaces "
                  " WHERE parent_space_id = %s "
                  " ORDER BY id ")
@@ -806,7 +825,8 @@ class SpaceChildrenCollection:
                                "latitude": row[10],
                                "longitude": row[11],
                                "description": row[12],
-                               "qrcode": 'space:' + row[2]}
+                               "qrcode": 'space:' + row[2],
+                               "number": row[13]}
                 result['children'].append(meta_result)
 
         cursor.close()

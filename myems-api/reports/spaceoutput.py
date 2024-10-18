@@ -181,12 +181,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -213,6 +213,7 @@ class Reporting:
         space['name'] = row_space[1]
         space['area'] = row_space[2]
         space['cost_center_id'] = row_space[3]
+        space['number'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -575,6 +576,7 @@ class Reporting:
         result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
+        result['reporting_period']['subtotals_per_capita'] = list()
         result['reporting_period']['increment_rates'] = list()
 
         if energy_category_set is not None and len(energy_category_set) > 0:
@@ -587,6 +589,8 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
                 result['reporting_period']['subtotals_per_unit_area'].append(
                     reporting[energy_category_id]['subtotal'] / space['area'] if space['area'] > 0.0 else None)
+                result['reporting_period']['subtotals_per_capita'].append(
+                    reporting[energy_category_id]['subtotal'] / space['number'] if space['number'] > 0.0 else None)
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']

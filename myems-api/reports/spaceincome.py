@@ -181,12 +181,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -213,6 +213,7 @@ class Reporting:
         space['name'] = row_space[1]
         space['area'] = row_space[2]
         space['cost_center_id'] = row_space[3]
+        space['number'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -576,9 +577,11 @@ class Reporting:
         result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
+        result['reporting_period']['subtotals_per_capita'] = list()
         result['reporting_period']['increment_rates'] = list()
         result['reporting_period']['total'] = Decimal(0.0)
         result['reporting_period']['total_per_unit_area'] = Decimal(0.0)
+        result['reporting_period']['total_per_capita'] = Decimal(0.0)
         result['reporting_period']['total_increment_rate'] = Decimal(0.0)
         result['reporting_period']['total_unit'] = config.currency_unit
 
@@ -592,6 +595,8 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
                 result['reporting_period']['subtotals_per_unit_area'].append(
                     reporting[energy_category_id]['subtotal'] / space['area'] if space['area'] > 0.0 else None)
+                result['reporting_period']['subtotals_per_capita'].append(
+                    reporting[energy_category_id]['subtotal'] / space['number'] if space['number'] > 0.0 else None)
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
@@ -610,6 +615,9 @@ class Reporting:
 
         result['reporting_period']['total_per_unit_area'] = \
             result['reporting_period']['total'] / space['area'] if space['area'] > 0.0 else None
+
+        result['reporting_period']['total_per_capita'] = \
+            result['reporting_period']['total'] / space['number'] if space['number'] > 0.0 else None
 
         result['reporting_period']['total_increment_rate'] = \
             (result['reporting_period']['total'] - result['base_period']['total']) / \

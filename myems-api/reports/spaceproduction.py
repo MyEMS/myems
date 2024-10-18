@@ -156,7 +156,7 @@ class Reporting:
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
         
-        cursor_system.execute(" SELECT name, area, cost_center_id "
+        cursor_system.execute(" SELECT name, area, cost_center_id, number "
                             " FROM tbl_spaces "
                             " WHERE id = %s ", (space_id,))
         row = cursor_system.fetchone()
@@ -172,6 +172,7 @@ class Reporting:
             space_name = row[0]
             space_area = row[1]
             space_center_id = row[2]
+            space_number = row[3]
 
         cnx_production = mysql.connector.connect(**config.myems_production_db)
         cursor_production = cnx_production.cursor()
