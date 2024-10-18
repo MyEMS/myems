@@ -1444,6 +1444,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces` (
   `uuid` CHAR(36) NOT NULL,
   `parent_space_id` BIGINT,
   `area` DECIMAL(18, 3) NOT NULL,
+  `number_of_occupants` DECIMAL(18, 3) NOT NULL DEFAULT 1.000,
   `timezone_id` BIGINT NOT NULL,
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
@@ -2138,7 +2139,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.9.1', '2024-10-05');
+(1, '4.10.0RC', '2024-10-30');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
