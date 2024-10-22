@@ -7,7 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added ticket Ⓔ actions to myems-api
 - added space production report
+- added number of occupants to space
+- 
 ### Changed
+- changed base docker image from python:silm to python:3.10-slim
+- 
 ### Fixed
 ### Removed
 
