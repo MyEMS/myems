@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('GatewayController', function($scope,  
+app.controller('GatewayController', function($scope,
 	$rootScope,
 	$window,
-	$translate, 
-	$uibModal, 
-	GatewayService, 
-	toaster, 
+	$translate,
+	$uibModal,
+	GatewayService,
+	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
@@ -180,7 +180,7 @@ app.controller('GatewayController', function($scope,
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
 					showCloseButton: true,
 				});
 				$scope.$emit('handleEmitGatewayChanged');
@@ -188,7 +188,7 @@ app.controller('GatewayController', function($scope,
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -215,7 +215,7 @@ app.controller('GatewayController', function($scope,
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("GATEWAY.GATEWAY")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitGatewayChanged');
@@ -223,7 +223,7 @@ app.controller('GatewayController', function($scope,
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("GATEWAY.GATEWAY") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

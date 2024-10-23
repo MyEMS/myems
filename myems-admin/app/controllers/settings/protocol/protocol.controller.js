@@ -180,7 +180,7 @@ app.controller('ProtocolController', function($scope,
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("PROTOCOL.PROTOCOL")}),
 					showCloseButton: true,
 				});
 				$scope.$emit('handleEmitProtocolChanged');
@@ -188,7 +188,7 @@ app.controller('ProtocolController', function($scope,
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("PROTOCOL.PROTOCOL")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -215,7 +215,7 @@ app.controller('ProtocolController', function($scope,
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("PROTOCOL.PROTOCOL")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitProtocolChanged');
@@ -223,7 +223,7 @@ app.controller('ProtocolController', function($scope,
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("PROTOCOL.PROTOCOL") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
