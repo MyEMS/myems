@@ -145,7 +145,7 @@ app.controller('SensorController', function(
 			});
 	};
 
-	$scope.exportSensor = function(sensor) {      
+	$scope.exportSensor = function(sensor) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SensorService.exportSensor(sensor, headers, function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
@@ -181,7 +181,7 @@ app.controller('SensorController', function(
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SENSOR")}),
 					showCloseButton: true,
 				});
 				$scope.$emit('handleEmitSensorChanged');
@@ -189,7 +189,7 @@ app.controller('SensorController', function(
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.SENSOR")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -216,7 +216,7 @@ app.controller('SensorController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SENSOR")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitSensorChanged');
@@ -224,7 +224,7 @@ app.controller('SensorController', function(
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.SENSOR") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

@@ -199,7 +199,7 @@ app.controller('TariffController', function(
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.TARIFF")}),
 					showCloseButton: true,
 				});
 				$scope.getAllTariffs();
@@ -207,7 +207,7 @@ app.controller('TariffController', function(
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.TARIFF")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -234,7 +234,7 @@ app.controller('TariffController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.TARIFF")}),
 						showCloseButton: true,
 					});
 					$scope.getAllTariffs();
@@ -242,7 +242,7 @@ app.controller('TariffController', function(
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.TARIFF") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

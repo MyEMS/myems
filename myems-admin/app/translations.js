@@ -12,6 +12,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Exit Full Screen',
             LOGOUT: 'Logout',
             COMMON: {
+                ADVANCED_REPORT: 'Advanced Report',
                 EXECUTE: 'Execute',
                 PLACEHOLDER: 'Please select or search...',
                 SPACE: 'Space',
@@ -1751,6 +1752,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: '退出全屏',
             LOGOUT: '退出',
             COMMON: {
+                ADVANCED_REPORT: '高级报表',
                 EXECUTE: '执行',
                 PLACEHOLDER: '请选择或搜索...',
                 SPACE: '空间',
@@ -3494,6 +3496,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Beenden Sie den Vollbildmodus',
             LOGOUT: 'ausfallen',
             COMMON: {
+                ADVANCED_REPORT: 'Erweiterte Berichte',
                 EXECUTE: 'durchgeführt',
                 PLACEHOLDER: 'Bitte auswählen oder suchen ...',
                 SPACE: 'Raum',
@@ -5235,6 +5238,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Quitter le mode plein écran',
             LOGOUT: 'Déconnexion',
             COMMON: {
+                ADVANCED_REPORT: 'Déclaration avancée',
                 EXECUTE: 'Exécuter',
                 PLACEHOLDER: 'Veuillez sélectionner ou rechercher...',
                 SPACE: 'Espace',
@@ -6975,6 +6979,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Salir de pantalla completa',
             LOGOUT: 'Cerrar sesión',
             COMMON: {
+                ADVANCED_REPORT: 'Informe Avanzado',
                 EXECUTE: 'Ejecutar',
                 PLACEHOLDER: 'Por favor, seleccione o busque...',
                 SPACE: 'Espacio',
@@ -8716,6 +8721,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Выйти из полноэкранного режима',
             LOGOUT: 'Выход',
             COMMON: {
+                ADVANCED_REPORT: 'Расширенная отчетность',
                 EXECUTE: 'Исполнять',
                 PLACEHOLDER: 'Пожалуйста, выберите или найдите...',
                 SPACE: 'Пространство',
@@ -10457,6 +10463,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'الخروج من وضع ملء الشاشة',
             LOGOUT: 'الخروج',
             COMMON: {
+                ADVANCED_REPORT: 'التقارير المتقدمة',
                 EXECUTE: 'أعدم',
                 PLACEHOLDER: 'الرجاء التحديد أو البحث...',
                 SPACE: 'فضاء',
@@ -12197,6 +12204,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Thoát khỏi chế độ toàn màn hình',
             LOGOUT: 'Đăng xuất',
             COMMON: {
+                ADVANCED_REPORT: 'Báo cáo nâng cao',
                 EXECUTE: 'Chấp hành',
                 PLACEHOLDER: 'Vui lòng chọn hoặc tìm kiếm...',
                 SPACE: 'Không gian',
@@ -13937,6 +13945,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'ออกจากโหมดเต็มหน้าจอ',
             LOGOUT: 'ออกจากระบบ',
             COMMON: {
+                ADVANCED_REPORT: 'รายงานขั้นสูง',
                 EXECUTE: 'ประหารชีวิต',
                 PLACEHOLDER: 'กรุณาเลือกหรือค้นหา...',
                 SPACE: 'อวกาศ',
@@ -15675,6 +15684,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Tam Ekrandan Çık',
             LOGOUT: 'Oturum kapatma',
             COMMON: {
+                ADVANCED_REPORT: 'gelişmiş rapor',
                 EXECUTE: 'Yürütmek',
                 PLACEHOLDER: 'Lütfen seçin veya arayın...',
                 SPACE: 'Uzay',
@@ -17414,6 +17424,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Keluar dari Skrin Penuh',
             LOGOUT: 'Log keluar',
             COMMON: {
+                ADVANCED_REPORT: 'Laporan Lanjutan',
                 EXECUTE: 'Melaksanakan',
                 PLACEHOLDER: 'Sila pilih atau cari...',
                 SPACE: 'Ruang',
@@ -17536,6 +17547,7 @@ function config($translateProvider) {
                     EMAIL_SERVER: 'Pelayan E-mel Ⓔ',
                     PRODUCT: 'Produk Ⓔ',
                     SVG_SYSTEM: 'Sistem Penggambaran SCADA Ⓔ',
+                    ADVANCED_REPORT: 'Laporan Lanjutan Ⓔ',
                     ENERGY_PLAN_FILE: 'Rencana energi Ⓔ',
                     SVG: 'SVG Ⓔ'
                 },
@@ -19152,6 +19164,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: 'Keluar dari Layar Penuh',
             LOGOUT: 'Logout',
             COMMON: {
+                ADVANCED_REPORT: 'Laporan Lanjutan',
                 EXECUTE: 'Menjalankan',
                 PLACEHOLDER: 'Silakan pilih atau cari...',
                 SPACE: 'Antariksa',
@@ -20891,6 +20904,7 @@ function config($translateProvider) {
             EXITFULLSCREEN: '退出全屏',
             LOGOUT: '退出',
             COMMON: {
+                ADVANCED_REPORT: '⾼級報表',
                 EXECUTE: '執⾏',
                 PLACEHOLDER: '請選擇或搜索...',
                 SPACE: '空間',
