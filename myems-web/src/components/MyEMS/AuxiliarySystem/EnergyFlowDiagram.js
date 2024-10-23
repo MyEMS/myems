@@ -10,11 +10,14 @@ import {
   ButtonGroup,
   Form,
   FormGroup,
+  Input,
   Label,
   CustomInput,
   Spinner
 } from 'reactstrap';
 import moment from 'moment';
+import Cascader from 'rc-cascader';
+import loadable from '@loadable/component';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
 import { SankeyChart } from 'echarts/charts';
@@ -27,6 +30,8 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import ButtonIcon from '../../common/ButtonIcon';
+
+const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
@@ -63,8 +68,11 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
 
   // State
   // Query Parameters
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [energyFlowDiagramList, setEnergyFlowDiagramList] = useState([]);
   const [selectedEnergyFlowDiagram, setSelectedEnergyFlowDiagram] = useState(undefined);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
@@ -96,13 +104,17 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
-
+  const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [energyFlowDiagramData, setEnergyFlowDiagramData] = useState({ nodes: [], links: [] });
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
+    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
+  ]);
+  const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   useEffect(() => {
     let isResponseOK = false;
-    fetch(APIBaseURL + '/energyflowdiagrams', {
+    fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -129,11 +141,53 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
-          setEnergyFlowDiagramList(json);
-          setSelectedEnergyFlowDiagram([json[0]].map(o => o.value));
-          // enable submit button
-          setSubmitButtonDisabled(false);
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          setSelectedSpaceID([json[0]].map(o => o.value));
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energyflowdiagrams', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                console.log(json);
+                setEnergyFlowDiagramList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedEnergyFlowDiagram(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
+                } else {
+                  setSelectedEnergyFlowDiagram(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                }
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get EnergyFlowDiagrams by root Space ID
         } else {
           toast.error(t(json.description));
         }
@@ -144,6 +198,55 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+  let onSpaceCascaderChange = (value, selectedOptions) => {
+    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
+    setSelectedSpaceID(value[value.length - 1]);
+
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/energyflowdiagrams', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          console.log(json);
+          setEnergyFlowDiagramList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedEnergyFlowDiagram(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
+          } else {
+            setSelectedEnergyFlowDiagram(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const getOption = () => {
     let colorArr = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
@@ -263,6 +366,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log('handleSubmit');
+    console.log(selectedSpaceID);
     console.log(selectedEnergyFlowDiagram);
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
@@ -273,6 +377,11 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
+
+    // Reinitialize tables
+    setDetailedDataTableData([]);
 
     let isResponseOK = false;
     fetch(
@@ -305,6 +414,35 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           console.log(json);
           setEnergyFlowDiagramData(json);
           console.log(energyFlowDiagramData);
+
+          let detial_value_list = [];
+          // choose the first point's timestamps (not empty) for all points
+          if (json['reporting_period']['timestamps'].length > 0) {
+            let arr_index = 0;
+            for (let index in json['reporting_period']['timestamps']) {
+              if (json['reporting_period']['timestamps'][index].length === 0) {
+                arr_index = arr_index + 1;
+              } else {
+                break;
+              }
+            }
+            if (json['reporting_period']['timestamps'][arr_index] !== undefined) {
+              json['reporting_period']['timestamps'][arr_index].forEach((currentValue, index) => {
+                let detial_value = {};
+                detial_value['id'] = index;
+                detial_value['startdatetime'] = currentValue;
+                json['reporting_period']['names'].forEach((currentValue1, index1) => {
+                  detial_value['a' + index1] = json['reporting_period']['values'][index1][index];
+                });
+                detial_value_list.push(detial_value);
+              });
+            }
+          }
+
+          setTimeout(() => {
+            setDetailedDataTableData(detial_value_list);
+          }, 0);
+
           setExcelBytesBase64(json['excel_bytes_base64']);
 
           // enable submit button
@@ -313,6 +451,8 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           setSpinnerHidden(true);
           // show export button
           setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
         }
@@ -352,27 +492,43 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           <Form onSubmit={handleSubmit}>
             <Row form>
               <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="space">
+                    {t('Space')}
+                  </Label>
+                  <br />
+                  <Cascader
+                    options={cascaderOptions}
+                    onChange={onSpaceCascaderChange}
+                    changeOnSelect
+                    expandTrigger="hover"
+                  >
+                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
+                  </Cascader>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
                 <FormGroup>
                   <Label className={labelClasses} for="energyFlowDiagramSelect">
                     {t('Energy Flow Diagram')}
                   </Label>
-                  <CustomInput
-                    type="select"
-                    id="energyFlowDiagramSelect"
-                    name="energyFlowDiagramSelect"
-                    bsSize="sm"
-                    value={selectedEnergyFlowDiagram}
-                    onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
-                  >
-                    {energyFlowDiagramList.map((energyFlowDiagram, index) => (
-                      <option value={energyFlowDiagram.value} key={index}>
-                        {energyFlowDiagram.label}
-                      </option>
-                    ))}
-                  </CustomInput>
+                    <CustomInput
+                      type="select"
+                      id="energyFlowDiagramSelect"
+                      name="energyFlowDiagramSelect"
+                      bsSize="sm"
+                      value={selectedEnergyFlowDiagram}
+                      onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
+                    >
+                      {energyFlowDiagramList.map((energyFlowDiagram, index) => (
+                        <option value={energyFlowDiagram.value} key={index}>
+                          {energyFlowDiagram.label}
+                        </option>
+                      ))}
+                    </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
                     {t('Reporting Period')}
