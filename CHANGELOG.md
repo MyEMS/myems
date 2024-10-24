@@ -8,10 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added ticket Ⓔ actions to myems-api
 - added space production report
 - added number of occupants to space
+- added space cascader to energy flow diagram in myems-web
 - 
 ### Changed
 - changed base docker image from python:silm to python:3.10-slim
-- 
+- udpated demo database scripts
 ### Fixed
 - fixed wrong pop messages in myems-admin
 ### Removed
