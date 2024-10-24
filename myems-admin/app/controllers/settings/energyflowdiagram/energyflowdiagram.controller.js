@@ -171,7 +171,7 @@ app.controller('EnergyFlowDiagramController', function(
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_FLOW_DIAGRAM")}),
 					showCloseButton: true,
 				});
 				$scope.getAllEnergyFlowDiagrams();
@@ -179,7 +179,7 @@ app.controller('EnergyFlowDiagramController', function(
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_FLOW_DIAGRAM")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -206,7 +206,7 @@ app.controller('EnergyFlowDiagramController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_FLOW_DIAGRAM")}),
 						showCloseButton: true,
 					});
 					$scope.getAllEnergyFlowDiagrams();
@@ -214,7 +214,7 @@ app.controller('EnergyFlowDiagramController', function(
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.ENERGY_FLOW_DIAGRAM") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

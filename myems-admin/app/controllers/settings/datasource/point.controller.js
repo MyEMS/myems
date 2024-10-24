@@ -1,14 +1,14 @@
 'use strict';
 
 app.controller('PointController', function(
-	$scope, 
+	$scope,
 	$rootScope,
 	$window,
-	$uibModal, 
-	$translate, 
-	DataSourceService, 
-	PointService, 
-	toaster, 
+	$uibModal,
+	$translate,
+	DataSourceService,
+	PointService,
+	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
@@ -195,7 +195,7 @@ app.controller('PointController', function(
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.POINT")}),
 					showCloseButton: true,
 				});
 				$scope.getAllDataSources();
@@ -203,7 +203,7 @@ app.controller('PointController', function(
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.POINT")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -230,7 +230,7 @@ app.controller('PointController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.POINT")}),
 						showCloseButton: true,
 					});
 					$scope.getAllDataSources();
@@ -238,7 +238,7 @@ app.controller('PointController', function(
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.POINT") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

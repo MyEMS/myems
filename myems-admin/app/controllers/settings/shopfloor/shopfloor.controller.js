@@ -14,7 +14,7 @@ app.controller('ShopfloorController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-	
+
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -215,7 +215,7 @@ app.controller('ShopfloorController', function (
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SHOPFLOOR")}),
 					showCloseButton: true,
 				});
 				$scope.getAllShopfloors();
@@ -223,7 +223,7 @@ app.controller('ShopfloorController', function (
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.SHOPFLOOR")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -250,7 +250,7 @@ app.controller('ShopfloorController', function (
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SHOPFLOOR")}),
 						showCloseButton: true,
 					});
 					$scope.getAllShopfloors();
@@ -258,7 +258,7 @@ app.controller('ShopfloorController', function (
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.SHOPFLOOR") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

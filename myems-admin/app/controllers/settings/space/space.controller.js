@@ -313,14 +313,14 @@ app.controller('SpaceController', function (
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SPACE")}),
 					showCloseButton: true,
 				});
 				$scope.$emit('handleEmitSpaceChanged');
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.SPACE")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -347,14 +347,14 @@ app.controller('SpaceController', function (
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.SPACE")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitSpaceChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.SPACE") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});

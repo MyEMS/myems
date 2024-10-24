@@ -204,7 +204,7 @@ app.controller('TenantController', function (
 				}
 			});
 	};
-	
+
 	$scope.exportTenant = function(tenant) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.exportTenant(tenant, headers, function(response) {
@@ -241,14 +241,14 @@ app.controller('TenantController', function (
 				toaster.pop({
 					type: "success",
 					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.TENANT")}),
 					showCloseButton: true,
 				});
 				$scope.$emit('handleEmitTenantChanged');
 			}else {
 				toaster.pop({
 					type: "error",
-					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.TENANT")}),
 					body: $translate.instant(response.data.description),
 					showCloseButton: true,
 				});
@@ -275,14 +275,14 @@ app.controller('TenantController', function (
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.DATA_SOURCE")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.TENANT")}),
 						showCloseButton: true,
 					});
 					$scope.$emit('handleEmitTenantChanged');
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.DATA_SOURCE") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.TENANT") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
