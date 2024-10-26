@@ -1,6 +1,6 @@
 {
   "name": "myems",
-  "version": "4.9.1",
+  "version": "4.10.0",
   "private": true,
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",

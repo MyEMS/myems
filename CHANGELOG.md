@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.10.0] - 2024-10-26
+### Added
 - added ticket actions to myems-api
 - added space production report
 - added number of occupants to space
@@ -1816,7 +1822,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.9.1...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.10.0...HEAD
+[4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
 [4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
 [4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
 [4.8.0]: https://gitee.com/MyEMS/myems/compare/v4.7.0...v4.8.0
