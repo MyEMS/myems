@@ -17,6 +17,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_distribution_systems` (
 CREATE INDEX `tbl_spaces_distribution_systems_index_1` ON `myems_system_db`.`tbl_spaces_distribution_systems` (`space_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.10.0RC', release_date='2024-10-30' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.10.0', release_date='2024-10-26' WHERE id=1;
 
 COMMIT;
