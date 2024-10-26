@@ -4429,6 +4429,7 @@ class SpaceClone:
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
+        # check parameters
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -4437,14 +4438,14 @@ class SpaceClone:
             api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_ID')
+                                   description='API.INVALID_SPACE_ID')
         if int(id_) == 1:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.THIS_SPACE_CANNOT_BE_CLONED')
-
+        # connect the database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
-
+        # query all spaces
         query = (" SELECT id, name, uuid "
                  " FROM tbl_spaces ")
         cursor.execute(query)
@@ -4456,7 +4457,7 @@ class SpaceClone:
                 space_dict[row[0]] = {"id": row[0],
                                       "name": row[1],
                                       "uuid": row[2]}
-
+        # query all timezones
         query = (" SELECT id, name, utc_offset "
                  " FROM tbl_timezones ")
         cursor.execute(query)
@@ -4468,7 +4469,7 @@ class SpaceClone:
                 timezone_dict[row[0]] = {"id": row[0],
                                          "name": row[1],
                                          "utc_offset": row[2]}
-
+        # query all contacts
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
@@ -4480,7 +4481,7 @@ class SpaceClone:
                 contact_dict[row[0]] = {"id": row[0],
                                         "name": row[1],
                                         "uuid": row[2]}
-
+        # query all cost centers
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor.execute(query)
@@ -4493,6 +4494,7 @@ class SpaceClone:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        # query the source space
         query = (" SELECT id, name, uuid, "
                  "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
                  "        contact_id, cost_center_id, latitude, longitude, description "
@@ -4505,20 +4507,20 @@ class SpaceClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
+            # save the source space properties to meta_result
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "parent_space_id": space_dict.get(row[3], None),
+                           "parent_space_id": row[3],
                            "area": row[4],
-                           "timezone": timezone_dict.get(row[5], None),
+                           "timezone_id": row[5],
                            "is_input_counted": bool(row[6]),
                            "is_output_counted": bool(row[7]),
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
+                           "contact_id": row[8],
+                           "cost_center_id": row[9],
                            "latitude": row[10],
                            "longitude": row[11],
                            "description": row[12],
-                           "children": None,
                            "commands": None,
                            "meters": None,
                            "offline_meters": None,
@@ -4532,255 +4534,114 @@ class SpaceClone:
                            "stores": None,
                            "working_calendars": None
                            }
-            query = (" SELECT id, name, uuid, "
-                     "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                     "        contact_id, cost_center_id, latitude, longitude, description "
-                     " FROM tbl_spaces "
-                     " WHERE id = %s ")
-            cursor.execute(query, (id_,))
-            row_current_space = cursor.fetchone()
-            if row_current_space is None:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.SPACE_NOT_FOUND')
-            # note: row_current_space will be used at the end
 
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_spaces ")
-            cursor.execute(query)
-            rows_spaces = cursor.fetchall()
-
-            space_dict = dict()
-            if rows_spaces is not None and len(rows_spaces) > 0:
-                for row in rows_spaces:
-                    space_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-
-            query = (" SELECT id, name, utc_offset "
-                     " FROM tbl_timezones ")
-            cursor.execute(query)
-            rows_timezones = cursor.fetchall()
-
-            timezone_dict = dict()
-            if rows_timezones is not None and len(rows_timezones) > 0:
-                for row in rows_timezones:
-                    timezone_dict[row[0]] = {"id": row[0],
-                                             "name": row[1],
-                                             "utc_offset": row[2]}
-
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_contacts ")
-            cursor.execute(query)
-            rows_contacts = cursor.fetchall()
-
-            contact_dict = dict()
-            if rows_contacts is not None and len(rows_contacts) > 0:
-                for row in rows_contacts:
-                    contact_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_cost_centers ")
-            cursor.execute(query)
-            rows_cost_centers = cursor.fetchall()
-
-            cost_center_dict = dict()
-            if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-                for row in rows_cost_centers:
-                    cost_center_dict[row[0]] = {"id": row[0],
-                                                "name": row[1],
-                                                "uuid": row[2]}
-            result = dict()
-            result['current'] = dict()
-            result['current']['id'] = row_current_space[0]
-            result['current']['name'] = row_current_space[1]
-            result['current']['uuid'] = row_current_space[2]
-            result['current']['parent_space'] = space_dict.get(row_current_space[3], None)
-            result['current']['area'] = row_current_space[4]
-            result['current']['timezone'] = timezone_dict.get(row_current_space[5], None)
-            result['current']['is_input_counted'] = bool(row_current_space[6])
-            result['current']['is_output_counted'] = bool(row_current_space[7])
-            result['current']['contact'] = contact_dict.get(row_current_space[8], None)
-            result['current']['cost_center'] = cost_center_dict.get(row_current_space[9], None)
-            result['current']['latitude'] = row_current_space[10]
-            result['current']['longitude'] = row_current_space[11]
-            result['current']['description'] = row_current_space[12]
-            result['current']['qrcode'] = 'space:' + row_current_space[2]
-
-            result['children'] = list()
-
-            query = (" SELECT id, name, uuid, "
-                     "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                     "        contact_id, cost_center_id, latitude, longitude, description "
-                     " FROM tbl_spaces "
-                     " WHERE parent_space_id = %s "
-                     " ORDER BY id ")
-            cursor.execute(query, (id_,))
-            rows_spaces = cursor.fetchall()
-
-            if rows_spaces is not None and len(rows_spaces) > 0:
-                for row in rows_spaces:
-                    children_result = {"id": row[0],
-                                       "name": row[1],
-                                       "uuid": row[2],
-                                       "parent_space": space_dict.get(row[3], None),
-                                       "area": row[4],
-                                       "timezone": timezone_dict.get(row[5], None),
-                                       "is_input_counted": bool(row[6]),
-                                       "is_output_counted": bool(row[7]),
-                                       "contact": contact_dict.get(row[8], None),
-                                       "cost_center": cost_center_dict.get(row[9], None),
-                                       "latitude": row[10],
-                                       "longitude": row[11],
-                                       "description": row[12]}
-                    result['children'].append(children_result)
-                meta_result['children'] = result['children']
-            query = (" SELECT c.id, c.name, c.uuid "
+            # query associated commands
+            query = (" SELECT c.id, c.name "
                      " FROM tbl_spaces s, tbl_spaces_commands sc, tbl_commands c "
                      " WHERE sc.space_id = s.id AND c.id = sc.command_id AND s.id = %s "
                      " ORDER BY c.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            command_result = list()
+            command_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    command_result.append(result)
-                meta_result['commands'] = command_result
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_categories ")
-            cursor.execute(query)
-            rows_energy_categories = cursor.fetchall()
+                    result = {"id": row[0], "name": row[1]}
+                    command_list.append(result)
+                meta_result['commands'] = command_list
 
-            energy_category_dict = dict()
-            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-                for row in rows_energy_categories:
-                    energy_category_dict[row[0]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
-
-            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+            # query associated meters
+            query = (" SELECT m.id, m.name "
                      " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m "
                      " WHERE sm.space_id = s.id AND m.id = sm.meter_id AND s.id = %s "
                      " ORDER BY m.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            meter_result = list()
+            meter_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category_dict.get(row[3], None)}
-                    meter_result.append(result)
-                meta_result['meters'] = meter_result
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_categories ")
-            cursor.execute(query)
-            rows_energy_categories = cursor.fetchall()
+                    result = {"id": row[0], "name": row[1]}
+                    meter_list.append(result)
+                meta_result['meters'] = meter_list
 
-            energy_category_dict = dict()
-            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-                for row in rows_energy_categories:
-                    energy_category_dict[row[0]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
-
-            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+            # query associated offline meters
+            query = (" SELECT m.id, m.name "
                      " FROM tbl_spaces s, tbl_spaces_offline_meters sm, tbl_offline_meters m "
                      " WHERE sm.space_id = s.id AND m.id = sm.offline_meter_id AND s.id = %s "
                      " ORDER BY m.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            offlinemeter_result = list()
+            offline_meter_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category_dict.get(row[3], None)}
-                    offlinemeter_result.append(result)
-                meta_result['offline_meters'] = offlinemeter_result
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_categories ")
-            cursor.execute(query)
-            rows_energy_categories = cursor.fetchall()
+                    result = {"id": row[0], "name": row[1]}
+                    offline_meter_list.append(result)
+                meta_result['offline_meters'] = offline_meter_list
 
-            energy_category_dict = dict()
-            if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-                for row in rows_energy_categories:
-                    energy_category_dict[row[0]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
-
-            query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id "
+            # query associated virtual meters
+            query = (" SELECT m.id, m.name "
                      " FROM tbl_spaces s, tbl_spaces_virtual_meters sm, tbl_virtual_meters m "
                      " WHERE sm.space_id = s.id AND m.id = sm.virtual_meter_id AND s.id = %s "
                      " ORDER BY m.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            virtualmeter_result = list()
+            virtual_meter_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2],
-                              "energy_category": energy_category_dict.get(row[3], None)}
-                    virtualmeter_result.append(result)
-                meta_result['virtual_meters'] = virtualmeter_result
-            query = (" SELECT sf.id, sf.name, sf.uuid "
+                    result = {"id": row[0], "name": row[1]}
+                    virtual_meter_list.append(result)
+                meta_result['virtual_meters'] = virtual_meter_list
+
+            # query associated shopfloors
+            query = (" SELECT sf.id, sf.name "
                      " FROM tbl_spaces sp, tbl_spaces_shopfloors ss, tbl_shopfloors sf "
                      " WHERE ss.space_id = sp.id AND sf.id = ss.shopfloor_id AND sp.id = %s "
                      " ORDER BY sf.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            shopfloor_result = list()
+            shopfloor_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    shopfloor_result.append(result)
-                meta_result['shopfloors'] = shopfloor_result
-            query = (" SELECT e.id, e.name, e.uuid "
+                    result = {"id": row[0], "name": row[1]}
+                    shopfloor_list.append(result)
+                meta_result['shopfloors'] = shopfloor_list
+
+            # query associated combined equipments
+            query = (" SELECT e.id, e.name "
                      " FROM tbl_spaces s, tbl_spaces_combined_equipments se, tbl_combined_equipments e "
                      " WHERE se.space_id = s.id AND e.id = se.combined_equipment_id AND s.id = %s "
                      " ORDER BY e.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            combinedequipment_result = list()
+            combined_equipment_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    combinedequipment_result.append(result)
-                meta_result['combined_equipments'] = combinedequipment_result
-            query = (" SELECT e.id, e.name, e.uuid "
+                    result = {"id": row[0], "name": row[1]}
+                    combined_equipment_list.append(result)
+                meta_result['combined_equipments'] = combined_equipment_list
+
+            # query associated equipments
+            query = (" SELECT e.id, e.name "
                      " FROM tbl_spaces s, tbl_spaces_equipments se, tbl_equipments e "
                      " WHERE se.space_id = s.id AND e.id = se.equipment_id AND s.id = %s "
                      " ORDER BY e.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            equipment_result = list()
+            equipment_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    equipment_result.append(result)
-                meta_result['equipments'] = equipment_result
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_data_sources ")
-            cursor.execute(query)
-            rows_data_sources = cursor.fetchall()
+                    result = {"id": row[0], "name": row[1]}
+                    equipment_list.append(result)
+                meta_result['equipments'] = equipment_list
 
-            data_source_dict = dict()
-            if rows_data_sources is not None and len(rows_data_sources) > 0:
-                for row in rows_data_sources:
-                    data_source_dict[row[0]] = {"id": row[0],
-                                                "name": row[1],
-                                                "uuid": row[2]}
-
-            query = (" SELECT p.id, p.name, p.data_source_id "
+            # query associated points
+            query = (" SELECT p.id, p.name "
                      " FROM tbl_spaces s, tbl_spaces_points sp, tbl_points p "
                      " WHERE sp.space_id = s.id AND p.id = sp.point_id AND s.id = %s "
                      " ORDER BY p.id ")
@@ -4790,84 +4651,98 @@ class SpaceClone:
             point_result = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "data_source": data_source_dict.get(row[2], None)}
+                    result = {"id": row[0], "name": row[1]}
                     point_result.append(result)
                 meta_result['points'] = point_result
-            query = (" SELECT se.id, se.name, se.uuid "
+
+            # query associated sensors
+            query = (" SELECT se.id, se.name "
                      " FROM tbl_spaces sp, tbl_spaces_sensors ss, tbl_sensors se "
                      " WHERE ss.space_id = sp.id AND se.id = ss.sensor_id AND sp.id = %s "
                      " ORDER BY se.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            sensor_result = list()
+            sensor_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    sensor_result.append(result)
-                meta_result['sensors'] = sensor_result
-            query = (" SELECT t.id, t.name, t.uuid "
+                    result = {"id": row[0], "name": row[1]}
+                    sensor_list.append(result)
+                meta_result['sensors'] = sensor_list
+
+            # query associated tenants
+            query = (" SELECT t.id, t.name "
                      " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t "
                      " WHERE st.space_id = s.id AND t.id = st.tenant_id AND s.id = %s "
                      " ORDER BY t.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            tenant_result = list()
+            tenant_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    tenant_result.append(result)
-                meta_result['tenants'] = tenant_result
-            query = (" SELECT t.id, t.name, t.uuid "
+                    result = {"id": row[0], "name": row[1]}
+                    tenant_list.append(result)
+                meta_result['tenants'] = tenant_list
+
+            # query associated stores
+            query = (" SELECT t.id, t.name "
                      " FROM tbl_spaces s, tbl_spaces_stores st, tbl_stores t "
                      " WHERE st.space_id = s.id AND t.id = st.store_id AND s.id = %s "
                      " ORDER BY t.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            store_result = list()
+            store_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                    store_result.append(result)
-                meta_result['stores'] = store_result
-            query = (" SELECT wc.id, wc.name, wc.description "
+                    result = {"id": row[0], "name": row[1]}
+                    store_list.append(result)
+                meta_result['stores'] = store_list
+
+            # query associated working calendars
+            query = (" SELECT wc.id, wc.name "
                      " FROM tbl_spaces s, tbl_spaces_working_calendars swc, tbl_working_calendars wc "
                      " WHERE swc.space_id = s.id AND wc.id = swc.working_calendar_id AND s.id = %s "
                      " ORDER BY wc.id ")
             cursor.execute(query, (id_,))
             rows = cursor.fetchall()
 
-            workingcalendar_result = list()
+            working_calendar_list = list()
             if rows is not None and len(rows) > 0:
                 for row in rows:
-                    result = {"id": row[0], "name": row[1], "description": row[2]}
-                    workingcalendar_result.append(result)
-                meta_result['working_calendars'] = workingcalendar_result
+                    result = {"id": row[0], "name": row[1]}
+                    working_calendar_list.append(result)
+                meta_result['working_calendars'] = working_calendar_list
+
+            # generate name for new space
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name'])
                         + (datetime.now()
                            + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+
+            # save new space to database
             add_values = (" INSERT INTO tbl_spaces "
                           "    (name, uuid, parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
                           "     contact_id, cost_center_id, latitude, longitude, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
-                                        meta_result['parent_space_id']['id'],
+                                        meta_result['parent_space_id'],
                                         meta_result['area'],
-                                        meta_result['timezone']['id'],
+                                        meta_result['timezone_id'],
                                         meta_result['is_input_counted'],
                                         meta_result['is_output_counted'],
-                                        meta_result['contact']['id'],
-                                        meta_result['cost_center']['id'],
+                                        meta_result['contact_id'],
+                                        meta_result['cost_center_id'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
+
+            # associate commands with new space
             if meta_result['commands'] is not None and len(meta_result['commands']) > 0:
                 for command in meta_result['commands']:
                     cursor.execute(" SELECT name "
@@ -4892,6 +4767,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_commands (space_id, command_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, command['id'],))
+
+            # associate meters with new space
             if meta_result['meters'] is not None and len(meta_result['meters']) > 0:
                 for meter in meta_result['meters']:
                     cursor.execute(" SELECT name "
@@ -4916,6 +4793,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_meters (space_id, meter_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, meter['id'],))
+
+            # associate offline meters with new space
             if meta_result['offline_meters'] is not None and len(meta_result['offline_meters']) > 0:
                 for offline_meter in meta_result['offline_meters']:
                     cursor.execute(" SELECT name "
@@ -4940,6 +4819,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_offline_meters (space_id, offline_meter_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, offline_meter['id'],))
+
+            # associate virtual meters with new space
             if meta_result['virtual_meters'] is not None and len(meta_result['virtual_meters']) > 0:
                 for virtual_meter in meta_result['virtual_meters']:
                     cursor.execute(" SELECT name "
@@ -4964,6 +4845,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_virtual_meters (space_id, virtual_meter_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, virtual_meter['id'],))
+
+            # associate shopfloors with new space
             if meta_result['shopfloors'] is not None and len(meta_result['shopfloors']) > 0:
                 for shopfloor in meta_result['shopfloors']:
                     cursor.execute(" SELECT name "
@@ -4988,6 +4871,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_shopfloors (space_id, shopfloor_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, shopfloor['id'],))
+
+            # associate combined equipments with new space
             if meta_result['combined_equipments'] is not None and len(meta_result['combined_equipments']) > 0:
                 for combined_equipment in meta_result['combined_equipments']:
                     cursor.execute(" SELECT name "
@@ -5012,6 +4897,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_combined_equipments (space_id, combined_equipment_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, combined_equipment['id'],))
+
+            # associate equipments with new space
             if meta_result['equipments'] is not None and len(meta_result['equipments']) > 0:
                 for equipment in meta_result['equipments']:
                     cursor.execute(" SELECT name "
@@ -5036,6 +4923,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_equipments (space_id, equipment_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, equipment['id'],))
+
+            # associate points with new space
             if meta_result['points'] is not None and len(meta_result['points']) > 0:
                 for point in meta_result['points']:
                     cursor.execute(" SELECT name "
@@ -5060,6 +4949,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_points (space_id, point_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, point['id'],))
+
+            # associate sensors with new space
             if meta_result['sensors'] is not None and len(meta_result['sensors']) > 0:
                 for sensor in meta_result['sensors']:
                     cursor.execute(" SELECT name "
@@ -5084,6 +4975,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_sensors (space_id, sensor_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, sensor['id'],))
+
+            # associate tenants with new space
             if meta_result['tenants'] is not None and len(meta_result['tenants']) > 0:
                 for tenant in meta_result['tenants']:
                     cursor.execute(" SELECT name "
@@ -5108,6 +5001,8 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_tenants (space_id, tenant_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, tenant['id'],))
+
+            # associate stores with new space
             if meta_result['stores'] is not None and len(meta_result['stores']) > 0:
                 for store in meta_result['stores']:
                     cursor.execute(" SELECT name "
@@ -5132,30 +5027,35 @@ class SpaceClone:
                     add_row = (" INSERT INTO tbl_spaces_stores (space_id, store_id) "
                                " VALUES (%s, %s) ")
                     cursor.execute(add_row, (new_id, store['id'],))
-                if meta_result['working_calendars'] is not None and len(meta_result['working_calendars']) > 0:
-                    for working_calendar in meta_result['working_calendars']:
-                        cursor.execute(" SELECT name "
-                                       " FROM tbl_working_calendars "
-                                       " WHERE id = %s ", (working_calendar['id'],))
-                        if cursor.fetchone() is None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                                   description='API.WORKING_CALENDAR_NOT_FOUND')
 
-                        query = (" SELECT id "
-                                 " FROM tbl_spaces_working_calendars "
-                                 " WHERE space_id = %s AND working_calendar_id = %s")
-                        cursor.execute(query, (new_id, working_calendar['id'],))
-                        if cursor.fetchone() is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                   description='API.SPACE_WORKING_CALENDAR_RELATION_EXISTS')
+            # associate working calendars with new space
+            if meta_result['working_calendars'] is not None and len(meta_result['working_calendars']) > 0:
+                for working_calendar in meta_result['working_calendars']:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_working_calendars "
+                                   " WHERE id = %s ", (working_calendar['id'],))
+                    if cursor.fetchone() is None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.WORKING_CALENDAR_NOT_FOUND')
 
-                        add_row = (" INSERT INTO tbl_spaces_working_calendars (space_id, working_calendar_id) "
-                                   " VALUES (%s, %s) ")
-                        cursor.execute(add_row, (new_id, working_calendar['id'],))
+                    query = (" SELECT id "
+                             " FROM tbl_spaces_working_calendars "
+                             " WHERE space_id = %s AND working_calendar_id = %s")
+                    cursor.execute(query, (new_id, working_calendar['id'],))
+                    if cursor.fetchone() is not None:
+                        cursor.close()
+                        cnx.close()
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                               description='API.SPACE_WORKING_CALENDAR_RELATION_EXISTS')
+
+                    add_row = (" INSERT INTO tbl_spaces_working_calendars (space_id, working_calendar_id) "
+                               " VALUES (%s, %s) ")
+                    cursor.execute(add_row, (new_id, working_calendar['id'],))
+
+            # todo: associate more objects with new space
+
             cnx.commit()
             cursor.close()
             cnx.close()

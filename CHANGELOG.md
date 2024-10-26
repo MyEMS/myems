@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed mapbox zoom level to 10 (large roads)
 ### Fixed
 - fixed wrong pop messages in myems-admin
+- fixed issue of clone space in myems-api
 ### Removed
 
 ## [v4.9.1] - 2024-10-05
