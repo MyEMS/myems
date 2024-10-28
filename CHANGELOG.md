@@ -5,15 +5,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added ticket Ⓔ actions to myems-api
+### Changed
+### Fixed
+### Removed
+
+## [v4.10.0] - 2024-10-26
+### Added
+- added ticket actions to myems-api
 - added space production report
 - added number of occupants to space
-- 
+- added space cascader to energy flow diagram in myems-web
+- added tbl_spaces_distribution_systems to system database
 ### Changed
 - changed base docker image from python:silm to python:3.10-slim
-- 
+- udpated demo database scripts
+- changed mapbox zoom level to 10 (large roads)
 ### Fixed
 - fixed wrong pop messages in myems-admin
+- fixed issue of clone space in myems-api
 ### Removed
 
 ## [v4.9.1] - 2024-10-05
@@ -1813,7 +1822,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.9.1...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.10.0...HEAD
+[4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
 [4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
 [4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
 [4.8.0]: https://gitee.com/MyEMS/myems/compare/v4.7.0...v4.8.0

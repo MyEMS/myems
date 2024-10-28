@@ -590,6 +590,29 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_distribution_systems`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_distribution_systems`
+(`space_id`, `distribution_system_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_energy_flow_diagrams`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_energy_flow_diagrams`
+(`space_id`, `energy_flow_diagram_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_spaces_equipments`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
