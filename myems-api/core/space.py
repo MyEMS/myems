@@ -5176,7 +5176,7 @@ class SpaceEnergyFlowDiagramCollection:
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/spaces/' + str(id_) + '/equipments/' + str(energy_flow_diagram_id)
+        resp.location = '/spaces/' + str(id_) + '/energyflowdiagrams/' + str(energy_flow_diagram_id)
 
 
 class SpaceEnergyFlowDiagramItem:
@@ -5232,6 +5232,181 @@ class SpaceEnergyFlowDiagramItem:
 
         cursor.execute(" DELETE FROM tbl_spaces_energy_flow_diagrams "
                        " WHERE space_id = %s AND energy_flow_diagram_id = %s ", (id_, eid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+class DistributionSystemCollection:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        query = (" SELECT d.id, d.name, d.uuid "
+                 " FROM tbl_spaces s, tbl_spaces_distribution_systems sd, tbl_distribution_systems d "
+                 " WHERE sd.space_id = s.id AND d.id = sd.distribution_system_id AND s.id = %s "
+                 " ORDER BY d.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'distribution_system_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['distribution_system_id'], int) or \
+                new_values['data']['distribution_system_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
+        distribution_system_id = new_values['data']['distribution_system_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " from tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_distribution_systems "
+                       " WHERE id = %s ", (distribution_system_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+
+        query = (" SELECT id " 
+                 " FROM tbl_spaces_distribution_systems "
+                 " WHERE space_id = %s AND distribution_system_id = %s")
+        cursor.execute(query, (id_, distribution_system_id,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.SPACE_DISTRIBUTION_SYSTEM_RELATION_EXISTS')
+
+        add_row = (" INSERT INTO tbl_spaces_distribution_systems (space_id, distribution_system_id) "
+                   " VALUES (%s, %s) ")
+        cursor.execute(add_row, (id_, distribution_system_id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/spaces/' + str(id_) + '/distributionsystems/' + str(distribution_system_id)
+
+
+class DistributionSystemItem:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, did):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, did):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        if not did.isdigit() or int(did) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_spaces "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_distribution_systems "
+                       " WHERE id = %s ", (did,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_spaces_distribution_systems "
+                       " WHERE space_id = %s AND distribution_system_id = %s ", (id_, did))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SPACE_DISTRIBUTION_SYSTEM_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_spaces_distribution_systems "
+                       " WHERE space_id = %s AND distribution_system_id = %s ", (id_, did))
         cnx.commit()
 
         cursor.close()
