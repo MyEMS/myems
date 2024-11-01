@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added tables for photovoltaic power stations in database
 ### Changed
+- None
 ### Fixed
+- None
 ### Removed
+- None
 
 ## [v4.10.0] - 2024-10-26
 ### Added
@@ -24,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed wrong pop messages in myems-admin
 - fixed issue of clone space in myems-api
 ### Removed
+- None
 
 ## [v4.9.1] - 2024-10-05
 ### Added

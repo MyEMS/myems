@@ -701,6 +701,10 @@ api.add_route('/spaces/{id_}/energyflowdiagrams',
               space.SpaceEnergyFlowDiagramCollection())
 api.add_route('/spaces/{id_}/energyflowdiagrams/{eid}',
               space.SpaceEnergyFlowDiagramItem())
+api.add_route('/spaces/{id_}/distributionsystems',
+              space.DistributionSystemCollection())
+api.add_route('/spaces/{id_}/distributionsystems/{did}',
+              space.DistributionSystemItem())
 
 # Get energy categories of all meters in the space tree
 api.add_route('/spaces/{id_}/treemetersenergycategories',
