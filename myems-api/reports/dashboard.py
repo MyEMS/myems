@@ -776,7 +776,7 @@ class Reporting:
                     base_cost[energy_category_id]['subtotal'] / space['area']
                     if space['area'] > 0.0 else None)
                 result['base_period_cost']['subtotals_per_capita'].append(
-                    base_input[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    base_cost[energy_category_id]['subtotal'] / space['number_of_occupants']
                     if space['number_of_occupants'] > 0.0 else None)
                 result['base_period_cost']['total'] += base_cost[energy_category_id]['subtotal']
 
@@ -821,7 +821,7 @@ class Reporting:
                     reporting_input[energy_category_id]['subtotal'] / space['area']
                     if space['area'] > 0.0 else None)
                 result['reporting_period_input']['subtotals_per_capita'].append(
-                    base_input[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    reporting_input[energy_category_id]['subtotal'] / space['number_of_occupants']
                     if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period_input']['toppeaks'].append(
                     reporting_input[energy_category_id]['toppeak'])
@@ -900,7 +900,7 @@ class Reporting:
                     reporting_cost[energy_category_id]['subtotal'] / space['area']
                     if space['area'] > 0.0 else None)
                 result['reporting_period_cost']['subtotals_per_capita'].append(
-                    base_input[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    reporting_cost[energy_category_id]['subtotal'] / space['number_of_occupants']
                     if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period_cost']['toppeaks'].append(
                     reporting_cost[energy_category_id]['toppeak'])
