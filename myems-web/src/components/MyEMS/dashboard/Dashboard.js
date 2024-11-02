@@ -267,7 +267,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               totalInTCO2E['value_per_unit_area'] =
                 json['reporting_period_input']['total_in_kgco2e_per_unit_area'] / 1000; // convert from kg to t
               totalInTCO2E['value_per_capita'] =
-                json['reporting_period_input']['total_in_kgco2e_per_capita'] / 1000; 
+                json['reporting_period_input']['total_in_kgco2e_per_capita'] / 1000;
               setTotalInTCO2E(totalInTCO2E);
 
               let TCEDataArray = [];
@@ -603,8 +603,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="warning" hidden={spinnerHidden} />
         <Spinner color="info" hidden={spinnerHidden} />
         <Spinner color="light" hidden={spinnerHidden} />
-        {thisMonthInputCardSummaryList.map(cardSummaryItem => {
-          (
+        {thisMonthInputCardSummaryList.map(cardSummaryItem => (
           <CardSummary
             key={uuid()}
             rate={cardSummaryItem['increment_rate']}
@@ -632,7 +631,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               />
             )}
           </CardSummary>
-        )})}
+        ))}
         {thisMonthCostCardSummaryList.map(cardSummaryItem => (
           <CardSummary
             key={uuid()}
@@ -662,7 +661,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-        
+
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}

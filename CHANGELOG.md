@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added tables for photovoltaic power stations in database
+- added per capita data to dashboard and space reports
 ### Changed
 - None
 ### Fixed
