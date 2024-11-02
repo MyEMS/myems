@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "37f8fe1a-1821-4b65-8fb2-8b1d872247ba",
+		"_postman_id": "fd8cb444-7019-4af4-b416-4cc298832faf",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36323627"
+		"_exporter_id": "10906958"
 	},
 	"item": [
 		{
@@ -16075,7 +16075,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":1, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":false, \"contact_id\":1, \"cost_center_id\":1, \"latitude\":39.909429, \"longitude\":116.416993, \"description\":\"Space description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":1, \"area\":999.99, \"number_of_occupants\":1, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":false, \"contact_id\":1, \"cost_center_id\":1, \"latitude\":39.909429, \"longitude\":116.416993, \"description\":\"Space description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/spaces",
@@ -16113,7 +16113,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":2, \"area\":999.99, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"latitude\":39.909429, \"longitude\":116.416993, \"description\":\"Space description\"}}"
+									"raw": "{\"data\":{\"name\":\"MyEMSSpace\", \"parent_space_id\":2, \"area\":999.99, \"number_of_occupants\":1, \"timezone_id\":56, \"is_input_counted\":true, \"is_output_counted\":true, \"contact_id\":1, \"cost_center_id\":1, \"latitude\":39.909429, \"longitude\":116.416993, \"description\":\"Space description\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/spaces/1",
