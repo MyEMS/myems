@@ -179,12 +179,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -210,7 +210,8 @@ class Reporting:
         space['id'] = row_space[0]
         space['name'] = row_space[1]
         space['area'] = row_space[2]
-        space['cost_center_id'] = row_space[3]
+        space['number_of_occupants'] = row_space[3]
+        space['cost_center_id'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -532,6 +533,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -563,9 +565,11 @@ class Reporting:
         result['reporting_period']['rates_of_sub_maximums'] = list()
         result['reporting_period']['averages'] = list()
         result['reporting_period']['averages_per_unit_area'] = list()
+        result['reporting_period']['averages_per_capita'] = list()
         result['reporting_period']['averages_increment_rate'] = list()
         result['reporting_period']['maximums'] = list()
         result['reporting_period']['maximums_per_unit_area'] = list()
+        result['reporting_period']['maximums_per_capita'] = list()
         result['reporting_period']['maximums_increment_rate'] = list()
         result['reporting_period']['factors'] = list()
         result['reporting_period']['factors_increment_rate'] = list()
@@ -585,6 +589,12 @@ class Reporting:
                     space['area'] is not None and
                     space['area'] > Decimal(0.0)
                     else None)
+                result['reporting_period']['averages_per_capita'].append(
+                    reporting[energy_category_id]['average'] / space['number_of_occupants']
+                    if reporting[energy_category_id]['average'] is not None and
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
+                    else None)
                 result['reporting_period']['averages_increment_rate'].append(
                     (reporting[energy_category_id]['average'] - base[energy_category_id]['average']) /
                     base[energy_category_id]['average'] if (reporting[energy_category_id]['average'] is not None and
@@ -603,6 +613,12 @@ class Reporting:
                     if reporting[energy_category_id]['maximum'] is not None and
                     space['area'] is not None and
                     space['area'] > Decimal(0.0)
+                    else None)
+                result['reporting_period']['maximums_per_capita'].append(
+                    reporting[energy_category_id]['maximum'] / space['number_of_occupants']
+                    if reporting[energy_category_id]['maximum'] is not None and
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['factors'].append(reporting[energy_category_id]['factor'])
                 result['reporting_period']['factors_increment_rate'].append(

@@ -414,26 +414,32 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
             cardSummaryItem['mean_increment_rate'] =
               parseFloat(json['reporting_period']['means_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['mean_per_unit_area'] = json['reporting_period']['means_per_unit_area'][index];
+            cardSummaryItem['mean_per_capita'] = json['reporting_period']['means_per_capita'][index];
             cardSummaryItem['median'] = json['reporting_period']['medians'][index];
             cardSummaryItem['median_increment_rate'] =
               parseFloat(json['reporting_period']['medians_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['median_per_unit_area'] = json['reporting_period']['medians_per_unit_area'][index];
+            cardSummaryItem['median_per_capita'] = json['reporting_period']['medians_per_capita'][index];
             cardSummaryItem['minimum'] = json['reporting_period']['minimums'][index];
             cardSummaryItem['minimum_increment_rate'] =
               parseFloat(json['reporting_period']['minimums_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['minimum_per_unit_area'] = json['reporting_period']['minimums_per_unit_area'][index];
+            cardSummaryItem['minimum_per_capita'] = json['reporting_period']['minimums_per_capita'][index];
             cardSummaryItem['maximum'] = json['reporting_period']['maximums'][index];
             cardSummaryItem['maximum_increment_rate'] =
               parseFloat(json['reporting_period']['maximums_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['maximum_per_unit_area'] = json['reporting_period']['maximums_per_unit_area'][index];
+            cardSummaryItem['maximum_per_capita'] = json['reporting_period']['maximums_per_capita'][index];
             cardSummaryItem['stdev'] = json['reporting_period']['stdevs'][index];
             cardSummaryItem['stdev_increment_rate'] =
               parseFloat(json['reporting_period']['stdevs_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['stdev_per_unit_area'] = json['reporting_period']['stdevs_per_unit_area'][index];
+            cardSummaryItem['stdev_per_capita'] = json['reporting_period']['stdevs_per_capita'][index];
             cardSummaryItem['variance'] = json['reporting_period']['variances'][index];
             cardSummaryItem['variance_increment_rate'] =
               parseFloat(json['reporting_period']['variances_increment_rate'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['variance_per_unit_area'] = json['reporting_period']['variances_per_unit_area'][index];
+            cardSummaryItem['variance_per_capita'] = json['reporting_period']['variances_per_capita'][index];
             cardSummaryArray.push(cardSummaryItem);
           });
           setCardSummaryList(cardSummaryArray);
@@ -883,6 +889,9 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['median_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['median_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['median'] && (
                 <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -899,6 +908,9 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['minimum_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['minimum_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['minimum'] && (
                 <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -915,6 +927,9 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['maximum_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['maximum_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['maximum'] && (
                 <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -931,6 +946,9 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['stdev_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['stdev_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['stdev'] && (
                 <CountUp end={cardSummaryItem['stdev']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -947,6 +965,9 @@ const SpaceStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['variance_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['variance_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['variance'] && (
                 <CountUp

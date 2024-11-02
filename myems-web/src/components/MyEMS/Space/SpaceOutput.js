@@ -420,6 +420,7 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
             cardSummaryItem['increment_rate'] =
               parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['subtotals_per_unit_area'][index];
+            cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita'][index];
             cardSummaryArray.push(cardSummaryItem);
           });
           setCardSummaryList(cardSummaryArray);
@@ -893,6 +894,9 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['subtotal_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+              secondfootnote={t('Per Capita')}
+              secondfootvalue={cardSummaryItem['subtotal_per_capita']}
+              secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['subtotal'] && (
                 <CountUp

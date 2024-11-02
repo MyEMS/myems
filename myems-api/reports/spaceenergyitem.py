@@ -181,12 +181,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -212,7 +212,8 @@ class Reporting:
         space['id'] = row_space[0]
         space['name'] = row_space[1]
         space['area'] = row_space[2]
-        space['cost_center_id'] = row_space[3]
+        space['number_of_occupants'] = row_space[3]
+        space['cost_center_id'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy items
@@ -575,6 +576,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -601,6 +603,7 @@ class Reporting:
         result['reporting_period']['rates'] = list()
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
+        result['reporting_period']['subtotals_per_capita'] = list()
         result['reporting_period']['toppeaks'] = list()
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
@@ -621,6 +624,9 @@ class Reporting:
                 result['reporting_period']['subtotals'].append(reporting[energy_item_id]['subtotal'])
                 result['reporting_period']['subtotals_per_unit_area'].append(
                     reporting[energy_item_id]['subtotal'] / space['area'] if space['area'] > 0.0 else None)
+                result['reporting_period']['subtotals_per_capita'].append(
+                    reporting[energy_item_id]['subtotal'] / space['number_of_occupants']
+                    if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period']['toppeaks'].append(reporting[energy_item_id]['toppeak'])
                 result['reporting_period']['onpeaks'].append(reporting[energy_item_id]['onpeak'])
                 result['reporting_period']['midpeaks'].append(reporting[energy_item_id]['midpeak'])
