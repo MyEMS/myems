@@ -246,6 +246,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               totalInTCE['increment_rate'] =
                 parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
               totalInTCE['value_per_unit_area'] = json['reporting_period_input']['total_in_kgce_per_unit_area'] / 1000; // convert from kg to t
+              totalInTCE['value_per_capita'] = json['reporting_period_input']['total_in_kgce_per_capita'] / 1000;
               setTotalInTCE(totalInTCE);
 
               let costDataArray = [];
@@ -265,6 +266,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
               totalInTCO2E['value_per_unit_area'] =
                 json['reporting_period_input']['total_in_kgco2e_per_unit_area'] / 1000; // convert from kg to t
+              totalInTCO2E['value_per_capita'] =
+                json['reporting_period_input']['total_in_kgco2e_per_capita'] / 1000; 
               setTotalInTCO2E(totalInTCO2E);
 
               let TCEDataArray = [];
@@ -317,6 +320,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
                 thisMonthItem['subtotal_per_unit_area'] =
                   json['reporting_period_input']['subtotals_per_unit_area'][index];
+                thisMonthItem['subtotal_per_capita'] =
+                  json['reporting_period_input']['subtotals_per_capita'][index];
                 thisMonthInputArr.push(thisMonthItem);
               });
               setSpaceInputLineChartOptions(names);
@@ -350,6 +355,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
                 thisMonthItem['subtotal_per_unit_area'] =
                   json['reporting_period_cost']['subtotals_per_unit_area'][index];
+                thisMonthItem['subtotal_per_capita'] = json['reporting_period_cost']['subtotals_per_capita'][index];
                 thisMonthCostArr.push(thisMonthItem);
               });
               setSpaceCostLineChartOptions(names);
@@ -597,7 +603,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="warning" hidden={spinnerHidden} />
         <Spinner color="info" hidden={spinnerHidden} />
         <Spinner color="light" hidden={spinnerHidden} />
-        {thisMonthInputCardSummaryList.map(cardSummaryItem => (
+        {thisMonthInputCardSummaryList.map(cardSummaryItem => {
+          (
           <CardSummary
             key={uuid()}
             rate={cardSummaryItem['increment_rate']}
@@ -610,6 +617,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            secondfootnote={t('Per Capita')}
+            secondfootvalue={cardSummaryItem['subtotal_per_capita']}
+            secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
           >
             {cardSummaryItem['subtotal'] && (
               <CountUp
@@ -622,7 +632,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               />
             )}
           </CardSummary>
-        ))}
+        )})}
         {thisMonthCostCardSummaryList.map(cardSummaryItem => (
           <CardSummary
             key={uuid()}
@@ -636,6 +646,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             footnote={t('Per Unit Area')}
             footvalue={cardSummaryItem['subtotal_per_unit_area']}
             footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            secondfootnote={t('Per Capita')}
+            secondfootvalue={cardSummaryItem['subtotal_per_capita']}
+            secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
           >
             {cardSummaryItem['subtotal'] && (
               <CountUp
@@ -649,6 +662,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
+        
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
@@ -660,6 +674,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             footnote={t('Per Unit Area')}
             footvalue={totalInTCE['value_per_unit_area']}
             footunit="(TCE/M²)"
+            secondfootnote={t('Per Capita')}
+            secondfootvalue={totalInTCE['value_per_capita']}
+            secondfootunit="(TCE)"
           >
             {totalInTCE['value'] && (
               <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -678,6 +695,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           footnote={t('Per Unit Area')}
           footvalue={totalInTCO2E['value_per_unit_area']}
           footunit="(TCO2E/M²)"
+          secondfootnote={t('Per Capita')}
+          secondfootvalue={totalInTCO2E['value_per_capita']}
+          secondfootunit="(TCO2E)"
         >
           {totalInTCO2E['value'] && (
             <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />

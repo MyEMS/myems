@@ -71,7 +71,8 @@ const getContentClassNames = color => {
   return `${contentClassNames} text-${color}`;
 };
 
-const CardSummary = ({ title, rate, color, children, footnote, footvalue, footunit }) => {
+const CardSummary = ({ title, rate, color, children, footnote, footvalue, footunit,
+   secondfootnote, secondfootvalue, secondfootunit }) => {
   return (
     <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem' }}>
       <Background image={getImage(color)} className="bg-card" />
@@ -89,6 +90,11 @@ const CardSummary = ({ title, rate, color, children, footnote, footvalue, footun
           {footvalue && <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
           {footunit}
         </h6>
+        <h6 className="font-weight-semi-bold fs--1 text-nowrap">
+          {secondfootnote}{' '}
+          {secondfootvalue && <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
+          {secondfootunit}
+        </h6>
       </CardBody>
     </Card>
   );
@@ -101,7 +107,10 @@ CardSummary.propTypes = {
   children: PropTypes.node,
   footnote: PropTypes.string,
   footvalue: PropTypes.number,
-  footunit: PropTypes.string
+  footunit: PropTypes.string,
+  secondfootnote: PropTypes.string,
+  secondfootvalue: PropTypes.number,
+  secondfootunit: PropTypes.string
 };
 
 CardSummary.defaultProps = {

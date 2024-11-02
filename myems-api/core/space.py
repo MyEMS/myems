@@ -78,8 +78,8 @@ class SpaceCollection:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "      parent_space_id, area, number_of_occupants, timezone_id, is_input_counted, is_output_counted, "
+                 "      contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -93,14 +93,15 @@ class SpaceCollection:
                                "uuid": row[2],
                                "parent_space": space_dict.get(row[3], None),
                                "area": row[4],
-                               "timezone": timezone_dict.get(row[5], None),
-                               "is_input_counted": bool(row[6]),
-                               "is_output_counted": bool(row[7]),
-                               "contact": contact_dict.get(row[8], None),
-                               "cost_center": cost_center_dict.get(row[9], None),
-                               "latitude": row[10],
-                               "longitude": row[11],
-                               "description": row[12],
+                               "number_of_occupants": row[5],
+                               "timezone": timezone_dict.get(row[6], None),
+                               "is_input_counted": bool(row[7]),
+                               "is_output_counted": bool(row[8]),
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "latitude": row[11],
+                               "longitude": row[12],
+                               "description": row[13],
                                "qrcode": "space:" + row[2]}
                 result.append(meta_result)
 
@@ -143,6 +144,14 @@ class SpaceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
+
+        if 'number_of_occupants' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['number_of_occupants'], float) or
+                     isinstance(new_values['data']['number_of_occupants'], int)) or \
+                new_values['data']['number_of_occupants'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NUMBER_OF_OCCUPANTS')
+        number_of_occupants = new_values['data']['number_of_occupants']
 
         if 'timezone_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['timezone_id'], int) or \
@@ -266,13 +275,14 @@ class SpaceCollection:
                                        description='API.COST_CENTER_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_spaces "
-                      "    (name, uuid, parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                      "     contact_id, cost_center_id, latitude, longitude, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, parent_space_id, area, number_of_occupants, timezone_id, is_input_counted, "
+                      "     is_output_counted, contact_id, cost_center_id, latitude, longitude, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     parent_space_id,
                                     area,
+                                    number_of_occupants,
                                     timezone_id,
                                     is_input_counted,
                                     is_output_counted,
@@ -363,8 +373,8 @@ class SpaceItem:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "       parent_space_id, area, number_of_occupants, timezone_id, is_input_counted, is_output_counted, "
+                 "       contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -381,14 +391,15 @@ class SpaceItem:
                            "uuid": row[2],
                            "parent_space_id": space_dict.get(row[3], None),
                            "area": row[4],
-                           "timezone": timezone_dict.get(row[5], None),
-                           "is_input_counted": bool(row[6]),
-                           "is_output_counted": bool(row[7]),
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "latitude": row[10],
-                           "longitude": row[11],
-                           "description": row[12],
+                           "number_of_occupants": row[5],
+                           "timezone": timezone_dict.get(row[6], None),
+                           "is_input_counted": bool(row[7]),
+                           "is_output_counted": bool(row[8]),
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "latitude": row[11],
+                           "longitude": row[12],
+                           "description": row[13],
                            "qrcode": "space:" + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -516,6 +527,14 @@ class SpaceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_AREA_VALUE')
         area = new_values['data']['area']
+
+        if 'number_of_occupants' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['number_of_occupants'], float) or
+                     isinstance(new_values['data']['number_of_occupants'], int)) or \
+                new_values['data']['number_of_occupants'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_NUMBER_OF_OCCUPANTS')
+        number_of_occupants = new_values['data']['number_of_occupants']
 
         if 'timezone_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['timezone_id'], int) or \
@@ -654,13 +673,14 @@ class SpaceItem:
                                        description='API.COST_CENTER_NOT_FOUND')
 
         update_row = (" UPDATE tbl_spaces "
-                      " SET name = %s, parent_space_id = %s, area = %s, timezone_id = %s, "
+                      " SET name = %s, parent_space_id = %s, area = %s, number_of_occupants = %s, timezone_id = %s, "
                       "     is_input_counted = %s, is_output_counted = %s, contact_id = %s, cost_center_id = %s, "
                       "     latitude = %s, longitude = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     parent_space_id,
                                     area,
+                                    number_of_occupants,
                                     timezone_id,
                                     is_input_counted,
                                     is_output_counted,
@@ -703,8 +723,8 @@ class SpaceChildrenCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
-                 "        contact_id, cost_center_id, latitude, longitude, description "
+                 "  parent_space_id, area, number_of_occupants, timezone_id, is_input_counted, is_output_counted, "
+                 "  contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -770,20 +790,21 @@ class SpaceChildrenCollection:
         result['current']['uuid'] = row_current_space[2]
         result['current']['parent_space'] = space_dict.get(row_current_space[3], None)
         result['current']['area'] = row_current_space[4]
-        result['current']['timezone'] = timezone_dict.get(row_current_space[5], None)
-        result['current']['is_input_counted'] = bool(row_current_space[6])
-        result['current']['is_output_counted'] = bool(row_current_space[7])
-        result['current']['contact'] = contact_dict.get(row_current_space[8], None)
-        result['current']['cost_center'] = cost_center_dict.get(row_current_space[9], None)
-        result['current']['latitude'] = row_current_space[10]
-        result['current']['longitude'] = row_current_space[11]
-        result['current']['description'] = row_current_space[12]
+        result['current']['number_of_occupants'] = row_current_space[5]
+        result['current']['timezone'] = timezone_dict.get(row_current_space[6], None)
+        result['current']['is_input_counted'] = bool(row_current_space[7])
+        result['current']['is_output_counted'] = bool(row_current_space[8])
+        result['current']['contact'] = contact_dict.get(row_current_space[9], None)
+        result['current']['cost_center'] = cost_center_dict.get(row_current_space[10], None)
+        result['current']['latitude'] = row_current_space[11]
+        result['current']['longitude'] = row_current_space[12]
+        result['current']['description'] = row_current_space[13]
         result['current']['qrcode'] = 'space:' + row_current_space[2]
 
         result['children'] = list()
 
         query = (" SELECT id, name, uuid, "
-                 "        parent_space_id, area, timezone_id, is_input_counted, is_output_counted, "
+                 "       parent_space_id, area, number_of_occupants, timezone_id, is_input_counted, is_output_counted, "
                  "        contact_id, cost_center_id, latitude, longitude, description "
                  " FROM tbl_spaces "
                  " WHERE parent_space_id = %s "
@@ -798,14 +819,15 @@ class SpaceChildrenCollection:
                                "uuid": row[2],
                                "parent_space": space_dict.get(row[3], None),
                                "area": row[4],
-                               "timezone": timezone_dict.get(row[5], None),
-                               "is_input_counted": bool(row[6]),
-                               "is_output_counted": bool(row[7]),
-                               "contact": contact_dict.get(row[8], None),
-                               "cost_center": cost_center_dict.get(row[9], None),
-                               "latitude": row[10],
-                               "longitude": row[11],
-                               "description": row[12],
+                               "number_of_occupants": row[5],
+                               "timezone": timezone_dict.get(row[6], None),
+                               "is_input_counted": bool(row[7]),
+                               "is_output_counted": bool(row[8]),
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "latitude": row[11],
+                               "longitude": row[12],
+                               "description": row[13],
                                "qrcode": 'space:' + row[2]}
                 result['children'].append(meta_result)
 

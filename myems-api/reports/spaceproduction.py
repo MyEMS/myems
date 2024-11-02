@@ -76,8 +76,7 @@ class Reporting:
         if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
             base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
             try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local,
-                                                                   '%Y-%m-%dT%H:%M:%S')
+                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_BASE_PERIOD_START_DATETIME')
@@ -93,13 +92,12 @@ class Reporting:
         if base_period_end_datetime_local is not None or len(str.strip(base_period_end_datetime_local)) > 0:
             base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local,
-                                                                   '%Y-%m-%dT%H:%M:%S')
+                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_BASE_PERIOD_END_DATETIME')
             base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc    ) - timedelta(minutes=timezone_offset)
+                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
             
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -136,7 +134,6 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
-        
 
         if period_type is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -156,9 +153,9 @@ class Reporting:
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
         
-        cursor_system.execute(" SELECT name, area, cost_center_id "
-                            " FROM tbl_spaces "
-                            " WHERE id = %s ", (space_id,))
+        cursor_system.execute(" SELECT name, area, number_of_occupants, cost_center_id "
+                              " FROM tbl_spaces "
+                              " WHERE id = %s ", (space_id,))
         row = cursor_system.fetchone()
 
         if row is None:
@@ -172,13 +169,14 @@ class Reporting:
             space_name = row[0]
             space_area = row[1]
             space_center_id = row[2]
+            space_number_of_occupants = row[3]
 
         cnx_production = mysql.connector.connect(**config.myems_production_db)
         cursor_production = cnx_production.cursor()
         
         cursor_production.execute(" SELECT name "
-                                " FROM tbl_products "
-                                " WHERE id = %s ", (product_id,))
+                                  " FROM tbl_products "
+                                  " WHERE id = %s ", (product_id,))
         row = cursor_production.fetchone()
 
         if row is None:
@@ -201,16 +199,16 @@ class Reporting:
         cursor_production = cnx_production.cursor()
 
         query = (" SELECT start_datetime_utc, product_count "
-                " FROM tbl_space_hourly "
-                " WHERE space_id = %s "
-                " AND product_id = %s "
-                " AND start_datetime_utc >= %s "
-                " AND start_datetime_utc < %s "
-                " ORDER BY start_datetime_utc ")
+                 " FROM tbl_space_hourly "
+                 " WHERE space_id = %s "
+                 " AND product_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
         cursor_production.execute(query, (space_id,
-                                         product_id,
-                                         base_start_datetime_utc,
-                                         base_end_datetime_utc))
+                                          product_id,
+                                          base_start_datetime_utc,
+                                          base_end_datetime_utc))
         rows_space_production_hourly = cursor_production.fetchall()
 
         start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
@@ -313,16 +311,16 @@ class Reporting:
         cursor_production = cnx_production.cursor()
 
         query = (" SELECT start_datetime_utc, product_count "
-                " FROM tbl_space_hourly "
-                " WHERE space_id = %s "
-                " AND product_id = %s "
-                " AND start_datetime_utc >= %s "
-                " AND start_datetime_utc < %s "
-                " ORDER BY start_datetime_utc ")
+                 " FROM tbl_space_hourly "
+                 " WHERE space_id = %s "
+                 " AND product_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
         cursor_production.execute(query, (space_id,
-                                         product_id,
-                                         reporting_start_datetime_utc,
-                                         reporting_end_datetime_utc))
+                                          product_id,
+                                          reporting_start_datetime_utc,
+                                          reporting_end_datetime_utc))
         rows_space_production_hourly = cursor_production.fetchall()
 
         start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)
@@ -368,16 +366,16 @@ class Reporting:
         cursor_production = cnx_production.cursor()
 
         query = (" SELECT start_datetime_utc, product_count "
-                " FROM tbl_space_hourly "
-                " WHERE space_id = %s "
-                " AND product_id = %s "
-                " AND start_datetime_utc >= %s "
-                " AND start_datetime_utc < %s "
-                " ORDER BY start_datetime_utc ")
+                 " FROM tbl_space_hourly "
+                 " WHERE space_id = %s "
+                 " AND product_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
         cursor_production.execute(query, (space_id,
-                                         product_id,
-                                         base_start_datetime_utc,
-                                         base_end_datetime_utc))
+                                          product_id,
+                                          base_start_datetime_utc,
+                                          base_end_datetime_utc))
         rows_space_production_hourly = cursor_production.fetchall()
         start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
         end_datetime_utc = base_end_datetime_utc.replace(tzinfo=None)
@@ -539,6 +537,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space_name
         result['space']['area'] = space_area
+        result['space']['number_of_occupants'] = space_number_of_occupants
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -576,6 +575,7 @@ class Reporting:
         result['reporting_period']['subtotals_in_kgce'] = list()
         result['reporting_period']['subtotals_in_kgco2e'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
+        result['reporting_period']['subtotals_per_capita'] = list()
         result['reporting_period']['total_in_kgce'] = Decimal(0.0)
         result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period']['total_unit'] = config.currency_unit
@@ -593,8 +593,10 @@ class Reporting:
                 result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
                 result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
                 result['reporting_period']['total'] += reporting[energy_category_id]['subtotal']
-                result['reporting_period']['subtotals_in_kgce'].append(reporting[energy_category_id]['subtotal_in_kgce'])
-                result['reporting_period']['subtotals_in_kgco2e'].append(reporting[energy_category_id]['subtotal_in_kgco2e'])
+                result['reporting_period']['subtotals_in_kgce'].append(
+                    reporting[energy_category_id]['subtotal_in_kgce'])
+                result['reporting_period']['subtotals_in_kgco2e'].append(
+                    reporting[energy_category_id]['subtotal_in_kgco2e'])
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
                 result['reporting_period']['increment_rates'].append(
@@ -611,7 +613,8 @@ class Reporting:
             base_period_total_production += daily_value if daily_value is not None else 0
 
         result['reporting_period']['total_in_kgco2e_per_prodution'] = \
-            result['reporting_period']['total_in_kgce'] / reporting_period_total_production if reporting_period_total_production > 0.0 else None
+            result['reporting_period']['total_in_kgce'] / reporting_period_total_production \
+                if reporting_period_total_production > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgce'] = \
             (result['reporting_period']['total_in_kgce'] - result['base_period']['total_in_kgce']) / \
@@ -619,7 +622,8 @@ class Reporting:
             if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
 
         result['reporting_period']['total_in_kgce_per_prodution'] = \
-            result['reporting_period']['total_in_kgco2e'] / reporting_period_total_production if reporting_period_total_production > 0.0 else None
+            result['reporting_period']['total_in_kgco2e'] / reporting_period_total_production \
+                if reporting_period_total_production > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgco2e'] = \
             (result['reporting_period']['total_in_kgco2e'] - result['base_period']['total_in_kgco2e']) / \
@@ -635,7 +639,8 @@ class Reporting:
         result['reporting_production']['timestamps'] = reporting_date_list
         result['reporting_production']['values'] = reporting_daily_values
         for base, reporting in zip(base_daily_values,reporting_daily_values):
-            rate = (reporting - base) / base if reporting is not None and base is not None and base > 0 and reporting > 0 else 0
+            rate = (reporting - base) / base \
+                if reporting is not None and base is not None and base > 0 and reporting > 0 else 0
             rates.append(rate)
         result['reporting_production']['rates'] = rates
 
@@ -644,4 +649,4 @@ class Reporting:
         result['base_result_values'] = base_result_values
         result['base_total_production'] = base_period_total_production
         result['product'] = product_dict
-        resp.text = json.dumps(result) 
+        resp.text = json.dumps(result)

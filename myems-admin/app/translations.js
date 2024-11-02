@@ -284,6 +284,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Invalid Format',
                 INVALID_BAUD_RATE: 'Invalid Baud Rate',
                 NOT_NULLABLE: 'Please Input Required',
+                NUMBER: 'The Number Of Occupants',
                 METER: 'Meter',
                 VIRTUAL_METER: 'Virtual Meter',
                 OFFLINE_METER: 'Offline Meter',
@@ -932,6 +933,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Longitude',
                 INPUT_LATITUDE: 'Please Input Latitude',
                 INPUT_LONGITUDE: 'Please Input Longitude',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Address',
@@ -2027,6 +2030,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: '格式不正确',
                 INVALID_BAUD_RATE: '波特率不正确',
                 NOT_NULLABLE: '不允许为空',
+                NUMBER_OF_OCCUPANTS: '人数',
                 METER: '计量表',
                 VIRTUAL_METER: '虚拟表',
                 OFFLINE_METER: '离线表',
@@ -2673,6 +2677,8 @@ function config($translateProvider) {
                 LONGITUDE: '经度',
                 INPUT_LATITUDE: '请输入纬度',
                 INPUT_LONGITUDE: '请输入经度',
+                NUMBER_OF_OCCUPANTS: '人数',
+                INPUT_NUMBER_OF_OCCUPANTS: '请输入人数'
             },
             TENANT: {
                 BUILDINGS: '建筑',
@@ -3771,6 +3777,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Falsches Format',
                 INVALID_BAUD_RATE: 'Falsche Baudrate',
                 NOT_NULLABLE: 'Darf nicht leer sein',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Meter',
                 VIRTUAL_METER: 'Virtuelle Meter',
                 OFFLINE_METER: 'Offline Meter',
@@ -4419,6 +4426,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Längengrad',
                 INPUT_LATITUDE: 'Bitte geben Sie den Breitengrad ein',
                 INPUT_LONGITUDE: 'Bitte geben Sie den Längengrad ein',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             TENANT: {
                 BUILDINGS: 'Gebäude',
@@ -5510,6 +5519,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Format non valide',
                 INVALID_BAUD_RATE: 'Débit en bauds non valide',
                 NOT_NULLABLE: 'S’il vous plaît entrée requise',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Mètre',
                 VIRTUAL_METER: 'Compteur virtuel',
                 OFFLINE_METER: 'Compteur hors ligne',
@@ -6158,6 +6168,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Longitude',
                 INPUT_LATITUDE: 'Veuillez saisir la latitude',
                 INPUT_LONGITUDE: 'Veuillez saisir la longitude',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Adresse',
@@ -7251,6 +7263,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Formato no válido',
                 INVALID_BAUD_RATE: 'Velocidad en baudios no válida',
                 NOT_NULLABLE: 'Por favor, ingrese requerido',
+                NUMBER_OF_OCCUPANTS: 'The Number Of Occupants',
                 METER: 'Metro',
                 VIRTUAL_METER: 'Medidor virtual',
                 OFFLINE_METER: 'Medidor fuera de línea',
@@ -7900,6 +7913,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Longitud',
                 INPUT_LATITUDE: 'Por favor, introduzca Latitude',
                 INPUT_LONGITUDE: 'Por favor, introduzca la longitud',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Dirección',
@@ -8993,6 +9008,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Недопустимый формат',
                 INVALID_BAUD_RATE: 'Недопустимая скорость передачи данных',
                 NOT_NULLABLE: 'Пожалуйста, введите обязательный',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Метр',
                 VIRTUAL_METER: 'Виртуальный счетчик',
                 OFFLINE_METER: 'Автономный счетчик',
@@ -9642,6 +9658,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Долгота',
                 INPUT_LATITUDE: 'Пожалуйста, введите широту',
                 INPUT_LONGITUDE: 'Пожалуйста, введите долготу',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Адрес',
@@ -10735,6 +10753,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'تنسيق غير صالح',
                 INVALID_BAUD_RATE: 'سعر الباود غير صالح',
                 NOT_NULLABLE: 'يرجى الإدخال المطلوب',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'متر',
                 VIRTUAL_METER: 'العداد الافتراضي',
                 OFFLINE_METER: 'عداد غير متصل',
@@ -11383,6 +11402,8 @@ function config($translateProvider) {
                 LONGITUDE: 'خط الطول',
                 INPUT_LATITUDE: 'يرجى إدخال خط العرض',
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'عنوان',
@@ -12476,6 +12497,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Định dạng không hợp lệ',
                 INVALID_BAUD_RATE: 'Tỷ lệ truyền không hợp lệ',
                 NOT_NULLABLE: 'Vui lòng nhập yêu cầu',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Mét',
                 VIRTUAL_METER: 'Đồng hồ ảo',
                 OFFLINE_METER: 'Đồng hồ ngoại tuyến',
@@ -13124,6 +13146,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Kinh độ',
                 INPUT_LATITUDE: 'Vui lòng nhập Latitude',
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Địa chỉ',
@@ -14216,6 +14240,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'รูปแบบไม่ถูกต้อง',
                 INVALID_BAUD_RATE: 'อัตราบอดไม่ถูกต้อง',
                 NOT_NULLABLE: 'กรุณากรอกข้อมูลที่จําเป็น',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'เมตร',
                 VIRTUAL_METER: 'เครื่องวัดเสมือน',
                 OFFLINE_METER: 'เครื่องวัดออฟไลน์',
@@ -14863,6 +14888,8 @@ function config($translateProvider) {
                 LONGITUDE: 'เส้นแวง',
                 INPUT_LATITUDE: 'กรุณาใส่ละติจูด',
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'ที่อยู่',
@@ -15956,6 +15983,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Geçersiz Biçim',
                 INVALID_BAUD_RATE: 'Geçersiz Baud Hızı',
                 NOT_NULLABLE: 'Lütfen Giriş Gerekli',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Metre',
                 VIRTUAL_METER: 'Sanal Ölçüm',
                 OFFLINE_METER: 'Çevrimdışı Ölçüm',
@@ -16603,6 +16631,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Boylam',
                 INPUT_LATITUDE: 'Lütfen Enlemi Girin',
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Adres',
@@ -17696,6 +17726,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Format Tidak Sah',
                 INVALID_BAUD_RATE: 'Kadar Baud Tidak Sah',
                 NOT_NULLABLE: 'Sila masukkan Diperlukan',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Meter',
                 VIRTUAL_METER: 'Meter Maya',
                 OFFLINE_METER: 'Meter Luar Talian',
@@ -18343,6 +18374,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Longitud',
                 INPUT_LATITUDE: 'Sila masukkan latitud',
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Alamat',
@@ -19436,6 +19469,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: 'Format Tidak Valid',
                 INVALID_BAUD_RATE: 'Harga Baud Tidak Valid',
                 NOT_NULLABLE: 'Silakan masukan diperlukan',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
                 METER: 'Meter',
                 VIRTUAL_METER: 'Meteran Virtual',
                 OFFLINE_METER: 'Meteran Offline',
@@ -20083,6 +20117,8 @@ function config($translateProvider) {
                 LONGITUDE: 'Bujur',
                 INPUT_LATITUDE: 'Silakan masukkan Latitude',
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
+                NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
             },
             STORE: {
                 ADDRESS: 'Alamat',
@@ -21179,6 +21215,7 @@ function config($translateProvider) {
                 INVALID_FORMAT: '格式不正確',
                 INVALID_BAUD_RATE: '波特率不正確',
                 NOT_NULLABLE: '不允許為空',
+                NUMBER: '人數',
                 METER: '計量表',
                 VIRTUAL_METER: '虛擬表',
                 OFFLINE_METER: '離線表',
@@ -21826,6 +21863,8 @@ function config($translateProvider) {
                 LONGITUDE: '經度',
                 INPUT_LATITUDE: '請輸入緯度',
                 INPUT_LONGITUDE: '請輸入經度',
+                NUMBER: '人數',
+                INPUT_NUMBER: '請輸入人數'
             },
             TENANT: {
                 BUILDINGS: '建築',
