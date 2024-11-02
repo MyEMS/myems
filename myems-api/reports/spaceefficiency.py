@@ -180,12 +180,12 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -211,7 +211,8 @@ class Reporting:
         space['id'] = row_space[0]
         space['name'] = row_space[1]
         space['area'] = row_space[2]
-        space['cost_center_id'] = row_space[3]
+        space['number_of_occupants'] = row_space[3]
+        space['cost_center_id'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query input energy categories and output energy categories
@@ -629,6 +630,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
 
         result['base_period_input'] = dict()
         result['base_period_input']['names'] = list()
@@ -699,6 +701,7 @@ class Reporting:
         result['reporting_period_input']['values'] = list()
         result['reporting_period_input']['subtotals'] = list()
         result['reporting_period_input']['subtotals_per_unit_area'] = list()
+        result['reporting_period_input']['subtotals_per_capita'] = list()
         result['reporting_period_input']['increment_rates'] = list()
 
         if energy_category_set_input is not None and len(energy_category_set_input) > 0:
@@ -727,6 +730,7 @@ class Reporting:
         result['reporting_period_output']['values'] = list()
         result['reporting_period_output']['subtotals'] = list()
         result['reporting_period_output']['subtotals_per_unit_area'] = list()
+        result['reporting_period_output']['subtotals_per_capita'] = list()
         result['reporting_period_output']['increment_rates'] = list()
 
         if energy_category_set_output is not None and len(energy_category_set_output) > 0:

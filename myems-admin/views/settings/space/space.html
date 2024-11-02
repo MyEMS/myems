@@ -29,7 +29,6 @@
 														<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}</th>
-														<th class="text-center">{{'SPACE.NUMBER' | translate}}</th>
 														<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -41,7 +40,6 @@
 														<td class="text-center">{{ currentSpace.id }}</td>
 														<td class="text-center">{{ currentSpace.name }}</td>
 														<td class="text-center">{{ currentSpace.parent_space.name }}</td>
-														<td class="text-center">{{ currentSpace.number }}</td>
 														<td class="text-center">
 															{{ currentSpace.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
@@ -83,7 +81,6 @@
 														<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 														<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 														<th class="text-center">{{'SPACE.PARENT_SPACE' | translate}}</th>
-														<td class="text-center">{{'SPACE.NUMBER' | translate }}</th>
 														<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
 														<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -95,7 +92,6 @@
 														<td class="text-center">{{ space.id }}</td>
 														<td class="text-center">{{ space.name }}</td>
 														<td class="text-center">{{ space.parent_space.name }}</td>
-														<td class="text-center">{{ space.number }}</td>
 														<td class="text-center">
 															{{ space.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>

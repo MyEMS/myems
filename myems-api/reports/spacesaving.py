@@ -184,12 +184,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -220,8 +220,8 @@ class Reporting:
         space['id'] = row_space[0]
         space['name'] = row_space[1]
         space['area'] = row_space[2]
-        space['cost_center_id'] = row_space[3]
-        space['number'] = row_space[4]
+        space['number_of_occupants'] = row_space[3]
+        space['cost_center_id'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -735,6 +735,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -794,8 +795,8 @@ class Reporting:
                     reporting[energy_category_id]['subtotal_saving'] / space['area']
                     if space['area'] > Decimal(0.0) else None)
                 result['reporting_period']['subtotals_per_capita_saving'].append(
-                    reporting[energy_category_id]['subtotal_saving'] / space['number']
-                    if space['number'] > Decimal(0.0) else None)
+                    reporting[energy_category_id]['subtotal_saving'] / space['number_of_occupants']
+                    if space['number_of_occupants'] > Decimal(0.0) else None)
                 result['reporting_period']['increment_rates_saving'].append(
                     (reporting[energy_category_id]['subtotal_saving'] - base[energy_category_id]['subtotal_saving']) /
                     base[energy_category_id]['subtotal_saving']
@@ -818,10 +819,10 @@ class Reporting:
         result['reporting_period']['total_in_kgco2e_per_unit_area_saving'] = \
             result['reporting_period']['total_in_kgce_saving'] / space['area'] \
             if space['area'] > Decimal(0.0) else None
-        
+
         result['reporting_period']['total_in_kgco2e_per_capita_saving'] = \
-            result['reporting_period']['total_in_kgce_saving'] / space['number'] \
-            if space['number'] > Decimal(0.0) else None
+            result['reporting_period']['total_in_kgce_saving'] / space['number_of_occupants'] \
+            if space['number_of_occupants'] > Decimal(0.0) else None
 
         result['reporting_period']['increment_rate_in_kgce_saving'] = \
             (result['reporting_period']['total_in_kgce_saving'] - result['base_period']['total_in_kgce_saving']) / \
@@ -831,10 +832,10 @@ class Reporting:
         result['reporting_period']['total_in_kgce_per_unit_area_saving'] = \
             result['reporting_period']['total_in_kgco2e_saving'] / space['area'] \
             if space['area'] > Decimal(0.0) else None
-            
+
         result['reporting_period']['total_in_kgce_per_capita_saving'] = \
-            result['reporting_period']['total_in_kgco2e_saving'] / space['number'] \
-            if space['number'] > Decimal(0.0) else None
+            result['reporting_period']['total_in_kgco2e_saving'] / space['number_of_occupants'] \
+            if space['number_of_occupants'] > Decimal(0.0) else None
 
         result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
             (result['reporting_period']['total_in_kgco2e_saving'] - result['base_period']['total_in_kgco2e_saving']) / \

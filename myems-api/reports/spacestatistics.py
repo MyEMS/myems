@@ -179,12 +179,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE id = %s ", (space_id,))
             row_space = cursor_system.fetchone()
         elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id, number "
+            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
                                   " FROM tbl_spaces "
                                   " WHERE uuid = %s ", (space_uuid,))
             row_space = cursor_system.fetchone()
@@ -210,8 +210,8 @@ class Reporting:
         space['id'] = row_space[0]
         space['name'] = row_space[1]
         space['area'] = row_space[2]
+        space['number_of_occupants'] = row_space[3]
         space['cost_center_id'] = row_space[3]
-        space['number'] = row_space[4]
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -536,6 +536,7 @@ class Reporting:
         result['space'] = dict()
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -613,11 +614,11 @@ class Reporting:
                     space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['means_per_capita'].append(
-                    reporting[energy_category_id]['mean'] / space['number']
+                    reporting[energy_category_id]['mean'] / space['number_of_occupants']
                     if reporting[energy_category_id]['mean'] is not None and
-                    space['number'] is not None and
-                    space['number'] > Decimal(0.0)
-                else None)
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
+                    else None)
                 result['reporting_period']['means_increment_rate'].append(
                     (reporting[energy_category_id]['mean'] - base[energy_category_id]['mean']) /
                     base[energy_category_id]['mean'] if (base[energy_category_id]['mean'] is not None and
@@ -631,10 +632,10 @@ class Reporting:
                     space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['medians_per_capita'].append(
-                    reporting[energy_category_id]['median'] / space['number']
+                    reporting[energy_category_id]['median'] / space['number_of_occupants']
                     if reporting[energy_category_id]['median'] is not None and
-                    space['number'] is not None and
-                    space['number'] > Decimal(0.0)
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['medians_increment_rate'].append(
                     (reporting[energy_category_id]['median'] - base[energy_category_id]['median']) /
@@ -648,9 +649,9 @@ class Reporting:
                     space['area'] is not None and space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['minimums_per_capita'].append(
-                    reporting[energy_category_id]['minimum'] / space['number']
+                    reporting[energy_category_id]['minimum'] / space['number_of_occupants']
                     if reporting[energy_category_id]['minimum'] is not None and
-                    space['number'] is not None and space['number'] > Decimal(0.0)
+                    space['number_of_occupants'] is not None and space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['minimums_increment_rate'].append(
                     (reporting[energy_category_id]['minimum'] - base[energy_category_id]['minimum']) /
@@ -665,10 +666,10 @@ class Reporting:
                     space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['maximums_per_capita'].append(
-                    reporting[energy_category_id]['maximum'] / space['number']
+                    reporting[energy_category_id]['maximum'] / space['number_of_occupants']
                     if reporting[energy_category_id]['maximum'] is not None and
-                    space['number'] is not None and
-                    space['number'] > Decimal(0.0)
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['maximums_increment_rate'].append(
                     (reporting[energy_category_id]['maximum'] - base[energy_category_id]['maximum']) /
@@ -684,10 +685,10 @@ class Reporting:
                     space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['stdevs_per_capita'].append(
-                    reporting[energy_category_id]['stdev'] / space['number']
+                    reporting[energy_category_id]['stdev'] / space['number_of_occupants']
                     if reporting[energy_category_id]['stdev'] is not None and
-                    space['number'] is not None and
-                    space['number'] > Decimal(0.0)
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['stdevs_increment_rate'].append(
                     (reporting[energy_category_id]['stdev'] - base[energy_category_id]['stdev']) /
@@ -702,10 +703,10 @@ class Reporting:
                     space['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['variances_per_capita'].append(
-                    reporting[energy_category_id]['variance'] / space['number']
+                    reporting[energy_category_id]['variance'] / space['number_of_occupants']
                     if reporting[energy_category_id]['variance'] is not None and
-                    space['number'] is not None and
-                    space['number'] > Decimal(0.0)
+                    space['number_of_occupants'] is not None and
+                    space['number_of_occupants'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['variances_increment_rate'].append(
                     (reporting[energy_category_id]['variance'] - base[energy_category_id]['variance']) /
