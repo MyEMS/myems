@@ -14485,7 +14485,7 @@ const resources = {
       'Base Period': '基準期',
       'Reporting Period': '報告期',
       'Per Unit Area': '單位⾯積值',
-      'Per Capita': '單位人均值',
+      'Per Capita': '人均值',
       'Per Unit Production': '單位產品值',
       Baseline: '基線值',
       Actual: '實際值',
