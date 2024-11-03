@@ -1190,18 +1190,6 @@ class PointClone:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_data_sources ")
-        cursor.execute(query)
-        rows_data_sources = cursor.fetchall()
-
-        data_source_dict = dict()
-        if rows_data_sources is not None and len(rows_data_sources) > 0:
-            for row in rows_data_sources:
-                data_source_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                  "        is_trend, is_virtual, address, description "
@@ -1215,7 +1203,7 @@ class PointClone:
 
         result = {"id": row[0],
                   "name": row[1],
-                  "data_source": data_source_dict.get(row[2], None),
+                  "data_source_id": row[2],
                   "object_type": row[3],
                   "units": row[4],
                   "high_limit": row[5],
@@ -1239,7 +1227,7 @@ class PointClone:
                      "                         offset_constant, is_trend, is_virtual, address, description) "
                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (new_name,
-                                   result['data_source']['id'],
+                                   result['data_source_id'],
                                    result['object_type'],
                                    result['units'],
                                    result['high_limit'],

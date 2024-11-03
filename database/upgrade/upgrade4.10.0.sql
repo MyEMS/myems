@@ -16,6 +16,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_distribution_systems` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_spaces_distribution_systems_index_1` ON `myems_system_db`.`tbl_spaces_distribution_systems` (`space_id`);
 
+ALTER TABLE myems_system_db.tbl_energy_storage_containers_loads
+RENAME INDEX tbl_energy_storage_containers_grids_index_1 TO tbl_energy_storage_containers_loads_index_1;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.10.0', release_date='2024-10-26' WHERE id=1;
 
