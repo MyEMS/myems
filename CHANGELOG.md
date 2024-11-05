@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added per capita data to dashboard and space reports
 ### Changed
 - updated `myems_system_db`.`tbl_data_sources` in database
+- updated to hide connection of data source in myems-admin
 ### Fixed
 - fixed warn: fromascasing: 'as' and 'from' keywords' casing do not match in dockerfile
 ### Removed
