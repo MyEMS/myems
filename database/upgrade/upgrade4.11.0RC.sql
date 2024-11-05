@@ -162,6 +162,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_lo
 CREATE INDEX `tbl_photovoltaic_power_stations_loads_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads` (`photovoltaic_power_station_id`);
 
+ALTER TABLE myems_system_db.tbl_data_sources MODIFY COLUMN protocol varchar(128) NOT NULL;
+
+ALTER TABLE myems_system_db.tbl_data_sources ADD process_id BIGINT NULL AFTER `connection`;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
