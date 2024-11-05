@@ -174,8 +174,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_data_sources` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `gateway_id` BIGINT NOT NULL,
-  `protocol` VARCHAR(16) NOT NULL,
+  `protocol` VARCHAR(128) NOT NULL,
   `connection` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
+  `process_id` BIGINT,
   `last_seen_datetime_utc` DATETIME NULL  COMMENT 'The last seen date time in UTC via PING or TELNET',
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));

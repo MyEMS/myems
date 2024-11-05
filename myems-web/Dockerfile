@@ -1,4 +1,4 @@
-FROM node:latest as build-stage
+FROM node:latest AS build-stage
 WORKDIR /opt
 COPY . .
 
@@ -14,7 +14,7 @@ RUN npm install --unsafe-perm=true --allow-root --legacy-peer-deps
 RUN npm run build
 
 
-FROM nginx:latest as production-stage
+FROM nginx:latest AS production-stage
 
 RUN apt update && apt install -y nano telnet
 
