@@ -163,21 +163,21 @@ app.controller('EnergyStoragePowerStationController', function(
 
 	$scope.deleteEnergyStoragePowerStation=function(energystoragepowerstation){
 		SweetAlert.swal({
-			title: $translate.instant("SWEET.TITLE"),
-			text: $translate.instant("SWEET.TEXT"),
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
-			cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
-			closeOnConfirm: true,
-			closeOnCancel: true
-		},
-		function (isConfirm) {
-			if (isConfirm) {
+      title: $translate.instant("SWEET.TITLE"),
+      text: $translate.instant("SWEET.TEXT"),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+      cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+      closeOnConfirm: true,
+      closeOnCancel: true
+    },
+    function (isConfirm) {
+      if (isConfirm) {
 				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 				EnergyStoragePowerStationService.deleteEnergyStoragePowerStation(energystoragepowerstation, headers, function(response) {
-					if (angular.isDefined(response.status) && response.status === 204) {
+          if (angular.isDefined(response.status) && response.status === 204) {
 						toaster.pop({
 							type: "success",
 							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
@@ -192,10 +192,10 @@ app.controller('EnergyStoragePowerStationController', function(
 							body: $translate.instant(response.data.description),
 							showCloseButton: true,
 						});
-					}
-				});
-			}
-		});
+          }
+        });
+      }
+    });
 	};
 
 	$scope.exportEnergyStoragePowerStation = function(energystoragepowerstation) {
