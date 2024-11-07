@@ -9725,7 +9725,7 @@ function config($translateProvider) {
                 COMBINED_EQUIPMENT_LIST: 'Список комбинированного оборудования',
                 BIND_PHOTOVOLTAIC_POWER_STATION: 'Связанная фотоэлектрическая станция',
                 N_S_PHOTOVOLTAIC_POWER_STATION: 'Связанные фотоэлектрические станции',
-                PHOTOVOLTAIC_POWER_STATION_LIST: 'Список фотоэлектрических станций,
+                PHOTOVOLTAIC_POWER_STATION_LIST: 'Список фотоэлектрических станций',
                 BIND_ENERGY_STORAGE_POWER_STATION: 'Электростанция хранения энергии Bind',
                 N_S_ENERGY_STORAGE_POWER_STATION: 'Электростанции для хранения связанной энергии',
                 ENERGY_STORAGE_POWER_STATION_LIST: 'Список электростанций по хранению энергии',
