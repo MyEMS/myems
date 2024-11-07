@@ -1208,10 +1208,13 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
+  `rated_capacity` DECIMAL(18, 3) NOT NULL,
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg_id` BIGINT NOT NULL,
+  `is_cost_data_displayed` BOOL NOT NULL,
+  `phase_of_lifecycle` VARCHAR(255) NOT NULL,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
@@ -1750,6 +1753,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_offline_meters` (
   `offline_meter_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_spaces_offline_meters_index_1` ON `myems_system_db`.`tbl_spaces_offline_meters` (`space_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_photovoltaic_power_stations`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_photovoltaic_power_stations` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_photovoltaic_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_photovoltaic_power_stations_index_1`
+ON `myems_system_db`.`tbl_spaces_photovoltaic_power_stations` (`space_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces_points`

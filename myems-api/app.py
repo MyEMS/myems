@@ -705,15 +705,17 @@ api.add_route('/spaces/{id_}/distributionsystems',
               space.DistributionSystemCollection())
 api.add_route('/spaces/{id_}/distributionsystems/{did}',
               space.DistributionSystemItem())
-
 # Get energy categories of all meters in the space tree
 api.add_route('/spaces/{id_}/treemetersenergycategories',
               space.SpaceTreeMetersEnergyCategoryCollection())
-
 api.add_route('/spaces/{id_}/offlinemeters',
               space.SpaceOfflineMeterCollection())
 api.add_route('/spaces/{id_}/offlinemeters/{mid}',
               space.SpaceOfflineMeterItem())
+api.add_route('/spaces/{id_}/photovoltaicpowerstations',
+              space.SpacePhotovoltaicPowerStationCollection())
+api.add_route('/spaces/{id_}/photovoltaicpowerstations/{eid}',
+              space.SpacePhotovoltaicPowerStationItem())
 api.add_route('/spaces/{id_}/points',
               space.SpacePointCollection())
 api.add_route('/spaces/{id_}/points/{pid}',

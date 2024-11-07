@@ -191,7 +191,7 @@ class EnergyStoragePowerStationCollection:
                 not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
                 len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE')
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
         phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
 
         if 'description' in new_values['data'].keys() and \
@@ -496,7 +496,7 @@ class EnergyStoragePowerStationItem:
                 not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
                 len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_PHASE_OF_LIFECYCLE')
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
         phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
 
         if 'description' in new_values['data'].keys() and \
@@ -936,6 +936,92 @@ class EnergyStoragePowerStationUserItem:
         resp.status = falcon.HTTP_204
 
 
+class EnergyStoragePowerStationExport:
+    def __init__(self):
+        """"Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_contacts ")
+        cursor.execute(query)
+        rows_contacts = cursor.fetchall()
+
+        contact_dict = dict()
+        if rows_contacts is not None and len(rows_contacts) > 0:
+            for row in rows_contacts:
+                contact_dict[row[0]] = {"id": row[0],
+                                        "name": row[1],
+                                        "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_cost_centers ")
+        cursor.execute(query)
+        rows_cost_centers = cursor.fetchall()
+
+        cost_center_dict = dict()
+        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+            for row in rows_cost_centers:
+                cost_center_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
+        query = (" SELECT id, name, uuid, "
+                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
+                 " FROM tbl_energy_storage_power_stations "
+                 " WHERE id = %s ")
+        cursor.execute(query, (id_,))
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        if row is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+        else:
+            meta_result = {"name": row[1],
+                           "uuid": row[2],
+                           "address": row[3],
+                           "postal_code": row[4],
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "svg": svg_dict.get(row[11], None),
+                           "is_cost_data_displayed": bool(row[12]),
+                           "description": row[13]}
+
+        resp.text = json.dumps(meta_result)
+
+
 class EnergyStoragePowerStationImport:
     def __init__(self):
         """"Initializes Class"""
@@ -1016,7 +1102,7 @@ class EnergyStoragePowerStationImport:
                      isinstance(new_values['rated_power'], int)) or \
                 new_values['rated_power'] <= 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_RATED_RATED_POWER_VALUE')
+                                   description='API.INVALID_RATED_POWER')
         rated_power = new_values['rated_power']
 
         if 'contact' not in new_values.keys() or \
@@ -1127,92 +1213,6 @@ class EnergyStoragePowerStationImport:
         resp.location = '/energystoragepowerstations/' + str(new_id)
 
 
-class EnergyStoragePowerStationExport:
-    def __init__(self):
-        """"Initializes Class"""
-        pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
-    def on_get(req, resp, id_):
-        access_control(req)
-        if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
-
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
-
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-
-        svg_dict = dict()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
-                 " FROM tbl_energy_storage_power_stations "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
-        else:
-            meta_result = {"name": row[1],
-                           "uuid": row[2],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "svg": svg_dict.get(row[11], None),
-                           "is_cost_data_displayed": bool(row[12]),
-                           "description": row[13]}
-
-        resp.text = json.dumps(meta_result)
-
-
 class EnergyStoragePowerStationClone:
     def __init__(self):
         """Initializes Class"""
@@ -1262,33 +1262,33 @@ class EnergyStoragePowerStationClone:
                            "is_cost_data_displayed": row[12],
                            "description": row[13]}
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = str.strip(meta_result['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            new_name = str.strip(meta_result['name']) + \
+                (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
-        add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (new_name,
-                                    str(uuid.uuid4()),
-                                    meta_result['address'],
-                                    meta_result['postal_code'],
-                                    meta_result['latitude'],
-                                    meta_result['longitude'],
-                                    meta_result['rated_capacity'],
-                                    meta_result['rated_power'],
-                                    meta_result['contact_id'],
-                                    meta_result['cost_center_id'],
-                                    meta_result['svg_id'],
-                                    meta_result['is_cost_data_displayed'],
-                                    meta_result['description']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+            add_values = (" INSERT INTO tbl_energy_storage_power_stations "
+                          "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                          "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+            cursor.execute(add_values, (new_name,
+                                        str(uuid.uuid4()),
+                                        meta_result['address'],
+                                        meta_result['postal_code'],
+                                        meta_result['latitude'],
+                                        meta_result['longitude'],
+                                        meta_result['rated_capacity'],
+                                        meta_result['rated_power'],
+                                        meta_result['contact_id'],
+                                        meta_result['cost_center_id'],
+                                        meta_result['svg_id'],
+                                        meta_result['is_cost_data_displayed'],
+                                        meta_result['description']))
+            new_id = cursor.lastrowid
+            cnx.commit()
+            cursor.close()
+            cnx.close()
 
-        resp.status = falcon.HTTP_201
-        resp.location = '/energystoragepowerstations/' + str(new_id)
+            resp.status = falcon.HTTP_201
+            resp.location = '/energystoragepowerstations/' + str(new_id)

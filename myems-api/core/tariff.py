@@ -719,9 +719,8 @@ class TariffClone:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name'])
-                    + (datetime.now()
-                       + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        new_name = (str.strip(result['name']) +
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_row = (" INSERT INTO tbl_tariffs "
                    "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
                    "              valid_from_datetime_utc, valid_through_datetime_utc ) "
