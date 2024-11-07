@@ -53,6 +53,15 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.RATED_CAPACITY' | translate}}(kWh)</label>
+                <div class="col-sm-10">
+                    <input ng-model="photovoltaicpowerstation.rated_capacity" type="number" name="photovoltaicpowerstationrated_capacity" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_capacity.$invalid && form_photovoltaicpowerstation.photovoltaicpowerstationrated_capacity.$dirty">
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_capacity.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstation.photovoltaicpowerstationrated_capacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.RATED_POWER' | translate}}(kW)</label>
                 <div class="col-sm-10">
                     <input ng-model="photovoltaicpowerstation.rated_power" type="number" name="photovoltaicpowerstationrated_power" class="form-control" required>
@@ -92,6 +101,26 @@
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
                             <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.IS_COST_DATA_DISPLAYED' | translate}}</label>
+                <div class="col-sm-10">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_photovoltaicpowerstation_iscostdatadisplayed" type="checkbox" ng-model="photovoltaicpowerstation.is_cost_data_displayed"
+                            ng-checked="photovoltaicpowerstation.is_cost_data_displayed">
+                        <label for="chk_photovoltaicpowerstation_iscostdatadisplayed">{{'PHOTOVOLTAIC_POWER_STATION.IS_COST_DATA_DISPLAYED' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PHASE_OF_LIFECYCLE' | translate}}</label>
+                <div class="col-sm-10">
+                    <ui-select ng-model="photovoltaicpowerstation.phase_of_lifecycle" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="phaseoflifecycle.code as phaseoflifecycle in phaseoflifecycles | filter: $select.search">
+                            <div ng-bind-html="phaseoflifecycle.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>

@@ -64,6 +64,6 @@ app.factory('PhotovoltaicPowerStationService', function($http) {
             }, function (response) {
                 callback(response);
             });
-        },
+        }
     };
 });

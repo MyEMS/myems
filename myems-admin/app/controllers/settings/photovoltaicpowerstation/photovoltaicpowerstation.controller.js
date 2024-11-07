@@ -6,8 +6,8 @@ app.controller('PhotovoltaicPowerStationController', function(
     $window,
     $translate,
     $uibModal,
-    CostCenterService,
     ContactService,
+    CostCenterService,
     SVGService,
     PhotovoltaicPowerStationService,
     toaster,
@@ -16,6 +16,17 @@ app.controller('PhotovoltaicPowerStationController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	$scope.getAllContacts = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token};
+		ContactService.getAllContacts(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.contacts = response.data;
+			} else {
+				$scope.contacts = [];
+			}
+		});
+	};
+
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -23,17 +34,6 @@ app.controller('PhotovoltaicPowerStationController', function(
 				$scope.costcenters = response.data;
 			} else {
 				$scope.costcenters = [];
-			}
-		});
-	};
-
-	$scope.getAllContacts = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		ContactService.getAllContacts(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.contacts = response.data;
-			} else {
-				$scope.contacts = [];
 			}
 		});
 	};
@@ -60,6 +60,13 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	$scope.getAllPhaseOfLifecycles = function() {
+		$scope.phaseoflifecycles = [
+			{"code":"1use", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_1USE")},
+			{"code":"2commissioning", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_2COMMISSIONING")},
+			{"code":"3installation", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_3INSTALLATION")}
+		];
+	};
 	$scope.addPhotovoltaicPowerStation = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/photovoltaicpowerstation/photovoltaicpowerstation.model.html',
@@ -71,6 +78,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 						svgs: angular.copy($scope.svgs),
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -115,7 +123,8 @@ app.controller('PhotovoltaicPowerStationController', function(
 						photovoltaicpowerstation: angular.copy(photovoltaicpowerstation),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts),
-						svgs: angular.copy($scope.svgs),
+						svgs:angular.copy($scope.svgs),
+						phaseoflifecycles: angular.copy($scope.phaseoflifecycles)
 					};
 				}
 			}
@@ -153,38 +162,39 @@ app.controller('PhotovoltaicPowerStationController', function(
 
 	$scope.deletePhotovoltaicPowerStation=function(photovoltaicpowerstation){
 		SweetAlert.swal({
-		        title: $translate.instant("SWEET.TITLE"),
-		        text: $translate.instant("SWEET.TEXT"),
-		        type: "warning",
-		        showCancelButton: true,
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
-		        cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
-		        closeOnConfirm: true,
-		        closeOnCancel: true },
-		    function (isConfirm) {
-		        if (isConfirm) {
-					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		            PhotovoltaicPowerStationService.deletePhotovoltaicPowerStation(photovoltaicpowerstation, headers, function(response) {
-		            	if (angular.isDefined(response.status) && response.status === 204) {
-							toaster.pop({
-								type: "success",
-								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
-								showCloseButton: true,
-							});
-							$scope.$emit('handleEmitPhotovoltaicPowerStationChanged');
-						}else {
-							toaster.pop({
-								type: "error",
-								title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
-								body: $translate.instant(response.data.description),
-								showCloseButton: true,
-							});
-		            	}
-		            });
-		        }
-		    });
+      title: $translate.instant("SWEET.TITLE"),
+      text: $translate.instant("SWEET.TEXT"),
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: $translate.instant("SWEET.CONFIRM_BUTTON_TEXT"),
+      cancelButtonText: $translate.instant("SWEET.CANCEL_BUTTON_TEXT"),
+      closeOnConfirm: true,
+      closeOnCancel: true
+    },
+    function (isConfirm) {
+      if (isConfirm) {
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+	            PhotovoltaicPowerStationService.deletePhotovoltaicPowerStation(photovoltaicpowerstation, headers, function(response) {
+          if (angular.isDefined(response.status) && response.status === 204) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
+							showCloseButton: true,
+						});
+						$scope.$emit('handleEmitPhotovoltaicPowerStationChanged');
+					}else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+          }
+        });
+      }
+    });
 	};
 
 	$scope.exportPhotovoltaicPowerStation = function(photovoltaicpowerstation) {
@@ -226,7 +236,6 @@ app.controller('PhotovoltaicPowerStationController', function(
 					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
 					showCloseButton: true,
 				});
-				$scope.getAllPhotovoltaicPowerStations();
 				$scope.$emit('handleEmitPhotovoltaicPowerStationChanged');
 			}else {
 				toaster.pop({
@@ -261,7 +270,6 @@ app.controller('PhotovoltaicPowerStationController', function(
 						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.PHOTOVOLTAIC_POWER_STATION")}),
 						showCloseButton: true,
 					});
-					$scope.getAllPhotovoltaicPowerStations();
 					$scope.$emit('handleEmitPhotovoltaicPowerStationChanged');
 				} else {
 					toaster.pop({
@@ -279,20 +287,24 @@ app.controller('PhotovoltaicPowerStationController', function(
 	};
 
 	$scope.getAllPhotovoltaicPowerStations();
-	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	$scope.getAllCostCenters();
 	$scope.getAllSVGs();
+	$scope.getAllPhaseOfLifecycles();
 	$scope.$on('handleBroadcastPhotovoltaicPowerStationChanged', function(event) {
   		$scope.getAllPhotovoltaicPowerStations();
 	});
 });
 
 app.controller('ModalAddPhotovoltaicPowerStationCtrl', function($scope, $uibModalInstance,params) {
-
 	$scope.operation = "SETTING.ADD_PHOTOVOLTAIC_POWER_STATION";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.svgs=params.svgs;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
+	$scope.energystoragepowerstation = {
+		is_cost_data_displayed: false
+	};
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.photovoltaicpowerstation);
 	};
@@ -308,6 +320,7 @@ app.controller('ModalEditPhotovoltaicPowerStationCtrl', function($scope, $uibMod
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
 	$scope.svgs=params.svgs;
+	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.photovoltaicpowerstation);
 	};
