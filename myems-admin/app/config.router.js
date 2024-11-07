@@ -1,11 +1,3 @@
-/**
- * INSPINIA - Responsive Admin Theme
- *
- * Inspinia theme use AngularUI Router to manage routing and views
- * Each view are defined as state.
- * Initial there are written state for all view in theme.
- *
- */
 app
     .run([
         '$rootScope', '$state', '$transitions', '$location', '$window',
@@ -889,6 +881,7 @@ app
                                                     'app/services/settings/space/spaceenergystoragepowerstation.service.js',
                                                     'app/services/settings/space/spaceequipment.service.js',
                                                     'app/services/settings/space/spacemeter.service.js',
+                                                    'app/services/settings/space/spacephotovoltaicpowerstation.service.js',
                                                     'app/services/settings/space/spacepoint.service.js',
                                                     'app/services/settings/space/spacestore.service.js',
                                                     'app/services/settings/space/spaceshopfloor.service.js',
@@ -904,6 +897,7 @@ app
                                                     'app/controllers/settings/space/spaceenergystoragepowerstation.controller.js',
                                                     'app/controllers/settings/space/spaceequipment.controller.js',
                                                     'app/controllers/settings/space/spacemeter.controller.js',
+                                                    'app/controllers/settings/space/spacephotovoltaicpowerstation.controller.js',
                                                     'app/controllers/settings/space/spacepoint.controller.js',
                                                     'app/controllers/settings/space/spacestore.controller.js',
                                                     'app/controllers/settings/space/spaceshopfloor.controller.js',
