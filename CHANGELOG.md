@@ -8,11 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tables for photovoltaic power stations in database
 - added per capita data to dashboard and space reports
 - added bind distribution system to space tab in myems-admin
+- added bind photovoltaic power station to space tab in myems-admin
 ### Changed
 - updated `myems_system_db`.`tbl_data_sources` in database
 - updated to hide connection of data source in myems-admin
+- changed column order of datasource list in myems-admin
 ### Fixed
 - fixed warn: fromascasing: 'as' and 'from' keywords' casing do not match in dockerfile
+- fixed issues of clone object new name in myems-api
 ### Removed
 - None
 

@@ -3246,7 +3246,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "9e8155a851ef6f8febd84db13d84d2dd63f7a380a3f62cdf29c816b8c9b6a40233aa6b8e0d2d9085e98bdb59b44803c12aca8ce801b9c7f1a05c4c6f78e357de",
+										"value": "07efaa1de15efb0d8106a726461f41ea741fadc276cc4be773c16fc8acd633205e91bf9e7a0a43e3ee9012ed6b2b1f4a1fa5cf8a7c0b405dcc6ffa8dc74f84c6",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -3257,13 +3257,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/datasources/1/clone",
+									"raw": "{{base_url}}/datasources/2/clone",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"datasources",
-										"1",
+										"2",
 										"clone"
 									]
 								}
@@ -12942,7 +12942,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -12976,7 +12976,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13011,7 +13011,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13023,7 +13023,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Harbin Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations",
@@ -13049,7 +13049,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13061,7 +13061,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":500.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1",
@@ -13088,7 +13088,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13123,7 +13123,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13159,7 +13159,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13171,7 +13171,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 600.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Harbin Office\",\r\n    \"uuid\": \"fd19346c-0e5a-4a1c-b3c3-3ef4fea9c1ea\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"a0e79d2e-8756-457e-b1f2-4152e3591bff\"\r\n    },\r\n    \"is_cost_data_displayed\": false,\r\n    \"phase_of_lifecycle\": \"2commissioning\",\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -13203,7 +13203,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "da82a6ad396a543571938ac89c847f0410dee752f58d4a874c2b08d24d0d77be5ee140b5d7ce05e4e0fa3c78c89e75722cd2445db9994693ee5c1835fe270e5e",
+										"value": "ed3f2ebe002e55a6c2d93f85681c59ebd9ea138850c5f31008a99d596418e2c4c90e374e7e76f6d3d228cb94363bc03200fe3259d917c05a70748f61e92ce68a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13544,7 +13544,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "07efaa1de15efb0d8106a726461f41ea741fadc276cc4be773c16fc8acd633205e91bf9e7a0a43e3ee9012ed6b2b1f4a1fa5cf8a7c0b405dcc6ffa8dc74f84c6",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -17097,6 +17097,119 @@
 										"spaces",
 										"1",
 										"offlinemeters",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Photovoltaic Power Stations of a Space",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c1118abe0ff3444f513b02759c4efc56ade1969ba83f1d8cd68ccd648e7e497f1372e1fe95e01919cfee19ff96e62748fb6e45d36cddcf8d6146fd8c7aac0200",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/photovoltaicpowerstations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"photovoltaicpowerstations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bind a Photovoltaic Power Station to a Space Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c1118abe0ff3444f513b02759c4efc56ade1969ba83f1d8cd68ccd648e7e497f1372e1fe95e01919cfee19ff96e62748fb6e45d36cddcf8d6146fd8c7aac0200",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"photovoltaic_power_station_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/spaces/1/photovoltaicpowerstations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"photovoltaicpowerstations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unbind a Photovoltaic Power Station from Space",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "c1118abe0ff3444f513b02759c4efc56ade1969ba83f1d8cd68ccd648e7e497f1372e1fe95e01919cfee19ff96e62748fb6e45d36cddcf8d6146fd8c7aac0200",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/spaces/1/photovoltaicpowerstations/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"spaces",
+										"1",
+										"photovoltaicpowerstations",
 										"1"
 									]
 								}

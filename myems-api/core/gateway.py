@@ -490,9 +490,8 @@ class GatewayClone:
                   "token": row[3],
                   "last_seen_datetime": last_seen_datetime,
                   "description": row[5]}
-        new_name = (str.strip(result['name'])
-                    + (datetime.now()
-                    + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        new_name = (str.strip(result['name']) +
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_values = (" INSERT INTO tbl_gateways (name, uuid, token, description) "
                       " VALUES (%s, %s, %s, %s) ")
         cursor.execute(add_values, (new_name,

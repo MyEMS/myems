@@ -670,9 +670,8 @@ class CommandClone:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name'])
-                    + (datetime.now()
-                       + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        new_name = (str.strip(result['name']) +
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         cursor.execute(add_row, (new_name,
                                  str(uuid.uuid4()),
                                  result['topic'],

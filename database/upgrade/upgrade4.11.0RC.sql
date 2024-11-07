@@ -166,6 +166,23 @@ ALTER TABLE myems_system_db.tbl_data_sources MODIFY COLUMN protocol varchar(128)
 
 ALTER TABLE myems_system_db.tbl_data_sources ADD process_id BIGINT NULL AFTER `connection`;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_photovoltaic_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_photovoltaic_power_stations`
+ON `myems_system_db`.`tbl_spaces_photovoltaic_power_stations` (`space_id`);
+
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations
+ADD rated_capacity DECIMAL(18, 3) NOT NULL AFTER longitude;
+
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations
+ADD phase_of_lifecycle VARCHAR(255) NOT NULL AFTER svg_id;
+
+ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations
+ADD is_cost_data_displayed BOOL NOT NULL AFTER svg_id;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
 
