@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed warn: fromascasing: 'as' and 'from' keywords' casing do not match in dockerfile
 - fixed issues of clone object new name in myems-api
 ### Removed
-- None
+- removed google maps for picking up longtitude and latitude
 
 ## [v4.10.0] - 2024-10-26
 ### Added
