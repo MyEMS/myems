@@ -183,6 +183,40 @@ ADD phase_of_lifecycle VARCHAR(255) NOT NULL AFTER svg_id;
 ALTER TABLE myems_system_db.tbl_photovoltaic_power_stations
 ADD is_cost_data_displayed BOOL NOT NULL AFTER svg_id;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_charging_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `postal_code` VARCHAR(255) NOT NULL,
+  `latitude` DECIMAL(9, 6) NOT NULL,
+  `longitude` DECIMAL(9, 6) NOT NULL,
+  `rated_capacity` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `contact_id` BIGINT NOT NULL,
+  `cost_center_id` BIGINT NOT NULL,
+  `svg_id` BIGINT NOT NULL,
+  `is_cost_data_displayed` BOOL NOT NULL,
+  `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_charging_stations_index_1` ON `myems_system_db`.`tbl_charging_stations` (`name`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_charging_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `charging_station_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_charging_stations_index_1`
+ON `myems_system_db`.`tbl_spaces_charging_stations` (`space_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_wind_farms` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `wind_farm_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_wind_farms_index_1` ON `myems_system_db`.`tbl_spaces_wind_farms` (`space_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
 
