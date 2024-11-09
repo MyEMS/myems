@@ -222,7 +222,7 @@ def main(logger):
                             add_values += " (" + str(energy_storage_container['id']) + ","
                             add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
                             add_values += str(current_billing) + "), "
-                    print("add_values:" + add_values)
+                    # print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()

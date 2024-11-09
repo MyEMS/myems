@@ -242,7 +242,7 @@ def main(logger):
                                 add_values += " " + str(energy_category_id) + ","
                                 add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
                                 add_values += str(billing_dict[current_datetime_utc][energy_category_id]) + "), "
-                    print("add_values:" + add_values)
+                    # print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()
