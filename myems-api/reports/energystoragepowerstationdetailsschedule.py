@@ -1,10 +1,7 @@
-import re
-from datetime import datetime, timedelta, timezone, time
-from decimal import Decimal
+from datetime import timedelta
 import falcon
 import mysql.connector
 import simplejson as json
-from core import utilities
 from core.useractivity import access_control, api_key_control
 import config
 

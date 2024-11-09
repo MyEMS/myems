@@ -1656,8 +1656,7 @@ const resources = {
       "Today's Income": "今日收入",
       "Total Cost": "累计成本",
       "Total Income": "累计收入",
-      "Today's Revenue": "今日盈利",
-      "Total Revenue": "累计盈利",
+      "Today's Revenue": "今日收益",
 
       'Revenue Ranking': '收益排名',
       'Efficiency Ranking': '效率排名',
@@ -2849,7 +2848,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Umsatzranking',
       'Efficiency Ranking': 'Effizienzranking',
@@ -4057,7 +4055,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Classement des revenus',
       'Efficiency Ranking': 'Classement d\'efficacité',
@@ -5255,7 +5252,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Clasificación de ingresos',
       'Efficiency Ranking': 'Clasificación de eficiencia',
@@ -6452,7 +6448,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Рейтинг доходов',
       'Efficiency Ranking': 'Рейтинг эффективности',
@@ -7639,7 +7634,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'تصنيف الإيرادات',
       'Efficiency Ranking': 'تصنيف الكفاءة',
@@ -8822,7 +8816,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Xếp hạng doanh thu',
       'Efficiency Ranking': 'Xếp hạng hiệu quả',
@@ -10007,7 +10000,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'การจัดอันดับรายได้',
       'Efficiency Ranking': 'การจัดอันดับประสิทธิภาพ',
@@ -11191,7 +11183,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Gelir sıralaması',
       'Efficiency Ranking': 'Verimlilik sıralaması',
@@ -12381,7 +12372,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Kedudukan hasil',
       'Efficiency Ranking': 'Kedudukan kecekapan',
@@ -13575,7 +13565,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': 'Peringkat pendapatan',
       'Efficiency Ranking': 'Peringkat efisiensi',
@@ -14755,7 +14744,6 @@ const resources = {
       "Total Cost": "Total Cost",
       "Total Income": "Total Income",
       "Today's Revenue": "Today's Revenue",
-      "Total Revenue": "Total Revenue",
 
       'Revenue Ranking': '收益排名',
       'Efficiency Ranking': '效率排名',
