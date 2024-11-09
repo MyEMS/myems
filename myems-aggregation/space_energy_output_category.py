@@ -517,7 +517,7 @@ def worker(space):
                     add_values += " " + str(energy_category_id) + ","
                     add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
                     add_values += str(actual_value) + "), "
-            print("add_values:" + add_values)
+            # print("add_values:" + add_values)
             # trim ", " at the end of string and then execute
             cursor_energy_db.execute(add_values[:-2])
             cnx_energy_db.commit()

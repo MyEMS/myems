@@ -241,7 +241,7 @@ def main(logger):
                                 add_values += " " + str(energy_category_id) + ","
                                 add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
                                 add_values += str(current_carbon) + "), "
-                    print("add_values:" + add_values)
+                    # print("add_values:" + add_values)
                     # trim ", " at the end of string and then execute
                     cursor_carbon_db.execute(add_values[:-2])
                     cnx_carbon_db.commit()
