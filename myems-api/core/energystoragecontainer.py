@@ -1506,7 +1506,7 @@ class EnergyStorageContainerBatteryItem:
                       "     maximum_voltage_point_id = %s, "
                       "     maximum_voltage_battery_cell_point_id = %s, "
                       "     minimum_voltage_point_id = %s, "
-                      "     minimum_voltage_battery_cell_point_id = %s) "
+                      "     minimum_voltage_battery_cell_point_id = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     id_,
