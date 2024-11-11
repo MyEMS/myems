@@ -339,7 +339,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers` (
   `rated_power` DECIMAL(18, 3) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
-  `svg_id` BIGINT,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_index_1` ON `myems_system_db`.`tbl_energy_storage_containers` (`name`);

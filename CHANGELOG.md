@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unused import in myems-api
 ### Removed
 - removed google maps for picking up longtitude and latitude
+- removed svg_id from energy storage container
 
 ## [v4.10.0] - 2024-10-26
 ### Added

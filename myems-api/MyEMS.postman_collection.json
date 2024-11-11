@@ -5427,7 +5427,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":\"1\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers",
@@ -5465,7 +5465,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office\",\r\n    \"uuid\": \"9b963448-1235-4239-b0c9-c71d926cec5f\",\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"albert\",\r\n        \"uuid\": \"076ea179-5a7e-4a48-9fcd-f452f95f5376\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"动力中心\",\r\n        \"uuid\": \"6fc174dc-9c57-4934-9896-9226e696dbf2\"\r\n    },\r\n    \"svg_id\": {\r\n        \"id\": 1,\r\n        \"name\": \"高压配电\",\r\n        \"uuid\": \"c677d1b4-a482-4aad-9192-380a0d832e5f\"\r\n    },\r\n    \"description\": \"Classic\",\r\n    \"qrcode\": \"energystoragecontainer:9b963448-1235-4239-b0c9-c71d926cec5f\"\r\n}"
+									"raw": "{\r\n    \"name\": \"Beijing Office\",\r\n    \"uuid\": \"9b963448-1235-4239-b0c9-c71d926cec5f\",\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"albert\",\r\n        \"uuid\": \"076ea179-5a7e-4a48-9fcd-f452f95f5376\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"动力中心\",\r\n        \"uuid\": \"6fc174dc-9c57-4934-9896-9226e696dbf2\"\r\n    },\r\n    \"description\": \"Classic\",\r\n    \"qrcode\": \"energystoragecontainer:9b963448-1235-4239-b0c9-c71d926cec5f\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/import",
