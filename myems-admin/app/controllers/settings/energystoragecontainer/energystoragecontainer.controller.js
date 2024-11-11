@@ -8,7 +8,6 @@ app.controller('EnergyStorageContainerController', function(
     $uibModal,
     CostCenterService,
     ContactService,
-    SVGService,
     EnergyStorageContainerService,
     toaster,
     SweetAlert) {
@@ -35,17 +34,6 @@ app.controller('EnergyStorageContainerController', function(
 		});
 	};
 
-	$scope.getAllSVGs = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
-		SVGService.getAllSVGs(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.svgs = response.data;
-			} else {
-				$scope.svgs = [];
-			}
-		});
-	};
-
 	$scope.getAllEnergyStorageContainers = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyStorageContainerService.getAllEnergyStorageContainers(headers, function (response) {
@@ -67,7 +55,6 @@ app.controller('EnergyStorageContainerController', function(
 					return {
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
-						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -75,9 +62,7 @@ app.controller('EnergyStorageContainerController', function(
 		modalInstance.result.then(function(energystoragecontainer) {
 			energystoragecontainer.cost_center_id = energystoragecontainer.cost_center.id;
 			energystoragecontainer.contact_id = energystoragecontainer.contact.id;
-			if (angular.isDefined(energystoragecontainer.svg) && angular.isDefined(energystoragecontainer.svg.id)) {
-				energystoragecontainer.svg_id = energystoragecontainer.svg.id;
-			}
+
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EnergyStorageContainerService.addEnergyStorageContainer(energystoragecontainer, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -114,7 +99,6 @@ app.controller('EnergyStorageContainerController', function(
 						energystoragecontainer: angular.copy(energystoragecontainer),
 						costcenters:angular.copy($scope.costcenters),
 						contacts:angular.copy($scope.contacts),
-						svgs: angular.copy($scope.svgs),
 					};
 				}
 			}
@@ -123,9 +107,6 @@ app.controller('EnergyStorageContainerController', function(
 		modalInstance.result.then(function(modifiedEnergyStorageContainer) {
 			modifiedEnergyStorageContainer.cost_center_id=modifiedEnergyStorageContainer.cost_center.id;
 			modifiedEnergyStorageContainer.contact_id=modifiedEnergyStorageContainer.contact.id;
-			if (angular.isDefined(modifiedEnergyStorageContainer.svg) && angular.isDefined(modifiedEnergyStorageContainer.svg.id)) {
-				modifiedEnergyStorageContainer.svg_id = modifiedEnergyStorageContainer.svg.id;
-			}
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			EnergyStorageContainerService.editEnergyStorageContainer(modifiedEnergyStorageContainer, headers, function(response) {
@@ -190,7 +171,6 @@ app.controller('EnergyStorageContainerController', function(
 	$scope.getAllEnergyStorageContainers();
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
-	$scope.getAllSVGs();
 	$scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
   		$scope.getAllEnergyStorageContainers();
 	});
@@ -201,7 +181,6 @@ app.controller('ModalAddEnergyStorageContainerCtrl', function($scope, $uibModalI
 	$scope.operation = "SETTING.ADD_ENERGY_STORAGE_CONTAINER";
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
-	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragecontainer);
 	};
@@ -216,7 +195,6 @@ app.controller('ModalEditEnergyStorageContainerCtrl', function($scope, $uibModal
 	$scope.energystoragecontainer = params.energystoragecontainer;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
-	$scope.svgs=params.svgs;
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.energystoragecontainer);
 	};

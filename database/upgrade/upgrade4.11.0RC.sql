@@ -217,6 +217,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_wind_farms` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_spaces_wind_farms_index_1` ON `myems_system_db`.`tbl_spaces_wind_farms` (`space_id`);
 
+ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN svg_id;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
 

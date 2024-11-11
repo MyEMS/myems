@@ -147,7 +147,7 @@ class EnergyStoragePowerStationCollection:
         if 'rated_capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_capacity'], float) or
                      isinstance(new_values['data']['rated_capacity'], int)) or \
-                new_values['data']['rated_capacity'] <= 0.0:
+                new_values['data']['rated_capacity'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_CAPACITY')
         rated_capacity = new_values['data']['rated_capacity']
@@ -155,7 +155,7 @@ class EnergyStoragePowerStationCollection:
         if 'rated_power' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_power'], float) or
                      isinstance(new_values['data']['rated_power'], int)) or \
-                new_values['data']['rated_power'] <= 0.0:
+                new_values['data']['rated_power'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_POWER')
         rated_power = new_values['data']['rated_power']
@@ -452,7 +452,7 @@ class EnergyStoragePowerStationItem:
         if 'rated_capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_capacity'], float) or
                      isinstance(new_values['data']['rated_capacity'], int)) or \
-                new_values['data']['rated_capacity'] <= 0.0:
+                new_values['data']['rated_capacity'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_CAPACITY')
         rated_capacity = new_values['data']['rated_capacity']
@@ -460,7 +460,7 @@ class EnergyStoragePowerStationItem:
         if 'rated_power' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_power'], float) or
                      isinstance(new_values['data']['rated_power'], int)) or \
-                new_values['data']['rated_power'] <= 0.0:
+                new_values['data']['rated_power'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_POWER')
         rated_power = new_values['data']['rated_power']
@@ -1092,7 +1092,7 @@ class EnergyStoragePowerStationImport:
         if 'rated_capacity' not in new_values.keys() or \
                 not (isinstance(new_values['rated_capacity'], float) or
                      isinstance(new_values['rated_capacity'], int)) or \
-                new_values['rated_capacity'] <= 0.0:
+                new_values['rated_capacity'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_CAPACITY')
         rated_capacity = new_values['rated_capacity']
@@ -1100,7 +1100,7 @@ class EnergyStoragePowerStationImport:
         if 'rated_power' not in new_values.keys() or \
                 not (isinstance(new_values['rated_power'], float) or
                      isinstance(new_values['rated_power'], int)) or \
-                new_values['rated_power'] <= 0.0:
+                new_values['rated_power'] < 0.0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RATED_POWER')
         rated_power = new_values['rated_power']

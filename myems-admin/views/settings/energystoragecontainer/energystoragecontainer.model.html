@@ -60,17 +60,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.SVG' | translate}}</label>
-                <div class="col-sm-9">
-                    <ui-select ng-model="energystoragecontainer.svg.id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
-                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragecontainer.description" type="text" name="energystoragecontainerdescription" class="form-control">
