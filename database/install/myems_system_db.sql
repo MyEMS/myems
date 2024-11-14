@@ -1415,6 +1415,19 @@ CREATE INDEX `tbl_photovoltaic_power_stations_pcs_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_power_conversion_systems` (`photovoltaic_power_station_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_users`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_users` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_users_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_users` (`photovoltaic_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_points`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_points` ;

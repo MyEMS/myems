@@ -219,6 +219,44 @@ CREATE INDEX `tbl_spaces_wind_farms_index_1` ON `myems_system_db`.`tbl_spaces_wi
 
 ALTER TABLE myems_system_db.tbl_energy_storage_containers DROP COLUMN svg_id;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_users_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_users` (`photovoltaic_power_station_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_photovoltaic_power_station_generation_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_generation_hourly_index_1`
+ ON `myems_energy_db`.`tbl_photovoltaic_power_station_generation_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_photovoltaic_power_station_generation_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_generation_hourly_index_1`
+ ON `myems_billing_db`.`tbl_photovoltaic_power_station_generation_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_photovoltaic_power_station_generation_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_generation_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_photovoltaic_power_station_generation_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
 
