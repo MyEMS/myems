@@ -9,18 +9,6 @@ import combined_equipment_carbon_input_category
 import combined_equipment_energy_input_category
 import combined_equipment_energy_input_item
 import combined_equipment_energy_output_category
-import energy_storage_container_billing_charge
-import energy_storage_container_energy_charge
-import energy_storage_container_carbon_charge
-import energy_storage_container_billing_discharge
-import energy_storage_container_energy_discharge
-import energy_storage_container_carbon_discharge
-import energy_storage_power_station_billing_charge
-import energy_storage_power_station_energy_charge
-import energy_storage_power_station_carbon_charge
-import energy_storage_power_station_billing_discharge
-import energy_storage_power_station_energy_discharge
-import energy_storage_power_station_carbon_discharge
 import equipment_billing_input_category
 import equipment_billing_input_item
 import equipment_billing_output_category
@@ -30,12 +18,6 @@ import equipment_energy_input_item
 import equipment_energy_output_category
 import meter_billing
 import meter_carbon
-import microgrid_billing_charge
-import microgrid_energy_charge
-import microgrid_carbon_charge
-import microgrid_billing_discharge
-import microgrid_energy_discharge
-import microgrid_carbon_discharge
 import offline_meter_billing
 import offline_meter_carbon
 import shopfloor_billing_input_category
@@ -98,32 +80,6 @@ def main():
     # combined equipment energy output by energy categories
     Process(target=combined_equipment_energy_output_category.main, args=(logger,)).start()
 
-    # energy storage container energy charge
-    Process(target=energy_storage_container_energy_charge.main, args=(logger,)).start()
-    # energy storage container energy discharge
-    Process(target=energy_storage_container_energy_discharge.main, args=(logger,)).start()
-    # energy storage container billing charge
-    Process(target=energy_storage_container_billing_charge.main, args=(logger,)).start()
-    # energy storage container billing discharge
-    Process(target=energy_storage_container_billing_discharge.main, args=(logger,)).start()
-    # energy storage container carbon charge
-    Process(target=energy_storage_container_carbon_charge.main, args=(logger,)).start()
-    # energy storage container carbon discharge
-    Process(target=energy_storage_container_carbon_discharge.main, args=(logger,)).start()
-
-    # energy storage power station energy charge
-    Process(target=energy_storage_power_station_energy_charge.main, args=(logger,)).start()
-    # energy storage power station energy discharge
-    Process(target=energy_storage_power_station_energy_discharge.main, args=(logger,)).start()
-    # energy storage power station billing charge
-    Process(target=energy_storage_power_station_billing_charge.main, args=(logger,)).start()
-    # energy storage power station billing discharge
-    Process(target=energy_storage_power_station_billing_discharge.main, args=(logger,)).start()
-    # energy storage power station carbon charge
-    Process(target=energy_storage_power_station_carbon_charge.main, args=(logger,)).start()
-    # energy storage power station carbon discharge
-    Process(target=energy_storage_power_station_carbon_discharge.main, args=(logger,)).start()
-
     # equipment billing input by energy categories
     Process(target=equipment_billing_input_category.main, args=(logger,)).start()
     # equipment billing input by energy items
@@ -143,19 +99,6 @@ def main():
     Process(target=meter_carbon.main, args=(logger,)).start()
     # meter billing
     Process(target=meter_billing.main, args=(logger,)).start()
-
-    # microgrid energy charge
-    Process(target=microgrid_energy_charge.main, args=(logger,)).start()
-    # microgrid energy discharge
-    Process(target=microgrid_energy_discharge.main, args=(logger,)).start()
-    # microgrid billing charge
-    Process(target=microgrid_billing_charge.main, args=(logger,)).start()
-    # microgrid billing discharge
-    Process(target=microgrid_billing_discharge.main, args=(logger,)).start()
-    # microgrid carbon charge
-    Process(target=microgrid_carbon_charge.main, args=(logger,)).start()
-    # microgrid carbon discharge
-    Process(target=microgrid_carbon_discharge.main, args=(logger,)).start()
 
     # offline meter carbon dioxide emissions
     Process(target=offline_meter_carbon.main, args=(logger,)).start()
