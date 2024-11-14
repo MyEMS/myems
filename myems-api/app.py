@@ -90,6 +90,22 @@ from reports import offlinemeterplan
 from reports import offlinemetersaving
 from reports import offlinemeterdaily
 from reports import offlinemeterinput
+
+from reports import photovoltaicpowerstationdashboard
+from reports import photovoltaicpowerstationitemdashboard
+from reports import photovoltaicpowerstationdetails
+from reports import photovoltaicpowerstationdetailsmeter
+from reports import photovoltaicpowerstationdetailspcs
+from reports import photovoltaicpowerstationlist
+from reports import photovoltaicpowerstationreportingrevenue
+from reports import photovoltaicpowerstationreportingenergy
+from reports import photovoltaicpowerstationreportingparameters
+from reports import photovoltaicpowerstationcollectionenergy
+from reports import photovoltaicpowerstationitemenergy
+from reports import photovoltaicpowerstationcollectionbilling
+from reports import photovoltaicpowerstationitembilling
+from reports import photovoltaicpowerstationcollectioncarbon
+from reports import photovoltaicpowerstationitemcarbon
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
@@ -1132,6 +1148,37 @@ api.add_route('/reports/offlinemetersaving',
               offlinemetersaving.Reporting())
 api.add_route('/reports/offlinemeterplan',
               offlinemeterplan.Reporting())
+
+api.add_route('/reports/photovoltaicpowerstationdashboard',
+              photovoltaicpowerstationdashboard.Reporting())
+api.add_route('/reports/photovoltaicpowerstationitemdashboard',
+              photovoltaicpowerstationitemdashboard.Reporting())
+api.add_route('/reports/photovoltaicpowerstationdetails',
+              photovoltaicpowerstationdetails.Reporting())
+api.add_route('/reports/photovoltaicpowerstationdetails/{id_}/meter',
+              photovoltaicpowerstationdetailsmeter.Reporting())
+api.add_route('/reports/photovoltaicpowerstationdetails/{id_}/pcs',
+              photovoltaicpowerstationdetailspcs.Reporting())
+api.add_route('/reports/photovoltaicpowerstationlist',
+              photovoltaicpowerstationlist.Reporting())
+api.add_route('/reports/photovoltaicpowerstationreportingrevenue',
+              photovoltaicpowerstationreportingrevenue.Reporting())
+api.add_route('/reports/photovoltaicpowerstationreportingenergy',
+              photovoltaicpowerstationreportingenergy.Reporting())
+api.add_route('/reports/photovoltaicpowerstationreportingparameters',
+              photovoltaicpowerstationreportingparameters.Reporting())
+api.add_route('/reports/photovoltaicpowerstationcollectionenergy',
+              photovoltaicpowerstationcollectionenergy.Reporting())
+api.add_route('/reports/photovoltaicpowerstationitemenergy',
+              photovoltaicpowerstationitemenergy.Reporting())
+api.add_route('/reports/photovoltaicpowerstationcollectionbilling',
+              photovoltaicpowerstationcollectionbilling.Reporting())
+api.add_route('/reports/photovoltaicpowerstationitembilling',
+              photovoltaicpowerstationitembilling.Reporting())
+api.add_route('/reports/photovoltaicpowerstationcollectioncarbon',
+              photovoltaicpowerstationcollectioncarbon.Reporting())
+api.add_route('/reports/photovoltaicpowerstationitemcarbon',
+              photovoltaicpowerstationitemcarbon.Reporting())
 api.add_route('/reports/pointrealtime',
               pointrealtime.Reporting())
 api.add_route('/reports/shopfloorcarbon',
