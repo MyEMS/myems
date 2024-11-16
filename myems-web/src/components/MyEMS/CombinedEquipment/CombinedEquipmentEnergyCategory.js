@@ -753,8 +753,10 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             text: t('Associated Equipment'),
             sort: true
           });
+          const totalSum = json['reporting_period']['subtotals'].reduce((sum, value) => sum + value, 0);
           json['associated_equipment']['energy_category_names'].forEach((currentValue, index) => {
             let unit = json['associated_equipment']['units'][index];
+            let subtotal = json['associated_equipment']['subtotals_array'][index];
             associated_equipment_column_list.push({
               dataField: 'a' + index,
               text: currentValue + ' (' + unit + ')',
@@ -764,6 +766,20 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                   return decimalValue.toFixed(2);
                 } else {
                   return null;
+                }
+              }
+            });
+            associated_equipment_column_list.push({
+              dataField: 'percent' + index,
+              text: currentValue + ' ' + '%',
+              sort: true,
+              formatter: function (value, row) {
+                if (totalSum > 0) {
+                  let valueForPercentage = row['a' + index] || 0;
+                  let percent = (valueForPercentage / totalSum) * 100;
+                  return percent.toFixed(2) + '%';
+                } else {
+                  return '0.00%';
                 }
               }
             });
