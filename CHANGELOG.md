@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bind distribution system to space tab in myems-admin
 - added bind photovoltaic power station to space tab in myems-admin
 - added tables for wind farms and charging stations in database
+- added equipment percentage to associated equipment table of combined equipment energy category report in myems-web
 ### Changed
 - updated `myems_system_db`.`tbl_data_sources` in database
 - updated to hide connection of data source in myems-admin
@@ -18,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed warn: fromascasing: 'as' and 'from' keywords' casing do not match in dockerfile
 - fixed issues of clone object new name in myems-api
 - fixed clear-text logging of sensitive information
-- fixed overwritten property in myems-web 
+- fixed overwritten property in myems-web
 - fixed unused import in myems-api
 ### Removed
 - removed google maps for picking up longtitude and latitude
