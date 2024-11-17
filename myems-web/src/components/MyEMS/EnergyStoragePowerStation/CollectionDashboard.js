@@ -410,20 +410,20 @@ setDischargeEnergyLabels([
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
           {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
-          {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'mW'} color="ratedPower">
+          {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
-          {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'mWh'} color="ratedCapacity">
+          {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="electricity">
-          {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        <CardSummary rate={''} title={t('Total Charge')} footunit={'mWh'} color="electricity">
+          {1 && <CountUp end={totalCharge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Discharge')} footunit={'kWh'} color="electricity">
-          {1 && <CountUp end={totalDischarge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+        <CardSummary rate={''} title={t('Total Discharge')} footunit={'mWh'} color="electricity">
+          {1 && <CountUp end={totalDischarge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
-          {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
       </div>
 

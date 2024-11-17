@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added bind photovoltaic power station to space tab in myems-admin
 - added tables for wind farms and charging stations in database
 - added equipment percentage to associated equipment table of combined equipment energy category report in myems-web
+- added blank page background image for reports in myems-web
 ### Changed
 - updated `myems_system_db`.`tbl_data_sources` in database
 - updated to hide connection of data source in myems-admin

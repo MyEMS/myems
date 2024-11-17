@@ -23,6 +23,7 @@ import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [cursor, setCursor] = useState(0);

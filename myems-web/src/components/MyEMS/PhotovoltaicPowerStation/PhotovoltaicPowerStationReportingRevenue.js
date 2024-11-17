@@ -30,8 +30,10 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
+
+const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -729,7 +731,10 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <DetailedDataTable
           data={timeOfUseDataTableData}
           title='分时数据'
