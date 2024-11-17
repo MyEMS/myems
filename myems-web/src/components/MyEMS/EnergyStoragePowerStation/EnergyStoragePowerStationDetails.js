@@ -42,6 +42,7 @@ import PCSDetails from './PCSDetails';
 import HVACDetails from './HVACDetails';
 import MeterDetails from './MeterDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
@@ -711,7 +712,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </Col>
         </Row>
       </Form>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <Row noGutters>
           <Col lg="3" className="pr-lg-2">
             <Nav tabs>
