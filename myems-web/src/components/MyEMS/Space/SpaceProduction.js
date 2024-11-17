@@ -33,6 +33,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -371,7 +372,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
       '/reports/spaceproduction?' +
       'spaceid=' +
       selectedSpaceID +
-      '&productid=1' + 
+      '&productid=1' +
       '&periodtype=' +
       periodType +
       '&baseperiodstartdatetime=' +
@@ -706,7 +707,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                       ? json['reporting_period']['values'][energyCategoryIndex][index]
                       : null;
                   detailed_value['b' + (energyCategoryIndex * 2 + 2)] =
-                    index < json['reporting_production']['values'].length && 
+                    index < json['reporting_production']['values'].length &&
                       !Object.is(json['reporting_period']['values'][energyCategoryIndex][index] / json['reporting_production']['values'][index],NaN)
                       ? Number((json['reporting_period']['values'][energyCategoryIndex][index] / json['reporting_production']['values'][index]).toFixed(2))
                       : 0;
@@ -910,7 +911,10 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
         <CardSummary
               rate={''}

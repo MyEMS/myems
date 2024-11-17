@@ -29,6 +29,7 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -406,7 +407,10 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <DetailedDataTable
           data={equipmentList}
           title={t('Detailed Data')}

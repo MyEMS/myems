@@ -37,6 +37,7 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import Appcontext from '../../../context/Context';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -572,7 +573,10 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible' }}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
           <CardSummary title={t('Start Integrity Rate')} color="success">
             <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />

@@ -28,6 +28,7 @@ import CustomizeMapBox from '../common/CustomizeMapBox';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
 import StackBarChart from './StackBarChart';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [activeTabLeft, setActiveTabLeft] = useState('1');
@@ -604,7 +605,10 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </Col>
         </Row>
       </Form>
-      <div style={{visibility: resultDataHidden ? 'hidden' : 'visible'}}>
+      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+          <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
           <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
             {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
