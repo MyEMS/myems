@@ -121,9 +121,6 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
   const [energyStoragePowerStationReportingLabels, setEnergyStoragePowerStationReportingLabels] = useState({ a0: [] });
   const [energyStoragePowerStationReportingData, setEnergyStoragePowerStationReportingData] = useState({ a0: [] });
   const [energyStoragePowerStationReportingOptions, setEnergyStoragePowerStationReportingOptions] = useState([]);
-  const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-  const [parameterLineChartData, setParameterLineChartData] = useState({});
-  const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   const [timeOfUseDataTableData, setTimeOfUseDataTableData] = useState([]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
@@ -262,23 +259,6 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
           setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
-          let timestamps = {};
-          json['parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setParameterLineChartLabels(timestamps);
-
-          let values = {};
-          json['parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setParameterLineChartData(values);
-
-          let names = [];
-          json['parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setParameterLineChartOptions(names);
 
           let base_and_reporting_names = {};
           json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -748,13 +728,6 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           columns={detailedDataTableColumns}
           pagesize={50}
           hidden={true}
-        />
-        <MultipleLineChart
-          reportingTitle={t('Operating Characteristic Curve')}
-          baseTitle=""
-          labels={parameterLineChartLabels}
-          data={parameterLineChartData}
-          options={parameterLineChartOptions}
         />
       </div>
     </Fragment>

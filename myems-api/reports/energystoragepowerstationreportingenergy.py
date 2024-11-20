@@ -23,15 +23,12 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
-    # Step 3: query associated energy storage containers
-    # Step 4: query associated batteries
-    # Step 5: query associated grids
-    # Step 6: query associated loads
-    # Step 7: query associated power conversion systems
-    # Step 8: query associated sensors
-    # Step 9: query associated meters data
-    # Step 10: query associated points data
-    # Step 11: construct the report
+    # Step 3: query energy charge
+    # Step 4: query energy discharge
+    # Step 5: query energy grid buy
+    # Step 6: query energy grid sell
+    # Step 7: query energy load
+    # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -213,7 +210,6 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
         else:
-            energy_storage_power_station_id = row[0]
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -227,313 +223,341 @@ class Reporting:
                            "cost_center": cost_center_dict.get(row[10], None),
                            "qrcode": 'energy_storage_power_station:' + row[2]}
 
-        point_list = list()
-        meter_list = list()
-
         ################################################################################################################
-        # Step 3: query associated energy storage containers
-        ################################################################################################################
-        # todo: query multiple energy storage containers
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers sc, "
-                              "      tbl_energy_storage_containers c "
-                              " WHERE sc.energy_storage_power_station_id = %s "
-                              "      AND sc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
-                              (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-
-        ################################################################################################################
-        # Step 4: query associated batteries
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.soc_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.SOC',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.charge_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-充',
-                               "energy_category_id": row_meter[2]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries mb, tbl_meters m "
-                              " WHERE mb.energy_storage_container_id = %s AND mb.discharge_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-放',
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 5: query associated grids
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_points p "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.buy_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-购',
-                               "energy_category_id": row_meter[2]})
-
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids mg, tbl_meters m "
-                              " WHERE mg.energy_storage_container_id = %s AND mg.sell_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-售',
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 6: query associated loads
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_points p "
-                              " WHERE ml.energy_storage_container_id = %s AND ml.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_loads ml, tbl_meters m "
-                              " WHERE ml.energy_storage_container_id = %s AND ml.meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 7: query associated power conversion systems
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 8: query associated sensors
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 9: query associated meters data
+        # Step 3: query energy charge
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
+        energy_category_id = 1  # electricity
+        meta_report_list = list()
 
-        meter_reporting_list = list()
+        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                              " FROM tbl_energy_storage_power_station_charge_hourly "
+                              " WHERE energy_storage_power_station_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY start_datetime_utc ",
+                              (energy_storage_power_station_id,
+                               reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
+                                                                                reporting_start_datetime_utc,
+                                                                                reporting_end_datetime_utc,
+                                                                                period_type)
+            meta_report = dict()
+            meta_report['name'] = '充'
+            meta_report['energy_category_id'] = energy_category_id
+            meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
+            meta_report['timestamps'] = list()
+            meta_report['values'] = list()
+            meta_report['subtotal'] = Decimal(0.0)
+            meta_report['toppeak'] = Decimal(0.0)
+            meta_report['onpeak'] = Decimal(0.0)
+            meta_report['midpeak'] = Decimal(0.0)
+            meta_report['offpeak'] = Decimal(0.0)
 
-        for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   reporting_start_datetime_utc,
-                                   reporting_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
-            if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
-                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-                meter_report = dict()
-                meter_report['name'] = meter['name']
-                meter_report['energy_category_id'] = meter['energy_category_id']
-                meter_report['unit_of_measure'] = energy_category_dict[meter['energy_category_id']]['unit_of_measure']
-                meter_report['timestamps'] = list()
-                meter_report['values'] = list()
-                meter_report['subtotal'] = Decimal(0.0)
-                meter_report['toppeak'] = Decimal(0.0)
-                meter_report['onpeak'] = Decimal(0.0)
-                meter_report['midpeak'] = Decimal(0.0)
-                meter_report['offpeak'] = Decimal(0.0)
+            for row_meter_periodically in rows_meter_periodically:
+                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
 
-                for row_meter_periodically in rows_meter_periodically:
-                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                meta_report['timestamps'].append(current_datetime)
+                meta_report['values'].append(actual_value)
+                meta_report['subtotal'] += actual_value
 
-                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-                    meter_report['timestamps'].append(current_datetime)
-                    meter_report['values'].append(actual_value)
-                    meter_report['subtotal'] += actual_value
+            tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                   energy_category_id,
+                                                                   reporting_start_datetime_utc,
+                                                                   reporting_end_datetime_utc)
+            for row in rows_hourly:
+                peak_type = tariff_dict.get(row[0], None)
+                if peak_type == 'toppeak':
+                    meta_report['toppeak'] += row[1]
+                elif peak_type == 'onpeak':
+                    meta_report['onpeak'] += row[1]
+                elif peak_type == 'midpeak':
+                    meta_report['midpeak'] += row[1]
+                elif peak_type == 'offpeak':
+                    meta_report['offpeak'] += row[1]
 
-                tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
-                                                                       meter['energy_category_id'],
-                                                                       reporting_start_datetime_utc,
-                                                                       reporting_end_datetime_utc)
-                for row in rows_meter_hourly:
-                    peak_type = tariff_dict.get(row[0], None)
-                    if peak_type == 'toppeak':
-                        meter_report['toppeak'] += row[1]
-                    elif peak_type == 'onpeak':
-                        meter_report['onpeak'] += row[1]
-                    elif peak_type == 'midpeak':
-                        meter_report['midpeak'] += row[1]
-                    elif peak_type == 'offpeak':
-                        meter_report['offpeak'] += row[1]
-
-                meter_reporting_list.append(meter_report)
+            meta_report_list.append(meta_report)
 
         ################################################################################################################
-        # Step 10: query associated points data
+        # Step 4: query energy discharge
         ################################################################################################################
+        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                              " FROM tbl_energy_storage_power_station_discharge_hourly "
+                              " WHERE energy_storage_power_station_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY start_datetime_utc ",
+                              (energy_storage_power_station_id,
+                               reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
+                                                                                reporting_start_datetime_utc,
+                                                                                reporting_end_datetime_utc,
+                                                                                period_type)
+            meta_report = dict()
+            meta_report['name'] = '放'
+            meta_report['energy_category_id'] = energy_category_id
+            meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
+            meta_report['timestamps'] = list()
+            meta_report['values'] = list()
+            meta_report['subtotal'] = Decimal(0.0)
+            meta_report['toppeak'] = Decimal(0.0)
+            meta_report['onpeak'] = Decimal(0.0)
+            meta_report['midpeak'] = Decimal(0.0)
+            meta_report['offpeak'] = Decimal(0.0)
 
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
+            for row_meter_periodically in rows_meter_periodically:
+                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
 
-        for point in point_list:
-            point_values = []
-            point_timestamps = []
-            if point['object_type'] == 'ENERGY_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                meta_report['timestamps'].append(current_datetime)
+                meta_report['values'].append(actual_value)
+                meta_report['subtotal'] += actual_value
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+            tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                   energy_category_id,
+                                                                   reporting_start_datetime_utc,
+                                                                   reporting_end_datetime_utc)
+            for row in rows_hourly:
+                peak_type = tariff_dict.get(row[0], None)
+                if peak_type == 'toppeak':
+                    meta_report['toppeak'] += row[1]
+                elif peak_type == 'onpeak':
+                    meta_report['onpeak'] += row[1]
+                elif peak_type == 'midpeak':
+                    meta_report['midpeak'] += row[1]
+                elif peak_type == 'offpeak':
+                    meta_report['offpeak'] += row[1]
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+            meta_report_list.append(meta_report)
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'ANALOG_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+        ################################################################################################################
+        # Step 5: query energy grid buy
+        ################################################################################################################
+        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                              " FROM tbl_energy_storage_power_station_grid_buy_hourly "
+                              " WHERE energy_storage_power_station_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY start_datetime_utc ",
+                              (energy_storage_power_station_id,
+                               reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
+                                                                                reporting_start_datetime_utc,
+                                                                                reporting_end_datetime_utc,
+                                                                                period_type)
+            meta_report = dict()
+            meta_report['name'] = '网购'
+            meta_report['energy_category_id'] = energy_category_id
+            meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
+            meta_report['timestamps'] = list()
+            meta_report['values'] = list()
+            meta_report['subtotal'] = Decimal(0.0)
+            meta_report['toppeak'] = Decimal(0.0)
+            meta_report['onpeak'] = Decimal(0.0)
+            meta_report['midpeak'] = Decimal(0.0)
+            meta_report['offpeak'] = Decimal(0.0)
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+            for row_meter_periodically in rows_meter_periodically:
+                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                meta_report['timestamps'].append(current_datetime)
+                meta_report['values'].append(actual_value)
+                meta_report['subtotal'] += actual_value
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'DIGITAL_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_digital_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+            tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                   energy_category_id,
+                                                                   reporting_start_datetime_utc,
+                                                                   reporting_end_datetime_utc)
+            for row in rows_hourly:
+                peak_type = tariff_dict.get(row[0], None)
+                if peak_type == 'toppeak':
+                    meta_report['toppeak'] += row[1]
+                elif peak_type == 'onpeak':
+                    meta_report['onpeak'] += row[1]
+                elif peak_type == 'midpeak':
+                    meta_report['midpeak'] += row[1]
+                elif peak_type == 'offpeak':
+                    meta_report['offpeak'] += row[1]
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+            meta_report_list.append(meta_report)
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+        ################################################################################################################
+        # Step 6: query energy grid sell
+        ################################################################################################################
+        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                              " FROM tbl_energy_storage_power_station_grid_sell_hourly "
+                              " WHERE energy_storage_power_station_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY start_datetime_utc ",
+                              (energy_storage_power_station_id,
+                               reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
+                                                                                reporting_start_datetime_utc,
+                                                                                reporting_end_datetime_utc,
+                                                                                period_type)
+            meta_report = dict()
+            meta_report['name'] = '网售'
+            meta_report['energy_category_id'] = energy_category_id
+            meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
+            meta_report['timestamps'] = list()
+            meta_report['values'] = list()
+            meta_report['subtotal'] = Decimal(0.0)
+            meta_report['toppeak'] = Decimal(0.0)
+            meta_report['onpeak'] = Decimal(0.0)
+            meta_report['midpeak'] = Decimal(0.0)
+            meta_report['offpeak'] = Decimal(0.0)
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
+            for row_meter_periodically in rows_meter_periodically:
+                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
 
-            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-            parameters_data['timestamps'].append(point_timestamps)
-            parameters_data['values'].append(point_values)
+                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                meta_report['timestamps'].append(current_datetime)
+                meta_report['values'].append(actual_value)
+                meta_report['subtotal'] += actual_value
+
+            tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                   energy_category_id,
+                                                                   reporting_start_datetime_utc,
+                                                                   reporting_end_datetime_utc)
+            for row in rows_hourly:
+                peak_type = tariff_dict.get(row[0], None)
+                if peak_type == 'toppeak':
+                    meta_report['toppeak'] += row[1]
+                elif peak_type == 'onpeak':
+                    meta_report['onpeak'] += row[1]
+                elif peak_type == 'midpeak':
+                    meta_report['midpeak'] += row[1]
+                elif peak_type == 'offpeak':
+                    meta_report['offpeak'] += row[1]
+
+            meta_report_list.append(meta_report)
+
+        ################################################################################################################
+        # Step 7: query energy load
+        ################################################################################################################
+        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                              " FROM tbl_energy_storage_power_station_load_hourly "
+                              " WHERE energy_storage_power_station_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY start_datetime_utc ",
+                              (energy_storage_power_station_id,
+                               reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
+                                                                                reporting_start_datetime_utc,
+                                                                                reporting_end_datetime_utc,
+                                                                                period_type)
+            meta_report = dict()
+            meta_report['name'] = '荷'
+            meta_report['energy_category_id'] = energy_category_id
+            meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
+            meta_report['timestamps'] = list()
+            meta_report['values'] = list()
+            meta_report['subtotal'] = Decimal(0.0)
+            meta_report['toppeak'] = Decimal(0.0)
+            meta_report['onpeak'] = Decimal(0.0)
+            meta_report['midpeak'] = Decimal(0.0)
+            meta_report['offpeak'] = Decimal(0.0)
+
+            for row_meter_periodically in rows_meter_periodically:
+                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
+
+                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                meta_report['timestamps'].append(current_datetime)
+                meta_report['values'].append(actual_value)
+                meta_report['subtotal'] += actual_value
+
+            tariff_dict = utilities.get_energy_category_peak_types(meta_result['cost_center']['id'],
+                                                                   energy_category_id,
+                                                                   reporting_start_datetime_utc,
+                                                                   reporting_end_datetime_utc)
+            for row in rows_hourly:
+                peak_type = tariff_dict.get(row[0], None)
+                if peak_type == 'toppeak':
+                    meta_report['toppeak'] += row[1]
+                elif peak_type == 'onpeak':
+                    meta_report['onpeak'] += row[1]
+                elif peak_type == 'midpeak':
+                    meta_report['midpeak'] += row[1]
+                elif peak_type == 'offpeak':
+                    meta_report['offpeak'] += row[1]
+
+            meta_report_list.append(meta_report)
 
         if cursor_system:
             cursor_system.close()
@@ -550,15 +574,10 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 8: construct the report
         ################################################################################################################
         result = dict()
         result['energy_storage_power_station'] = meta_result
-        result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
-        }
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -572,18 +591,18 @@ class Reporting:
         result['reporting_period']['midpeaks'] = list()
         result['reporting_period']['offpeaks'] = list()
 
-        if meter_reporting_list is not None and len(meter_reporting_list) > 0:
-            for meter_report in meter_reporting_list:
-                result['reporting_period']['names'].append(meter_report['name'])
-                result['reporting_period']['energy_category_ids'].append(meter_report['energy_category_id'])
-                result['reporting_period']['units'].append(meter_report['unit_of_measure'])
-                result['reporting_period']['timestamps'].append(meter_report['timestamps'])
-                result['reporting_period']['values'].append(meter_report['values'])
-                result['reporting_period']['subtotals'].append(meter_report['subtotal'])
-                result['reporting_period']['toppeaks'].append(meter_report['toppeak'])
-                result['reporting_period']['onpeaks'].append(meter_report['onpeak'])
-                result['reporting_period']['midpeaks'].append(meter_report['midpeak'])
-                result['reporting_period']['offpeaks'].append(meter_report['offpeak'])
+        if meta_report_list is not None and len(meta_report_list) > 0:
+            for meta_report in meta_report_list:
+                result['reporting_period']['names'].append(meta_report['name'])
+                result['reporting_period']['energy_category_ids'].append(meta_report['energy_category_id'])
+                result['reporting_period']['units'].append(meta_report['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(meta_report['timestamps'])
+                result['reporting_period']['values'].append(meta_report['values'])
+                result['reporting_period']['subtotals'].append(meta_report['subtotal'])
+                result['reporting_period']['toppeaks'].append(meta_report['toppeak'])
+                result['reporting_period']['onpeaks'].append(meta_report['onpeak'])
+                result['reporting_period']['midpeaks'].append(meta_report['midpeak'])
+                result['reporting_period']['offpeaks'].append(meta_report['offpeak'])
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
