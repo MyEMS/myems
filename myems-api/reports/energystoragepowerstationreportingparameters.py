@@ -27,9 +27,8 @@ class Reporting:
     # Step 5: query associated grids
     # Step 6: query associated loads
     # Step 7: query associated power conversion systems
-    # Step 8: query associated sensors
-    # Step 9: query associated points data
-    # Step 10: construct the report
+    # Step 8: query associated points data
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -340,12 +339,7 @@ class Reporting:
                                "object_type": row_point[3]})
 
         ################################################################################################################
-        # Step 8: query associated sensors
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 9: query associated points data
+        # Step 8: query associated points data
         ################################################################################################################
 
         parameters_data = dict()
@@ -460,7 +454,7 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 10: construct the report
+        # Step 9: construct the report
         ################################################################################################################
         result = dict()
         result['energy_storage_power_station'] = meta_result
