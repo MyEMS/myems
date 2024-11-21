@@ -39,18 +39,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_combined_equipments_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_combined_equipments_offline_meters`
-(`combined_equipment_id`, `offline_meter_id`, `is_output`)
-VALUES
-(1, 1, 0);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_combined_equipments_parameters`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -76,18 +64,6 @@ VALUES
 (1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
 (1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
 (1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '6db58cd6-33d3-58ed-a095-22333202fb51');
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_combined_equipments_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_combined_equipments_virtual_meters`
-(`combined_equipment_id`, `virtual_meter_id`, `is_output`)
-VALUES
-(1, 1, 0);
 
 COMMIT;
 
@@ -303,18 +279,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_equipments_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_equipments_offline_meters`
-(`equipment_id`, `offline_meter_id`, `is_output`)
-VALUES
-(1, 1, 0);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_equipments_parameters`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -340,18 +304,6 @@ VALUES
 (1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
 (1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
 (1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '6db58cd6-33d3-58ed-a095-22333202fb51');
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_equipments_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_equipments_virtual_meters`
-(`equipment_id`, `virtual_meter_id`, `is_output`)
-VALUES
-(1, 1, 0);
 
 COMMIT;
 
@@ -514,36 +466,12 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_shopfloors_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_shopfloors_offline_meters`
-(`shopfloor_id`, `offline_meter_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_shopfloors_sensors`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_shopfloors_sensors`
 (`shopfloor_id`, `sensor_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_shopfloors_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_shopfloors_virtual_meters`
-(`shopfloor_id`, `virtual_meter_id`)
 VALUES
 (1, 1);
 
@@ -638,18 +566,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_spaces_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_spaces_offline_meters`
-(`space_id`, `offline_meter_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_spaces_sensors`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -692,18 +608,6 @@ START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_spaces_tenants`
 (`space_id`, `tenant_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_spaces_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_spaces_virtual_meters`
-(`space_id`, `virtual_meter_id`)
 VALUES
 (1, 1);
 
@@ -917,18 +821,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_stores_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_stores_offline_meters`
-(`store_id`, `offline_meter_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_stores_points`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -949,18 +841,6 @@ START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_stores_sensors`
 (`store_id`, `sensor_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_stores_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_stores_virtual_meters`
-(`store_id`, `virtual_meter_id`)
 VALUES
 (1, 1);
 
@@ -1012,18 +892,6 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_tenants_offline_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_tenants_offline_meters`
-(`tenant_id`, `offline_meter_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_tenants_points`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -1045,18 +913,6 @@ START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_tenants_sensors`
 (`tenant_id`, `sensor_id`)
-VALUES
-(1, 1);
-
-COMMIT;
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Demo Data for table `myems_system_db`.`tbl_tenants_virtual_meters`
--- ---------------------------------------------------------------------------------------------------------------------
-START TRANSACTION;
-
-INSERT INTO `myems_system_db`.`tbl_tenants_virtual_meters`
-(`tenant_id`, `virtual_meter_id`)
 VALUES
 (1, 1);
 
