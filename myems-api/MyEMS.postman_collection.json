@@ -12942,7 +12942,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2d15ec7af98de2c1e3b642c4ab1a71fb3e66b78ee9021f4c6a94c378fa1a4156c3833eda237f721b34b9745364cfe67c051016183ae503cb2a6c2dadb9df0643",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13794,6 +13794,119 @@
 										"photovoltaicpowerstations",
 										"1",
 										"loads",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET All Users of a Photovoltaic Power Station",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2d15ec7af98de2c1e3b642c4ab1a71fb3e66b78ee9021f4c6a94c378fa1a4156c3833eda237f721b34b9745364cfe67c051016183ae503cb2a6c2dadb9df0643",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/photovoltaicpowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"photovoltaicpowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bind an User to an Energy Storage Power Station Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2d15ec7af98de2c1e3b642c4ab1a71fb3e66b78ee9021f4c6a94c378fa1a4156c3833eda237f721b34b9745364cfe67c051016183ae503cb2a6c2dadb9df0643",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"user_id\":1}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/photovoltaicpowerstations/1/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"photovoltaicpowerstations",
+										"1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE an User from a Photovoltaic Power Station",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "2d15ec7af98de2c1e3b642c4ab1a71fb3e66b78ee9021f4c6a94c378fa1a4156c3833eda237f721b34b9745364cfe67c051016183ae503cb2a6c2dadb9df0643",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/photovoltaicpowerstations/1/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"photovoltaicpowerstations",
+										"1",
+										"users",
 										"1"
 									]
 								}
@@ -25599,7 +25712,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9036b09c791add13258b0600901c04727a758d86178cde18066765e1d120b38a68c41cdce953ab79272a1d28d1d518807bb81caba15f920d6e81c2686802ac47",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -25637,7 +25750,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9036b09c791add13258b0600901c04727a758d86178cde18066765e1d120b38a68c41cdce953ab79272a1d28d1d518807bb81caba15f920d6e81c2686802ac47",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -25672,7 +25785,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9036b09c791add13258b0600901c04727a758d86178cde18066765e1d120b38a68c41cdce953ab79272a1d28d1d518807bb81caba15f920d6e81c2686802ac47",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -25706,7 +25819,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "9036b09c791add13258b0600901c04727a758d86178cde18066765e1d120b38a68c41cdce953ab79272a1d28d1d518807bb81caba15f920d6e81c2686802ac47",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -25721,13 +25834,13 @@
 									"raw": "{\n    \"data\":{\n        \"name\": \"myems\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\"\n    }\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/apikeys/3",
+									"raw": "{{base_url}}/apikeys/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"apikeys",
-										"3"
+										"1"
 									]
 								}
 							},

@@ -45,6 +45,280 @@
 							</table>
 						</div>
 					</uib-tab>
+					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.INVERTOR' | translate}}">
+						<div class="panel-body" ng-controller="PhotovoltaicPowerStationInvertorController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}
+								</div>
+								<div class="panel-body" >
+									<form role="form">
+									  <div class="form-group no-margin"><label>{{'SETTING.SELECT_PHOTOVOLTAIC_POWER_STATION' | translate}}</label>
+										<ui-select  on-select="changePhotovoltaicPowerStation($item,$model)" ng-model="currentPhotovoltaicPowerStation.selected" theme="bootstrap">
+										  <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										  <ui-select-choices repeat="photovoltaicpowerstation.id as photovoltaicpowerstation in photovoltaicpowerstations | filter: $select.search" >
+											<div ng-bind-html="photovoltaicpowerstation.name | highlight: $select.search"></div>
+										  </ui-select-choices>
+										</ui-select>
+									  </div>
+									</form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentPhotovoltaicPowerStation.name}}{{'PHOTOVOLTAIC_POWER_STATION.N_S_INVERTOR' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_photovoltaic_power_station_invertor" ng-click="addPhotovoltaicPowerStationInvertor()" class="btn btn-primary btn-rounded  btn-outline" href="">
+									<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_INVERTOR' | translate}}
+								  </a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.INVERTOR' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.MODEL' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.SERIAL_NUMBER' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="photovoltaicpowerstationinvertor in photovoltaicpowerstationinvertors">
+										<td class="text-center">{{ photovoltaicpowerstationinvertor.id }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationinvertor.name }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationinvertor.model }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationinvertor.serial_number }}</td>
+										<td class="text-center">
+										  <a ng-click="editPhotovoltaicPowerStationInvertor(photovoltaicpowerstationinvertor)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deletePhotovoltaicPowerStationInvertor(photovoltaicpowerstationinvertor)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.GRID' | translate}}">
+						<div class="panel-body" ng-controller="PhotovoltaicPowerStationGridController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_PHOTOVOLTAIC_POWER_STATION' | translate}}</label>
+									  <ui-select  on-select="changePhotovoltaicPowerStation($item,$model)" ng-model="currentPhotovoltaicPowerStation.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="photovoltaicpowerstation.id as photovoltaicpowerstation in photovoltaicpowerstations | filter: $select.search" >
+										  <div ng-bind-html="photovoltaicpowerstation.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  <div class="panel panel-primary">
+								<div class="panel-heading">
+								  {{currentPhotovoltaicPowerStation.name}}{{'PHOTOVOLTAIC_POWER_STATION.N_S_GRID' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <a ng-show="is_show_add_photovoltaicpowerstation_grid" ng-click="addPhotovoltaicPowerStationGrid()" class="btn btn-primary btn-rounded  btn-outline" href="">
+															<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_GRID' | translate}}</a>
+								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+									<thead>
+									  <tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.GRID_NAME' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.POWER_POINT' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.BUY_METER' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.SELL_METER' | translate}}</th>
+										<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.CAPACITY' | translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  <tr ng-repeat="photovoltaicpowerstationgrid in photovoltaicpowerstationgrids">
+										<td class="text-center">{{ photovoltaicpowerstationgrid.id }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationgrid.name }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationgrid.power_point.name }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationgrid.buy_meter.name }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationgrid.sell_meter.name }}</td>
+										<td class="text-center">{{ photovoltaicpowerstationgrid.capacity }}</td>
+										<td class="text-center">
+										  <a ng-click="editPhotovoltaicPowerStationGrid(photovoltaicpowerstationgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="deletePhotovoltaicPowerStationGrid(photovoltaicpowerstationgrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+										</td>
+									  </tr>
+									</tbody>
+									<tfoot class="hide-if-no-paging">
+										<tr>
+											<td colspan="6">
+												<ul class="pagination pull-right"></ul>
+											</td>
+										</tr>
+									</tfoot>
+								  </table>
+							  </div>
+							</div>
+							</div>
+						</div>
+					  </div>
+					</uib-tab>
+					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.LOAD' | translate}}">
+						<div class="panel-body" ng-controller="PhotovoltaicPowerStationLoadController">
+						  <div class="row">
+							<div class="col-lg-3">
+							  <div class="panel panel-info">
+								<div class="panel-heading">
+								  {{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}
+								</div>
+								<div class="panel-body" >
+								  <form role="form">
+									<div class="form-group no-margin"><label>{{'SETTING.SELECT_PHOTOVOLTAIC_POWER_STATION' | translate}}</label>
+									  <ui-select  on-select="changePhotovoltaicPowerStation($item,$model)" ng-model="currentPhotovoltaicPowerStation.selected" theme="bootstrap">
+										<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+										<ui-select-choices repeat="photovoltaicpowerstation.id as photovoltaicpowerstation in photovoltaicpowerstations | filter: $select.search" >
+										  <div ng-bind-html="photovoltaicpowerstation.name | highlight: $select.search"></div>
+										</ui-select-choices>
+									  </ui-select>
+									</div>
+								  </form>
+								</div>
+							  </div>
+							</div>
+							<div class="col-lg-9">
+							  	<div class="panel panel-primary">
+									<div class="panel-heading">
+										{{currentPhotovoltaicPowerStation.name}}{{'PHOTOVOLTAIC_POWER_STATION.N_S_LOAD' | translate}}
+									</div>
+									<div class="panel-body" >
+										<a ng-show="is_show_add_photovoltaicpowerstation_load" ng-click="addPhotovoltaicPowerStationLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
+																	<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_LOAD' | translate}}
+										</a>
+										<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+											<thead>
+											<tr>
+												<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+												<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.LOAD_NAME' | translate}}</th>
+												<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.POWER_POINT' | translate}}</th>
+												<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.METER' | translate}}</th>
+												<th class="text-center">{{'PHOTOVOLTAIC_POWER_STATION.RATED_INPUT_POWER' | translate}}(kW)</th>
+												<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="photovoltaicpowerstationload in photovoltaicpowerstationloads">
+												<td class="text-center">{{ photovoltaicpowerstationload.id }}</td>
+												<td class="text-center">{{ photovoltaicpowerstationload.name }}</td>
+												<td class="text-center">{{ photovoltaicpowerstationload.power_point.name }}</td>
+												<td class="text-center">{{ photovoltaicpowerstationload.meter.name }}</td>
+												<td class="text-center">{{ photovoltaicpowerstationload.rated_input_power }}</td>
+												<td class="text-center">
+												<a ng-click="editPhotovoltaicPowerStationLoad(photovoltaicpowerstationload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+												<a ng-click="deletePhotovoltaicPowerStationLoad(photovoltaicpowerstationload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+												</td>
+											</tr>
+											</tbody>
+											<tfoot class="hide-if-no-paging">
+												<tr>
+													<td colspan="6">
+														<ul class="pagination pull-right"></ul>
+													</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+							  	</div>
+							</div>
+						  </div>
+					  	</div>
+					</uib-tab>
+					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.BIND_USER' | translate}}">
+							<div class="panel-body" ng-controller="PhotovoltaicPowerStationUserController">
+								<div class="row">
+									<div class="col-lg-3">
+										<div class="panel panel-info">
+											<div class="panel-heading">
+												{{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}
+											</div>
+											<div class="panel-body">
+													<form role="form">
+													<div class="form-group no-margin"><label>{{'SETTING.SELECT_PHOTOVOLTAIC_POWER_STATION' | translate}}</label>
+														<ui-select  on-select="changePhotovoltaicPowerStation($item,$model)" ng-model="currentPhotovoltaicPowerStation.selected" theme="bootstrap">
+															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-choices repeat="photovoltaicpowerstation.id as photovoltaicpowerstation in photovoltaicpowerstations | filter: $select.search">
+																<div ng-bind-html="photovoltaicpowerstation.name | highlight: $select.search"></div>
+															</ui-select-choices>
+														</ui-select>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												{{currentPhotovoltaicPowerStation.name}}{{'SETTING.N_S_USER' | translate}}
+											</div>
+											<div class="panel-body"
+											    x-hjc-drop-target="true"
+											    x-on-drop="pairUser(dragEl,dropEl)"
+											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+
+												<div class="btn btn-primary btn-rounded btn-block"
+												    title="{{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}:{{photovoltaicpowerstationusers.data_source.name}}"
+												    ng-repeat="photovoltaicpowerstationuser in photovoltaicpowerstationusers"
+												    x-hjc-draggable="true"> {{photovoltaicpowerstationuser.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash" >
+											<img class="trashcan"
+											src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deleteUserPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'USER.SELECT_USER' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'USER.USER_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="user in users"
+											x-hjc-draggable="true"> {{user.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
 				</uib-tabset>
 			</div>
 		</div>

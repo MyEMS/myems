@@ -587,6 +587,10 @@ api.add_route('/photovoltaicpowerstations/{id_}/loads',
               photovoltaicpowerstation.PhotovoltaicPowerStationLoadCollection())
 api.add_route('/photovoltaicpowerstations/{id_}/loads/{lid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationLoadItem())
+api.add_route('/photovoltaicpowerstations/{id_}/users',
+              photovoltaicpowerstation.PhotovoltaicPowerStationUserCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/users/{uid}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationUserItem())
 
 api.add_route('/points',
               point.PointCollection())
