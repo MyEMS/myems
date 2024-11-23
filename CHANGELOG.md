@@ -1848,7 +1848,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   None.
 
 [Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.11.0...HEAD
-[4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.1...v4.11.0
+[4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.0...v4.11.0
 [4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
 [4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
 [4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
