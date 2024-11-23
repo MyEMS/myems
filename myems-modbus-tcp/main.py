@@ -55,17 +55,25 @@ def main():
         # Get data sources by gateway and protocol
         rows_data_source = None
         try:
+            # query all data sources by the gateway and token
             query = (" SELECT ds.id, ds.name, ds.connection "
                      " FROM tbl_data_sources ds, tbl_gateways g "
                      " WHERE ds.protocol = 'modbus-tcp' AND ds.gateway_id = g.id AND g.id = %s AND g.token = %s "
                      " ORDER BY ds.id ")
             cursor_system_db.execute(query, (config.gateway['id'], config.gateway['token'],))
             rows_data_source = cursor_system_db.fetchall()
+
+            # reset data sources' process_id to NULL
+            query = (" UPDATE tbl_data_sources ds, tbl_gateways g "
+                     " SET ds.process_id = NULL "
+                     " WHERE ds.protocol = 'modbus-tcp' AND ds.gateway_id = g.id AND g.id = %s AND g.token = %s ")
+            cursor_system_db.execute(query, (config.gateway['id'], config.gateway['token'],))
+            cnx_system_db.commit()
+
         except Exception as e:
             logger.error("Error in main process " + str(e))
             # sleep several minutes and continue the outer loop to reload points
             time.sleep(60)
-            continue
         finally:
             if cursor_system_db:
                 cursor_system_db.close()
@@ -78,7 +86,7 @@ def main():
             time.sleep(60)
             continue
         else:
-            # Stop to connect these data sources
+            # Stop the while loop to connect these data sources
             data_source_list = rows_data_source
             break
 
