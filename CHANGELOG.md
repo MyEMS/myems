@@ -12,8 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tables for wind farms and charging stations in database
 - added equipment percentage to associated equipment table of combined equipment energy category report in myems-web
 - added blank page background image for reports in myems-web
+- added procedure to set process id in myems-modbut-tcp 
 ### Changed
-- updated `myems_system_db`.`tbl_data_sources` in database
+- updated myems_system_db.tbl_data_sources in database
 - updated to hide connection of data source in myems-admin
 - changed column order of datasource list in myems-admin
 ### Fixed

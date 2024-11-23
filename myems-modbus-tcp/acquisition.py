@@ -1,3 +1,4 @@
+import os
 import json
 import math
 import telnetlib3
@@ -21,19 +22,50 @@ async def check_connectivity(host, port):
 
 ########################################################################################################################
 # Acquisition Procedures
-# Step 1: Check connectivity to the host and port
-# Step 2: Get point list
-# Step 3: Read point values from Modbus slaves
-# Step 4: Bulk insert point values and update latest values in historical database
+# Step 1: Update process id in database
+# Step 2: Check connectivity to the host and port
+# Step 3: Get point list
+# Step 4: Read point values from Modbus slaves
+# Step 5: Bulk insert point values and update latest values in historical database
 ########################################################################################################################
 
 
 def process(logger, data_source_id, host, port, interval_in_seconds):
+    ####################################################################################################################
+    # Step 1: Update process id in database
+    ####################################################################################################################
+    cnx_system_db = None
+    cursor_system_db = None
+    try:
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
+    except Exception as e:
+        logger.error("Error in step 1.1 of acquisition process " + str(e))
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+        return
+
+    update_row = (" UPDATE tbl_data_sources "
+                  " SET process_id = %s "
+                  " WHERE id = %s ")
+    try:
+        cursor_system_db.execute(update_row, (os.getpid(), data_source_id,))
+        cnx_system_db.commit()
+    except Exception as e:
+        logger.error("Error in step 1.2 of acquisition process " + str(e))
+        return
+    finally:
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+
     while True:
         # begin of the outermost while loop
-
         ################################################################################################################
-        # Step 1: Check connectivity to the host and port
+        # Step 2: Check connectivity to the host and port
         ################################################################################################################
         try:
             asyncio.run(check_connectivity(host, port))
@@ -45,7 +77,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             continue
 
         ################################################################################################################
-        # Step 2: Get point list
+        # Step 3: Get point list
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
@@ -53,7 +85,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
-            logger.error("Error in step 2.1 of acquisition process " + str(e))
+            logger.error("Error in step 3.1 of acquisition process " + str(e))
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
@@ -70,7 +102,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             cursor_system_db.execute(query, (data_source_id,))
             rows_point = cursor_system_db.fetchall()
         except Exception as e:
-            logger.error("Error in step 2.2 of acquisition process: " + str(e))
+            logger.error("Error in step 3.2 of acquisition process: " + str(e))
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
@@ -102,7 +134,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                                "address": row_point[6]})
 
         ################################################################################################################
-        # Step 3: Read point values from Modbus slaves
+        # Step 4: Read point values from Modbus slaves
         ################################################################################################################
         # connect to historical database
         cnx_historical_db = None
@@ -111,7 +143,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
             cursor_historical_db = cnx_historical_db.cursor()
         except Exception as e:
-            logger.error("Error in step 3.1 of acquisition process " + str(e))
+            logger.error("Error in step 4.1 of acquisition process " + str(e))
             if cursor_historical_db:
                 cursor_historical_db.close()
             if cnx_historical_db:
@@ -145,7 +177,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 try:
                     address = json.loads(point['address'])
                 except Exception as e:
-                    logger.error("Error in step 3.2 of acquisition process: Invalid point address in JSON " + str(e))
+                    logger.error("Error in step 4.2 of acquisition process: Invalid point address in JSON " + str(e))
                     continue
 
                 if 'slave_id' not in address.keys() \
@@ -194,7 +226,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         continue
 
                 if result is None or not isinstance(result, tuple) or len(result) == 0:
-                    logger.error("Error in step 3.3 of acquisition process: \n"
+                    logger.error("Error in step 4.3 of acquisition process: \n"
                                  " invalid result: None "
                                  " for point_id: " + str(point['id']))
                     # invalid result
@@ -202,7 +234,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     continue
 
                 if not isinstance(result[0], float) and not isinstance(result[0], int) or math.isnan(result[0]):
-                    logger.error(" Error in step 3.4 of acquisition process:\n"
+                    logger.error(" Error in step 4.4 of acquisition process:\n"
                                  " invalid result: not float and not int or not a number "
                                  " for point_id: " + str(point['id']))
                     # invalid result
@@ -265,7 +297,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 break
 
             ############################################################################################################
-            # Step 4: Bulk insert point values and update latest values in historical database
+            # Step 5: Bulk insert point values and update latest values in historical database
             ############################################################################################################
             # check the connection to the Historical Database
             if not cnx_historical_db.is_connected():
@@ -273,7 +305,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
                     cursor_historical_db = cnx_historical_db.cursor()
                 except Exception as e:
-                    logger.error("Error in step 4.1 of acquisition process: " + str(e))
+                    logger.error("Error in step 5.1 of acquisition process: " + str(e))
                     if cursor_historical_db:
                         cursor_historical_db.close()
                     if cnx_historical_db:
@@ -288,7 +320,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     cnx_system_db = mysql.connector.connect(**config.myems_system_db)
                     cursor_system_db = cnx_system_db.cursor()
                 except Exception as e:
-                    logger.error("Error in step 4.2 of acquisition process: " + str(e))
+                    logger.error("Error in step 5.2 of acquisition process: " + str(e))
                     if cursor_system_db:
                         cursor_system_db.close()
                     if cnx_system_db:
@@ -321,7 +353,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.3.1 of acquisition process " + str(e))
+                        logger.error("Error in step 5.3.1 of acquisition process " + str(e))
                         # ignore this exception
 
                 # update tbl_analog_value_latest
@@ -343,7 +375,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(delete_values[:-1] + ")")
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.3.2 of acquisition process " + str(e))
+                        logger.error("Error in step 5.3.2 of acquisition process " + str(e))
                         # ignore this exception
 
                     try:
@@ -351,7 +383,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(latest_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.3.3 of acquisition process " + str(e))
+                        logger.error("Error in step 5.3.3 of acquisition process " + str(e))
                         # ignore this exception
 
             while len(energy_value_list) > 0:
@@ -375,7 +407,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
+                        logger.error("Error in step 5.4.1 of acquisition process: " + str(e))
                         # ignore this exception
 
                 # update tbl_energy_value_latest
@@ -397,7 +429,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cnx_historical_db.commit()
 
                     except Exception as e:
-                        logger.error("Error in step 4.4.2 of acquisition process " + str(e))
+                        logger.error("Error in step 5.4.2 of acquisition process " + str(e))
                         # ignore this exception
 
                     try:
@@ -406,7 +438,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cnx_historical_db.commit()
 
                     except Exception as e:
-                        logger.error("Error in step 4.4.3 of acquisition process " + str(e))
+                        logger.error("Error in step 5.4.3 of acquisition process " + str(e))
                         # ignore this exception
 
             while len(digital_value_list) > 0:
@@ -430,7 +462,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(add_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.5.1 of acquisition process: " + str(e))
+                        logger.error("Error in step 5.5.1 of acquisition process: " + str(e))
                         # ignore this exception
 
                 # update tbl_digital_value_latest
@@ -451,7 +483,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(delete_values[:-1] + ")")
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.5.2 of acquisition process " + str(e))
+                        logger.error("Error in step 5.5.2 of acquisition process " + str(e))
                         # ignore this exception
 
                     try:
@@ -459,7 +491,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                         cursor_historical_db.execute(latest_values[:-2])
                         cnx_historical_db.commit()
                     except Exception as e:
-                        logger.error("Error in step 4.5.3 of acquisition process " + str(e))
+                        logger.error("Error in step 5.5.3 of acquisition process " + str(e))
                         # ignore this exception
 
             # update data source last seen datetime
@@ -470,7 +502,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 cursor_system_db.execute(update_row, (data_source_id,))
                 cnx_system_db.commit()
             except Exception as e:
-                logger.error("Error in step 4.6 of acquisition process " + str(e))
+                logger.error("Error in step 5.6 of acquisition process " + str(e))
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cnx_system_db:
