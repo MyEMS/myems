@@ -531,6 +531,6 @@ CREATE INDEX `tbl_energy_storage_power_station_load_hourly_index_1`
  (`energy_storage_power_station_id`, `start_datetime_utc`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0RC', release_date='2024-11-22' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.11.0', release_date='2024-11-23' WHERE id=1;
 
 COMMIT;
