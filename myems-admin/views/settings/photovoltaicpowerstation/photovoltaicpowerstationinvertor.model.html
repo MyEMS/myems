@@ -1,0 +1,995 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{photovoltaicpowerstationinvertor.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_photovoltaicpowerstationinvertor" novalidate class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}</label>
+                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationinvertor.name" type="text" name="photovoltaicpowerstationinvertorname" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorname.$invalid && form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorname.$dirty">
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MODEL' | translate}}</label>
+                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationinvertor.model" type="text" name="photovoltaicpowerstationinvertormodel" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertormodel.$invalid && form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertormodel.$dirty">
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertormodel.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_MODEL' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.SERIAL_NUMBER' | translate}}</label>
+                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationinvertor.serial_number" type="text" name="photovoltaicpowerstationinvertorserial_number" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorserial_number.$invalid && form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorserial_number.$dirty">
+                        <small class="text-danger" ng-show="form_photovoltaicpowerstationinvertor.photovoltaicpowerstationinvertorserial_number.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_SERIAL_NUMBER' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.INVERTOR_STATE' | translate}}</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.invertor_state_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.COMMUNICATION_STATE' | translate}}</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.communication_state_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.TOTAL_ENERGY' | translate}}</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.total_energy_point.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.TODAY_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.today_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.EFFICIENCY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.efficiency_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.TEMPERATURE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.temperature_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.POWER_FACTOR' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.power_factor_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.ACTIVE_POWER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.active_power_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.REACTIVE_POWER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.reactive_power_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.FREQUENCY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.frequency_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UAB' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.uab_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UBC' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ubc_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UCA' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.uca_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UA' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ua_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UB' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ub_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.UC' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.uc_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.IA' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ia_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.IB' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ib_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.IC' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.ic_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV1_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv1_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV1_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv1_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV2_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv2_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV2_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv2_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV3_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv3_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV3_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv3_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV4_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv4_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV4_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv4_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV5_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv5_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV5_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv5_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV6_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv6_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV6_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv6_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV7_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv7_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV7_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv7_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV8_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv8_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV8_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv8_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV9_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv9_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV9_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv9_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV10_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv10_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV10_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv10_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV11_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv11_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV11_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv11_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV12_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv12_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV12_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv12_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV13_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv13_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV13_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv13_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV14_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv14_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV14_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv14_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV15_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv15_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV15_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv15_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV16_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv16_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV16_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv16_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV17_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv17_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV17_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv17_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV18_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv18_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV18_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv18_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV19_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv19_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV19_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv19_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV20_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv20_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV20_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv20_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV21_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv21_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV21_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv21_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV22_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv22_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV22_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv22_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV23_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv23_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV23_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv23_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV24_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv24_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV24_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv24_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV25_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv25_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV25_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv25_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV26_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv26_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV26_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv26_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV27_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv27_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV27_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv27_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV28_U' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv28_u_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.PV28_I' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.pv28_i_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_TOTAL_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_total_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_POWER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_power_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_1_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_1_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_2_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_2_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_3_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_3_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_4_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_4_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_5_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_5_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_6_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_6_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_7_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_7_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_8_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_8_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_9_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_9_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.MPPT_10_ENERGY' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="photovoltaicpowerstationinvertor.mppt_10_energy_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_photovoltaicpowerstationinvertor.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

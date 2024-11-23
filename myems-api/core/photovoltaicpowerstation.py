@@ -4744,3 +4744,175 @@ class PhotovoltaicPowerStationLoadItem:
 
         resp.status = falcon.HTTP_200
 
+
+class PhotovoltaicPowerStationUserCollection:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        access_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_power_stations "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
+
+        query = (" SELECT u.id, u.name, u.uuid "
+                 " FROM tbl_photovoltaic_power_stations m, tbl_photovoltaic_power_stations_users mu, "
+                 + config.myems_user_db['database'] + ".tbl_users u "
+                 " WHERE mu.photovoltaic_power_station_id = m.id AND u.id = mu.user_id AND m.id = %s "
+                 " ORDER BY u.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        cursor.close()
+        cnx.close()
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+
+        new_values = json.loads(raw_json)
+        if 'user_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['user_id'], int) or \
+                new_values['data']['user_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_ID')
+        user_id = new_values['data']['user_id']
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_power_stations "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
+
+        cnx_user = mysql.connector.connect(**config.myems_user_db)
+        cursor_user = cnx_user.cursor()
+        cursor_user.execute(" SELECT name"
+                            " FROM tbl_users "
+                            " WHERE id = %s ", (user_id,))
+        if cursor_user.fetchone() is None:
+            cursor_user.close()
+            cnx_user.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
+        query = (" SELECT id "
+                 " FROM tbl_photovoltaic_power_stations_users "
+                 " WHERE photovoltaic_power_station_id = %s AND user_id = %s")
+        cursor.execute(query, (id_, user_id,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.PHOTOVOLTAIC_POWER_STATION_USER_RELATION_EXISTS')
+        add_row = (" INSERT INTO tbl_photovoltaic_power_stations_users (photovoltaic_power_station_id, user_id) "
+                   " VALUES (%s, %s) ")
+        cursor.execute(add_row, (id_, user_id,))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        cursor_user.close()
+        cnx_user.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/photovoltaicpowerstations/' + str(id_) + '/users/' + str(user_id)
+
+
+class PhotovoltaicPowerStationUserItem:
+    def __init__(self):
+        """Initializes Class"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, uid):
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, uid):
+        # todo Verify if the user is bound when deleting it
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+
+        if not uid.isdigit() or int(uid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_power_stations "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
+
+        cnx_user = mysql.connector.connect(**config.myems_user_db)
+        cursor_user = cnx_user.cursor()
+        cursor_user.execute(" SELECT name FROM tbl_users WHERE id = %s ", (uid,))
+        if cursor_user.fetchone() is None:
+            cursor_user.close()
+            cnx_user.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_power_stations_users "
+                       " WHERE photovoltaic_power_station_id = %s AND user_id = %s ", (id_, uid))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_POWER_STATION_USER_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_photovoltaic_power_stations_users "
+                       " WHERE photovoltaic_power_station_id = %s AND user_id = %s ", (id_, uid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+        cursor_user.close()
+        cnx_user.close()
+
+        resp.status = falcon.HTTP_204
