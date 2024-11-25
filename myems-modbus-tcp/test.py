@@ -19,8 +19,8 @@ async def check_connectivity(host, port):
 ########################################################################################################################
 def main():
     if len(sys.argv) > 2:
-        host = sys.argv[1]
-        port = sys.argv[2]
+        host = str(sys.argv[1])
+        port = int(sys.argv[2])
     else:
         print('Missing arguments')
         print('Usage: python3 test.py HOST PORT')
@@ -64,20 +64,14 @@ def main():
     The variable struct.error is an exception raised on errors.
     """
     try:
-        master = modbus_tcp.TcpMaster(host=host, port=port, timeout_in_sec=5.0)
+        master = modbus_tcp.TcpMaster(host=str(host), port=int(port), timeout_in_sec=5.0)
         master.set_timeout(5.0)
         print("Connected to {0}:{1}".format(host, port))
         print("read registers...")
-        result = master.execute(slave=1, function_code=3, starting_address=1, quantity_of_x=2, data_format='<f')
-        print("51AL1 = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=3, quantity_of_x=2, data_format='<f')
-        print("51AL2 = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=5, quantity_of_x=2, data_format='<f')
-        print("51AL3 = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=7, quantity_of_x=2, data_format='<f')
-        print("51AL4 = " + str(byte_swap.byte_swap_32_bit(result[0])))
-        result = master.execute(slave=1, function_code=3, starting_address=9, quantity_of_x=2, data_format='<f')
-        print("51AL5 = " + str(byte_swap.byte_swap_32_bit(result[0])))
+        result = master.execute(slave=1, function_code=3, starting_address=0, quantity_of_x=1, data_format='>h')
+        print("r1 = " + str(result[0]))
+        result = master.execute(slave=1, function_code=3, starting_address=1, quantity_of_x=2, data_format='>i')
+        print("r2 = " + str(byte_swap.byte_swap_32_bit(result[0])))
 
         master.close()
     except Exception as e:
