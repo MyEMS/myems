@@ -177,15 +177,15 @@ class Reporting:
                               " FROM tbl_energy_storage_power_stations_containers espsc, "
                               "      tbl_energy_storage_containers c "
                               " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
+                              "      AND espsc.energy_storage_container_id = c.id ",
                               (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-        # todo: if len(container_list) == 0
+        rows_containers = cursor_system.fetchall()
+        if rows_containers is not None and len(rows_containers) > 0:
+            for row_container in rows_containers:
+                container_list.append({"id": row_container[0],
+                                       "name": row_container[1],
+                                       "uuid": row_container[2]})
+
         print('container_list:' + str(container_list))
         ################################################################################################################
         # Step 4: query associated batteries on containers
@@ -214,123 +214,121 @@ class Reporting:
         for row in digital_value_latest_rows:
             digital_value_latest_dict[row[0]] = row[1]
 
-        battery_state_point_id = None
-        cursor_system.execute(" SELECT battery_state_point_id "
-                              " FROM tbl_energy_storage_containers_batteries "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            battery_state_point_id = row_point[0]
+        for container in container_list:
+            cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
+                                  " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
+                                  " WHERE cb.energy_storage_container_id = %s AND cb.soc_point_id = p.id ",
+                                  (container['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                for row_point in rows_points:
+                    point_list.append({"id": row_point[0],
+                                       "name": container['name'] + '-' + row_point[1] + '.SOC',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
 
-        if battery_state_point_id is not None and digital_value_latest_dict.get(battery_state_point_id) is not None:
-            battery_state_point_value = digital_value_latest_dict.get(battery_state_point_id)
+            cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
+                                  " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
+                                  " WHERE cb.energy_storage_container_id = %s AND cb.power_point_id = p.id ",
+                                  (container['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                for row_point in rows_points:
+                    point_list.append({"id": row_point[0],
+                                       "name": container['name'] + '-' + row_point[1] + '.P}',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
-                              " WHERE cb.energy_storage_container_id = %s AND cb.soc_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.SOC',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
+            charge_meter_id_list = list()
+            cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
+                                  " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
+                                  " WHERE cb.energy_storage_container_id = %s AND cb.charge_meter_id = m.id ",
+                                  (container['id'],))
+            rows_meters = cursor_system.fetchall()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row_meter in rows_meters:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": container['name'] + '-' + row_meter[1] + '.Charge',
+                                       "energy_category_id": row_meter[2]})
+                    charge_meter_id_list.append(row_meter[0])
 
-        cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
-                              " WHERE cb.energy_storage_container_id = %s AND cb.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        charge_meter_id = None
-        cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
-                              " WHERE cb.energy_storage_container_id = %s AND cb.charge_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Charge',
-                               "energy_category_id": row_meter[2]})
-            charge_meter_id = row_meter[0]
-
-        discharge_meter_id = None
-        cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
-                              " WHERE cb.energy_storage_container_id = %s AND cb.discharge_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Discharge',
-                               "energy_category_id": row_meter[2]})
-            discharge_meter_id = row_meter[0]
+            discharge_meter_id_list = list()
+            cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
+                                  " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
+                                  " WHERE cb.energy_storage_container_id = %s AND cb.discharge_meter_id = m.id ",
+                                  (container['id'],))
+            rows_meters = cursor_system.fetchall()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row_meter in rows_meters:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": container['name'] + '-' + row_meter[1] + '.Discharge',
+                                       "energy_category_id": row_meter[2]})
+                    discharge_meter_id_list.append(row_meter[0])
 
         ################################################################################################################
         # Step 5: query associated grids on containers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, cg.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_grids cg, tbl_points p "
-                              " WHERE cg.energy_storage_container_id = %s AND cg.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
+        for container in container_list:
+            cursor_system.execute(" SELECT p.id, cg.name, p.units, p.object_type  "
+                                  " FROM tbl_energy_storage_containers_grids cg, tbl_points p "
+                                  " WHERE cg.energy_storage_container_id = %s AND cg.power_point_id = p.id ",
+                                  (container['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                for row_point in rows_points:
+                    point_list.append({"id": row_point[0],
+                                       "name": container['name'] + '-' + row_point[1] + '.P',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
-                              " WHERE cg.energy_storage_container_id = %s AND cg.buy_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Buy',
-                               "energy_category_id": row_meter[2]})
+            cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
+                                  " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
+                                  " WHERE cg.energy_storage_container_id = %s AND cg.buy_meter_id = m.id ",
+                                  (container['id'],))
+            rows_meters = cursor_system.fetchall()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row_meter in rows_meters:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": container['name'] + '-' + row_meter[1] + '.Buy',
+                                       "energy_category_id": row_meter[2]})
 
-        cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
-                              " WHERE cg.energy_storage_container_id = %s AND cg.sell_meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '.Sell',
-                               "energy_category_id": row_meter[2]})
+            cursor_system.execute(" SELECT m.id, cg.name, m.energy_category_id  "
+                                  " FROM tbl_energy_storage_containers_grids cg, tbl_meters m "
+                                  " WHERE cg.energy_storage_container_id = %s AND cg.sell_meter_id = m.id ",
+                                  (container['id'],))
+            rows_meters = cursor_system.fetchall()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row_meter in rows_meters:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": container['name'] + '-' + row_meter[1] + '.Sell',
+                                       "energy_category_id": row_meter[2]})
 
         ################################################################################################################
         # Step 6: query associated loads on containers
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, cl.name, p.units, p.object_type  "
-                              " FROM tbl_energy_storage_containers_loads cl, tbl_points p "
-                              " WHERE cl.energy_storage_container_id = %s AND cl.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
+        for container in container_list:
+            cursor_system.execute(" SELECT p.id, cl.name, p.units, p.object_type  "
+                                  " FROM tbl_energy_storage_containers_loads cl, tbl_points p "
+                                  " WHERE cl.energy_storage_container_id = %s AND cl.power_point_id = p.id ",
+                                  (container['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                for row_point in rows_points:
+                    point_list.append({"id": row_point[0],
+                                       "name": container['name'] + '-' + row_point[1] + '.P',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
 
-        cursor_system.execute(" SELECT m.id, cl.name, m.energy_category_id  "
-                              " FROM tbl_energy_storage_containers_loads cl, tbl_meters m "
-                              " WHERE cl.energy_storage_container_id = %s AND cl.meter_id = m.id ",
-                              (container_list[0]['id'],))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
-                               "energy_category_id": row_meter[2]})
+            cursor_system.execute(" SELECT m.id, cl.name, m.energy_category_id  "
+                                  " FROM tbl_energy_storage_containers_loads cl, tbl_meters m "
+                                  " WHERE cl.energy_storage_container_id = %s AND cl.meter_id = m.id ",
+                                  (container['id'],))
+            rows_meters = cursor_system.fetchall()
+            if rows_meters is not None and len(rows_meters) > 0:
+                for row_meter in rows_meters:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": container['name'] + '-' + row_meter[1] + '.Load',
+                                       "energy_category_id": row_meter[2]})
 
         ################################################################################################################
         # Step 7: query associated power conversion systems on containers
@@ -351,45 +349,45 @@ class Reporting:
         total_discharge_energy_value = Decimal(0.0)
 
         # query meter energy
-        cursor_energy.execute(" SELECT SUM(actual_value) "
-                              " FROM tbl_meter_hourly "
-                              " WHERE meter_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (charge_meter_id,
-                               today_start_datetime_utc,
-                               today_end_datetime_utc))
-        row = cursor_energy.fetchone()
-        if row is not None:
-            today_charge_energy_value = row[0]
+        if len(charge_meter_id_list) > 0:
+            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                  " FROM tbl_meter_hourly "
+                                  " WHERE meter_id IN ( " + ', '.join(map(str, charge_meter_id_list)) + ") "
+                                  "     AND start_datetime_utc >= %s "
+                                  "     AND start_datetime_utc < %s ",
+                                  (today_start_datetime_utc,
+                                   today_end_datetime_utc))
+            row = cursor_energy.fetchone()
+            if row is not None:
+                today_charge_energy_value = row[0]
 
-        cursor_energy.execute(" SELECT SUM(actual_value) "
-                              " FROM tbl_meter_hourly "
-                              " WHERE meter_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (discharge_meter_id,
-                               today_start_datetime_utc,
-                               today_end_datetime_utc))
-        row = cursor_energy.fetchone()
-        if row is not None:
-            today_discharge_energy_value = row[0]
+        if len(discharge_meter_id_list) > 0:
+            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                  " FROM tbl_meter_hourly "
+                                  " WHERE meter_id IN ( " + ', '.join(map(str, discharge_meter_id_list)) + ") "
+                                  "     AND start_datetime_utc >= %s "
+                                  "     AND start_datetime_utc < %s ",
+                                  (today_start_datetime_utc,
+                                   today_end_datetime_utc))
+            row = cursor_energy.fetchone()
+            if row is not None:
+                today_discharge_energy_value = row[0]
 
-        cursor_energy.execute(" SELECT SUM(actual_value) "
-                              " FROM tbl_meter_hourly "
-                              " WHERE meter_id = %s ",
-                              (charge_meter_id,))
-        row = cursor_energy.fetchone()
-        if row is not None:
-            total_charge_energy_value = row[0]
+        if len(charge_meter_id_list) > 0:
+            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                  " FROM tbl_meter_hourly "
+                                  " WHERE meter_id IN ( " + ', '.join(map(str, charge_meter_id_list)) + ") ")
+            row = cursor_energy.fetchone()
+            if row is not None:
+                total_charge_energy_value = row[0]
 
-        cursor_energy.execute(" SELECT SUM(actual_value) "
-                              " FROM tbl_meter_hourly "
-                              " WHERE meter_id = %s ",
-                              (discharge_meter_id,))
-        row = cursor_energy.fetchone()
-        if row is not None:
-            total_discharge_energy_value = row[0]
+        if len(discharge_meter_id_list) > 0:
+            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                  " FROM tbl_meter_hourly "
+                                  " WHERE meter_id IN ( " + ', '.join(map(str, discharge_meter_id_list)) + ") ")
+            row = cursor_energy.fetchone()
+            if row is not None:
+                total_discharge_energy_value = row[0]
 
         # Step 7.2 query revenue indicator data
         today_charge_revenue_value = Decimal(0.0)
@@ -398,45 +396,45 @@ class Reporting:
         total_discharge_revenue_value = Decimal(0.0)
 
         # query meter revenue
-        cursor_billing.execute(" SELECT SUM(actual_value) "
-                               " FROM tbl_meter_hourly "
-                               " WHERE meter_id = %s "
-                               "     AND start_datetime_utc >= %s "
-                               "     AND start_datetime_utc < %s ",
-                               (charge_meter_id,
-                                today_start_datetime_utc,
-                                today_end_datetime_utc))
-        row = cursor_billing.fetchone()
-        if row is not None:
-            today_charge_revenue_value = row[0]
+        if len(charge_meter_id_list) > 0:
+            cursor_billing.execute(" SELECT SUM(actual_value) "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id IN ( " + ', '.join(map(str, charge_meter_id_list)) + ") "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s ",
+                                   (today_start_datetime_utc,
+                                    today_end_datetime_utc))
+            row = cursor_billing.fetchone()
+            if row is not None:
+                today_charge_revenue_value = row[0]
 
-        cursor_billing.execute(" SELECT SUM(actual_value) "
-                               " FROM tbl_meter_hourly "
-                               " WHERE meter_id = %s "
-                               "     AND start_datetime_utc >= %s "
-                               "     AND start_datetime_utc < %s ",
-                               (discharge_meter_id,
-                                today_start_datetime_utc,
-                                today_end_datetime_utc))
-        row = cursor_billing.fetchone()
-        if row is not None:
-            today_discharge_revenue_value = row[0]
+        if len(discharge_meter_id_list) > 0:
+            cursor_billing.execute(" SELECT SUM(actual_value) "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id IN ( " + ', '.join(map(str, discharge_meter_id_list)) + ") "
+                                   "     AND start_datetime_utc >= %s "
+                                   "     AND start_datetime_utc < %s ",
+                                   (today_start_datetime_utc,
+                                    today_end_datetime_utc))
+            row = cursor_billing.fetchone()
+            if row is not None:
+                today_discharge_revenue_value = row[0]
 
-        cursor_billing.execute(" SELECT SUM(actual_value) "
-                               " FROM tbl_meter_hourly "
-                               " WHERE meter_id = %s ",
-                               (charge_meter_id,))
-        row = cursor_billing.fetchone()
-        if row is not None:
-            total_charge_revenue_value = row[0]
+        if len(charge_meter_id_list) > 0:
+            cursor_billing.execute(" SELECT SUM(actual_value) "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id IN ( " + ', '.join(map(str, charge_meter_id_list)) + ") ")
+            row = cursor_billing.fetchone()
+            if row is not None:
+                total_charge_revenue_value = row[0]
 
-        cursor_billing.execute(" SELECT SUM(actual_value) "
-                               " FROM tbl_meter_hourly "
-                               " WHERE meter_id = %s ",
-                               (discharge_meter_id,))
-        row = cursor_billing.fetchone()
-        if row is not None:
-            total_discharge_revenue_value = row[0]
+        if len(discharge_meter_id_list) > 0:
+            cursor_billing.execute(" SELECT SUM(actual_value) "
+                                   " FROM tbl_meter_hourly "
+                                   " WHERE meter_id IN ( " + ', '.join(map(str, discharge_meter_id_list)) + ") ")
+            row = cursor_billing.fetchone()
+            if row is not None:
+                total_discharge_revenue_value = row[0]
 
         ################################################################################################################
         # Step 8: query associated points data on containers
@@ -542,75 +540,6 @@ class Reporting:
             parameters_data['timestamps'].append(point_timestamps)
             parameters_data['values'].append(point_values)
 
-        # query pcs parameters
-        pcs_parameters_data = dict()
-        pcs_parameters_data['names'] = list()
-        pcs_parameters_data['timestamps'] = list()
-        pcs_parameters_data['values'] = list()
-        cursor_system.execute(" SELECT run_state_point_id "
-                              " FROM tbl_energy_storage_containers_power_conversion_systems "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-
-        if row_point is not None:
-            pcs_run_state_point_id = row_point[0]
-            point_values = []
-            point_timestamps = []
-            query = (" SELECT utc_date_time, actual_value "
-                     " FROM tbl_digital_value "
-                     " WHERE point_id = %s "
-                     "       AND utc_date_time BETWEEN %s AND %s "
-                     " ORDER BY utc_date_time ")
-            cursor_historical.execute(query, (pcs_run_state_point_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-            rows = cursor_historical.fetchall()
-
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
-                    point_timestamps.append(current_datetime)
-                    point_values.append(row[1])
-
-            pcs_parameters_data['names'].append('RunState')
-            pcs_parameters_data['timestamps'].append(point_timestamps)
-            pcs_parameters_data['values'].append(point_values)
-
-        # query battery parameters
-        battery_parameters_data = dict()
-        battery_parameters_data['names'] = list()
-        battery_parameters_data['timestamps'] = list()
-        battery_parameters_data['values'] = list()
-        if battery_state_point_id is not None:
-            point_values = []
-            point_timestamps = []
-            query = (" SELECT utc_date_time, actual_value "
-                     " FROM tbl_digital_value "
-                     " WHERE point_id = %s "
-                     "       AND utc_date_time BETWEEN %s AND %s "
-                     " ORDER BY utc_date_time ")
-            cursor_historical.execute(query, (battery_state_point_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-            rows = cursor_historical.fetchall()
-
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
-                    point_timestamps.append(current_datetime)
-                    point_values.append(row[1])
-
-            battery_parameters_data['names'].append('State')
-            battery_parameters_data['timestamps'].append(point_timestamps)
-            battery_parameters_data['values'].append(point_values)
-
         if cursor_system:
             cursor_system.close()
         if cnx_system:
@@ -650,13 +579,5 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
-        result['pcs_parameters'] = {
-            "names": pcs_parameters_data['names'],
-            "timestamps": pcs_parameters_data['timestamps'],
-            "values": pcs_parameters_data['values']}
-        result['battery_parameters'] = {
-            "names": battery_parameters_data['names'],
-            "timestamps": battery_parameters_data['timestamps'],
-            "values": battery_parameters_data['values']}
 
         resp.text = json.dumps(result)
