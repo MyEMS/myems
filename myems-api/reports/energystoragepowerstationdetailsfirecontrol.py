@@ -72,21 +72,19 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
-        # todo: query multiple energy storage containers
         container_list = list()
         cursor_system.execute(" SELECT c.id, c.name, c.uuid "
                               " FROM tbl_energy_storage_power_stations_containers espsc, "
                               "      tbl_energy_storage_containers c "
                               " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
+                              "      AND espsc.energy_storage_container_id = c.id ",
                               (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-        # todo: if len(container_list) == 0
+        rows_containers = cursor_system.fetchall()
+        if rows_containers is not None and len(rows_containers) > 0:
+            for row_container in rows_containers:
+                container_list.append({"id": row_container[0],
+                                       "name": row_container[1],
+                                       "uuid": row_container[2]})
         print('container_list:' + str(container_list))
 
         ################################################################################################################
@@ -132,37 +130,36 @@ class Reporting:
 
         # query pcs parameters
         hvac_list = list()
-
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              "        inside_temperature_point_id, "
-                              "        outside_temperature_point_id, "
-                              "        temperature_alarm_point_id, "
-                              "        smoke_sensor_value_point_id, "
-                              "        smoke_sensor_alarm_point_id, "
-                              "        battery_safety_detection_sensor_value_point_id, "
-                              "        battery_safety_detection_sensor_alarm_point_id, "
-                              "        fire_extinguishing_device_status_point_id "
-                              " FROM tbl_energy_storage_containers_firecontrols "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (container_list[0]['id'],))
-        rows_firecontrol = cursor_system.fetchall()
-        if rows_firecontrol is not None and len(rows_firecontrol) > 0:
-            for row in rows_firecontrol:
-                current_firecontrol = dict()
-                current_firecontrol['id'] = row[0]
-                current_firecontrol['name'] = row[1]
-                current_firecontrol['uuid'] = row[2]
-                current_firecontrol['inside_temperature_point'] = latest_value_dict.get(row[3], None)
-                current_firecontrol['outside_temperature_point'] = latest_value_dict.get(row[4], None)
-                current_firecontrol['temperature_alarm_point'] = latest_value_dict.get(row[5], None)
-                current_firecontrol['smoke_sensor_value_point'] = latest_value_dict.get(row[6], None)
-                current_firecontrol['smoke_sensor_alarm_point'] = latest_value_dict.get(row[7], None)
-                current_firecontrol['battery_safety_detection_sensor_value_point'] = latest_value_dict.get(row[8], None)
-                current_firecontrol['battery_safety_detection_sensor_alarm_point'] = latest_value_dict.get(row[9], None)
-                current_firecontrol['fire_extinguishing_device_status_point'] = latest_value_dict.get(row[10], None)
-                hvac_list.append(current_firecontrol)
+        for container in container_list:
+            cursor_system.execute(" SELECT id, name, uuid, "
+                                  "        inside_temperature_point_id, "
+                                  "        outside_temperature_point_id, "
+                                  "        temperature_alarm_point_id, "
+                                  "        smoke_sensor_value_point_id, "
+                                  "        smoke_sensor_alarm_point_id, "
+                                  "        battery_safety_detection_sensor_value_point_id, "
+                                  "        battery_safety_detection_sensor_alarm_point_id, "
+                                  "        fire_extinguishing_device_status_point_id "
+                                  " FROM tbl_energy_storage_containers_firecontrols "
+                                  " WHERE energy_storage_container_id = %s "
+                                  " ORDER BY id ",
+                                  (container['id'],))
+            rows_firecontrols = cursor_system.fetchall()
+            if rows_firecontrols is not None and len(rows_firecontrols) > 0:
+                for row in rows_firecontrols:
+                    current_firecontrol = dict()
+                    current_firecontrol['id'] = row[0]
+                    current_firecontrol['name'] = container['name'] + '-' + row[1]
+                    current_firecontrol['uuid'] = row[2]
+                    current_firecontrol['inside_temperature_point'] = latest_value_dict.get(row[3], None)
+                    current_firecontrol['outside_temperature_point'] = latest_value_dict.get(row[4], None)
+                    current_firecontrol['temperature_alarm_point'] = latest_value_dict.get(row[5], None)
+                    current_firecontrol['smoke_sensor_value_point'] = latest_value_dict.get(row[6], None)
+                    current_firecontrol['smoke_sensor_alarm_point'] = latest_value_dict.get(row[7], None)
+                    current_firecontrol['battery_safety_detection_sensor_value_point'] = latest_value_dict.get(row[8], None)
+                    current_firecontrol['battery_safety_detection_sensor_alarm_point'] = latest_value_dict.get(row[9], None)
+                    current_firecontrol['fire_extinguishing_device_status_point'] = latest_value_dict.get(row[10], None)
+                    hvac_list.append(current_firecontrol)
 
         if cursor_system:
             cursor_system.close()

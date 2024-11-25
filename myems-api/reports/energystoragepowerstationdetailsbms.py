@@ -72,21 +72,19 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
-        # todo: query multiple energy storage containers
         container_list = list()
         cursor_system.execute(" SELECT c.id, c.name, c.uuid "
                               " FROM tbl_energy_storage_power_stations_containers espsc, "
                               "      tbl_energy_storage_containers c "
                               " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
+                              "      AND espsc.energy_storage_container_id = c.id ",
                               (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-        # todo: if len(container_list) == 0
+        rows_containers = cursor_system.fetchall()
+        if rows_containers is not None and len(rows_containers) > 0:
+            for row_container in rows_containers:
+                container_list.append({"id": row_container[0],
+                                       "name": row_container[1],
+                                       "uuid": row_container[2]})
         print('container_list:' + str(container_list))
 
         ################################################################################################################
@@ -133,72 +131,72 @@ class Reporting:
         # query battery parameters
         battery_list = list()
 
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              "        battery_state_point_id, "
-                              "        soc_point_id, "
-                              "        power_point_id, "
-                              "        communication_status_with_pcs_point_id, "
-                              "        communication_status_with_ems_point_id, "
-                              "        grid_status_point_id, "
-                              "        total_voltage_point_id, "
-                              "        total_current_point_id, "
-                              "        soh_point_id, "
-                              "        charging_power_limit_point_id, "
-                              "        discharge_limit_power_point_id, "
-                              "        rechargeable_capacity_point_id, "
-                              "        dischargeable_capacity_point_id, "
-                              "        average_temperature_point_id, "
-                              "        average_voltage_point_id, "
-                              "        insulation_value_point_id, "
-                              "        positive_insulation_value_point_id, "
-                              "        negative_insulation_value_point_id, "
-                              "        maximum_temperature_point_id, "
-                              "        maximum_temperature_battery_cell_point_id, "
-                              "        minimum_temperature_point_id, "
-                              "        minimum_temperature_battery_cell_point_id, "
-                              "        maximum_voltage_point_id, "
-                              "        maximum_voltage_battery_cell_point_id, "
-                              "        minimum_voltage_point_id, "
-                              "        minimum_voltage_battery_cell_point_id "
-                              " FROM tbl_energy_storage_containers_batteries "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (container_list[0]['id'],))
-        rows_batteries = cursor_system.fetchall()
-        if rows_batteries is not None and len(rows_batteries) > 0:
-            for row in rows_batteries:
-                current_battery = dict()
-                current_battery['id'] = row[0]
-                current_battery['name'] = row[1]
-                current_battery['uuid'] = row[2]
-                current_battery['battery_state_point'] = latest_value_dict.get(row[3], None)
-                current_battery['soc_point'] = latest_value_dict.get(row[4], None)
-                current_battery['power_point'] = latest_value_dict.get(row[5], None)
-                current_battery['communication_status_with_pcs_point'] = latest_value_dict.get(row[6], None)
-                current_battery['communication_status_with_ems_point'] = latest_value_dict.get(row[7], None)
-                current_battery['grid_status_point'] = latest_value_dict.get(row[8], None)
-                current_battery['total_voltage_point'] = latest_value_dict.get(row[9], None)
-                current_battery['total_current_point'] = latest_value_dict.get(row[10], None)
-                current_battery['soh_point'] = latest_value_dict.get(row[11], None)
-                current_battery['charging_power_limit_point'] = latest_value_dict.get(row[12], None)
-                current_battery['discharge_limit_power_point'] = latest_value_dict.get(row[13], None)
-                current_battery['rechargeable_capacity_point'] = latest_value_dict.get(row[14], None)
-                current_battery['dischargeable_capacity_point'] = latest_value_dict.get(row[15], None)
-                current_battery['average_temperature_point'] = latest_value_dict.get(row[16], None)
-                current_battery['average_voltage_point'] = latest_value_dict.get(row[17], None)
-                current_battery['insulation_value_point'] = latest_value_dict.get(row[18], None)
-                current_battery['positive_insulation_value_point'] = latest_value_dict.get(row[19], None)
-                current_battery['negative_insulation_value_point'] = latest_value_dict.get(row[20], None)
-                current_battery['maximum_temperature_point'] = latest_value_dict.get(row[21], None)
-                current_battery['maximum_temperature_battery_cell_point'] = latest_value_dict.get(row[22], None)
-                current_battery['minimum_temperature_point'] = latest_value_dict.get(row[23], None)
-                current_battery['minimum_temperature_battery_cell_point'] = latest_value_dict.get(row[24], None)
-                current_battery['maximum_voltage_point'] = latest_value_dict.get(row[25], None)
-                current_battery['maximum_voltage_battery_cell_point'] = latest_value_dict.get(row[26], None)
-                current_battery['minimum_voltage_point'] = latest_value_dict.get(row[27], None)
-                current_battery['minimum_voltage_battery_cell_point'] = latest_value_dict.get(row[28], None)
-                battery_list.append(current_battery)
+        for container in container_list:
+            cursor_system.execute(" SELECT id, name, uuid, "
+                                  "        battery_state_point_id, "
+                                  "        soc_point_id, "
+                                  "        power_point_id, "
+                                  "        communication_status_with_pcs_point_id, "
+                                  "        communication_status_with_ems_point_id, "
+                                  "        grid_status_point_id, "
+                                  "        total_voltage_point_id, "
+                                  "        total_current_point_id, "
+                                  "        soh_point_id, "
+                                  "        charging_power_limit_point_id, "
+                                  "        discharge_limit_power_point_id, "
+                                  "        rechargeable_capacity_point_id, "
+                                  "        dischargeable_capacity_point_id, "
+                                  "        average_temperature_point_id, "
+                                  "        average_voltage_point_id, "
+                                  "        insulation_value_point_id, "
+                                  "        positive_insulation_value_point_id, "
+                                  "        negative_insulation_value_point_id, "
+                                  "        maximum_temperature_point_id, "
+                                  "        maximum_temperature_battery_cell_point_id, "
+                                  "        minimum_temperature_point_id, "
+                                  "        minimum_temperature_battery_cell_point_id, "
+                                  "        maximum_voltage_point_id, "
+                                  "        maximum_voltage_battery_cell_point_id, "
+                                  "        minimum_voltage_point_id, "
+                                  "        minimum_voltage_battery_cell_point_id "
+                                  " FROM tbl_energy_storage_containers_batteries "
+                                  " WHERE energy_storage_container_id = %s "
+                                  " ORDER BY id ",
+                                  (container['id'],))
+            rows_batteries = cursor_system.fetchall()
+            if rows_batteries is not None and len(rows_batteries) > 0:
+                for row in rows_batteries:
+                    current_battery = dict()
+                    current_battery['id'] = row[0]
+                    current_battery['name'] = container['name'] + '-' + row[1]
+                    current_battery['uuid'] = row[2]
+                    current_battery['battery_state_point'] = latest_value_dict.get(row[3], None)
+                    current_battery['soc_point'] = latest_value_dict.get(row[4], None)
+                    current_battery['power_point'] = latest_value_dict.get(row[5], None)
+                    current_battery['communication_status_with_pcs_point'] = latest_value_dict.get(row[6], None)
+                    current_battery['communication_status_with_ems_point'] = latest_value_dict.get(row[7], None)
+                    current_battery['grid_status_point'] = latest_value_dict.get(row[8], None)
+                    current_battery['total_voltage_point'] = latest_value_dict.get(row[9], None)
+                    current_battery['total_current_point'] = latest_value_dict.get(row[10], None)
+                    current_battery['soh_point'] = latest_value_dict.get(row[11], None)
+                    current_battery['charging_power_limit_point'] = latest_value_dict.get(row[12], None)
+                    current_battery['discharge_limit_power_point'] = latest_value_dict.get(row[13], None)
+                    current_battery['rechargeable_capacity_point'] = latest_value_dict.get(row[14], None)
+                    current_battery['dischargeable_capacity_point'] = latest_value_dict.get(row[15], None)
+                    current_battery['average_temperature_point'] = latest_value_dict.get(row[16], None)
+                    current_battery['average_voltage_point'] = latest_value_dict.get(row[17], None)
+                    current_battery['insulation_value_point'] = latest_value_dict.get(row[18], None)
+                    current_battery['positive_insulation_value_point'] = latest_value_dict.get(row[19], None)
+                    current_battery['negative_insulation_value_point'] = latest_value_dict.get(row[20], None)
+                    current_battery['maximum_temperature_point'] = latest_value_dict.get(row[21], None)
+                    current_battery['maximum_temperature_battery_cell_point'] = latest_value_dict.get(row[22], None)
+                    current_battery['minimum_temperature_point'] = latest_value_dict.get(row[23], None)
+                    current_battery['minimum_temperature_battery_cell_point'] = latest_value_dict.get(row[24], None)
+                    current_battery['maximum_voltage_point'] = latest_value_dict.get(row[25], None)
+                    current_battery['maximum_voltage_battery_cell_point'] = latest_value_dict.get(row[26], None)
+                    current_battery['minimum_voltage_point'] = latest_value_dict.get(row[27], None)
+                    current_battery['minimum_voltage_battery_cell_point'] = latest_value_dict.get(row[28], None)
+                    battery_list.append(current_battery)
 
         if cursor_system:
             cursor_system.close()

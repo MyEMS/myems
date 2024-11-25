@@ -72,21 +72,19 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
-        # todo: query multiple energy storage containers
         container_list = list()
         cursor_system.execute(" SELECT c.id, c.name, c.uuid "
                               " FROM tbl_energy_storage_power_stations_containers espsc, "
                               "      tbl_energy_storage_containers c "
                               " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id"
-                              " LIMIT 1 ",
+                              "      AND espsc.energy_storage_container_id = c.id ",
                               (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-        # todo: if len(container_list) == 0
+        rows_containers = cursor_system.fetchall()
+        if rows_containers is not None and len(rows_containers) > 0:
+            for row_container in rows_containers:
+                container_list.append({"id": row_container[0],
+                                       "name": row_container[1],
+                                       "uuid": row_container[2]})
         print('container_list:' + str(container_list))
 
         ################################################################################################################
@@ -132,59 +130,58 @@ class Reporting:
 
         # query pcs parameters
         hvac_list = list()
-
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              "        working_status_point_id, "
-                              "        indoor_fan_status_point_id, "
-                              "        outdoor_fan_status_point_id, "
-                              "        emergency_fan_status_point_id, "
-                              "        compressor_status_point_id, "
-                              "        electric_heating_status_point_id, "
-                              "        coil_temperature_point_id, "
-                              "        temperature_outside_point_id, "
-                              "        temperature_inside_point_id, "
-                              "        condensation_temperature_point_id, "
-                              "        outlet_air_temperature_point_id, "
-                              "        return_air_temperature_point_id, "
-                              "        exhaust_temperature_point_id, "
-                              "        heating_on_temperature_point_id, "
-                              "        heating_off_temperature_point_id, "
-                              "        cooling_on_temperature_point_id, "
-                              "        cooling_off_temperature_point_id, "
-                              "        high_temperature_alarm_set_point_id, "
-                              "        low_temperature_alarm_set_point_id "
-                              " FROM tbl_energy_storage_containers_hvacs "
-                              " WHERE energy_storage_container_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (container_list[0]['id'],))
-        rows_hvac = cursor_system.fetchall()
-        if rows_hvac is not None and len(rows_hvac) > 0:
-            for row in rows_hvac:
-                current_hvac = dict()
-                current_hvac['id'] = row[0]
-                current_hvac['name'] = row[1]
-                current_hvac['uuid'] = row[2]
-                current_hvac['working_status_point'] = latest_value_dict.get(row[3], None)
-                current_hvac['indoor_fan_status_point'] = latest_value_dict.get(row[4], None)
-                current_hvac['outdoor_fan_status_point'] = latest_value_dict.get(row[5], None)
-                current_hvac['emergency_fan_status_point'] = latest_value_dict.get(row[6], None)
-                current_hvac['compressor_status_point'] = latest_value_dict.get(row[7], None)
-                current_hvac['electric_heating_status_point'] = latest_value_dict.get(row[8], None)
-                current_hvac['coil_temperature_point'] = latest_value_dict.get(row[9], None)
-                current_hvac['temperature_outside_point'] = latest_value_dict.get(row[10], None)
-                current_hvac['temperature_inside_point'] = latest_value_dict.get(row[11], None)
-                current_hvac['condensation_temperature_point'] = latest_value_dict.get(row[12], None)
-                current_hvac['outlet_air_temperature_point'] = latest_value_dict.get(row[13], None)
-                current_hvac['return_air_temperature_point'] = latest_value_dict.get(row[14], None)
-                current_hvac['exhaust_temperature_point'] = latest_value_dict.get(row[15], None)
-                current_hvac['heating_on_temperature_point'] = latest_value_dict.get(row[16], None)
-                current_hvac['heating_off_temperature_point'] = latest_value_dict.get(row[17], None)
-                current_hvac['cooling_on_temperature_point'] = latest_value_dict.get(row[18], None)
-                current_hvac['cooling_off_temperature_point'] = latest_value_dict.get(row[19], None)
-                current_hvac['high_temperature_alarm_set_point'] = latest_value_dict.get(row[20], None)
-                current_hvac['low_temperature_alarm_set_point'] = latest_value_dict.get(row[21], None)
-                hvac_list.append(current_hvac)
+        for container in container_list:
+            cursor_system.execute(" SELECT id, name, uuid, "
+                                  "        working_status_point_id, "
+                                  "        indoor_fan_status_point_id, "
+                                  "        outdoor_fan_status_point_id, "
+                                  "        emergency_fan_status_point_id, "
+                                  "        compressor_status_point_id, "
+                                  "        electric_heating_status_point_id, "
+                                  "        coil_temperature_point_id, "
+                                  "        temperature_outside_point_id, "
+                                  "        temperature_inside_point_id, "
+                                  "        condensation_temperature_point_id, "
+                                  "        outlet_air_temperature_point_id, "
+                                  "        return_air_temperature_point_id, "
+                                  "        exhaust_temperature_point_id, "
+                                  "        heating_on_temperature_point_id, "
+                                  "        heating_off_temperature_point_id, "
+                                  "        cooling_on_temperature_point_id, "
+                                  "        cooling_off_temperature_point_id, "
+                                  "        high_temperature_alarm_set_point_id, "
+                                  "        low_temperature_alarm_set_point_id "
+                                  " FROM tbl_energy_storage_containers_hvacs "
+                                  " WHERE energy_storage_container_id = %s "
+                                  " ORDER BY id ",
+                                  (container_list[0]['id'],))
+            rows_hvac = cursor_system.fetchall()
+            if rows_hvac is not None and len(rows_hvac) > 0:
+                for row in rows_hvac:
+                    current_hvac = dict()
+                    current_hvac['id'] = row[0]
+                    current_hvac['name'] = container['name'] + '-' + row[1]
+                    current_hvac['uuid'] = row[2]
+                    current_hvac['working_status_point'] = latest_value_dict.get(row[3], None)
+                    current_hvac['indoor_fan_status_point'] = latest_value_dict.get(row[4], None)
+                    current_hvac['outdoor_fan_status_point'] = latest_value_dict.get(row[5], None)
+                    current_hvac['emergency_fan_status_point'] = latest_value_dict.get(row[6], None)
+                    current_hvac['compressor_status_point'] = latest_value_dict.get(row[7], None)
+                    current_hvac['electric_heating_status_point'] = latest_value_dict.get(row[8], None)
+                    current_hvac['coil_temperature_point'] = latest_value_dict.get(row[9], None)
+                    current_hvac['temperature_outside_point'] = latest_value_dict.get(row[10], None)
+                    current_hvac['temperature_inside_point'] = latest_value_dict.get(row[11], None)
+                    current_hvac['condensation_temperature_point'] = latest_value_dict.get(row[12], None)
+                    current_hvac['outlet_air_temperature_point'] = latest_value_dict.get(row[13], None)
+                    current_hvac['return_air_temperature_point'] = latest_value_dict.get(row[14], None)
+                    current_hvac['exhaust_temperature_point'] = latest_value_dict.get(row[15], None)
+                    current_hvac['heating_on_temperature_point'] = latest_value_dict.get(row[16], None)
+                    current_hvac['heating_off_temperature_point'] = latest_value_dict.get(row[17], None)
+                    current_hvac['cooling_on_temperature_point'] = latest_value_dict.get(row[18], None)
+                    current_hvac['cooling_off_temperature_point'] = latest_value_dict.get(row[19], None)
+                    current_hvac['high_temperature_alarm_set_point'] = latest_value_dict.get(row[20], None)
+                    current_hvac['low_temperature_alarm_set_point'] = latest_value_dict.get(row[21], None)
+                    hvac_list.append(current_hvac)
 
         if cursor_system:
             cursor_system.close()
