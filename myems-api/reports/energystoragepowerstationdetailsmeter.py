@@ -79,11 +79,12 @@ class Reporting:
                               " WHERE espsc.energy_storage_power_station_id = %s "
                               "      AND espsc.energy_storage_container_id = c.id ",
                               (energy_storage_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
+        rows_containers = cursor_system.fetchall()
+        if rows_containers is not None and len(rows_containers) > 0:
+            for row_container in rows_containers:
+                container_list.append({"id": row_container[0],
+                                       "name": row_container[1],
+                                       "uuid": row_container[2]})
         print('container_list:' + str(container_list))
 
         ################################################################################################################
