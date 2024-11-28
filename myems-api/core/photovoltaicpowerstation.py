@@ -1832,13 +1832,25 @@ class PhotovoltaicPowerStationInvertorCollection:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
+        # query meter dict
+        query = (" SELECT id, name "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
-                 "        photovoltaic_power_station_id, "
                  "        model, "
                  "        serial_number, "
                  "        invertor_state_point_id, "
                  "        communication_state_point_id, "
                  "        total_energy_point_id, "
+                 "        generation_meter_id, "
                  "        today_energy_point_id, "
                  "        efficiency_point_id, "
                  "        temperature_point_id, "
@@ -1935,11 +1947,12 @@ class PhotovoltaicPowerStationInvertorCollection:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "model": row[4],
-                               "serial_number": row[5],
-                               "invertor_state_point": point_dict.get(row[6]),
-                               "communication_state_point": point_dict.get(row[7]),
-                               "total_energy_point": point_dict.get(row[8]),
+                               "model": row[3],
+                               "serial_number": row[4],
+                               "invertor_state_point": point_dict.get(row[5]),
+                               "communication_state_point": point_dict.get(row[6]),
+                               "total_energy_point": point_dict.get(row[7]),
+                               "generation_meter": meter_dict.get(row[8]),
                                "today_energy_point": point_dict.get(row[9]),
                                "efficiency_point": point_dict.get(row[10]),
                                "temperature_point": point_dict.get(row[11]),
@@ -2099,6 +2112,13 @@ class PhotovoltaicPowerStationInvertorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOTAL_ENERGY_POINT_ID')
         total_energy_point_id = new_values['data']['total_energy_point_id']
+
+        if 'generation_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['generation_meter_id'], int) or \
+                new_values['data']['generation_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GENERATION_METER_ID')
+        generation_meter_id = new_values['data']['generation_meter_id']
 
         today_energy_point_id = None
         efficiency_point_id = None
@@ -2658,6 +2678,16 @@ class PhotovoltaicPowerStationInvertorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TOTAL_ENERGY_POINT_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (generation_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.GENERATION_METER_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations_invertors "
                       "    (name, uuid, "
                       "     photovoltaic_power_station_id, "
@@ -2666,6 +2696,7 @@ class PhotovoltaicPowerStationInvertorCollection:
                       "     invertor_state_point_id, "
                       "     communication_state_point_id, "
                       "     total_energy_point_id, "
+                      "     generation_meter_id, "
                       "     today_energy_point_id, "
                       "     efficiency_point_id, "
                       "     temperature_point_id, "
@@ -2759,7 +2790,7 @@ class PhotovoltaicPowerStationInvertorCollection:
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s) ")
+                      "         %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -2768,6 +2799,7 @@ class PhotovoltaicPowerStationInvertorCollection:
                                     invertor_state_point_id,
                                     communication_state_point_id,
                                     total_energy_point_id,
+                                    generation_meter_id,
                                     today_energy_point_id,
                                     efficiency_point_id,
                                     temperature_point_id,
@@ -2893,17 +2925,6 @@ class PhotovoltaicPowerStationInvertorItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_photovoltaic_power_stations ")
-        cursor.execute(query)
-        rows_photovoltaic_power_stations = cursor.fetchall()
-
-        photovoltaic_power_station_dict = dict()
-        if rows_photovoltaic_power_stations is not None and len(rows_photovoltaic_power_stations) > 0:
-            for row in rows_photovoltaic_power_stations:
-                photovoltaic_power_station_dict[row[0]] = {"id": row[0],
-                                                           "name": row[1],
-                                                           "uuid": row[2]}
         # query point dict
         query = (" SELECT id, name "
                  " FROM tbl_points ")
@@ -2916,13 +2937,25 @@ class PhotovoltaicPowerStationInvertorItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
+        # query meter dict
+        query = (" SELECT id, name "
+                 " FROM tbl_meters ")
+        cursor.execute(query)
+        rows_meters = cursor.fetchall()
+
+        meter_dict = dict()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row in rows_meters:
+                meter_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
-                 "        photovoltaic_power_station_id, "
                  "        model, "
                  "        serial_number, "
                  "        invertor_state_point_id, "
                  "        communication_state_point_id, "
                  "        total_energy_point_id, "
+                 "        generation_meter_id, "
                  "        today_energy_point_id, "
                  "        efficiency_point_id, "
                  "        temperature_point_id, "
@@ -3021,12 +3054,12 @@ class PhotovoltaicPowerStationInvertorItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "photovoltaic_power_station": photovoltaic_power_station_dict.get(row[3]),
-                           "model": row[4],
-                           "serial_number": row[5],
-                           "invertor_state_point": point_dict.get(row[6]),
-                           "communication_state_point": point_dict.get(row[7]),
-                           "total_energy_point": point_dict.get(row[8]),
+                           "model": row[3],
+                           "serial_number": row[4],
+                           "invertor_state_point": point_dict.get(row[5]),
+                           "communication_state_point": point_dict.get(row[6]),
+                           "total_energy_point": point_dict.get(row[7]),
+                           "generation_mter": meter_dict.get(row[8]),
                            "today_energy_point": point_dict.get(row[9]),
                            "efficiency_point": point_dict.get(row[10]),
                            "temperature_point": point_dict.get(row[11]),
@@ -3218,6 +3251,13 @@ class PhotovoltaicPowerStationInvertorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOTAL_ENERGY_POINT_ID')
         total_energy_point_id = new_values['data']['total_energy_point_id']
+
+        if 'generation_meter_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['generation_meter_id'], int) or \
+                new_values['data']['generation_meter_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_GENERATION_METER_ID')
+        generation_meter_id = new_values['data']['generation_meter_id']
 
         today_energy_point_id = None
         efficiency_point_id = None
@@ -3787,14 +3827,24 @@ class PhotovoltaicPowerStationInvertorItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TOTAL_ENERGY_POINT_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_meters "
+                       " WHERE id = %s ",
+                       (generation_meter_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.GENERATION_METER_NOT_FOUND')
+
         update_row = (" UPDATE tbl_photovoltaic_power_stations_invertors "
                       " SET name = %s, "
-                      "     photovoltaic_power_station_id = %s, "
                       "     model = %s, "
                       "     serial_number = %s, "
                       "     invertor_state_point_id = %s, "
                       "     communication_state_point_id = %s, "
                       "     total_energy_point_id = %s, "
+                      "     generation_meter_id = %s, "
                       "     today_energy_point_id = %s, "
                       "     efficiency_point_id = %s, "
                       "     temperature_point_id = %s, "
@@ -3881,12 +3931,12 @@ class PhotovoltaicPowerStationInvertorItem:
                       "     mppt_10_energy_point_id = %s "
                       "     WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    id_,
                                     model,
                                     serial_number,
                                     invertor_state_point_id,
                                     communication_state_point_id,
                                     total_energy_point_id,
+                                    generation_meter_id,
                                     today_energy_point_id,
                                     efficiency_point_id,
                                     temperature_point_id,

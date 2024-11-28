@@ -21,13 +21,10 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the energy storage power station list
-    # Step 3: query charge energy data in 7 days
-    # Step 4: query discharge energy data in 7 days
-    # Step 5: query charge energy data in this month
-    # Step 6: query discharge energy data in this month
-    # Step 7: query charge energy data in this year
-    # Step 8: query discharge energy data in this year
-    # Step 9: construct the report
+    # Step 3: query generation energy data in 7 days
+    # Step 4: query generation energy data in this month
+    # Step 5: query generation energy data in this year
+    # Step 6: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -91,18 +88,15 @@ class Reporting:
                 photovoltaic_power_station_list.append(meta_result)
                 photovoltaic_power_station_names.append(row[1])
         ################################################################################################################
-        # Step 3: query charge energy data in 7 days
+        # Step 3: query generation energy data in 7 days
         ################################################################################################################
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
         reporting = dict()
-        reporting['charge_7_days'] = dict()
-        reporting['discharge_7_days'] = dict()
-        reporting['charge_this_month'] = dict()
-        reporting['discharge_this_month'] = dict()
-        reporting['charge_this_year'] = dict()
-        reporting['discharge_this_year'] = dict()
+        reporting['generation_7_days'] = dict()
+        reporting['generation_this_month'] = dict()
+        reporting['generation_this_year'] = dict()
 
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -117,10 +111,10 @@ class Reporting:
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
 
-        reporting['charge_7_days'] = dict()
-        reporting['charge_7_days']['timestamps_array'] = list()
-        reporting['charge_7_days']['values_array'] = list()
-        reporting['charge_7_days']['total_values'] = list()
+        reporting['generation_7_days'] = dict()
+        reporting['generation_7_days']['timestamps_array'] = list()
+        reporting['generation_7_days']['values_array'] = list()
+        reporting['generation_7_days']['total_values'] = list()
 
         for photovoltaic_power_station in photovoltaic_power_station_list:
             timestamps = list()
@@ -132,14 +126,14 @@ class Reporting:
                      " AND start_datetime_utc < %s "
                      " ORDER BY start_datetime_utc ")
             cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_charge_hourly = cursor_energy_db.fetchall()
+            rows_generation_hourly = cursor_energy_db.fetchall()
 
-            rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+            rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
                                                                                  start_datetime_utc,
                                                                                  end_datetime_utc,
                                                                                  period_type)
-            for row_charge_periodically in rows_charge_periodically:
-                current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_generation_periodically in rows_generation_periodically:
+                current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -152,68 +146,19 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.strftime('%Y')
 
-                actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
-            reporting['charge_7_days']['timestamps_array'].append(timestamps)
-            reporting['charge_7_days']['values_array'].append(values)
+            reporting['generation_7_days']['timestamps_array'].append(timestamps)
+            reporting['generation_7_days']['values_array'].append(values)
             for i in range(len(values)):
-                if len(reporting['charge_7_days']['total_values']) <= i:
-                    reporting['charge_7_days']['total_values'].append(Decimal(0.0))
+                if len(reporting['generation_7_days']['total_values']) <= i:
+                    reporting['generation_7_days']['total_values'].append(Decimal(0.0))
                 else:
-                    reporting['charge_7_days']['total_values'][i] += values[i]
+                    reporting['generation_7_days']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 4: query discharge energy data in 7 days
-        ################################################################################################################
-        reporting['discharge_7_days'] = dict()
-        reporting['discharge_7_days']['timestamps_array'] = list()
-        reporting['discharge_7_days']['values_array'] = list()
-        reporting['discharge_7_days']['total_values'] = list()
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            timestamps = list()
-            values = list()
-            query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_photovoltaic_power_station_generation_hourly "
-                     " WHERE photovoltaic_power_station_id = %s "
-                     " AND start_datetime_utc >= %s "
-                     " AND start_datetime_utc < %s "
-                     " ORDER BY start_datetime_utc ")
-            cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_discharge_hourly = cursor_energy_db.fetchall()
-
-            rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
-
-            for row_discharge_periodically in rows_discharge_periodically:
-                current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
-                                         timedelta(minutes=timezone_offset)
-                if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
-                elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
-
-                actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
-                timestamps.append(current_datetime)
-                values.append(actual_value)
-            reporting['discharge_7_days']['timestamps_array'].append(timestamps)
-            reporting['discharge_7_days']['values_array'].append(values)
-            for i in range(len(values)):
-                if len(reporting['discharge_7_days']['total_values']) <= i:
-                    reporting['discharge_7_days']['total_values'].append(Decimal(0.0))
-                else:
-                    reporting['discharge_7_days']['total_values'][i] += values[i]
-
-        ################################################################################################################
-        # Step 5: query charge energy data in this month
+        # Step 5: query generation energy data in this month
         ################################################################################################################
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -225,10 +170,10 @@ class Reporting:
         print('start_datetime_utc:' + start_datetime_utc.isoformat())
         print('end_datetime_utc:' + end_datetime_utc.isoformat())
 
-        reporting['charge_this_month'] = dict()
-        reporting['charge_this_month']['timestamps_array'] = list()
-        reporting['charge_this_month']['values_array'] = list()
-        reporting['charge_this_month']['total_values'] = list()
+        reporting['generation_this_month'] = dict()
+        reporting['generation_this_month']['timestamps_array'] = list()
+        reporting['generation_this_month']['values_array'] = list()
+        reporting['generation_this_month']['total_values'] = list()
 
         for photovoltaic_power_station in photovoltaic_power_station_list:
             timestamps = list()
@@ -240,15 +185,15 @@ class Reporting:
                      " AND start_datetime_utc < %s "
                      " ORDER BY start_datetime_utc ")
             cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_charge_hourly = cursor_energy_db.fetchall()
+            rows_generation_hourly = cursor_energy_db.fetchall()
 
-            rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+            rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
                                                                                  start_datetime_utc,
                                                                                  end_datetime_utc,
                                                                                  period_type)
 
-            for row_charge_periodically in rows_charge_periodically:
-                current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_generation_periodically in rows_generation_periodically:
+                current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -261,69 +206,19 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.strftime('%Y')
 
-                actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
-            reporting['charge_this_month']['timestamps_array'].append(timestamps)
-            reporting['charge_this_month']['values_array'].append(values)
+            reporting['generation_this_month']['timestamps_array'].append(timestamps)
+            reporting['generation_this_month']['values_array'].append(values)
             for i in range(len(values)):
-                if len(reporting['charge_this_month']['total_values']) <= i:
-                    reporting['charge_this_month']['total_values'].append(Decimal(0.0))
+                if len(reporting['generation_this_month']['total_values']) <= i:
+                    reporting['generation_this_month']['total_values'].append(Decimal(0.0))
                 else:
-                    reporting['charge_this_month']['total_values'][i] += values[i]
+                    reporting['generation_this_month']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 6: query discharge energy data in this month
-        ################################################################################################################
-        reporting['discharge_this_month'] = dict()
-        reporting['discharge_this_month']['timestamps_array'] = list()
-        reporting['discharge_this_month']['values_array'] = list()
-        reporting['discharge_this_month']['total_values'] = list()
-
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            timestamps = list()
-            values = list()
-            query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_photovoltaic_power_station_generation_hourly "
-                     " WHERE photovoltaic_power_station_id = %s "
-                     " AND start_datetime_utc >= %s "
-                     " AND start_datetime_utc < %s "
-                     " ORDER BY start_datetime_utc ")
-            cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_discharge_hourly = cursor_energy_db.fetchall()
-
-            rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
-
-            for row_discharge_periodically in rows_discharge_periodically:
-                current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
-                                         timedelta(minutes=timezone_offset)
-                if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
-                elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
-
-                actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
-                timestamps.append(current_datetime)
-                values.append(actual_value)
-            reporting['discharge_this_month']['timestamps_array'].append(timestamps)
-            reporting['discharge_this_month']['values_array'].append(values)
-            for i in range(len(values)):
-                if len(reporting['discharge_this_month']['total_values']) <= i:
-                    reporting['discharge_this_month']['total_values'].append(Decimal(0.0))
-                else:
-                    reporting['discharge_this_month']['total_values'][i] += values[i]
-
-        ################################################################################################################
-        # Step 7: query charge energy data in this year
+        # Step 7: query generation energy data in this year
         ################################################################################################################
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -335,10 +230,10 @@ class Reporting:
         print('start_datetime_utc:' + start_datetime_utc.isoformat())
         print('end_datetime_utc:' + end_datetime_utc.isoformat())
 
-        reporting['charge_this_year'] = dict()
-        reporting['charge_this_year']['timestamps_array'] = list()
-        reporting['charge_this_year']['values_array'] = list()
-        reporting['charge_this_year']['total_values'] = list()
+        reporting['generation_this_year'] = dict()
+        reporting['generation_this_year']['timestamps_array'] = list()
+        reporting['generation_this_year']['values_array'] = list()
+        reporting['generation_this_year']['total_values'] = list()
 
         for photovoltaic_power_station in photovoltaic_power_station_list:
             timestamps = list()
@@ -350,14 +245,14 @@ class Reporting:
                      " AND start_datetime_utc < %s "
                      " ORDER BY start_datetime_utc ")
             cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_charge_hourly = cursor_energy_db.fetchall()
+            rows_generation_hourly = cursor_energy_db.fetchall()
 
-            rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
+            rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
                                                                                  start_datetime_utc,
                                                                                  end_datetime_utc,
                                                                                  period_type)
-            for row_charge_periodically in rows_charge_periodically:
-                current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_generation_periodically in rows_generation_periodically:
+                current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
@@ -370,65 +265,16 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.strftime('%Y')
 
-                actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
-            reporting['charge_this_year']['timestamps_array'].append(timestamps)
-            reporting['charge_this_year']['values_array'].append(values)
+            reporting['generation_this_year']['timestamps_array'].append(timestamps)
+            reporting['generation_this_year']['values_array'].append(values)
             for i in range(len(values)):
-                if len(reporting['charge_this_year']['total_values']) <= i:
-                    reporting['charge_this_year']['total_values'].append(Decimal(0.0))
+                if len(reporting['generation_this_year']['total_values']) <= i:
+                    reporting['generation_this_year']['total_values'].append(Decimal(0.0))
                 else:
-                    reporting['charge_this_year']['total_values'][i] += values[i]
-
-        ################################################################################################################
-        # Step 8: query discharge energy data in this month
-        ################################################################################################################
-        reporting['discharge_this_year'] = dict()
-        reporting['discharge_this_year']['timestamps_array'] = list()
-        reporting['discharge_this_year']['values_array'] = list()
-        reporting['discharge_this_year']['total_values'] = list()
-
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            timestamps = list()
-            values = list()
-            query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_photovoltaic_power_station_generation_hourly "
-                     " WHERE photovoltaic_power_station_id = %s "
-                     " AND start_datetime_utc >= %s "
-                     " AND start_datetime_utc < %s "
-                     " ORDER BY start_datetime_utc ")
-            cursor_energy_db.execute(query, (photovoltaic_power_station['id'], start_datetime_utc, end_datetime_utc))
-            rows_discharge_hourly = cursor_energy_db.fetchall()
-
-            rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
-            for row_discharge_periodically in rows_discharge_periodically:
-                current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
-                                         timedelta(minutes=timezone_offset)
-                if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
-                elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
-
-                actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
-                timestamps.append(current_datetime)
-                values.append(actual_value)
-            reporting['discharge_this_year']['timestamps_array'].append(timestamps)
-            reporting['discharge_this_year']['values_array'].append(values)
-            for i in range(len(values)):
-                if len(reporting['discharge_this_year']['total_values']) <= i:
-                    reporting['discharge_this_year']['total_values'].append(Decimal(0.0))
-                else:
-                    reporting['discharge_this_year']['total_values'][i] += values[i]
+                    reporting['generation_this_year']['total_values'][i] += values[i]
 
         ################################################################################################################
         # Step 9: construct the report

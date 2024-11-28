@@ -12942,7 +12942,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "2d15ec7af98de2c1e3b642c4ab1a71fb3e66b78ee9021f4c6a94c378fa1a4156c3833eda237f721b34b9745364cfe67c051016183ae503cb2a6c2dadb9df0643",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -12976,7 +12976,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13011,7 +13011,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13466,7 +13466,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13503,7 +13503,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13515,7 +13515,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Invertor\", \"model\":\"XAAA123456\", \"serial_number\":\"SN123456789\", \"invertor_state_point_id\":1, \"communication_state_point_id\":2, \"total_energy_point_id\":3,\n\"today_energy_point_id\":4,\n\"efficiency_point_id\":5,\n\"temperature_point_id\":6,\n\"power_factor_point_id\":7,\n\"active_power_point_id\":8,\n\"reactive_power_point_id\":9,\n\"frequency_point_id\":null,\n\"uab_point_id\":null,\n\"ubc_point_id\":null,\n\"uca_point_id\":null,\n\"ua_point_id\":null,\n\"ub_point_id\":null,\n\"uc_point_id\":null,\n\"ia_point_id\":null,\n\"ib_point_id\":null,\n\"ic_point_id\":null,\n\"pv1_u_point_id\":null,\n\"pv1_i_point_id\":null,\n\"pv2_u_point_id\":null,\n\"pv2_i_point_id\":null,\n\"pv3_u_point_id\":null,\n\"pv3_i_point_id\":null,\n\"pv4_u_point_id\":null,\n\"pv4_i_point_id\":null,\n\"pv5_u_point_id\":null,\n\"pv5_i_point_id\":null,\n\"pv6_u_point_id\":null,\n\"pv6_i_point_id\":null,\n\"pv7_u_point_id\":null,\n\"pv7_i_point_id\":null,\n\"pv8_u_point_id\":null,\n\"pv8_i_point_id\":null,\n\"pv9_u_point_id\":null,\n\"pv9_i_point_id\":null,\n\"pv10_u_point_id\":null,\n\"pv10_i_point_id\":null,\n\"pv11_u_point_id\":null,\n\"pv11_i_point_id\":null,\n\"pv12_u_point_id\":null,\n\"pv12_i_point_id\":null,\n\"pv13_u_point_id\":null,\n\"pv13_i_point_id\":null,\n\"pv14_u_point_id\":null,\n\"pv14_i_point_id\":null,\n\"pv15_u_point_id\":null,\n\"pv15_i_point_id\":null,\n\"pv16_u_point_id\":null,\n\"pv16_i_point_id\":null,\n\"pv17_u_point_id\":null,\n\"pv17_i_point_id\":null,\n\"pv18_u_point_id\":null,\n\"pv18_i_point_id\":null,\n\"pv19_u_point_id\":null,\n\"pv19_i_point_id\":null,\n\"pv20_u_point_id\":null,\n\"pv20_i_point_id\":null,\n\"pv21_u_point_id\":null,\n\"pv21_i_point_id\":null,\n\"pv22_u_point_id\":null,\n\"pv22_i_point_id\":null,\n\"pv23_u_point_id\":null,\n\"pv23_i_point_id\":null,\n\"pv24_u_point_id\":null,\n\"pv24_i_point_id\":null,\n\"pv25_u_point_id\":null,\n\"pv25_i_point_id\":null,\n\"pv26_u_point_id\":null,\n\"pv26_i_point_id\":null,\n\"pv27_u_point_id\":null,\n\"pv27_i_point_id\":null,\n\"pv28_u_point_id\":null,\n\"pv28_i_point_id\":null,\n\"mppt_total_energy_point_id\":null,\n\"mppt_power_point_id\":null,\n\"mppt_1_energy_point_id\":null,\n\"mppt_2_energy_point_id\":null,\n\"mppt_3_energy_point_id\":null,\n\"mppt_4_energy_point_id\":null,\n\"mppt_5_energy_point_id\":null,\n\"mppt_6_energy_point_id\":null,\n\"mppt_7_energy_point_id\":null,\n\"mppt_8_energy_point_id\":null,\n\"mppt_9_energy_point_id\":null,\n\"mppt_10_energy_point_id\":null}}"
+									"raw": "{\"data\":{\"name\":\"Invertor\", \"model\":\"XAAA123456\", \"serial_number\":\"SN123456789\", \"invertor_state_point_id\":1, \"communication_state_point_id\":2, \"total_energy_point_id\":3, \"generation_meter_id\":1,\n\"today_energy_point_id\":4,\n\"efficiency_point_id\":5,\n\"temperature_point_id\":6,\n\"power_factor_point_id\":7,\n\"active_power_point_id\":8,\n\"reactive_power_point_id\":9,\n\"frequency_point_id\":null,\n\"uab_point_id\":null,\n\"ubc_point_id\":null,\n\"uca_point_id\":null,\n\"ua_point_id\":null,\n\"ub_point_id\":null,\n\"uc_point_id\":null,\n\"ia_point_id\":null,\n\"ib_point_id\":null,\n\"ic_point_id\":null,\n\"pv1_u_point_id\":null,\n\"pv1_i_point_id\":null,\n\"pv2_u_point_id\":null,\n\"pv2_i_point_id\":null,\n\"pv3_u_point_id\":null,\n\"pv3_i_point_id\":null,\n\"pv4_u_point_id\":null,\n\"pv4_i_point_id\":null,\n\"pv5_u_point_id\":null,\n\"pv5_i_point_id\":null,\n\"pv6_u_point_id\":null,\n\"pv6_i_point_id\":null,\n\"pv7_u_point_id\":null,\n\"pv7_i_point_id\":null,\n\"pv8_u_point_id\":null,\n\"pv8_i_point_id\":null,\n\"pv9_u_point_id\":null,\n\"pv9_i_point_id\":null,\n\"pv10_u_point_id\":null,\n\"pv10_i_point_id\":null,\n\"pv11_u_point_id\":null,\n\"pv11_i_point_id\":null,\n\"pv12_u_point_id\":null,\n\"pv12_i_point_id\":null,\n\"pv13_u_point_id\":null,\n\"pv13_i_point_id\":null,\n\"pv14_u_point_id\":null,\n\"pv14_i_point_id\":null,\n\"pv15_u_point_id\":null,\n\"pv15_i_point_id\":null,\n\"pv16_u_point_id\":null,\n\"pv16_i_point_id\":null,\n\"pv17_u_point_id\":null,\n\"pv17_i_point_id\":null,\n\"pv18_u_point_id\":null,\n\"pv18_i_point_id\":null,\n\"pv19_u_point_id\":null,\n\"pv19_i_point_id\":null,\n\"pv20_u_point_id\":null,\n\"pv20_i_point_id\":null,\n\"pv21_u_point_id\":null,\n\"pv21_i_point_id\":null,\n\"pv22_u_point_id\":null,\n\"pv22_i_point_id\":null,\n\"pv23_u_point_id\":null,\n\"pv23_i_point_id\":null,\n\"pv24_u_point_id\":null,\n\"pv24_i_point_id\":null,\n\"pv25_u_point_id\":null,\n\"pv25_i_point_id\":null,\n\"pv26_u_point_id\":null,\n\"pv26_i_point_id\":null,\n\"pv27_u_point_id\":null,\n\"pv27_i_point_id\":null,\n\"pv28_u_point_id\":null,\n\"pv28_i_point_id\":null,\n\"mppt_total_energy_point_id\":null,\n\"mppt_power_point_id\":null,\n\"mppt_1_energy_point_id\":null,\n\"mppt_2_energy_point_id\":null,\n\"mppt_3_energy_point_id\":null,\n\"mppt_4_energy_point_id\":null,\n\"mppt_5_energy_point_id\":null,\n\"mppt_6_energy_point_id\":null,\n\"mppt_7_energy_point_id\":null,\n\"mppt_8_energy_point_id\":null,\n\"mppt_9_energy_point_id\":null,\n\"mppt_10_energy_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1/invertors",
@@ -13543,7 +13543,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6730b6d52d69c08c2e7f48da29e07577f07622186bc73b2b85b40eacc33aaa529b3a5c0fbdf997f5969ff02e2465df41d70b057763ac98dd3e857a0875003d7e",
+										"value": "2a93f2d6667a174b3fd46b45dec7410db4cf29f8bc9ed8a6ad8625cac45d1a62b4c3ceb87816ce32fc3ec30536828f028c1ec69842c4af5c5dea658f4a93a00b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13555,7 +13555,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Invertor\", \"model\":\"XAAA123456\", \"serial_number\":\"SN123456789\", \"invertor_state_point_id\":1, \"communication_state_point_id\":2, \"total_energy_point_id\":3,\n\"today_energy_point_id\":4,\n\"efficiency_point_id\":5,\n\"temperature_point_id\":6,\n\"power_factor_point_id\":7,\n\"active_power_point_id\":8,\n\"reactive_power_point_id\":9,\n\"frequency_point_id\":null,\n\"uab_point_id\":null,\n\"ubc_point_id\":null,\n\"uca_point_id\":null,\n\"ua_point_id\":null,\n\"ub_point_id\":null,\n\"uc_point_id\":null,\n\"ia_point_id\":null,\n\"ib_point_id\":null,\n\"ic_point_id\":null,\n\"pv1_u_point_id\":null,\n\"pv1_i_point_id\":null,\n\"pv2_u_point_id\":null,\n\"pv2_i_point_id\":null,\n\"pv3_u_point_id\":null,\n\"pv3_i_point_id\":null,\n\"pv4_u_point_id\":null,\n\"pv4_i_point_id\":null,\n\"pv5_u_point_id\":null,\n\"pv5_i_point_id\":null,\n\"pv6_u_point_id\":null,\n\"pv6_i_point_id\":null,\n\"pv7_u_point_id\":null,\n\"pv7_i_point_id\":null,\n\"pv8_u_point_id\":null,\n\"pv8_i_point_id\":null,\n\"pv9_u_point_id\":null,\n\"pv9_i_point_id\":null,\n\"pv10_u_point_id\":null,\n\"pv10_i_point_id\":null,\n\"pv11_u_point_id\":null,\n\"pv11_i_point_id\":null,\n\"pv12_u_point_id\":null,\n\"pv12_i_point_id\":null,\n\"pv13_u_point_id\":null,\n\"pv13_i_point_id\":null,\n\"pv14_u_point_id\":null,\n\"pv14_i_point_id\":null,\n\"pv15_u_point_id\":null,\n\"pv15_i_point_id\":null,\n\"pv16_u_point_id\":null,\n\"pv16_i_point_id\":null,\n\"pv17_u_point_id\":null,\n\"pv17_i_point_id\":null,\n\"pv18_u_point_id\":null,\n\"pv18_i_point_id\":null,\n\"pv19_u_point_id\":null,\n\"pv19_i_point_id\":null,\n\"pv20_u_point_id\":null,\n\"pv20_i_point_id\":null,\n\"pv21_u_point_id\":null,\n\"pv21_i_point_id\":null,\n\"pv22_u_point_id\":null,\n\"pv22_i_point_id\":null,\n\"pv23_u_point_id\":null,\n\"pv23_i_point_id\":null,\n\"pv24_u_point_id\":null,\n\"pv24_i_point_id\":null,\n\"pv25_u_point_id\":null,\n\"pv25_i_point_id\":null,\n\"pv26_u_point_id\":null,\n\"pv26_i_point_id\":null,\n\"pv27_u_point_id\":null,\n\"pv27_i_point_id\":null,\n\"pv28_u_point_id\":null,\n\"pv28_i_point_id\":null,\n\"mppt_total_energy_point_id\":null,\n\"mppt_power_point_id\":null,\n\"mppt_1_energy_point_id\":null,\n\"mppt_2_energy_point_id\":null,\n\"mppt_3_energy_point_id\":null,\n\"mppt_4_energy_point_id\":null,\n\"mppt_5_energy_point_id\":null,\n\"mppt_6_energy_point_id\":null,\n\"mppt_7_energy_point_id\":null,\n\"mppt_8_energy_point_id\":null,\n\"mppt_9_energy_point_id\":null,\n\"mppt_10_energy_point_id\":null}}"
+									"raw": "{\"data\":{\"name\":\"Invertor\", \"model\":\"XAAA123456\", \"serial_number\":\"SN123456789\", \"invertor_state_point_id\":1, \"communication_state_point_id\":2, \"total_energy_point_id\":3, \"generation_meter_id\":1,\n\"today_energy_point_id\":4,\n\"efficiency_point_id\":5,\n\"temperature_point_id\":6,\n\"power_factor_point_id\":7,\n\"active_power_point_id\":8,\n\"reactive_power_point_id\":9,\n\"frequency_point_id\":null,\n\"uab_point_id\":null,\n\"ubc_point_id\":null,\n\"uca_point_id\":null,\n\"ua_point_id\":null,\n\"ub_point_id\":null,\n\"uc_point_id\":null,\n\"ia_point_id\":null,\n\"ib_point_id\":null,\n\"ic_point_id\":null,\n\"pv1_u_point_id\":null,\n\"pv1_i_point_id\":null,\n\"pv2_u_point_id\":null,\n\"pv2_i_point_id\":null,\n\"pv3_u_point_id\":null,\n\"pv3_i_point_id\":null,\n\"pv4_u_point_id\":null,\n\"pv4_i_point_id\":null,\n\"pv5_u_point_id\":null,\n\"pv5_i_point_id\":null,\n\"pv6_u_point_id\":null,\n\"pv6_i_point_id\":null,\n\"pv7_u_point_id\":null,\n\"pv7_i_point_id\":null,\n\"pv8_u_point_id\":null,\n\"pv8_i_point_id\":null,\n\"pv9_u_point_id\":null,\n\"pv9_i_point_id\":null,\n\"pv10_u_point_id\":null,\n\"pv10_i_point_id\":null,\n\"pv11_u_point_id\":null,\n\"pv11_i_point_id\":null,\n\"pv12_u_point_id\":null,\n\"pv12_i_point_id\":null,\n\"pv13_u_point_id\":null,\n\"pv13_i_point_id\":null,\n\"pv14_u_point_id\":null,\n\"pv14_i_point_id\":null,\n\"pv15_u_point_id\":null,\n\"pv15_i_point_id\":null,\n\"pv16_u_point_id\":null,\n\"pv16_i_point_id\":null,\n\"pv17_u_point_id\":null,\n\"pv17_i_point_id\":null,\n\"pv18_u_point_id\":null,\n\"pv18_i_point_id\":null,\n\"pv19_u_point_id\":null,\n\"pv19_i_point_id\":null,\n\"pv20_u_point_id\":null,\n\"pv20_i_point_id\":null,\n\"pv21_u_point_id\":null,\n\"pv21_i_point_id\":null,\n\"pv22_u_point_id\":null,\n\"pv22_i_point_id\":null,\n\"pv23_u_point_id\":null,\n\"pv23_i_point_id\":null,\n\"pv24_u_point_id\":null,\n\"pv24_i_point_id\":null,\n\"pv25_u_point_id\":null,\n\"pv25_i_point_id\":null,\n\"pv26_u_point_id\":null,\n\"pv26_i_point_id\":null,\n\"pv27_u_point_id\":null,\n\"pv27_i_point_id\":null,\n\"pv28_u_point_id\":null,\n\"pv28_i_point_id\":null,\n\"mppt_total_energy_point_id\":null,\n\"mppt_power_point_id\":null,\n\"mppt_1_energy_point_id\":null,\n\"mppt_2_energy_point_id\":null,\n\"mppt_3_energy_point_id\":null,\n\"mppt_4_energy_point_id\":null,\n\"mppt_5_energy_point_id\":null,\n\"mppt_6_energy_point_id\":null,\n\"mppt_7_energy_point_id\":null,\n\"mppt_8_energy_point_id\":null,\n\"mppt_9_energy_point_id\":null,\n\"mppt_10_energy_point_id\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1/invertors/1",

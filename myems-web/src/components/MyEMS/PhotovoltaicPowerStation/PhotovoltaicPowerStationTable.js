@@ -14,7 +14,7 @@ const PhotovoltaicPowerStationTable = ({ setIsSelected, photovoltaicPowerStation
   const { currency } = useContext(AppContext);
   const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
   const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount} kWp</Fragment>;
   const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
 
   const nameFormatter = (nameuuid) => (
@@ -164,22 +164,14 @@ const selectRow = onSelect => ({
     },
     {
       dataField: 'subtotal_charge_energy',
-      text: t('Total Charge'),
+      text: t('Total Generation'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
       sort: true,
     },
     {
-      dataField: 'subtotal_discharge_energy',
-      text: t('Total Discharge'),
-      formatter: energyFormatter,
-      classes: 'border-0 align-middle',
-      headerClasses: 'border-0',
-      sort: true,
-    },
-    {
-      dataField: 'subtotal_discharge_billing',
+      dataField: 'subtotal_generation_billing',
       text: t('Total Revenue'),
       formatter: currencyFormatter,
       classes: 'border-0 align-middle',

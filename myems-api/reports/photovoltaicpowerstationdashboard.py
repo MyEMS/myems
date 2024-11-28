@@ -20,13 +20,10 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the energy storage power station list
-    # Step 3: query charge energy data
-    # Step 4: query discharge energy data
-    # Step 5: query charge billing data
-    # Step 6: query discharge billing data
-    # Step 7: query charge carbon data
-    # Step 8: query discharge carbon data
-    # Step 9: construct the report
+    # Step 3: query generation energy data
+    # Step 4: query generation billing data
+    # Step 5: query generation carbon data
+    # Step 6: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -130,7 +127,7 @@ class Reporting:
                     total_offline += 1
                 photovoltaic_power_station_list.append(meta_result)
         ################################################################################################################
-        # Step 3: query charge energy data
+        # Step 3: query generation energy data
         ################################################################################################################
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
@@ -145,119 +142,63 @@ class Reporting:
                  " FROM tbl_photovoltaic_power_station_generation_hourly "
                  " GROUP BY photovoltaic_power_station_id ")
         cursor_energy_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_charge_energy = cursor_energy_db.fetchall()
+        rows_photovoltaic_power_stations_subtotal_generation_energy = cursor_energy_db.fetchall()
 
         new_photovoltaic_power_station_list = list()
-        total_charge_energy = Decimal(0.0)
+        total_generation_energy = Decimal(0.0)
         for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_charge_energy'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_charge_energy:
+            photovoltaic_power_station['subtotal_generation_energy'] = Decimal(0.0)
+            for row in rows_photovoltaic_power_stations_subtotal_generation_energy:
                 if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_charge_energy'] = row[1]
-                    total_charge_energy += photovoltaic_power_station['subtotal_charge_energy']
+                    photovoltaic_power_station['subtotal_generation_energy'] = row[1]
+                    total_generation_energy += photovoltaic_power_station['subtotal_generation_energy']
                     break
             new_photovoltaic_power_station_list.append(photovoltaic_power_station)
         photovoltaic_power_station_list = new_photovoltaic_power_station_list
-        ################################################################################################################
-        # Step 4: query discharge energy data
-        ################################################################################################################
-        query = (" SELECT photovoltaic_power_station_id, SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " GROUP BY photovoltaic_power_station_id ")
-        cursor_energy_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_discharge_energy = cursor_energy_db.fetchall()
 
-        new_photovoltaic_power_station_list = list()
-        total_discharge_energy = Decimal(0.0)
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_discharge_energy'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_discharge_energy:
-                if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_discharge_energy'] = row[1]
-                    total_discharge_energy += photovoltaic_power_station['subtotal_discharge_energy']
-                    break
-            new_photovoltaic_power_station_list.append(photovoltaic_power_station)
-        photovoltaic_power_station_list = new_photovoltaic_power_station_list
         ################################################################################################################
-        # Step 5:  query charge billing data
+        # Step 4:  query generation billing data
         ################################################################################################################
         query = (" SELECT photovoltaic_power_station_id, SUM(actual_value) "
                  " FROM tbl_photovoltaic_power_station_generation_hourly "
                  " GROUP BY photovoltaic_power_station_id ")
         cursor_billing_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_charge_billing = cursor_billing_db.fetchall()
+        rows_photovoltaic_power_stations_subtotal_generation_billing = cursor_billing_db.fetchall()
 
         new_photovoltaic_power_station_list = list()
-        total_charge_billing = Decimal(0.0)
+        total_generation_billing = Decimal(0.0)
         for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_charge_billing'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_charge_billing:
+            photovoltaic_power_station['subtotal_generation_billing'] = Decimal(0.0)
+            for row in rows_photovoltaic_power_stations_subtotal_generation_billing:
                 if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_charge_billing'] = row[1]
-                    total_charge_billing += photovoltaic_power_station['subtotal_charge_billing']
+                    photovoltaic_power_station['subtotal_generation_billing'] = row[1]
+                    total_generation_billing += photovoltaic_power_station['subtotal_generation_billing']
                     break
             new_photovoltaic_power_station_list.append(photovoltaic_power_station)
         photovoltaic_power_station_list = new_photovoltaic_power_station_list
-        ################################################################################################################
-        # Step 6: query discharge billing data
-        ################################################################################################################
-        query = (" SELECT photovoltaic_power_station_id, SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " GROUP BY photovoltaic_power_station_id ")
-        cursor_billing_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_discharge_billing = cursor_billing_db.fetchall()
 
-        new_photovoltaic_power_station_list = list()
-        total_discharge_billing = Decimal(0.0)
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_discharge_billing'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_discharge_billing:
-                if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_discharge_billing'] = row[1]
-                    total_discharge_billing += photovoltaic_power_station['subtotal_discharge_billing']
-                    break
-            new_photovoltaic_power_station_list.append(photovoltaic_power_station)
-        photovoltaic_power_station_list = new_photovoltaic_power_station_list
         ################################################################################################################
-        # Step 7:  query charge carbon data
+        # Step 5:  query generation carbon data
         ################################################################################################################
         query = (" SELECT photovoltaic_power_station_id, SUM(actual_value) "
                  " FROM tbl_photovoltaic_power_station_generation_hourly "
                  " GROUP BY photovoltaic_power_station_id ")
         cursor_carbon_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_charge_carbon = cursor_carbon_db.fetchall()
+        rows_photovoltaic_power_stations_subtotal_generation_carbon = cursor_carbon_db.fetchall()
         new_photovoltaic_power_station_list = list()
-        total_charge_carbon = Decimal(0.0)
+        total_generation_carbon = Decimal(0.0)
         for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_charge_carbon'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_charge_carbon:
+            photovoltaic_power_station['subtotal_generation_carbon'] = Decimal(0.0)
+            for row in rows_photovoltaic_power_stations_subtotal_generation_carbon:
                 if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_charge_carbon'] = row[1]
-                    total_charge_carbon += photovoltaic_power_station['subtotal_charge_carbon']
+                    photovoltaic_power_station['subtotal_generation_carbon'] = row[1]
+                    total_generation_carbon += photovoltaic_power_station['subtotal_generation_carbon']
                     break
             new_photovoltaic_power_station_list.append(photovoltaic_power_station)
         photovoltaic_power_station_list = new_photovoltaic_power_station_list
+
         ################################################################################################################
-        # Step 8: query discharge carbon data
-        ################################################################################################################
-        query = (" SELECT photovoltaic_power_station_id, SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " GROUP BY photovoltaic_power_station_id ")
-        cursor_carbon_db.execute(query, )
-        rows_photovoltaic_power_stations_subtotal_discharge_carbon = cursor_carbon_db.fetchall()
-        new_photovoltaic_power_station_list = list()
-        total_discharge_carbon = Decimal(0.0)
-        for photovoltaic_power_station in photovoltaic_power_station_list:
-            photovoltaic_power_station['subtotal_discharge_carbon'] = Decimal(0.0)
-            for row in rows_photovoltaic_power_stations_subtotal_discharge_carbon:
-                if row[0] == photovoltaic_power_station['id']:
-                    photovoltaic_power_station['subtotal_discharge_carbon'] = row[1]
-                    total_discharge_carbon += photovoltaic_power_station['subtotal_discharge_carbon']
-                    break
-            new_photovoltaic_power_station_list.append(photovoltaic_power_station)
-        photovoltaic_power_station_list = new_photovoltaic_power_station_list
-        ################################################################################################################
-        # Step 7: construct the report
+        # Step 6: construct the report
         ################################################################################################################
         if cursor_system_db:
             cursor_system_db.close()
@@ -286,10 +227,7 @@ class Reporting:
         result['total_offline'] = total_offline
         result['total_locked'] = total_locked
         result['photovoltaic_power_stations'] = photovoltaic_power_station_list
-        result['total_charge_energy'] = total_charge_energy
-        result['total_discharge_energy'] = total_discharge_energy
-        result['total_charge_billing'] = total_charge_billing
-        result['total_discharge_billing'] = total_discharge_billing
-        result['total_charge_carbon'] = total_charge_carbon
-        result['total_discharge_carbon'] = total_discharge_carbon
+        result['total_generation_energy'] = total_generation_energy
+        result['total_generation_billing'] = total_generation_billing
+        result['total_generation_carbon'] = total_generation_carbon
         resp.text = json.dumps(result)

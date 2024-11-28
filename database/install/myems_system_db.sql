@@ -1294,6 +1294,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_in
   `invertor_state_point_id` BIGINT NOT NULL,
   `communication_state_point_id`  BIGINT NOT NULL,
   `total_energy_point_id`  BIGINT NOT NULL,
+  `generation_meter_id` BIGINT NOT NULL,
   `today_energy_point_id`  BIGINT,
   `efficiency_point_id`  BIGINT,
   `temperature_point_id`  BIGINT,
@@ -1378,6 +1379,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_in
   `mppt_8_energy_point_id`  BIGINT,
   `mppt_9_energy_point_id`  BIGINT,
   `mppt_10_energy_point_id`  BIGINT,
+  `startup_time_point_id`  BIGINT,
+  `shutdown_time_point_id`  BIGINT,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_invertors_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors` (`photovoltaic_power_station_id`);
@@ -2402,7 +2405,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '4.11.0', '2024-11-23');
+(1, '4.12.0RC', '2024-12-12');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

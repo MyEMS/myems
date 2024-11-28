@@ -10,9 +10,7 @@ import {
 const DeviceStatusDetails = ({
   id,
   gatewayStatus,
-  PCSStatus,
-  BMSStatus,
-  HVACStatus,
+  invertorStatus,
   gridMeterStatus,
   loadMeterStatus,
   t
@@ -29,16 +27,8 @@ const DeviceStatusDetails = ({
                 <th className="pr-0 text-right">{gatewayStatus}正常</th>
               </tr>
               <tr className="border-bottom">
-                <th className="pl-0">PCS</th>
-                <th className="pr-0 text-right">{PCSStatus}正常</th>
-              </tr>
-              <tr className="border-bottom">
-                <th className="pl-0">电池</th>
-                <th className="pr-0 text-right ">{BMSStatus}正常</th>
-              </tr>
-              <tr className="border-bottom">
-                <th className="pl-0 pb-0">空调</th>
-                <th className="pr-0 text-right">{HVACStatus}正常</th>
+                <th className="pl-0">Invertor</th>
+                <th className="pr-0 text-right">{invertorStatus}正常</th>
               </tr>
               <tr className="border-bottom">
                 <th className="pl-0 pb-0">电网表</th>

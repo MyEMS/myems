@@ -95,7 +95,7 @@ from reports import photovoltaicpowerstationdashboard
 from reports import photovoltaicpowerstationitemdashboard
 from reports import photovoltaicpowerstationdetails
 from reports import photovoltaicpowerstationdetailsmeter
-from reports import photovoltaicpowerstationdetailspcs
+from reports import photovoltaicpowerstationdetailsinvertor
 from reports import photovoltaicpowerstationlist
 from reports import photovoltaicpowerstationreportingrevenue
 from reports import photovoltaicpowerstationreportingenergy
@@ -1173,8 +1173,8 @@ api.add_route('/reports/photovoltaicpowerstationdetails',
               photovoltaicpowerstationdetails.Reporting())
 api.add_route('/reports/photovoltaicpowerstationdetails/{id_}/meter',
               photovoltaicpowerstationdetailsmeter.Reporting())
-api.add_route('/reports/photovoltaicpowerstationdetails/{id_}/pcs',
-              photovoltaicpowerstationdetailspcs.Reporting())
+api.add_route('/reports/photovoltaicpowerstationdetails/{id_}/invertor',
+              photovoltaicpowerstationdetailsinvertor.Reporting())
 api.add_route('/reports/photovoltaicpowerstationlist',
               photovoltaicpowerstationlist.Reporting())
 api.add_route('/reports/photovoltaicpowerstationreportingrevenue',

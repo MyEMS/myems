@@ -20,12 +20,9 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
-    # Step 3: query charge energy data
-    # Step 4: query discharge energy data
-    # Step 5: query charge billing data
-    # Step 6: query discharge billing data
-    # Step 7: query charge carbon data
-    # Step 8: query discharge carbon data
+    # Step 3: query generation energy data
+    # Step 5: query generation billing data
+    # Step 7: query generation carbon data
     # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
@@ -116,7 +113,7 @@ class Reporting:
             }
 
         ################################################################################################################
-        # Step 3: query charge energy data
+        # Step 3: query generation energy data
         ################################################################################################################
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
@@ -132,68 +129,33 @@ class Reporting:
                  " WHERE photovoltaic_power_station_id = %s ")
         cursor_energy_db.execute(query, (photovoltaic_power_station_id, ))
         row = cursor_energy_db.fetchone()
-        total_charge_energy = Decimal(0.0)
+        total_generation_energy = Decimal(0.0)
         if row is not None:
-            total_charge_energy = row[0]
+            total_generation_energy = row[0]
 
         ################################################################################################################
-        # Step 4: query discharge energy data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_energy_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_energy_db.fetchone()
-        total_discharge_energy = Decimal(0.0)
-        if row is not None:
-            total_discharge_energy = row[0]
-        ################################################################################################################
-        # Step 5:  query charge billing data
+        # Step 5:  query generation billing data
         ################################################################################################################
         query = (" SELECT SUM(actual_value) "
                  " FROM tbl_photovoltaic_power_station_generation_hourly "
                  " WHERE photovoltaic_power_station_id = %s ")
         cursor_billing_db.execute(query, (photovoltaic_power_station_id, ))
         row = cursor_billing_db.fetchone()
-        total_charge_billing = Decimal(0.0)
+        total_generation_billing = Decimal(0.0)
         if row is not None:
-            total_charge_billing = row[0]
+            total_generation_billing = row[0]
 
         ################################################################################################################
-        # Step 6: query discharge billing data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_billing_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_billing_db.fetchone()
-        total_discharge_billing = Decimal(0.0)
-        if row is not None:
-            total_discharge_billing = row[0]
-
-        ################################################################################################################
-        # Step 7:  query charge carbon data
+        # Step 7:  query generation carbon data
         ################################################################################################################
         query = (" SELECT SUM(actual_value) "
                  " FROM tbl_photovoltaic_power_station_generation_hourly "
                  " WHERE photovoltaic_power_station_id = %s ")
         cursor_carbon_db.execute(query, (photovoltaic_power_station_id, ))
         row = cursor_carbon_db.fetchone()
-        total_charge_carbon = Decimal(0.0)
+        total_generation_carbon = Decimal(0.0)
         if row is not None:
-            total_charge_carbon = row[0]
-
-        ################################################################################################################
-        # Step 8: query discharge carbon data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_carbon_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_carbon_db.fetchone()
-        total_discharge_carbon = Decimal(0.0)
-        if row is not None:
-            total_discharge_carbon = row[0]
+            total_generation_carbon = row[0]
 
         ################################################################################################################
         # Step 7: construct the report
@@ -220,10 +182,7 @@ class Reporting:
 
         result = dict()
         result['photovoltaic_power_station'] = photovoltaic_power_station
-        result['total_charge_energy'] = total_charge_energy
-        result['total_discharge_energy'] = total_discharge_energy
-        result['total_charge_billing'] = total_charge_billing
-        result['total_discharge_billing'] = total_discharge_billing
-        result['total_charge_carbon'] = total_charge_carbon
-        result['total_discharge_carbon'] = total_discharge_carbon
+        result['total_generation_energy'] = total_generation_energy
+        result['total_generation_billing'] = total_generation_billing
+        result['total_generation_carbon'] = total_generation_carbon
         resp.text = json.dumps(result)
