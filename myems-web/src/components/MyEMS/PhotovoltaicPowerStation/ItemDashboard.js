@@ -53,22 +53,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [totalRatedCapacity, setTotalRatedCapacity] = useState({});
   const [totalRatedPower, setTotalRatedPower] = useState({});
-  const [totalCharge, setTotalCharge] = useState({});
-  const [totalDischarge, setTotalDischarge] = useState({});
+  const [totalGeneration, setTotalGeneration] = useState({});
   const [totalRevenue, setTotalRevenue] = useState({});
 
-  const [chargeEnergyData, setChargeEnergyData] = useState({});
-  const [dischargeEnergyData, setDischargeEnergyData] = useState({});
-  const [chargeBillingData, setChargeBillingData] = useState({});
-  const [dischargeBillingData, setDischargeBillingData] = useState({});
-  const [chargeCarbonData, setChargeCarbonData] = useState({});
-  const [dischargeCarbonData, setDischargeCarbonData] = useState({});
-  const [chargeEnergyLabels, setChargeEnergyLabels] = useState([]);
-  const [dischargeEnergyLabels, setDischargeEnergyLabels] = useState([]);
-  const [chargeBillingLabels, setChargeBillingLabels] = useState([]);
-  const [dischargeBillingLabels, setDischargeBillingLabels] = useState([]);
-  const [chargeCarbonLabels, setChargeCarbonLabels] = useState([]);
-  const [dischargeCarbonLabels, setDischargeCarbonLabels] = useState([]);
+  const [generationEnergyData, setGenerationEnergyData] = useState({});
+  const [generationBillingData, setGenerationBillingData] = useState({});
+  const [generationCarbonData, setGenerationCarbonData] = useState({});
+  const [generationEnergyLabels, setGenerationEnergyLabels] = useState([]);
+  const [generationBillingLabels, setGenerationBillingLabels] = useState([]);
+  const [generationCarbonLabels, setGenerationCarbonLabels] = useState([]);
   const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
@@ -251,9 +244,8 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             geojson['features'] = geojsonData;
             setGeojson(geojson);
 
-            setTotalCharge(json['total_charge_energy']);
-            setTotalDischarge(json['total_discharge_energy']);
-            setTotalRevenue(json['total_discharge_billing']);
+            setTotalGeneration(json['total_generation_energy']);
+            setTotalRevenue(json['total_generation_billing']);
           }
         });
     }
@@ -299,33 +291,19 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           if (isResponseOK) {
             console.log(json);
 
-            setChargeEnergyData({
+            setGenerationEnergyData({
               "unit": "kWh",
               "station_names_array": [json['photovoltaic_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values_array'],
-                json['reporting']['charge_this_month']['values_array'],
-                json['reporting']['charge_this_year']['values_array']
+                json['reporting']['generation_7_days']['values_array'],
+                json['reporting']['generation_this_month']['values_array'],
+                json['reporting']['generation_this_year']['values_array']
               ],
             });
-            setDischargeEnergyData({
-              "unit": "kWh",
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
-                json['reporting']['discharge_7_days']['values_array'],
-                json['reporting']['discharge_this_month']['values_array'],
-                json['reporting']['discharge_this_year']['values_array']
-              ]
-            });
-            setChargeEnergyLabels([
-              json['reporting']['charge_7_days']['timestamps_array'][0],
-              json['reporting']['charge_this_month']['timestamps_array'][0],
-              json['reporting']['charge_this_year']['timestamps_array'][0]
-            ]);
-            setDischargeEnergyLabels([
-              json['reporting']['discharge_7_days']['timestamps_array'][0],
-              json['reporting']['discharge_this_month']['timestamps_array'][0],
-              json['reporting']['discharge_this_year']['timestamps_array'][0]
+            setGenerationEnergyLabels([
+              json['reporting']['generation_7_days']['timestamps_array'][0],
+              json['reporting']['generation_this_month']['timestamps_array'][0],
+              json['reporting']['generation_this_year']['timestamps_array'][0]
             ]);
           }
         });
@@ -372,33 +350,19 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           if (isResponseOK) {
             console.log(json);
 
-            setChargeBillingData({
+            setGenerationBillingData({
               "unit": currency,
               "station_names_array": [json['photovoltaic_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values_array'],
-                json['reporting']['charge_this_month']['values_array'],
-                json['reporting']['charge_this_year']['values_array']
+                json['reporting']['generation_7_days']['values_array'],
+                json['reporting']['generation_this_month']['values_array'],
+                json['reporting']['generation_this_year']['values_array']
               ],
             });
-            setDischargeBillingData({
-              "unit": currency,
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
-                json['reporting']['discharge_7_days']['values_array'],
-                json['reporting']['discharge_this_month']['values_array'],
-                json['reporting']['discharge_this_year']['values_array']
-              ]
-            });
-            setChargeBillingLabels([
-              json['reporting']['charge_7_days']['timestamps_array'][0],
-              json['reporting']['charge_this_month']['timestamps_array'][0],
-              json['reporting']['charge_this_year']['timestamps_array'][0]
-            ]);
-            setDischargeBillingLabels([
-              json['reporting']['discharge_7_days']['timestamps_array'][0],
-              json['reporting']['discharge_this_month']['timestamps_array'][0],
-              json['reporting']['discharge_this_year']['timestamps_array'][0]
+            setGenerationBillingLabels([
+              json['reporting']['generation_7_days']['timestamps_array'][0],
+              json['reporting']['generation_this_month']['timestamps_array'][0],
+              json['reporting']['generation_this_year']['timestamps_array'][0]
             ]);
           }
         });
@@ -445,33 +409,19 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           if (isResponseOK) {
             console.log(json);
 
-            setChargeCarbonData({
+            setGenerationCarbonData({
               "unit": "kgCO2",
               "station_names_array": [json['photovoltaic_power_station']['name']],
               "subtotals_array": [
-                json['reporting']['charge_7_days']['values_array'],
-                json['reporting']['charge_this_month']['values_array'],
-                json['reporting']['charge_this_year']['values_array']
+                json['reporting']['generation_7_days']['values_array'],
+                json['reporting']['generation_this_month']['values_array'],
+                json['reporting']['generation_this_year']['values_array']
               ],
             });
-            setDischargeCarbonData({
-              "unit": "kgCO2",
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
-                json['reporting']['discharge_7_days']['values_array'],
-                json['reporting']['discharge_this_month']['values_array'],
-                json['reporting']['discharge_this_year']['values_array']
-              ]
-            });
-            setChargeCarbonLabels([
-              json['reporting']['charge_7_days']['timestamps_array'][0],
-              json['reporting']['charge_this_month']['timestamps_array'][0],
-              json['reporting']['charge_this_year']['timestamps_array'][0]]
-            );
-            setDischargeCarbonLabels([
-              json['reporting']['discharge_7_days']['timestamps_array'][0],
-              json['reporting']['discharge_this_month']['timestamps_array'][0],
-              json['reporting']['discharge_this_year']['timestamps_array'][0]]
+            setGenerationCarbonLabels([
+              json['reporting']['generation_7_days']['timestamps_array'][0],
+              json['reporting']['generation_this_month']['timestamps_array'][0],
+              json['reporting']['generation_this_year']['timestamps_array'][0]]
             );
           }
         });
@@ -613,14 +563,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
             {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
+          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kWp'} color="ratedPower">
             {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Charge')} footunit={'kWh'} color="electricity">
-            {1 && <CountUp end={totalCharge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
-          </CardSummary>
-          <CardSummary rate={''} title={t('Total Discharge')} footunit={'kWh'} color="electricity">
-            {1 && <CountUp end={totalDischarge} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          <CardSummary rate={''} title={t('Total Generation')} footunit={'kWh'} color="electricity">
+            {1 && <CountUp end={totalGeneration} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
             {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -638,27 +585,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('1');
                     }}
                   >
-                    <h6>{t('Charge Energy Indicator')}</h6>
-                  </NavLink>
-                </NavItem>
-                <NavItem className="cursor-pointer">
-                  <NavLink
-                    className={classNames({ active: activeTabLeft === '2' })}
-                    onClick={() => {
-                      toggleTabLeft('2');
-                    }}
-                  >
-                    <h6>{t('Discharge Energy Indicator')}</h6>
-                  </NavLink>
-                </NavItem>
-                <NavItem className="cursor-pointer">
-                  <NavLink
-                    className={classNames({ active: activeTabLeft === '3' })}
-                    onClick={() => {
-                      toggleTabLeft('3');
-                    }}
-                  >
-                    <h6>{t('Charge Cost Indicator')}</h6>
+                    <h6>{t('Generation Energy Indicator')}</h6>
                   </NavLink>
                 </NavItem>
                 <NavItem className="cursor-pointer">
@@ -668,40 +595,24 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('4');
                     }}
                   >
-                    <h6>{t('Discharge Revenue Indicator')}</h6>
+                    <h6>{t('Generation Revenue Indicator')}</h6>
                   </NavLink>
                 </NavItem>
               </Nav>
               <TabContent activeTab={activeTabLeft}>
                   <TabPane tabId="1">
                     <StackBarChart
-                      labels={chargeEnergyLabels}
-                      unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
-                      chargeData={chargeEnergyData}
-                      periodTypes={periodTypes}
-                    />
-                  </TabPane>
-                  <TabPane tabId="2">
-                    <StackBarChart
-                      labels={dischargeEnergyLabels}
-                      unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
-                      chargeData={dischargeEnergyData}
-                      periodTypes={periodTypes}
-                    />
-                  </TabPane>
-                  <TabPane tabId="3">
-                    <StackBarChart
-                      labels={chargeBillingLabels}
-                      unit={ t('Charge UNIT', { UNIT: chargeBillingData['unit'] })}
-                      chargeData={chargeBillingData}
+                      labels={generationEnergyLabels}
+                      unit={ t('Generation UNIT', { UNIT: generationEnergyData['unit'] })}
+                      generationData={generationEnergyData}
                       periodTypes={periodTypes}
                     />
                   </TabPane>
                   <TabPane tabId="4">
                     <StackBarChart
-                      labels={dischargeBillingLabels}
-                      unit={t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] })}
-                      chargeData={dischargeBillingData}
+                      labels={generationBillingLabels}
+                      unit={t('Generation UNIT', { UNIT: generationBillingData['unit'] })}
+                      generationData={generationBillingData}
                       periodTypes={periodTypes}
                     />
                   </TabPane>

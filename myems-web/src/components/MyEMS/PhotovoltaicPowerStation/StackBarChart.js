@@ -17,7 +17,7 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
 
-const StackBarChart = ({ labels, unit, chargeData, periodTypes, t }) => {
+const StackBarChart = ({ labels, unit, generationData, periodTypes, t }) => {
   const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
@@ -37,10 +37,10 @@ const StackBarChart = ({ labels, unit, chargeData, periodTypes, t }) => {
         : ctx.createLinearGradient(0, 0, 0, 250);
       gradientFill.addColorStop(0, isDark ? 'rgba(44,123,229, 0.5)' : 'rgba(255, 255, 255, 0.3)');
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
-      if (chargeData['subtotals_array'] !== undefined && chargeData['subtotals_array'].length > 0) {
-        chargeData['subtotals_array'][index].forEach((item, itemIndex) => {
+      if (generationData['subtotals_array'] !== undefined && generationData['subtotals_array'].length > 0) {
+        generationData['subtotals_array'][index].forEach((item, itemIndex) => {
           dataArray.push({
-            label: chargeData['station_names_array'][itemIndex] + ' ' + unit,
+            label: generationData['station_names_array'][itemIndex] + ' ' + unit,
             stack: unit,
             data: item,
             backgroundColor: colors[itemIndex % 5]
@@ -52,7 +52,7 @@ const StackBarChart = ({ labels, unit, chargeData, periodTypes, t }) => {
         datasets: dataArray
       });
     }
-  }, [labels, unit, chargeData, option]);
+  }, [labels, unit, generationData, option]);
 
   const options = {
     scales: {

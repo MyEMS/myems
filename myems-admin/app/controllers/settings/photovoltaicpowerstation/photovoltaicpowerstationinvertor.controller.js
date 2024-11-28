@@ -88,6 +88,7 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
 			photovoltaicpowerstationinvertor.invertor_state_point_id = photovoltaicpowerstationinvertor.invertor_state_point.id;
 			photovoltaicpowerstationinvertor.communication_state_point_id = photovoltaicpowerstationinvertor.communication_state_point.id;
 			photovoltaicpowerstationinvertor.total_energy_point_id = photovoltaicpowerstationinvertor.total_energy_point.id;
+			photovoltaicpowerstationinvertor.generation_meter_id = photovoltaicpowerstationinvertor.generation_meter.id;
 			if (photovoltaicpowerstationinvertor.today_charge_energy_point != null && photovoltaicpowerstationinvertor.today_charge_energy_point.id != null ) {
 				photovoltaicpowerstationinvertor.today_charge_energy_point_id = photovoltaicpowerstationinvertor.today_charge_energy_point.id;
 			} else {
@@ -564,7 +565,7 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
 			modifiedPhotovoltaicPowerStationInvertor.invertor_state_point_id = modifiedPhotovoltaicPowerStationInvertor.invertor_state_point.id;
 			modifiedPhotovoltaicPowerStationInvertor.communication_state_point_id = modifiedPhotovoltaicPowerStationInvertor.communication_state_point.id;
 			modifiedPhotovoltaicPowerStationInvertor.total_energy_point_id = modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id;
-
+            modifiedPhotovoltaicPowerStationInvertor.generation_meter_id = modifiedPhotovoltaicPowerStationInvertor.generation_meter.id;
 			if (modifiedPhotovoltaicPowerStationInvertor.total_energy_point != null && modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id != null ) {
 				modifiedPhotovoltaicPowerStationInvertor.total_energy_point_id = modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id;
 			} else {

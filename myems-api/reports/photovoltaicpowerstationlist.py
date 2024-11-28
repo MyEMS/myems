@@ -111,8 +111,8 @@ class Reporting:
                 # get PCS run state point
                 pcs_run_state_point_value = None
                 if is_online:
-                    query = (" SELECT run_state_point_id "
-                             " FROM tbl_photovoltaic_power_stations_power_conversion_systems "
+                    query = (" SELECT invertor_state_point_id "
+                             " FROM tbl_photovoltaic_power_stations_invertors "
                              " WHERE photovoltaic_power_station_id  = %s "
                              " LIMIT 1 ")
                     cursor_system_db.execute(query, (photovoltaic_power_station_id,))
