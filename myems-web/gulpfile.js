@@ -1,12 +1,14 @@
-const gulp = require('gulp');
-const plumber = require('gulp-plumber');
-const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('gulp-autoprefixer');
-const rtlcss = require('gulp-rtlcss');
-const rename = require('gulp-rename');
-const sourcemaps = require('gulp-sourcemaps');
-const browserSync = require('browser-sync');
-const cleanCSS = require('gulp-clean-css');
+import gulp from 'gulp';
+import plumber from 'gulp-plumber';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
+import autoprefixer from 'gulp-autoprefixer';
+import rtlcss from 'gulp-rtlcss';
+import rename from 'gulp-rename';
+import sourcemaps from 'gulp-sourcemaps';
+import browserSync from 'browser-sync';
+import cleanCSS from 'gulp-clean-css';
 
 /*-----------------------------------------------
 |   SCSS
