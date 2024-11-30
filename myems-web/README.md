@@ -42,10 +42,13 @@ npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 ```
 
 * If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
+Uncomment line 4 in package.json "type": "module",
 Run below command in your project directory to compile scss.
 ```bash
 npm run scss
 ```
+Comment the line 4 in package.json "//type": "module",
+
 
 * Starting the Development Server
 A local web server will start at http://localhost:3000.
