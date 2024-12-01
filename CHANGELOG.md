@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added all in one docker files
+- added associated equipments percentage data to combined equipment reports in myems-web
 ### Changed
 ### Fixed
 - fixed gulp scss compile error in myems-web
