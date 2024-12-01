@@ -1,46 +1,46 @@
 version: '3.8'
 services:
   api:
-    build: ./myems-api
+    build: ../myems-api
     command: gunicorn app:api -b 0.0.0.0:8000 --timeout 600 --workers=4
     volumes:
-      - c:\myems-upload:/var/www/myems-admin/upload
+      - /myems-upload:/var/www/myems-admin/upload
     restart: always
     ports:
       - "8000:8000"
 
   aggregation:
-    build: ./myems-aggregation
+    build: ../myems-aggregation
     command: python main.py
     restart: always
 
   cleaning:
-    build: ./myems-cleaning
+    build: ../myems-cleaning
     command: python main.py
     restart: always
 
   modbus_tcp:
-    build: ./myems-modbus-tcp
+    build: ../myems-modbus-tcp
     command: python main.py
     restart: always
 
   normalization:
-    build: ./myems-normalization
+    build: ../myems-normalization
     command: python main.py
     restart: always
 
   admin:
-    build: ./myems-admin
+    build: ../myems-admin
     command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
     healthcheck:
       test: [ "CMD","nginx","-t" ]
     volumes:
-      - c:\myems-upload:/var/www/myems-admin/upload
+      - /myems-upload:/var/www/myems-admin/upload
     restart: always
     ports:
       - "8001:8001"
   web:
-    build: ./myems-web
+    build: ../myems-web
     command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
     healthcheck:
       test: [ "CMD","nginx","-t" ]
