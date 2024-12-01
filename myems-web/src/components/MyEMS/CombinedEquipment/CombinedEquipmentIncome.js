@@ -844,6 +844,7 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           let associated_equipment_value_list = [];
+          let overalltotal = 0.0;
           if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
               (currentEquipmentName, equipmentIndex) => {
@@ -852,15 +853,23 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
                 associated_equipment_value['name'] = currentEquipmentName;
                 let total = 0.0;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                  associated_equipment_value['a' + energyCategoryIndex] =
-                    json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
-                  total += json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+                  let subtotal_of_equipment = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+                  associated_equipment_value['a' + energyCategoryIndex] = subtotal_of_equipment;
+                  total += subtotal_of_equipment;
                 });
                 associated_equipment_value['total'] = total;
+                overalltotal += total;
                 associated_equipment_value_list.push(associated_equipment_value);
               }
             );
           }
+          associated_equipment_value_list.forEach((associated_equipment_value) => {
+            if (overalltotal > 0) {
+               associated_equipment_value['b'] = (associated_equipment_value['total'] / overalltotal) * 100;
+            } else {
+                associated_equipment_value['b'] = 0;
+            }
+          });
 
           setAssociatedEquipmentTableData(associated_equipment_value_list);
 
@@ -888,6 +897,18 @@ const CombinedEquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
           associated_equipment_column_list.push({
             dataField: 'total',
             text: t('Total') + ' (' + json['associated_equipment']['total_unit'] + ')',
+            sort: true,
+            formatter: function (decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
+          associated_equipment_column_list.push({
+            dataField: 'b',
+            text: t('Total') + ' ' + '%',
             sort: true,
             formatter: function (decimalValue) {
               if (typeof decimalValue === 'number') {
