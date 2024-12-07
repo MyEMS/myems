@@ -403,6 +403,40 @@ CREATE INDEX `tbl_energy_storage_containers_commands_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_commands` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_dcdcs`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `state_point_id` BIGINT,
+  `module_environmental_temperature_point_id` BIGINT,
+  `radiator_temperature_point_id` BIGINT,
+  `environmental_temperature_limit_power_point_id` BIGINT,
+  `high_voltage_side_positive_bus_voltage_point_id` BIGINT,
+  `high_voltage_side_negative_bus_voltage_point_id` BIGINT,
+  `high_voltage_side_positive_busbar_voltage_difference_point_id` BIGINT,
+  `high_voltage_side_voltage_point_id` BIGINT,
+  `low_voltage_side_voltage_point_id` BIGINT,
+  `low_voltage_side_current_point_id` BIGINT,
+  `low_voltage_side_dc_power_point_id` BIGINT,
+  `high_voltage_side_pre_charging_overvoltage_point_id` BIGINT,
+  `high_voltage_side_polarity_reverse_connection_point_id` BIGINT,
+  `high_voltage_side_short_circuit_point_id` BIGINT,
+  `high_voltage_side_unbalanced_busbars_point_id` BIGINT,
+  `low_voltage_side_undervoltage_point_id` BIGINT,
+  `low_voltage_side_overvoltage_point_id` BIGINT,
+  `low_voltage_side_overcurrent_point_id` BIGINT,
+  `low_voltage_side_reverse_polarity_connection_point_id` BIGINT,
+  `low_insulation_resistance_point_id` BIGINT,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_dcdcs_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_dcdcs` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols` ;
