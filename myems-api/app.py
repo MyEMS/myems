@@ -49,6 +49,7 @@ from reports import energystoragepowerstationdetailsbms
 from reports import energystoragepowerstationdetailsfirecontrol
 from reports import energystoragepowerstationdetailshvac
 from reports import energystoragepowerstationdetailsmeter
+from reports import energystoragepowerstationdetailsdcdc
 from reports import energystoragepowerstationdetailspcs
 from reports import energystoragepowerstationdetailsschedule
 from reports import energystoragepowerstationlist
@@ -1056,6 +1057,8 @@ api.add_route('/reports/energystoragepowerstationdetails/{id_}/hvac',
               energystoragepowerstationdetailshvac.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/meter',
               energystoragepowerstationdetailsmeter.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/dcdc',
+              energystoragepowerstationdetailsdcdc.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/pcs',
               energystoragepowerstationdetailspcs.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/schedule',

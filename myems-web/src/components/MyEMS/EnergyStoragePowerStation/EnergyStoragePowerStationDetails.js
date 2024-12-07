@@ -38,6 +38,7 @@ import classNames from 'classnames';
 import ScheduleDetails from './ScheduleDetails';
 import BMSDetails from './BMSDetails';
 import FirecontrolDetails from './FirecontrolDetails';
+import DCDCDetails from './DCDCDetails';
 import PCSDetails from './PCSDetails';
 import HVACDetails from './HVACDetails';
 import MeterDetails from './MeterDetails';
@@ -147,6 +148,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [BMSDetailsList, setBMSDetailsList] = useState([]);
   const [firecontrolDetailsList, setFirecontrolDetailsList] = useState([]);
   const [HVACDetailsList, setHVACDetailsList] = useState([]);
+  const [DCDCDetailsList, setDCDCDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
   const [meterDetailsList, setMeterDetailsList] = useState([]);
 
@@ -482,6 +484,41 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setScheduleMarkAreaData(schedule_mark_area_data);
 
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  // DCDC
+  const fetchDCDCDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/dcdc'
+    console.log('fetchDCDCDetails with url:' + url);
+
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setDCDCDetailsList(json);
         } else {
           toast.error(t(json.description));
 
@@ -937,6 +974,18 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
                 setActiveTabBottom('4');
+                fetchDCDCDetails()
+            }}
+          >
+            <h6>DCDC</h6>
+          </NavLink>
+        </NavItem>
+
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '5' })}
+              onClick={() => {
+                setActiveTabBottom('5');
                 fetchPCSDetails()
               }}
             >
@@ -946,9 +995,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '5' })}
+              className={classNames({ active: activeTabBottom === '6' })}
               onClick={() => {
-                setActiveTabBottom('5');
+                setActiveTabBottom('6');
                 fetchBMSDetails();
               }}
             >
@@ -958,9 +1007,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '6' })}
+              className={classNames({ active: activeTabBottom === '7' })}
               onClick={() => {
-                setActiveTabBottom('6');
+                setActiveTabBottom('7');
                 fetchMetersDetails();
               }}
             >
@@ -970,9 +1019,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '7' })}
+              className={classNames({ active: activeTabBottom === '8' })}
               onClick={() => {
-                setActiveTabBottom('7');
+                setActiveTabBottom('8');
                 fetchHVACDetails();
               }}
             >
@@ -982,9 +1031,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '8' })}
+              className={classNames({ active: activeTabBottom === '9' })}
               onClick={() => {
-                setActiveTabBottom('8');
+                setActiveTabBottom('9');
                 fetchFireControlDetails();
               }}
             >
@@ -1074,18 +1123,21 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails {...rest} key={id} />) }
+{isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="5">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails {...rest} key={id} />) }
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="6">
-            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="7">
-            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
+            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="8">
+            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
+          </TabPane>
+          <TabPane tabId="9">
             {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
           </TabPane>
         </TabContent>
