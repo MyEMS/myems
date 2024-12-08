@@ -56,6 +56,156 @@ CREATE INDEX `tbl_combined_equipment_output_category_hourly_index_1`
  (`combined_equipment_id`, `energy_category_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_container_charge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_charge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_charge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_container_charge_hourly`
+ (`energy_storage_container_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_container_discharge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_discharge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_discharge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_container_discharge_hourly`
+ (`energy_storage_container_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_buy_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_buy_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_grid_buy_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_buy_hourly`
+ (`energy_storage_container_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_sell_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_sell_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_grid_sell_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_container_grid_sell_hourly`
+ (`energy_storage_container_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_container_load_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_load_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_container_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_load_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_container_load_hourly`
+ (`energy_storage_container_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_power_station_charge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_charge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_charge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_power_station_charge_hourly`
+ (`energy_storage_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_power_station_discharge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_discharge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_discharge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_power_station_discharge_hourly`
+ (`energy_storage_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_buy_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_buy_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_grid_buy_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_buy_hourly`
+ (`energy_storage_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_sell_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_sell_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_grid_sell_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_power_station_grid_sell_hourly`
+ (`energy_storage_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_energy_storage_power_station_load_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_load_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_energy_storage_power_station_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_load_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_energy_storage_power_station_load_hourly`
+ (`energy_storage_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_baseline_db`.`tbl_equipment_input_category_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_equipment_input_category_hourly` ;
@@ -119,6 +269,111 @@ CREATE INDEX `tbl_meter_hourly_index_1`
  (`meter_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_charge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_charge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_charge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_charge_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_discharge_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_discharge_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_discharge_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_evcharger_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_evcharger_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_evcharger_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_evcharger_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_grid_buy_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_grid_buy_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_grid_buy_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_grid_sell_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_grid_sell_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_grid_sell_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_load_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_load_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_load_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_microgrid_photovoltaic_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_microgrid_photovoltaic_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_microgrid_photovoltaic_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_microgrid_photovoltaic_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_baseline_db`.`tbl_offline_meter_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_offline_meter_hourly` ;
@@ -130,7 +385,68 @@ CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_offline_meter_hourly`
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_offline_meter_hourly_index_1`
- ON `myems_energy_baseline_db`.`tbl_offline_meter_hourly` (`offline_meter_id`, `start_datetime_utc`);
+ ON `myems_energy_baseline_db`.`tbl_offline_meter_hourly`
+ (`offline_meter_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_generation_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_generation_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_generation_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_generation_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_generation_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_buy_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_buy_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_buy_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_grid_buy_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_buy_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_sell_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_sell_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_sell_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_grid_sell_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_grid_sell_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_load_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_load_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_load_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_load_hourly_index_1`
+ ON `myems_energy_baseline_db`.`tbl_photovoltaic_power_station_load_hourly`
+ (`photovoltaic_power_station_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_baseline_db`.`tbl_shopfloor_input_category_hourly`
