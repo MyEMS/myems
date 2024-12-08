@@ -56,6 +56,157 @@ CREATE INDEX `tbl_combined_equipment_output_category_8760_index_1`
  (`combined_equipment_id`, `energy_category_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_container_charge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_charge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_charge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_charge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_container_charge_8760`
+ (`energy_storage_container_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_container_discharge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_discharge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_discharge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_discharge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_container_discharge_8760`
+ (`energy_storage_container_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_container_grid_buy_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_grid_buy_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_grid_buy_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_grid_buy_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_container_grid_buy_8760`
+ (`energy_storage_container_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_container_grid_sell_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_grid_sell_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_grid_sell_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_grid_sell_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_container_grid_sell_8760`
+ (`energy_storage_container_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_container_load_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_load_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_container_load_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_container_load_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_container_load_8760`
+ (`energy_storage_container_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_power_station_charge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_charge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_charge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_charge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_power_station_charge_8760`
+ (`energy_storage_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_power_station_discharge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_discharge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_discharge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_discharge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_power_station_discharge_8760`
+ (`energy_storage_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_buy_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_buy_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_buy_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_grid_buy_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_buy_8760`
+ (`energy_storage_power_station_id`, `hour_of_year`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_sell_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_sell_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_sell_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_grid_sell_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_power_station_grid_sell_8760`
+ (`energy_storage_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_energy_storage_power_station_load_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_load_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_energy_storage_power_station_load_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_power_station_load_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_energy_storage_power_station_load_8760`
+ (`energy_storage_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_equipment_input_category_8760`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_equipment_input_category_8760` ;
@@ -114,7 +265,115 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_meter_8760` (
   `hour_of_year` INT NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_meter_8760_index_1` ON `myems_energy_model_db`.`tbl_meter_8760` (`meter_id`, `hour_of_year`);
+CREATE INDEX `tbl_meter_8760_index_1` 
+ ON `myems_energy_model_db`.`tbl_meter_8760` 
+ (`meter_id`, `hour_of_year`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_charge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_charge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_charge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_charge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_charge_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_discharge_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_discharge_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_discharge_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_discharge_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_discharge_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_evcharger_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_evcharger_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_evcharger_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_evcharger_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_evcharger_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_grid_buy_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_grid_buy_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_grid_buy_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_buy_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_grid_buy_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_grid_sell_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_grid_sell_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_grid_sell_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_grid_sell_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_grid_sell_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_load_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_load_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_load_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_load_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_load_8760`
+ (`microgrid_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_microgrid_photovoltaic_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_microgrid_photovoltaic_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_microgrid_photovoltaic_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrid_photovoltaic_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_microgrid_photovoltaic_8760`
+ (`microgrid_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_offline_meter_8760`
@@ -128,7 +387,68 @@ CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_offline_meter_8760` (
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_offline_meter_8760_index_1`
- ON `myems_energy_model_db`.`tbl_offline_meter_8760` (`offline_meter_id`, `hour_of_year`);
+ ON `myems_energy_model_db`.`tbl_offline_meter_8760` 
+ (`offline_meter_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_photovoltaic_power_station_generation_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_generation_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_generation_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_generation_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_photovoltaic_power_station_generation_8760`
+ (`photovoltaic_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_buy_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_buy_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_buy_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_grid_buy_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_buy_8760`
+ (`photovoltaic_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_sell_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_sell_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_sell_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_grid_sell_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_photovoltaic_power_station_grid_sell_8760`
+ (`photovoltaic_power_station_id`, `hour_of_year`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_energy_model_db`.`tbl_photovoltaic_power_station_load_8760`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_load_8760` ;
+
+CREATE TABLE IF NOT EXISTS `myems_energy_model_db`.`tbl_photovoltaic_power_station_load_8760` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `hour_of_year` INT NOT NULL,
+  `actual_value` DECIMAL(18, 3) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_station_load_8760_index_1`
+ ON `myems_energy_model_db`.`tbl_photovoltaic_power_station_load_8760`
+ (`photovoltaic_power_station_id`, `hour_of_year`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_energy_model_db`.`tbl_shopfloor_input_category_8760`

@@ -278,7 +278,9 @@ CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_charge_hourly` (
   `start_datetime_utc` DATETIME NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrid_charge_hourly_index_1` ON `myems_billing_db`.`tbl_microgrid_charge_hourly` (`microgrid_id`, `start_datetime_utc`);
+CREATE INDEX `tbl_microgrid_charge_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_charge_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_billing_db`.`tbl_microgrid_discharge_hourly`
@@ -291,7 +293,9 @@ CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_microgrid_discharge_hourly` (
   `start_datetime_utc` DATETIME NOT NULL,
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_microgrid_discharge_hourly_index_1` ON `myems_billing_db`.`tbl_microgrid_discharge_hourly` (`microgrid_id`, `start_datetime_utc`);
+CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
+ ON `myems_billing_db`.`tbl_microgrid_discharge_hourly`
+ (`microgrid_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_billing_db`.`tbl_microgrid_evcharger_hourly`
@@ -380,7 +384,8 @@ CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_offline_meter_hourly` (
   `actual_value` DECIMAL(18, 3) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_offline_meter_hourly_index_1`
- ON `myems_billing_db`.`tbl_offline_meter_hourly` (`offline_meter_id`, `start_datetime_utc`);
+ ON `myems_billing_db`.`tbl_offline_meter_hourly`
+ (`offline_meter_id`, `start_datetime_utc`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_billing_db`.`tbl_photovoltaic_power_station_generation_hourly`
