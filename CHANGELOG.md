@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added all in one docker files
 - added associated equipments percentage data to combined equipment reports in myems-web
+- added myems_energy_prediction_db to database
 ### Changed
+- updated myems_energy_baseline_db, myems_energy_plan_db, myems_energy_model_db in database
 ### Fixed
 - fixed gulp scss compile error in myems-web
 ### Removed
