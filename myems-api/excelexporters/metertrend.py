@@ -423,7 +423,7 @@ def generate_excel(report,
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
-            line_data.marker.symbol = "circle"
+            line_data.marker.symbol = "auto"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
             line.height = 8.25
