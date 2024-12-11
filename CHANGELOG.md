@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems_energy_prediction_db to database
 ### Changed
 - updated myems_energy_baseline_db, myems_energy_plan_db, myems_energy_model_db in database
+- changed marker symbol from circle to auto in Excel exporter
+- changed dLbls showVal to false in Excel exporter
 ### Fixed
 - fixed gulp scss compile error in myems-web
 ### Removed

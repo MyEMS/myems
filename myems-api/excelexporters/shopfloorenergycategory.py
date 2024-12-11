@@ -381,7 +381,7 @@ def generate_excel(report,
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
         s1.dLbls.showCatName = False  # 标签显示
-        s1.dLbls.showVal = True  # 数量显示
+        s1.dLbls.showVal = False  # 数量显示
         s1.dLbls.showPercent = True  # 百分比显示
 
         ws.add_chart(pie, "D14")
@@ -447,7 +447,7 @@ def generate_excel(report,
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
         s1.dLbls.showCatName = False
-        s1.dLbls.showVal = True
+        s1.dLbls.showVal = False
         s1.dLbls.showPercent = True
         table_cell = 'D' + str(table_start_row_number)
         ws.add_chart(pie, table_cell)
@@ -515,7 +515,7 @@ def generate_excel(report,
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
         s1.dLbls.showCatName = False
-        s1.dLbls.showVal = True
+        s1.dLbls.showVal = False
         s1.dLbls.showPercent = True
         table_cell = 'D' + str(table_start_row_number)
         ws.add_chart(pie, table_cell)
@@ -750,14 +750,14 @@ def generate_excel(report,
                     line.add_data(line_data, titles_from_data=True)
                     line.set_categories(labels)
                     line_data = line.series[0]
-                    line_data.marker.symbol = "circle"
+                    line_data.marker.symbol = "auto"
                     line_data.smooth = True
                     line.x_axis.crosses = 'min'
                     line.height = 8.25
                     line.width = 24
                     line.dLbls = DataLabelList()
                     line.dLbls.dLblPos = 't'
-                    line.dLbls.showVal = True
+                    line.dLbls.showVal = False
                     line.dLbls.showPercent = False
                     chart_col = 'B'
                     chart_cell = chart_col + str(table_start_draw_flag + 6 * i)
@@ -923,14 +923,14 @@ def generate_excel(report,
                     line.add_data(reporting_line_data, titles_from_data=True)
                     line.set_categories(labels)
                     for j in range(len(line.series)):
-                        line.series[j].marker.symbol = "circle"
+                        line.series[j].marker.symbol = "auto"
                         line.series[j].smooth = True
                     line.x_axis.crosses = 'min'
                     line.height = 8.25
                     line.width = 24
                     line.dLbls = DataLabelList()
                     line.dLbls.dLblPos = 't'
-                    line.dLbls.showVal = True
+                    line.dLbls.showVal = False
                     line.dLbls.showPercent = False
                     chart_col = 'B'
                     chart_cell = chart_col + str(table_start_draw_flag + 6 * i)
@@ -1099,7 +1099,7 @@ def generate_excel(report,
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
-            line_data.marker.symbol = "circle"
+            line_data.marker.symbol = "auto"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
             line.height = 8.25

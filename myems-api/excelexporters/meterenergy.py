@@ -362,14 +362,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.add_data(line_data, titles_from_data=True)
                 line.set_categories(labels)
                 line_data = line.series[0]
-                line_data.marker.symbol = "circle"
+                line_data.marker.symbol = "auto"
                 line_data.smooth = True
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True
+                line.dLbls.showVal = False
                 line.dLbls.showPercent = False
                 ws.add_chart(line, "B12")
             else:
@@ -397,14 +397,14 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.add_data(reporting_data, titles_from_data=True)
                 line.set_categories(labels)
                 line_data = line.series[0]
-                line_data.marker.symbol = "circle"
+                line_data.marker.symbol = "auto"
                 line_data.smooth = True
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
                 line.dLbls = DataLabelList()
                 line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = True
+                line.dLbls.showVal = False
                 line.dLbls.showPercent = False
                 ws.add_chart(line, "B12")
 
@@ -618,7 +618,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]
-            line_data.marker.symbol = "circle"
+            line_data.marker.symbol = "auto"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
             line.height = 8.25
