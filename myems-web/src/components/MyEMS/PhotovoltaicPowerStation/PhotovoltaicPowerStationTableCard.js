@@ -10,7 +10,7 @@ const PhotovoltaicPowerStationTableCard = ({ photovoltaicPowerStationList, t }) 
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title={t("Photovoltaic  Power Station List")} light={false}>
+      <FalconCardHeader title={t("Photovoltaic Power Station List")} light={false}>
       </FalconCardHeader>
       <CardBody className="p-0">
         <PhotovoltaicPowerStationTable setIsSelected={setIsSelected}  photovoltaicPowerStationList={photovoltaicPowerStationList}/>

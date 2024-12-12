@@ -9,7 +9,77 @@ import Flex from '../../common/Flex';
 import classNames from 'classnames';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
+import ReactEchartsCore from 'echarts-for-react/lib/core';
+import * as echarts from "echarts"
+import { themeColors, getPosition, numberFormatter, getGrays } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
+
+
+const getOption = (timeStamps, hourlyData, isDark) => {
+
+  const grays = getGrays(isDark);
+  // Max value of hourlyData
+  const yMax = Math.max(...hourlyData);
+  const dataBackground = hourlyData.map(() => yMax);
+  return {
+    tooltip: {
+      trigger: 'axis',
+      padding: [7, 10],
+      formatter: '{b1}: {c1}',
+      backgroundColor: grays.white,
+      borderColor: grays['300'],
+      borderWidth: 1,
+      textStyle: { color: themeColors.dark },
+      transitionDuration: 0,
+      position(pos, params, dom, rect, size) {
+        return getPosition(pos, params, dom, rect, size);
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: timeStamps,
+      boundaryGap: false,
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      axisPointer: { type: 'none' }
+    },
+    yAxis: {
+      type: 'value',
+      splitLine: { show: false },
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      axisPointer: { type: 'none' }
+    },
+    series: [
+      {
+        type: 'bar',
+        barWidth: '5px',
+        barGap: '-100%',
+        itemStyle: {
+          color: grays['200'],
+          barBorderRadius: 10
+        },
+        data: dataBackground,
+        animation: false,
+        emphasis: { itemStyle: { color: grays['200'] } }
+      },
+      {
+        type: 'bar',
+        barWidth: '5px',
+        itemStyle: {
+          color: themeColors.primary,
+          barBorderRadius: 10
+        },
+        data: hourlyData,
+        emphasis: { itemStyle: { color: themeColors.primary } },
+        z: 10
+      }
+    ],
+    grid: { right: 5, left: 5, top: 0, bottom: 0 }
+  };
+};
 
 const PhotovoltaicPowerStationListItem = ({
   id,
@@ -19,28 +89,18 @@ const PhotovoltaicPowerStationListItem = ({
   address,
   postal_code,
   serial_number,
-  batteryOperatingState,
-  batterySocPointValue,
-  batteryPowerPointValue,
   photovoltaicPowerPointValue,
   loadPowerPointValue,
   gridPowerPointValue,
   alarms,
   isOnline,
   PCSRunState,
+  timeStamps,
+  hourlyData,
   index,
   t
 }) => {
   const { isDark } = useContext(AppContext);
-  const { favouriteItemsDispatch } = useContext(ProductContext);
-  const [cartLoading, setCartLoading] = useState(false);
-
-  const handleAddToCart = () => {
-    setCartLoading(true);
-    setTimeout(() => {
-      setCartLoading(false);
-    }, 1000);
-  };
 
   return (
     <Col xs={12} className={classNames('p-3', { 'bg-100': isDark && index % 2 !== 0 })}>
@@ -85,60 +145,16 @@ const PhotovoltaicPowerStationListItem = ({
                 <p className="fs--1 mb-2 mb-md-3">{serial_number}</p>
                 <div className="d-none d-lg-block">
                   <p className="fs--1 mb-1">
-                    {t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong>
+                    {t('Generation Power')}:<strong>{gridPowerPointValue} kW</strong>
                   </p>
-                  <p className="fs--1 mb-1">
-                    {t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong>
-                  </p>
-                  {/* <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p> */}
                 </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
-                  <h4 className="fs-1 fs-md-2 text-warning mb-0">SoC: {batterySocPointValue} %</h4>
                   <p className="fs--1 mb-1">
                     {t('Communication Status')}:{' '}
                     <strong className={classNames({ 'text-success': isOnline, 'text-danger': !isOnline })}>
                       {isOnline ? t('Communication Online') : t('Communication Offline')}
-                    </strong>
-                  </p>
-                  <p className="fs--1 mb-1">
-                    {t('Battery Operating State')}:{' '}
-                    <strong
-                      className={classNames({
-                        'text-success':
-                          batteryOperatingState === 'Normal' ||
-                          batteryOperatingState === 'Standby' ||
-                          batteryOperatingState === 'ProhibitDisCharging' ||
-                          batteryOperatingState === 'ProhibitCharging',
-                        'text-danger':
-                          batteryOperatingState === 'Unknown' ||
-                          batteryOperatingState === 'Fault' ||
-                          batteryOperatingState === 'Warning'
-                      })}
-                    >
-                      {batteryOperatingState === 'Normal'
-                        ? t('Battery Normal')
-                        : batteryOperatingState === 'Standby'
-                        ? t('Battery Standby')
-                        : batteryOperatingState === 'ProhibitDisCharging'
-                        ? t('Battery Prohibit DisCharging')
-                        : batteryOperatingState === 'ProhibitCharging'
-                        ? t('Battery Prohibit Charging')
-                        : batteryOperatingState === 'Fault'
-                        ? t('Battery Fault')
-                        : batteryOperatingState === 'Warning'
-                        ? t('Battery Warning')
-                        : batteryOperatingState === 'Charing'
-                        ? t('Battery Charging')
-                        : batteryOperatingState === 'Discharging'
-                        ? t('Battery Discharging')
-                        : batteryOperatingState === 'Idle'
-                        ? t('Battery Idle')
-                        : batteryOperatingState === 'Reserved'
-                        ? t('Battery Reserved')
-                        : t('Battery Unknown')}
                     </strong>
                   </p>
                   <p className="fs--1 mb-1">
@@ -167,55 +183,18 @@ const PhotovoltaicPowerStationListItem = ({
                         : t('PCS Unknown')}
                     </strong>
                   </p>
+                  <ReactEchartsCore
+                  echarts={echarts}
+                  option={getOption(timeStamps, hourlyData, isDark)}
+                  style={{ width: '100%', height: '100%' }}
+                />
                 </div>
-                <div className="mt-md-2">
-                  {/* <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tv"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`singlephotovoltaicpowerstation/details?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Monitoring')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="chart-pie"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`photovoltaicpowerstation/reporting?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Reporting')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color={isOnline ? 'outline-danger' : 'outline-secondary'}
-                    size="sm"
-                    className={classNames('w-lg-100 mt-2 mr-2 mr-lg-0', {
-                      'border-300': !isOnline
-                    })}
-                    icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                    onClick={() => window.open('notification', '_blank')}
-                  >
-                    {t('Fault Alarms')}({alarms.length})
-                  </ButtonIcon>
 
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tools"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={handleAddToCart}
-                  >
-                    {t('Maintenance')}
-                  </ButtonIcon> */}
-                </div>
               </Col>
             </Row>
           </Col>
         </Row>
+
       </div>
     </Col>
   );
@@ -227,15 +206,14 @@ PhotovoltaicPowerStationListItem.propTypes = {
   address: PropTypes.string,
   postal_code: PropTypes.string,
   serial_number: PropTypes.string,
-  batteryOperatingState: PropTypes.string,
-  batterySocPointValue: PropTypes.number,
-  batteryPowerPointValue: PropTypes.number,
   photovoltaicPowerPointValue: PropTypes.number,
   loadPowerPointValue: PropTypes.number,
   gridPowerPointValue: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
-  PCSRunState: PropTypes.string
+  PCSRunState: PropTypes.string,
+  timeStamps: PropTypes.array,
+  hourlyData: PropTypes.array,
 };
 
 PhotovoltaicPowerStationListItem.defaultProps = { isOnline: false, files: [] };

@@ -121,9 +121,6 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
   const [photovoltaicPowerStationReportingLabels, setPhotovoltaicPowerStationReportingLabels] = useState({ a0: [] });
   const [photovoltaicPowerStationReportingData, setPhotovoltaicPowerStationReportingData] = useState({ a0: [] });
   const [photovoltaicPowerStationReportingOptions, setPhotovoltaicPowerStationReportingOptions] = useState([]);
-  const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-  const [parameterLineChartData, setParameterLineChartData] = useState({});
-  const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
   const [timeOfUseDataTableData, setTimeOfUseDataTableData] = useState([]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
@@ -262,23 +259,6 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
           setPhotovoltaicPowerStationLatitude(json['photovoltaic_power_station']['latitude']);
           setPhotovoltaicPowerStationLongitude(json['photovoltaic_power_station']['longitude']);
-          let timestamps = {};
-          json['parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setParameterLineChartLabels(timestamps);
-
-          let values = {};
-          json['parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setParameterLineChartData(values);
-
-          let names = [];
-          json['parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setParameterLineChartOptions(names);
 
           let base_and_reporting_names = {};
           json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -638,7 +618,7 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
               <Col xs="auto">
                 <FormGroup>
                   <Label className={labelClasses} for="photovoltaicPowerStationSelect">
-                    {t('Photovoltaic  Power Station')}
+                    {t('Photovoltaic Power Station')}
                   </Label>
 
                   <Form inline>
@@ -748,13 +728,6 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
           columns={detailedDataTableColumns}
           pagesize={50}
           hidden={true}
-        />
-        <MultipleLineChart
-          reportingTitle={t('Operating Characteristic Curve')}
-          baseTitle=""
-          labels={parameterLineChartLabels}
-          data={parameterLineChartData}
-          options={parameterLineChartOptions}
         />
       </div>
     </Fragment>
