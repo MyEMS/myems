@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -32,6 +32,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
+import AppContext from '../../../context/Context';
 import Datetime from 'react-datetime';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
@@ -45,6 +46,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const location = useLocation();
   const uuid = location.search.split('=')[1];
   const photovoltaicPowerStationUUID = location.search.split('=')[1];
+  const { currency } = useContext(AppContext);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -597,7 +599,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Generation")}</th>
-                            <th className="pr-0 text-right">{totalGenerationEnergyValue} kWh</th>
+                            <th className="pr-0 text-right">{totalGenerationEnergyValue / 1000.0} mWh</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Efficiency")}</th>
@@ -621,11 +623,11 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                         <tbody>
                           <tr className="border-bottom">
                             <th className="pl-0">{t("Today's Income")}</th>
-                            <th className="pr-0 text-right ">{todayGenerationRevenueValue} 元</th>
+                            <th className="pr-0 text-right ">{todayGenerationRevenueValue} {currency}</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Income")}</th>
-                            <th className="pr-0 text-right">{totalGenerationRevenueValue} 元</th>
+                            <th className="pr-0 text-right">{totalGenerationRevenueValue} {currency}</th>
                           </tr>
                         </tbody>
                       </Table>
@@ -722,7 +724,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             <NavLink
               className={classNames({ active: activeTabBottom === '2' })}
               onClick={() => {
-                setActiveTabBottom('3');
+                setActiveTabBottom('2');
               }}
             >
               <h6>{t('Fault Alarms')}</h6>
@@ -733,7 +735,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             <NavLink
               className={classNames({ active: activeTabBottom === '3' })}
               onClick={() => {
-                setActiveTabBottom('4');
+                setActiveTabBottom('3');
                 fetchInvertorDetails()
               }}
             >
@@ -745,7 +747,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             <NavLink
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
-                setActiveTabBottom('6');
+                setActiveTabBottom('4');
                 fetchMetersDetails();
               }}
             >

@@ -625,7 +625,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 <CustomizeMapBox
                   Latitude={rootLatitude}
                   Longitude={rootLongitude}
-                  Zoom={4}
+                  Zoom={8}
                   Geojson={geojson['features']}
                 />
               </div>

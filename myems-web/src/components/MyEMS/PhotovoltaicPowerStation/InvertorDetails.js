@@ -107,6 +107,7 @@ const InvertorDetails = ({
   return (
     <Card className="mb-3 fs--1">
       <CardBody className="bg-light">
+        <h6>{name}</h6>
         <Table striped className="border-bottom">
           <thead>
             <tr>
