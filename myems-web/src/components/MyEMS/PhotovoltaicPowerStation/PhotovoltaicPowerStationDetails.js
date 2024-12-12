@@ -720,7 +720,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           </NavItem>
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '3' })}
+              className={classNames({ active: activeTabBottom === '2' })}
               onClick={() => {
                 setActiveTabBottom('3');
               }}
@@ -731,19 +731,19 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '4' })}
+              className={classNames({ active: activeTabBottom === '3' })}
               onClick={() => {
                 setActiveTabBottom('4');
                 fetchInvertorDetails()
               }}
             >
-              <h6>Invertor</h6>
+              <h6>{t("Invertor")}</h6>
             </NavLink>
           </NavItem>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '6' })}
+              className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
                 setActiveTabBottom('6');
                 fetchMetersDetails();
@@ -764,7 +764,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               options={parameterLineChartOptions}
             />
           </TabPane>
-          <TabPane tabId="3">
+          <TabPane tabId="2">
             <Card className="mb-3 fs--1">
               <CardBody className="bg-light">
                 <Table striped className="border-bottom">
@@ -826,10 +826,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               </CardBody>
             </Card>
           </TabPane>
-          <TabPane tabId="4">
+          <TabPane tabId="3">
             {isIterableArray(InvertorDetailsList) && InvertorDetailsList.map(({ id, ...rest }) => <InvertorDetails {...rest} key={id} />) }
           </TabPane>
-          <TabPane tabId="6">
+          <TabPane tabId="4">
             {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
           </TabPane>
         </TabContent>

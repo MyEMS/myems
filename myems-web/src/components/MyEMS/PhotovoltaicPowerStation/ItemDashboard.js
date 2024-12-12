@@ -560,14 +560,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
-          <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
-            {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'mWh'} color="ratedCapacity">
+            {1 && <CountUp end={totalRatedCapacity / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kWp'} color="ratedPower">
-            {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'mWp'} color="ratedPower">
+            {1 && <CountUp end={totalRatedPower / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Generation')} footunit={'kWh'} color="electricity">
-            {1 && <CountUp end={totalGeneration} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+          <CardSummary rate={''} title={t('Total Generation')} footunit={'mWh'} color="electricity">
+            {1 && <CountUp end={totalGeneration / 1000.0 } duration={2} prefix="" separator="," decimal="." decimals={2} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
             {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
@@ -585,7 +585,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('1');
                     }}
                   >
-                    <h6>{t('Generation Energy Indicator')}</h6>
+                    <h6>{t('Energy Indicator')}</h6>
                   </NavLink>
                 </NavItem>
                 <NavItem className="cursor-pointer">
@@ -595,7 +595,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       toggleTabLeft('4');
                     }}
                   >
-                    <h6>{t('Generation Revenue Indicator')}</h6>
+                    <h6>{t('Revenue Indicator')}</h6>
                   </NavLink>
                 </NavItem>
               </Nav>

@@ -447,7 +447,7 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
               <Col xs="auto">
                 <FormGroup>
                   <Label className={labelClasses} for="photovoltaicPowerStationSelect">
-                    {t('Photovoltaic  Power Station')}
+                    {t('Photovoltaic Power Station')}
                   </Label>
 
                   <Form inline>

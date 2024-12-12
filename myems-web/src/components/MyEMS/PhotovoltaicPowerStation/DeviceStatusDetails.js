@@ -23,19 +23,19 @@ const DeviceStatusDetails = ({
           <Table borderless className="fs--1 mb-0">
             <tbody>
               <tr className="border-bottom">
-                <th className="pl-0 pb-0">通信网关</th>
+                <th className="pl-0 pb-0">{t("Gateway")}</th>
                 <th className="pr-0 text-right">{gatewayStatus}正常</th>
               </tr>
               <tr className="border-bottom">
-                <th className="pl-0">Invertor</th>
+                <th className="pl-0">{t("Invertor")}</th>
                 <th className="pr-0 text-right">{invertorStatus}正常</th>
               </tr>
               <tr className="border-bottom">
-                <th className="pl-0 pb-0">电网表</th>
+                <th className="pl-0 pb-0">{t("Grid Meter")}</th>
                 <th className="pr-0 text-right">{gridMeterStatus}正常</th>
               </tr>
               <tr className="border-bottom">
-                <th className="pl-0 pb-0">负载表</th>
+                <th className="pl-0 pb-0">{t("Load Meter")}</th>
                 <th className="pr-0 text-right">{loadMeterStatus}正常</th>
               </tr>
             </tbody>

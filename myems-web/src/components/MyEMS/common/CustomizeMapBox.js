@@ -31,6 +31,8 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     var lang = language;
     if (lang === 'zh_CN') {
       lang = 'zh-Hans';
+    } else if (lang === 'zh_TW') {
+      lang = 'zh-Hant';
     }
 
     if (map.current) return; // initialize map only once
@@ -59,6 +61,8 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     var lang = language;
     if (lang === 'zh_CN') {
       lang = 'zh-Hans';
+    } else if (lang === 'zh_TW') {
+      lang = 'zh-Hant';
     }
     if (!map.current) return;
     if (Geojson !== null && Geojson !== undefined) {
