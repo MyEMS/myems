@@ -1,8 +1,9 @@
 import falcon
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import mysql.connector
 import simplejson as json
 from core.useractivity import access_control
+from decimal import Decimal
 import config
 
 
@@ -84,6 +85,39 @@ class Reporting:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        # get generation hourly data in latest 24 hours
+        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy = cnx_energy.cursor()
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+        reporting_end_datetime_utc = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
+        reporting_end_datetime_utc = reporting_end_datetime_utc - timedelta(hours=1)
+        reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
+        hourly_report_dict = dict()
+
+        cursor_energy.execute(" SELECT photovoltaic_power_station_id, start_datetime_utc, actual_value "
+                              " FROM tbl_photovoltaic_power_station_generation_hourly "
+                              " WHERE start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s "
+                              " ORDER BY photovoltaic_power_station_id, start_datetime_utc ",
+                              (reporting_start_datetime_utc,
+                               reporting_end_datetime_utc))
+        rows_hourly = cursor_energy.fetchall()
+        if rows_hourly is not None and len(rows_hourly) > 0:
+            for row_hourly in rows_hourly:
+                if row_hourly[0] not in hourly_report_dict.keys():
+                    hourly_report_dict[row_hourly[0]] = dict()
+                    hourly_report_dict[row_hourly[0]]['time_stamps'] = list()
+                    hourly_report_dict[row_hourly[0]]['values'] = list()
+
+                current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                hourly_report_dict[row_hourly[0]]['time_stamps'].append(current_datetime_local.strftime('%H:%M:%S'))
+                actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
+                hourly_report_dict[row_hourly[0]]['values'].append(actual_value)
+
         # get photovoltaic power stations
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
@@ -195,6 +229,8 @@ class Reporting:
                                "pcs_run_state": pcs_run_state,
                                "grid_power_point_value": grid_power_point_value,
                                "load_power_point_value": load_power_point_value,
+                               "time_stamps": hourly_report_dict[photovoltaic_power_station_id]['time_stamps'],
+                               "hourly_data": hourly_report_dict[photovoltaic_power_station_id]['values']
                                }
 
                 result.append(meta_result)
