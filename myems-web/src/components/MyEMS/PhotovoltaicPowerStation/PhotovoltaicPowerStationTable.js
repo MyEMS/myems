@@ -12,10 +12,10 @@ import { withTranslation } from 'react-i18next';
 
 const PhotovoltaicPowerStationTable = ({ setIsSelected, photovoltaicPowerStationList, t }) => {
   const { currency } = useContext(AppContext);
-  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{amount} kWp</Fragment>;
-  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
+  const energyFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWh</Fragment>;
+  const capacityFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWp</Fragment>;
+  const currencyFormatter = amount => <Fragment>{amount.toFixed(2)} {currency}</Fragment>;
 
   const nameFormatter = (nameuuid) => (
     <Link to={"/singlephotovoltaicpowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold" target="_blank">
@@ -111,16 +111,6 @@ const selectRow = onSelect => ({
         icon = 'check';
         text = t('Communication Online');
         break;
-      case 'charging':
-        color = 'success';
-        icon = 'check';
-        text = 'Charging';
-        break;
-      case 'discharging':
-        color = 'success';
-        icon = 'check';
-        text = 'Discharging';
-        break;
       case 'offline':
         color = 'secondary';
         icon = 'ban';
@@ -163,7 +153,7 @@ const selectRow = onSelect => ({
       sort: true
     },
     {
-      dataField: 'subtotal_charge_energy',
+      dataField: 'subtotal_generation_energy',
       text: t('Total Generation'),
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
