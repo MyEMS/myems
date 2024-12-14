@@ -9,7 +9,58 @@ import Flex from '../../common/Flex';
 import classNames from 'classnames';
 import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
+import ReactEchartsCore from 'echarts-for-react/lib/core';
+import * as echarts from "echarts"
+import { themeColors, getPosition, numberFormatter, getGrays } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
+
+const getOption = (times, values, isDark) => {
+  const grays = getGrays(isDark);
+  return {
+    tooltip: {
+      trigger: 'axis',
+      padding: [7, 10],
+      formatter: '{b0}: {c0} kWh',
+      backgroundColor: grays.white,
+      borderColor: grays['300'],
+      borderWidth: 1,
+      textStyle: { color: themeColors.dark },
+      transitionDuration: 0,
+      position(pos, params, dom, rect, size) {
+        return getPosition(pos, params, dom, rect, size);
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: times,
+      boundaryGap: false,
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      axisPointer: { type: 'none' }
+    },
+    yAxis: {
+      type: 'value',
+      splitLine: { show: false },
+      axisLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      axisPointer: { type: 'none' }
+    },
+    series: [
+      {
+        type: 'line',
+        itemStyle: {
+          color: themeColors.primary,
+        },
+        data: values,
+        emphasis: { itemStyle: { color: themeColors.primary } },
+        z: 10
+      }
+    ],
+    grid: { right: 5, left: 5, top: 0, bottom: 0 }
+  };
+};
 
 const EnergyStoragePowerStationListItem = ({
   id,
@@ -18,35 +69,26 @@ const EnergyStoragePowerStationListItem = ({
   name,
   address,
   postal_code,
-  serial_number,
   batteryOperatingState,
   batterySocPointValue,
   batteryPowerPointValue,
-  photovoltaicPowerPointValue,
-  loadPowerPointValue,
-  gridPowerPointValue,
   alarms,
   isOnline,
   PCSRunState,
+  chargeTimes,
+  chargeValues,
+  dischargeTimes,
+  dischargeValues,
   index,
   t
 }) => {
   const { isDark } = useContext(AppContext);
-  const { favouriteItemsDispatch } = useContext(ProductContext);
-  const [cartLoading, setCartLoading] = useState(false);
-
-  const handleAddToCart = () => {
-    setCartLoading(true);
-    setTimeout(() => {
-      setCartLoading(false);
-    }, 1000);
-  };
 
   return (
     <Col xs={12} className={classNames('p-3', { 'bg-100': isDark && index % 2 !== 0 })}>
       <div className="p-1">
         <Row>
-          <Col sm={5} md={4}>
+          <Col sm={4} md={4}>
             <div className="position-relative h-sm-100">
               <Link className="d-block h-100" to={`/singleenergystoragepowerstation/details?uuid=${uuid}`} target="_blank">
                 <img
@@ -72,29 +114,26 @@ const EnergyStoragePowerStationListItem = ({
               )}
             </div>
           </Col>
-          <Col sm={7} md={8}>
+          <Col sm={8} md={8}>
             <Row>
-              <Col lg={7}>
+              <Col lg={6}>
                 <h5 className="mt-3 mt-sm-0">
                   <Link to={`/singleenergystoragepowerstation/details?uuid=${uuid}`} target="_blank">
                     {name}
                   </Link>
                 </h5>
-                <p className="fs--1 mb-2 mb-md-3">{address}</p>
-                <p className="fs--1 mb-2 mb-md-3">{postal_code}</p>
-                <p className="fs--1 mb-2 mb-md-3">{serial_number}</p>
-                <div className="d-none d-lg-block">
-                  <p className="fs--1 mb-1">
-                    {t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong>
+                <p className="fs--1 mb-1">{address}</p>
+                <p className="fs--1 mb-1">{postal_code}</p>
+                <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
+                <p className="fs--1 mb-1">{t("Today's Charge")}
+                <ReactEchartsCore
+                    echarts={echarts}
+                    option={getOption(chargeTimes, chargeValues, isDark)}
+                    style={{ width: '100%', height: '50%' }}
+                  />
                   </p>
-                  <p className="fs--1 mb-1">
-                    {t('Grid Power')}:<strong>{gridPowerPointValue} kW</strong>
-                  </p>
-                  {/* <p className="fs--1 mb-1">{t('Photovoltaic Power')}:<strong>{photovoltaicPowerPointValue} kW</strong></p>
-                    <p className="fs--1 mb-1">{t('Load Power')}:<strong>{loadPowerPointValue} kW</strong></p> */}
-                </div>
               </Col>
-              <Col lg={5} tag={Flex} justify="between" column>
+              <Col lg={6} tag={Flex} justify="between" column>
                 <div>
                   <h4 className="fs-1 fs-md-2 text-warning mb-0">SoC: {batterySocPointValue} %</h4>
                   <p className="fs--1 mb-1">
@@ -130,7 +169,7 @@ const EnergyStoragePowerStationListItem = ({
                         ? t('Battery Fault')
                         : batteryOperatingState === 'Warning'
                         ? t('Battery Warning')
-                        : batteryOperatingState === 'Charing'
+                        : batteryOperatingState === 'Charging'
                         ? t('Battery Charging')
                         : batteryOperatingState === 'Discharging'
                         ? t('Battery Discharging')
@@ -167,50 +206,13 @@ const EnergyStoragePowerStationListItem = ({
                         : t('PCS Unknown')}
                     </strong>
                   </p>
-                </div>
-                <div className="mt-md-2">
-                  {/* <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tv"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`singleenergystoragepowerstation/details?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Monitoring')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="chart-pie"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={() => window.open(`energystoragepowerstation/reporting?uuid=${uuid}`, '_blank')}
-                  >
-                    {t('Reporting')}
-                  </ButtonIcon>
-                  <ButtonIcon
-                    color={isOnline ? 'outline-danger' : 'outline-secondary'}
-                    size="sm"
-                    className={classNames('w-lg-100 mt-2 mr-2 mr-lg-0', {
-                      'border-300': !isOnline
-                    })}
-                    icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                    onClick={() => window.open('notification', '_blank')}
-                  >
-                    {t('Fault Alarms')}({alarms.length})
-                  </ButtonIcon>
-
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tools"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={handleAddToCart}
-                  >
-                    {t('Maintenance')}
-                  </ButtonIcon> */}
+                  <p className="fs--1 mb-1">{t("Today's Discharge")}
+                  <ReactEchartsCore
+                    echarts={echarts}
+                    option={getOption(dischargeTimes, dischargeValues, isDark)}
+                    style={{ width: '100%', height: '50%' }}
+                  />
+                  </p>
                 </div>
               </Col>
             </Row>
@@ -226,7 +228,6 @@ EnergyStoragePowerStationListItem.propTypes = {
   files: PropTypes.array,
   address: PropTypes.string,
   postal_code: PropTypes.string,
-  serial_number: PropTypes.string,
   batteryOperatingState: PropTypes.string,
   batterySocPointValue: PropTypes.number,
   batteryPowerPointValue: PropTypes.number,
@@ -235,7 +236,11 @@ EnergyStoragePowerStationListItem.propTypes = {
   gridPowerPointValue: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
-  PCSRunState: PropTypes.string
+  PCSRunState: PropTypes.string,
+  chargeTimes: PropTypes.array,
+  chargeValues: PropTypes.array,
+  dischargeTimes: PropTypes.array,
+  dischargeValues: PropTypes.array,
 };
 
 EnergyStoragePowerStationListItem.defaultProps = { isOnline: false, files: [] };

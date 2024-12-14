@@ -133,51 +133,6 @@ class Reporting:
         cnx_energy = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy = cnx_energy.cursor()
 
-        # query all contacts in system
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor_system.execute(query)
-        rows_contacts = cursor_system.fetchall()
-
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
-        # query all cost centers in system
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor_system.execute(query)
-        rows_cost_centers = cursor_system.fetchall()
-
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        # query all energy categories in system
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                            "unit_of_measure": row_energy_category[2],
-                                                            "kgce": row_energy_category[3],
-                                                            "kgco2e": row_energy_category[4]}
-
         if photovoltaic_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
@@ -211,76 +166,16 @@ class Reporting:
                            "longitude": row[6],
                            "rated_capacity": row[7],
                            "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
                            "qrcode": 'photovoltaic_power_station:' + row[2]}
 
         point_list = list()
-
-        ################################################################################################################
-        # Step 3: query associated energy storage containers
-        ################################################################################################################
-        # todo: query multiple energy storage containers
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_photovoltaic_power_stations_containers sc, "
-                              "      tbl_photovoltaic_containers c "
-                              " WHERE sc.photovoltaic_power_station_id = %s "
-                              "      AND sc.photovoltaic_container_id = c.id"
-                              " LIMIT 1 ",
-                              (photovoltaic_power_station_id,))
-        row_container = cursor_system.fetchone()
-        if row_container is not None:
-            container_list.append({"id": row_container[0],
-                                   "name": row_container[1],
-                                   "uuid": row_container[2]})
-
-        ################################################################################################################
-        # Step 4: query associated batteries
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_batteries mb, tbl_points p "
-                              " WHERE mb.photovoltaic_container_id = %s AND mb.soc_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.SOC',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_batteries mb, tbl_points p "
-                              " WHERE mb.photovoltaic_container_id = %s AND mb.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        ################################################################################################################
-        # Step 5: query associated grids
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_grids mg, tbl_points p "
-                              " WHERE mg.photovoltaic_container_id = %s AND mg.power_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
         ################################################################################################################
         # Step 6: query associated loads
         ################################################################################################################
         cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_loads ml, tbl_points p "
-                              " WHERE ml.photovoltaic_container_id = %s AND ml.power_point_id = p.id ",
-                              (container_list[0]['id'],))
+                              " FROM tbl_photovoltaic_power_stations_loads ml, tbl_points p "
+                              " WHERE ml.photovoltaic_power_station_id = %s AND ml.power_point_id = p.id ",
+                              (photovoltaic_power_station_id,))
         row_point = cursor_system.fetchone()
         if row_point is not None:
             point_list.append({"id": row_point[0],
@@ -288,66 +183,21 @@ class Reporting:
                                "units": row_point[2],
                                "object_type": row_point[3]})
 
-        ################################################################################################################
-        # Step 7: query associated power conversion systems
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_power_conversion_systems pcs, tbl_points p "
-                              " WHERE pcs.photovoltaic_container_id = %s AND "
-                              "       pcs.today_charge_energy_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.TodayCharge',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_power_conversion_systems pcs, tbl_points p "
-                              " WHERE pcs.photovoltaic_container_id = %s AND "
-                              "       pcs.today_discharge_energy_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.TodayDischarge',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_power_conversion_systems pcs, tbl_points p "
-                              " WHERE pcs.photovoltaic_container_id = %s AND "
-                              "       pcs.total_charge_energy_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.TotalCharge',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                              " FROM tbl_photovoltaic_containers_power_conversion_systems pcs, tbl_points p "
-                              " WHERE pcs.photovoltaic_container_id = %s AND "
-                              "       pcs.total_discharge_energy_point_id = p.id ",
-                              (container_list[0]['id'],))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.TotalDischarge',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        ################################################################################################################
-        # Step 8: query associated sensors
-        ################################################################################################################
-        # todo
+        cursor_system.execute(" SELECT p.id, ppai.name, p.units, p.object_type  "
+                              " FROM tbl_photovoltaic_power_stations_invertors ppai, tbl_points p "
+                              " WHERE ppai.photovoltaic_power_station_id = %s AND ppai.active_power_point_id = p.id ",
+                              (photovoltaic_power_station_id,))
+        rows_points = cursor_system.fetchall()
+        if rows_points is not None and len(rows_points) > 0:
+            for row_point in rows_points:
+                point_list.append({"id": row_point[0],
+                                   "name": row_point[1] + '.P',
+                                   "units": row_point[2],
+                                   "object_type": row_point[3]})
 
         ################################################################################################################
         # Step 9: query associated points data
         ################################################################################################################
-
         parameters_data = dict()
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()

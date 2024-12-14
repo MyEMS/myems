@@ -114,11 +114,13 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               energyStoragePowerStation['batterySocPointValue'] = json[index]['battery_soc_point_value'];
               energyStoragePowerStation['batteryPowerPointValue'] = json[index]['battery_power_point_value'];
               energyStoragePowerStation['photovoltaicPowerPointValue'] = json[index]['photovoltaic_power_point_value'];
-              energyStoragePowerStation['loadPowerPointValue'] = json[index]['load_power_point_value'];
-              energyStoragePowerStation['gridPowerPointValue'] = json[index]['grid_power_point_value'];
               energyStoragePowerStation['PCSRunState'] = json[index]['pcs_run_state'];
               energyStoragePowerStation['alarms'] = ['supply temperature is high', 'return temperature is low'];
               energyStoragePowerStation['isOnline'] = json[index]['is_online'];
+              energyStoragePowerStation['chargeTimes'] = json[index]['charge_times'];
+              energyStoragePowerStation['chargeValues'] = json[index]['charge_values'];
+              energyStoragePowerStation['dischargeTimes'] = json[index]['discharge_times'];
+              energyStoragePowerStation['dischargeValues'] = json[index]['discharge_values'];
 
               energyStoragePowerStationArray.push(energyStoragePowerStation);
               energyStoragePowerStationIds.push(energyStoragePowerStation['id']);
@@ -139,10 +141,6 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
           }
           setEnergyStoragePowerStationArray(energyStoragePowerStationArray);
           setEnergyStoragePowerStationIds(energyStoragePowerStationIds);
-          console.log('energyStoragePowerStationArray:');
-          console.log(energyStoragePowerStationArray);
-          console.log('energyStoragePowerStationIds:');
-          console.log(energyStoragePowerStationIds);
           setIsLoading(false);
           setGeojson(geojsonData);
         } else {

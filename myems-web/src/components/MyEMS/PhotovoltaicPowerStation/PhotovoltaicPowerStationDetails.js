@@ -270,8 +270,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
           setPhotovoltaicPowerStationSVG({ __html: json['photovoltaic_power_station']['svg'] });
 
-          setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value']);
-          setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value']);
+          setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value'].toFixed(3));
+          setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
 
           if (json['energy_indicators']['total_generation_energy_value'] > 0) {
             // setTotalEfficiency((100 * json['energy_indicators']['total_disgeneration_energy_value'] / json['energy_indicators']['total_generation_energy_value']).toFixed(2))
@@ -279,8 +279,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             setTotalEfficiency(0)
           }
 
-          setTodayGenerationRevenueValue(json['revenue_indicators']['today_generation_revenue_value']);
-          setTotalGenerationRevenueValue(json['revenue_indicators']['total_generation_revenue_value']);
+          setTodayGenerationRevenueValue(json['revenue_indicators']['today_generation_revenue_value'].toFixed(2));
+          setTotalGenerationRevenueValue(json['revenue_indicators']['total_generation_revenue_value'].toFixed(2));
 
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
@@ -599,10 +599,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Generation")}</th>
-                            <th className="pr-0 text-right">{totalGenerationEnergyValue / 1000.0} mWh</th>
+                            <th className="pr-0 text-right">{(totalGenerationEnergyValue / 1000.0).toFixed(3)} mWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Efficiency")}</th>
+                            <th className="pl-0 pb-0">{t("Total Efficiency")} PR</th>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
                           {/* <tr className="border-bottom">
