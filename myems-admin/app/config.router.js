@@ -1402,6 +1402,7 @@ app
                                                 files: [
                                                     'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerbattery.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainercommand.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerfirecontrol.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainergrid.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerhvac.service.js',
@@ -1417,6 +1418,7 @@ app
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.master.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerbattery.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainercommand.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerfirecontrol.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainergrid.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerhvac.controller.js',

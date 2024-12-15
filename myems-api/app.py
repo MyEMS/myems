@@ -357,6 +357,10 @@ api.add_route('/energystoragecontainers/{id_}/batteries',
               energystoragecontainer.EnergyStorageContainerBatteryCollection())
 api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
               energystoragecontainer.EnergyStorageContainerBatteryItem())
+api.add_route('/energystoragecontainers/{id_}/commands',
+              energystoragecontainer.EnergyStorageContainerCommandCollection())
+api.add_route('/energystoragecontainers/{id_}/commands/{cid}',
+              energystoragecontainer.EnergyStorageContainerCommandItem())
 api.add_route('/energystoragecontainers/{id_}/firecontrols',
               energystoragecontainer.EnergyStorageContainerFirecontrolCollection())
 api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}',
