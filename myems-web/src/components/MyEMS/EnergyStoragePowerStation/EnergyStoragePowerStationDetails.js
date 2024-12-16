@@ -38,6 +38,7 @@ import classNames from 'classnames';
 import ScheduleDetails from './ScheduleDetails';
 import BMSDetails from './BMSDetails';
 import FirecontrolDetails from './FirecontrolDetails';
+import CommandDetails from './CommandDetails';
 import DCDCDetails from './DCDCDetails';
 import PCSDetails from './PCSDetails';
 import HVACDetails from './HVACDetails';
@@ -151,7 +152,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [DCDCDetailsList, setDCDCDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
   const [meterDetailsList, setMeterDetailsList] = useState([]);
-
+  const [commandDetailsList, setCommandDetailsList] = useState([]);
 
   useEffect(() => {
     console.log("uuid:");
@@ -697,6 +698,40 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   }
 
+  // Command
+  const fetchCommandDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/command'
+    console.log('fetchCommandDetails with url:' + url);
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          console.log(json);
+          setCommandDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <Fragment>
 
@@ -976,10 +1011,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 setActiveTabBottom('4');
                 fetchDCDCDetails()
             }}
-          >
-            <h6>DCDC</h6>
-          </NavLink>
-        </NavItem>
+            >
+              <h6>DCDC</h6>
+            </NavLink>
+          </NavItem>
 
           <NavItem className="cursor-pointer">
             <NavLink
@@ -1038,6 +1073,18 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               }}
             >
               <h6>{t('Fire Control')}</h6>
+            </NavLink>
+          </NavItem>
+
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '10' })}
+              onClick={() => {
+                setActiveTabBottom('10');
+                fetchCommandDetails();
+              }}
+            >
+              <h6>{t('Command')}</h6>
             </NavLink>
           </NavItem>
         </Nav>
@@ -1123,7 +1170,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-{isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails {...rest} key={id} />) }
+            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails {...rest} key={id} />) }
           </TabPane>
           <TabPane tabId="5">
             {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails {...rest} key={id} />) }
@@ -1139,6 +1186,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </TabPane>
           <TabPane tabId="9">
             {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
+          </TabPane>
+          <TabPane tabId="10">
+            {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails {...rest} key={id} />) }
           </TabPane>
         </TabContent>
       </div>
