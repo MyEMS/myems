@@ -88,10 +88,7 @@ const PhotovoltaicPowerStationListItem = ({
   name,
   address,
   postal_code,
-  serial_number,
   photovoltaicPowerPointValue,
-  loadPowerPointValue,
-  gridPowerPointValue,
   alarms,
   isOnline,
   PCSRunState,
@@ -142,12 +139,6 @@ const PhotovoltaicPowerStationListItem = ({
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">{address}</p>
                 <p className="fs--1 mb-2 mb-md-3">{postal_code}</p>
-                <p className="fs--1 mb-2 mb-md-3">{serial_number}</p>
-                <div className="d-none d-lg-block">
-                  <p className="fs--1 mb-1">
-                    {t('Generation Power')}:<strong>{gridPowerPointValue} kW</strong>
-                  </p>
-                </div>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
@@ -205,15 +196,12 @@ PhotovoltaicPowerStationListItem.propTypes = {
   files: PropTypes.array,
   address: PropTypes.string,
   postal_code: PropTypes.string,
-  serial_number: PropTypes.string,
   photovoltaicPowerPointValue: PropTypes.number,
-  loadPowerPointValue: PropTypes.number,
-  gridPowerPointValue: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
   PCSRunState: PropTypes.string,
-  timeStamps: PropTypes.array,
-  hourlyData: PropTypes.array,
+  times: PropTypes.array,
+  values: PropTypes.array,
 };
 
 PhotovoltaicPowerStationListItem.defaultProps = { isOnline: false, files: [] };
