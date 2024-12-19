@@ -45,12 +45,14 @@ import HVACDetails from './HVACDetails';
 import MeterDetails from './MeterDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
+import PinModal from './PinModal';
 
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const uuid = location.search.split('=')[1];
   const energyStoragePowerStationUUID = location.search.split('=')[1];
+  const [isOpenPinModal, setIsOpenPinModal] = useState(false);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -1080,6 +1082,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '10' })}
               onClick={() => {
+                setIsOpenPinModal(true);
                 setActiveTabBottom('10');
                 fetchCommandDetails();
               }}
@@ -1192,6 +1195,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </TabPane>
         </TabContent>
       </div>
+
+      <PinModal
+        isOpenPinModal={isOpenPinModal}
+        setIsOpenPinModal={setIsOpenPinModal}
+      />
     </Fragment>
   );
 };

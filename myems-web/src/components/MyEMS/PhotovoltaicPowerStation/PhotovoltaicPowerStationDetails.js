@@ -680,24 +680,24 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                       <Table borderless className="fs--1 mb-0">
                         <tbody>
                           <tr className="border-bottom">
-                            <th className="pl-0">{t('Name')}</th>
-                            <th className="pr-0 text-right">{photovoltaicPowerStationName}</th>
+                            <td className="pl-0">{t('Name')}</td>
+                            <td className="pr-0 text-right">{photovoltaicPowerStationName}</td>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0">{t('Address')}</th>
-                            <th className="pr-0 text-right ">{photovoltaicPowerStationAddress}</th>
+                            <td className="pl-0">{t('Address')}</td>
+                            <td className="pr-0 text-right ">{photovoltaicPowerStationAddress}</td>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                            <th className="pr-0 text-right">{photovoltaicPowerStationPostalCode}</th>
+                            <td className="pl-0 pb-0">{t('Postal Code')}</td>
+                            <td className="pr-0 text-right">{photovoltaicPowerStationPostalCode}</td>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                            <th className="pr-0 text-right">{photovoltaicPowerStationRatedCapacity} kWh</th>
+                            <td className="pl-0 pb-0">{t('Rated Capacity')} </td>
+                            <td className="pr-0 text-right">{photovoltaicPowerStationRatedCapacity} kWh</td>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                            <th className="pr-0 text-right">{photovoltaicPowerStationRatedPower} kWp</th>
+                            <td className="pl-0 pb-0">{t('Rated Power')} </td>
+                            <td className="pr-0 text-right">{photovoltaicPowerStationRatedPower} kWp</td>
                           </tr>
                         </tbody>
                       </Table>

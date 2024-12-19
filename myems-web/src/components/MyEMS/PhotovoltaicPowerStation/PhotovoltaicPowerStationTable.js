@@ -13,8 +13,8 @@ import { withTranslation } from 'react-i18next';
 const PhotovoltaicPowerStationTable = ({ setIsSelected, photovoltaicPowerStationList, t }) => {
   const { currency } = useContext(AppContext);
   const energyFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWh</Fragment>;
-  const capacityFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} mWp</Fragment>;
+  const capacityFormatter = amount => <Fragment>{(amount).toFixed(3)} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{(amount).toFixed(3)} kWp</Fragment>;
   const currencyFormatter = amount => <Fragment>{amount.toFixed(2)} {currency}</Fragment>;
 
   const nameFormatter = (nameuuid) => (

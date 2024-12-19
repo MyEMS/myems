@@ -37,14 +37,16 @@ const CommandDetails = ({
     </Card>
 
     <CommandModal
-    isOpenCommandModal={isOpenCommandModal}
-    setIsOpenCommandModal={setIsOpenCommandModal}
-    id={id}
-    name={name}
-    description={description}
-    set_value={set_value}
+      isOpenCommandModal={isOpenCommandModal}
+      setIsOpenCommandModal={setIsOpenCommandModal}
+      id={id}
+      name={name}
+      description={description}
+      set_value={set_value}
     />
+
     </>
+
   );
 };
 
