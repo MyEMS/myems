@@ -560,17 +560,17 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
-          <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'mWh'} color="ratedCapacity">
-            {1 && <CountUp end={totalRatedCapacity / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
+            {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'mWp'} color="ratedPower">
-            {1 && <CountUp end={totalRatedPower / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kWp'} color="ratedPower">
+            {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Generation')} footunit={'mWh'} color="electricity">
             {1 && <CountUp end={totalGeneration / 1000.0 } duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
-            {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={2} />}
+            {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         </div>
 

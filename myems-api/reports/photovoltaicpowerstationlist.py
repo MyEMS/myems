@@ -58,70 +58,60 @@ class Reporting:
             for row in rows:
                 analog_value_latest_dict[row[0]] = {"utc_date_time": row[1],
                                                     "actual_value": row[2]}
-        # get contracts
-        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor_system_db.execute(query)
-        rows_contacts = cursor_system_db.fetchall()
-
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
-        # get cost centers
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor_system_db.execute(query)
-        rows_cost_centers = cursor_system_db.fetchall()
-
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        # get generation hourly data in latest 24 hours
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
-
+        # get generation hourly data today
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        reporting_end_datetime_utc = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
-        reporting_end_datetime_utc = reporting_end_datetime_utc - timedelta(hours=1)
-        reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
-        hourly_report_dict = dict()
+        reporting_start_datetime_local = (datetime.utcnow().replace(tzinfo=timezone.utc) +
+                                          timedelta(minutes=timezone_offset)).\
+            replace(hour=0, minute=0, second=0, microsecond=0)
+        reporting_end_datetime_local = reporting_start_datetime_local + timedelta(hours=24)
+        reporting_start_datetime_utc = reporting_start_datetime_local - timedelta(minutes=timezone_offset)
+        reporting_end_datetime_utc = reporting_end_datetime_local - timedelta(minutes=timezone_offset)
+        generation_report_dict = dict()
 
-        cursor_energy.execute(" SELECT photovoltaic_power_station_id, start_datetime_utc, actual_value "
-                              " FROM tbl_photovoltaic_power_station_generation_hourly "
-                              " WHERE start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s "
-                              " ORDER BY photovoltaic_power_station_id, start_datetime_utc ",
-                              (reporting_start_datetime_utc,
-                               reporting_end_datetime_utc))
-        rows_hourly = cursor_energy.fetchall()
+        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+        cursor_energy_db = cnx_energy_db.cursor()
+
+        cursor_energy_db.execute(" SELECT photovoltaic_power_station_id, start_datetime_utc, actual_value "
+                                 " FROM tbl_photovoltaic_power_station_generation_hourly "
+                                 " WHERE start_datetime_utc >= %s "
+                                 "     AND start_datetime_utc < %s "
+                                 " ORDER BY photovoltaic_power_station_id, start_datetime_utc ",
+                                 (reporting_start_datetime_utc,
+                                  reporting_end_datetime_utc))
+        rows_hourly = cursor_energy_db.fetchall()
         if rows_hourly is not None and len(rows_hourly) > 0:
             for row_hourly in rows_hourly:
-                if row_hourly[0] not in hourly_report_dict.keys():
-                    hourly_report_dict[row_hourly[0]] = dict()
-                    hourly_report_dict[row_hourly[0]]['time_stamps'] = list()
-                    hourly_report_dict[row_hourly[0]]['values'] = list()
+                if row_hourly[0] not in generation_report_dict.keys():
+                    generation_report_dict[row_hourly[0]] = dict()
+                    generation_report_dict[row_hourly[0]]['times'] = list()
+                    generation_report_dict[row_hourly[0]]['values'] = list()
 
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                hourly_report_dict[row_hourly[0]]['time_stamps'].append(current_datetime_local.strftime('%H:%M:%S'))
+                generation_report_dict[row_hourly[0]]['times'].append(current_datetime_local.strftime('%H:%M'))
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
-                hourly_report_dict[row_hourly[0]]['values'].append(actual_value)
+                generation_report_dict[row_hourly[0]]['values'].append(actual_value)
+
+        cursor_energy_db.close()
+        cnx_energy_db.close()
+
+        default_time_list = list()
+        default_value_list = list()
+
+        current_datetime_local = reporting_start_datetime_local
+        while current_datetime_local < reporting_end_datetime_local:
+            default_time_list.append(current_datetime_local.strftime('%H:%M'))
+            default_value_list.append(Decimal(0.0))
+            current_datetime_local = current_datetime_local + timedelta(hours=1)
 
         # get photovoltaic power stations
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
-                 "        m.contact_id, m.cost_center_id, m.description, m.phase_of_lifecycle "
+                 "        m.description, m.phase_of_lifecycle "
                  " FROM tbl_photovoltaic_power_stations m, tbl_photovoltaic_power_stations_users mu "
                  " WHERE m.id = mu.photovoltaic_power_station_id AND mu.user_id = %s "
                  " ORDER BY m.phase_of_lifecycle, m.id ")
@@ -142,8 +132,8 @@ class Reporting:
                         if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
                             is_online = True
 
-                # get PCS run state point
-                pcs_run_state_point_value = None
+                # get invertor run state point
+                invertor_run_state_point_value = None
                 if is_online:
                     query = (" SELECT invertor_state_point_id "
                              " FROM tbl_photovoltaic_power_stations_invertors "
@@ -153,7 +143,7 @@ class Reporting:
                     row_point = cursor_system_db.fetchone()
                     if row_point is not None and len(row_point) > 0:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
-                            pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
+                            invertor_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
                 # 0：关闭 Shutdown
                 # 1：软启动中 Soft Starting
@@ -164,52 +154,32 @@ class Reporting:
                 # 6：待机 Standby
                 # 7：离网充电 Off Grid Charging
 
-                if pcs_run_state_point_value is None:
-                    pcs_run_state = 'Unknown'
-                elif pcs_run_state_point_value == 0:
-                    pcs_run_state = 'Shutdown'
-                elif pcs_run_state_point_value == 1:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 2:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 3:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 4:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 5:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 6:
-                    pcs_run_state = 'Standby'
-                elif pcs_run_state_point_value == 7:
-                    pcs_run_state = 'Running'
+                if invertor_run_state_point_value is None:
+                    invertor_run_state = 'Unknown'
+                elif invertor_run_state_point_value == 0:
+                    invertor_run_state = 'Shutdown'
+                elif invertor_run_state_point_value == 1:
+                    invertor_run_state = 'Running'
+                elif invertor_run_state_point_value == 2:
+                    invertor_run_state = 'Running'
+                elif invertor_run_state_point_value == 3:
+                    invertor_run_state = 'Running'
+                elif invertor_run_state_point_value == 4:
+                    invertor_run_state = 'Running'
+                elif invertor_run_state_point_value == 5:
+                    invertor_run_state = 'Running'
+                elif invertor_run_state_point_value == 6:
+                    invertor_run_state = 'Standby'
+                elif invertor_run_state_point_value == 7:
+                    invertor_run_state = 'Running'
                 else:
-                    pcs_run_state = 'Running'
-
-                # get grid power point
-                grid_power_point_value = None
-                if is_online:
-                    query = (" SELECT power_point_id "
-                             " FROM tbl_photovoltaic_power_stations_grids "
-                             " WHERE photovoltaic_power_station_id = %s "
-                             " LIMIT 1 ")
-                    cursor_system_db.execute(query, (photovoltaic_power_station_id,))
-                    row_point = cursor_system_db.fetchone()
-                    if row_point is not None and len(row_point) > 0:
-                        if analog_value_latest_dict.get(row_point[0]) is not None:
-                            grid_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-
-                # get load power point
-                load_power_point_value = None
-                if is_online:
-                    query = (" SELECT power_point_id "
-                             " FROM tbl_photovoltaic_power_stations_loads "
-                             " WHERE photovoltaic_power_station_id = %s "
-                             " LIMIT 1 ")
-                    cursor_system_db.execute(query, (photovoltaic_power_station_id,))
-                    row_point = cursor_system_db.fetchone()
-                    if row_point is not None and len(row_point) > 0:
-                        if analog_value_latest_dict.get(row_point[0]) is not None:
-                            load_power_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                    invertor_run_state = 'Running'
+                    
+                # complete the generation_report_dict
+                if photovoltaic_power_station_id not in generation_report_dict.keys():
+                    generation_report_dict[photovoltaic_power_station_id] = dict()
+                    generation_report_dict[photovoltaic_power_station_id]['times'] = default_time_list
+                    generation_report_dict[photovoltaic_power_station_id]['values'] = default_value_list
 
                 meta_result = {"id": photovoltaic_power_station_id,
                                "name": row[1],
@@ -220,17 +190,13 @@ class Reporting:
                                "longitude": row[6],
                                "rated_capacity": row[7],
                                "rated_power": row[8],
-                               "contact": contact_dict.get(row[9], None),
-                               "cost_center": cost_center_dict.get(row[10], None),
-                               "description": row[11],
-                               "phase_of_lifecycle": row[12],
+                               "description": row[9],
+                               "phase_of_lifecycle": row[10],
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
-                               "pcs_run_state": pcs_run_state,
-                               "grid_power_point_value": grid_power_point_value,
-                               "load_power_point_value": load_power_point_value,
-                               "time_stamps": hourly_report_dict[photovoltaic_power_station_id]['time_stamps'],
-                               "hourly_data": hourly_report_dict[photovoltaic_power_station_id]['values']
+                               "invertor_run_state": invertor_run_state,
+                               "times": generation_report_dict[photovoltaic_power_station_id]['times'],
+                               "values": generation_report_dict[photovoltaic_power_station_id]['values']
                                }
 
                 result.append(meta_result)

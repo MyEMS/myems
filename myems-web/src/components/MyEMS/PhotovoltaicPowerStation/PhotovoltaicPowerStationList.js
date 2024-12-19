@@ -111,13 +111,11 @@ const PhotovoltaicPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
                 { id: json[index]['uuid'], src: require('./PhotovoltaicPowerStation.jpeg') }
               ];
               photovoltaicPowerStation['photovoltaicPowerPointValue'] = json[index]['photovoltaic_power_point_value'];
-              photovoltaicPowerStation['loadPowerPointValue'] = json[index]['load_power_point_value'];
-              photovoltaicPowerStation['gridPowerPointValue'] = json[index]['grid_power_point_value'];
-              photovoltaicPowerStation['PCSRunState'] = json[index]['pcs_run_state'];
+              photovoltaicPowerStation['invertorRunState'] = json[index]['invertor_run_state'];
               photovoltaicPowerStation['alarms'] = ['supply temperature is high', 'return temperature is low'];
               photovoltaicPowerStation['isOnline'] = json[index]['is_online'];
-              photovoltaicPowerStation['timeStamps'] = json[index]['time_stamps'];
-              photovoltaicPowerStation['hourlyData'] = json[index]['hourly_data'];
+              photovoltaicPowerStation['times'] = json[index]['times'];
+              photovoltaicPowerStation['values'] = json[index]['values'];
 
               photovoltaicPowerStationArray.push(photovoltaicPowerStation);
               photovoltaicPowerStationIds.push(photovoltaicPowerStation['id']);

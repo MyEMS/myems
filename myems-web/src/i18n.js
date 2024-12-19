@@ -572,6 +572,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'Invertor',
+      'Invertor Run State': 'Invertor Run State',
+      'Invertor Unknown': 'Unknown',
+      'Invertor Initializing': 'Initializing',
+      'Invertor Standby': 'Standby',
+      'Invertor Shutdown': 'Shutdown',
+      'Invertor Fault': 'Fault',
+      'Invertor Running': 'Running',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Created Datetime',
@@ -1763,6 +1770,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': '逆变器',
+      'Invertor Run State': '逆变器运行状态',
+      'Invertor Unknown': '未知',
+      'Invertor Initializing': '初始上电',
+      'Invertor Standby': '待机',
+      'Invertor Shutdown': '关机',
+      'Invertor Fault': '故障',
+      'Invertor Running': '运行',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '生成时间',
@@ -2981,6 +2995,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'Wechselrichter',
+      'Invertor Run State': 'Ausführungsstatus',
+      'Invertor Unknown': 'Unbekannt',
+      'Invertor Initializing': 'Initialisieren',
+      'Invertor Standby': 'Standby',
+      'Invertor Shutdown': 'Herunterfahren',
+      'Invertor Fault': 'Fehler',
+      'Invertor Running': 'Laufend',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Datetime erstellt',
@@ -4215,6 +4236,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'onduleurs',
+      'Invertor Run State': 'État de fonctionnement',
+      'Invertor Unknown': 'Inconnu',
+      'Invertor Initializing': 'Initialisation en cours',
+      'Invertor Standby': 'Articles de rechange',
+      'Invertor Shutdown': 'Temps d’arrêt',
+      'Invertor Fault': 'La faute',
+      'Invertor Running': 'Courir',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Créé Datetime',
@@ -5439,6 +5467,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'inversores',
+      'Invertor Run State': 'Estado de funcionamiento',
+      'Invertor Unknown': 'Desconocido',
+      'Invertor Initializing': 'Se está iniciando',
+      'Invertor Standby': 'Artículos de repuesto',
+      'Invertor Shutdown': 'Parada',
+      'Invertor Fault': 'Culpa',
+      'Invertor Running': 'Correr',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Fecha y hora creada',
@@ -6661,6 +6696,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'инверторы',
+      'Invertor Run State': 'Режим работы',
+      'Invertor Unknown': 'Неизвестный',
+      'Invertor Initializing': 'Начинается',
+      'Invertor Standby': 'Запасные материалы',
+      'Invertor Shutdown': 'Остановка',
+      'Invertor Fault': 'Ошибка',
+      'Invertor Running': 'Бег',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Дата и время создания',
@@ -7873,6 +7915,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'العاكسون',
+      'Invertor Run State': 'جهاز الدولة',
+      'Invertor Unknown': 'غير معروف',
+      'Invertor Initializing': 'تهيئة',
+      'Invertor Standby': 'المواد الاحتياطية',
+      'Invertor Shutdown': 'توقف',
+      'Invertor Fault': 'خطأ',
+      'Invertor Running': 'تشغيل .',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'تاريخ الإنشاء',
@@ -9081,6 +9130,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'biến tần',
+      'Invertor Run State': 'Trạng thái hoạt động',
+      'Invertor Unknown': 'Không rõ',
+      'Invertor Initializing': 'Đang khởi tạo',
+      'Invertor Standby': 'Chờ',
+      'Invertor Shutdown': 'Tắt máy',
+      'Invertor Fault': 'Lỗi',
+      'Invertor Running': 'Chạy',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Đã tạo Datetime',
@@ -10292,6 +10348,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'อินเวอร์เตอร์',
+      'Invertor Run State': 'สถานะการทำงาน',
+      'Invertor Unknown': 'ไม่ทราบ',
+      'Invertor Initializing': 'กำลังเริ่มต้น',
+      'Invertor Standby': 'รายการสำรอง',
+      'Invertor Shutdown': 'ปิดเครื่อง',
+      'Invertor Fault': 'ความผิด',
+      'Invertor Running': 'วิ่ง',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'วันที่สร้าง',
@@ -11501,6 +11564,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'invertörler',
+      'Invertor Run State': 'Çalıştırma Durumu',
+      'Invertor Unknown': 'Bilinmemiş',
+      'Invertor Initializing': 'Initializing',
+      'Invertor Standby': 'Standby',
+      'Invertor Shutdown': 'Kapa çeneni',
+      'Invertor Fault': 'Hata',
+      'Invertor Running': 'Çıkıyor',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Oluşturulma Tarihi',
@@ -12716,7 +12786,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'penyongsang',
-
+      'Invertor Run State': 'Run State',
+      'Invertor Unknown': 'Tidak diketahui',
+      'Invertor Initializing': 'Memulakan',
+      'Invertor Standby': 'Bersedia',
+      'Invertor Shutdown': 'Matikan',
+      'Invertor Fault': 'Gagal',
+      'Invertor Running': 'Jalankan',
 
       //Advanced Reporting & Knowledge base
       'Created Datetime': 'Dicipta Datetime',
@@ -13935,6 +14011,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': 'inverter',
+      'Invertor Run State': 'Run State',
+      'Invertor Unknown': 'Tidak diketahui',
+      'Invertor Initializing': 'Menginisialisasi',
+      'Invertor Standby': 'Bersiap',
+      'Invertor Shutdown': 'Matikan',
+      'Invertor Fault': 'Gagal',
+      'Invertor Running': 'Running',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': 'Waktu Generasi',
@@ -15074,11 +15157,11 @@ const resources = {
       'Total Efficiency': '總效率',
       'Discharge Achievement Rate': '放電達成率',
       // Revenue Indicator
-      "Today's Cost": "Today's Cost",
-      "Today's Income": "Today's Income",
-      "Total Cost": "Total Cost",
-      "Total Income": "Total Income",
-      "Today's Revenue": "Today's Revenue",
+      "Today's Cost": "今日成本",
+      "Today's Income": "今日收入",
+      "Total Cost": "總成本",
+      "Total Income": "總收入",
+      "Today's Revenue": "今日利潤",
 
       'Revenue Ranking': '收益排名',
       'Efficiency Ranking': '效率排名',
@@ -15140,6 +15223,13 @@ const resources = {
 
       // Photovoltaic Power Station
       'Invertor': '逆變器',
+      'Invertor Run State': '逆變器運⾏狀態',
+      'Invertor Unknown': '未知',
+      'Invertor Initializing': '初始上電',
+      'Invertor Standby': '待機',
+      'Invertor Shutdown': '關機',
+      'Invertor Fault': '故障',
+      'Invertor Running': '運⾏',
 
       //Advanced Reporting & Knowledge Base
       'Created Datetime': '⽣成時間',

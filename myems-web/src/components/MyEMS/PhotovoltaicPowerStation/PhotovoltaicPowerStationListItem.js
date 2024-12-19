@@ -15,17 +15,14 @@ import { themeColors, getPosition, numberFormatter, getGrays } from '../../../he
 import { withTranslation } from 'react-i18next';
 
 
-const getOption = (timeStamps, hourlyData, isDark) => {
+const getOption = (times, values, isDark) => {
 
   const grays = getGrays(isDark);
-  // Max value of hourlyData
-  const yMax = Math.max(...hourlyData);
-  const dataBackground = hourlyData.map(() => yMax);
   return {
     tooltip: {
       trigger: 'axis',
       padding: [7, 10],
-      formatter: '{b1}: {c1}',
+      formatter: '{b0}: {c0} kWh',
       backgroundColor: grays.white,
       borderColor: grays['300'],
       borderWidth: 1,
@@ -37,7 +34,7 @@ const getOption = (timeStamps, hourlyData, isDark) => {
     },
     xAxis: {
       type: 'category',
-      data: timeStamps,
+      data: times,
       boundaryGap: false,
       axisLine: { show: false },
       axisLabel: { show: false },
@@ -54,25 +51,12 @@ const getOption = (timeStamps, hourlyData, isDark) => {
     },
     series: [
       {
-        type: 'bar',
-        barWidth: '5px',
-        barGap: '-100%',
-        itemStyle: {
-          color: grays['200'],
-          barBorderRadius: 10
-        },
-        data: dataBackground,
-        animation: false,
-        emphasis: { itemStyle: { color: grays['200'] } }
-      },
-      {
-        type: 'bar',
+        type: 'line',
         barWidth: '5px',
         itemStyle: {
           color: themeColors.primary,
-          barBorderRadius: 10
         },
-        data: hourlyData,
+        data: values,
         emphasis: { itemStyle: { color: themeColors.primary } },
         z: 10
       }
@@ -91,9 +75,9 @@ const PhotovoltaicPowerStationListItem = ({
   photovoltaicPowerPointValue,
   alarms,
   isOnline,
-  PCSRunState,
-  timeStamps,
-  hourlyData,
+  invertorRunState,
+  times,
+  values,
   index,
   t
 }) => {
@@ -114,17 +98,17 @@ const PhotovoltaicPowerStationListItem = ({
               </Link>
               {isOnline && (
                 <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  {PCSRunState === 'Running'
-                    ? t('PCS Running')
-                    : PCSRunState === 'Initializing'
-                    ? t('PCS Initializing')
-                    : PCSRunState === 'Standby'
-                    ? t('PCS Standby')
-                    : PCSRunState === 'Shutdown'
-                    ? t('PCS Shutdown')
-                    : PCSRunState === 'Fault'
-                    ? t('PCS Fault')
-                    : t('PCS Unknown')}
+                  {invertorRunState === 'Running'
+                    ? t('Invertor Running')
+                    : invertorRunState === 'Initializing'
+                    ? t('Invertor Initializing')
+                    : invertorRunState === 'Standby'
+                    ? t('Invertor Standby')
+                    : invertorRunState === 'Shutdown'
+                    ? t('Invertor Shutdown')
+                    : invertorRunState === 'Fault'
+                    ? t('Invertor Fault')
+                    : t('Invertor Unknown')}
                 </Badge>
               )}
             </div>
@@ -138,7 +122,7 @@ const PhotovoltaicPowerStationListItem = ({
                   </Link>
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">{address}</p>
-                <p className="fs--1 mb-2 mb-md-3">{postal_code}</p>
+                <p className="fs--1 mb-2 mb-md-3">{t("Today's Generation")}:{values.reduce(function (x, y) {return x + y; }, 0).toFixed(2)} kWh</p>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
@@ -149,34 +133,34 @@ const PhotovoltaicPowerStationListItem = ({
                     </strong>
                   </p>
                   <p className="fs--1 mb-1">
-                    {t('PCS Run State')}:{' '}
+                    {t('Invertor Run State')}:{' '}
                     <strong
                       className={classNames({
-                        'text-success': PCSRunState === 'Running',
+                        'text-success': invertorRunState === 'Running',
                         'text-danger':
-                          PCSRunState === 'Unknown' ||
-                          PCSRunState === 'Initializing' ||
-                          PCSRunState === 'Standby' ||
-                          PCSRunState === 'Shutdown' ||
-                          PCSRunState === 'Fault'
+                          invertorRunState === 'Unknown' ||
+                          invertorRunState === 'Initializing' ||
+                          invertorRunState === 'Standby' ||
+                          invertorRunState === 'Shutdown' ||
+                          invertorRunState === 'Fault'
                       })}
                     >
-                      {PCSRunState === 'Running'
-                        ? t('PCS Running')
-                        : PCSRunState === 'Initializing'
-                        ? t('PCS Initializing')
-                        : PCSRunState === 'Standby'
-                        ? t('PCS Standby')
-                        : PCSRunState === 'Shutdown'
-                        ? t('PCS Shutdown')
-                        : PCSRunState === 'Fault'
-                        ? t('PCS Fault')
-                        : t('PCS Unknown')}
+                      {invertorRunState === 'Running'
+                        ? t('Invertor Running')
+                        : invertorRunState === 'Initializing'
+                        ? t('Invertor Initializing')
+                        : invertorRunState === 'Standby'
+                        ? t('Invertor Standby')
+                        : invertorRunState === 'Shutdown'
+                        ? t('Invertor Shutdown')
+                        : invertorRunState === 'Fault'
+                        ? t('Invertor Fault')
+                        : t('Invertor Unknown')}
                     </strong>
                   </p>
                   <ReactEchartsCore
                   echarts={echarts}
-                  option={getOption(timeStamps, hourlyData, isDark)}
+                  option={getOption(times, values, isDark)}
                   style={{ width: '100%', height: '100%' }}
                 />
                 </div>
@@ -199,7 +183,7 @@ PhotovoltaicPowerStationListItem.propTypes = {
   photovoltaicPowerPointValue: PropTypes.number,
   alarms: PropTypes.array,
   isOnline: PropTypes.bool,
-  PCSRunState: PropTypes.string,
+  invertorRunState: PropTypes.string,
   times: PropTypes.array,
   values: PropTypes.array,
 };
