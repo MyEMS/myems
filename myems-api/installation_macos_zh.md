@@ -51,7 +51,6 @@ $ git clone https://github.com/myems/myems.git
 $ cd myems/myems-database
 $ mysql -u root -p密码 //用root登录mysql
 mysql>
-source myems_billing_baseline_db.sql
 source myems_billing_db.sql
 source myems_carbon_db.sql
 source myems_energy_baseline_db.sql
@@ -68,11 +67,13 @@ mysql> show databases;  // 查看数据库是否导入OK
 | Database                  |
 +---------------------------+
 | information_schema        |
-| myems_billing_baseline_db |
 | myems_billing_db          |
-| myems_carbon_db          |
+| myems_carbon_db           |
 | myems_energy_baseline_db  |
 | myems_energy_db           |
+| myems_energy_model_db     |
+| myems_energy_plan_db      |
+| myems_energy_prediction_db|
 | myems_fdd_db              |
 | myems_historical_db       |
 | myems_production_db       |
@@ -155,8 +156,8 @@ $ gunicorn -b 0.0.0.0:8000 app:api
 如果看到输出版本信息就表示服务启动正常。
 ```json
 {
-"version": "MyEMS 1.8.2",
-"release-date": "2022-03-16",
+"version": "MyEMS 4.11.0",
+"release-date": "2024-11-20",
 "website": "https://myems.io"
 }
 ```

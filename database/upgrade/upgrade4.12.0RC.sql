@@ -1080,6 +1080,8 @@ CREATE TABLE IF NOT EXISTS `myems_energy_prediction_db`.`tbl_virtual_meter_hourl
 CREATE INDEX `tbl_virtual_meter_hourly_index_1`
  ON `myems_energy_prediction_db`.`tbl_virtual_meter_hourly` (`virtual_meter_id`, `start_datetime_utc`);
 
+DROP DATABASE IF EXISTS `myems_billing_baseline_db` ;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='4.12.0RC', release_date='2024-12-12' WHERE id=1;
 
