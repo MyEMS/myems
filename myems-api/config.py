@@ -41,14 +41,6 @@ myems_billing_db = {
     'password': config('MYEMS_BILLING_DB_PASSWORD', default='!MyEMS1'),
 }
 
-myems_billing_baseline_db = {
-    'host': config('MYEMS_BILLING_BASELINE_DB_HOST', default='127.0.0.1'),
-    'port': config('MYEMS_BILLING_BASELINE_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_BILLING_BASELINE_DB_DATABASE', default='myems_billing_baseline_db'),
-    'user': config('MYEMS_BILLING_BASELINE_DB_USER', default='root'),
-    'password': config('MYEMS_BILLING_BASELINE_DB_PASSWORD', default='!MyEMS1'),
-}
-
 myems_historical_db = {
     'host': config('MYEMS_HISTORICAL_DB_HOST', default='127.0.0.1'),
     'port': config('MYEMS_HISTORICAL_DB_PORT', default=3306, cast=int),
