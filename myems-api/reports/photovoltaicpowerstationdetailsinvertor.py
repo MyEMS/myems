@@ -106,6 +106,48 @@ class Reporting:
         # Step 6: query the points of associated invertors
         ################################################################################################################
         invertor_list = list()
+        invertor_state_dict = dict()
+        invertor_state_dict[0] = '待机:初始化'
+        invertor_state_dict[1] = '待机:绝缘阻抗检测'
+        invertor_state_dict[2] = '待机:光照检测'
+        invertor_state_dict[3] = '待机:电网检测'
+        invertor_state_dict[256] = '启动'
+        invertor_state_dict[512] = '并网'
+        invertor_state_dict[513] = '并网:限功率'
+        invertor_state_dict[514] = '并网:自降额'
+        invertor_state_dict[515] = '离网运行'
+        invertor_state_dict[768] = '关机:异常关机'
+        invertor_state_dict[769] = '关机:指令关机'
+        invertor_state_dict[770] = '关机:OVGR'
+        invertor_state_dict[771] = '关机:通信断链'
+        invertor_state_dict[772] = '关机:限功率'
+        invertor_state_dict[773] = '关机:需手动开机'
+        invertor_state_dict[774] = '关机:直流开关断开'
+        invertor_state_dict[775] = '关机:快速关断'
+        invertor_state_dict[776] = '关机:输入欠功率'
+        invertor_state_dict[777] = '关机:NS保护'
+        invertor_state_dict[778] = '关机:指令快速关机'
+        invertor_state_dict[1025] = '电网调度:cosψ-P 曲线'
+        invertor_state_dict[1026] = '电网调度:Q-U 曲线'
+        invertor_state_dict[1027] = '电网调度:PF-U特征曲线'
+        invertor_state_dict[1028] = '电网调度:干接点'
+        invertor_state_dict[1029] = '电网调度:Q-P特征曲线'
+        invertor_state_dict[1280] = '点检就绪'
+        invertor_state_dict[1281] = '点检中'
+        invertor_state_dict[1536] = '巡检中'
+        invertor_state_dict[1792] = 'AFCI自检'
+        invertor_state_dict[2048] = 'IV扫描中'
+        invertor_state_dict[2304] = '直流输入检测'
+        invertor_state_dict[2560] = '脱网充电'
+        invertor_state_dict[40960] = '待机:无光照'
+        invertor_state_dict[40961] = '待机:直流无输入'
+        invertor_state_dict[45056] = '通信断链'
+        invertor_state_dict[49152] = '载入中'
+
+        communication_state_dict = dict()
+        communication_state_dict[0] = '断连'
+        communication_state_dict[1] = '连接'
+
         cursor_system.execute(" SELECT id, name, uuid, "
                               " model, "
                               " serial_number, "
@@ -203,6 +245,9 @@ class Reporting:
                               (photovoltaic_power_station_id,))
         rows_invertors = cursor_system.fetchall()
         if rows_invertors is not None and len(rows_invertors) > 0:
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
             for row in rows_invertors:
                 current_invertor = dict()
                 current_invertor['id'] = row[0]
@@ -210,8 +255,10 @@ class Reporting:
                 current_invertor['uuid'] = row[2]
                 current_invertor['model'] = row[3]
                 current_invertor['serial_number'] = row[4]
-                current_invertor['invertor_state'] = latest_value_dict.get(row[5], None)
-                current_invertor['communication_state'] = latest_value_dict.get(row[6], None)
+                current_invertor['invertor_state'] = \
+                    invertor_state_dict.get(latest_value_dict.get(row[5], None), '未知')
+                current_invertor['communication_state'] = \
+                    communication_state_dict.get(latest_value_dict.get(row[6], None), '未知')
                 current_invertor['total_energy'] = latest_value_dict.get(row[7], None)
                 current_invertor['today_energy'] = latest_value_dict.get(row[8], None)
                 current_invertor['efficiency'] = latest_value_dict.get(row[9], None)
@@ -297,8 +344,16 @@ class Reporting:
                 current_invertor['mppt_8_energy'] = latest_value_dict.get(row[89], None)
                 current_invertor['mppt_9_energy'] = latest_value_dict.get(row[90], None)
                 current_invertor['mppt_10_energy'] = latest_value_dict.get(row[91], None)
-                current_invertor['startup_time'] = latest_value_dict.get(row[92], None)
-                current_invertor['shutdown_time'] = latest_value_dict.get(row[93], None)
+                startup_time = latest_value_dict.get(row[92], None)
+                current_invertor['startup_time'] = \
+                    (datetime.utcfromtimestamp(int(startup_time) / 1000) + timedelta(minutes=timezone_offset))\
+                    .strftime('%Y-%m-%d %H:%M:%S') \
+                    if startup_time is not None else None
+                shutdown_time = latest_value_dict.get(row[93], None)
+                current_invertor['shutdown_time'] = \
+                    (datetime.utcfromtimestamp(int(shutdown_time) / 1000) + timedelta(minutes=timezone_offset)) \
+                    .strftime('%Y-%m-%d %H:%M:%S') \
+                    if shutdown_time is not None else None
                 invertor_list.append(current_invertor)
 
         if cursor_system:

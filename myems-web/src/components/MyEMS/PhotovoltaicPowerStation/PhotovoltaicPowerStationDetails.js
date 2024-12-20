@@ -273,8 +273,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value'].toFixed(3));
           setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
 
-          if (json['energy_indicators']['total_generation_energy_value'] > 0) {
-            // setTotalEfficiency((100 * json['energy_indicators']['total_disgeneration_energy_value'] / json['energy_indicators']['total_generation_energy_value']).toFixed(2))
+          if (json['energy_indicators']['performance_ratio'] != null) {
+            setTotalEfficiency((json['energy_indicators']['performance_ratio']).toFixed(2))
           } else {
             setTotalEfficiency(0)
           }
