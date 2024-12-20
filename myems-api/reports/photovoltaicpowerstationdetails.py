@@ -404,6 +404,9 @@ class Reporting:
         result['energy_indicators'] = dict()
         result['energy_indicators']['today_generation_energy_value'] = today_generation_energy_value
         result['energy_indicators']['total_generation_energy_value'] = total_generation_energy_value
+        result['energy_indicators']['performance_ratio'] = \
+            Decimal(100) * (today_generation_energy_value / meta_result['rated_capacity']) \
+            if meta_result['rated_capacity'] > 0 else None
 
         result['revenue_indicators'] = dict()
         result['revenue_indicators']['today_generation_revenue_value'] = today_generation_revenue_value
