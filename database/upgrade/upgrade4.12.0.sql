@@ -1083,6 +1083,6 @@ CREATE INDEX `tbl_virtual_meter_hourly_index_1`
 DROP DATABASE IF EXISTS `myems_billing_baseline_db` ;
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='4.12.0RC', release_date='2024-12-12' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='4.12.0', release_date='2024-12-21' WHERE id=1;
 
 COMMIT;
