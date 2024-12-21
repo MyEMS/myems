@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v4.12.0] - 2024-12-21
+### Added
 - added all in one docker files
 - added associated equipments percentage data to combined equipment reports in myems-web
 - added myems_energy_prediction_db to database
@@ -1855,7 +1861,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.11.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.12.0...HEAD
+[4.12.0]: https://gitee.com/MyEMS/myems/compare/v4.11.0...v4.12.0
 [4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.0...v4.11.0
 [4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
 [4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
