@@ -4,7 +4,7 @@
 
 ### 1.Python
 
-MyEMS要求Python版本在3.5+，这里用brew来安装最新别的`Python3.9`版本,不过要先安装`Xcode Command Line Tools`，否则安装python会报错。
+MyEMS要求Python版本在3.8+，这里用brew来安装最新别的`Python3.9`版本,不过要先安装`Xcode Command Line Tools`，否则安装python会报错。
 ```bash
 $ xcode-select --install
 ```
@@ -156,8 +156,8 @@ $ gunicorn -b 0.0.0.0:8000 app:api
 如果看到输出版本信息就表示服务启动正常。
 ```json
 {
-"version": "MyEMS 4.11.0",
-"release-date": "2024-11-20",
+"version": "MyEMS 4.12.0",
+"release-date": "2024-12-21",
 "website": "https://myems.io"
 }
 ```
