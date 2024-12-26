@@ -2351,12 +2351,12 @@ class EnergyStorageContainerGridCollection:
         if 'active_power_c_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['active_power_c_point_id'], int) and \
                 new_values['data']['active_power_c_point_id'] > 0:
-            active_power_b_point_id = new_values['data']['active_power_c_point_id']
+            active_power_c_point_id = new_values['data']['active_power_c_point_id']
 
         if 'total_reactive_power_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
                 new_values['data']['total_reactive_power_point_id'] > 0:
-            active_power_b_point_id = new_values['data']['total_reactive_power_point_id']
+            total_reactive_power_point_id = new_values['data']['total_reactive_power_point_id']
 
         if 'reactive_power_a_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
@@ -2775,12 +2775,12 @@ class EnergyStorageContainerGridItem:
         if 'active_power_c_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['active_power_c_point_id'], int) and \
                 new_values['data']['active_power_c_point_id'] > 0:
-            active_power_b_point_id = new_values['data']['active_power_c_point_id']
+            active_power_c_point_id = new_values['data']['active_power_c_point_id']
 
         if 'total_reactive_power_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['total_reactive_power_point_id'], int) and \
                 new_values['data']['total_reactive_power_point_id'] > 0:
-            active_power_b_point_id = new_values['data']['total_reactive_power_point_id']
+            total_reactive_power_point_id = new_values['data']['total_reactive_power_point_id']
 
         if 'reactive_power_a_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['reactive_power_a_point_id'], int) and \
