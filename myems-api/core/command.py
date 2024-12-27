@@ -79,7 +79,7 @@ class CommandCollection:
                 len(str.strip(new_values['data']['topic'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOPIC')
-        topic = str.lower(str.strip(new_values['data']['topic']))
+        topic = str.strip(new_values['data']['topic'])
 
         if 'payload' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['payload'], str) or \
@@ -331,7 +331,7 @@ class CommandItem:
                 len(str.strip(new_values['data']['topic'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOPIC')
-        topic = str.lower(str.strip(new_values['data']['topic']))
+        topic = str.strip(new_values['data']['topic'])
 
         if 'payload' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['payload'], str) or \
@@ -439,8 +439,6 @@ class CommandSend:
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -452,6 +450,16 @@ class CommandSend:
                    "topic": row[3],
                    "payload": row[4],
                    "set_value": set_value if set_value is not None else row[5]}
+
+        update_row = (" UPDATE tbl_commands "
+                      " SET set_value = %s "
+                      " WHERE id = %s ")
+        cursor.execute(update_row, (set_value,
+                                    id_,))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
 
         mqc = None
         try:
@@ -565,7 +573,7 @@ class CommandImport:
                 len(str.strip(new_values['topic'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TOPIC')
-        topic = str.lower(str.strip(new_values['topic']))
+        topic = str.strip(new_values['topic'])
 
         if 'payload' not in new_values.keys() or \
                 not isinstance(new_values['payload'], str) or \
