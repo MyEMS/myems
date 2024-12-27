@@ -16,7 +16,7 @@ RUN npm run build
 
 FROM nginx:latest AS production-stage
 
-RUN apt update && apt install -y nano telnet
+# RUN apt update && apt install -y nano telnet
 
 # remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && rm /etc/nginx/nginx.conf
