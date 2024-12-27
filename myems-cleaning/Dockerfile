@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-RUN apt update && apt install -y nano telnet
+# RUN apt update && apt install -y nano telnet
 
 WORKDIR /app
 COPY . /app

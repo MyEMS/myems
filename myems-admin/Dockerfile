@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-RUN apt update && apt install -y nano telnet
+# RUN apt update && apt install -y nano telnet
 
 # remove the default config
 RUN rm /etc/nginx/conf.d/default.conf && \
