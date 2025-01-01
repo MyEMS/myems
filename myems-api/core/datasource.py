@@ -271,7 +271,7 @@ class DataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER' + row_meter[0])
-
+        # todo : check if this data source is being used by any other objects
         cursor.execute(" DELETE FROM tbl_points WHERE data_source_id = %s ", (id_,))
         cursor.execute(" DELETE FROM tbl_data_sources WHERE id = %s ", (id_,))
         cnx.commit()
@@ -422,7 +422,7 @@ class DataSourcePointCollection:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                       "        is_trend, is_virtual, address, description "
+                       "        is_trend, is_virtual, address, description, faults "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -480,6 +480,7 @@ class DataSourcePointCollection:
                                "is_virtual": bool(row[11]),
                                "address": row[12],
                                "description": row[13],
+                               "faults": row[14],
                                "latest_value": latest_value,
                                }
 
@@ -556,7 +557,7 @@ class DataSourceExport:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description "
+                       "        is_trend, is_virtual, address, description, faults "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -577,7 +578,8 @@ class DataSourceExport:
                                "is_trend": bool(row[9]),
                                "is_virtual": bool(row[10]),
                                "address": row[11],
-                               "description": row[12]}
+                               "description": row[12],
+                               "faults": row[13]}
                 point_result.append(meta_result)
             result['points'] = point_result
         cursor.close()
@@ -624,44 +626,24 @@ class DataSourceImport:
                                    description='API.INVALID_GATEWAY_ID')
         gateway_id = new_values['gateway']['id']
 
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT id, name, code "
+                 " FROM tbl_protocols ")
+        cursor.execute(query)
+        rows_protocols = cursor.fetchall()
+        procotol_dict = dict()
+        if rows_protocols is not None and len(rows_protocols) > 0:
+            for row in rows_protocols:
+                procotol_dict[row[2]] = {"id": row[0],
+                                         "name": row[1],
+                                         "code": row[2]}
+
         if 'protocol' not in new_values.keys() \
-                or new_values['protocol'] not in \
-                ('bacnet-ip',
-                 'cassandra',
-                 'clickhouse',
-                 'coap',
-                 'controllogix',
-                 'dlt645',
-                 'dtu-rtu',
-                 'dtu-tcp',
-                 'dtu-mqtt',
-                 'elexon-bmrs',
-                 'iec104',
-                 'influxdb',
-                 'lora',
-                 'modbus-rtu',
-                 'modbus-tcp',
-                 'mongodb',
-                 'mqtt-acrel',
-                 'mqtt-adw300',
-                 'mqtt-huiju',
-                 'mqtt-md4220',
-                 'mqtt-seg',
-                 'mqtt-weilan',
-                 'mqtt-xintianli',
-                 'mqtt-zhongxian',
-                 'mqtt',
-                 'mysql',
-                 'opc-ua',
-                 'oracle',
-                 'postgresql',
-                 'profibus',
-                 'profinet',
-                 's7',
-                 'simulation',
-                 'sqlserver',
-                 'tdengine',
-                 'weather',):
+                or new_values['protocol'] not in procotol_dict.keys():
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['protocol']
@@ -669,6 +651,8 @@ class DataSourceImport:
         if 'connection' not in new_values.keys() or \
                 not isinstance(new_values['connection'], str) or \
                 len(str.strip(new_values['connection'])) == 0:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONNECTION')
         connection = str.strip(new_values['connection'])
@@ -679,9 +663,6 @@ class DataSourceImport:
             description = str.strip(new_values['description'])
         else:
             description = None
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
@@ -715,8 +696,8 @@ class DataSourceImport:
                 # todo: validate point properties
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                             "                         is_trend, is_virtual, address, description, faults) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_value, (point['name'],
                                            new_id,
                                            point['object_type'],
@@ -729,7 +710,8 @@ class DataSourceImport:
                                            point['is_trend'],
                                            point['is_virtual'],
                                            point['address'],
-                                           point['description']))
+                                           point['description'],
+                                           point['faults']))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -828,8 +810,8 @@ class DataSourceClone:
             for point in meta_result['points']:
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                             "                         is_trend, is_virtual, address, description, faults) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_value, (point['name'],
                                            new_id,
                                            point['object_type'],
@@ -842,7 +824,8 @@ class DataSourceClone:
                                            point['is_trend'],
                                            point['is_virtual'],
                                            point['address'],
-                                           point['description']))
+                                           point['description'],
+                                           point['faults']))
         cnx.commit()
         cursor.close()
         cnx.close()

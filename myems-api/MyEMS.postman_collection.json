@@ -13930,7 +13930,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13964,7 +13964,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -13999,7 +13999,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14011,7 +14011,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1, \"offset_constant\":0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1, \"offset_constant\":0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points",
@@ -14037,7 +14037,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14048,13 +14048,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/points/11",
+									"raw": "{{base_url}}/points/2",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"points",
-										"11"
+										"2"
 									]
 								}
 							},
@@ -14072,7 +14072,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14084,7 +14084,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"offset_constant\":12.0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"offset_constant\":12.0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points/1",
@@ -14150,7 +14150,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14186,7 +14186,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c3cbc0d7ffade717bcb08191a8532094431724d010d3ffa40d46c52fd57aa1b389a5b931ce5c289a24ab26b613678e782a11a6c315e9ccdb12b30f055f03a506",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14198,7 +14198,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"offset_constant\": 0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null\r\n}",
+									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"offset_constant\": 0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null,\r\n    \"faults\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -14230,7 +14230,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "07efaa1de15efb0d8106a726461f41ea741fadc276cc4be773c16fc8acd633205e91bf9e7a0a43e3ee9012ed6b2b1f4a1fa5cf8a7c0b405dcc6ffa8dc74f84c6",
+										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -30585,22 +30585,23 @@
 							{
 								"key": "User-UUID",
 								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"description": "Any admin users' UUID"
+								"description": "Any admin users' UUID",
+								"disabled": true
 							},
 							{
 								"key": "Token",
 								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
-								"description": "Login first to get a valid token"
+								"description": "Login first to get a valid token",
+								"disabled": true
 							},
 							{
 								"key": "API-Key",
-								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-								"description": "Create API Key at myems-admin",
-								"disabled": true
+								"value": "21895d99b1157e665664a729be6fd8f71471c78d2ee797e57c32442f4d5084b0fcbbd6f799002c9b4a0a41d580fcdd64899f158f1ace0931da1e31bd81958294",
+								"description": "Create API Key at myems-admin"
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/reports/metertrend?meterid=1&reportingperiodstartdatetime=2020-09-10T00:00:00&reportingperiodenddatetime=2020-09-11T00:00:00&quickmode=true",
+							"raw": "{{base_url}}/reports/metertrend?quickmode=true&reportingperiodenddatetime=2024-12-18T00:00:00&meterid=6&reportingperiodstartdatetime=2024-12-10T00:00:00",
 							"host": [
 								"{{base_url}}"
 							],
@@ -30610,27 +30611,26 @@
 							],
 							"query": [
 								{
-									"key": "meterid",
-									"value": "1",
-									"description": "use meterid or meteruuid"
-								},
-								{
 									"key": "meteruuid",
 									"value": "eb78f7f9-f26f-463b-92fa-d9daf5b3651c",
 									"description": "use meterid or meteruuid",
 									"disabled": true
 								},
 								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-09-10T00:00:00"
+									"key": "quickmode",
+									"value": "true"
 								},
 								{
 									"key": "reportingperiodenddatetime",
-									"value": "2020-09-11T00:00:00"
+									"value": "2024-12-18T00:00:00"
 								},
 								{
-									"key": "quickmode",
-									"value": "true"
+									"key": "meterid",
+									"value": "6"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2024-12-10T00:00:00"
 								}
 							]
 						}
@@ -37119,7 +37119,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "127.0.0.1:8000"
+			"value": "http://20.196.223.156:12003"
 		}
 	]
 }
