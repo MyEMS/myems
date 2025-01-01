@@ -565,7 +565,7 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
 			modifiedPhotovoltaicPowerStationInvertor.invertor_state_point_id = modifiedPhotovoltaicPowerStationInvertor.invertor_state_point.id;
 			modifiedPhotovoltaicPowerStationInvertor.communication_state_point_id = modifiedPhotovoltaicPowerStationInvertor.communication_state_point.id;
 			modifiedPhotovoltaicPowerStationInvertor.total_energy_point_id = modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id;
-
+			modifiedPhotovoltaicPowerStationInvertor.generation_meter_id = modifiedPhotovoltaicPowerStationInvertor.generation_meter.id;
 			if (modifiedPhotovoltaicPowerStationInvertor.total_energy_point != null && modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id != null ) {
 				modifiedPhotovoltaicPowerStationInvertor.total_energy_point_id = modifiedPhotovoltaicPowerStationInvertor.total_energy_point.id;
 			} else {
