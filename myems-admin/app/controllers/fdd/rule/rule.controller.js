@@ -325,12 +325,12 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 	$scope.updateFddCodeOptions = function () {
 		if ($scope.rule.category === 'SYSTEM') {
 			$scope.fddCodeOptions = ['SYSTEM01', 'SYSTEM02'];
-		} else if ($scope.rule.category === 'REALTIME') {
-			$scope.fddCodeOptions = ['REALTIME01', 'REALTIME02'];
 		} else if ($scope.rule.category === 'SPACE') {
 			$scope.fddCodeOptions = ['SPACE01', 'SPACE02', 'SPACE03', 'SPACE04'];
 		} else if ($scope.rule.category === 'METER') {
 			$scope.fddCodeOptions = ['METER01', 'METER02', 'METER03', 'METER04', 'METER05', 'METER06', 'METER07'];
+		} else if ($scope.rule.category === 'POINT') {
+			$scope.fddCodeOptions = ['POINT01', 'POINT02', 'POINT03', 'POINT04'];
 		} else if ($scope.rule.category === 'TENANT') {
 			$scope.fddCodeOptions = ['TENANT01', 'TENANT02', 'TENANT03', 'TENANT04'];
 		} else if ($scope.rule.category === 'STORE') {
@@ -343,8 +343,6 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04'];
 		} else if ($scope.rule.category === 'VIRTUALMETER') {
 			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04'];
-		} else if ($scope.rule.category === 'DIGITALPOINT') {
-			$scope.fddCodeOptions = ['DIGITALPOINT01'];
 		}
 	};
 
