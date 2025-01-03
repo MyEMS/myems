@@ -97,8 +97,8 @@ class RuleCollection:
                 not isinstance(new_values['data']['category'], str) or \
                 len(str.strip(new_values['data']['category'])) == 0 or \
                 str.strip(new_values['data']['category']) not in \
-                ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
-                 'COMBINEDEQUIPMENT', 'VIRTUALMETER', 'DIGITALPOINT'):
+                ('SYSTEM', 'SPACE', 'METER', 'POINT', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
+                 'COMBINEDEQUIPMENT', 'VIRTUALMETER'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CATEGORY')
@@ -325,8 +325,8 @@ class RuleItem:
                 not isinstance(new_values['data']['category'], str) or \
                 len(str.strip(new_values['data']['category'])) == 0 or \
                 str.strip(new_values['data']['category']) not in \
-                ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
-                 'COMBINEDEQUIPMENT', 'VIRTUALMETER', 'DIGITALPOINT'):
+                ('SYSTEM', 'SPACE', 'METER', 'POINT', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
+                 'COMBINEDEQUIPMENT', 'VIRTUALMETER'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CATEGORY')
@@ -579,8 +579,8 @@ class RuleImport:
                 not isinstance(new_values['category'], str) or \
                 len(str.strip(new_values['category'])) == 0 or \
                 str.strip(new_values['category']) not in \
-                ('SYSTEM', 'REALTIME', 'SPACE', 'METER', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
-                 'COMBINEDEQUIPMENT', 'VIRTUALMETER', 'DIGITALPOINT'):
+                ('SYSTEM', 'SPACE', 'METER', 'POINT', 'TENANT', 'STORE', 'SHOPFLOOR', 'EQUIPMENT',
+                 'COMBINEDEQUIPMENT', 'VIRTUALMETER'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_CATEGORY')
