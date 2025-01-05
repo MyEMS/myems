@@ -762,7 +762,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   onChange={({ target }) => setSelectedStation(target.value)}
                 >
                   {filteredStationList.map((station, index) => (
-                    <option value={station.value} key={station.value}>
+                    <option value={station.value} key={index}>
                       {station.label}
                     </option>
                   ))}
@@ -1082,12 +1082,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '10' })}
               onClick={() => {
-                setIsOpenPinModal(true);
-                setActiveTabBottom('10');
-                fetchCommandDetails();
+                let is_pin_valid = getCookieValue('is_pin_valid');
+                if (is_pin_valid) {
+                  fetchCommandDetails();
+                  setActiveTabBottom('10');
+                } else {
+                  setIsOpenPinModal(true);
+                }
               }}
             >
-              <h6>{t('Command')}</h6>
+              <h6>{t('Run Commands')}</h6>
             </NavLink>
           </NavItem>
         </Nav>
@@ -1173,25 +1177,25 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails {...rest} key={id} />) }
+            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="5">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails {...rest} key={id} />) }
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="6">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails {...rest} key={id} />) }
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="7">
-            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
+            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="8">
-            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails {...rest} key={id} />) }
+            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="9">
-            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails {...rest} key={id} />) }
+            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="10">
-            {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails {...rest} key={id} />) }
+            {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
           </TabPane>
         </TabContent>
       </div>

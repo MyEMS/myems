@@ -127,7 +127,16 @@ class Reporting:
         ################################################################################################################
         # Step 7: query the points of dcdcs
         ################################################################################################################
+        # query all points with units
+        query = (" SELECT id, units "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        units_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                units_dict[row[0]] = row[1]
         # query pcs parameters
         dcdc_list = list()
         for container in container_list:
@@ -163,30 +172,51 @@ class Reporting:
                     current_dcdc['id'] = row[0]
                     current_dcdc['name'] = container['name'] + '-' + row[1]
                     current_dcdc['uuid'] = row[2]
-                    current_dcdc['state_point'] = latest_value_dict.get(row[3], None)
-                    current_dcdc['module_environmental_temperature_point'] = latest_value_dict.get(row[4], None)
-                    current_dcdc['radiator_temperature_point'] = latest_value_dict.get(row[5], None)
-                    current_dcdc['environmental_temperature_limit_power_point'] = latest_value_dict.get(row[6], None)
-                    current_dcdc['high_voltage_side_positive_bus_voltage_point'] = latest_value_dict.get(row[7], None)
-                    current_dcdc['high_voltage_side_negative_bus_voltage_point'] = latest_value_dict.get(row[8], None)
+                    current_dcdc['state_point'] = (latest_value_dict.get(row[3], None),
+                                                   units_dict.get(row[3], None))
+                    current_dcdc['module_environmental_temperature_point'] = (latest_value_dict.get(row[4], None),
+                                                                              units_dict.get(row[4], None))
+                    current_dcdc['radiator_temperature_point'] = (latest_value_dict.get(row[5], None),
+                                                                  units_dict.get(row[5], None))
+                    current_dcdc['environmental_temperature_limit_power_point'] = (latest_value_dict.get(row[6], None),
+                                                                                   units_dict.get(row[6], None))
+                    current_dcdc['high_voltage_side_positive_bus_voltage_point'] = (latest_value_dict.get(row[7], None),
+                                                                                    units_dict.get(row[7], None))
+                    current_dcdc['high_voltage_side_negative_bus_voltage_point'] = (latest_value_dict.get(row[8], None),
+                                                                                    units_dict.get(row[8], None))
                     current_dcdc['high_voltage_side_positive_busbar_voltage_difference_point'] = \
-                        latest_value_dict.get(row[9], None)
-                    current_dcdc['high_voltage_side_voltage_point'] = latest_value_dict.get(row[10], None)
-                    current_dcdc['low_voltage_side_voltage_point'] = latest_value_dict.get(row[11], None)
-                    current_dcdc['low_voltage_side_current_point'] = latest_value_dict.get(row[12], None)
-                    current_dcdc['low_voltage_side_dc_power_point'] = latest_value_dict.get(row[13], None)
+                        (latest_value_dict.get(row[9], None),
+                         units_dict.get(row[9], None))
+                    current_dcdc['high_voltage_side_voltage_point'] = (latest_value_dict.get(row[10], None),
+                                                                       units_dict.get(row[10], None))
+                    current_dcdc['low_voltage_side_voltage_point'] = (latest_value_dict.get(row[11], None),
+                                                                      units_dict.get(row[11], None))
+                    current_dcdc['low_voltage_side_current_point'] = (latest_value_dict.get(row[12], None),
+                                                                      units_dict.get(row[12], None))
+                    current_dcdc['low_voltage_side_dc_power_point'] = (latest_value_dict.get(row[13], None),
+                                                                       units_dict.get(row[13], None))
                     current_dcdc['high_voltage_side_pre_charging_overvoltage_point'] = \
-                        latest_value_dict.get(row[14], None)
+                        (latest_value_dict.get(row[14], None),
+                         units_dict.get(row[14], None))
                     current_dcdc['high_voltage_side_polarity_reverse_connection_point'] = \
-                        latest_value_dict.get(row[15], None)
-                    current_dcdc['high_voltage_side_short_circuit_point'] = latest_value_dict.get(row[16], None)
-                    current_dcdc['high - voltage_side_unbalanced_busbars_point'] = latest_value_dict.get(row[17], None)
-                    current_dcdc['low_voltage_side_undervoltage_point'] = latest_value_dict.get(row[18], None)
-                    current_dcdc['low_voltage_side_overvoltage_point'] = latest_value_dict.get(row[19], None)
-                    current_dcdc['low_voltage_side_overcurrent_point'] = latest_value_dict.get(row[20], None)
+                        (latest_value_dict.get(row[15], None),
+                         units_dict.get(row[15], None))
+                    current_dcdc['high_voltage_side_short_circuit_point'] = (latest_value_dict.get(row[16], None),
+                                                                             units_dict.get(row[16], None))
+                    current_dcdc['high - voltage_side_unbalanced_busbars_point'] = \
+                        (latest_value_dict.get(row[17], None),
+                         units_dict.get(row[17], None))
+                    current_dcdc['low_voltage_side_undervoltage_point'] = (latest_value_dict.get(row[18], None),
+                                                                           units_dict.get(row[18], None))
+                    current_dcdc['low_voltage_side_overvoltage_point'] = (latest_value_dict.get(row[19], None),
+                                                                          units_dict.get(row[19], None))
+                    current_dcdc['low_voltage_side_overcurrent_point'] = (latest_value_dict.get(row[20], None),
+                                                                          units_dict.get(row[20], None))
                     current_dcdc['low_voltage_side_reverse_polarity_connection_point'] = \
-                        latest_value_dict.get(row[21], None)
-                    current_dcdc['low_insulation_resistance_point'] = latest_value_dict.get(row[22], None)
+                        (latest_value_dict.get(row[21], None),
+                         units_dict.get(row[21], None))
+                    current_dcdc['low_insulation_resistance_point'] = (latest_value_dict.get(row[22], None),
+                                                                       units_dict.get(row[22], None))
                     dcdc_list.append(current_dcdc)
 
         if cursor_system:

@@ -36,30 +36,30 @@ const MeterDetails = ({
           <thead>
             <tr>
               <th>{name}</th>
-              <th>{t('Total Active Power')}: {total_active_power_point} kW</th>
-              <th>{t('Active Power A')}: {active_power_a_point} kW</th>
-              <th>{t('Active Power B')}: {active_power_b_point} kW</th>
-              <th>{t('Active Power C')}: {active_power_c_point} W</th>
+              <th>{t('Total Active Power')}: {total_active_power_point[0]} {total_active_power_point[1]}</th>
+              <th>{t('Active Power A')}: {active_power_a_point[0]} {active_power_a_point[1]}</th>
+              <th>{t('Active Power B')}: {active_power_b_point[0]} {active_power_b_point[1]}</th>
+              <th>{t('Active Power C')}: {active_power_c_point[0]} {active_power_c_point[1]}</th>
             </tr>
             <tr>
-              <th>{t('Total Power Factor')}: {total_power_factor_point}</th>
-              <th>{t('Total Reactive Power')}: {total_reactive_power_point} kW</th>
-              <th>{t('Reactive Power A')}: {reactive_power_a_point} kW</th>
-              <th>{t('Reactive Power B')}: {reactive_power_b_point} kW</th>
-              <th>{t('Reactive Power C')}: {reactive_power_c_point} W</th>
-            </tr>
-            <tr>
-              <th>-</th>
-              <th>{t('Total Apparent Power')}: {total_apparent_power_point} kW</th>
-              <th>{t('Apparent Power A')}: {apparent_power_a_point} kW</th>
-              <th>{t('Apparent Power B')}: {apparent_power_b_point} kW</th>
-              <th>{t('Apparent Power C')}: {apparent_power_c_point} W</th>
+              <th>{t('Total Power Factor')}: {total_power_factor_point[0]}</th>
+              <th>{t('Total Reactive Power')}: {total_reactive_power_point[0]} {total_reactive_power_point[1]}</th>
+              <th>{t('Reactive Power A')}: {reactive_power_a_point[0]} {reactive_power_a_point[1]}</th>
+              <th>{t('Reactive Power B')}: {reactive_power_b_point[0]} {reactive_power_b_point[1]}</th>
+              <th>{t('Reactive Power C')}: {reactive_power_c_point[0]} {reactive_power_c_point[1]}</th>
             </tr>
             <tr>
               <th>-</th>
-              <th>{t('Active Energy Import')}: {active_energy_import_point} kWh</th>
-              <th>{t('Active Energy Export')}: {active_energy_export_point} kWh</th>
-              <th>{t('Active Energy Net')}: {active_energy_net_point} kWh</th>
+              <th>{t('Total Apparent Power')}: {total_apparent_power_point[0]} {total_apparent_power_point[1]}</th>
+              <th>{t('Apparent Power A')}: {apparent_power_a_point[0]} {apparent_power_a_point[1]}</th>
+              <th>{t('Apparent Power B')}: {apparent_power_b_point[0]} {apparent_power_b_point[1]}</th>
+              <th>{t('Apparent Power C')}: {apparent_power_c_point[0]} {apparent_power_c_point[1]}</th>
+            </tr>
+            <tr>
+              <th>-</th>
+              <th>{t('Active Energy Import')}: {active_energy_import_point[0]} {active_energy_import_point[1]}</th>
+              <th>{t('Active Energy Export')}: {active_energy_export_point[0]} {active_energy_export_point[1]}</th>
+              <th>{t('Active Energy Net')}: {active_energy_net_point[0]} {active_energy_net_point[1]}</th>
               <th>-</th>
             </tr>
           </thead>
@@ -73,22 +73,22 @@ const MeterDetails = ({
 MeterDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  total_active_power_point: PropTypes.number,
-  active_power_a_point: PropTypes.number,
-  active_power_b_point: PropTypes.number,
-  active_power_c_point: PropTypes.number,
-  total_reactive_power_point: PropTypes.number,
-  reactive_power_a_point: PropTypes.number,
-  reactive_power_b_point: PropTypes.number,
-  reactive_power_c_point: PropTypes.number,
-  total_apparent_power_point: PropTypes.number,
-  apparent_power_a_point: PropTypes.number,
-  apparent_power_b_point: PropTypes.number,
-  apparent_power_c_point: PropTypes.number,
-  total_power_factor_point: PropTypes.number,
-  active_energy_import_point: PropTypes.number,
-  active_energy_export_point: PropTypes.number,
-  active_energy_net_point: PropTypes.number,
+  total_active_power_point: PropTypes.array,
+  active_power_a_point: PropTypes.array,
+  active_power_b_point: PropTypes.array,
+  active_power_c_point: PropTypes.array,
+  total_reactive_power_point: PropTypes.array,
+  reactive_power_a_point: PropTypes.array,
+  reactive_power_b_point: PropTypes.array,
+  reactive_power_c_point: PropTypes.array,
+  total_apparent_power_point: PropTypes.array,
+  apparent_power_a_point: PropTypes.array,
+  apparent_power_b_point: PropTypes.array,
+  apparent_power_c_point: PropTypes.array,
+  total_power_factor_point: PropTypes.array,
+  active_energy_import_point: PropTypes.array,
+  active_energy_export_point: PropTypes.array,
+  active_energy_net_point: PropTypes.array,
 };
 
 export default withTranslation()(MeterDetails);

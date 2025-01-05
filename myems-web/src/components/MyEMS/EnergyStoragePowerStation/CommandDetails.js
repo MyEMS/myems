@@ -18,12 +18,12 @@ const CommandDetails = ({
     <>
     <Card className="mb-3 fs--1">
       <CardBody className="bg-light">
-        <h6>{name}</h6>
+        <h6>{id}:{name}</h6>
         <Table striped className="border-bottom">
           <tbody>
             <tr>
-              <td>描述: {description}</td>
-              <td>设定值: {set_value}</td>
+              <td>{t('Description')}: {description}</td>
+              <td>{t('Set Value')}: {set_value}</td>
               <td>
                 <Button color="primary" size="sm" onClick={() => setIsOpenCommandModal(true)}>
                   <FontAwesomeIcon icon="edit" className="mr-1" /> 设置

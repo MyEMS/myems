@@ -127,6 +127,16 @@ class Reporting:
         ################################################################################################################
         # Step 7: query the points of meters
         ################################################################################################################
+        # query all points with units
+        query = (" SELECT id, units "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
+
+        units_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                units_dict[row[0]] = row[1]
 
         # query grid meter parameters
         meter_list = list()
@@ -159,22 +169,38 @@ class Reporting:
                     current_grid_meter['id'] = row[0]
                     current_grid_meter['name'] = container['name'] + '-' + row[1]
                     current_grid_meter['uuid'] = row[2]
-                    current_grid_meter['total_active_power_point'] = latest_value_dict.get(row[3], None)
-                    current_grid_meter['active_power_a_point'] = latest_value_dict.get(row[4], None)
-                    current_grid_meter['active_power_b_point'] = latest_value_dict.get(row[5], None)
-                    current_grid_meter['active_power_c_point'] = latest_value_dict.get(row[6], None)
-                    current_grid_meter['total_reactive_power_point'] = latest_value_dict.get(row[7], None)
-                    current_grid_meter['reactive_power_a_point'] = latest_value_dict.get(row[8], None)
-                    current_grid_meter['reactive_power_b_point'] = latest_value_dict.get(row[9], None)
-                    current_grid_meter['reactive_power_c_point'] = latest_value_dict.get(row[10], None)
-                    current_grid_meter['total_apparent_power_point'] = latest_value_dict.get(row[11], None)
-                    current_grid_meter['apparent_power_a_point'] = latest_value_dict.get(row[12], None)
-                    current_grid_meter['apparent_power_b_point'] = latest_value_dict.get(row[13], None)
-                    current_grid_meter['apparent_power_c_point'] = latest_value_dict.get(row[14], None)
-                    current_grid_meter['total_power_factor_point'] = latest_value_dict.get(row[15], None)
-                    current_grid_meter['active_energy_import_point'] = latest_value_dict.get(row[16], None)
-                    current_grid_meter['active_energy_export_point'] = latest_value_dict.get(row[17], None)
-                    current_grid_meter['active_energy_net_point'] = latest_value_dict.get(row[18], None)
+                    current_grid_meter['total_active_power_point'] = (latest_value_dict.get(row[3], None),
+                                                                      units_dict.get(row[3], None))
+                    current_grid_meter['active_power_a_point'] = (latest_value_dict.get(row[4], None),
+                                                                  units_dict.get(row[4], None))
+                    current_grid_meter['active_power_b_point'] = (latest_value_dict.get(row[5], None),
+                                                                  units_dict.get(row[5], None))
+                    current_grid_meter['active_power_c_point'] = (latest_value_dict.get(row[6], None),
+                                                                  units_dict.get(row[6], None))
+                    current_grid_meter['total_reactive_power_point'] = (latest_value_dict.get(row[7], None),
+                                                                        units_dict.get(row[7], None))
+                    current_grid_meter['reactive_power_a_point'] = (latest_value_dict.get(row[8], None),
+                                                                    units_dict.get(row[8], None))
+                    current_grid_meter['reactive_power_b_point'] = (latest_value_dict.get(row[9], None),
+                                                                    units_dict.get(row[9], None))
+                    current_grid_meter['reactive_power_c_point'] = (latest_value_dict.get(row[10], None),
+                                                                    units_dict.get(row[10], None))
+                    current_grid_meter['total_apparent_power_point'] = (latest_value_dict.get(row[11], None),
+                                                                        units_dict.get(row[11], None))
+                    current_grid_meter['apparent_power_a_point'] = (latest_value_dict.get(row[12], None),
+                                                                    units_dict.get(row[12], None))
+                    current_grid_meter['apparent_power_b_point'] = (latest_value_dict.get(row[13], None),
+                                                                    units_dict.get(row[13], None))
+                    current_grid_meter['apparent_power_c_point'] = (latest_value_dict.get(row[14], None),
+                                                                    units_dict.get(row[14], None))
+                    current_grid_meter['total_power_factor_point'] = (latest_value_dict.get(row[15], None),
+                                                                      units_dict.get(row[15], None))
+                    current_grid_meter['active_energy_import_point'] = (latest_value_dict.get(row[16], None),
+                                                                        units_dict.get(row[16], None))
+                    current_grid_meter['active_energy_export_point'] = (latest_value_dict.get(row[17], None),
+                                                                        units_dict.get(row[17], None))
+                    current_grid_meter['active_energy_net_point'] = (latest_value_dict.get(row[18], None),
+                                                                     units_dict.get(row[18], None))
                     meter_list.append(current_grid_meter)
 
             # query load meter parameters
@@ -206,22 +232,38 @@ class Reporting:
                     current_load_meter['id'] = row[0]
                     current_load_meter['name'] = container['name'] + '-' + row[1]
                     current_load_meter['uuid'] = row[2]
-                    current_load_meter['total_active_power_point'] = latest_value_dict.get(row[3], None)
-                    current_load_meter['active_power_a_point'] = latest_value_dict.get(row[4], None)
-                    current_load_meter['active_power_b_point'] = latest_value_dict.get(row[5], None)
-                    current_load_meter['active_power_c_point'] = latest_value_dict.get(row[6], None)
-                    current_load_meter['total_reactive_power_point'] = latest_value_dict.get(row[7], None)
-                    current_load_meter['reactive_power_a_point'] = latest_value_dict.get(row[8], None)
-                    current_load_meter['reactive_power_b_point'] = latest_value_dict.get(row[9], None)
-                    current_load_meter['reactive_power_c_point'] = latest_value_dict.get(row[10], None)
-                    current_load_meter['total_apparent_power_point'] = latest_value_dict.get(row[11], None)
-                    current_load_meter['apparent_power_a_point'] = latest_value_dict.get(row[12], None)
-                    current_load_meter['apparent_power_b_point'] = latest_value_dict.get(row[13], None)
-                    current_load_meter['apparent_power_c_point'] = latest_value_dict.get(row[14], None)
-                    current_load_meter['total_power_factor_point'] = latest_value_dict.get(row[15], None)
-                    current_load_meter['active_energy_import_point'] = latest_value_dict.get(row[16], None)
-                    current_load_meter['active_energy_export_point'] = latest_value_dict.get(row[17], None)
-                    current_load_meter['active_energy_net_point'] = latest_value_dict.get(row[18], None)
+                    current_load_meter['total_active_power_point'] = (latest_value_dict.get(row[3], None),
+                                                                      units_dict.get(row[3], None))
+                    current_load_meter['active_power_a_point'] = (latest_value_dict.get(row[4], None),
+                                                                  units_dict.get(row[4], None))
+                    current_load_meter['active_power_b_point'] = (latest_value_dict.get(row[5], None),
+                                                                  units_dict.get(row[5], None))
+                    current_load_meter['active_power_c_point'] = (latest_value_dict.get(row[6], None),
+                                                                  units_dict.get(row[6], None))
+                    current_load_meter['total_reactive_power_point'] = (latest_value_dict.get(row[7], None),
+                                                                        units_dict.get(row[7], None))
+                    current_load_meter['reactive_power_a_point'] = (latest_value_dict.get(row[8], None),
+                                                                    units_dict.get(row[8], None))
+                    current_load_meter['reactive_power_b_point'] = (latest_value_dict.get(row[9], None),
+                                                                    units_dict.get(row[9], None))
+                    current_load_meter['reactive_power_c_point'] = (latest_value_dict.get(row[10], None),
+                                                                    units_dict.get(row[10], None))
+                    current_load_meter['total_apparent_power_point'] = (latest_value_dict.get(row[11], None),
+                                                                        units_dict.get(row[11], None))
+                    current_load_meter['apparent_power_a_point'] = (latest_value_dict.get(row[12], None),
+                                                                    units_dict.get(row[12], None))
+                    current_load_meter['apparent_power_b_point'] = (latest_value_dict.get(row[13], None),
+                                                                    units_dict.get(row[13], None))
+                    current_load_meter['apparent_power_c_point'] = (latest_value_dict.get(row[14], None),
+                                                                    units_dict.get(row[14], None))
+                    current_load_meter['total_power_factor_point'] = (latest_value_dict.get(row[15], None),
+                                                                      units_dict.get(row[15], None))
+                    current_load_meter['active_energy_import_point'] = (latest_value_dict.get(row[16], None),
+                                                                        units_dict.get(row[16], None))
+                    current_load_meter['active_energy_export_point'] = (latest_value_dict.get(row[17], None),
+                                                                        units_dict.get(row[17], None))
+                    current_load_meter['active_energy_net_point'] = (latest_value_dict.get(row[18], None),
+                                                                     units_dict.get(row[18], None))
                     meter_list.append(current_load_meter)
 
         if cursor_system:
