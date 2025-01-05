@@ -6,7 +6,8 @@
         <form role="form" name="form_costcenter" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="costcenter.name" type="text" name="costcentername" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="costcenter.name" type="text" name="costcentername" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_costcenter.costcentername.$invalid && form_costcenter.costcentername.$dirty">
                         <small class="text-danger" ng-show="form_costcenter.costcentername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -14,8 +15,8 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COSTCENTER.EXTERNAL_ID' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-
-                <div class="col-sm-9"><input ng-model="costcenter.external_id" type="text" name="costcenterexternalid" class="form-control">
+                <div class="col-sm-9">
+                    <input ng-model="costcenter.external_id" type="text" name="costcenterexternalid" class="form-control">
                 </div>
             </div>
         </form>

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_products` (
   `uuid` CHAR(36) NOT NULL,
   `unit_of_measure` VARCHAR(32) NOT NULL,
   `tag` VARCHAR(128) NOT NULL,
-  `standard_product_coefficient` DECIMAL(18, 3) NOT NULL DEFAULT 1.0,
+  `standard_product_coefficient` DECIMAL(21, 6) NOT NULL DEFAULT 1.0,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_products_index_1` ON `myems_production_db`.`tbl_products` (`name`);
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_shopfloor_hourly` (
   `shopfloor_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
   `product_id` BIGINT NOT NULL,
-  `product_count` DECIMAL(18, 3) NOT NULL,
+  `product_count` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_shopfloor_hourly_index_1`
 ON `myems_production_db`.`tbl_shopfloor_hourly` (`shopfloor_id`, `product_id`, `start_datetime_utc`);
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_space_hourly` (
   `space_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
   `product_id` BIGINT NOT NULL,
-  `product_count` DECIMAL(18, 3) NOT NULL,
+  `product_count` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_space_hourly_index_1`
 ON `myems_production_db`.`tbl_space_hourly` (`space_id`, `product_id`, `start_datetime_utc`);

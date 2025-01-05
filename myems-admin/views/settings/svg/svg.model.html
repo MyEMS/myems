@@ -5,7 +5,8 @@
     <div class="modal-body">
         <form role="form" name="form_svg" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
-                <div class="col-sm-10"><input ng-model="svg.name" type="text" name="svgname" class="form-control" required="">
+                <div class="col-sm-10">
+                    <input ng-model="svg.name" type="text" name="svgname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_svg.svgname.$invalid && form_svg.svgname.$dirty">
                         <small class="text-danger" ng-show="form_svg.svgname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -21,7 +22,8 @@
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-10"><input ng-model="svg.description" type="text" name="svgdescription" class="form-control" >
+                <div class="col-sm-10">
+                    <input ng-model="svg.description" type="text" name="svgdescription" class="form-control" >
                 </div>
             </div>
         </form>

@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_charging_stations` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg_id` BIGINT NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_commands` (
   `uuid` CHAR(36) NOT NULL,
   `topic` VARCHAR(255) NOT NULL,
   `payload` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
-  `set_value` DECIMAL(18, 3) NULL COMMENT 'If not null, the $s1 in payload will be replaced with this value',
+  `set_value` DECIMAL(21, 6) NULL COMMENT 'If not null, the $s1 in payload will be replaced with this value',
   `description` VARCHAR(255) ,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_commands_index_1` ON `myems_system_db`.`tbl_commands` (`name`);
@@ -221,8 +221,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_distribution_circuits` (
   `distribution_system_id` BIGINT NOT NULL,
   `distribution_room` VARCHAR(255) NOT NULL COMMENT '配电房, 配电间',
   `switchgear` VARCHAR(255) NOT NULL COMMENT '高/低压配电柜',
-  `peak_load` DECIMAL(18, 3)  COMMENT '最大容量, 设备容量(KW)',
-  `peak_current` DECIMAL(18, 3) COMMENT '最大电流, 计算电流(A)',
+  `peak_load` DECIMAL(21, 6)  COMMENT '最大容量, 设备容量(KW)',
+  `peak_current` DECIMAL(21, 6) COMMENT '最大电流, 计算电流(A)',
   `customers` VARCHAR(255) COMMENT '用电设备, 用户',
   `meters` VARCHAR(255) COMMENT '出线电表, 下级电表',
   PRIMARY KEY (`id`));
@@ -267,8 +267,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_categories` (
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `unit_of_measure` VARCHAR(32) NOT NULL,
-  `kgce` DECIMAL(18, 3) NOT NULL COMMENT 'Kilogram of Coal Equivalent',
-  `kgco2e` DECIMAL(18, 3) NOT NULL COMMENT 'Carbon Dioxide Emissions Factor',
+  `kgce` DECIMAL(21, 6) NOT NULL COMMENT 'Kilogram of Coal Equivalent',
+  `kgco2e` DECIMAL(21, 6) NOT NULL COMMENT 'Carbon Dioxide Emissions Factor',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_categories_index_1` ON `myems_system_db`.`tbl_energy_categories` (`name`);
 
@@ -335,8 +335,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `description` VARCHAR(255),
@@ -359,9 +359,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_batt
   `power_point_id` BIGINT NOT NULL,
   `charge_meter_id` BIGINT NOT NULL,
   `discharge_meter_id` BIGINT NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
-  `nominal_voltage` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
+  `nominal_voltage` DECIMAL(21, 6) NOT NULL,
   `communication_status_with_pcs_point_id` BIGINT NULL,
   `communication_status_with_ems_point_id` BIGINT NULL,
   `grid_status_point_id` BIGINT NULL,
@@ -471,7 +471,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grid
   `power_point_id` BIGINT NOT NULL,
   `buy_meter_id` BIGINT NOT NULL,
   `sell_meter_id` BIGINT NOT NULL,
-  `capacity` DECIMAL(18, 3) NOT NULL,
+  `capacity` DECIMAL(21, 6) NOT NULL,
   `total_active_power_point_id` BIGINT,
   `active_power_a_point_id` BIGINT,
   `active_power_b_point_id` BIGINT,
@@ -537,7 +537,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_load
   `energy_storage_container_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_input_power` DECIMAL(18, 3) NOT NULL,
+  `rated_input_power` DECIMAL(21, 6) NOT NULL,
   `total_active_power_point_id` BIGINT,
   `active_power_a_point_id` BIGINT,
   `active_power_b_point_id` BIGINT,
@@ -570,7 +570,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   `uuid` CHAR(36) NOT NULL,
   `energy_storage_container_id` BIGINT NOT NULL,
   `run_state_point_id` BIGINT NOT NULL,
-  `rated_output_power` DECIMAL(18, 3) NOT NULL,
+  `rated_output_power` DECIMAL(21, 6) NOT NULL,
   `today_charge_energy_point_id` BIGINT NULL,
   `today_discharge_energy_point_id` BIGINT NULL,
   `total_charge_energy_point_id` BIGINT NULL,
@@ -633,7 +633,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_sche
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
   COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
-  `power` DECIMAL(18, 3) NOT NULL,
+  `power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_schedules_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_schedules` (`energy_storage_container_id`);
@@ -664,8 +664,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations`
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg_id` BIGINT NOT NULL,
@@ -827,9 +827,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_integrators` (
   `high_temperature_point_id` BIGINT NOT NULL,
   `low_temperature_point_id` BIGINT NOT NULL,
   `flow_point_id` BIGINT NOT NULL,
-  `heat_capacity` DECIMAL(18, 3) NOT NULL,
-  `liquid_density` DECIMAL(18, 3) NOT NULL,
-  `coefficient` DECIMAL(18, 3) NOT NULL,
+  `heat_capacity` DECIMAL(21, 6) NOT NULL,
+  `liquid_density` DECIMAL(21, 6) NOT NULL,
+  `coefficient` DECIMAL(21, 6) NOT NULL,
   `result_point_id` BIGINT NOT NULL,
   `is_enabled` BOOL NOT NULL,
   PRIMARY KEY (`id`));
@@ -980,9 +980,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
-  `hourly_low_limit` DECIMAL(18, 3) NOT NULL
+  `hourly_low_limit` DECIMAL(21, 6) NOT NULL
   COMMENT 'Inclusive. The efault is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
-  `hourly_high_limit` DECIMAL(18, 3) NOT NULL
+  `hourly_high_limit` DECIMAL(21, 6) NOT NULL
   COMMENT 'Inclusive. Maximum energy consumption per hour, Rated total active Power, Rated Flow, etc.',
   `cost_center_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT,
@@ -1031,8 +1031,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `serial_number` VARCHAR(255) NOT NULL,
@@ -1058,9 +1058,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_batteries` (
   `power_point_id` BIGINT NOT NULL,
   `charge_meter_id` BIGINT NOT NULL,
   `discharge_meter_id` BIGINT NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
-  `nominal_voltage` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
+  `nominal_voltage` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_batteries_index_1` ON `myems_system_db`.`tbl_microgrids_batteries` (`microgrid_id`);
 
@@ -1087,7 +1087,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_sy
   `uuid` CHAR(36) NOT NULL,
   `microgrid_id` BIGINT NOT NULL,
   `run_state_point_id` BIGINT NOT NULL,
-  `rated_output_power` DECIMAL(18, 3) NOT NULL,
+  `rated_output_power` DECIMAL(21, 6) NOT NULL,
   `today_charge_energy_point_id` BIGINT NOT NULL,
   `today_discharge_energy_point_id` BIGINT NOT NULL,
   `total_charge_energy_point_id` BIGINT NOT NULL,
@@ -1108,7 +1108,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_evchargers` (
   `microgrid_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_output_power` DECIMAL(18, 3) NOT NULL,
+  `rated_output_power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_evchargers_index_1` ON `myems_system_db`.`tbl_microgrids_evchargers` (`microgrid_id`);
 
@@ -1124,7 +1124,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_generators` (
   `microgrid_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_output_power` DECIMAL(18, 3) NOT NULL,
+  `rated_output_power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_generators_index_1` ON `myems_system_db`.`tbl_microgrids_generators` (`microgrid_id`);
 
@@ -1141,7 +1141,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_grids` (
   `power_point_id` BIGINT NOT NULL,
   `buy_meter_id` BIGINT NOT NULL,
   `sell_meter_id` BIGINT NOT NULL,
-  `capacity` DECIMAL(18, 3) NOT NULL,
+  `capacity` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_grids_index_1` ON `myems_system_db`.`tbl_microgrids_grids` (`microgrid_id`);
 
@@ -1159,7 +1159,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_heatpumps` (
   `electricity_meter_id` BIGINT NOT NULL,
   `heat_meter_id` BIGINT NOT NULL,
   `cooling_meter_id` BIGINT NOT NULL,
-  `rated_input_power` DECIMAL(18, 3) NOT NULL,
+  `rated_input_power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_heatpumps_index_1` ON `myems_system_db`.`tbl_microgrids_heatpumps` (`microgrid_id`);
 
@@ -1175,7 +1175,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_loads` (
   `microgrid_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_input_power` DECIMAL(18, 3) NOT NULL,
+  `rated_input_power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_loads_index_1` ON `myems_system_db`.`tbl_microgrids_loads` (`microgrid_id`);
 
@@ -1191,7 +1191,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_photovoltaics` (
   `microgrid_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_photovoltaics_index_1` ON `myems_system_db`.`tbl_microgrids_photovoltaics` (`microgrid_id`);
 
@@ -1202,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_schedules` (
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
   COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
-  `power` DECIMAL(18, 3) NOT NULL,
+  `power` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_schedules_index_1`
 ON `myems_system_db`.`tbl_microgrids_schedules` (`microgrid_id`);
@@ -1242,8 +1242,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_offline_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
-  `hourly_low_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Default is 0.',
-  `hourly_high_limit` DECIMAL(18, 3)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour.',
+  `hourly_low_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Default is 0.',
+  `hourly_high_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour.',
   `cost_center_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT,
   `description` VARCHAR(255),
@@ -1267,8 +1267,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_capacity` DECIMAL(18, 3) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_capacity` DECIMAL(21, 6) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg_id` BIGINT NOT NULL,
@@ -1292,7 +1292,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_gr
   `power_point_id` BIGINT NOT NULL,
   `buy_meter_id` BIGINT NOT NULL,
   `sell_meter_id` BIGINT NOT NULL,
-  `capacity` DECIMAL(18, 3) NOT NULL,
+  `capacity` DECIMAL(21, 6) NOT NULL,
   `total_active_power_point_id` BIGINT,
   `active_power_a_point_id` BIGINT,
   `active_power_b_point_id` BIGINT,
@@ -1431,7 +1431,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_lo
   `photovoltaic_power_station_id` BIGINT NOT NULL,
   `power_point_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `rated_input_power` DECIMAL(18, 3) NOT NULL,
+  `rated_input_power` DECIMAL(21, 6) NOT NULL,
   `total_active_power_point_id` BIGINT,
   `active_power_a_point_id` BIGINT,
   `active_power_b_point_id` BIGINT,
@@ -1476,13 +1476,13 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `data_source_id` BIGINT NOT NULL,
   `object_type` VARCHAR(32) NOT NULL,
   `units` VARCHAR(32) NOT NULL,
-  `high_limit` DECIMAL(18, 3) NOT NULL,
-  `low_limit` DECIMAL(18, 3) NOT NULL ,
-  `higher_limit` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service',
-  `lower_limit` DECIMAL(18, 3) NULL COMMENT 'Used in FDD Service',
+  `high_limit` DECIMAL(21, 6) NOT NULL,
+  `low_limit` DECIMAL(21, 6) NOT NULL ,
+  `higher_limit` DECIMAL(21, 6) NULL COMMENT 'Used in FDD Service',
+  `lower_limit` DECIMAL(21, 6) NULL COMMENT 'Used in FDD Service',
   `is_in_alarm` BOOL DEFAULT FALSE NOT NULL COMMENT 'Used in FDD Service',
-  `ratio` DECIMAL(18, 3) DEFAULT 1.000 NOT NULL,
-  `offset_constant` DECIMAL(18, 3) DEFAULT 0.000 NOT NULL,
+  `ratio` DECIMAL(21, 6) DEFAULT 1.000000 NOT NULL,
+  `offset_constant` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL,
   `is_trend` BOOL NOT NULL,
   `is_virtual` BOOL DEFAULT FALSE NOT NULL,
   `address` LONGTEXT NOT NULL COMMENT 'Address MUST be in JSON format',
@@ -1577,7 +1577,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_shopfloors` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
-  `area` DECIMAL(18, 3) NOT NULL,
+  `area` DECIMAL(21, 6) NOT NULL,
   `is_input_counted` BOOL NOT NULL,
   `contact_id` BIGINT,
   `cost_center_id` BIGINT,
@@ -1694,8 +1694,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `parent_space_id` BIGINT,
-  `area` DECIMAL(18, 3) NOT NULL,
-  `number_of_occupants` DECIMAL(18, 3) NOT NULL DEFAULT 1.000,
+  `area` DECIMAL(21, 6) NOT NULL,
+  `number_of_occupants` DECIMAL(21, 6) NOT NULL DEFAULT 1.000,
   `timezone_id` BIGINT NOT NULL,
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
@@ -1983,7 +1983,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs_timeofuses` (
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
   COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷',
-  `price` DECIMAL(18, 5) NOT NULL,
+  `price` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tariffs_timeofuses_index_1`
 ON `myems_system_db`.`tbl_tariffs_timeofuses` (`tariff_id`, `start_time_of_day`);
@@ -2000,7 +2000,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_stores` (
   `address` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `area` DECIMAL(18, 3) NOT NULL,
+  `area` DECIMAL(21, 6) NOT NULL,
   `store_type_id` BIGINT NOT NULL,
   `is_input_counted` BOOL NOT NULL,
   `contact_id` BIGINT NOT NULL,
@@ -2134,7 +2134,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tenants` (
   `buildings` VARCHAR(255) NOT NULL,
   `floors` VARCHAR(255) NOT NULL,
   `rooms` VARCHAR(255) NOT NULL,
-  `area` DECIMAL(18, 3) NOT NULL,
+  `area` DECIMAL(21, 6) NOT NULL,
   `tenant_type_id` BIGINT NOT NULL,
   `is_input_counted` BOOL NOT NULL,
   `is_key_tenant` BOOL NOT NULL,
@@ -2455,7 +2455,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_wind_farms` (
   `postal_code` VARCHAR(255) NOT NULL,
   `latitude` DECIMAL(9, 6) NOT NULL,
   `longitude` DECIMAL(9, 6) NOT NULL,
-  `rated_power` DECIMAL(18, 3) NOT NULL,
+  `rated_power` DECIMAL(21, 6) NOT NULL,
   `contact_id` BIGINT NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
   `svg_id` BIGINT NOT NULL,

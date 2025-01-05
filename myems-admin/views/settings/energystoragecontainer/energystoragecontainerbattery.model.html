@@ -6,7 +6,8 @@
         <form role="form" name="form_energystoragecontainerbattery" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</small>
                     </div>
@@ -69,7 +70,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kWh)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
@@ -77,7 +79,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
@@ -85,7 +88,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
                     </div>

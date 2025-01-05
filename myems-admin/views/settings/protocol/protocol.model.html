@@ -5,15 +5,14 @@
     <div class="modal-body">
         <form role="form" name="form_protocol" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}</label>
-
-                <div class="col-sm-8"><input ng-model="protocol.name" type="text" name="protocolname" class="form-control" required="">
+                <div class="col-sm-8">
+                    <input ng-model="protocol.name" type="text" name="protocolname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_protocol.protocolname.$invalid && form_protocol.protocolname.$dirty">
                         <small class="text-danger" ng-show="form_protocol.protocolname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'PROTOCOL.CODE' | translate}}</label>
-
                 <div class="col-sm-8">
                     <input ng-model="protocol.code" type="text" name="protocolcode" class="form-control" >
                 </div>

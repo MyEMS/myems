@@ -6,7 +6,8 @@
         <form role="form" name="form_energyflowdiagramnode" novalidate class="form-horizontal">
             <div class="form-group">
               <label class="col-sm-4 control-label">{{'ENERGY_FLOW_DIAGRAM.NODE_NAME' | translate}}</label>
-                <div class="col-sm-8"><input ng-model="energyflowdiagramnode.name" type="text" name="energyflowdiagramnodename" class="form-control" required="">
+                <div class="col-sm-8">
+                    <input ng-model="energyflowdiagramnode.name" type="text" name="energyflowdiagramnodename" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energyflowdiagramnode.energyflowdiagramnodename.$invalid && form_energyflowdiagramnode.energyflowdiagramnodename.$dirty">
                         <small class="text-danger" ng-show="form_energyflowdiagramnode.energyflowdiagramnodename.$error.required">{{'ENERGY_FLOW_DIAGRAM.INPUT_NODE_NAME' | translate}}</small>
                     </div>

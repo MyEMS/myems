@@ -6,7 +6,8 @@
         <form role="form" name="form_category" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="category.name" type="text" name="categoryname" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="category.name" type="text" name="categoryname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_category.categoryname.$invalid && form_category.categoryname.$dirty">
                         <small class="text-danger" ng-show="form_category.categoryname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -15,14 +16,16 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.UNIT' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="category.unit_of_measure" type="text" name="categoryunit" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="category.unit_of_measure" type="text" name="categoryunit" class="form-control" required="">
                 <div class="m-t-xs" ng-show="form_category.categoryunit.$invalid && form_category.categoryunit.$dirty">
                         <small class="text-danger" ng-show="form_category.categoryunit.$error.required">{{'SETTING.INPUT_UNIT' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.KGCE' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="category.kgce" type="number" name="categorykgce" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="category.kgce" type="number" name="categorykgce" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_category.categorykgce.$invalid && form_category.categorykgce.$dirty">
                         <small class="text-danger" ng-show="form_category.categorykgce.$error.required">{{'SETTING.INPUT_KGCE' | translate}}</small>
                         <small class="text-danger" ng-show="form_category.categorykgce.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -30,7 +33,8 @@
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.KGCO2E' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="category.kgco2e" type="number" name="categorykgco2e" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="category.kgco2e" type="number" name="categorykgco2e" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_category.categorykgco2e.$invalid && form_category.categorykgco2e.$dirty">
                         <small class="text-danger" ng-show="form_category.categorykgco2e.$error.required">{{'SETTING.INPUT_KGCO2E' | translate}}</small>
                         <small class="text-danger" ng-show="form_category.categorykgco2e.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
