@@ -127,7 +127,16 @@ class Reporting:
         ################################################################################################################
         # Step 7: query the points of HVACs
         ################################################################################################################
+        # query all points with units
+        query = (" SELECT id, units "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        units_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                units_dict[row[0]] = row[1]
         # query pcs parameters
         hvac_list = list()
         for container in container_list:
@@ -162,25 +171,44 @@ class Reporting:
                     current_hvac['id'] = row[0]
                     current_hvac['name'] = container['name'] + '-' + row[1]
                     current_hvac['uuid'] = row[2]
-                    current_hvac['working_status_point'] = latest_value_dict.get(row[3], None)
-                    current_hvac['indoor_fan_status_point'] = latest_value_dict.get(row[4], None)
-                    current_hvac['outdoor_fan_status_point'] = latest_value_dict.get(row[5], None)
-                    current_hvac['emergency_fan_status_point'] = latest_value_dict.get(row[6], None)
-                    current_hvac['compressor_status_point'] = latest_value_dict.get(row[7], None)
-                    current_hvac['electric_heating_status_point'] = latest_value_dict.get(row[8], None)
-                    current_hvac['coil_temperature_point'] = latest_value_dict.get(row[9], None)
-                    current_hvac['temperature_outside_point'] = latest_value_dict.get(row[10], None)
-                    current_hvac['temperature_inside_point'] = latest_value_dict.get(row[11], None)
-                    current_hvac['condensation_temperature_point'] = latest_value_dict.get(row[12], None)
-                    current_hvac['outlet_air_temperature_point'] = latest_value_dict.get(row[13], None)
-                    current_hvac['return_air_temperature_point'] = latest_value_dict.get(row[14], None)
-                    current_hvac['exhaust_temperature_point'] = latest_value_dict.get(row[15], None)
-                    current_hvac['heating_on_temperature_point'] = latest_value_dict.get(row[16], None)
-                    current_hvac['heating_off_temperature_point'] = latest_value_dict.get(row[17], None)
-                    current_hvac['cooling_on_temperature_point'] = latest_value_dict.get(row[18], None)
-                    current_hvac['cooling_off_temperature_point'] = latest_value_dict.get(row[19], None)
-                    current_hvac['high_temperature_alarm_set_point'] = latest_value_dict.get(row[20], None)
-                    current_hvac['low_temperature_alarm_set_point'] = latest_value_dict.get(row[21], None)
+                    current_hvac['working_status_point'] = (latest_value_dict.get(row[3], None),
+                                                            units_dict.get(row[3], None))
+                    current_hvac['indoor_fan_status_point'] = (latest_value_dict.get(row[4], None),
+                                                               units_dict.get(row[4], None))
+                    current_hvac['outdoor_fan_status_point'] = (latest_value_dict.get(row[5], None),
+                                                                units_dict.get(row[5], None))
+                    current_hvac['emergency_fan_status_point'] = (latest_value_dict.get(row[6], None),
+                                                                  units_dict.get(row[6], None))
+                    current_hvac['compressor_status_point'] = (latest_value_dict.get(row[7], None),
+                                                               units_dict.get(row[7], None))
+                    current_hvac['electric_heating_status_point'] = (latest_value_dict.get(row[8], None),
+                                                                     units_dict.get(row[8], None))
+                    current_hvac['coil_temperature_point'] = (latest_value_dict.get(row[9], None),
+                                                              units_dict.get(row[9], None))
+                    current_hvac['temperature_outside_point'] = (latest_value_dict.get(row[10], None),
+                                                                 units_dict.get(row[10], None))
+                    current_hvac['temperature_inside_point'] = (latest_value_dict.get(row[11], None),
+                                                                units_dict.get(row[11], None))
+                    current_hvac['condensation_temperature_point'] = (latest_value_dict.get(row[12], None),
+                                                                      units_dict.get(row[12], None))
+                    current_hvac['outlet_air_temperature_point'] = (latest_value_dict.get(row[13], None),
+                                                                    units_dict.get(row[13], None))
+                    current_hvac['return_air_temperature_point'] = (latest_value_dict.get(row[14], None),
+                                                                    units_dict.get(row[14], None))
+                    current_hvac['exhaust_temperature_point'] = (latest_value_dict.get(row[15], None),
+                                                                 units_dict.get(row[15], None))
+                    current_hvac['heating_on_temperature_point'] = (latest_value_dict.get(row[16], None),
+                                                                    units_dict.get(row[16], None))
+                    current_hvac['heating_off_temperature_point'] = (latest_value_dict.get(row[17], None),
+                                                                     units_dict.get(row[17], None))
+                    current_hvac['cooling_on_temperature_point'] = (latest_value_dict.get(row[18], None),
+                                                                    units_dict.get(row[18], None))
+                    current_hvac['cooling_off_temperature_point'] = (latest_value_dict.get(row[19], None),
+                                                                     units_dict.get(row[19], None))
+                    current_hvac['high_temperature_alarm_set_point'] = (latest_value_dict.get(row[20], None),
+                                                                        units_dict.get(row[20], None))
+                    current_hvac['low_temperature_alarm_set_point'] = (latest_value_dict.get(row[21], None),
+                                                                       units_dict.get(row[21], None))
                     hvac_list.append(current_hvac)
 
         if cursor_system:

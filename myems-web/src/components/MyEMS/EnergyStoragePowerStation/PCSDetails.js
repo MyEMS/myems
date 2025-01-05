@@ -87,30 +87,30 @@ const PCSDetails = ({
           </thead>
           <tbody>
             <tr>
-              <td>当日充电量: {today_charge_energy_point} kWh</td>
-              <td>总交流有功功率: {total_ac_active_power_point} kW</td>
-              <td>A相有功功率: {phase_a_active_power_point} kW</td>
-              <td>A相无功功率: {phase_a_reactive_power_point} kvar</td>
-              <td>A相视在功率: {phase_a_apparent_power_point} kVA</td>
+              <td>当日充电量: {today_charge_energy_point[0]} {today_charge_energy_point[1]}</td>
+              <td>总交流有功功率: {total_ac_active_power_point[0]} {total_ac_active_power_point[1]}</td>
+              <td>A相有功功率: {phase_a_active_power_point[0]} {phase_a_active_power_point[1]}</td>
+              <td>A相无功功率: {phase_a_reactive_power_point[0]} {phase_a_reactive_power_point[1]}</td>
+              <td>A相视在功率: {phase_a_apparent_power_point[0]} {phase_a_apparent_power_point[1]}</td>
             </tr>
             <tr>
-              <td>当日放电量: {today_discharge_energy_point} kWh</td>
-              <td>总交流无功功率: {total_ac_reactive_power_point} kvar</td>
-              <td>B相有功功率: {phase_b_active_power_point} kW</td>
-              <td>B相无功功率: {phase_b_reactive_power_point} kvar</td>
-              <td>B相视在功率: {phase_b_apparent_power_point} kVA</td>
+              <td>当日放电量: {today_discharge_energy_point[0]} {today_discharge_energy_point[1]}</td>
+              <td>总交流无功功率: {total_ac_reactive_power_point[0]} {total_ac_reactive_power_point[1]}</td>
+              <td>B相有功功率: {phase_b_active_power_point[0]} {phase_b_active_power_point[1]}</td>
+              <td>B相无功功率: {phase_b_reactive_power_point[0]} {phase_b_reactive_power_point[1]}</td>
+              <td>B相视在功率: {phase_b_apparent_power_point[0]} {phase_b_apparent_power_point[1]}</td>
             </tr>
             <tr>
-            <td>总充电量: {total_charge_energy_point} kWh</td>
-              <td>总交流视在功率: {total_ac_apparent_power_point} kVA</td>
-              <td>C相有功功率: {phase_c_active_power_point} kW</td>
-              <td>C相无功功率: {phase_c_reactive_power_point} kvar</td>
-              <td>C相视在功率: {phase_c_apparent_power_point} kVA</td>
+            <td>总充电量: {total_charge_energy_point[0]} {total_charge_energy_point[1]}</td>
+              <td>总交流视在功率: {total_ac_apparent_power_point[0]} {total_ac_apparent_power_point[1]}</td>
+              <td>C相有功功率: {phase_c_active_power_point[0]} {phase_c_active_power_point[1]}</td>
+              <td>C相无功功率: {phase_c_reactive_power_point[0]} {phase_c_reactive_power_point[1]}</td>
+              <td>C相视在功率: {phase_c_apparent_power_point[0]} {phase_c_apparent_power_point[1]}</td>
             </tr>
             <tr>
-              <td>总放电量: {total_discharge_energy_point} kWh</td>
-              <td>总交流功率因数: {total_ac_power_factor_point}</td>
-              <td>交流频率: {ac_frequency_point} Hz</td>
+              <td>总放电量: {total_discharge_energy_point[0]} {total_discharge_energy_point[1]}</td>
+              <td>总交流功率因数: {total_ac_power_factor_point[0]}</td>
+              <td>交流频率: {ac_frequency_point[0]} {ac_frequency_point[1]}</td>
               <td></td>
               <td></td>
             </tr>
@@ -128,22 +128,22 @@ const PCSDetails = ({
           </thead>
           <tbody>
             <tr>
-              <td>AB电压: {ab_voltage_point} V</td>
-              <td>AB电流: {ab_current_point} A</td>
-              <td>A相电压: {phase_a_voltage_point} V</td>
-              <td>A相电流: {phase_a_current_point} A</td>
+              <td>AB电压: {ab_voltage_point[0]} {ab_voltage_point[1]}</td>
+              <td>AB电流: {ab_current_point[0]} {ab_current_point[1]}</td>
+              <td>A相电压: {phase_a_voltage_point[0]} {phase_a_voltage_point[1]}</td>
+              <td>A相电流: {phase_a_current_point[0]} {phase_a_current_point[1]}</td>
             </tr>
             <tr>
-              <td>BC电压: {bc_voltage_point} V</td>
-              <td>BC电流: {bc_current_point} A</td>
-              <td>B相电压: {phase_b_voltage_point} V</td>
-              <td>B相电流: {phase_b_current_point} A</td>
+              <td>BC电压: {bc_voltage_point[0]} {bc_voltage_point[1]}</td>
+              <td>BC电流: {bc_current_point[0]} {bc_current_point[1]}</td>
+              <td>B相电压: {phase_b_voltage_point[0]} {phase_b_voltage_point[1]}</td>
+              <td>B相电流: {phase_b_current_point[0]} {phase_b_current_point[1]}</td>
             </tr>
             <tr>
-              <td>CA电压: {ca_voltage_point} V</td>
-              <td>CA电流: {ca_current_point} A</td>
-              <td>C相电压: {phase_c_voltage_point} V</td>
-              <td>C相电流: {phase_c_current_point} A</td>
+              <td>CA电压: {ca_voltage_point[0]} {ca_voltage_point[1]}</td>
+              <td>CA电流: {ca_current_point[0]} {ca_current_point[1]}</td>
+              <td>C相电压: {phase_c_voltage_point[0]} {phase_c_voltage_point[1]}</td>
+              <td>C相电流: {phase_c_current_point[0]} {phase_c_current_point[1]}</td>
             </tr>
           </tbody>
         </Table>
@@ -158,20 +158,20 @@ const PCSDetails = ({
           </thead>
           <tbody>
             <tr>
-              <td>A1模块温度: {a1_module_temperature_point} ℃</td>
-              <td>A2模块温度: {a2_module_temperature_point} ℃</td>
-              <td>进风口温度: {air_inlet_temperature_point} ℃</td>
-              <td>PCS模块温度: {pcs_module_temperature_point} ℃</td>
+              <td>A1模块温度: {a1_module_temperature_point[0]} {a1_module_temperature_point[1]}</td>
+              <td>A2模块温度: {a2_module_temperature_point[0]} {a2_module_temperature_point[1]}</td>
+              <td>进风口温度: {air_inlet_temperature_point[0]} {air_inlet_temperature_point[1]}</td>
+              <td>PCS模块温度: {pcs_module_temperature_point[0]} {pcs_module_temperature_point[1]}</td>
             </tr>
             <tr>
-              <td>B1模块温度: {b1_module_temperature_point} ℃</td>
-              <td>B2模块温度: {b2_module_temperature_point} ℃</td>
-              <td>出风口温度: {air_outlet_temperature_point} ℃</td>
-              <td>PCS环境温度: {pcs_ambient_temperature_point} ℃</td>
+              <td>B1模块温度: {b1_module_temperature_point[0]} {b1_module_temperature_point[1]}</td>
+              <td>B2模块温度: {b2_module_temperature_point[0]} {b2_module_temperature_point[1]}</td>
+              <td>出风口温度: {air_outlet_temperature_point[0]} {air_outlet_temperature_point[1]}</td>
+              <td>PCS环境温度: {pcs_ambient_temperature_point[0]} {pcs_ambient_temperature_point[1]}</td>
             </tr>
             <tr>
-              <td>C1模块温度: {c1_module_temperature_point} ℃</td>
-              <td>C2模块温度: {c2_module_temperature_point} ℃</td>
+              <td>C1模块温度: {c1_module_temperature_point[0]} {c1_module_temperature_point[1]}</td>
+              <td>C2模块温度: {c2_module_temperature_point[0]} {c2_module_temperature_point[1]}</td>
               <td></td>
               <td></td>
             </tr>
@@ -188,9 +188,9 @@ const PCSDetails = ({
           </thead>
           <tbody>
             <tr>
-              <td>直流功率: {dc_power_point} kW</td>
-              <td>直流电压: {dc_voltage_point} V</td>
-              <td>直流电流: {dc_current_point} A</td>
+              <td>直流功率: {dc_power_point[0]} {dc_power_point[1]}</td>
+              <td>直流电压: {dc_voltage_point[0]} {dc_voltage_point[1]}</td>
+              <td>直流电流: {dc_current_point[0]} {dc_current_point[1]}</td>
             </tr>
           </tbody>
         </Table>
@@ -202,53 +202,53 @@ const PCSDetails = ({
 PCSDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  run_state_point: PropTypes.number,
-  today_charge_energy_point: PropTypes.number,
-  today_discharge_energy_point: PropTypes.number,
-  total_charge_energy_point: PropTypes.number,
-  total_discharge_energy_point: PropTypes.number,
-  grid_connection_status_point: PropTypes.number,
-  device_status_point: PropTypes.number,
-  control_mode_point: PropTypes.number,
-  total_ac_active_power_point: PropTypes.number,
-  total_ac_reactive_power_point: PropTypes.number,
-  total_ac_apparent_power_point: PropTypes.number,
-  total_ac_power_factor_point: PropTypes.number,
-  ac_frequency_point: PropTypes.number,
-  phase_a_active_power_point: PropTypes.number,
-  phase_b_active_power_point: PropTypes.number,
-  phase_c_active_power_point: PropTypes.number,
-  phase_a_reactive_power_point: PropTypes.number,
-  phase_b_reactive_power_point: PropTypes.number,
-  phase_c_reactive_power_point: PropTypes.number,
-  phase_a_apparent_power_point: PropTypes.number,
-  phase_b_apparent_power_point: PropTypes.number,
-  phase_c_apparent_power_point: PropTypes.number,
-  ab_voltage_point: PropTypes.number,
-  bc_voltage_point: PropTypes.number,
-  ca_voltage_point: PropTypes.number,
-  ab_current_point: PropTypes.number,
-  bc_current_point: PropTypes.number,
-  ca_current_point: PropTypes.number,
-  phase_a_voltage_point: PropTypes.number,
-  phase_b_voltage_point: PropTypes.number,
-  phase_c_voltage_point: PropTypes.number,
-  phase_a_current_point: PropTypes.number,
-  phase_b_current_point: PropTypes.number,
-  phase_c_current_point: PropTypes.number,
-  pcs_module_temperature_point: PropTypes.number,
-  pcs_ambient_temperature_point: PropTypes.number,
-  a1_module_temperature_point: PropTypes.number,
-  b1_module_temperature_point: PropTypes.number,
-  c1_module_temperature_point: PropTypes.number,
-  a2_module_temperature_point: PropTypes.number,
-  b2_module_temperature_point: PropTypes.number,
-  c2_module_temperature_point: PropTypes.number,
-  air_inlet_temperature_point: PropTypes.number,
-  air_outlet_temperature_point: PropTypes.number,
-  dc_power_point: PropTypes.number,
-  dc_voltage_point: PropTypes.number,
-  dc_current_point: PropTypes.number,
+  run_state_point: PropTypes.array,
+  today_charge_energy_point: PropTypes.array,
+  today_discharge_energy_point: PropTypes.array,
+  total_charge_energy_point: PropTypes.array,
+  total_discharge_energy_point: PropTypes.array,
+  grid_connection_status_point: PropTypes.array,
+  device_status_point: PropTypes.array,
+  control_mode_point: PropTypes.array,
+  total_ac_active_power_point: PropTypes.array,
+  total_ac_reactive_power_point: PropTypes.array,
+  total_ac_apparent_power_point: PropTypes.array,
+  total_ac_power_factor_point: PropTypes.array,
+  ac_frequency_point: PropTypes.array,
+  phase_a_active_power_point: PropTypes.array,
+  phase_b_active_power_point: PropTypes.array,
+  phase_c_active_power_point: PropTypes.array,
+  phase_a_reactive_power_point: PropTypes.array,
+  phase_b_reactive_power_point: PropTypes.array,
+  phase_c_reactive_power_point: PropTypes.array,
+  phase_a_apparent_power_point: PropTypes.array,
+  phase_b_apparent_power_point: PropTypes.array,
+  phase_c_apparent_power_point: PropTypes.array,
+  ab_voltage_point: PropTypes.array,
+  bc_voltage_point: PropTypes.array,
+  ca_voltage_point: PropTypes.array,
+  ab_current_point: PropTypes.array,
+  bc_current_point: PropTypes.array,
+  ca_current_point: PropTypes.array,
+  phase_a_voltage_point: PropTypes.array,
+  phase_b_voltage_point: PropTypes.array,
+  phase_c_voltage_point: PropTypes.array,
+  phase_a_current_point: PropTypes.array,
+  phase_b_current_point: PropTypes.array,
+  phase_c_current_point: PropTypes.array,
+  pcs_module_temperature_point: PropTypes.array,
+  pcs_ambient_temperature_point: PropTypes.array,
+  a1_module_temperature_point: PropTypes.array,
+  b1_module_temperature_point: PropTypes.array,
+  c1_module_temperature_point: PropTypes.array,
+  a2_module_temperature_point: PropTypes.array,
+  b2_module_temperature_point: PropTypes.array,
+  c2_module_temperature_point: PropTypes.array,
+  air_inlet_temperature_point: PropTypes.array,
+  air_outlet_temperature_point: PropTypes.array,
+  dc_power_point: PropTypes.array,
+  dc_voltage_point: PropTypes.array,
+  dc_current_point: PropTypes.array,
 };
 
 export default withTranslation()(PCSDetails);

@@ -464,6 +464,9 @@ const resources = {
       'Notification Update Datetime': 'Update Datetime',
       //Monitoring
       'Run Commands': 'Run Commands',
+      'Pin Code': 'Pin Code',
+      'Unlock': 'Unlock',
+      'Set Value': 'Set Value',
       'Fault Alarms': 'Fault Alarms',
       'Instantaneous Efficiency VALUE UNIT': 'Instantaneous Efficiency {{VALUE}} {{UNIT}}',
       'Communication Online': 'Online',
@@ -1652,6 +1655,9 @@ const resources = {
       'Notification Update Datetime': '更新时间',
       //Monitoring
       'Run Commands': '运行指令',
+      'Pin Code': '密码',
+      'Unlock': '解锁',
+      'Set Value': '设定值',
       'Fault Alarms': '故障报警',
       'Instantaneous Efficiency VALUE UNIT': '瞬时效率 {{VALUE}} {{UNIT}}',
       'Communication Status': '通信状态',
@@ -2878,6 +2884,9 @@ const resources = {
       'Notification Update Datetime': 'Datum/Uhrzeit aktualisieren',
       //Monitoring
       'Run Commands': 'Befehle ausführen',
+      'Pin Code': 'PIN-Code',
+      'Unlock': 'Freischalten',
+      'Set Value': 'Wert festlegen',
       'Fault Alarms': 'Fehleralarme',
       'Instantaneous Efficiency VALUE UNIT': 'Sofortige Effizienz {{VALUE}} {{UNIT}}',
       'Communication Status': 'Kommunikationsstatus',
@@ -4121,6 +4130,9 @@ const resources = {
       'Notification Update Datetime': 'Mettre à jour la date et l\'heure',
       //Monitoring
       'Run Commands': 'Exécuter des commandes',
+      'Pin Code': 'Code PIN',
+      'Unlock': 'Ouvrir',
+      'Set Value': 'Définir la valeur',
       'Fault Alarms': 'Alarmes de panne',
       'Instantaneous Efficiency VALUE UNIT': 'Instantané Efficacité {{VALUE}} {{UNIT}}',
       'Communication Online': 'En ligne',
@@ -5352,6 +5364,9 @@ const resources = {
       'Notification Update Datetime': 'Actualizar fecha y hora',
       //Monitoring
       'Run Commands': 'Ejecutar comandos',
+      'Pin Code': 'Código PIN',
+      'Unlock': 'Descubrir',
+      'Set Value': 'Establecer valor',
       'Fault Alarms': 'Alarmas de avería',
       'Instantaneous Efficiency VALUE UNIT': 'Eficiencia instantánea {{VALUE}} {{UNIT}}',
       'Communication Online': 'En línea',
@@ -6581,6 +6596,9 @@ const resources = {
       'Notification Update Datetime': 'Обновить дату и время',
       //Monitoring
       'Run Commands': 'Выполнение команд',
+      'Pin Code': 'Пин-код',
+      'Unlock': 'Разблокировать',
+      'Set Value': 'Установить значение',
       'Fault Alarms': 'Аварийные сигналы о неисправностях',
       'Instantaneous Efficiency VALUE UNIT': 'Мгновенная эффективность {{VALUE}} {{UNIT}}',
       'Communication Online': 'Онлайн',
@@ -7800,6 +7818,9 @@ const resources = {
       'Notification Update Datetime': 'تحديث التاريخ والوقت',
       //Monitoring
       'Run Commands': 'تشغيل الأوامر',
+      'Pin Code': 'الرمز البريدي',
+      'Unlock': 'فتح',
+      'Set Value': 'تعيين القيمة',
       'Fault Alarms': 'إنذارات الأعطال',
       'Instantaneous Efficiency VALUE UNIT': 'كفاءة فورية {{VALUE}} {{UNIT}}',
       'Communication Online': 'عبر الإنترنت',
@@ -9015,6 +9036,9 @@ const resources = {
       'Notification Update Datetime': 'Cập nhật ngày giờ',
       //Monitoring
       'Run Commands': 'Chạy lệnh',
+      'Pin Code': 'Mã số bưu chính',
+      'Unlock': 'Mở khóa',
+      'Set Value': 'Đặt giá trị',
       'Fault Alarms': 'Báo động lỗi',
       'Instantaneous Efficiency VALUE UNIT': 'Hiệu quả tức thời {{VALUE}} {{UNIT}}',
       'Communication Online': 'Trực tuyến',
@@ -10233,6 +10257,9 @@ const resources = {
       'Notification Update Datetime': 'อัปเดตวันที่และเวลา',
       //Monitoring
       'Run Commands': 'เรียกใช้คําสั่ง',
+      'Pin Code': 'รหัสพิน',
+      'Unlock': 'ปลดล็อค',
+      'Set Value': 'ตั้งค่าค่า',
       'Fault Alarms': 'สัญญาณเตือนความผิดพลาด',
       'Instantaneous Efficiency VALUE UNIT': 'ประสิทธิภาพทันที {{VALUE}} {{UNIT}}',
       'Communication Online': 'ออนไลน์',
@@ -11449,6 +11476,9 @@ const resources = {
       'Notification Update Datetime': 'Tarih Saati Güncelle',
       //Monitoring
       'Run Commands': 'Komutları Çalıştır',
+      'Pin Code': 'Posta Kodu',
+      'Unlock': 'Kilidini aç',
+      'Set Value': 'Değer Ayarla',
       'Fault Alarms': 'Arıza Alarmları',
       'Instantaneous Efficiency VALUE UNIT': 'Anlık Verimlilik {{VALUE}} {{UNIT}}',
       'Communication Online': 'Çevrimiçi',
@@ -12671,6 +12701,9 @@ const resources = {
       'Notification Update Datetime': 'Kemas kini Datetime',
       //Monitoring
       'Run Commands': 'Jalankan Perintah',
+      'Pin Code': 'Kod Pin',
+      'Unlock': 'Buka kunci',
+      'Set Value': 'Tetapkan Nilai',
       'Fault Alarms': 'Penggera Kesalahan',
       'Instantaneous Efficiency VALUE UNIT': 'Kecekapan Seketika {{VALUE}} {{UNIT}}',
       'Communication Online': 'Dalam talian',
@@ -13895,6 +13928,9 @@ const resources = {
       'Notification Update Datetime': 'Perbarui Tanggal Waktu',
       //Monitoring
       'Run Commands': 'Jalankan Perintah',
+      'Pin Code': 'Kode Pin',
+      'Unlock': 'Membuka kunci',
+      'Set Value': 'Tetapkan Nilai',
       'Fault Alarms': 'Alarm Cacat',
       'Instantaneous Efficiency VALUE UNIT': 'Efisiensi Segera {{VALUE}} {{UNIT}}',
       'Communication Status': 'Status Komunikasi',
@@ -15106,6 +15142,9 @@ const resources = {
       'Notification Update Datetime': '更新時間',
       //Monitoring
       'Run Commands': '運⾏指令',
+      'Pin Code': '密碼',
+      'Unlock': '解鎖',
+      'Set Value': '設定值',
       'Fault Alarms': '故障報警',
       'Instantaneous Efficiency VALUE UNIT': '瞬時效率 {{VALUE}} {{UNIT}}',
       'Communication Status': '通信狀態',

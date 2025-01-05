@@ -27,16 +27,16 @@ const FirecontrolDetails = ({
         <Table striped className="border-bottom">
           <tbody>
             <tr>
-              <td>内置温度值: {inside_temperature_point}</td>
-              <td>外置温度值: {outside_temperature_point}</td>
-              <td>温度报警状态值: {temperature_alarm_point}</td>
-              <td>烟雾传感器值: {smoke_sensor_value_point}</td>
+              <td>内置温度值: {inside_temperature_point[0]} {inside_temperature_point[1]}</td>
+              <td>外置温度值: {outside_temperature_point[0]} {outside_temperature_point[1]}</td>
+              <td>温度报警状态值: {temperature_alarm_point[0]} {temperature_alarm_point[1]}</td>
+              <td>烟雾传感器值: {smoke_sensor_value_point[0]} {smoke_sensor_value_point[1]}</td>
             </tr>
             <tr>
-              <td>烟雾传感器报警状态: {smoke_sensor_alarm_point}</td>
-              <td>电池安全检测传感器值: {battery_safety_detection_sensor_value_point}</td>
-              <td>电池安全检测传感器报警状态: {battery_safety_detection_sensor_alarm_point}</td>
-              <td>灭火装置反馈状态值: {fire_extinguishing_device_status_point}</td>
+              <td>烟雾传感器报警状态: {smoke_sensor_alarm_point[0]}</td>
+              <td>电池安全检测传感器值: {battery_safety_detection_sensor_value_point[0]}</td>
+              <td>电池安全检测传感器报警状态: {battery_safety_detection_sensor_alarm_point[0]}</td>
+              <td>灭火装置反馈状态值: {fire_extinguishing_device_status_point[0]}</td>
             </tr>
           </tbody>
         </Table>
@@ -49,14 +49,14 @@ const FirecontrolDetails = ({
 FirecontrolDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  inside_temperature_point: PropTypes.number,
-  outside_temperature_point: PropTypes.number,
-  temperature_alarm_point: PropTypes.number,
-  smoke_sensor_value_point: PropTypes.number,
-  smoke_sensor_alarm_point: PropTypes.number,
-  battery_safety_detection_sensor_value_point: PropTypes.number,
-  battery_safety_detection_sensor_alarm_point: PropTypes.number,
-  fire_extinguishing_device_status_point: PropTypes.number,
+  inside_temperature_point: PropTypes.array,
+  outside_temperature_point: PropTypes.array,
+  temperature_alarm_point: PropTypes.array,
+  smoke_sensor_value_point: PropTypes.array,
+  smoke_sensor_alarm_point: PropTypes.array,
+  battery_safety_detection_sensor_value_point: PropTypes.array,
+  battery_safety_detection_sensor_alarm_point: PropTypes.array,
+  fire_extinguishing_device_status_point: PropTypes.array,
 };
 
 export default withTranslation()(FirecontrolDetails);

@@ -74,7 +74,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .subtract(1, 'weeks')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -100,6 +100,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
@@ -230,6 +231,8 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
     setSpinnerHidden(false);
     // hide result data
     setResultDataHidden(true);
+    // hide export button
+    setExportButtonHidden(true);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -279,12 +282,16 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           });
           setParameterLineChartOptions(names);
 
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show result data
           setResultDataHidden(false);
+          // show export button
+          setExportButtonHidden(false);
         } else {
           toast.error(t(json.description));
           setSpinnerHidden(true);
@@ -422,6 +429,23 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
     loadData(url);
   };
 
+  const handleExport = e => {
+    e.preventDefault();
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'energystoreagepowerstationparameters.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+    fetch(fileUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+  };
+
   return (
     <Fragment>
       <Card className="bg-light mb-3">
@@ -501,6 +525,19 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                   <br />
                   <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
+                  size="sm"
+                  hidden={exportButtonHidden}
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
               </Col>
             </Row>
           </Form>

@@ -23,12 +23,10 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
     # Step 3: query associated energy storage containers
-    # Step 4: query associated batteries
-    # Step 5: query associated grids
-    # Step 6: query associated loads
-    # Step 7: query associated power conversion systems
-    # Step 8: query associated points data
-    # Step 9: construct the report
+    # Step 4: query associated data sources
+    # Step 5: query associated points
+    # Step 6: query associated points data
+    # Step 7: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -153,8 +151,6 @@ class Reporting:
                            "name": row[1],
                            "uuid": row[2]}
 
-        point_list = list()
-
         ################################################################################################################
         # Step 3: query associated energy storage containers
         ################################################################################################################
@@ -173,117 +169,41 @@ class Reporting:
                                        "uuid": row_container[2]})
 
         ################################################################################################################
-        # Step 4: query associated batteries
+        # Step 4: query associated data sources
         ################################################################################################################
+        data_source_list = list()
         for container in container_list:
-            cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                                  " WHERE mb.energy_storage_container_id = %s AND mb.soc_point_id = p.id ",
+            cursor_system.execute(" SELECT ds.id, ds.name "
+                                  " FROM tbl_energy_storage_containers_batteries b, tbl_points p, tbl_data_sources ds "
+                                  " WHERE b.energy_storage_container_id = %s "
+                                  "       AND b.soc_point_id = p.id "
+                                  "       AND p.data_source_id = ds.id ",
                                   (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1] + '.SOC',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-            cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_batteries mb, tbl_points p "
-                                  " WHERE mb.energy_storage_container_id = %s AND mb.power_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1]+'.P',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
+            row_data_source = cursor_system.fetchone()
+            if row_data_source is not None:
+                data_source_list.append({"id": row_data_source[0],
+                                         "name": row_data_source[1]})
 
         ################################################################################################################
-        # Step 5: query associated grids
+        # Step 5: query associated points
         ################################################################################################################
-        for container in container_list:
-            cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_grids mg, tbl_points p "
-                                  " WHERE mg.energy_storage_container_id = %s AND mg.power_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1]+'.P',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
+        point_list = list()
+        for data_source in data_source_list:
+            cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                  " FROM tbl_points p "
+                                  " WHERE p.data_source_id = %s ",
+                                  (data_source['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                for row_point in rows_points:
+                    point_list.append({"id": row_point[0],
+                                       "name": row_point[1],
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
 
         ################################################################################################################
-        # Step 6: query associated loads
+        # Step 6: query associated points data
         ################################################################################################################
-        for container in container_list:
-            cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_loads ml, tbl_points p "
-                                  " WHERE ml.energy_storage_container_id = %s AND ml.power_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1]+'.P',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-        ################################################################################################################
-        # Step 7: query associated power conversion systems
-        ################################################################################################################
-        for container in container_list:
-            cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
-                                  " WHERE pcs.energy_storage_container_id = %s AND "
-                                  "       pcs.today_charge_energy_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1] + '.TodayCharge',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-            cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
-                                  " WHERE pcs.energy_storage_container_id = %s AND "
-                                  "       pcs.today_discharge_energy_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1] + '.TodayDischarge',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-            cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
-                                  " WHERE pcs.energy_storage_container_id = %s AND "
-                                  "       pcs.total_charge_energy_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1] + '.TotalCharge',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-            cursor_system.execute(" SELECT p.id, pcs.name, p.units, p.object_type  "
-                                  " FROM tbl_energy_storage_containers_power_conversion_systems pcs, tbl_points p "
-                                  " WHERE pcs.energy_storage_container_id = %s AND "
-                                  "       pcs.total_discharge_energy_point_id = p.id ",
-                                  (container['id'],))
-            row_point = cursor_system.fetchone()
-            if row_point is not None:
-                point_list.append({"id": row_point[0],
-                                   "name": container['name'] + '-' + row_point[1] + '.TotalDischarge',
-                                   "units": row_point[2],
-                                   "object_type": row_point[3]})
-
-        ################################################################################################################
-        # Step 8: query associated points data
-        ################################################################################################################
-
         parameters_data = dict()
         parameters_data['names'] = list()
         parameters_data['timestamps'] = list()

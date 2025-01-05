@@ -127,6 +127,16 @@ class Reporting:
         ################################################################################################################
         # Step 7: query the points of batteries
         ################################################################################################################
+        # query all points with units
+        query = (" SELECT id, units "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
+
+        units_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                units_dict[row[0]] = row[1]
 
         # query battery parameters
         battery_list = list()
@@ -170,32 +180,58 @@ class Reporting:
                     current_battery['id'] = row[0]
                     current_battery['name'] = container['name'] + '-' + row[1]
                     current_battery['uuid'] = row[2]
-                    current_battery['battery_state_point'] = latest_value_dict.get(row[3], None)
-                    current_battery['soc_point'] = latest_value_dict.get(row[4], None)
-                    current_battery['power_point'] = latest_value_dict.get(row[5], None)
-                    current_battery['communication_status_with_pcs_point'] = latest_value_dict.get(row[6], None)
-                    current_battery['communication_status_with_ems_point'] = latest_value_dict.get(row[7], None)
-                    current_battery['grid_status_point'] = latest_value_dict.get(row[8], None)
-                    current_battery['total_voltage_point'] = latest_value_dict.get(row[9], None)
-                    current_battery['total_current_point'] = latest_value_dict.get(row[10], None)
-                    current_battery['soh_point'] = latest_value_dict.get(row[11], None)
-                    current_battery['charging_power_limit_point'] = latest_value_dict.get(row[12], None)
-                    current_battery['discharge_limit_power_point'] = latest_value_dict.get(row[13], None)
-                    current_battery['rechargeable_capacity_point'] = latest_value_dict.get(row[14], None)
-                    current_battery['dischargeable_capacity_point'] = latest_value_dict.get(row[15], None)
-                    current_battery['average_temperature_point'] = latest_value_dict.get(row[16], None)
-                    current_battery['average_voltage_point'] = latest_value_dict.get(row[17], None)
-                    current_battery['insulation_value_point'] = latest_value_dict.get(row[18], None)
-                    current_battery['positive_insulation_value_point'] = latest_value_dict.get(row[19], None)
-                    current_battery['negative_insulation_value_point'] = latest_value_dict.get(row[20], None)
-                    current_battery['maximum_temperature_point'] = latest_value_dict.get(row[21], None)
-                    current_battery['maximum_temperature_battery_cell_point'] = latest_value_dict.get(row[22], None)
-                    current_battery['minimum_temperature_point'] = latest_value_dict.get(row[23], None)
-                    current_battery['minimum_temperature_battery_cell_point'] = latest_value_dict.get(row[24], None)
-                    current_battery['maximum_voltage_point'] = latest_value_dict.get(row[25], None)
-                    current_battery['maximum_voltage_battery_cell_point'] = latest_value_dict.get(row[26], None)
-                    current_battery['minimum_voltage_point'] = latest_value_dict.get(row[27], None)
-                    current_battery['minimum_voltage_battery_cell_point'] = latest_value_dict.get(row[28], None)
+                    current_battery['battery_state_point'] = (latest_value_dict.get(row[3], None),
+                                                              units_dict.get(row[3], None))
+                    current_battery['soc_point'] = (latest_value_dict.get(row[4], None),
+                                                    units_dict.get(row[4], None))
+                    current_battery['power_point'] = (latest_value_dict.get(row[5], None),
+                                                      units_dict.get(row[5], None))
+                    current_battery['communication_status_with_pcs_point'] = (latest_value_dict.get(row[6], None),
+                                                                              units_dict.get(row[6], None))
+                    current_battery['communication_status_with_ems_point'] = (latest_value_dict.get(row[7], None),
+                                                                              units_dict.get(row[7], None))
+                    current_battery['grid_status_point'] = (latest_value_dict.get(row[8], None),
+                                                            units_dict.get(row[8], None))
+                    current_battery['total_voltage_point'] = (latest_value_dict.get(row[9], None),
+                                                              units_dict.get(row[9], None))
+                    current_battery['total_current_point'] = (latest_value_dict.get(row[10], None),
+                                                              units_dict.get(row[10], None))
+                    current_battery['soh_point'] = (latest_value_dict.get(row[11], None),
+                                                    units_dict.get(row[11], None))
+                    current_battery['charging_power_limit_point'] = (latest_value_dict.get(row[12], None),
+                                                                     units_dict.get(row[12], None))
+                    current_battery['discharge_limit_power_point'] = (latest_value_dict.get(row[13], None),
+                                                                      units_dict.get(row[13], None))
+                    current_battery['rechargeable_capacity_point'] = (latest_value_dict.get(row[14], None),
+                                                                      units_dict.get(row[14], None))
+                    current_battery['dischargeable_capacity_point'] = (latest_value_dict.get(row[15], None),
+                                                                       units_dict.get(row[15], None))
+                    current_battery['average_temperature_point'] = (latest_value_dict.get(row[16], None),
+                                                                    units_dict.get(row[16], None))
+                    current_battery['average_voltage_point'] = (latest_value_dict.get(row[17], None),
+                                                                units_dict.get(row[17], None))
+                    current_battery['insulation_value_point'] = (latest_value_dict.get(row[18], None),
+                                                                 units_dict.get(row[18], None))
+                    current_battery['positive_insulation_value_point'] = (latest_value_dict.get(row[19], None),
+                                                                          units_dict.get(row[19], None))
+                    current_battery['negative_insulation_value_point'] = (latest_value_dict.get(row[20], None),
+                                                                          units_dict.get(row[20], None))
+                    current_battery['maximum_temperature_point'] = (latest_value_dict.get(row[21], None),
+                                                                    units_dict.get(row[21], None))
+                    current_battery['maximum_temperature_battery_cell_point'] = (latest_value_dict.get(row[22], None),
+                                                                                 units_dict.get(row[22], None))
+                    current_battery['minimum_temperature_point'] = (latest_value_dict.get(row[23], None),
+                                                                    units_dict.get(row[23], None))
+                    current_battery['minimum_temperature_battery_cell_point'] = (latest_value_dict.get(row[24], None),
+                                                                                 units_dict.get(row[24], None))
+                    current_battery['maximum_voltage_point'] = (latest_value_dict.get(row[25], None),
+                                                                units_dict.get(row[25], None))
+                    current_battery['maximum_voltage_battery_cell_point'] = (latest_value_dict.get(row[26], None),
+                                                                             units_dict.get(row[26], None))
+                    current_battery['minimum_voltage_point'] = (latest_value_dict.get(row[27], None),
+                                                                units_dict.get(row[27], None))
+                    current_battery['minimum_voltage_battery_cell_point'] = (latest_value_dict.get(row[28], None),
+                                                                             units_dict.get(row[28], None))
                     battery_list.append(current_battery)
 
         if cursor_system:

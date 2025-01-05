@@ -127,6 +127,16 @@ class Reporting:
         ################################################################################################################
         # Step 7: query the points of power conversion systems
         ################################################################################################################
+        # query all points with units
+        query = (" SELECT id, units "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
+
+        units_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                units_dict[row[0]] = row[1]
 
         # query pcs parameters
         pcs_list = list()
@@ -190,53 +200,100 @@ class Reporting:
                     current_pcs['id'] = row[0]
                     current_pcs['name'] = container['name'] + '-' + row[1]
                     current_pcs['uuid'] = row[2]
-                    current_pcs['run_state_point'] = latest_value_dict.get(row[3], None)
-                    current_pcs['today_charge_energy_point'] = latest_value_dict.get(row[4], None)
-                    current_pcs['today_discharge_energy_point'] = latest_value_dict.get(row[5], None)
-                    current_pcs['total_charge_energy_point'] = latest_value_dict.get(row[6], None)
-                    current_pcs['total_discharge_energy_point'] = latest_value_dict.get(row[7], None)
-                    current_pcs['grid_connection_status_point'] = latest_value_dict.get(row[8], None)
-                    current_pcs['device_status_point'] = latest_value_dict.get(row[9], None)
-                    current_pcs['control_mode_point'] = latest_value_dict.get(row[10], None)
-                    current_pcs['total_ac_active_power_point'] = latest_value_dict.get(row[11], None)
-                    current_pcs['total_ac_reactive_power_point'] = latest_value_dict.get(row[12], None)
-                    current_pcs['total_ac_apparent_power_point'] = latest_value_dict.get(row[13], None)
-                    current_pcs['total_ac_power_factor_point'] = latest_value_dict.get(row[14], None)
-                    current_pcs['ac_frequency_point'] = latest_value_dict.get(row[15], None)
-                    current_pcs['phase_a_active_power_point'] = latest_value_dict.get(row[16], None)
-                    current_pcs['phase_b_active_power_point'] = latest_value_dict.get(row[17], None)
-                    current_pcs['phase_c_active_power_point'] = latest_value_dict.get(row[18], None)
-                    current_pcs['phase_a_reactive_power_point'] = latest_value_dict.get(row[19], None)
-                    current_pcs['phase_b_reactive_power_point'] = latest_value_dict.get(row[20], None)
-                    current_pcs['phase_c_reactive_power_point'] = latest_value_dict.get(row[21], None)
-                    current_pcs['phase_a_apparent_power_point'] = latest_value_dict.get(row[22], None)
-                    current_pcs['phase_b_apparent_power_point'] = latest_value_dict.get(row[23], None)
-                    current_pcs['phase_c_apparent_power_point'] = latest_value_dict.get(row[24], None)
-                    current_pcs['ab_voltage_point'] = latest_value_dict.get(row[25], None)
-                    current_pcs['bc_voltage_point'] = latest_value_dict.get(row[26], None)
-                    current_pcs['ca_voltage_point'] = latest_value_dict.get(row[27], None)
-                    current_pcs['ab_current_point'] = latest_value_dict.get(row[28], None)
-                    current_pcs['bc_current_point'] = latest_value_dict.get(row[29], None)
-                    current_pcs['ca_current_point'] = latest_value_dict.get(row[30], None)
-                    current_pcs['phase_a_voltage_point'] = latest_value_dict.get(row[31], None)
-                    current_pcs['phase_b_voltage_point'] = latest_value_dict.get(row[32], None)
-                    current_pcs['phase_c_voltage_point'] = latest_value_dict.get(row[33], None)
-                    current_pcs['phase_a_current_point'] = latest_value_dict.get(row[34], None)
-                    current_pcs['phase_b_current_point'] = latest_value_dict.get(row[35], None)
-                    current_pcs['phase_c_current_point'] = latest_value_dict.get(row[36], None)
-                    current_pcs['pcs_module_temperature_point'] = latest_value_dict.get(row[37], None)
-                    current_pcs['pcs_ambient_temperature_point'] = latest_value_dict.get(row[38], None)
-                    current_pcs['a1_module_temperature_point'] = latest_value_dict.get(row[39], None)
-                    current_pcs['b1_module_temperature_point'] = latest_value_dict.get(row[40], None)
-                    current_pcs['c1_module_temperature_point'] = latest_value_dict.get(row[41], None)
-                    current_pcs['a2_module_temperature_point'] = latest_value_dict.get(row[42], None)
-                    current_pcs['b2_module_temperature_point'] = latest_value_dict.get(row[43], None)
-                    current_pcs['c2_module_temperature_point'] = latest_value_dict.get(row[44], None)
-                    current_pcs['air_inlet_temperature_point'] = latest_value_dict.get(row[45], None)
-                    current_pcs['air_outlet_temperature_point'] = latest_value_dict.get(row[46], None)
-                    current_pcs['dc_power_point'] = latest_value_dict.get(row[47], None)
-                    current_pcs['dc_voltage_point'] = latest_value_dict.get(row[48], None)
-                    current_pcs['dc_current_point'] = latest_value_dict.get(row[49], None)
+                    current_pcs['run_state_point'] = (latest_value_dict.get(row[3], None),
+                                                      units_dict.get(row[3], None))
+                    current_pcs['today_charge_energy_point'] = (latest_value_dict.get(row[4], None),
+                                                                units_dict.get(row[4], None))
+                    current_pcs['today_discharge_energy_point'] = (latest_value_dict.get(row[5], None),
+                                                                   units_dict.get(row[5], None))
+                    current_pcs['total_charge_energy_point'] = (latest_value_dict.get(row[6], None),
+                                                                units_dict.get(row[6], None))
+                    current_pcs['total_discharge_energy_point'] = (latest_value_dict.get(row[7], None),
+                                                                   units_dict.get(row[7], None))
+                    current_pcs['grid_connection_status_point'] = (latest_value_dict.get(row[8], None),
+                                                                   units_dict.get(row[8], None))
+                    current_pcs['device_status_point'] = (latest_value_dict.get(row[9], None),
+                                                          units_dict.get(row[9], None))
+                    current_pcs['control_mode_point'] = (latest_value_dict.get(row[10], None),
+                                                         units_dict.get(row[10], None))
+                    current_pcs['total_ac_active_power_point'] = (latest_value_dict.get(row[11], None),
+                                                                  units_dict.get(row[11], None))
+                    current_pcs['total_ac_reactive_power_point'] = (latest_value_dict.get(row[12], None),
+                                                                    units_dict.get(row[12], None))
+                    current_pcs['total_ac_apparent_power_point'] = (latest_value_dict.get(row[13], None),
+                                                                    units_dict.get(row[13], None))
+                    current_pcs['total_ac_power_factor_point'] = (latest_value_dict.get(row[14], None),
+                                                                  units_dict.get(row[14], None))
+                    current_pcs['ac_frequency_point'] = (latest_value_dict.get(row[15], None),
+                                                         units_dict.get(row[15], None))
+                    current_pcs['phase_a_active_power_point'] = (latest_value_dict.get(row[16], None),
+                                                                 units_dict.get(row[16], None))
+                    current_pcs['phase_b_active_power_point'] = (latest_value_dict.get(row[17], None),
+                                                                 units_dict.get(row[17], None))
+                    current_pcs['phase_c_active_power_point'] = (latest_value_dict.get(row[18], None),
+                                                                 units_dict.get(row[18], None))
+                    current_pcs['phase_a_reactive_power_point'] = (latest_value_dict.get(row[19], None),
+                                                                   units_dict.get(row[19], None))
+                    current_pcs['phase_b_reactive_power_point'] = (latest_value_dict.get(row[20], None),
+                                                                   units_dict.get(row[20], None))
+                    current_pcs['phase_c_reactive_power_point'] = (latest_value_dict.get(row[21], None),
+                                                                   units_dict.get(row[21], None))
+                    current_pcs['phase_a_apparent_power_point'] = (latest_value_dict.get(row[22], None),
+                                                                   units_dict.get(row[22], None))
+                    current_pcs['phase_b_apparent_power_point'] = (latest_value_dict.get(row[23], None),
+                                                                   units_dict.get(row[23], None))
+                    current_pcs['phase_c_apparent_power_point'] = (latest_value_dict.get(row[24], None),
+                                                                   units_dict.get(row[24], None))
+                    current_pcs['ab_voltage_point'] = (latest_value_dict.get(row[25], None),
+                                                       units_dict.get(row[25], None))
+                    current_pcs['bc_voltage_point'] = (latest_value_dict.get(row[26], None),
+                                                       units_dict.get(row[26], None))
+                    current_pcs['ca_voltage_point'] = (latest_value_dict.get(row[27], None),
+                                                       units_dict.get(row[27], None))
+                    current_pcs['ab_current_point'] = (latest_value_dict.get(row[28], None),
+                                                       units_dict.get(row[28], None))
+                    current_pcs['bc_current_point'] = (latest_value_dict.get(row[29], None),
+                                                       units_dict.get(row[29], None))
+                    current_pcs['ca_current_point'] = (latest_value_dict.get(row[30], None),
+                                                       units_dict.get(row[30], None))
+                    current_pcs['phase_a_voltage_point'] = (latest_value_dict.get(row[31], None),
+                                                            units_dict.get(row[31], None))
+                    current_pcs['phase_b_voltage_point'] = (latest_value_dict.get(row[32], None),
+                                                            units_dict.get(row[32], None))
+                    current_pcs['phase_c_voltage_point'] = (latest_value_dict.get(row[33], None),
+                                                            units_dict.get(row[33], None))
+                    current_pcs['phase_a_current_point'] = (latest_value_dict.get(row[34], None),
+                                                            units_dict.get(row[34], None))
+                    current_pcs['phase_b_current_point'] = (latest_value_dict.get(row[35], None),
+                                                            units_dict.get(row[35], None))
+                    current_pcs['phase_c_current_point'] = (latest_value_dict.get(row[36], None),
+                                                            units_dict.get(row[36], None))
+                    current_pcs['pcs_module_temperature_point'] = (latest_value_dict.get(row[37], None),
+                                                                   units_dict.get(row[37], None))
+                    current_pcs['pcs_ambient_temperature_point'] = (latest_value_dict.get(row[38], None),
+                                                                    units_dict.get(row[38], None))
+                    current_pcs['a1_module_temperature_point'] = (latest_value_dict.get(row[39], None),
+                                                                  units_dict.get(row[39], None))
+                    current_pcs['b1_module_temperature_point'] = (latest_value_dict.get(row[40], None),
+                                                                  units_dict.get(row[40], None))
+                    current_pcs['c1_module_temperature_point'] = (latest_value_dict.get(row[41], None),
+                                                                  units_dict.get(row[41], None))
+                    current_pcs['a2_module_temperature_point'] = (latest_value_dict.get(row[42], None),
+                                                                  units_dict.get(row[42], None))
+                    current_pcs['b2_module_temperature_point'] = (latest_value_dict.get(row[43], None),
+                                                                  units_dict.get(row[43], None))
+                    current_pcs['c2_module_temperature_point'] = (latest_value_dict.get(row[44], None),
+                                                                  units_dict.get(row[44], None))
+                    current_pcs['air_inlet_temperature_point'] = (latest_value_dict.get(row[45], None),
+                                                                  units_dict.get(row[45], None))
+                    current_pcs['air_outlet_temperature_point'] = (latest_value_dict.get(row[46], None),
+                                                                   units_dict.get(row[46], None))
+                    current_pcs['dc_power_point'] = (latest_value_dict.get(row[47], None),
+                                                     units_dict.get(row[47], None))
+                    current_pcs['dc_voltage_point'] = (latest_value_dict.get(row[48], None),
+                                                       units_dict.get(row[48], None))
+                    current_pcs['dc_current_point'] = (latest_value_dict.get(row[49], None),
+                                                       units_dict.get(row[49], None))
                     pcs_list.append(current_pcs)
 
         if cursor_system:
