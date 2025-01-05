@@ -6,7 +6,8 @@
         <form role="form" name="form_photovoltaicpowerstationgrid" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.GRID_NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationgrid.name" type="text" name="photovoltaicpowerstationgridname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="photovoltaicpowerstationgrid.name" type="text" name="photovoltaicpowerstationgridname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridname.$invalid && form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridname.$dirty">
                         <small class="text-danger" ng-show="form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridname.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_GRID_NAME' | translate}}</small>
                     </div>
@@ -47,7 +48,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.CAPACITY' | translate}}(kW)</label>
-                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationgrid.capacity" type="number" name="photovoltaicpowerstationgridcapacity" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="photovoltaicpowerstationgrid.capacity" type="number" name="photovoltaicpowerstationgridcapacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridcapacity.$invalid && form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridcapacity.$dirty">
                         <small class="text-danger" ng-show="form_photovoltaicpowerstationgrid.photovoltaicpowerstationgridcapacity.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
                     </div>

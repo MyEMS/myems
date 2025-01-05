@@ -6,7 +6,8 @@
         <form role="form" name="form_energystoragecontainerpowerconversionsystem" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerpowerconversionsystem.name" type="text" name="energystoragecontainerpowerconversionsystemname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerpowerconversionsystem.name" type="text" name="energystoragecontainerpowerconversionsystemname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$invalid && form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -25,7 +26,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_OUTPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerpowerconversionsystem.rated_output_power" type="number" name="energystoragecontainerpowerconversionsystemrated_output_power" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerpowerconversionsystem.rated_output_power" type="number" name="energystoragecontainerpowerconversionsystemrated_output_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$invalid && form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerpowerconversionsystem.energystoragecontainerpowerconversionsystemrated_output_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_combined_equipment_input_
   `combined_equipment_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_combined_equipment_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_combined_equipment_input_category_hourly`
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_combined_equipment_input_
   `combined_equipment_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_combined_equipment_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_combined_equipment_input_item_hourly`
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_combined_equipment_output
   `combined_equipment_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_combined_equipment_output_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_combined_equipment_output_category_hourly`
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_container_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_container_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_container_charge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_container_charge_hourly`
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_container_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_container_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_container_discharge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_container_discharge_hourly`
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_container_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_container_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_container_grid_buy_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_container_grid_buy_hourly`
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_container_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_container_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_container_grid_sell_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_container_grid_sell_hourly`
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_container_
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_container_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_container_load_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_container_load_hourly`
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_power_stat
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_station_charge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_power_station_charge_hourly`
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_power_stat
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_station_discharge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_power_station_discharge_hourly`
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_power_stat
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_station_grid_buy_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_power_station_grid_buy_hourly`
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_power_stat
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_station_grid_sell_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_power_station_grid_sell_hourly`
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_energy_storage_power_stat
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `energy_storage_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_station_load_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_energy_storage_power_station_load_hourly`
@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_equipment_input_category_
   `equipment_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_equipment_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_equipment_input_category_hourly`
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_equipment_input_item_hour
   `equipment_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_equipment_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_equipment_input_item_hourly`
@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_equipment_output_category
   `equipment_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_equipment_output_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_equipment_output_category_hourly`
@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_meter_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `meter_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_meter_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_meter_hourly`
@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_charge_hourly` 
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_charge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_charge_hourly`
@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_discharge_hourl
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_discharge_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_discharge_hourly`
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_evcharger_hourl
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_evcharger_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_evcharger_hourly`
@@ -323,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_grid_buy_hourly
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_grid_buy_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_grid_buy_hourly`
@@ -338,7 +338,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_grid_sell_hourl
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_grid_sell_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_grid_sell_hourly`
@@ -353,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_load_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_load_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_load_hourly`
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_microgrid_photovoltaic_ho
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrid_photovoltaic_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_microgrid_photovoltaic_hourly`
@@ -383,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_offline_meter_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `offline_meter_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_offline_meter_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_offline_meter_hourly`
@@ -398,7 +398,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_photovoltaic_power_statio
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `photovoltaic_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_station_generation_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_photovoltaic_power_station_generation_hourly`
@@ -413,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_photovoltaic_power_statio
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `photovoltaic_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_station_grid_buy_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_photovoltaic_power_station_grid_buy_hourly`
@@ -428,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_photovoltaic_power_statio
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `photovoltaic_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_station_grid_sell_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_photovoltaic_power_station_grid_sell_hourly`
@@ -443,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_photovoltaic_power_statio
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `photovoltaic_power_station_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_station_load_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_photovoltaic_power_station_load_hourly`
@@ -459,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_shopfloor_input_category_
   `shopfloor_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_shopfloor_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_shopfloor_input_category_hourly`
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_shopfloor_input_item_hour
   `shopfloor_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_shopfloor_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_shopfloor_input_item_hourly`
@@ -491,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_space_input_category_hour
   `space_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_space_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_space_input_category_hourly`
@@ -507,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_space_input_item_hourly` 
   `space_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_space_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_space_input_item_hourly`
@@ -523,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_space_output_category_hou
   `space_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_space_output_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_space_output_category_hourly`
@@ -539,7 +539,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_store_input_category_hour
   `store_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_store_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_store_input_category_hourly`
@@ -555,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_store_input_item_hourly` 
   `store_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_store_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_store_input_item_hourly`
@@ -571,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_tenant_input_category_hou
   `tenant_id` BIGINT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tenant_input_category_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_tenant_input_category_hourly`
@@ -587,7 +587,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_tenant_input_item_hourly`
   `tenant_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tenant_input_item_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_tenant_input_item_hourly`
@@ -602,7 +602,7 @@ CREATE TABLE IF NOT EXISTS `myems_energy_plan_db`.`tbl_virtual_meter_hourly` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `virtual_meter_id` BIGINT NOT NULL,
   `start_datetime_utc` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_virtual_meter_hourly_index_1`
  ON `myems_energy_plan_db`.`tbl_virtual_meter_hourly` (`virtual_meter_id`, `start_datetime_utc`);

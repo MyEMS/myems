@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_analog_value` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   `is_bad` BOOL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_analog_value_index_1` ON `myems_historical_db`.`tbl_analog_value` (`point_id`, `utc_date_time`);
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_analog_value_latest` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_analog_value_latest_index_1`
 ON `myems_historical_db`.`tbl_analog_value_latest` (`point_id`, `utc_date_time`);
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_energy_value` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   `is_bad` BOOL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_value_index_1` ON `myems_historical_db`.`tbl_energy_value` (`point_id`, `utc_date_time`);
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_energy_value_latest` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,
-  `actual_value` DECIMAL(18, 3) NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_value_latest_index_1`
 ON `myems_historical_db`.`tbl_energy_value_latest` (`point_id`, `utc_date_time`);

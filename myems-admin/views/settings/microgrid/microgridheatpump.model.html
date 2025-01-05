@@ -6,7 +6,8 @@
         <form role="form" name="form_microgridheatpump" novalidate class="form-horizontal">
             <div class="form-group">
               <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_HEATPUMP_NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="microgridheatpump.name" type="text" name="microgridheatpumpname" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridheatpump.name" type="text" name="microgridheatpumpname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumpname.$invalid && form_microgridheatpump.microgridheatpumpname.$dirty">
                         <small class="text-danger" ng-show="form_microgridheatpump.microgridheatpumpname.$error.required">{{'MICROGRID.INPUT_MICROGRID_HEATPUMP_NAME' | translate}}</small>
                     </div>
@@ -58,7 +59,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-9"><input ng-model="microgridheatpump.rated_input_power" type="number" name="microgridheatpumprated_input_power" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridheatpump.rated_input_power" type="number" name="microgridheatpumprated_input_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumprated_input_power.$invalid && form_microgridheatpump.microgridheatpumprated_input_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridheatpump.microgridheatpumprated_input_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>

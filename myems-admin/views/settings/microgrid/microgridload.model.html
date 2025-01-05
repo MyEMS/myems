@@ -6,7 +6,8 @@
         <form role="form" name="form_microgridload" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_LOAD_NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="microgridload.name" type="text" name="microgridloadname" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridload.name" type="text" name="microgridloadname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridload.microgridloadname.$invalid && form_microgridload.microgridloadname.$dirty">
                         <small class="text-danger" ng-show="form_microgridload.microgridloadname.$error.required">{{'MICROGRID.INPUT_MICROGRID_LOAD_NAME' | translate}}</small>
                     </div>
@@ -36,7 +37,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-9"><input ng-model="microgridload.rated_input_power" type="number" name="microgridloadrated_input_power" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridload.rated_input_power" type="number" name="microgridloadrated_input_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridload.microgridloadrated_input_power.$invalid && form_microgridload.microgridloadrated_input_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridload.microgridloadrated_input_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>

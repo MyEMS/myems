@@ -6,7 +6,8 @@
         <form role="form" name="form_microgridevcharger" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_EVCHARGER_NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="microgridevcharger.name" type="text" name="microgridevchargername" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridevcharger.name" type="text" name="microgridevchargername" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridevcharger.microgridevchargername.$invalid && form_microgridevcharger.microgridevchargername.$dirty">
                         <small class="text-danger" ng-show="form_microgridevcharger.microgridevchargername.$error.required">{{'MICROGRID.INPUT_MICROGRID_EVCHARGER_NAME' | translate}}</small>
                     </div>
@@ -37,7 +38,8 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-9"><input ng-model="microgridevcharger.rated_output_power" type="number" name="microgridevchargerrated_output_power" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="microgridevcharger.rated_output_power" type="number" name="microgridevchargerrated_output_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$invalid && form_microgridevcharger.microgridevchargerrated_output_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>

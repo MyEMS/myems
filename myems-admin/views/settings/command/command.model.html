@@ -6,7 +6,8 @@
         <form role="form" name="form_command" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="command.name" type="text" name="commandname" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="command.name" type="text" name="commandname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_command.commandname.$invalid && form_command.commandname.$dirty">
                         <small class="text-danger" ng-show="form_command.commandname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -14,7 +15,8 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.TOPIC' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="command.topic" type="text" name="commandtopic" class="form-control">
+                <div class="col-sm-9">
+                    <input ng-model="command.topic" type="text" name="commandtopic" class="form-control">
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.PAYLOAD' | translate}}</label>
@@ -26,7 +28,8 @@
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.SET_VALUE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-9"><input ng-model="command.set_value" type="number" name="commandset_value" class="form-control" >
+                <div class="col-sm-9">
+                    <input ng-model="command.set_value" type="number" name="commandset_value" class="form-control" >
                     <div class="m-t-xs" ng-show="form_command.commandset_value.$invalid && form_command.commandset_value.$dirty">
                         <small class="text-danger" ng-show="form_command.commandset_value.$error.required">{{'COMMAND.INPUT_SET_VALUE' | translate}}</small>
                     </div>

@@ -6,7 +6,8 @@
         <form role="form" name="form_workingcalendar" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}</label>
 
-                <div class="col-sm-8"><input ng-model="workingcalendar.name" type="text" name="workingcalendarname" class="form-control" required="">
+                <div class="col-sm-8">
+                    <input ng-model="workingcalendar.name" type="text" name="workingcalendarname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_workingcalendar.workingcalendarname.$invalid && form_workingcalendar.workingcalendarname.$dirty">
                         <small class="text-danger" ng-show="form_workingcalendar.workingcalendarname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>

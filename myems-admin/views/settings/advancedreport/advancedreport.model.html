@@ -5,7 +5,8 @@
     <div class="modal-body">
         <form role="form" name="form_advancedreport" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="advancedReport.name" type="text" name="reportname" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="advancedReport.name" type="text" name="reportname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_advancedreport.reportname.$invalid && form_advancedreport.reportname.$dirty">
                         <small class="text-danger" ng-show="form_advancedreport.reportname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>

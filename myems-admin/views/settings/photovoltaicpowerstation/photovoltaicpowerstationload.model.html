@@ -6,7 +6,8 @@
         <form role="form" name="form_photovoltaicpowerstationload" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.LOAD_NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationload.name" type="text" name="photovoltaicpowerstationloadname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="photovoltaicpowerstationload.name" type="text" name="photovoltaicpowerstationloadname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_photovoltaicpowerstationload.photovoltaicpowerstationloadname.$invalid && form_photovoltaicpowerstationload.photovoltaicpowerstationloadname.$dirty">
                         <small class="text-danger" ng-show="form_photovoltaicpowerstationload.photovoltaicpowerstationloadname.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_LOAD_NAME' | translate}}</small>
                     </div>
@@ -36,7 +37,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'PHOTOVOLTAIC_POWER_STATION.RATED_INPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-7"><input ng-model="photovoltaicpowerstationload.rated_input_power" type="number" name="photovoltaicpowerstationloadrated_input_power" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="photovoltaicpowerstationload.rated_input_power" type="number" name="photovoltaicpowerstationloadrated_input_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_photovoltaicpowerstationload.photovoltaicpowerstationloadrated_input_power.$invalid && form_photovoltaicpowerstationload.photovoltaicpowerstationloadrated_input_power.$dirty">
                         <small class="text-danger" ng-show="form_photovoltaicpowerstationload.photovoltaicpowerstationloadrated_input_power.$error.required">{{'PHOTOVOLTAIC_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
                     </div>

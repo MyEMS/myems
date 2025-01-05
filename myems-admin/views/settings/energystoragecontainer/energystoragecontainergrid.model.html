@@ -6,7 +6,8 @@
         <form role="form" name="form_energystoragecontainergrid" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID_NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainergrid.name" type="text" name="energystoragecontainergridname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainergrid.name" type="text" name="energystoragecontainergridname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$invalid && form_energystoragecontainergrid.energystoragecontainergridname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_GRID_NAME' | translate}}</small>
                     </div>
@@ -47,7 +48,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainergrid.capacity" type="number" name="energystoragecontainergridcapacity" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainergrid.capacity" type="number" name="energystoragecontainergridcapacity" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$invalid && form_energystoragecontainergrid.energystoragecontainergridcapacity.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>

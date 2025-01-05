@@ -6,7 +6,8 @@
         <form role="form" name="form_emailserver" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.HOST' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="emailserver.host" type="text" name="host" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="emailserver.host" type="text" name="host" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.host.$invalid && form_emailserver.host.$dirty">
                         <small class="text-danger" ng-show="form_emailserver.host.$error.required">{{'SETTING.INPUT_HOST' | translate}}</small>
                     </div>
@@ -15,8 +16,9 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.PORT' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="emailserver.port" type="number" name="port" class="form-control" required="">
-                <div class="m-t-xs" ng-show="form_emailserver.port.$invalid && form_emailserver.port.$dirty">
+                <div class="col-sm-9">
+                    <input ng-model="emailserver.port" type="number" name="port" class="form-control" required="">
+                    <div class="m-t-xs" ng-show="form_emailserver.port.$invalid && form_emailserver.port.$dirty">
                         <small class="text-danger" ng-show="form_emailserver.port.$error.required">{{'SETTING.INPUT_PORT' | translate}}</small>
                         <small class="text-danger" ng-show="form_emailserver.port.$error">{{'SETTING.INVALID_PORT' | translate}}</small>
                     </div>
@@ -34,7 +36,8 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.USER_NAME' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="emailserver.user_name" type="text" name="user_name" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="emailserver.user_name" type="text" name="user_name" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.user_name.$invalid && form_emailserver.user_name.$dirty">
                         <small class="text-danger" ng-show="form_emailserver.user_name.$error.required">{{'SETTING.INPUT_USER_NAME' | translate}}</small>
                         <small class="text-danger" ng-show="form_emailserver.user_name.$error">{{'SETTING.INVALID_USER_NAME' | translate}}</small>
@@ -44,7 +47,8 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PASSWORD' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="emailserver.password" type="password" name="password" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="emailserver.password" type="password" name="password" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.password.$invalid && form_emailserver.password.$dirty">
                         <small class="text-danger" ng-show="form_emailserver.password.$error.required">{{'SETTING.INPUT_PASSWORD' | translate}}</small>
                         <small class="text-danger" ng-show="form_emailserver.password.$error">{{'SETTING.INVALID_PASSWORD' | translate}}</small>
@@ -54,7 +58,8 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.FROM_ADDR' | translate}}</label>
 
-                <div class="col-sm-9"><input ng-model="emailserver.from_addr" type="email" name="from_addr" class="form-control" required="">
+                <div class="col-sm-9">
+                    <input ng-model="emailserver.from_addr" type="email" name="from_addr" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.from_addr.$invalid && form_emailserver.from_addr.$dirty">
                         <small class="text-danger" ng-show="form_emailserver.from_addr.$error.required">{{'SETTING.INPUT_FROM_ADDR' | translate}}</small>
                         <small class="text-danger" ng-show="form_emailserver.from_addr.$error">{{'SETTING.INVALID_FROM_ADDR' | translate}}</small>

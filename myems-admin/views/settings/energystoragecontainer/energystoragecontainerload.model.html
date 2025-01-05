@@ -6,7 +6,8 @@
         <form role="form" name="form_energystoragecontainerload" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerload.name" type="text" name="energystoragecontainerloadname" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerload.name" type="text" name="energystoragecontainerloadname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadname.$invalid && form_energystoragecontainerload.energystoragecontainerloadname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_LOAD_NAME' | translate}}</small>
                     </div>
@@ -36,7 +37,8 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' | translate}}(kW)</label>
-                <div class="col-sm-7"><input ng-model="energystoragecontainerload.rated_input_power" type="number" name="energystoragecontainerloadrated_input_power" class="form-control" required="">
+                <div class="col-sm-7">
+                    <input ng-model="energystoragecontainerload.rated_input_power" type="number" name="energystoragecontainerloadrated_input_power" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$invalid && form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerload.energystoragecontainerloadrated_input_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
                     </div>
