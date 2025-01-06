@@ -212,6 +212,11 @@ app.controller('EnergyStorageContainerLoadController', function(
 			modifiedEnergyStorageContainerLoad.power_point_id = modifiedEnergyStorageContainerLoad.power_point.id;
 			modifiedEnergyStorageContainerLoad.meter_id = modifiedEnergyStorageContainerLoad.meter.id;
 
+			if (modifiedEnergyStorageContainerLoad.total_active_power_point != null && modifiedEnergyStorageContainerLoad.total_active_power_point.id != null ) {
+				modifiedEnergyStorageContainerLoad.total_active_power_point_id = modifiedEnergyStorageContainerLoad.total_active_power_point.id;
+			} else {
+				modifiedEnergyStorageContainerLoad.total_active_power_point_id = undefined;
+			}
 			if (modifiedEnergyStorageContainerLoad.active_power_a_point != null && modifiedEnergyStorageContainerLoad.active_power_a_point.id != null ) {
 				modifiedEnergyStorageContainerLoad.active_power_a_point_id = modifiedEnergyStorageContainerLoad.active_power_a_point.id;
 			} else {
