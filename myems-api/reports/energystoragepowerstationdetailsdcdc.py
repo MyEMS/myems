@@ -203,7 +203,7 @@ class Reporting:
                          units_dict.get(row[15], None))
                     current_dcdc['high_voltage_side_short_circuit_point'] = (latest_value_dict.get(row[16], None),
                                                                              units_dict.get(row[16], None))
-                    current_dcdc['high - voltage_side_unbalanced_busbars_point'] = \
+                    current_dcdc['high_voltage_side_unbalanced_busbars_point'] = \
                         (latest_value_dict.get(row[17], None),
                          units_dict.get(row[17], None))
                     current_dcdc['low_voltage_side_undervoltage_point'] = (latest_value_dict.get(row[18], None),
