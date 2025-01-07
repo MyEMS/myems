@@ -113,9 +113,31 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.HUMIDITY_INSIDE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerhvac.humidity_inside_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CONDENSATION_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerhvac.condensation_temperature_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DEFROSTING_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerhvac.defrosting_temperature_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -179,6 +201,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.HEATING_CONTROL_HYSTERESIS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerhvac.heating_control_hysteresis_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.COOLING_ON_TEMPERATURE_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerhvac.cooling_on_temperature_point.id" theme="bootstrap">
@@ -201,6 +234,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.COOLING_CONTROL_HYSTERESIS_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerhvac.cooling_control_hysteresis_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.HIGH_TEMPERATURE_ALARM_SET_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerhvac.high_temperature_alarm_set_point.id" theme="bootstrap">
@@ -215,6 +259,17 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.LOW_TEMPERATURE_ALARM_SET_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerhvac.low_temperature_alarm_set_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.HIGH_HUMIDITY_ALARM_SET_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerhvac.high_humidity_alarm_set_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>

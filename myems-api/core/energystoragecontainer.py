@@ -1706,6 +1706,16 @@ class EnergyStorageContainerFirecontrolCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
+                 "        water_immersion_point_id, "
+                 "        emergency_stop_point_id, "
+                 "        electrical_compartment_smoke_detector_point_id, "
+                 "        battery_compartment_door_open_point_id, "
+                 "        electrical_compartment_door_open_point_id, "
+                 "        first_level_fire_alarm_point_id, "
+                 "        second_level_fire_alarm_point_id, "
+                 "        running_light_point_id, "
+                 "        fault_light_point_id, "
+                 "        ac_relay_tripping_point_id, "
                  "        inside_temperature_point_id, "
                  "        outside_temperature_point_id, "
                  "        temperature_alarm_point_id, "
@@ -1726,14 +1736,24 @@ class EnergyStorageContainerFirecontrolCollection:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "inside_temperature_point": point_dict.get(row[3]),
-                               "outside_temperature_point": point_dict.get(row[4]),
-                               "temperature_alarm_point": point_dict.get(row[5]),
-                               "smoke_sensor_value_point": point_dict.get(row[6]),
-                               "smoke_sensor_alarm_point": point_dict.get(row[7]),
-                               "battery_safety_detection_sensor_value_point": point_dict.get(row[8]),
-                               "battery_safety_detection_sensor_alarm_point": point_dict.get(row[9]),
-                               "fire_extinguishing_device_status_point": point_dict.get(row[10])
+                               "water_immersion_point": point_dict.get(row[3]),
+                               "emergency_stop_point": point_dict.get(row[4]),
+                               "electrical_compartment_smoke_detector_point": point_dict.get(row[5]),
+                               "battery_compartment_door_open_point": point_dict.get(row[6]),
+                               "electrical_compartment_door_open_point": point_dict.get(row[7]),
+                               "first_level_fire_alarm_point": point_dict.get(row[8]),
+                               "second_level_fire_alarm_point": point_dict.get(row[9]),
+                               "running_light_point": point_dict.get(row[10]),
+                               "fault_light_point": point_dict.get(row[11]),
+                               "ac_relay_tripping_point": point_dict.get(row[12]),
+                               "inside_temperature_point": point_dict.get(row[13]),
+                               "outside_temperature_point": point_dict.get(row[14]),
+                               "temperature_alarm_point": point_dict.get(row[15]),
+                               "smoke_sensor_value_point": point_dict.get(row[16]),
+                               "smoke_sensor_alarm_point": point_dict.get(row[17]),
+                               "battery_safety_detection_sensor_value_point": point_dict.get(row[18]),
+                               "battery_safety_detection_sensor_alarm_point": point_dict.get(row[19]),
+                               "fire_extinguishing_device_status_point": point_dict.get(row[20])
                                }
                 result.append(meta_result)
 
@@ -1774,7 +1794,16 @@ class EnergyStorageContainerFirecontrolCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
         name = str.strip(new_values['data']['name'])
-
+        water_immersion_point_id = None
+        emergency_stop_point_id = None
+        electrical_compartment_smoke_detector_point_id = None
+        battery_compartment_door_open_point_id = None
+        electrical_compartment_door_open_point_id = None
+        first_level_fire_alarm_point_id = None
+        second_level_fire_alarm_point_id = None
+        running_light_point_id = None
+        fault_light_point_id = None
+        ac_relay_tripping_point_id = None
         inside_temperature_point_id = None
         outside_temperature_point_id = None
         temperature_alarm_point_id = None
@@ -1783,6 +1812,55 @@ class EnergyStorageContainerFirecontrolCollection:
         battery_safety_detection_sensor_value_point_id = None
         battery_safety_detection_sensor_alarm_point_id = None
         fire_extinguishing_device_status_point_id = None
+        if 'water_immersion_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['water_immersion_point_id'], int) and \
+                new_values['data']['water_immersion_point_id'] > 0:
+            water_immersion_point_id = new_values['data']['water_immersion_point_id']
+
+        if 'emergency_stop_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['emergency_stop_point_id'], int) and \
+                new_values['data']['emergency_stop_point_id'] > 0:
+            emergency_stop_point_id = new_values['data']['emergency_stop_point_id']
+
+        if 'electrical_compartment_smoke_detector_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electrical_compartment_smoke_detector_point_id'], int) and \
+                new_values['data']['electrical_compartment_smoke_detector_point_id'] > 0:
+            electrical_compartment_smoke_detector_point_id = new_values['data']['electrical_compartment_smoke_detector_point_id']
+
+        if 'battery_compartment_door_open_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_compartment_door_open_point_id'], int) and \
+                new_values['data']['battery_compartment_door_open_point_id'] > 0:
+            battery_compartment_door_open_point_id = new_values['data']['battery_compartment_door_open_point_id']
+
+        if 'electrical_compartment_door_open_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electrical_compartment_door_open_point_id'], int) and \
+                new_values['data']['electrical_compartment_door_open_point_id'] > 0:
+            electrical_compartment_door_open_point_id = new_values['data']['electrical_compartment_door_open_point_id']
+
+        if 'first_level_fire_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['first_level_fire_alarm_point_id'], int) and \
+                new_values['data']['first_level_fire_alarm_point_id'] > 0:
+            first_level_fire_alarm_point_id = new_values['data']['first_level_fire_alarm_point_id']
+
+        if 'second_level_fire_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['second_level_fire_alarm_point_id'], int) and \
+                new_values['data']['second_level_fire_alarm_point_id'] > 0:
+            second_level_fire_alarm_point_id = new_values['data']['second_level_fire_alarm_point_id']
+
+        if 'running_light_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['running_light_point_id'], int) and \
+                new_values['data']['running_light_point_id'] > 0:
+            running_light_point_id = new_values['data']['running_light_point_id']
+
+        if 'fault_light_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['fault_light_point_id'], int) and \
+                new_values['data']['fault_light_point_id'] > 0:
+            fault_light_point_id = new_values['data']['fault_light_point_id']
+
+        if 'ac_relay_tripping_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ac_relay_tripping_point_id'], int) and \
+                new_values['data']['ac_relay_tripping_point_id'] > 0:
+            ac_relay_tripping_point_id = new_values['data']['ac_relay_tripping_point_id']
 
         if 'inside_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['inside_temperature_point_id'], int) and \
@@ -1851,6 +1929,16 @@ class EnergyStorageContainerFirecontrolCollection:
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_firecontrols "
                       "    (name, uuid, energy_storage_container_id, "
+                      "     water_immersion_point_id, "
+                      "     emergency_stop_point_id, "
+                      "     electrical_compartment_smoke_detector_point_id, "
+                      "     battery_compartment_door_open_point_id, "
+                      "     electrical_compartment_door_open_point_id, "
+                      "     first_level_fire_alarm_point_id, "
+                      "     second_level_fire_alarm_point_id, "
+                      "     running_light_point_id, "
+                      "     fault_light_point_id, "
+                      "     ac_relay_tripping_point_id, "
                       "     inside_temperature_point_id, "
                       "     outside_temperature_point_id, "
                       "     temperature_alarm_point_id, "
@@ -1860,10 +1948,21 @@ class EnergyStorageContainerFirecontrolCollection:
                       "     battery_safety_detection_sensor_alarm_point_id, "
                       "     fire_extinguishing_device_status_point_id)"
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
+                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
+                                    water_immersion_point_id,
+                                    emergency_stop_point_id,
+                                    electrical_compartment_smoke_detector_point_id,
+                                    battery_compartment_door_open_point_id,
+                                    electrical_compartment_door_open_point_id,
+                                    first_level_fire_alarm_point_id,
+                                    second_level_fire_alarm_point_id,
+                                    running_light_point_id,
+                                    fault_light_point_id,
+                                    ac_relay_tripping_point_id,
                                     inside_temperature_point_id,
                                     outside_temperature_point_id,
                                     temperature_alarm_point_id,
@@ -1938,6 +2037,16 @@ class EnergyStorageContainerFirecontrolItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
+                 "        water_immersion_point_id, "
+                 "        emergency_stop_point_id, "
+                 "        electrical_compartment_smoke_detector_point_id, "
+                 "        battery_compartment_door_open_point_id, "
+                 "        electrical_compartment_door_open_point_id, "
+                 "        first_level_fire_alarm_point_id, "
+                 "        second_level_fire_alarm_point_id, "
+                 "        running_light_point_id, "
+                 "        fault_light_point_id, "
+                 "        ac_relay_tripping_point_id, "
                  "        inside_temperature_point_id, "
                  "        outside_temperature_point_id, "
                  "        temperature_alarm_point_id, "
@@ -1960,14 +2069,24 @@ class EnergyStorageContainerFirecontrolItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
-                           "inside_temperature_point": point_dict.get(row[3]),
-                           "outside_temperature_point": point_dict.get(row[4]),
-                           "temperature_alarm_point": point_dict.get(row[5]),
-                           "smoke_sensor_value_point": point_dict.get(row[6]),
-                           "smoke_sensor_alarm_point": point_dict.get(row[7]),
-                           "battery_safety_detection_sensor_value_point": point_dict.get(row[8]),
-                           "battery_safety_detection_sensor_alarm_point": point_dict.get(row[9]),
-                           "fire_extinguishing_device_status_point": point_dict.get(row[10])
+                           "water_immersion_point": row[3],
+                           "emergency_stop_point": row[4],
+                           "electrical_compartment_smoke_detector_point": row[5],
+                           "battery_compartment_door_open_point": row[6],
+                           "electrical_compartment_door_open_point": row[7],
+                           "first_level_fire_alarm_point": row[8],
+                           "second_level_fire_alarm_point": row[9],
+                           "running_light_point": row[10],
+                           "fault_light_point": row[11],
+                           "ac_relay_tripping_point": row[12],
+                           "inside_temperature_point": point_dict.get(row[13]),
+                           "outside_temperature_point": point_dict.get(row[14]),
+                           "temperature_alarm_point": point_dict.get(row[15]),
+                           "smoke_sensor_value_point": point_dict.get(row[16]),
+                           "smoke_sensor_alarm_point": point_dict.get(row[17]),
+                           "battery_safety_detection_sensor_value_point": point_dict.get(row[18]),
+                           "battery_safety_detection_sensor_alarm_point": point_dict.get(row[19]),
+                           "fire_extinguishing_device_status_point": point_dict.get(row[20])
                            }
 
         resp.text = json.dumps(meta_result)
@@ -2040,6 +2159,16 @@ class EnergyStorageContainerFirecontrolItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
         name = str.strip(new_values['data']['name'])
+        water_immersion_point_id = None
+        emergency_stop_point_id = None
+        electrical_compartment_smoke_detector_point_id = None
+        battery_compartment_door_open_point_id = None
+        electrical_compartment_door_open_point_id = None
+        first_level_fire_alarm_point_id = None
+        second_level_fire_alarm_point_id = None
+        running_light_point_id = None
+        fault_light_point_id = None
+        ac_relay_tripping_point_id = None
         inside_temperature_point_id = None
         outside_temperature_point_id = None
         temperature_alarm_point_id = None
@@ -2048,37 +2177,94 @@ class EnergyStorageContainerFirecontrolItem:
         battery_safety_detection_sensor_value_point_id = None
         battery_safety_detection_sensor_alarm_point_id = None
         fire_extinguishing_device_status_point_id = None
+        if 'water_immersion_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['water_immersion_point_id'], int) and \
+                new_values['data']['water_immersion_point_id'] > 0:
+            water_immersion_point_id = new_values['data']['water_immersion_point_id']
+
+        if 'emergency_stop_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['emergency_stop_point_id'], int) and \
+                new_values['data']['emergency_stop_point_id'] > 0:
+            emergency_stop_point_id = new_values['data']['emergency_stop_point_id']
+
+        if 'electrical_compartment_smoke_detector_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electrical_compartment_smoke_detector_point_id'], int) and \
+                new_values['data']['electrical_compartment_smoke_detector_point_id'] > 0:
+            electrical_compartment_smoke_detector_point_id = \
+                new_values['data']['electrical_compartment_smoke_detector_point_id']
+
+        if 'battery_compartment_door_open_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['battery_compartment_door_open_point_id'], int) and \
+                new_values['data']['battery_compartment_door_open_point_id'] > 0:
+            battery_compartment_door_open_point_id = new_values['data']['battery_compartment_door_open_point_id']
+
+        if 'electrical_compartment_door_open_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['electrical_compartment_door_open_point_id'], int) and \
+                new_values['data']['electrical_compartment_door_open_point_id'] > 0:
+            electrical_compartment_door_open_point_id = new_values['data']['electrical_compartment_door_open_point_id']
+
+        if 'first_level_fire_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['first_level_fire_alarm_point_id'], int) and \
+                new_values['data']['first_level_fire_alarm_point_id'] > 0:
+            first_level_fire_alarm_point_id = new_values['data']['first_level_fire_alarm_point_id']
+
+        if 'second_level_fire_alarm_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['second_level_fire_alarm_point_id'], int) and \
+                new_values['data']['second_level_fire_alarm_point_id'] > 0:
+            second_level_fire_alarm_point_id = new_values['data']['second_level_fire_alarm_point_id']
+
+        if 'running_light_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['running_light_point_id'], int) and \
+                new_values['data']['running_light_point_id'] > 0:
+            running_light_point_id = new_values['data']['running_light_point_id']
+
+        if 'fault_light_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['fault_light_point_id'], int) and \
+                new_values['data']['fault_light_point_id'] > 0:
+            fault_light_point_id = new_values['data']['fault_light_point_id']
+
+        if 'ac_relay_tripping_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['ac_relay_tripping_point_id'], int) and \
+                new_values['data']['ac_relay_tripping_point_id'] > 0:
+            ac_relay_tripping_point_id = new_values['data']['ac_relay_tripping_point_id']
 
         if 'inside_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['inside_temperature_point_id'], int) and \
                 new_values['data']['inside_temperature_point_id'] > 0:
             inside_temperature_point_id = new_values['data']['inside_temperature_point_id']
+
         if 'outside_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['outside_temperature_point_id'], int) and \
                 new_values['data']['outside_temperature_point_id'] > 0:
             outside_temperature_point_id = new_values['data']['outside_temperature_point_id']
+
         if 'temperature_alarm_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['temperature_alarm_point_id'], int) and \
                 new_values['data']['temperature_alarm_point_id'] > 0:
             temperature_alarm_point_id = new_values['data']['temperature_alarm_point_id']
+
         if 'smoke_sensor_value_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['smoke_sensor_value_point_id'], int) and \
                 new_values['data']['smoke_sensor_value_point_id'] > 0:
             smoke_sensor_value_point_id = new_values['data']['smoke_sensor_value_point_id']
+
         if 'smoke_sensor_alarm_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['smoke_sensor_alarm_point_id'], int) and \
                 new_values['data']['smoke_sensor_alarm_point_id'] > 0:
             smoke_sensor_alarm_point_id = new_values['data']['smoke_sensor_alarm_point_id']
+
         if 'battery_safety_detection_sensor_value_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['battery_safety_detection_sensor_value_point_id'], int) and \
                 new_values['data']['battery_safety_detection_sensor_value_point_id'] > 0:
             battery_safety_detection_sensor_value_point_id = \
                 new_values['data']['battery_safety_detection_sensor_value_point_id']
+
         if 'battery_safety_detection_sensor_alarm_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['battery_safety_detection_sensor_alarm_point_id'], int) and \
                 new_values['data']['battery_safety_detection_sensor_alarm_point_id'] > 0:
             battery_safety_detection_sensor_alarm_point_id = \
                 new_values['data']['battery_safety_detection_sensor_alarm_point_id']
+
         if 'fire_extinguishing_device_status_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['fire_extinguishing_device_status_point_id'], int) and \
                 new_values['data']['fire_extinguishing_device_status_point_id'] > 0:
@@ -2118,6 +2304,16 @@ class EnergyStorageContainerFirecontrolItem:
 
         update_row = (" UPDATE tbl_energy_storage_containers_firecontrols "
                       " SET name = %s, "
+                      "     water_immersion_point_id = %s, "
+                      "     emergency_stop_point_id = %s, "
+                      "     electrical_compartment_smoke_detector_point_id = %s, "
+                      "     battery_compartment_door_open_point_id = %s, "
+                      "     electrical_compartment_door_open_point_id = %s, "
+                      "     first_level_fire_alarm_point_id = %s, "
+                      "     second_level_fire_alarm_point_id = %s, "
+                      "     running_light_point_id = %s, "
+                      "     fault_light_point_id = %s, "
+                      "     ac_relay_tripping_point_id = %s, "
                       "     inside_temperature_point_id = %s, "
                       "     outside_temperature_point_id = %s, "
                       "     temperature_alarm_point_id = %s, "
@@ -2128,6 +2324,16 @@ class EnergyStorageContainerFirecontrolItem:
                       "     fire_extinguishing_device_status_point_id = %s "
                       "     WHERE id = %s ")
         cursor.execute(update_row, (name,
+                                    water_immersion_point_id,
+                                    emergency_stop_point_id,
+                                    electrical_compartment_smoke_detector_point_id,
+                                    battery_compartment_door_open_point_id,
+                                    electrical_compartment_door_open_point_id,
+                                    first_level_fire_alarm_point_id,
+                                    second_level_fire_alarm_point_id,
+                                    running_light_point_id,
+                                    fault_light_point_id,
+                                    ac_relay_tripping_point_id,
                                     inside_temperature_point_id,
                                     outside_temperature_point_id,
                                     temperature_alarm_point_id,
@@ -2999,16 +3205,21 @@ class EnergyStorageContainerHVACCollection:
                  " coil_temperature_point_id, "
                  " temperature_outside_point_id, "
                  " temperature_inside_point_id, "
+                 " humidity_inside_point_id, "
                  " condensation_temperature_point_id, "
+                 " defrosting_temperature_point_id, "
                  " outlet_air_temperature_point_id, "
                  " return_air_temperature_point_id, "
                  " exhaust_temperature_point_id, "
                  " heating_on_temperature_point_id, "
                  " heating_off_temperature_point_id, "
+                 " heating_control_hysteresis_point_id, "
                  " cooling_on_temperature_point_id, "
                  " cooling_off_temperature_point_id, "
+                 " cooling_control_hysteresis_point_id, "
                  " high_temperature_alarm_set_point_id, "
-                 " low_temperature_alarm_set_point_id "
+                 " low_temperature_alarm_set_point_id, "
+                 " high_humidity_alarm_set_point_id "
                  " FROM tbl_energy_storage_containers_hvacs "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -3090,16 +3301,21 @@ class EnergyStorageContainerHVACCollection:
         coil_temperature_point_id = None
         temperature_outside_point_id = None
         temperature_inside_point_id = None
+        humidity_inside_point_id = None
         condensation_temperature_point_id = None
+        defrosting_temperature_point_id = None
         outlet_air_temperature_point_id = None
         return_air_temperature_point_id = None
         exhaust_temperature_point_id = None
         heating_on_temperature_point_id = None
         heating_off_temperature_point_id = None
+        heating_control_hysteresis_point_id = None
         cooling_on_temperature_point_id = None
         cooling_off_temperature_point_id = None
+        cooling_control_hysteresis_point_id = None
         high_temperature_alarm_set_point_id = None
         low_temperature_alarm_set_point_id = None
+        high_humidity_alarm_set_point_id = None
 
         if 'working_status_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['working_status_point_id'], int) and \
@@ -3137,10 +3353,18 @@ class EnergyStorageContainerHVACCollection:
                 isinstance(new_values['data']['temperature_inside_point_id'], int) and \
                 new_values['data']['temperature_inside_point_id'] > 0:
             temperature_inside_point_id = new_values['data']['temperature_inside_point_id']
+        if 'humidity_inside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['humidity_inside_point_id'], int) and \
+                new_values['data']['humidity_inside_point_id'] > 0:
+            humidity_inside_point_id = new_values['data']['humidity_inside_point_id']
         if 'condensation_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['condensation_temperature_point_id'], int) and \
                 new_values['data']['condensation_temperature_point_id'] > 0:
             condensation_temperature_point_id = new_values['data']['condensation_temperature_point_id']
+        if 'defrosting_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['defrosting_temperature_point_id'], int) and \
+                new_values['data']['defrosting_temperature_point_id'] > 0:
+            defrosting_temperature_point_id = new_values['data']['defrosting_temperature_point_id']
         if 'outlet_air_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['outlet_air_temperature_point_id'], int) and \
                 new_values['data']['outlet_air_temperature_point_id'] > 0:
@@ -3161,6 +3385,10 @@ class EnergyStorageContainerHVACCollection:
                 isinstance(new_values['data']['heating_off_temperature_point_id'], int) and \
                 new_values['data']['heating_off_temperature_point_id'] > 0:
             heating_off_temperature_point_id = new_values['data']['heating_off_temperature_point_id']
+        if 'heating_control_hysteresis_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_control_hysteresis_point_id'], int) and \
+                new_values['data']['heating_control_hysteresis_point_id'] > 0:
+            heating_control_hysteresis_point_id = new_values['data']['heating_control_hysteresis_point_id']
         if 'cooling_on_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['cooling_on_temperature_point_id'], int) and \
                 new_values['data']['cooling_on_temperature_point_id'] > 0:
@@ -3169,15 +3397,22 @@ class EnergyStorageContainerHVACCollection:
                 isinstance(new_values['data']['cooling_off_temperature_point_id'], int) and \
                 new_values['data']['cooling_off_temperature_point_id'] > 0:
             cooling_off_temperature_point_id = new_values['data']['cooling_off_temperature_point_id']
+        if 'cooling_control_hysteresis_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_control_hysteresis_point_id'], int) and \
+                new_values['data']['cooling_control_hysteresis_point_id'] > 0:
+            cooling_control_hysteresis_point_id = new_values['data']['cooling_control_hysteresis_point_id']
         if 'high_temperature_alarm_set_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['high_temperature_alarm_set_point_id'], int) and \
                 new_values['data']['high_temperature_alarm_set_point_id'] > 0:
             high_temperature_alarm_set_point_id = new_values['data']['high_temperature_alarm_set_point_id']
-
         if 'low_temperature_alarm_set_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['low_temperature_alarm_set_point_id'], int) and \
                 new_values['data']['low_temperature_alarm_set_point_id'] > 0:
             low_temperature_alarm_set_point_id = new_values['data']['low_temperature_alarm_set_point_id']
+        if 'high_humidity_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['high_humidity_alarm_set_point_id'], int) and \
+                new_values['data']['high_humidity_alarm_set_point_id'] > 0:
+            high_humidity_alarm_set_point_id = new_values['data']['high_humidity_alarm_set_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -3213,19 +3448,24 @@ class EnergyStorageContainerHVACCollection:
                       "     coil_temperature_point_id, "
                       "     temperature_outside_point_id, "
                       "     temperature_inside_point_id, "
+                      "     humidity_inside_point_id, "
                       "     condensation_temperature_point_id, "
+                      "     defrosting_temperature_point_id, "
                       "     outlet_air_temperature_point_id, "
                       "     return_air_temperature_point_id, "
                       "     exhaust_temperature_point_id, "
                       "     heating_on_temperature_point_id, "
                       "     heating_off_temperature_point_id, "
+                      "     heating_control_hysteresis_point_id, "
                       "     cooling_on_temperature_point_id, "
                       "     cooling_off_temperature_point_id, "
+                      "     cooling_control_hysteresis_point_id, "
                       "     high_temperature_alarm_set_point_id, "
-                      "     low_temperature_alarm_set_point_id) "
+                      "     low_temperature_alarm_set_point_id, "
+                      "     high_humidity_alarm_set_point_id) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
                       "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s) ")
+                      "         %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     id_,
@@ -3238,16 +3478,21 @@ class EnergyStorageContainerHVACCollection:
                                     coil_temperature_point_id,
                                     temperature_outside_point_id,
                                     temperature_inside_point_id,
+                                    humidity_inside_point_id,
                                     condensation_temperature_point_id,
+                                    defrosting_temperature_point_id,
                                     outlet_air_temperature_point_id,
                                     return_air_temperature_point_id,
                                     exhaust_temperature_point_id,
                                     heating_on_temperature_point_id,
                                     heating_off_temperature_point_id,
+                                    heating_control_hysteresis_point_id,
                                     cooling_on_temperature_point_id,
                                     cooling_off_temperature_point_id,
+                                    cooling_control_hysteresis_point_id,
                                     high_temperature_alarm_set_point_id,
-                                    low_temperature_alarm_set_point_id
+                                    low_temperature_alarm_set_point_id,
+                                    high_humidity_alarm_set_point_id
                                     ))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -3323,16 +3568,21 @@ class EnergyStorageContainerHVACItem:
                  "        coil_temperature_point_id, "
                  "        temperature_outside_point_id, "
                  "        temperature_inside_point_id, "
+                 "        humidity_inside_point_id, "
                  "        condensation_temperature_point_id, "
+                 "        defrosting_temperature_point_id, "
                  "        outlet_air_temperature_point_id, "
                  "        return_air_temperature_point_id, "
                  "        exhaust_temperature_point_id, "
                  "        heating_on_temperature_point_id, "
                  "        heating_off_temperature_point_id, "
+                 "        heating_control_hysteresis_point_id, "
                  "        cooling_on_temperature_point_id, "
                  "        cooling_off_temperature_point_id, "
+                 "        cooling_control_hysteresis_point_id, "
                  "        high_temperature_alarm_set_point_id, "
-                 "        low_temperature_alarm_set_point_id "
+                 "        low_temperature_alarm_set_point_id, "
+                 "        high_humidity_alarm_set_point_id "
                  " FROM tbl_energy_storage_containers_hvacs "
                  " WHERE id = %s ")
         cursor.execute(query, (hid,))
@@ -3356,16 +3606,21 @@ class EnergyStorageContainerHVACItem:
                            "coil_temperature_point": point_dict.get(row[9]),
                            "temperature_outside_point": point_dict.get(row[10]),
                            "temperature_inside_point": point_dict.get(row[11]),
-                           "condensation_temperature_point": point_dict.get(row[12]),
-                           "outlet_air_temperature_point": point_dict.get(row[13]),
-                           "return_air_temperature_point": point_dict.get(row[14]),
-                           "exhaust_temperature_point": point_dict.get(row[15]),
-                           "heating_on_temperature_point": point_dict.get(row[16]),
-                           "heating_off_temperature_point": point_dict.get(row[17]),
-                           "cooling_on_temperature_point": point_dict.get(row[18]),
-                           "cooling_off_temperature_point": point_dict.get(row[19]),
-                           "high_temperature_alarm_set_point": point_dict.get(row[20]),
-                           "low_temperature_alarm_set_point": point_dict.get(row[21])
+                           "humidity_inside_point": point_dict.get(row[12]),
+                           "condensation_temperature_point": point_dict.get(row[13]),
+                           "defrosting_temperature_point": point_dict.get(row[14]),
+                           "outlet_air_temperature_point": point_dict.get(row[15]),
+                           "return_air_temperature_point": point_dict.get(row[16]),
+                           "exhaust_temperature_point": point_dict.get(row[17]),
+                           "heating_on_temperature_point": point_dict.get(row[18]),
+                           "heating_off_temperature_point": point_dict.get(row[19]),
+                           "heating_control_hysteresis_point": point_dict.get(row[20]),
+                           "cooling_on_temperature_point": point_dict.get(row[21]),
+                           "cooling_off_temperature_point": point_dict.get(row[22]),
+                           "cooling_control_hysteresis_point": point_dict.get(row[23]),
+                           "high_temperature_alarm_set_point": point_dict.get(row[24]),
+                           "low_temperature_alarm_set_point": point_dict.get(row[25]),
+                           "high_humidity_alarm_set_point": point_dict.get(row[26])
                            }
 
         resp.text = json.dumps(meta_result)
@@ -3447,16 +3702,21 @@ class EnergyStorageContainerHVACItem:
         coil_temperature_point_id = None
         temperature_outside_point_id = None
         temperature_inside_point_id = None
+        humidity_inside_point_id = None
         condensation_temperature_point_id = None
+        defrosting_temperature_point_id = None
         outlet_air_temperature_point_id = None
         return_air_temperature_point_id = None
         exhaust_temperature_point_id = None
         heating_on_temperature_point_id = None
         heating_off_temperature_point_id = None
+        heating_control_hysteresis_point_id = None
         cooling_on_temperature_point_id = None
         cooling_off_temperature_point_id = None
+        cooling_control_hysteresis_point_id = None
         high_temperature_alarm_set_point_id = None
         low_temperature_alarm_set_point_id = None
+        high_humidity_alarm_set_point_id = None
 
         if 'working_status_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['working_status_point_id'], int) and \
@@ -3494,10 +3754,18 @@ class EnergyStorageContainerHVACItem:
                 isinstance(new_values['data']['temperature_inside_point_id'], int) and \
                 new_values['data']['temperature_inside_point_id'] > 0:
             temperature_inside_point_id = new_values['data']['temperature_inside_point_id']
+        if 'humidity_inside_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['humidity_inside_point_id'], int) and \
+                new_values['data']['humidity_inside_point_id'] > 0:
+            humidity_inside_point_id = new_values['data']['humidity_inside_point_id']
         if 'condensation_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['condensation_temperature_point_id'], int) and \
                 new_values['data']['condensation_temperature_point_id'] > 0:
             condensation_temperature_point_id = new_values['data']['condensation_temperature_point_id']
+        if 'defrosting_temperature_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['defrosting_temperature_point_id'], int) and \
+                new_values['data']['defrosting_temperature_point_id'] > 0:
+            defrosting_temperature_point_id = new_values['data']['defrosting_temperature_point_id']
         if 'outlet_air_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['outlet_air_temperature_point_id'], int) and \
                 new_values['data']['outlet_air_temperature_point_id'] > 0:
@@ -3518,6 +3786,10 @@ class EnergyStorageContainerHVACItem:
                 isinstance(new_values['data']['heating_off_temperature_point_id'], int) and \
                 new_values['data']['heating_off_temperature_point_id'] > 0:
             heating_off_temperature_point_id = new_values['data']['heating_off_temperature_point_id']
+        if 'heating_control_hysteresis_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['heating_control_hysteresis_point_id'], int) and \
+                new_values['data']['heating_control_hysteresis_point_id'] > 0:
+            heating_control_hysteresis_point_id = new_values['data']['heating_control_hysteresis_point_id']
         if 'cooling_on_temperature_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['cooling_on_temperature_point_id'], int) and \
                 new_values['data']['cooling_on_temperature_point_id'] > 0:
@@ -3526,15 +3798,22 @@ class EnergyStorageContainerHVACItem:
                 isinstance(new_values['data']['cooling_off_temperature_point_id'], int) and \
                 new_values['data']['cooling_off_temperature_point_id'] > 0:
             cooling_off_temperature_point_id = new_values['data']['cooling_off_temperature_point_id']
+        if 'cooling_control_hysteresis_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['cooling_control_hysteresis_point_id'], int) and \
+                new_values['data']['cooling_control_hysteresis_point_id'] > 0:
+            cooling_control_hysteresis_point_id = new_values['data']['cooling_control_hysteresis_point_id']
         if 'high_temperature_alarm_set_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['high_temperature_alarm_set_point_id'], int) and \
                 new_values['data']['high_temperature_alarm_set_point_id'] > 0:
             high_temperature_alarm_set_point_id = new_values['data']['high_temperature_alarm_set_point_id']
-
         if 'low_temperature_alarm_set_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['low_temperature_alarm_set_point_id'], int) and \
                 new_values['data']['low_temperature_alarm_set_point_id'] > 0:
             low_temperature_alarm_set_point_id = new_values['data']['low_temperature_alarm_set_point_id']
+        if 'high_humidity_alarm_set_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['high_humidity_alarm_set_point_id'], int) and \
+                new_values['data']['high_humidity_alarm_set_point_id'] > 0:
+            high_humidity_alarm_set_point_id = new_values['data']['high_humidity_alarm_set_point_id']
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -3578,16 +3857,21 @@ class EnergyStorageContainerHVACItem:
                       "     coil_temperature_point_id = %s, "
                       "     temperature_outside_point_id = %s, "
                       "     temperature_inside_point_id = %s, "
+                      "     humidity_inside_point_id = %s, "
                       "     condensation_temperature_point_id = %s, "
+                      "     defrosting_temperature_point_id = %s, "
                       "     outlet_air_temperature_point_id = %s, "
                       "     return_air_temperature_point_id = %s, "
                       "     exhaust_temperature_point_id = %s, "
                       "     heating_on_temperature_point_id = %s, "
                       "     heating_off_temperature_point_id = %s, "
+                      "     heating_control_hysteresis_point_id = %s, "
                       "     cooling_on_temperature_point_id = %s, "
                       "     cooling_off_temperature_point_id = %s, "
+                      "     cooling_control_hysteresis_point_id = %s, "
                       "     high_temperature_alarm_set_point_id = %s, "
-                      "     low_temperature_alarm_set_point_id = %s "
+                      "     low_temperature_alarm_set_point_id = %s, "
+                      "     high_humidity_alarm_set_point_id = %s "
                       "     WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     working_status_point_id,
@@ -3599,16 +3883,21 @@ class EnergyStorageContainerHVACItem:
                                     coil_temperature_point_id,
                                     temperature_outside_point_id,
                                     temperature_inside_point_id,
+                                    humidity_inside_point_id,
                                     condensation_temperature_point_id,
+                                    defrosting_temperature_point_id,
                                     outlet_air_temperature_point_id,
                                     return_air_temperature_point_id,
                                     exhaust_temperature_point_id,
                                     heating_on_temperature_point_id,
                                     heating_off_temperature_point_id,
+                                    heating_control_hysteresis_point_id,
                                     cooling_on_temperature_point_id,
                                     cooling_off_temperature_point_id,
+                                    cooling_control_hysteresis_point_id,
                                     high_temperature_alarm_set_point_id,
                                     low_temperature_alarm_set_point_id,
+                                    high_humidity_alarm_set_point_id,
                                     hid))
         cnx.commit()
 

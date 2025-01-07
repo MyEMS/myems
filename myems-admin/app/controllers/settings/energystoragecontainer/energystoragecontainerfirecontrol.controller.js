@@ -71,6 +71,56 @@ app.controller('EnergyStorageContainerFirecontrolController', function(
   			}
   		});
   		modalInstance.result.then(function(energystoragecontainerfirecontrol) {
+			if (energystoragecontainerfirecontrol.water_immersion_point != null && energystoragecontainerfirecontrol.water_immersion_point.id != null ) {
+				energystoragecontainerfirecontrol.water_immersion_point_id = energystoragecontainerfirecontrol.water_immersion_point.id;
+			} else {
+				energystoragecontainerfirecontrol.water_immersion_point_id = undefined;
+			}
+			if (energystoragecontainerfirecontrol.emergency_stop_point != null && energystoragecontainerfirecontrol.emergency_stop_point.id != null ) {
+				energystoragecontainerfirecontrol.emergency_stop_point_id = energystoragecontainerfirecontrol.emergency_stop_point.id;
+			} else {
+				energystoragecontainerfirecontrol.emergency_stop_point_id = undefined;
+			}
+			if (energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point != null && energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point.id != null ) {
+				energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point_id = energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point.id;
+			} else {
+				energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.battery_compartment_door_open_point != null && energystoragecontainerfirecontrol.battery_compartment_door_open_point.id != null ) {
+				energystoragecontainerfirecontrol.battery_compartment_door_open_point_id = energystoragecontainerfirecontrol.battery_compartment_door_open_point.id;
+			} else {
+				energystoragecontainerfirecontrol.battery_compartment_door_open_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.electrical_compartment_door_open_point != null && energystoragecontainerfirecontrol.electrical_compartment_door_open_point.id != null ) {
+				energystoragecontainerfirecontrol.electrical_compartment_door_open_point_id = energystoragecontainerfirecontrol.electrical_compartment_door_open_point.id;
+			} else {
+				energystoragecontainerfirecontrol.electrical_compartment_door_open_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.first_level_fire_alarm_point != null && energystoragecontainerfirecontrol.first_level_fire_alarm_point.id != null ) {
+				energystoragecontainerfirecontrol.first_level_fire_alarm_point_id = energystoragecontainerfirecontrol.first_level_fire_alarm_point.id;
+			} else {
+				energystoragecontainerfirecontrol.first_level_fire_alarm_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.second_level_fire_alarm_point != null && energystoragecontainerfirecontrol.second_level_fire_alarm_point.id != null ) {
+				energystoragecontainerfirecontrol.second_level_fire_alarm_point_id = energystoragecontainerfirecontrol.second_level_fire_alarm_point.id;
+			} else {
+				energystoragecontainerfirecontrol.second_level_fire_alarm_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.running_light_point != null && energystoragecontainerfirecontrol.running_light_point.id != null ) {
+				energystoragecontainerfirecontrol.running_light_point_id = energystoragecontainerfirecontrol.running_light_point.id;
+			} else {
+				energystoragecontainerfirecontrol.running_light_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.fault_light_point != null && energystoragecontainerfirecontrol.fault_light_point.id != null ) {
+				energystoragecontainerfirecontrol.fault_light_point_id = energystoragecontainerfirecontrol.fault_light_point.id;
+			} else {
+				energystoragecontainerfirecontrol.fault_light_point_id = undefined;
+			}
+            if (energystoragecontainerfirecontrol.ac_relay_tripping_point != null && energystoragecontainerfirecontrol.ac_relay_tripping_point.id != null ) {
+				energystoragecontainerfirecontrol.ac_relay_tripping_point_id = energystoragecontainerfirecontrol.ac_relay_tripping_point.id;
+			} else {
+				energystoragecontainerfirecontrol.ac_relay_tripping_point_id = undefined;
+			}
 			if (energystoragecontainerfirecontrol.inside_temperature_point != null && energystoragecontainerfirecontrol.inside_temperature_point.id != null ) {
 				energystoragecontainerfirecontrol.inside_temperature_point_id = energystoragecontainerfirecontrol.inside_temperature_point.id;
 			} else {
@@ -154,6 +204,56 @@ app.controller('EnergyStorageContainerFirecontrolController', function(
   		});
 
   		modalInstance.result.then(function(modifiedEnergyStorageContainerFirecontrol) {
+			if (modifiedEnergyStorageContainerFirecontrol.water_immersion_point != null && modifiedEnergyStorageContainerFirecontrol.water_immersion_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.water_immersion_point_id = modifiedEnergyStorageContainerFirecontrol.water_immersion_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.water_immersion_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.emergency_stop_point != null && modifiedEnergyStorageContainerFirecontrol.emergency_stop_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.emergency_stop_point_id = modifiedEnergyStorageContainerFirecontrol.emergency_stop_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.emergency_stop_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.electrical_compartment_smoke_detector_point != null && modifiedEnergyStorageContainerFirecontrol.electrical_compartment_smoke_detector_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.electrical_compartment_smoke_detector_point_id = modifiedEnergyStorageContainerFirecontrol.electrical_compartment_smoke_detector_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.electrical_compartment_smoke_detector_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.battery_compartment_door_open_point != null && modifiedEnergyStorageContainerFirecontrol.battery_compartment_door_open_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.battery_compartment_door_open_point_id = modifiedEnergyStorageContainerFirecontrol.battery_compartment_door_open_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.battery_compartment_door_open_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.electrical_compartment_door_open_point != null && modifiedEnergyStorageContainerFirecontrol.electrical_compartment_door_open_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.electrical_compartment_door_open_point_id = modifiedEnergyStorageContainerFirecontrol.electrical_compartment_door_open_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.electrical_compartment_door_open_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.first_level_fire_alarm_point != null && modifiedEnergyStorageContainerFirecontrol.first_level_fire_alarm_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.first_level_fire_alarm_point_id = modifiedEnergyStorageContainerFirecontrol.first_level_fire_alarm_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.first_level_fire_alarm_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.second_level_fire_alarm_point != null && modifiedEnergyStorageContainerFirecontrol.second_level_fire_alarm_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.second_level_fire_alarm_point_id = modifiedEnergyStorageContainerFirecontrol.second_level_fire_alarm_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.second_level_fire_alarm_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.running_light_point != null && modifiedEnergyStorageContainerFirecontrol.running_light_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.running_light_point_id = modifiedEnergyStorageContainerFirecontrol.running_light_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.running_light_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.fault_light_point != null && modifiedEnergyStorageContainerFirecontrol.fault_light_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.fault_light_point_id = modifiedEnergyStorageContainerFirecontrol.fault_light_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.fault_light_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerFirecontrol.ac_relay_tripping_point != null && modifiedEnergyStorageContainerFirecontrol.ac_relay_tripping_point.id != null ) {
+				modifiedEnergyStorageContainerFirecontrol.ac_relay_tripping_point_id = modifiedEnergyStorageContainerFirecontrol.ac_relay_tripping_point.id;
+			} else {
+				modifiedEnergyStorageContainerFirecontrol.ac_relay_tripping_point_id = undefined;
+			}
 			if (modifiedEnergyStorageContainerFirecontrol.inside_temperature_point != null && modifiedEnergyStorageContainerFirecontrol.inside_temperature_point.id != null ) {
 				modifiedEnergyStorageContainerFirecontrol.inside_temperature_point_id = modifiedEnergyStorageContainerFirecontrol.inside_temperature_point.id;
 			} else {
@@ -194,8 +294,6 @@ app.controller('EnergyStorageContainerFirecontrolController', function(
 			} else {
 				modifiedEnergyStorageContainerFirecontrol.fire_extinguishing_device_status_point_id = undefined;
 			}
-
-
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyStorageContainerFirecontrolService.editEnergyStorageContainerFirecontrol($scope.currentEnergyStorageContainer.id, modifiedEnergyStorageContainerFirecontrol, headers, function (response) {
