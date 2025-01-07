@@ -46,46 +46,50 @@ const BMSDetails = ({
           <thead>
             <tr>
               <th>{name}</th>
-              <th>充放电状态: {battery_state_point[0]}</th>
+              {(battery_state_point[0] !== null) && (<th>充放电状态: {battery_state_point[0]}</th>)}
               <th>运行状态: -</th>
-              <th>与PCS通信: {communication_status_with_pcs_point[0]}</th>
-              <th>与EMS通信: {communication_status_with_ems_point[0]}</th>
-              <th>并网状态: {grid_status_point[0]}</th>
+              {(communication_status_with_pcs_point[0] !== null) && (<th>与PCS通信: {communication_status_with_pcs_point[0]}</th>)}
+              {(communication_status_with_ems_point[0] !== null) && (<th>与EMS通信: {communication_status_with_ems_point[0]}</th>)}
+              {(grid_status_point[0] !== null) && (<th>并网状态: {grid_status_point[0]}</th>)}
             </tr>
           </thead>
         </Table>
         <Table striped >
           <tbody>
             <tr>
-              <td>总电压: {total_voltage_point[0]} {total_voltage_point[1]}</td>
-              <td>SOC: {soc_point[0]}{soc_point[1]}</td>
-              <td>充电限制功率: {charging_power_limit_point[0]} {charging_power_limit_point[1]}</td>
-              <td>可充电量: {rechargeable_capacity_point[0]} {rechargeable_capacity_point[1]}</td>
-              <td>平均温度: {average_temperature_point[0]} {average_temperature_point[1]}</td>
+              {(total_voltage_point[0] !== null) && (<td>总电压: {total_voltage_point[0]} {total_voltage_point[1]}</td>)}
+              {(soc_point[0] !== null) && (<td>SOC: {soc_point[0]}{soc_point[1]}</td>)}
+              {(charging_power_limit_point[0] !== null) && (<td>充电限制功率: {charging_power_limit_point[0]} {charging_power_limit_point[1]}</td>)}
+              {(rechargeable_capacity_point[0] !== null) && (<td>可充电量: {rechargeable_capacity_point[0]} {rechargeable_capacity_point[1]}</td>)}
+              {(average_temperature_point[0] !== null) && (<td>平均温度: {average_temperature_point[0]} {average_temperature_point[1]}</td>)}
             </tr>
             <tr>
-              <td>总电流: {total_current_point[0]} A</td>
-              <td>SOH: {soh_point[0]} %</td>
-              <td>放电限制功率: {discharge_limit_power_point[0]}</td>
-              <td>可放电量: {dischargeable_capacity_point[0]} kWh</td>
-              <td>平均电压: {average_voltage_point[0]} V</td>
+              {(total_current_point[0] !== null) && (<td>总电流: {total_current_point[0]} A</td>)}
+              {(soh_point[0] !== null) && (<td>SOH: {soh_point[0]} %</td>)}
+              {(discharge_limit_power_point[0] !== null) && (<td>放电限制功率: {discharge_limit_power_point[0]}</td>)}
+              {(dischargeable_capacity_point[0] !== null) && (<td>可放电量: {dischargeable_capacity_point[0]} kWh</td>)}
+              {(average_voltage_point[0] !== null) && (<td>平均电压: {average_voltage_point[0]} V</td>)}
             </tr>
           </tbody>
         </Table>
         <Table striped className="border-bottom">
           <tbody>
             <tr>
-              <td>绝缘值: {insulation_value_point[0]} {insulation_value_point[1]}</td>
-              <td>最高温度: {maximum_temperature_point[0]} | {maximum_temperature_battery_cell_point[0]} #</td>
-              <td>最高电压: {maximum_voltage_point[0]} V | {maximum_voltage_battery_cell_point[0]} #</td>
+              {(maximum_temperature_point[0] !== null) && (<td>最高温度: {maximum_temperature_point[0]}</td>)}
+              {(maximum_temperature_battery_cell_point[0] !== null) && (<td>最高温度单体编号: {maximum_temperature_battery_cell_point[0]} </td>)}
+              {(maximum_voltage_point[0] !== null) && (<td>最高电压: {maximum_voltage_point[0]} {maximum_voltage_point[1]} </td>)}
+              {(maximum_voltage_battery_cell_point[0] !== null) && (<td> 最高电压单体编号: {maximum_voltage_battery_cell_point[0]}</td>)}
             </tr>
             <tr>
-              <td>正极绝缘值: {positive_insulation_value_point[0]} {positive_insulation_value_point[1]}</td>
-              <td>最低温度: {minimum_temperature_point[0]} {minimum_temperature_point[1]} | {minimum_temperature_battery_cell_point[0]} #</td>
-              <td>最低电压: {minimum_voltage_point[0]} {minimum_voltage_point[1]} | {minimum_voltage_battery_cell_point[0]} #</td>
+              {(minimum_temperature_point[0] !== null) && (<td>最低温度: {minimum_temperature_point[0]} {minimum_temperature_point[1]}</td>)}
+              {(minimum_temperature_battery_cell_point[0] !== null) && (<td>最低温度单体编号: {minimum_temperature_battery_cell_point[0]}</td>)}
+              {(minimum_voltage_point[0] !== null) && (<td>最低电压: {minimum_voltage_point[0]} {minimum_voltage_point[1]}</td>)}
+              {(minimum_voltage_battery_cell_point[0] !== null) && (<td>最低电压单体编号: {minimum_voltage_battery_cell_point[0]}</td>)}
             </tr>
             <tr>
-              <td>负极绝缘值: {negative_insulation_value_point[0]} {negative_insulation_value_point[1]}</td>
+              {(insulation_value_point[0] !== null) && (<td>绝缘值: {insulation_value_point[0]} {insulation_value_point[1]}</td>)}
+              {(positive_insulation_value_point[0] !== null) && (<td>正极绝缘值: {positive_insulation_value_point[0]} {positive_insulation_value_point[1]}</td>)}
+              {(negative_insulation_value_point[0] !== null) && (<td>负极绝缘值: {negative_insulation_value_point[0]} {negative_insulation_value_point[1]}</td>)}
               <td></td>
               <td></td>
             </tr>

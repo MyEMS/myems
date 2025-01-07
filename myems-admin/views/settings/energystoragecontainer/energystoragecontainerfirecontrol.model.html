@@ -6,11 +6,120 @@
         <form role="form" name="form_energystoragecontainerfirecontrol" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME' | translate}}</label>
-                <div class="col-sm-7">
-                    <input ng-model="energystoragecontainerfirecontrol.name" type="text" name="energystoragecontainerfirecontrolname" class="form-control" required="">
+                <div class="col-sm-7"><input ng-model="energystoragecontainerfirecontrol.name" type="text" name="energystoragecontainerfirecontrolname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energystoragecontainerfirecontrol.energystoragecontainerfirecontrolname.$invalid && form_energystoragecontainerfirecontrol.energystoragecontainerfirecontrolname.$dirty">
                         <small class="text-danger" ng-show="form_energystoragecontainerfirecontrol.energystoragecontainerfirecontrolname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME' | translate}}</small>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.WATER_IMMERSION_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.water_immersion_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.EMERGENCY_STOP_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.emergency_stop_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ELECTRICAL_COMPARTMENT_SMOKE_DETECTOR_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.electrical_compartment_smoke_detector_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_COMPARTMENT_DOOR_OPEN_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.battery_compartment_door_open_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ELECTRICAL_COMPARTMENT_DOOR_OPEN_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.electrical_compartment_door_open_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.FIRST_LEVEL_FIRE_ALARM_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.first_level_fire_alarm_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SECOND_LEVEL_FIRE_ALARM_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.second_level_fire_alarm_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RUNNING_LIGHT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.running_light_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.FAULT_LIGHT_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.fault_light_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.AC_RELAY_TRIPPING_POINT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="energystoragecontainerfirecontrol.ac_relay_tripping_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="form-group">

@@ -116,10 +116,20 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				energystoragecontainerhvac.temperature_inside_point_id = undefined;
 			}
+			if (energystoragecontainerhvac.humidity_inside_point != null && energystoragecontainerhvac.humidity_inside_point.id != null ) {
+				energystoragecontainerhvac.humidity_inside_point_id = energystoragecontainerhvac.humidity_inside_point.id;
+			} else {
+				energystoragecontainerhvac.humidity_inside_point_id = undefined;
+			}
 			if (energystoragecontainerhvac.condensation_temperature_point != null && energystoragecontainerhvac.condensation_temperature_point.id != null ) {
 				energystoragecontainerhvac.condensation_temperature_point_id = energystoragecontainerhvac.condensation_temperature_point.id;
 			} else {
 				energystoragecontainerhvac.condensation_temperature_point_id = undefined;
+			}
+			if (energystoragecontainerhvac.defrosting_temperature_point != null && energystoragecontainerhvac.defrosting_temperature_point.id != null ) {
+				energystoragecontainerhvac.defrosting_temperature_point_id = energystoragecontainerhvac.defrosting_temperature_point.id;
+			} else {
+				energystoragecontainerhvac.defrosting_temperature_point_id = undefined;
 			}
 			if (energystoragecontainerhvac.outlet_air_temperature_point != null && energystoragecontainerhvac.outlet_air_temperature_point.id != null ) {
 				energystoragecontainerhvac.outlet_air_temperature_point_id = energystoragecontainerhvac.outlet_air_temperature_point.id;
@@ -146,6 +156,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				energystoragecontainerhvac.heating_off_temperature_point_id = undefined;
 			}
+			if (energystoragecontainerhvac.heating_control_hysteresis_point != null && energystoragecontainerhvac.heating_control_hysteresis_point.id != null ) {
+				energystoragecontainerhvac.heating_control_hysteresis_point_id = energystoragecontainerhvac.heating_control_hysteresis_point.id;
+			} else {
+				energystoragecontainerhvac.heating_control_hysteresis_point_id = undefined;
+			}
 			if (energystoragecontainerhvac.cooling_on_temperature_point != null && energystoragecontainerhvac.cooling_on_temperature_point.id != null ) {
 				energystoragecontainerhvac.cooling_on_temperature_point_id = energystoragecontainerhvac.cooling_on_temperature_point.id;
 			} else {
@@ -156,6 +171,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				energystoragecontainerhvac.cooling_off_temperature_point_id = undefined;
 			}
+			if (energystoragecontainerhvac.cooling_control_hysteresis_point != null && energystoragecontainerhvac.cooling_control_hysteresis_point.id != null ) {
+				energystoragecontainerhvac.cooling_control_hysteresis_point_id = energystoragecontainerhvac.cooling_control_hysteresis_point.id;
+			} else {
+				energystoragecontainerhvac.cooling_control_hysteresis_point_id = undefined;
+			}
 			if (energystoragecontainerhvac.high_temperature_alarm_set_point != null && energystoragecontainerhvac.high_temperature_alarm_set_point.id != null ) {
 				energystoragecontainerhvac.high_temperature_alarm_set_point_id = energystoragecontainerhvac.high_temperature_alarm_set_point.id;
 			} else {
@@ -165,6 +185,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 				energystoragecontainerhvac.low_temperature_alarm_set_point_id = energystoragecontainerhvac.low_temperature_alarm_set_point.id;
 			} else {
 				energystoragecontainerhvac.low_temperature_alarm_set_point_id = undefined;
+			}
+			if (energystoragecontainerhvac.high_humidity_alarm_set_point != null && energystoragecontainerhvac.high_humidity_alarm_set_point.id != null ) {
+				energystoragecontainerhvac.high_humidity_alarm_set_point_id = energystoragecontainerhvac.high_humidity_alarm_set_point.id;
+			} else {
+				energystoragecontainerhvac.high_humidity_alarm_set_point_id = undefined;
 			}
 
 
@@ -255,10 +280,20 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				modifiedEnergyStorageContainerHVAC.temperature_inside_point_id = undefined;
 			}
+			if (modifiedEnergyStorageContainerHVAC.humidity_inside_point != null && modifiedEnergyStorageContainerHVAC.humidity_inside_point.id != null ) {
+				modifiedEnergyStorageContainerHVAC.humidity_inside_point_id = modifiedEnergyStorageContainerHVAC.humidity_inside_point.id;
+			} else {
+				modifiedEnergyStorageContainerHVAC.humidity_inside_point_id = undefined;
+			}
 			if (modifiedEnergyStorageContainerHVAC.condensation_temperature_point != null && modifiedEnergyStorageContainerHVAC.condensation_temperature_point.id != null ) {
 				modifiedEnergyStorageContainerHVAC.condensation_temperature_point_id = modifiedEnergyStorageContainerHVAC.condensation_temperature_point.id;
 			} else {
 				modifiedEnergyStorageContainerHVAC.condensation_temperature_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerHVAC.defrosting_temperature_point != null && modifiedEnergyStorageContainerHVAC.defrosting_temperature_point.id != null ) {
+				modifiedEnergyStorageContainerHVAC.defrosting_temperature_point_id = modifiedEnergyStorageContainerHVAC.defrosting_temperature_point.id;
+			} else {
+				modifiedEnergyStorageContainerHVAC.defrosting_temperature_point_id = undefined;
 			}
 			if (modifiedEnergyStorageContainerHVAC.outlet_air_temperature_point != null && modifiedEnergyStorageContainerHVAC.outlet_air_temperature_point.id != null ) {
 				modifiedEnergyStorageContainerHVAC.outlet_air_temperature_point_id = modifiedEnergyStorageContainerHVAC.outlet_air_temperature_point.id;
@@ -285,6 +320,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				modifiedEnergyStorageContainerHVAC.heating_off_temperature_point_id = undefined;
 			}
+			if (modifiedEnergyStorageContainerHVAC.heating_control_hysteresis_point != null && modifiedEnergyStorageContainerHVAC.heating_control_hysteresis_point.id != null ) {
+				modifiedEnergyStorageContainerHVAC.heating_control_hysteresis_point_id = modifiedEnergyStorageContainerHVAC.heating_control_hysteresis_point.id;
+			} else {
+				modifiedEnergyStorageContainerHVAC.heating_control_hysteresis_point_id = undefined;
+			}
 			if (modifiedEnergyStorageContainerHVAC.cooling_on_temperature_point != null && modifiedEnergyStorageContainerHVAC.cooling_on_temperature_point.id != null ) {
 				modifiedEnergyStorageContainerHVAC.cooling_on_temperature_point_id = modifiedEnergyStorageContainerHVAC.cooling_on_temperature_point.id;
 			} else {
@@ -295,6 +335,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 			} else {
 				modifiedEnergyStorageContainerHVAC.cooling_off_temperature_point_id = undefined;
 			}
+			if (modifiedEnergyStorageContainerHVAC.cooling_control_hysteresis_point != null && modifiedEnergyStorageContainerHVAC.cooling_control_hysteresis_point.id != null ) {
+				modifiedEnergyStorageContainerHVAC.cooling_control_hysteresis_point_id = modifiedEnergyStorageContainerHVAC.cooling_control_hysteresis_point.id;
+			} else {
+				modifiedEnergyStorageContainerHVAC.cooling_control_hysteresis_point_id = undefined;
+			}
 			if (modifiedEnergyStorageContainerHVAC.high_temperature_alarm_set_point != null && modifiedEnergyStorageContainerHVAC.high_temperature_alarm_set_point.id != null ) {
 				modifiedEnergyStorageContainerHVAC.high_temperature_alarm_set_point_id = modifiedEnergyStorageContainerHVAC.high_temperature_alarm_set_point.id;
 			} else {
@@ -304,6 +349,11 @@ app.controller('EnergyStorageContainerHVACController', function(
 				modifiedEnergyStorageContainerHVAC.low_temperature_alarm_set_point_id = modifiedEnergyStorageContainerHVAC.low_temperature_alarm_set_point.id;
 			} else {
 				modifiedEnergyStorageContainerHVAC.low_temperature_alarm_set_point_id = undefined;
+			}
+			if (modifiedEnergyStorageContainerHVAC.high_humidity_alarm_set_point != null && modifiedEnergyStorageContainerHVAC.high_humidity_alarm_set_point.id != null ) {
+				modifiedEnergyStorageContainerHVAC.high_humidity_alarm_set_point_id = modifiedEnergyStorageContainerHVAC.high_humidity_alarm_set_point.id;
+			} else {
+				modifiedEnergyStorageContainerHVAC.high_humidity_alarm_set_point_id = undefined;
 			}
 
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

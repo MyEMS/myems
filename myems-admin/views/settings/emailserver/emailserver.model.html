@@ -5,7 +5,6 @@
     <div class="modal-body">
         <form role="form" name="form_emailserver" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.HOST' | translate}}</label>
-
                 <div class="col-sm-9">
                     <input ng-model="emailserver.host" type="text" name="host" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.host.$invalid && form_emailserver.host.$dirty">
@@ -15,7 +14,6 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.PORT' | translate}}</label>
-
                 <div class="col-sm-9">
                     <input ng-model="emailserver.port" type="number" name="port" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.port.$invalid && form_emailserver.port.$dirty">
@@ -35,7 +33,6 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.USER_NAME' | translate}}</label>
-
                 <div class="col-sm-9">
                     <input ng-model="emailserver.user_name" type="text" name="user_name" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.user_name.$invalid && form_emailserver.user_name.$dirty">
@@ -46,7 +43,6 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PASSWORD' | translate}}</label>
-
                 <div class="col-sm-9">
                     <input ng-model="emailserver.password" type="password" name="password" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.password.$invalid && form_emailserver.password.$dirty">
@@ -57,7 +53,6 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.FROM_ADDR' | translate}}</label>
-
                 <div class="col-sm-9">
                     <input ng-model="emailserver.from_addr" type="email" name="from_addr" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_emailserver.from_addr.$invalid && form_emailserver.from_addr.$dirty">

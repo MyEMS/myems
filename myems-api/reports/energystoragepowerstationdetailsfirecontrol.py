@@ -137,10 +137,20 @@ class Reporting:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 units_dict[row[0]] = row[1]
-        # query pcs parameters
+        # query firecontrol parameters
         hvac_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT id, name, uuid, "
+                                  "        water_immersion_point_id, "
+                                  "        emergency_stop_point_id, "
+                                  "        electrical_compartment_smoke_detector_point_id, "
+                                  "        battery_compartment_door_open_point_id, "
+                                  "        electrical_compartment_door_open_point_id, "
+                                  "        first_level_fire_alarm_point_id, "
+                                  "        second_level_fire_alarm_point_id, "
+                                  "        running_light_point_id, "
+                                  "        fault_light_point_id, "
+                                  "        ac_relay_tripping_point_id, "
                                   "        inside_temperature_point_id, "
                                   "        outside_temperature_point_id, "
                                   "        temperature_alarm_point_id, "
@@ -160,25 +170,60 @@ class Reporting:
                     current_firecontrol['id'] = row[0]
                     current_firecontrol['name'] = container['name'] + '-' + row[1]
                     current_firecontrol['uuid'] = row[2]
-                    current_firecontrol['inside_temperature_point'] = (latest_value_dict.get(row[3], None),
-                                                                       units_dict.get(row[3], None))
-                    current_firecontrol['outside_temperature_point'] = (latest_value_dict.get(row[4], None),
-                                                                        units_dict.get(row[4], None))
-                    current_firecontrol['temperature_alarm_point'] = (latest_value_dict.get(row[5], None),
-                                                                      units_dict.get(row[5], None))
-                    current_firecontrol['smoke_sensor_value_point'] = (latest_value_dict.get(row[6], None),
-                                                                       units_dict.get(row[6], None))
-                    current_firecontrol['smoke_sensor_alarm_point'] = (latest_value_dict.get(row[7], None),
-                                                                       units_dict.get(row[7], None))
-                    current_firecontrol['battery_safety_detection_sensor_value_point'] = \
+                    current_firecontrol['water_immersion_point'] = \
+                        (latest_value_dict.get(row[3], None),
+                         units_dict.get(row[3], None))
+                    current_firecontrol['emergency_stop_point'] = \
+                        (latest_value_dict.get(row[4], None),
+                         units_dict.get(row[4], None))
+                    current_firecontrol['electrical_compartment_smoke_detector_point'] = \
+                        (latest_value_dict.get(row[5], None),
+                         units_dict.get(row[5], None))
+                    current_firecontrol['battery_compartment_door_open_point'] = \
+                        (latest_value_dict.get(row[6], None),
+                         units_dict.get(row[6], None))
+                    current_firecontrol['electrical_compartment_door_open_point'] = \
+                        (latest_value_dict.get(row[7], None),
+                         units_dict.get(row[7], None))
+                    current_firecontrol['first_level_fire_alarm_point'] = \
                         (latest_value_dict.get(row[8], None),
                          units_dict.get(row[8], None))
-                    current_firecontrol['battery_safety_detection_sensor_alarm_point'] = \
+                    current_firecontrol['second_level_fire_alarm_point'] = \
                         (latest_value_dict.get(row[9], None),
                          units_dict.get(row[9], None))
-                    current_firecontrol['fire_extinguishing_device_status_point'] = \
+                    current_firecontrol['running_light_point'] = \
                         (latest_value_dict.get(row[10], None),
                          units_dict.get(row[10], None))
+                    current_firecontrol['fault_light_point'] = \
+                        (latest_value_dict.get(row[11], None),
+                         units_dict.get(row[11], None))
+                    current_firecontrol['ac_relay_tripping_point'] = \
+                        (latest_value_dict.get(row[12], None),
+                         units_dict.get(row[12], None))
+                    current_firecontrol['inside_temperature_point'] = \
+                        (latest_value_dict.get(row[13], None),
+                         units_dict.get(row[13], None))
+                    current_firecontrol['outside_temperature_point'] = \
+                        (latest_value_dict.get(row[14], None),
+                         units_dict.get(row[14], None))
+                    current_firecontrol['temperature_alarm_point'] = \
+                        (latest_value_dict.get(row[15], None),
+                         units_dict.get(row[15], None))
+                    current_firecontrol['smoke_sensor_value_point'] = \
+                        (latest_value_dict.get(row[16], None),
+                         units_dict.get(row[16], None))
+                    current_firecontrol['smoke_sensor_alarm_point'] = \
+                        (latest_value_dict.get(row[17], None),
+                         units_dict.get(row[17], None))
+                    current_firecontrol['battery_safety_detection_sensor_value_point'] = \
+                        (latest_value_dict.get(row[18], None),
+                         units_dict.get(row[18], None))
+                    current_firecontrol['battery_safety_detection_sensor_alarm_point'] = \
+                        (latest_value_dict.get(row[19], None),
+                         units_dict.get(row[19], None))
+                    current_firecontrol['fire_extinguishing_device_status_point'] = \
+                        (latest_value_dict.get(row[20], None),
+                         units_dict.get(row[20], None))
                     hvac_list.append(current_firecontrol)
 
         if cursor_system:

@@ -5996,7 +5996,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"HVAC\",\n\"working_status_point_id\": 1,\n\"indoor_fan_status_point_id\": 2,\n\"outdoor_fan_status_point_id\": null,\n\"emergency_fan_status_point_id\": null,\n\"compressor_status_point_id\": null,\n\"electric_heating_status_point_id\": null,\n\"coil_temperature_point_id\": null,\n\"temperature_outside_point_id\": null,\n\"temperature_inside_point_id\": null,\n\"condensation_temperature_point_id\": null,\n\"outlet_air_temperature_point_id\": null,\n\"return_air_temperature_point_id\": null,\n\"exhaust_temperature_point_id\": null,\n\"heating_on_temperature_point_id\": null,\n\"heating_off_temperature_point_id\": null,\n\"cooling_on_temperature_point_id\": null,\n\"cooling_off_temperature_point_id\": null,\n\"high_temperature_alarm_set_point_id\": null,\n\"low_temperature_alarm_set_point_id\": null}}"
+									"raw": "{\"data\":{\"name\":\"HVAC\", \n\"working_status_point_id\": 1,\n\"indoor_fan_status_point_id\": 2,\n\"outdoor_fan_status_point_id\": null,\n\"emergency_fan_status_point_id\": null,\n\"compressor_status_point_id\": null,\n\"electric_heating_status_point_id\": null,\n\"coil_temperature_point_id\": null,\n\"temperature_outside_point_id\": null,\n\"temperature_inside_point_id\": null,\n\"humidity_inside_point_id\": null,\n\"condensation_temperature_point_id\": null,\n\"defrosting_temperature_point_id\": null,\n\"outlet_air_temperature_point_id\": null,\n\"return_air_temperature_point_id\": null,\n\"exhaust_temperature_point_id\": null,\n\"heating_on_temperature_point_id\": null,\n\"heating_off_temperature_point_id\": null,\n\"heating_control_hysteresis_point_id\": null,\n\"cooling_on_temperature_point_id\": null,\n\"cooling_off_temperature_point_id\": null,\n\"cooling_control_hysteresis_point_id\": null,\n\"high_temperature_alarm_set_point_id\": null,\n\"low_temperature_alarm_set_point_id\": null,\n\"high_humidity_alarm_set_point_id\": null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/hvacs",
@@ -6109,7 +6109,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"HVAC\", \n\"working_status_point_id\": 1,\n\"indoor_fan_status_point_id\": 2,\n\"outdoor_fan_status_point_id\": null,\n\"emergency_fan_status_point_id\": null,\n\"compressor_status_point_id\": null,\n\"electric_heating_status_point_id\": null,\n\"coil_temperature_point_id\": null,\n\"temperature_outside_point_id\": null,\n\"temperature_inside_point_id\": null,\n\"condensation_temperature_point_id\": null,\n\"outlet_air_temperature_point_id\": null,\n\"return_air_temperature_point_id\": null,\n\"exhaust_temperature_point_id\": null,\n\"heating_on_temperature_point_id\": null,\n\"heating_off_temperature_point_id\": null,\n\"cooling_on_temperature_point_id\": null,\n\"cooling_off_temperature_point_id\": null,\n\"high_temperature_alarm_set_point_id\": null,\n\"low_temperature_alarm_set_point_id\": null}}"
+									"raw": "{\"data\":{\"name\":\"HVAC\", \n\"working_status_point_id\": 1,\n\"indoor_fan_status_point_id\": 2,\n\"outdoor_fan_status_point_id\": null,\n\"emergency_fan_status_point_id\": null,\n\"compressor_status_point_id\": null,\n\"electric_heating_status_point_id\": null,\n\"coil_temperature_point_id\": null,\n\"temperature_outside_point_id\": null,\n\"temperature_inside_point_id\": null,\n\"humidity_inside_point_id\": null,\n\"condensation_temperature_point_id\": null,\n\"defrosting_temperature_point_id\": null,\n\"outlet_air_temperature_point_id\": null,\n\"return_air_temperature_point_id\": null,\n\"exhaust_temperature_point_id\": null,\n\"heating_on_temperature_point_id\": null,\n\"heating_off_temperature_point_id\": null,\n\"heating_control_hysteresis_point_id\": null,\n\"cooling_on_temperature_point_id\": null,\n\"cooling_off_temperature_point_id\": null,\n\"cooling_control_hysteresis_point_id\": null,\n\"high_temperature_alarm_set_point_id\": null,\n\"low_temperature_alarm_set_point_id\": null,\n\"high_humidity_alarm_set_point_id\": null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/hvacs/1",
@@ -6187,7 +6187,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Firecontrol\",\n\"inside_temperature_point_id\": 1,\n\"outside_temperature_point_id\": 2,\n\"temperature_alarm_point_id\": null,\n\"smoke_sensor_value_point_id\": null,\n\"smoke_sensor_alarm_point_id\": null,\n\"battery_safety_detection_sensor_value_point_id\": null,\n\"battery_safety_detection_sensor_alarm_point_id\": null,\n\"fire_extinguishing_device_status_point_id\": null}}"
+									"raw": "{\"data\":{\"name\":\"Firecontrol\",\n\"water_immersion_point_id\": 1,\n\"emergency_stop_point_id\": 2,\n\"electrical_compartment_smoke_detector_point_id\": null,\n\"battery_compartment_door_open_point_id\": null,\n\"electrical_compartment_door_open_point_id\": null,\n\"first_level_fire_alarm_point_id\": null,\n\"second_level_fire_alarm_point_id\": null,\n\"running_light_point_id\": null,\n\"fault_light_point_id\": null,\n\"ac_relay_tripping_point_id\": null,\n\"inside_temperature_point_id\": null,\n\"outside_temperature_point_id\": null,\n\"temperature_alarm_point_id\": null,\n\"smoke_sensor_value_point_id\": null,\n\"smoke_sensor_alarm_point_id\": null,\n\"battery_safety_detection_sensor_value_point_id\": null,\n\"battery_safety_detection_sensor_alarm_point_id\": null,\n\"fire_extinguishing_device_status_point_id\": null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/firecontrols",
@@ -6300,7 +6300,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Firecontrol\",\n\"inside_temperature_point_id\": 1,\n\"outside_temperature_point_id\": 2,\n\"temperature_alarm_point_id\": null,\n\"smoke_sensor_value_point_id\": null,\n\"smoke_sensor_alarm_point_id\": null,\n\"battery_safety_detection_sensor_value_point_id\": null,\n\"battery_safety_detection_sensor_alarm_point_id\": null,\n\"fire_extinguishing_device_status_point_id\": null}}"
+									"raw": "{\"data\":{\"name\":\"Firecontrol\",\n\"water_immersion_point_id\": 1,\n\"emergency_stop_point_id\": 2,\n\"electrical_compartment_smoke_detector_point_id\": null,\n\"battery_compartment_door_open_point_id\": null,\n\"electrical_compartment_door_open_point_id\": null,\n\"first_level_fire_alarm_point_id\": null,\n\"second_level_fire_alarm_point_id\": null,\n\"running_light_point_id\": null,\n\"fault_light_point_id\": null,\n\"ac_relay_tripping_point_id\": null,\n\"inside_temperature_point_id\": null,\n\"outside_temperature_point_id\": null,\n\"temperature_alarm_point_id\": null,\n\"smoke_sensor_value_point_id\": null,\n\"smoke_sensor_alarm_point_id\": null,\n\"battery_safety_detection_sensor_value_point_id\": null,\n\"battery_safety_detection_sensor_alarm_point_id\": null,\n\"fire_extinguishing_device_status_point_id\": null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragecontainers/1/firecontrols/1",

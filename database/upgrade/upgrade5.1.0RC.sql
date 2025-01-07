@@ -681,6 +681,42 @@ MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL;
 ALTER TABLE `myems_production_db`.`tbl_space_hourly`
 MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL;
 
+-- upgraded myems_system_db.tbl_energy_storage_containers_firecontrols
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `ac_relay_tripping_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `fault_light_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `running_light_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `second_level_fire_alarm_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `first_level_fire_alarm_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `electrical_compartment_door_open_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `battery_compartment_door_open_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `electrical_compartment_smoke_detector_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `emergency_stop_point_id` BIGINT AFTER `energy_storage_container_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
+ADD COLUMN `water_immersion_point_id` BIGINT AFTER `energy_storage_container_id`;
+
+
+-- upgraded myems_system_db.tbl_energy_storage_containers_hvacs
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+ADD COLUMN `humidity_inside_point_id` BIGINT AFTER `temperature_inside_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+ADD COLUMN `defrosting_temperature_point_id` BIGINT AFTER `condensation_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+ADD COLUMN `heating_control_hysteresis_point_id` BIGINT AFTER `heating_off_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+ADD COLUMN `cooling_control_hysteresis_point_id` BIGINT AFTER `cooling_off_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
+ADD COLUMN `high_humidity_alarm_set_point_id` BIGINT AFTER `low_temperature_alarm_set_point_id`;
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0RC', release_date='2025-01-15' WHERE id=1;
 
