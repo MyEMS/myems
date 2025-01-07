@@ -665,21 +665,21 @@ MODIFY COLUMN `actual_value` decimal(21, 6) NOT NULL;
 
 -- upgrade myems_historical_db
 ALTER TABLE `myems_historical_db`.`tbl_analog_value`
-MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL AFTER `utc_date_time`;
+MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL;
 ALTER TABLE `myems_historical_db`.`tbl_analog_value_latest`
-MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL AFTER `utc_date_time`;
+MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL;
 ALTER TABLE `myems_historical_db`.`tbl_energy_value`
-MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL AFTER `utc_date_time`;
+MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL;
 ALTER TABLE `myems_historical_db`.`tbl_energy_value_latest`
-MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL AFTER `utc_date_time`;
+MODIFY COLUMN `actual_value` DECIMAL(21, 6) NOT NULL;
 
 -- upgrade myems_production_db
 ALTER TABLE `myems_production_db`.`tbl_products`
-MODIFY COLUMN `standard_product_coefficient` decimal(21, 6) NOT NULL DEFAULT 1.000000 AFTER `tag`;
+MODIFY COLUMN `standard_product_coefficient` decimal(21, 6) NOT NULL DEFAULT 1.000000;
 ALTER TABLE `myems_production_db`.`tbl_shopfloor_hourly`
-MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL AFTER `product_id`;
+MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL;
 ALTER TABLE `myems_production_db`.`tbl_space_hourly`
-MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL AFTER `product_id`;
+MODIFY COLUMN `product_count` decimal(21, 6) NOT NULL;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0RC', release_date='2025-01-15' WHERE id=1;
