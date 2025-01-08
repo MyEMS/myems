@@ -3196,30 +3196,30 @@ class EnergyStorageContainerHVACCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 " working_status_point_id, "
-                 " indoor_fan_status_point_id, "
-                 " outdoor_fan_status_point_id, "
-                 " emergency_fan_status_point_id, "
-                 " compressor_status_point_id, "
-                 " electric_heating_status_point_id, "
-                 " coil_temperature_point_id, "
-                 " temperature_outside_point_id, "
-                 " temperature_inside_point_id, "
-                 " humidity_inside_point_id, "
-                 " condensation_temperature_point_id, "
-                 " defrosting_temperature_point_id, "
-                 " outlet_air_temperature_point_id, "
-                 " return_air_temperature_point_id, "
-                 " exhaust_temperature_point_id, "
-                 " heating_on_temperature_point_id, "
-                 " heating_off_temperature_point_id, "
-                 " heating_control_hysteresis_point_id, "
-                 " cooling_on_temperature_point_id, "
-                 " cooling_off_temperature_point_id, "
-                 " cooling_control_hysteresis_point_id, "
-                 " high_temperature_alarm_set_point_id, "
-                 " low_temperature_alarm_set_point_id, "
-                 " high_humidity_alarm_set_point_id "
+                 "        working_status_point_id, "
+                 "        indoor_fan_status_point_id, "
+                 "        outdoor_fan_status_point_id, "
+                 "        emergency_fan_status_point_id, "
+                 "        compressor_status_point_id, "
+                 "        electric_heating_status_point_id, "
+                 "        coil_temperature_point_id, "
+                 "        temperature_outside_point_id, "
+                 "        temperature_inside_point_id, "
+                 "        humidity_inside_point_id, "
+                 "        condensation_temperature_point_id, "
+                 "        defrosting_temperature_point_id, "
+                 "        outlet_air_temperature_point_id, "
+                 "        return_air_temperature_point_id, "
+                 "        exhaust_temperature_point_id, "
+                 "        heating_on_temperature_point_id, "
+                 "        heating_off_temperature_point_id, "
+                 "        heating_control_hysteresis_point_id, "
+                 "        cooling_on_temperature_point_id, "
+                 "        cooling_off_temperature_point_id, "
+                 "        cooling_control_hysteresis_point_id, "
+                 "        high_temperature_alarm_set_point_id, "
+                 "        low_temperature_alarm_set_point_id, "
+                 "        high_humidity_alarm_set_point_id "
                  " FROM tbl_energy_storage_containers_hvacs "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -3241,16 +3241,21 @@ class EnergyStorageContainerHVACCollection:
                                "coil_temperature_point": point_dict.get(row[9]),
                                "temperature_outside_point": point_dict.get(row[10]),
                                "temperature_inside_point": point_dict.get(row[11]),
-                               "condensation_temperature_point": point_dict.get(row[12]),
-                               "outlet_air_temperature_point": point_dict.get(row[13]),
-                               "return_air_temperature_point": point_dict.get(row[14]),
-                               "exhaust_temperature_point": point_dict.get(row[15]),
-                               "heating_on_temperature_point": point_dict.get(row[16]),
-                               "heating_off_temperature_point": point_dict.get(row[17]),
-                               "cooling_on_temperature_point": point_dict.get(row[18]),
-                               "cooling_off_temperature_point": point_dict.get(row[19]),
-                               "high_temperature_alarm_set_point": point_dict.get(row[20]),
-                               "low_temperature_alarm_set_point": point_dict.get(row[21])
+                               "humidity_inside_point": point_dict.get(row[12]),
+                               "condensation_temperature_point": point_dict.get(row[13]),
+                               "defrosting_temperature_point": point_dict.get(row[14]),
+                               "outlet_air_temperature_point": point_dict.get(row[15]),
+                               "return_air_temperature_point": point_dict.get(row[16]),
+                               "exhaust_temperature_point": point_dict.get(row[17]),
+                               "heating_on_temperature_point": point_dict.get(row[18]),
+                               "heating_off_temperature_point": point_dict.get(row[19]),
+                               "heating_control_hysteresis_point": point_dict.get(row[20]),
+                               "cooling_on_temperature_point": point_dict.get(row[21]),
+                               "cooling_off_temperature_point": point_dict.get(row[22]),
+                               "cooling_control_hysteresis_point": point_dict.get(row[23]),
+                               "high_temperature_alarm_set_point": point_dict.get(row[24]),
+                               "low_temperature_alarm_set_point": point_dict.get(row[25]),
+                               "high_humidity_alarm_set_point": point_dict.get(row[26])
                                }
                 result.append(meta_result)
 
