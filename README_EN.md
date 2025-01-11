@@ -65,9 +65,9 @@ See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
 
 [8]. [https://gitea.com/myems/myems](https://gitea.com/myems/myems)
 
-[9]. [https://gitea.com/myems/myems](https://gitea.com/myems/myems)
+[9]. [https://codeberg.org/myems/myems](https://codeberg.org/myems/myems)
 
-[10]. [https://codeberg.org/myems/myems.git](https://codeberg.org/myems/myems)
+[10]. [https://launchpad.net/myems](https://launchpad.net/myems)
 
 ## MyEMS Installation (Community Edition)
 
