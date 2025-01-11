@@ -67,7 +67,7 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 
 [9]. [https://codeberg.org/myems/myems](https://codeberg.org/myems/myems)
 
-[10]. [https://launchpad.net/myems](https://launchpad.net/myems)
+[10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
 ## MyEMS安装(社区版)
 
