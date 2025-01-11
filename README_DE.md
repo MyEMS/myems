@@ -50,9 +50,9 @@ Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
 
 ## MyEMS Downloads (Community Edition)
 
-[1]. [https://github.com/myems/myems](https://github.com/MyEMS/myems)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
-[2]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
+[2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
 [3]. [https://bitbucket.org/myems/myems](https://bitbucket.org/myems/myems)
 
@@ -61,6 +61,10 @@ Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
 [5]. [https://gitcode.net/myems/myems](https://gitcode.net/myems/myems)
 
 [6]. [https://gitlink.org.cn/myems/myems](https://gitlink.org.cn/myems/myems)
+
+[7]. [https://atomgit.com/myems/myems](https://atomgit.com/myems/myems)
+
+[8]. [https://gitea.com/myems/myems](https://gitea.com/myems/myems)
 
 
 ## MyEMS Installation (Community Edition)
