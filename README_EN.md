@@ -67,7 +67,7 @@ See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
 
 [9]. [https://codeberg.org/myems/myems](https://codeberg.org/myems/myems)
 
-[10]. [https://launchpad.net/myems](https://launchpad.net/myems)
+[10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
 ## MyEMS Installation (Community Edition)
 
