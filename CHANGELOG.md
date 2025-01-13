@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated dockerfiles to reduce images size
 - updated command actions in myems-api
 - changed all DECIMAL(18, 3) to DECIMAL(21, 6) in database
+- changed get the latest points value interval from 10 minutes to 30 minutes
 ### Fixed
 -
 ### Removed

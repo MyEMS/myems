@@ -433,7 +433,7 @@ class DataSourcePointCollection:
         cursor_historical_db = cnx_historical_db.cursor()
         cursor_historical_db.execute(" SELECT point_id, actual_value "
                                      " FROM tbl_analog_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
         analog_values = cursor_historical_db.fetchall()
         analog_value_dict = dict()
         for v in analog_values:
@@ -441,14 +441,14 @@ class DataSourcePointCollection:
 
         cursor_historical_db.execute(" SELECT point_id, actual_value "
                                      " FROM tbl_digital_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
         digital_values = cursor_historical_db.fetchall()
         digital_value_dict = dict()
         for v in digital_values:
             digital_value_dict[v[0]] = v[1]
         cursor_historical_db.execute(" SELECT point_id, actual_value "
                                      " FROM tbl_energy_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 10 MINUTE)")
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
         energy_values = cursor_historical_db.fetchall()
         energy_value_dict = dict()
         for v in energy_values:
