@@ -111,6 +111,37 @@ CREATE INDEX `tbl_energy_value_latest_index_1`
 ON `myems_historical_db`.`tbl_energy_value_latest` (`point_id`, `utc_date_time`);
 CREATE INDEX `tbl_energy_value_latest_index_2` ON `myems_historical_db`.`tbl_energy_value_latest` (`utc_date_time`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_historical_db`.`tbl_text_value`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_historical_db`.`tbl_text_value` ;
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_text_value` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `point_id` BIGINT NOT NULL,
+  `utc_date_time` DATETIME NOT NULL,
+  `actual_value` LONGTEXT NOT NULL,
+  `is_bad` BOOL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_text_value_index_1` ON `myems_historical_db`.`tbl_text_value` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_text_value_index_2` ON `myems_historical_db`.`tbl_text_value` (`utc_date_time`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_historical_db`.`tbl_text_value_latest`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_historical_db`.`tbl_text_value_latest` ;
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_text_value_latest` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `point_id` BIGINT NOT NULL,
+  `utc_date_time` DATETIME NOT NULL,
+  `actual_value` LONGTEXT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_value_latest_index_1`
+ON `myems_historical_db`.`tbl_text_value_latest` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_text_value_latest_index_2` ON `myems_historical_db`.`tbl_text_value_latest` (`utc_date_time`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_historical_db`.`tbl_offline_meter_files`
 -- ---------------------------------------------------------------------------------------------------------------------

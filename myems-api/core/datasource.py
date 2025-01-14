@@ -465,6 +465,9 @@ class DataSourcePointCollection:
                 elif row[2] == 'ENERGY_VALUE':
                     latest_value = energy_value_dict.get(row[0], None)
                     latest_value = Decimal(latest_value) if latest_value is not None else None
+                elif row[2] == 'TEXT_VALUE':
+                    # todo
+                    continue
 
                 meta_result = {"id": row[0],
                                "name": row[1],
