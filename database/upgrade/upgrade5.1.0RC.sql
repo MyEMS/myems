@@ -716,6 +716,33 @@ ADD COLUMN `cooling_control_hysteresis_point_id` BIGINT AFTER `cooling_off_tempe
 ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_hvacs`
 ADD COLUMN `high_humidity_alarm_set_point_id` BIGINT AFTER `low_temperature_alarm_set_point_id`;
 
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_text_value` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `point_id` BIGINT NOT NULL,
+  `utc_date_time` DATETIME NOT NULL,
+  `actual_value` LONGTEXT NOT NULL,
+  `is_bad` BOOL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_text_value_index_1` ON `myems_historical_db`.`tbl_text_value` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_text_value_index_2` ON `myems_historical_db`.`tbl_text_value` (`utc_date_time`);
+
+CREATE TABLE IF NOT EXISTS `myems_historical_db`.`tbl_text_value_latest` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `point_id` BIGINT NOT NULL,
+  `utc_date_time` DATETIME NOT NULL,
+  `actual_value` LONGTEXT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_value_latest_index_1`
+ON `myems_historical_db`.`tbl_text_value_latest` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_text_value_latest_index_2` ON `myems_historical_db`.`tbl_text_value_latest` (`utc_date_time`);
+
+ALTER TABLE `myems_fdd_db`.`tbl_web_messages`
+ADD `belong_to_object_id` BIGINT AFTER `reply`;
+
+ALTER TABLE `myems_fdd_db`.`tbl_web_messages`
+ADD `belong_to_object_type` VARCHAR(128)
+COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT, MICROGRID, ENERGYSTORAGECONTAINER, PHOTOVOLTAICPOWERSTATION'
+AFTER `reply`;
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0RC', release_date='2025-01-15' WHERE id=1;

@@ -128,6 +128,9 @@ CREATE TABLE IF NOT EXISTS `myems_fdd_db`.`tbl_web_messages` (
   `update_datetime_utc` DATETIME NULL,
   `status` VARCHAR(32) NOT NULL COMMENT 'new, acknowledged, read',
   `reply` LONGTEXT NULL,
+  `belong_to_object_type` VARCHAR(128)
+  COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT, MICROGRID, ENERGYSTORAGECONTAINER, PHOTOVOLTAICPOWERSTATION',
+  `belong_to_object_id` BIGINT,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_web_messages_index_1`
 ON `myems_fdd_db`.`tbl_web_messages` (`user_id`, `status`, `created_datetime_utc`);

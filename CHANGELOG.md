@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added new property 'faults' to point
+- added `myems_historical_db`.`tbl_text_value` in database
+- added `myems_historical_db`.`tbl_text_value_latest` in database
+- added columns to `myems_fdd_db`.`tbl_web_messages` in database
 ### Changed
 - updated dockerfiles to reduce images size
 - updated command actions in myems-api
