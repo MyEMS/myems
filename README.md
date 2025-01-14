@@ -2,7 +2,7 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v4.12.0</h1>
-<h4 align="center">领先的开源能源管理系统</h4>
+<h4 align="center">Leading Open Source Energy Management System</h4>
 
  [![Maintainability](https://api.codeclimate.com/v1/badges/e01a2ca1e833d66040d0/maintainability)](https://codeclimate.com/github/MyEMS/myems/maintainability)
  [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
@@ -10,22 +10,21 @@
  [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
+ [简体中文](./README_CN.md) | [German](./README_DE.md)
 
- [English](./README_EN.md) | [German](./README_DE.md)
+## MyEMS Introduction
 
-## MyEMS 介绍
+MyEMS open source energy management system is used for electricity, water, gas and other energy data collection, analysis, and reporting in buildings, factories, shopping malls, hospitals, and parks, as well as photovoltaic, energy storage, charging piles, microgrids, equipment control, fault diagnosis, Work order management, artificial intelligence optimization and other optional functions. Development and maintenance by a senior professional team to ensure long-term support. Use open source to support the low-carbon development of enterprise groups, industrial parks, and energy operators!
 
-MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的电、水、气等能源数据采集、分析、报表，还有光伏、储能、充电桩、微电网、设备控制、故障诊断、工单管理、人工智能优化等可选功能。资深专业团队开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+## MyEMS Architecture
 
-## MyEMS架构
+![MyEMS Architecture Function View](/docs/images/architecture-function-view-en.png)
 
-![MyEMS Architecture Function View](/docs/images/architecture-function-view-cn.png)
+![MyEMS Architecture Site View](/docs/images/architecture-site-view-en.png)
 
-![MyEMS Architecture Site View](/docs/images/architecture-site-view-cn.png)
+![MyEMS Data Flow](/docs/images/myems-data-flow-en.svg)
 
-![MyEMS Data Flow](/docs/images/myems-data-flow-cn.svg)
-
-## MyEMS UI 展示
+## MyEMS UI Presentation
 
 ![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
 
@@ -38,16 +37,17 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 ![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)
 
 
-## MyEMS社区版功能
+## Features of MyEMS Community Edition
 
-详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
-
-## MyEMS企业版功能
-
-详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+See [https://myems.io/en/docs/intro#myems-features](https://myems.io/en/docs/intro#myems-features)
 
 
-## MyEMS下载(社区版)
+## Features of MyEMS Enterprise Edition
+
+See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
+
+
+## MyEMS Downloads (Community Edition)
 
 [1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
@@ -69,45 +69,45 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 
 [10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
-## MyEMS安装(社区版)
+## MyEMS Installation (Community Edition)
 
-详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+See [https://myems.io/en/docs/category/installation](https://myems.io/en/docs/category/installation)
 
-## MyEMS组件构成
+## MyEMS Compose of Components:
 
-### MyEMS 数据库 (SQL)
+### MyEMS Database (SQL)
 
-详见 [database](./database/README.md)介绍
+See [database](./database/README.md) Introduction
 
-### MyEMS API 应用程序接口 (Python)
+### MyEMS API (Python)
 
-详见 [myems-api](./myems-api/README.md)介绍
+See [myems-api](./myems-api/README.md) Introduction
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### MyEMS Admin UI (ReactJS)
 
-详见 [myems-admin](myems-admin/README.md)介绍
+See [myems-admin](myems-admin/README.md) Introduction
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### MyEMS Modbus TCP Acquisition Service (Python)
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+See [myems-modbus-tcp](./myems-modbus-tcp/README.md) Introduction
 
-### MyEMS 数据清洗服务 (Python)
+### MyEMS Cleaning Service (Python)
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+See [myems-cleaning](./myems-cleaning/README.md) Introduction
 
-### MyEMS 数据规范化服务 (Python)
+### MyEMS Normalization Service (Python)
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+See [myems-normalization](./myems-normalization/README.md) Introduction
 
-### MyEMS 数据汇总服务 (Python)
+### MyEMS Aggregation Service (Python)
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+See [myems-aggregation](./myems-aggregation/README.md) Introduction
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI (AngularJS)
 
-详见 [myems-web](myems-web/README.md)介绍
+See [myems-web](myems-web/README.md) Introduction
 
-### 默认端口号
+### Default Ports
 
 MyEMS Web UI: 80
 
@@ -115,42 +115,41 @@ MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
-### 默认密码
+### Default Passwords
 
 Admin UI:
 
-用户名：administrator
+User Name: administrator
 
-密码：!MyEMS1
+Password: !MyEMS1
 
 
 Web UI:
 
-用户名：administrator@myems.io
+User Name: administrator@myems.io
 
-密码：!MyEMS1
-
-
-## 集成测试合作计划
-
-详见 [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
-
-## 微信公众号
-
-![开源能源管理系统](/docs/images/qrcode_for_mp_weixin.jpg)
+Password: !MyEMS1
 
 
-## 微信群
+## Integration Testing Cooperation Plan
 
-![微信群](/docs/images/qr_code_wechat_group.png)
+See [https://myems.io/en/docs/cooperation](https://myems.io/en/docs/cooperation)
 
-## QQ群
+## Weixin Official Subscription Account
 
-群号: 792528967
+![Open Source Energy Management System](/docs/images/qrcode_for_mp_weixin.jpg)
 
-![QQ群](/docs/images/qr_code_qq_group.png)
+## WeChat Group
 
-## 视频
+![WeChat Group](/docs/images/qr_code_wechat_group.png)
+
+## QQ Group
+
+Group Number: 792528967
+
+![QQ Group 1](/docs/images/qr_code_qq_group.png)
+
+## Videos
 
 [BiliBili](https://space.bilibili.com/539108162)
 
