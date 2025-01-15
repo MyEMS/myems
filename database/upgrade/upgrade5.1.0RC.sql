@@ -744,6 +744,35 @@ ADD `belong_to_object_type` VARCHAR(128)
 COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT, MICROGRID, ENERGYSTORAGECONTAINER, PHOTOVOLTAICPOWERSTATION'
 AFTER `reply`;
 
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_spaces`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_stores`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
+MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0RC', release_date='2025-01-15' WHERE id=1;
 
