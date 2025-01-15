@@ -34,12 +34,14 @@ import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../../../context/Context';
 import Datetime from 'react-datetime';
+import moment from 'moment';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import InvertorDetails from './InvertorDetails';
 import MeterDetails from './MeterDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
+import FaultDetails from './FaultDetails';
 
 
 const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
@@ -130,6 +132,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
+  const [faultDetailsList, setFaultDetailsList] = useState([]);
   const [InvertorDetailsList, setInvertorDetailsList] = useState([]);
   const [meterDetailsList, setMeterDetailsList] = useState([]);
 
@@ -426,6 +429,80 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
     refreshSVGData();
   }, 1000 * 10);
 
+  // Fault Details
+  const fetchFaultDetails = () => {
+    let isResponseOK = false;
+    let current_moment = moment();
+
+    // Query Parameters
+    let priority = 'all';
+    let status = 'all';
+    let reportingPeriodDateRange = [current_moment.clone().subtract(1, 'weeks').toDate(), current_moment.toDate()]
+    // results
+    let totalFaultNumber = 0;
+    let newFaultNumber = 0;
+
+    fetch(
+      APIBaseURL +
+        '/webmessages?' +
+        'startdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&enddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&priority=' +
+        priority +
+        '&status=' +
+        status,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      }
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          let faultList = [];
+          if (json.length > 0) {
+            json.forEach((currentValue, index) => {
+              let fault = {};
+              fault['id'] = currentValue['id'];
+              fault['subject'] = currentValue['subject'];
+              fault['message'] = currentValue['message'];
+              fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              fault['status'] = currentValue['status'];
+              totalFaultNumber += 1;
+              // todo: parse status
+              newFaultNumber += 1;
+
+              fault['update_datetime'] = moment(parseInt(currentValue['update_datetime'])).format(
+                'YYYY-MM-DD HH:mm:ss'
+              );
+              fault['url'] = currentValue['url'];
+
+              faultList.push(fault);
+            });
+            setFaultDetailsList(faultList);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   // Invertor
   const fetchInvertorDetails = () => {
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/invertor'
@@ -462,7 +539,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   }
   // Meters
   const fetchMetersDetails = () => {
-
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/meter'
     console.log('fetchMetersDetails with url:' + url);
 
@@ -599,7 +675,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Generation")}</th>
-                            <th className="pr-0 text-right">{(totalGenerationEnergyValue / 1000.0).toFixed(3)} mWh</th>
+                            <th className="pr-0 text-right">{(totalGenerationEnergyValue / 1000.0).toFixed(3)} MWH</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Total Efficiency")} PR</th>
@@ -725,6 +801,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               className={classNames({ active: activeTabBottom === '2' })}
               onClick={() => {
                 setActiveTabBottom('2');
+                fetchFaultDetails();
               }}
             >
               <h6>{t('Fault Alarms')}</h6>
@@ -736,7 +813,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               className={classNames({ active: activeTabBottom === '3' })}
               onClick={() => {
                 setActiveTabBottom('3');
-                fetchInvertorDetails()
+                fetchInvertorDetails();
               }}
             >
               <h6>{t("Invertor")}</h6>
@@ -769,62 +846,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           <TabPane tabId="2">
             <Card className="mb-3 fs--1">
               <CardBody className="bg-light">
-                <Table striped className="border-bottom">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>主题</th>
-                      <th>内容</th>
-                      <th>创建时间</th>
-                      <th>开始时间</th>
-                      <th>结束时间</th>
-                      <th>状态</th>
-                      <th>更新时间</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                    </tr>
-                    <tr>
-                      <th scope="row">4</th>
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                      <td />
-                    </tr>
-                  </tbody>
-                </Table>
+                <FaultDetails faults={faultDetailsList} />
               </CardBody>
             </Card>
           </TabPane>
