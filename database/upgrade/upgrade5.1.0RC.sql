@@ -761,8 +761,8 @@ MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
 MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
 
 ALTER TABLE `myems_system_db`.`tbl_spaces`
-MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
-MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
+MODIFY COLUMN `latitude` DECIMAL(12, 10),
+MODIFY COLUMN `longitude` DECIMAL(13, 10);
 
 ALTER TABLE `myems_system_db`.`tbl_stores`
 MODIFY COLUMN `latitude` DECIMAL(12, 10) NOT NULL,
