@@ -774,6 +774,6 @@ MODIFY COLUMN `longitude` DECIMAL(13, 10) NOT NULL;
 
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0RC', release_date='2025-01-15' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.1.0', release_date='2025-01-19' WHERE id=1;
 
 COMMIT;

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.1.0] - 2025-01-19
+### Added
 - added new property 'faults' to point
 - added `myems_historical_db`.`tbl_text_value` in database
 - added `myems_historical_db`.`tbl_text_value_latest` in database
@@ -18,9 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed get the latest points value interval from 10 minutes to 30 minutes
 - updated data recalculating scripts in database
 ### Fixed
--
+- None
 ### Removed
--
+- None
 
 ## [v4.12.0] - 2024-12-21
 ### Added
@@ -1874,7 +1880,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v4.12.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.1.0...HEAD
+[5.1.0]: https://gitee.com/MyEMS/myems/compare/v4.12.0...v5.1.0
 [4.12.0]: https://gitee.com/MyEMS/myems/compare/v4.11.0...v4.12.0
 [4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.0...v4.11.0
 [4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
