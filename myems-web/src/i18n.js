@@ -187,7 +187,7 @@ const resources = {
       'language-ms': 'Bahasa Melayu',
       'language-id': 'Bahasa Indonesia',
       'language-zh_TW': '繁體中文',
-        'language-pt': 'Português',
+      'language-pt': 'Português',
       'Like What You See?': 'Like What You See?',
       'Get MyEMS now': 'Get MyEMS now',
       Purchase: 'Purchase',
