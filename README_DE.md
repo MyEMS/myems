@@ -34,6 +34,8 @@ Das Open-Source-Energiemanagementsystem MyEMS wird für die Erfassung, Analyse u
 
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 
+![MyEMS Admin01](/docs/images/myems-admin01.jpg)
+
 ![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)

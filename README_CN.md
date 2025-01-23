@@ -33,6 +33,8 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 
+![MyEMS Admin01](/docs/images/myems-admin01.jpg)
+
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
 ![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)
