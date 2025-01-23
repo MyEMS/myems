@@ -11,7 +11,7 @@
  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
- [简体中文](./README_CN.md) | [English](./README_EN.md)
+ [简体中文](./README_CN.md) | [English](./README_EN.md) | German
 
 ## MyEMS-Einführung
 
