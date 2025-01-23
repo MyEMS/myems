@@ -24,7 +24,7 @@ MyEMS open source energy management system is used for electricity, water, gas a
 
 ![MyEMS Data Flow](/docs/images/myems-data-flow-en.svg)
 
-## MyEMS UI Presentation
+## MyEMS Web UI Presentation
 
 ![MyEMS Space EnergyCategory1](/docs/images/myems-space-energycategory1.gif)
 
@@ -32,7 +32,17 @@ MyEMS open source energy management system is used for electricity, water, gas a
 
 ![MyEMS Space EnergyCategory3](/docs/images/myems-space-energycategory3.gif)
 
+## MyEMS Admin UI Presentation
+
 ![MyEMS Admin01](/docs/images/myems-admin01.jpg)
+
+![MyEMS Admin02](/docs/images/myems-admin02.jpg)
+
+![MyEMS Admin03](/docs/images/myems-admin03.jpg)
+
+![MyEMS Admin04](/docs/images/myems-admin04.jpg)
+
+## MyEMS Dashboard UI Presentation
 
 ![MyEMS Large Screen Dashboard](/docs/images/myems-large-screen-dashboard.gif)
 
