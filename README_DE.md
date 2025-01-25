@@ -14,8 +14,7 @@
 
 ## MyEMS-Einführung
 
-
-Das Open-Source-Energiemanagementsystem MyEMS wird für die Erfassung, Analyse und Berichterstattung von Strom-, Wasser-, Gas- und anderen Energiedaten in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern und Parks sowie für Photovoltaik, Energiespeicherung, Ladesäulen, Mikronetze usw. verwendet. Gerätesteuerung, Fehlerdiagnose, Arbeitsauftragsverwaltung, Optimierung künstlicher Intelligenz und andere optionale Funktionen. Entwicklung und Wartung durch ein erfahrenes professionelles Team, um eine langfristige Unterstützung zu gewährleisten. Nutzen Sie Open Source, um die kohlenstoffarme Entwicklung von Unternehmensgruppen, Industrieparks und Energiebetreibern zu unterstützen!
+Das Open-Source-Energiemanagementsystem MyEMS wird für die Erfassung, Analyse und Berichterstattung von Energiedaten wie Strom, Wasser und Gas in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern und Parks verwendet. Es hat auch optionale Funktionen wie Photovoltaik, Energiespeicher, Ladepfähle, Mikronetze, Gerätesteuerung, Fehlerdiagnose, Arbeitsauftragsmanagement und künstliche Intelligenz Optimierung. Entwickelt und gewartet von einem erfahrenen professionellen Unternehmen, um langfristige Unterstützung zu gewährleisten. Nutzung von Open Source zur Unterstützung von Unternehmensgruppen, Industrieparks und Energiebetreibern bei der CO2-armen Entwicklung!
 
 ## MyEMS Architektur
 
