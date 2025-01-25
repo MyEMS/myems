@@ -13,7 +13,7 @@
 
 ## MyEMS Introduction
 
-MyEMS open source energy management system is used for electricity, water, gas and other energy data collection, analysis, and reporting in buildings, factories, shopping malls, hospitals, and parks, as well as photovoltaic, energy storage, charging piles, microgrids, equipment control, fault diagnosis, Work order management, artificial intelligence optimization and other optional functions. Development and maintenance by a senior professional team to ensure long-term support. Use open source to support the low-carbon development of enterprise groups, industrial parks, and energy operators!
+MyEMS open source energy management system is used for electricity, water, gas and other energy data collection, analysis, and reporting in buildings, factories, shopping malls, hospitals, and parks, as well as photovoltaic, energy storage, charging piles, microgrids, equipment control, fault diagnosis, Work order management, artificial intelligence optimization and other optional functions. Development and maintenance by a senior professional company to ensure long-term support. Use open source to support the low-carbon development of enterprise groups, industrial parks, and energy operators!
 
 ## MyEMS Architecture
 
