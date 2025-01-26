@@ -26851,7 +26851,7 @@ function config($translateProvider) {
             },
         })
         ;
-    var lang = window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW
+    var lang = window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, pt
 
     $translateProvider.preferredLanguage(lang);
 
