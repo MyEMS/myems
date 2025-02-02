@@ -52,4 +52,4 @@ GoogleMap.propTypes = {
 GoogleMap.defaultProps = { zoom: 17, mapStyle: 'Default' };
 
 // TODO: Do you provide the apiKey in production, instruct user to use his own apiKey
-export default GoogleApiWrapper({ apiKey: 'AIzaSyARdVcREeBK44lIWnv5-iPijKqvlSAVwbw' })(GoogleMap);
+export default GoogleApiWrapper({ apiKey: 'YOUR_API_KEY' })(GoogleMap);
