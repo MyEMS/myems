@@ -80,16 +80,13 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
         if (isResponseOK) {
-          console.log(json);
           setEnergyStoragePowerStationArray([]);
           setEnergyStoragePowerStationIds([]);
           let energyStoragePowerStationArray = [];

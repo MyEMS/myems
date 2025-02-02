@@ -83,7 +83,7 @@ class RealtimeChart extends Component {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
@@ -142,7 +142,7 @@ class RealtimeChart extends Component {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
+
             let trendLog = json['energy_value']['values'];
             let currentEnergyValue = undefined;
             let energyValuePointName = json['energy_value']['name'];

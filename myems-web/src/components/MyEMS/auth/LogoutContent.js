@@ -22,14 +22,13 @@ const LogoutContent = ({ layout, titleTag: TitleTag, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+        //
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
         if (isResponseOK) {
           createCookie('user_name', '', 0);
           createCookie('user_display_name', '', 0);

@@ -44,7 +44,6 @@ const CommandModal = ({
   const handleInputSetValue = e => {
     e.preventDefault();
     setNewValue(e.target.value);
-    console.log(newValue)
   }
   const handleSubmit = e => {
     e.preventDefault();
@@ -63,14 +62,12 @@ const CommandModal = ({
       }
     })
     .then(response => {
-      console.log(response);
       if (response.ok) {
         isResponseOK = true;
       }
       return response.json();
     })
     .then(json => {
-      console.log(isResponseOK);
       if (isResponseOK) {
         toast.success(t('Command has been submitted'));
       } else {

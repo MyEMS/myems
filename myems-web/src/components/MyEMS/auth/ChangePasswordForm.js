@@ -69,14 +69,13 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
       }
     })
       .then(response => {
-        console.log(response);
+        //
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(isResponseOK);
         if (isResponseOK) {
           toast.success(t('Password has been changed!'));
           setRedirect(true);

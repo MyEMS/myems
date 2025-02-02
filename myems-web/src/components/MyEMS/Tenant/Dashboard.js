@@ -154,7 +154,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
               // hide spinner
               setSpinnerHidden(true);
               let labels = [];
@@ -517,7 +517,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         body: null
       })
         .then(response => {
-          console.log(response);
+
           if (response.ok) {
             isResponseOK = true;
           }

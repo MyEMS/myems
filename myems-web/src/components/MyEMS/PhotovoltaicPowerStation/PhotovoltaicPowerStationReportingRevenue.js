@@ -143,14 +143,14 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -189,7 +189,7 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
+
                 setPhotovoltaicPowerStationList(json[0]);
                 setFilteredPhotovoltaicPowerStationList(json[0]);
                 if (json[0].length > 0) {
@@ -250,7 +250,7 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
           setPhotovoltaicPowerStationSerialNumber(json['photovoltaic_power_station']['serial_number']);
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
@@ -282,7 +282,6 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
           json['reporting_period']['values'].forEach((currentValue, index) => {
             reporting_values['a' + index] = currentValue;
           });
-          console.log(reporting_values);
           setPhotovoltaicPowerStationReportingData(reporting_values);
 
           let reporting_subtotals = {};
@@ -460,7 +459,7 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setPhotovoltaicPowerStationList(json[0]);
           setFilteredPhotovoltaicPowerStationList(json[0]);
           if (json[0].length > 0) {
@@ -553,13 +552,6 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(selectedPhotovoltaicPowerStation);
-    console.log(periodType);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     let url =
       APIBaseURL +
       '/reports/photovoltaicpowerstationreportingrevenue?' +

@@ -23,7 +23,6 @@ class RealtimeChart extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     const { t } = this.props;
     this._isMounted = true;
     // fetch realtime data at the first time
@@ -46,7 +45,6 @@ class RealtimeChart extends Component {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
             let pointList = [];
             json.forEach((currentCircuit, circuitIndex) => {
               json[circuitIndex]['points'].forEach((currentPoint, pointIndex) => {
@@ -93,7 +91,6 @@ class RealtimeChart extends Component {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
               let pointList = [];
               json.forEach((currentCircuit, circuitIndex) => {
                 json[circuitIndex]['points'].forEach((currentPoint, pointIndex) => {

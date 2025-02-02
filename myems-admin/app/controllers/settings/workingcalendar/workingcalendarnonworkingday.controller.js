@@ -83,7 +83,6 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         var nonWorkingDayID = angular.element('#' + dragEl).scope().nonWorkingDay.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonWorkingDayID, headers, function (response) {
-            console.log(response);
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",

@@ -129,7 +129,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
               // hide spinner
               setSpinnerHidden(true);
 
@@ -223,7 +223,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setChargeEnergyData({
                 "unit": "kWh",
@@ -293,7 +293,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setChargeBillingData({
                 "unit": currency,
@@ -364,7 +364,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setChargeCarbonData({
                 "unit": "kgCO2",

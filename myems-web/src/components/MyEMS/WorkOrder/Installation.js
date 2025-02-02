@@ -278,10 +278,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(priority);
-    console.log(status);
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -381,7 +377,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
   };
 
   const handleRead = id => {
-    console.log('Mark As Read: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -405,7 +400,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -437,7 +432,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 
@@ -480,7 +475,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
   };
 
   const handleAcknowledged = id => {
-    console.log('Mark As Acknowledged: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -505,7 +499,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -537,7 +531,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 
@@ -579,7 +573,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
   };
 
   const handledelete = id => {
-    console.log('Delete: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
@@ -599,7 +592,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -631,7 +624,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 

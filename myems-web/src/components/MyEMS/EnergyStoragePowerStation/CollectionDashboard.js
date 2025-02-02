@@ -105,7 +105,6 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
               // hide spinner
               setSpinnerHidden(true);
 
@@ -199,8 +198,6 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
-
               setChargeEnergyData({
                 "unit": "kWh",
                 "station_names_array": json['energy_storage_power_station_names'],
@@ -274,8 +271,6 @@ setDischargeEnergyLabels([
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
-
               setChargeBillingData({
                 "unit": currency,
                 "station_names_array": json['energy_storage_power_station_names'],
@@ -350,8 +345,6 @@ setDischargeEnergyLabels([
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
-
               setChargeCarbonData({
                 "unit": "kgCO2",
                 "station_names_array": json['energy_storage_power_station_names'],

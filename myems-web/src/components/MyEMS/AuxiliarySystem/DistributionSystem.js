@@ -84,14 +84,12 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -102,7 +100,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
               .join('"label":')
           );
 
-          console.log(json);
           setDistributionSystemList(json);
           setSelectedDistributionSystemID([json[0]].map(o => o.value));
 
@@ -142,7 +139,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {

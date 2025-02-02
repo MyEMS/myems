@@ -148,7 +148,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           setMicrogridName(json['microgrid']['name']);
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
@@ -276,7 +276,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {

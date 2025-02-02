@@ -79,14 +79,14 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -120,7 +120,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
             .then(json => {
               if (isSecondResponseOK) {
                 json = JSON.parse(JSON.stringify([json]));
-                console.log(json);
+
                 setMeterList(json[0]);
                 setSpinnerHidden(true);
               } else {
@@ -167,7 +167,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           json = JSON.parse(JSON.stringify([json]));
-          console.log(json);
+
           setMeterList(json[0]);
 
           setSpinnerHidden(true);

@@ -138,8 +138,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
 
   useEffect(() => {
-    console.log("uuid:");
-    console.log(uuid);
     if (uuid === null || !uuid) {
       let isResponseOK = false;
       setSpaceCascaderHidden(false);
@@ -153,14 +151,14 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         body: null
       })
         .then(response => {
-          console.log(response);
+
           if (response.ok) {
             isResponseOK = true;
           }
           return response.json();
         })
         .then(json => {
-          console.log(json);
+
           if (isResponseOK) {
             // rename keys
             json = JSON.parse(
@@ -199,7 +197,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                       .split('"name":')
                       .join('"label":')
                   );
-                  console.log(json);
+
                   setStationList(json[0]);
                   setFilteredStationList(json[0]);
                   if (json[0].length > 0) {
@@ -235,7 +233,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   }, [photovoltaicPowerStationUUID]);
 
   const loadData = url => {
-    console.log('url:' + url);
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -261,7 +258,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           if (uuid !== null && uuid) {
             setFilteredStationList([{ id: json['photovoltaic_power_station']['id'], label: json['photovoltaic_power_station']['name'] }]);
             setSelectedStation(json['photovoltaic_power_station']['id']);
@@ -352,7 +349,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setStationList(json[0]);
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
@@ -401,7 +398,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {
@@ -506,8 +503,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   // Invertor
   const fetchInvertorDetails = () => {
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/invertor'
-    console.log('fetchInvertorDetails with url:' + url);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -526,7 +521,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           setInvertorDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -540,8 +535,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   // Meters
   const fetchMetersDetails = () => {
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/meter'
-    console.log('fetchMetersDetails with url:' + url);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -560,7 +553,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           setMeterDetailsList(json);
         } else {
           toast.error(t(json.description));

@@ -129,14 +129,14 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -175,7 +175,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
+
                 setMeterList(json[0]);
                 setFilteredMeterList(json[0]);
                 if (json[0].length > 0) {
@@ -235,7 +235,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setMeterList(json[0]);
           setFilteredMeterList(json[0]);
           if (json[0].length > 0) {
@@ -292,12 +292,6 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(selectedMeter);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -340,7 +334,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
 
           let names = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {

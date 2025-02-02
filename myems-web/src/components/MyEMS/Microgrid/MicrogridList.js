@@ -80,16 +80,16 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
-          console.log(json);
+
           setMicrogridArray([]);
           setMicrogridIds([]);
           let microgridArray = [];
@@ -138,10 +138,6 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
           }
           setMicrogridArray(microgridArray);
           setMicrogridIds(microgridIds);
-          console.log('microgridArray:');
-          console.log(microgridArray);
-          console.log('microgridIds:');
-          console.log(microgridIds);
           setIsLoading(false);
           setGeojson(geojsonData);
         } else {

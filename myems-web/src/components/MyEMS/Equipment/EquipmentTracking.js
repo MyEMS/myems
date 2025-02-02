@@ -83,14 +83,14 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -129,7 +129,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
+
                 let equipments = [];
                 json_equipments[0].forEach((currentValue, index) => {
                   equipments.push({
@@ -270,7 +270,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           let equipments = [];
           json_equipments[0].forEach((currentValue, index) => {
             equipments.push({

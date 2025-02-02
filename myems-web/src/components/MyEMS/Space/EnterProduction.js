@@ -80,7 +80,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
-    console.log(value, selectedOptions);
+
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
@@ -97,7 +97,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
           // enable submit button
@@ -106,7 +106,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -190,9 +190,6 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(false);
     // show spinner
@@ -257,7 +254,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
   };
-  
+
   const saveChange = async (oldValue, newValue, row, column) => {
     let isResponseOK = false;
     if (newValue == null || newValue === '' || newValue < 0 || oldValue === newValue) {
@@ -277,7 +274,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
         return;
       }
     }
-    
+
     let param = {
       spaceid: selectedSpaceID,
       productid: 1,

@@ -25,9 +25,6 @@ export const Charts = props => {
       });
       optionData.valueArr = optionData['valueArr'];
     }
-    console.log('optionData in charts:' + optionData);
-    console.log('pointname in charts:' + pointname);
-
     const option = {
       textStyle: {
         color: 'rgb(255,255,255,0.9)'

@@ -105,10 +105,6 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -140,7 +136,6 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           let reportList = [];
 
           if (json.length > 0) {

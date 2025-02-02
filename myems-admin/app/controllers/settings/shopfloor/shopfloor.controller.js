@@ -111,7 +111,6 @@ app.controller('ShopfloorController', function (
 		});
 
 		modalInstance.result.then(function(modifiedShopfloor) {
-			console.log(modifiedShopfloor);
 			modifiedShopfloor.cost_center_id = modifiedShopfloor.cost_center.id;
 			modifiedShopfloor.contact_id = modifiedShopfloor.contact.id;
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {

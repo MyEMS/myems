@@ -38,7 +38,6 @@ app.controller('WechatMessageOptionController', function(
 			load: true,
 			period:$scope.currentPeriod
 		});
-		console.log(query)
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WechatMessageService.getResult(query, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {

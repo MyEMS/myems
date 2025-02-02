@@ -157,14 +157,14 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -205,7 +205,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
+
                 setMeterList1(json[0]);
                 setMeterList2(json[0]);
                 setFilteredMeterList1(json[0]);
@@ -269,7 +269,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setMeterList1(json[0]);
           setFilteredMeterList1(json[0]);
           if (json[0].length > 0) {
@@ -319,7 +319,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setMeterList2(json[0]);
           setFilteredMeterList2(json[0]);
           if (json[0].length > 0) {
@@ -427,15 +427,6 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID1);
-    console.log(selectedMeter1);
-    console.log(selectedSpaceID2);
-    console.log(selectedMeter2);
-    console.log(periodType);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -482,7 +473,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           setMeter1({
             name: json['meter1']['name'],
             energy_category_id: json['meter1']['energy_category_id'],
