@@ -82,14 +82,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // hide spinner
           setSpinnerHidden(true);
@@ -130,7 +130,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
+
                 setStationList(json[0]);
                 setFilteredStationList(json[0]);
                 if (json[0].length > 0) {
@@ -204,7 +204,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
+
             // enable submit button
             setSubmitButtonDisabled(false);
             // hide spinner
@@ -289,7 +289,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
+
 
             setGenerationEnergyData({
               "unit": "kWh",
@@ -348,7 +348,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
+
 
             setGenerationBillingData({
               "unit": currency,
@@ -407,7 +407,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-            console.log(json);
+
 
             setGenerationCarbonData({
               "unit": "kgCO2",
@@ -457,7 +457,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
+
           setStationList(json[0]);
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {

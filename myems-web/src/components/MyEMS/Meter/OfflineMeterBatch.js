@@ -120,14 +120,14 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -182,11 +182,6 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -228,7 +223,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
           let meters = [];
           if (json['offline_meters'].length > 0) {
             json['offline_meters'].forEach((currentMeter, index) => {

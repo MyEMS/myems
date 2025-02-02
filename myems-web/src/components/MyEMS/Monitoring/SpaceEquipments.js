@@ -84,14 +84,14 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -123,7 +123,7 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
-    console.log(value, selectedOptions);
+
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
@@ -144,8 +144,7 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
+
     // // disable submit button
     // setSubmitButtonDisabled(true);
     // // show spinner

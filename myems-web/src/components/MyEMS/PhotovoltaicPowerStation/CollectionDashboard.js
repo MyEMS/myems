@@ -99,7 +99,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
               // hide spinner
               setSpinnerHidden(true);
 
@@ -191,7 +191,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setGenerationEnergyData({
                 "unit": "kWh",
@@ -252,7 +252,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setGenerationBillingData({
                 "unit": currency,
@@ -314,7 +314,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-              console.log(json);
+
 
               setGenerationCarbonData({
                 "unit": "kgCO2",

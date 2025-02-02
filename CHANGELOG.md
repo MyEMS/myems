@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 ### Fixed
 ### Removed
+- removed console.log from myems-web and myems-admin
 
 ## [v5.1.0] - 2025-01-19
 ### Added
@@ -17,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added `myems_historical_db`.`tbl_text_value_latest` in database
 - added columns to `myems_fdd_db`.`tbl_web_messages` in database
 ### Changed
-- changed length of decimal part of latitude and longitude to 10 in database 
+- changed length of decimal part of latitude and longitude to 10 in database
 - updated notification in myems-web
 - updated dockerfiles to reduce images size
 - updated command actions in myems-api

@@ -80,16 +80,16 @@ const PhotovoltaicPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
-          console.log(json);
+
           setPhotovoltaicPowerStationArray([]);
           setPhotovoltaicPowerStationIds([]);
           let photovoltaicPowerStationArray = [];
@@ -136,10 +136,6 @@ const PhotovoltaicPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
           }
           setPhotovoltaicPowerStationArray(photovoltaicPowerStationArray);
           setPhotovoltaicPowerStationIds(photovoltaicPowerStationIds);
-          console.log('photovoltaicPowerStationArray:');
-          console.log(photovoltaicPowerStationArray);
-          console.log('photovoltaicPowerStationIds:');
-          console.log(photovoltaicPowerStationIds);
           setIsLoading(false);
           setGeojson(geojsonData);
         } else {

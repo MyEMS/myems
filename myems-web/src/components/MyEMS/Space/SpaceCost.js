@@ -174,7 +174,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-        console.log(response);
+
         if (response.ok) {
           isResponseOK = true;
           // enable submit button
@@ -183,7 +183,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
+
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -208,13 +208,13 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
-    console.log(value, selectedOptions);
+
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
 
   let onComparisonTypeChange = ({ target }) => {
-    console.log(target.value);
+
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -361,15 +361,6 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(comparisonType);
-    console.log(periodType);
-    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null);
-    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -419,7 +410,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
+
 
           let cardSummaryList = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {

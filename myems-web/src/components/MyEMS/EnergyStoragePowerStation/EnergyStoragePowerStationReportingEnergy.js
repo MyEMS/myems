@@ -143,14 +143,12 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
       body: null
     })
       .then(response => {
-        console.log(response);
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-        console.log(json);
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -189,7 +187,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
                     .split('"name":')
                     .join('"label":')
                 );
-                console.log(json);
                 setEnergyStoragePowerStationList(json[0]);
                 setFilteredEnergyStoragePowerStationList(json[0]);
                 if (json[0].length > 0) {
@@ -250,7 +247,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
           setEnergyStoragePowerStationSerialNumber(json['energy_storage_power_station']['serial_number']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
@@ -282,7 +278,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           json['reporting_period']['values'].forEach((currentValue, index) => {
             reporting_values['a' + index] = currentValue;
           });
-          console.log(reporting_values);
           setEnergyStoragePowerStationReportingData(reporting_values);
 
           let reporting_subtotals = {};
@@ -460,7 +455,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
           setEnergyStoragePowerStationList(json[0]);
           setFilteredEnergyStoragePowerStationList(json[0]);
           if (json[0].length > 0) {
@@ -553,13 +547,6 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(selectedEnergyStoragePowerStation);
-    console.log(periodType);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-
     let url =
       APIBaseURL +
       '/reports/energystoragepowerstationreportingenergy?' +

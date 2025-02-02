@@ -39,7 +39,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(response => {
-        console.log(response);
+        //
         if (response.ok) {
           isResponseOK = true;
           handleRefreshCaptcha();
@@ -47,15 +47,12 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
-        console.log(isResponseOK);
         if (isResponseOK) {
           createCookie('user_name', json.name, settings.cookieExpireTime);
           createCookie('user_display_name', json.display_name, settings.cookieExpireTime);
           createCookie('user_uuid', json.uuid, settings.cookieExpireTime);
           createCookie('token', json.token, settings.cookieExpireTime);
           createCookie('is_logged_in', true, settings.cookieExpireTime);
-          console.log('display_name:');
           toast.success(t('Logged in as ') + json.display_name);
           if (remember) {
             setItemToStore('email', email);

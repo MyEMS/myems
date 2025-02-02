@@ -157,8 +157,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [commandDetailsList, setCommandDetailsList] = useState([]);
 
   useEffect(() => {
-    console.log("uuid:");
-    console.log(uuid);
     if (uuid === null || !uuid) {
       let isResponseOK = false;
       setSpaceCascaderHidden(false);
@@ -172,14 +170,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         body: null
       })
         .then(response => {
-          console.log(response);
           if (response.ok) {
             isResponseOK = true;
           }
           return response.json();
         })
         .then(json => {
-          console.log(json);
           if (isResponseOK) {
             // rename keys
             json = JSON.parse(
@@ -218,7 +214,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                       .split('"name":')
                       .join('"label":')
                   );
-                  console.log(json);
                   setStationList(json[0]);
                   setFilteredStationList(json[0]);
                   if (json[0].length > 0) {
@@ -254,7 +249,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }, [energyStoragePowerStationUUID]);
 
   const loadData = url => {
-    console.log('url:' + url);
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -280,7 +274,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           if (uuid !== null && uuid) {
             setFilteredStationList([{ id: json['energy_storage_power_station']['id'], label: json['energy_storage_power_station']['name'] }]);
             setSelectedStation(json['energy_storage_power_station']['id']);
@@ -375,7 +368,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               .split('"name":')
               .join('"label":')
           );
-          console.log(json);
           setStationList(json[0]);
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
@@ -424,7 +416,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {
@@ -455,7 +446,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Schedule
   const fetchScheduleDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/schedule'
-    console.log('fetchScheduleDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -474,7 +464,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
           '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
           '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00',
@@ -500,8 +489,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // DCDC
   const fetchDCDCDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/dcdc'
-    console.log('fetchDCDCDetails with url:' + url);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -520,7 +507,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setDCDCDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -534,8 +520,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // PCS
   const fetchPCSDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/pcs'
-    console.log('fetchPCSDetails with url:' + url);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -554,7 +538,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setPCSDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -568,7 +551,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // BMS
   const fetchBMSDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/bms'
-    console.log('fetchBMSDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -587,7 +569,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setBMSDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -602,8 +583,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const fetchMetersDetails = () => {
 
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/meter'
-    console.log('fetchMetersDetails with url:' + url);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -622,7 +601,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setMeterDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -636,7 +614,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // HVAC
   const fetchHVACDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/hvac'
-    console.log('fetchHVACDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -655,7 +632,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setHVACDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -669,7 +645,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Fire Control
   const fetchFireControlDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/firecontrol'
-    console.log('fetchFireControlDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -688,7 +663,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setFirecontrolDetailsList(json);
         } else {
           toast.error(t(json.description));
@@ -703,7 +677,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   // Command
   const fetchCommandDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/command'
-    console.log('fetchCommandDetails with url:' + url);
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -722,7 +695,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          console.log(json);
           setCommandDetailsList(json);
         } else {
           toast.error(t(json.description));

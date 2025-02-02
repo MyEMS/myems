@@ -269,10 +269,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(priority);
-    console.log(status);
-
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -366,7 +362,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const handleRead = id => {
-    console.log('Mark As Read: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -390,7 +385,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -422,7 +417,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 
@@ -459,7 +454,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const handleAcknowledged = id => {
-    console.log('Mark As Acknowledged: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
@@ -484,7 +478,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -516,7 +510,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 
@@ -552,7 +546,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const handledelete = id => {
-    console.log('Delete: ', id);
     let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
@@ -572,7 +565,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
+
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -604,7 +597,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
+
 
                 let faultList = [];
 

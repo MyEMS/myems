@@ -48,8 +48,8 @@ const CustomizeMap = ({ Latitude, Longitude, Zoom, t }) => {
         });
         map.add(marker);
       })
-      .catch(e => {
-        console.log(e);
+      .catch(err => {
+        console.log(err);
       });
   }, [t, Latitude, Longitude, zoom]);
 
