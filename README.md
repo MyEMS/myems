@@ -142,9 +142,19 @@ User Name: administrator@myems.io
 Password: !MyEMS1
 
 
-## Integration Testing Cooperation Plan
+## Contact Us
 
-See [https://myems.io/en/docs/cooperation](https://myems.io/en/docs/cooperation)
+- Company: Haishi Software
+- Contact: Zhang Nengyuan
+- Tel & WeChat: (+86) 13011132526
+- Email: zny@myems.org
+- LINE ID: myems
+- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
+
+![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
+
+![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
+
 
 ## Weixin Official Subscription Account
 

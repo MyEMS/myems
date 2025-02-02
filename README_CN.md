@@ -142,9 +142,19 @@ Web UI:
 密码：!MyEMS1
 
 
-## 集成测试合作计划
+## 联系我们
 
-详见 [https://myems.io/docs/cooperation](https://myems.io/docs/cooperation)
+- 公司: 海识软件
+- 联系人: 张能远
+- 电话微信: (+86) 13011132526
+- Email: zny@myems.org
+- LINE ID: myems
+- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
+
+![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
+
+![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
+
 
 ## 微信公众号
 
