@@ -60,7 +60,7 @@ MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的
 
 ## MyEMS下载(社区版)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推荐)
 
 [2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 

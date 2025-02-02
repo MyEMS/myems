@@ -60,9 +60,9 @@ Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
 
 ## MyEMS Downloads (Community Edition)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
+[1]. [https://github.com/myems/myems](https://github.com/myems/myems) (empfohlen)
 
-[2]. [https://github.com/myems/myems](https://github.com/myems/myems)
+[2]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems)
 
 [3]. [https://bitbucket.org/myems/myems](https://bitbucket.org/myems/myems)
 
