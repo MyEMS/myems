@@ -964,7 +964,7 @@ def get_translation(language):
     if language is None or not isinstance(language, str) or len(language) == 0:
         return gettext.translation('myems', './i18n/', languages=['en'])
 
-    if language not in ['zh_CN', 'en', 'de', 'fr', 'es', 'ru', 'ar', 'vi', 'th', 'tr', 'ms', 'id', 'zh_TW']:
+    if language not in ['zh_CN', 'en', 'de', 'fr', 'es', 'ru', 'ar', 'vi', 'th', 'tr', 'ms', 'id', 'zh_TW', 'pt']:
         return gettext.translation('myems', './i18n/', languages=['en'])
     else:
         language_list = [language]
