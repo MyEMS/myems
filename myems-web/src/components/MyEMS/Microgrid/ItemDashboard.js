@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import AppContext from '../../../context/Context';
 import StackBarChart from './StackBarChart';
 
-const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
+const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const [isDashboardFetched, setIsDashboardFetched] = useState(false);
   const [isMicrogridsEnergyFetched, setIsMicrogridsEnergyFetched] = useState(false);
@@ -525,4 +525,4 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(Dashboard));
+export default withTranslation()(withRedirect(ItemDashboard));

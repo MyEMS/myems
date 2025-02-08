@@ -76,7 +76,7 @@ const MicrogridListItem = ({
             <Row>
               <Col lg={7}>
                 <h5 className="mt-3 mt-sm-0">
-                  <Link to={`/microgrid/details?uuid=${uuid}`} target="_blank">
+                  <Link to={`/singlemicrogrid/details?uuid=${uuid}`} target="_blank">
                     {name}
                   </Link>
                 </h5>
