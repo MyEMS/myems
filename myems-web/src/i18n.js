@@ -16277,7 +16277,7 @@ const resources = {
       'language-ms': 'Bahasa Melayu',
       'language-id': 'Bahasa Indonesia',
       'language-zh_TW': '繁體中文',
-        'language-pt': 'Português',
+      'language-pt': 'Português',
       'Like What You See?': 'Gosto do que você vê?',
       'Get MyEMS now': 'Obtenha MyEMS agora',
       Purchase: 'Compra',

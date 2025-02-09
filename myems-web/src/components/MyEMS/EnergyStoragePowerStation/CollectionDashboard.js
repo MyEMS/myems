@@ -403,7 +403,7 @@ setDischargeEnergyLabels([
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
           {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'mW'} color="ratedPower">
+        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'MW'} color="ratedPower">
           {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">

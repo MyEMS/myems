@@ -602,7 +602,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">
             {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
-          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'mW'} color="ratedPower">
+          <CardSummary rate={''} title={t('Total Rated Power')} footunit={'MW'} color="ratedPower">
             {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Charge')} footunit={'MWH'} color="electricity">
