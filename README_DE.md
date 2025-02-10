@@ -153,16 +153,16 @@ Passwort: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
+![WeChat: 13011132526](/docs/images/qr_code_wechat.png)
 
-![Line: MyEMS](/docs/images/qrcode_line.png)
+![Line: MyEMS](/docs/images/qr_code_line.png)
 
-![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
+![WhatsAPP: MyEMS](/docs/images/qr_code_whatsapp.png)
 
 
 ## Offizielles Abonnement Weixin
 
-![Open Source Energiemanagementsystem](/docs/images/qrcode_for_mp_weixin.jpg)
+![Open Source Energiemanagementsystem](/docs/images/qr_code_mp_weixin.png)
 
 ## WeChat-Gruppe
 
@@ -180,3 +180,4 @@ Gruppennummer: 792528967
 [BiliBili](https://space.bilibili.com/539108162)
 
 [YouTube](https://www.youtube.com/@myems)
+

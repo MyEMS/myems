@@ -151,16 +151,16 @@ Web UI:
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
+![WeChat: 13011132526](/docs/images/qr_code_wechat.png)
 
-![Line: MyEMS](/docs/images/qrcode_line.png)
+![Line: MyEMS](/docs/images/qr_code_line.png)
 
-![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
+![WhatsAPP: MyEMS](/docs/images/qr_code_whatsapp.png)
 
 
 ## 微信公众号
 
-![开源能源管理系统](/docs/images/qrcode_for_mp_weixin.jpg)
+![开源能源管理系统](/docs/images/qr_code_mp_weixin.png)
 
 
 ## 微信群
