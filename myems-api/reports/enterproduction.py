@@ -267,10 +267,7 @@ class Reporting:
                 cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
-        
-        cnx_production = mysql.connector.connect(**config.myems_production_db)
-        cursor_production = cnx_production.cursor()
-        
+
         cursor_production.execute(" SELECT name "
                                 " FROM tbl_products "
                                 " WHERE id = %s ", (production_data['product_id'],))
