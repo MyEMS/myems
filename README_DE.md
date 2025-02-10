@@ -172,6 +172,12 @@ Passwort: !MyEMS1
 
 Gruppennummer: 792528967
 
+## Xiaohongshu
+
+![Xiaohongshju](/docs/images/qr_code_xiaohongshu.png)
+
+
+
 ![QQ Group 1](/docs/images/qr_code_qq_group.png)
 
 
