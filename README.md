@@ -153,6 +153,8 @@ Password: !MyEMS1
 
 ![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
 
+![Line: MyEMS](/docs/images/qrcode_line.png)
+
 ![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
 
 
