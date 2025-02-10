@@ -173,6 +173,10 @@ Web UI:
 
 ![QQ群](/docs/images/qr_code_qq_group.png)
 
+## 小红书
+
+![Xiaohongshju](/docs/images/qr_code_xiaohongshu.png)
+
 ## 视频
 
 [BiliBili](https://space.bilibili.com/539108162)

@@ -172,6 +172,10 @@ Group Number: 792528967
 
 ![QQ Group 1](/docs/images/qr_code_qq_group.png)
 
+## Xiaohongshu
+
+![Xiaohongshju](/docs/images/qr_code_xiaohongshu.png)
+
 ## Videos
 
 [BiliBili](https://space.bilibili.com/539108162)
