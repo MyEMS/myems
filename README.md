@@ -151,16 +151,16 @@ Password: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](/docs/images/wechat_nengyuanzhang.png)
+![WeChat: 13011132526](/docs/images/qr_code_wechat.png)
 
-![Line: MyEMS](/docs/images/qrcode_line.png)
+![Line: MyEMS](/docs/images/qr_code_line.png)
 
-![WhatsAPP: MyEMS](/docs/images/whatsapp_myems.png)
+![WhatsAPP: MyEMS](/docs/images/qr_code_whatsapp.png)
 
 
 ## Weixin Official Subscription Account
 
-![Open Source Energy Management System](/docs/images/qrcode_for_mp_weixin.jpg)
+![Open Source Energy Management System](/docs/images/qr_code_mp_weixin.png)
 
 ## WeChat Group
 
