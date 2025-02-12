@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated notification in myems-web
 ### Fixed
 - fixed google map issue
+- fixed redundant assignment
+- fixed variable defined multiple times
 ### Removed
 - removed console.log from myems-web and myems-admin
 
