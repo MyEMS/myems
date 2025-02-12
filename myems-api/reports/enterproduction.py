@@ -44,26 +44,26 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
-        
+
         if space_id is not None:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_SPACE_ID')
-            
+
         if product_id is None:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_PRODUCT_ID')
-        
+
         if product_id is not None:
             product_id = str.strip(product_id)
             if not product_id.isdigit() or int(product_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_PRODUCT_ID')
-            
+
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -103,19 +103,19 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
-        
+
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
-        
+
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
-        
+
         cursor_system.execute(" SELECT name "
-                            " FROM tbl_spaces "
-                            " WHERE id = %s ", (space_id,))
+                              " FROM tbl_spaces "
+                              " WHERE id = %s ", (space_id,))
         row = cursor_system.fetchone()
 
         if row is None:
@@ -127,13 +127,13 @@ class Reporting:
                                    description='API.SPACE_NOT_FOUND')
         else:
             space_name = row[0]
-        
+
         cnx_production = mysql.connector.connect(**config.myems_production_db)
         cursor_production = cnx_production.cursor()
-        
+
         cursor_production.execute(" SELECT name "
-                                " FROM tbl_products "
-                                " WHERE id = %s ", (product_id,))
+                                  " FROM tbl_products "
+                                  " WHERE id = %s ", (product_id,))
         row = cursor_production.fetchone()
 
         if row is None:
@@ -156,16 +156,16 @@ class Reporting:
         cursor_production = cnx_production.cursor()
 
         query = (" SELECT start_datetime_utc, product_count "
-                " FROM tbl_space_hourly "
-                " WHERE space_id = %s "
-                " AND product_id = %s "
-                " AND start_datetime_utc >= %s "
-                " AND start_datetime_utc < %s "
-                " ORDER BY start_datetime_utc ")
+                 " FROM tbl_space_hourly "
+                 " WHERE space_id = %s "
+                 " AND product_id = %s "
+                 " AND start_datetime_utc >= %s "
+                 " AND start_datetime_utc < %s "
+                 " ORDER BY start_datetime_utc ")
         cursor_production.execute(query, (space_id,
-                                         product_id,
-                                         reporting_start_datetime_utc,
-                                         reporting_end_datetime_utc))
+                                          product_id,
+                                          reporting_start_datetime_utc,
+                                          reporting_end_datetime_utc))
         rows_space_production_hourly = cursor_production.fetchall()
 
         start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)
@@ -212,8 +212,6 @@ class Reporting:
 
         resp.text = json.dumps(result_values)
 
-
-
     @staticmethod
     def on_post(req, resp):
         if 'API-KEY' not in req.headers or \
@@ -222,8 +220,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        cnx_production = mysql.connector.connect(**config.myems_production_db)
-        cursor_production = cnx_production.cursor()
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -251,13 +247,13 @@ class Reporting:
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRODUCTION_VALUE')
-        
+
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
-        
+
         cursor_system.execute(" SELECT name "
-                            " FROM tbl_spaces "
-                            " WHERE id = %s ", (str(production_data['space_id']),))
+                              " FROM tbl_spaces "
+                              " WHERE id = %s ", (str(production_data['space_id']),))
         row = cursor_system.fetchone()
 
         if row is None:
@@ -268,9 +264,12 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
+        cnx_production = mysql.connector.connect(**config.myems_production_db)
+        cursor_production = cnx_production.cursor()
+
         cursor_production.execute(" SELECT name "
-                                " FROM tbl_products "
-                                " WHERE id = %s ", (production_data['product_id'],))
+                                  " FROM tbl_products "
+                                  " WHERE id = %s ", (production_data['product_id'],))
         row = cursor_production.fetchone()
 
         if row is None:
@@ -287,16 +286,16 @@ class Reporting:
                 round(daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count)), 3)
 
             cursor_production.execute(" DELETE FROM tbl_space_hourly WHERE space_id = %s AND product_id = %s "
-                                    " AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
-                                    (production_data['space_id'], production_data['product_id'],
-                                    start_datetime_utc.isoformat()[0:19],
-                                    end_datetime_utc.isoformat()[0:19]))
+                                      " AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
+                                      (production_data['space_id'], production_data['product_id'],
+                                       start_datetime_utc.isoformat()[0:19],
+                                       end_datetime_utc.isoformat()[0:19]))
 
             cnx_production.commit()
 
             add_values = (" INSERT INTO tbl_space_hourly "
-                            "(space_id, product_id, start_datetime_utc, product_count) "
-                            " VALUES  ")
+                          "(space_id, product_id, start_datetime_utc, product_count) "
+                          " VALUES  ")
             sum_24hours = actual_value * 24
             last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
             while start_datetime_utc < end_datetime_utc:
