@@ -66,7 +66,6 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
         reporting_end_datetime_utc = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
-        reporting_end_datetime_utc = reporting_end_datetime_utc
         reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
         charge_report_dict = dict()
 
