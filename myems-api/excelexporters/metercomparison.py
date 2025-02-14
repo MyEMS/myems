@@ -716,7 +716,7 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
 
             if len(parameters_data2['timestamps'][i]) == 0:
                 continue
-
+            print(parameters_data1['timestamps'])
             line = LineChart()
             data_col = 3 + col_index * 3
             labels_col = 2 + col_index * 3
@@ -724,9 +724,9 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
             line.title = _('Parameters') + ' - ' + \
                 parameters_ws.cell(row=parameters_table_start_row_number, column=data_col).value
             labels = Reference(parameters_ws, min_col=labels_col, min_row=parameters_table_start_row_number + 1,
-                               max_row=(len(parameters_data1['timestamps'][i]) + parameters_table_start_row_number))
+                               max_row=(len(parameters_data2['timestamps'][i]) + parameters_table_start_row_number))
             line_data = Reference(parameters_ws, min_col=data_col, min_row=parameters_table_start_row_number,
-                                  max_row=(len(parameters_data1['timestamps'][i]) + parameters_table_start_row_number))
+                                  max_row=(len(parameters_data2['timestamps'][i]) + parameters_table_start_row_number))
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
             line_data = line.series[0]

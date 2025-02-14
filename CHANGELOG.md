@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed google map issue
 - fixed redundant assignment
 - fixed variable defined multiple times
+- fixed meter comparison issue in myems-api
 ### Removed
 - removed console.log from myems-web and myems-admin
 
