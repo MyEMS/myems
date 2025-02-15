@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added portuguese language
 ### Changed
 - updated notification in myems-web
+- updated realtime data title in myems-web
 ### Fixed
 - fixed google map issue
 - fixed redundant assignment
