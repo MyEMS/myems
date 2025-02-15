@@ -195,6 +195,10 @@ def worker(virtual_point):
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
     except Exception as e:
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
         print("Error in step 3 of virtual point worker " + str(e))
         return "Error in step 3 of virtual point worker " + str(e)
 
@@ -212,8 +216,7 @@ def worker(virtual_point):
         for row in rows_points:
             all_point_dict[row[0]] = row[1]
     except Exception as e:
-        print("Error in step 1 of virtual point calculate " + str(e))
-        return "Error in step 3.2 of virtual point worker for '" + virtual_point['name'] + "'"
+        return "Error in step 3.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
     finally:
         if cursor_system_db:
             cursor_system_db.close()

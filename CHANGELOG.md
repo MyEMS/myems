@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed redundant assignment
 - fixed variable defined multiple times
 - fixed meter comparison issue in myems-api
+- fixed explicit returns mixed with implicit (fall through) returns
 ### Removed
 - removed console.log from myems-web and myems-admin
 
