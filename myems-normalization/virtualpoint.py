@@ -195,12 +195,12 @@ def worker(virtual_point):
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
     except Exception as e:
-        print("Error in step 3 of virtual point worker " + str(e))
         if cursor_system_db:
             cursor_system_db.close()
         if cnx_system_db:
             cnx_system_db.close()
-        return
+        print("Error in step 3 of virtual point worker " + str(e))
+        return "Error in step 3 of virtual point worker " + str(e)
 
     print("Connected to MyEMS System Database")
 
@@ -211,13 +211,12 @@ def worker(virtual_point):
         rows_points = cursor_system_db.fetchall()
 
         if rows_points is None or len(rows_points) == 0:
-            return
+            return "Error in step 3.1 of virtual point worker for '" + virtual_point['name'] + "'"
 
         for row in rows_points:
             all_point_dict[row[0]] = row[1]
     except Exception as e:
-        print("Error in step 1 of virtual point calculate " + str(e))
-        return
+        return "Error in step 3.2 virtual point worker " + str(e) + " for '" + virtual_point['name'] + "'"
     finally:
         if cursor_system_db:
             cursor_system_db.close()
