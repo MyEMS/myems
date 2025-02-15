@@ -164,7 +164,7 @@ class RealtimeData extends Component {
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
               style={{ borderColor: listItemBorderColor }}
             >
-              <p className="mb-0">{t('Operating Characteristic Curve')}</p>
+              <p className="mb-0">{t('Point')}</p>
               <p className="mb-0">{t('Realtime Value')}</p>
             </ListGroupItem>
             {this.state.pointList.map(pointItem => (
