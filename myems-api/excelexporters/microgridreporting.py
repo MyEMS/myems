@@ -1,14 +1,8 @@
 import base64
 from core.utilities import get_translation
 import os
-import re
 import uuid
-import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
-from openpyxl.chart import LineChart, Reference
-from openpyxl.chart.label import DataLabelList
-from openpyxl.drawing.image import Image
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 
 
 ########################################################################################################################
