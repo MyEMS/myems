@@ -361,6 +361,16 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           });
           time_of_use_value_list.push(time_of_use_value);
 
+          //deep
+          time_of_use_value = {};
+          time_of_use_value['id'] = time_of_use_value_list.length;
+
+          time_of_use_value['reportingPeriodDatetime'] = '深谷';
+          json['reporting_period']['deeps'].forEach((currentValue, index) => {
+            time_of_use_value['b' + index] = currentValue;
+          });
+          time_of_use_value_list.push(time_of_use_value);
+
           time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 

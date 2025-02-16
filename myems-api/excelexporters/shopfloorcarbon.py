@@ -304,7 +304,8 @@ def generate_excel(report,
             wssum = round(reporting_period_data['toppeaks'][electricity_index], 2) + \
                     round(reporting_period_data['onpeaks'][electricity_index], 2) + \
                     round(reporting_period_data['midpeaks'][electricity_index], 2) + \
-                    round(reporting_period_data['offpeaks'][electricity_index], 2)
+                    round(reporting_period_data['offpeaks'][electricity_index], 2) + \
+                    round(reporting_period_data['deeps'][electricity_index], 2)
 
         ws['B15'].font = title_font
         ws['B15'].alignment = c_c_alignment

@@ -31,8 +31,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Top-peak',
                     ONPEAK: 'On-peak',
+                    MIDPEAK: 'Mid-peak',
                     OFFPEAK: 'Off-peak',
-                    MIDPEAK: 'Mid-peak'
+                    DEEP: 'Deep-Valley'
                 },
                 QR_CODE: 'QR Code',
                 WORKING_CALENDAR: 'Working Calendar',
@@ -1948,8 +1949,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: '尖',
                     ONPEAK: '峰',
+                    MIDPEAK: '平',
                     OFFPEAK: '谷',
-                    MIDPEAK: '平'
+                    DEEP: '深谷'
                 },
                 QR_CODE: "二维码",
                 WORKING_CALENDAR: '工作日历',
@@ -3868,8 +3870,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Trinkgeld',
                     ONPEAK: 'Gipfel',
+                    MIDPEAK: 'Niveau',
                     OFFPEAK: 'Senke',
-                    MIDPEAK: 'Niveau'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'QR Code',
                 WORKING_CALENDAR: 'Arbeitskalender',
@@ -5786,8 +5789,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Sommet-sommet',
                     ONPEAK: 'En pointe',
+                    MIDPEAK: 'Milieu de pointe',
                     OFFPEAK: 'Heures creuses',
-                    MIDPEAK: 'Milieu de pointe'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Code QR',
                 WORKING_CALENDAR: 'Calendrier de travail',
@@ -7703,8 +7707,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Pico superior',
                     ONPEAK: 'En pico',
+                    MIDPEAK: 'Pico medio',
                     OFFPEAK: 'Fuera de las horas pico',
-                    MIDPEAK: 'Pico medio'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Código QR',
                 WORKING_CALENDAR: 'Calendario de trabajo',
@@ -9620,8 +9625,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Топ-пик',
                     ONPEAK: 'На пике',
+                    MIDPEAK: 'Средний пик',
                     OFFPEAK: 'Вне пика',
-                    MIDPEAK: 'Средний пик'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Код QR',
                 WORKING_CALENDAR: 'Рабочий календарь',
@@ -11538,8 +11544,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'قمة القمة',
                     ONPEAK: 'في أوقات الذروة',
+                    MIDPEAK: 'منتصف الذروة',
                     OFFPEAK: 'خارج أوقات الذروة',
-                    MIDPEAK: 'منتصف الذروة'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'رمز ريال قطري',
                 WORKING_CALENDAR: 'تقويم العمل',
@@ -13455,8 +13462,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Đỉnh cao nhất',
                     ONPEAK: 'Vào giờ cao điểm',
+                    MIDPEAK: 'Giữa đỉnh',
                     OFFPEAK: 'Ngoài giờ cao điểm',
-                    MIDPEAK: 'Giữa đỉnh'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Mã QR',
                 WORKING_CALENDAR: 'Lịch làm việc',
@@ -15372,8 +15380,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'จุดสูงสุด',
                     ONPEAK: 'ออนพีค',
+                    MIDPEAK: 'กลางยอดเขา',
                     OFFPEAK: 'นอกจุดสูงสุด',
-                    MIDPEAK: 'กลางยอดเขา'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'รหัส QR',
                 WORKING_CALENDAR: 'ปฏิทินการทํางาน',
@@ -17287,8 +17296,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Üst düzey zirve',
                     ONPEAK: 'Zirvede',
+                    MIDPEAK: 'Orta zirve',
                     OFFPEAK: 'Yoğun olmayan saatler',
-                    MIDPEAK: 'Orta zirve'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'QR Kodu',
                 WORKING_CALENDAR: 'Çalışma Takvimi',
@@ -19203,8 +19213,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Puncak atas',
                     ONPEAK: 'Pada puncak',
+                    MIDPEAK: 'Pertengahan puncak',
                     OFFPEAK: 'Di luar puncak',
-                    MIDPEAK: 'Pertengahan puncak'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Kod QR',
                 WORKING_CALENDAR: 'Kalendar Kerja',
@@ -21119,8 +21130,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Puncak teratas',
                     ONPEAK: 'Puncak',
+                    MIDPEAK: 'Pertengahan puncak',
                     OFFPEAK: 'Di luar jam sibuk',
-                    MIDPEAK: 'Pertengahan puncak'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Kode QR',
                 WORKING_CALENDAR: 'Kalender Kerja',
@@ -23035,8 +23047,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: '尖',
                     ONPEAK: '峰',
+                    MIDPEAK: '平',
                     OFFPEAK: '⾕',
-                    MIDPEAK: '平'
+                    DEEP: '深谷'
                 },
                 QR_CODE: "⼆維碼",
                 WORKING_CALENDAR: '⼯作⽇歷',
@@ -24959,8 +24972,9 @@ function config($translateProvider) {
                 TARIFF: {
                     TOPPEAK: 'Top-pico',
                     ONPEAK: 'No pico',
+                    MIDPEAK: 'Meio-pico',
                     OFFPEAK: 'Off-pico',
-                    MIDPEAK: 'Meio-pico'
+                    DEEP: 'Deep Valley'
                 },
                 QR_CODE: 'Código QR',
                 WORKING_CALENDAR: 'Calendário de trabalho',

@@ -69,6 +69,9 @@ msgstr "Flat"
 msgid "OffPeak"
 msgstr "Valley"
 
+msgid "Deep"
+msgstr "a ravine"
+
 msgid "Ton of Standard Coal(TCE) by Energy Category"
 msgstr "Tons of Standard Coal (TCE) Ratio"
 
