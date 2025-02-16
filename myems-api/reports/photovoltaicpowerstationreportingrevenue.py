@@ -263,6 +263,7 @@ class Reporting:
             meter_report['onpeak'] = Decimal(0.0)
             meter_report['midpeak'] = Decimal(0.0)
             meter_report['offpeak'] = Decimal(0.0)
+            meter_report['deep'] = Decimal(0.0)
 
             for row_periodically in rows_meter_periodically:
                 current_datetime_local = row_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -297,6 +298,8 @@ class Reporting:
                     meter_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meter_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meter_report['deep'] += row[1]
 
             meta_report_list.append(meter_report)
 
@@ -330,6 +333,7 @@ class Reporting:
             meter_report['onpeak'] = Decimal(0.0)
             meter_report['midpeak'] = Decimal(0.0)
             meter_report['offpeak'] = Decimal(0.0)
+            meter_report['deep'] = Decimal(0.0)
 
             for row_periodically in rows_meter_periodically:
                 current_datetime_local = row_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -364,6 +368,8 @@ class Reporting:
                     meter_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meter_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meter_report['deep'] += row[1]
 
             meta_report_list.append(meter_report)
         ################################################################################################################
@@ -396,6 +402,7 @@ class Reporting:
             meter_report['onpeak'] = Decimal(0.0)
             meter_report['midpeak'] = Decimal(0.0)
             meter_report['offpeak'] = Decimal(0.0)
+            meter_report['deep'] = Decimal(0.0)
 
             for row_periodically in rows_meter_periodically:
                 current_datetime_local = row_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -430,6 +437,8 @@ class Reporting:
                     meter_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meter_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meter_report['deep'] += row[1]
 
             meta_report_list.append(meter_report)
         ################################################################################################################
@@ -462,6 +471,7 @@ class Reporting:
             meter_report['onpeak'] = Decimal(0.0)
             meter_report['midpeak'] = Decimal(0.0)
             meter_report['offpeak'] = Decimal(0.0)
+            meter_report['deep'] = Decimal(0.0)
 
             for row_periodically in rows_meter_periodically:
                 current_datetime_local = row_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -496,6 +506,8 @@ class Reporting:
                     meter_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meter_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meter_report['deep'] += row[1]
 
             meta_report_list.append(meter_report)
 
@@ -530,6 +542,7 @@ class Reporting:
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
         result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
 
         if meta_report_list is not None and len(meta_report_list) > 0:
             for meter_report in meta_report_list:
@@ -543,6 +556,7 @@ class Reporting:
                 result['reporting_period']['onpeaks'].append(meter_report['onpeak'])
                 result['reporting_period']['midpeaks'].append(meter_report['midpeak'])
                 result['reporting_period']['offpeaks'].append(meter_report['offpeak'])
+                result['reporting_period']['deeps'].append(meter_report['deep'])
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:

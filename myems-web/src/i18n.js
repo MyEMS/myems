@@ -381,6 +381,7 @@ const resources = {
       'On-Peak': 'On-Peak',
       'Mid-Peak': 'Mid-Peak',
       'Off-Peak': 'Off-Peak',
+      'Deep': 'Deep-Valley',
       Percentage: 'Percentage',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Trend in the last hour of Energy Value Point',
@@ -1588,6 +1589,7 @@ const resources = {
       'On-Peak': '峰',
       'Mid-Peak': '平',
       'Off-Peak': '谷',
+      'Deep': '深谷',
       Percentage: '百分比',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': '能耗值点最近一小时趋势',
@@ -2822,6 +2824,7 @@ const resources = {
       'On-Peak': 'On-Peak',
       'Mid-Peak': 'Mid-Peak',
       'Off-Peak': 'Off-Peak',
+      'Deep': 'Deep-Valley',
       Percentage: 'Prozentsatz',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Trend in der letzten Stunde des Energiewertpunkts',
@@ -4079,6 +4082,7 @@ const resources = {
       'On-Peak': 'On-Peak',
       'Mid-Peak': 'Mid-Peak',
       'Off-Peak': 'Off-Peak',
+      'Deep': 'Deep-Valley',
       Percentage: 'Pourcentage',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Tendance dans la dernière heure d’Energy Value Point',
@@ -5324,6 +5328,7 @@ const resources = {
       'On-Peak': 'En horas pico',
       'Mid-Peak': 'Pico medio',
       'Off-Peak': 'Fuera de las horas pico',
+      'Deep': 'Deep-Valley',
       Percentage: 'Porcentaje',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Tendencia en la última hora de Energy Value Point',
@@ -6568,6 +6573,7 @@ const resources = {
       'On-Peak': 'На пике',
       'Mid-Peak': 'Мид-Пик',
       'Off-Peak': 'Вне пика',
+      'Deep': 'Deep-Valley',
       Percentage: 'Процент',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Тренд в последний час Energy Value Point',
@@ -7805,6 +7811,7 @@ const resources = {
       'On-Peak': 'في أوقات الذروة',
       'Mid-Peak': 'منتصف الذروة',
       'Off-Peak': 'خارج أوقات الذروة',
+      'Deep': 'Deep-Valley',
       Percentage: 'النسبه المئويه',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'الاتجاه في الساعة الأخيرة من نقطة قيمة الطاقة',
@@ -9033,6 +9040,7 @@ const resources = {
       'On-Peak': 'Vào giờ cao điểm',
       'Mid-Peak': 'Giữa giờ cao điểm',
       'Off-Peak': 'Ngoài giờ cao điểm',
+      'Deep': 'Deep-Valley',
       Percentage: 'Tỷ lệ phần trăm',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Xu hướng trong giờ cuối cùng của Điểm giá trị năng lượng',
@@ -10269,6 +10277,7 @@ const resources = {
       'On-Peak': 'ออนพีค',
       'Mid-Peak': 'มิดพีค',
       'Off-Peak': 'ออฟพีค',
+      'Deep': 'Deep-Valley',
       Percentage: 'อัตราร้อยละ',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'แนวโน้มในชั่วโมงสุดท้ายของ Energy Value Point',
@@ -11496,6 +11505,7 @@ const resources = {
       'On-Peak': 'Zirvede',
       'Mid-Peak': 'Orta Tepe Noktası',
       'Off-Peak': 'Peak',
+      'Deep': 'Deep-Valley',
       Percentage: 'Yüzde',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Enerji Değer Noktasının son saatindeki eğilim',
@@ -12733,6 +12743,7 @@ const resources = {
       'On-Peak': 'On-Peak',
       'Mid-Peak': 'Pertengahan Puncak',
       'Off-Peak': 'Luar Puncak',
+      'Deep': 'Deep-Valley',
       Percentage: 'Peratusan',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Trend pada jam terakhir Titik Nilai Tenaga',
@@ -13972,6 +13983,7 @@ const resources = {
       'On-Peak': 'Puncak',
       'Mid-Peak': 'Flat',
       'Off-Peak': 'Lembah',
+      'Deep': 'Deep-Valley',
       Percentage: 'Persentase',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Tenderasi Titik Konsumsi Energi Dalam Jam Terakhir',
@@ -15203,6 +15215,7 @@ const resources = {
       'On-Peak': '峰',
       'Mid-Peak': '平',
       'Off-Peak': '⾕',
+      'Deep': '深谷',
       Percentage: '百分比',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': '能耗值點最近⼀⼩時趨勢',
@@ -16460,6 +16473,7 @@ const resources = {
       'On-Peak': 'No pico',
       'Mid-Peak': 'Meio-pico',
       'Off-Peak': 'Off-pico',
+      'Deep': 'Deep-Valley',
       Percentage: 'Percentagem',
       //Realtime Chart
       'Trend in the last hour of Energy Value Point': 'Tendência na última hora de Energy Value Point',

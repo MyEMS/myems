@@ -611,6 +611,8 @@ class Reporting:
                     peak_type = 'Mid-Peak'
                 elif row_schedule[2] == 'offpeak':
                     peak_type = 'Off-Peak'
+                elif row_schedule[2] == 'deep':
+                    peak_type = 'Deep-Valley'
                 else:
                     peak_type = 'Unknown'
 

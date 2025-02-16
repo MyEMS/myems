@@ -357,6 +357,7 @@ class Reporting:
                 reporting[energy_category_id]['onpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting[energy_category_id]['deep'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_equipment_input_category_hourly "
@@ -411,6 +412,8 @@ class Reporting:
                         reporting[energy_category_id]['midpeak'] += row[1]
                     elif peak_type == 'offpeak':
                         reporting[energy_category_id]['offpeak'] += row[1]
+                    elif peak_type == 'deep':
+                        reporting[energy_category_id]['deep'] += row[1]
 
         ################################################################################################################
         # Step 6: query tariff data
@@ -565,6 +568,7 @@ class Reporting:
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
         result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
         result['reporting_period']['increment_rates'] = list()
         result['reporting_period']['total_in_kgce'] = Decimal(0.0)
         result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
@@ -587,6 +591,7 @@ class Reporting:
                 result['reporting_period']['onpeaks'].append(reporting[energy_category_id]['onpeak'])
                 result['reporting_period']['midpeaks'].append(reporting[energy_category_id]['midpeak'])
                 result['reporting_period']['offpeaks'].append(reporting[energy_category_id]['offpeak'])
+                result['reporting_period']['deeps'].append(reporting[energy_category_id]['deep'])
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']

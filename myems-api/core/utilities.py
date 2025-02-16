@@ -248,7 +248,7 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
 
 ########################################################################################################################
 # Get peak types of tariff by energy category
-# peak types: toppeak, onpeak, midpeak, offpeak
+# peak types: toppeak, onpeak, midpeak, offpeak, deep
 ########################################################################################################################
 def get_energy_category_peak_types(cost_center_id, energy_category_id, start_datetime_utc, end_datetime_utc):
     # todo: validate parameters

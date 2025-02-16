@@ -300,6 +300,7 @@ class Reporting:
         reporting['onpeak'] = Decimal(0.0)
         reporting['midpeak'] = Decimal(0.0)
         reporting['offpeak'] = Decimal(0.0)
+        reporting['deep'] = Decimal(0.0)
 
         for row_meter_periodically in rows_meter_periodically:
             current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -343,6 +344,8 @@ class Reporting:
                 reporting['midpeak'] += row_meter_hourly[1]
             elif peak_type == 'offpeak':
                 reporting['offpeak'] += row_meter_hourly[1]
+            elif peak_type == 'deep':
+                reporting['deep'] += row_meter_hourly[1]
         ################################################################################################################
         # Step 6: query tariff data
         ################################################################################################################
@@ -480,6 +483,7 @@ class Reporting:
                 "onpeak": reporting['onpeak'],
                 "midpeak": reporting['midpeak'],
                 "offpeak": reporting['offpeak'],
+                "deep": reporting['deep'],
                 "timestamps": reporting['timestamps'],
                 "values": reporting['values'],
                 "rates": reporting['rates'],

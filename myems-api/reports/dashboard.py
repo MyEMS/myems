@@ -480,6 +480,7 @@ class Reporting:
                 reporting_input[energy_category_id]['onpeak'] = Decimal(0.0)
                 reporting_input[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting_input[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting_input[energy_category_id]['deep'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_space_input_category_hourly "
@@ -533,6 +534,8 @@ class Reporting:
                         reporting_input[energy_category_id]['midpeak'] += row[1]
                     elif peak_type == 'offpeak':
                         reporting_input[energy_category_id]['offpeak'] += row[1]
+                    elif peak_type == 'deep':
+                        reporting_input[energy_category_id]['deep'] += row[1]
 
         ################################################################################################################
         # Step 9: query reporting period energy cost
@@ -549,6 +552,7 @@ class Reporting:
                 reporting_cost[energy_category_id]['onpeak'] = Decimal(0.0)
                 reporting_cost[energy_category_id]['midpeak'] = Decimal(0.0)
                 reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
 
                 cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
                                        " FROM tbl_space_input_category_hourly "
@@ -600,6 +604,8 @@ class Reporting:
                         reporting_cost[energy_category_id]['midpeak'] += row[1]
                     elif peak_type == 'offpeak':
                         reporting_cost[energy_category_id]['offpeak'] += row[1]
+                    elif peak_type == 'deep':
+                        reporting_cost[energy_category_id]['deep'] += row[1]
 
         ################################################################################################################
         # Step 10: query child spaces energy input
@@ -795,6 +801,7 @@ class Reporting:
         result['reporting_period_input']['onpeaks'] = list()
         result['reporting_period_input']['midpeaks'] = list()
         result['reporting_period_input']['offpeaks'] = list()
+        result['reporting_period_input']['deeps'] = list()
         result['reporting_period_input']['increment_rates'] = list()
         result['reporting_period_input']['total_in_kgce'] = Decimal(0.0)
         result['reporting_period_input']['total_in_kgco2e'] = Decimal(0.0)
@@ -831,6 +838,8 @@ class Reporting:
                     reporting_input[energy_category_id]['midpeak'])
                 result['reporting_period_input']['offpeaks'].append(
                     reporting_input[energy_category_id]['offpeak'])
+                result['reporting_period_input']['deeps'].append(
+                    reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
                     (reporting_input[energy_category_id]['subtotal'] -
                      base_input[energy_category_id]['subtotal']) /
@@ -878,6 +887,7 @@ class Reporting:
         result['reporting_period_cost']['onpeaks'] = list()
         result['reporting_period_cost']['midpeaks'] = list()
         result['reporting_period_cost']['offpeaks'] = list()
+        result['reporting_period_cost']['deeps'] = list()
         result['reporting_period_cost']['increment_rates'] = list()
         result['reporting_period_cost']['total'] = Decimal(0.0)
         result['reporting_period_cost']['total_per_unit_area'] = Decimal(0.0)
@@ -910,6 +920,8 @@ class Reporting:
                     reporting_cost[energy_category_id]['midpeak'])
                 result['reporting_period_cost']['offpeaks'].append(
                     reporting_cost[energy_category_id]['offpeak'])
+                result['reporting_period_cost']['deeps'].append(
+                    reporting_cost[energy_category_id]['deep'])
                 result['reporting_period_cost']['increment_rates'].append(
                     (reporting_cost[energy_category_id]['subtotal'] -
                      base_cost[energy_category_id]['subtotal']) /

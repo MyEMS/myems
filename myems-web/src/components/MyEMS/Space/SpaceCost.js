@@ -466,6 +466,13 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
               timeOfUseItem['value'] = json['reporting_period']['offpeaks'][index];
               timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
               timeOfUseArray.push(timeOfUseItem);
+
+              timeOfUseItem = {};
+              timeOfUseItem['id'] = 5;
+              timeOfUseItem['name'] = t('Deep');
+              timeOfUseItem['value'] = json['reporting_period']['deeps'][index];
+              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+              timeOfUseArray.push(timeOfUseItem);
             }
           });
           setTimeOfUseShareData(timeOfUseArray);

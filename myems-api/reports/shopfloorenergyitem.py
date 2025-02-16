@@ -364,6 +364,7 @@ class Reporting:
                 reporting[energy_item_id]['onpeak'] = Decimal(0.0)
                 reporting[energy_item_id]['midpeak'] = Decimal(0.0)
                 reporting[energy_item_id]['offpeak'] = Decimal(0.0)
+                reporting[energy_item_id]['deep'] = Decimal(0.0)
 
                 cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                       " FROM tbl_shopfloor_input_item_hourly "
@@ -417,6 +418,8 @@ class Reporting:
                         reporting[energy_item_id]['midpeak'] += row[1]
                     elif peak_type == 'offpeak':
                         reporting[energy_item_id]['offpeak'] += row[1]
+                    elif peak_type == 'deep':
+                        reporting[energy_item_id]['deep'] += row[1]
 
         ################################################################################################################
         # Step 8: query tariff data
@@ -563,6 +566,7 @@ class Reporting:
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
         result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
         result['reporting_period']['increment_rates'] = list()
 
         if energy_item_set is not None and len(energy_item_set) > 0:
@@ -583,6 +587,7 @@ class Reporting:
                 result['reporting_period']['onpeaks'].append(reporting[energy_item_id]['onpeak'])
                 result['reporting_period']['midpeaks'].append(reporting[energy_item_id]['midpeak'])
                 result['reporting_period']['offpeaks'].append(reporting[energy_item_id]['offpeak'])
+                result['reporting_period']['deeps'].append(reporting[energy_item_id]['deep'])
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_item_id]['subtotal'] - base[energy_item_id]['subtotal']) /
                     base[energy_item_id]['subtotal']

@@ -258,6 +258,7 @@ class Reporting:
             meta_report['onpeak'] = Decimal(0.0)
             meta_report['midpeak'] = Decimal(0.0)
             meta_report['offpeak'] = Decimal(0.0)
+            meta_report['deep'] = Decimal(0.0)
 
             for row_meter_periodically in rows_meter_periodically:
                 current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -292,6 +293,8 @@ class Reporting:
                     meta_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meta_report['deep'] += row[1]
 
             meta_report_list.append(meta_report)
 
@@ -324,6 +327,7 @@ class Reporting:
             meta_report['onpeak'] = Decimal(0.0)
             meta_report['midpeak'] = Decimal(0.0)
             meta_report['offpeak'] = Decimal(0.0)
+            meta_report['deep'] = Decimal(0.0)
 
             for row_meter_periodically in rows_meter_periodically:
                 current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -358,6 +362,8 @@ class Reporting:
                     meta_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meta_report['deep'] += row[1]
 
             meta_report_list.append(meta_report)
 
@@ -390,6 +396,7 @@ class Reporting:
             meta_report['onpeak'] = Decimal(0.0)
             meta_report['midpeak'] = Decimal(0.0)
             meta_report['offpeak'] = Decimal(0.0)
+            meta_report['deep'] = Decimal(0.0)
 
             for row_meter_periodically in rows_meter_periodically:
                 current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -424,6 +431,8 @@ class Reporting:
                     meta_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meta_report['deep'] += row[1]
 
             meta_report_list.append(meta_report)
 
@@ -456,6 +465,7 @@ class Reporting:
             meta_report['onpeak'] = Decimal(0.0)
             meta_report['midpeak'] = Decimal(0.0)
             meta_report['offpeak'] = Decimal(0.0)
+            meta_report['deep'] = Decimal(0.0)
 
             for row_meter_periodically in rows_meter_periodically:
                 current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -490,6 +500,8 @@ class Reporting:
                     meta_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meta_report['deep'] += row[1]
 
             meta_report_list.append(meta_report)
 
@@ -522,6 +534,7 @@ class Reporting:
             meta_report['onpeak'] = Decimal(0.0)
             meta_report['midpeak'] = Decimal(0.0)
             meta_report['offpeak'] = Decimal(0.0)
+            meta_report['deep'] = Decimal(0.0)
 
             for row_meter_periodically in rows_meter_periodically:
                 current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -556,6 +569,8 @@ class Reporting:
                     meta_report['midpeak'] += row[1]
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                elif peak_type == 'deep':
+                    meta_report['deep'] += row[1]
 
             meta_report_list.append(meta_report)
 
@@ -590,6 +605,7 @@ class Reporting:
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
         result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
 
         if meta_report_list is not None and len(meta_report_list) > 0:
             for meta_report in meta_report_list:
@@ -603,6 +619,7 @@ class Reporting:
                 result['reporting_period']['onpeaks'].append(meta_report['onpeak'])
                 result['reporting_period']['midpeaks'].append(meta_report['midpeak'])
                 result['reporting_period']['offpeaks'].append(meta_report['offpeak'])
+                result['reporting_period']['deeps'].append(meta_report['deep'])
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:

@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added portuguese language
+- added deep valley to time-of-use tariff 
 ### Changed
 - updated notification in myems-web
 - updated realtime data title in myems-web
