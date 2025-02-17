@@ -1473,6 +1473,7 @@ app
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/svg/svg.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
                                                     'app/services/users/user/user.service.js',
                                                     'app/controllers/settings/energystoragepowerstation/energystoragepowerstation.master.controller.js',
