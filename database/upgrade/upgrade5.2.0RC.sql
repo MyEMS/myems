@@ -28,6 +28,71 @@ MODIFY COLUMN `peak_type` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unico
 COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷\ndeep - Deep-Valley深谷'
 AFTER `end_time_of_day`;
 
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `longitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `latitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `svg5_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `svg4_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `svg3_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `svg2_id` BIGINT AFTER `svg_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `longitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `latitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `svg5_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `svg4_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `svg3_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `svg2_id` BIGINT AFTER `svg_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `longitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `latitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `svg5_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `svg4_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `svg3_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `svg2_id` BIGINT AFTER `svg_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `longitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `latitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `svg5_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `svg4_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `svg3_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `svg2_id` BIGINT AFTER `svg_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `longitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `latitude_point_id` BIGINT AFTER `longitude`;
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `svg5_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `svg4_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `svg3_id` BIGINT AFTER `svg_id`;
+ALTER TABLE `myems_system_db`.`tbl_wind_farms`
+ADD COLUMN `svg2_id` BIGINT AFTER `svg_id`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.2.0RC', release_date='2025-02-15' WHERE id=1;
 

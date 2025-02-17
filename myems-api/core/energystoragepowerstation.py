@@ -22,32 +22,31 @@ class EnergyStoragePowerStationCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # query contact dict
+        contact_dict = dict()
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
         rows_contacts = cursor.fetchall()
-
-        contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
                 contact_dict[row[0]] = {"id": row[0],
                                         "name": row[1],
                                         "uuid": row[2]}
-
+        # query cost center dict
+        cost_center_dict = dict()
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor.execute(query)
         rows_cost_centers = cursor.fetchall()
-
-        cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        # query svg dict
         svg_dict = dict()
-
         query = (" SELECT id, name, uuid "
                  " FROM tbl_svgs ")
         cursor.execute(query)
@@ -58,9 +57,21 @@ class EnergyStoragePowerStationCollection:
                                     "name": row[1],
                                     "uuid": row[2]}
 
+        # query point dict
+        point_dict = dict()
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
+                 "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_energy_storage_power_stations "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -84,6 +95,12 @@ class EnergyStoragePowerStationCollection:
                                "is_cost_data_displayed": bool(row[12]),
                                "phase_of_lifecycle": row[13],
                                "description": row[14],
+                               "latitude_point": point_dict.get(row[15], None),
+                               "longitude_point": point_dict.get(row[16], None),
+                               "svg2": svg_dict.get(row[17], None),
+                               "svg3": svg_dict.get(row[18], None),
+                               "svg4": svg_dict.get(row[19], None),
+                               "svg5": svg_dict.get(row[20], None),
                                "qrcode": 'energystoragepowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -201,6 +218,35 @@ class EnergyStoragePowerStationCollection:
         else:
             description = None
 
+        if 'latitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['latitude_point_id'], int) and \
+                new_values['data']['latitude_point_id'] > 0:
+            latitude_point_id = new_values['data']['latitude_point_id']
+
+        if 'longitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['longitude_point_id'], int) and \
+                new_values['data']['longitude_point_id'] > 0:
+            longitude_point_id = new_values['data']['longitude_point_id']
+
+        if 'svg2_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg2_id'], int) and \
+                new_values['data']['svg2_id'] > 0:
+            svg2_id = new_values['data']['svg2_id']
+        if 'svg3_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg3_id'], int) and \
+                new_values['data']['svg3_id'] > 0:
+            svg3_id = new_values['data']['svg3_id']
+
+        if 'svg4_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg4_id'], int) and \
+                new_values['data']['svg4_id'] > 0:
+            svg4_id = new_values['data']['svg4_id']
+
+        if 'svg5_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg5_id'], int) and \
+                new_values['data']['svg5_id'] > 0:
+            svg5_id = new_values['data']['svg5_id']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -248,8 +294,9 @@ class EnergyStoragePowerStationCollection:
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
                       " (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "  contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "  contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
+                      "  latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id ) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -263,7 +310,13 @@ class EnergyStoragePowerStationCollection:
                                     svg_id,
                                     is_cost_data_displayed,
                                     phase_of_lifecycle,
-                                    description))
+                                    description,
+                                    latitude_point_id,
+                                    longitude_point_id,
+                                    svg2_id,
+                                    svg3_id,
+                                    svg4_id,
+                                    svg5_id))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -292,24 +345,22 @@ class EnergyStoragePowerStationItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        contact_dict = dict()
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
         rows_contacts = cursor.fetchall()
-
-        contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
                 contact_dict[row[0]] = {"id": row[0],
                                         "name": row[1],
                                         "uuid": row[2]}
 
+        cost_center_dict = dict()
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor.execute(query)
         rows_cost_centers = cursor.fetchall()
-
-        cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
                 cost_center_dict[row[0]] = {"id": row[0],
@@ -317,7 +368,6 @@ class EnergyStoragePowerStationItem:
                                             "uuid": row[2]}
 
         svg_dict = dict()
-
         query = (" SELECT id, name, uuid "
                  " FROM tbl_svgs ")
         cursor.execute(query)
@@ -328,9 +378,21 @@ class EnergyStoragePowerStationItem:
                                     "name": row[1],
                                     "uuid": row[2]}
 
+        # query point dict
+        point_dict = dict()
+        query = (" SELECT id, name "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows_points = cursor.fetchall()
+        if rows_points is not None and len(rows_points) > 0:
+            for row in rows_points:
+                point_dict[row[0]] = {"id": row[0],
+                                      "name": row[1]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
+                 "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -357,6 +419,12 @@ class EnergyStoragePowerStationItem:
                            "is_cost_data_displayed": bool(row[12]),
                            "phase_of_lifecycle": row[13],
                            "description": row[14],
+                           "latitude_point": point_dict.get(row[15], None),
+                           "longitude_point": point_dict.get(row[16], None),
+                           "svg2": svg_dict.get(row[17], None),
+                           "svg3": svg_dict.get(row[18], None),
+                           "svg4": svg_dict.get(row[19], None),
+                           "svg5": svg_dict.get(row[20], None),
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -506,6 +574,35 @@ class EnergyStoragePowerStationItem:
         else:
             description = None
 
+        if 'latitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['latitude_point_id'], int) and \
+                new_values['data']['latitude_point_id'] > 0:
+            latitude_point_id = new_values['data']['latitude_point_id']
+
+        if 'longitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['longitude_point_id'], int) and \
+                new_values['data']['longitude_point_id'] > 0:
+            longitude_point_id = new_values['data']['longitude_point_id']
+
+        if 'svg2_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg2_id'], int) and \
+                new_values['data']['svg2_id'] > 0:
+            svg2_id = new_values['data']['svg2_id']
+        if 'svg3_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg3_id'], int) and \
+                new_values['data']['svg3_id'] > 0:
+            svg3_id = new_values['data']['svg3_id']
+
+        if 'svg4_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg4_id'], int) and \
+                new_values['data']['svg4_id'] > 0:
+            svg4_id = new_values['data']['svg4_id']
+
+        if 'svg5_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['svg5_id'], int) and \
+                new_values['data']['svg5_id'] > 0:
+            svg5_id = new_values['data']['svg5_id']
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -564,7 +661,9 @@ class EnergyStoragePowerStationItem:
                       " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s "
+                      "     svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s, "
+                      "     latitude_point_id = %s, longitude_point_id = %s, "
+                      "     svg2_id = %s, svg3_id = %s, svg4_id = %s, svg5_id = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
@@ -579,6 +678,12 @@ class EnergyStoragePowerStationItem:
                                     is_cost_data_displayed,
                                     phase_of_lifecycle,
                                     description,
+                                    latitude_point_id,
+                                    longitude_point_id,
+                                    svg2_id,
+                                    svg3_id,
+                                    svg4_id,
+                                    svg5_id,
                                     id_))
         cnx.commit()
 
