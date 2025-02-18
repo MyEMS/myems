@@ -222,30 +222,43 @@ class EnergyStoragePowerStationCollection:
                 isinstance(new_values['data']['latitude_point_id'], int) and \
                 new_values['data']['latitude_point_id'] > 0:
             latitude_point_id = new_values['data']['latitude_point_id']
+        else:
+            latitude_point_id = None
 
         if 'longitude_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['longitude_point_id'], int) and \
                 new_values['data']['longitude_point_id'] > 0:
             longitude_point_id = new_values['data']['longitude_point_id']
+        else:
+            longitude_point_id = None
 
         if 'svg2_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg2_id'], int) and \
                 new_values['data']['svg2_id'] > 0:
             svg2_id = new_values['data']['svg2_id']
+        else:
+            svg2_id = None
+
         if 'svg3_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg3_id'], int) and \
                 new_values['data']['svg3_id'] > 0:
             svg3_id = new_values['data']['svg3_id']
+        else:
+            svg3_id = None
 
         if 'svg4_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg4_id'], int) and \
                 new_values['data']['svg4_id'] > 0:
             svg4_id = new_values['data']['svg4_id']
+        else:
+            svg4_id = None
 
         if 'svg5_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg5_id'], int) and \
                 new_values['data']['svg5_id'] > 0:
             svg5_id = new_values['data']['svg5_id']
+        else:
+            svg5_id = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -578,30 +591,43 @@ class EnergyStoragePowerStationItem:
                 isinstance(new_values['data']['latitude_point_id'], int) and \
                 new_values['data']['latitude_point_id'] > 0:
             latitude_point_id = new_values['data']['latitude_point_id']
+        else:
+            latitude_point_id = None
 
         if 'longitude_point_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['longitude_point_id'], int) and \
                 new_values['data']['longitude_point_id'] > 0:
             longitude_point_id = new_values['data']['longitude_point_id']
+        else:
+            longitude_point_id = None
 
         if 'svg2_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg2_id'], int) and \
                 new_values['data']['svg2_id'] > 0:
             svg2_id = new_values['data']['svg2_id']
+        else:
+            svg2_id = None
+
         if 'svg3_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg3_id'], int) and \
                 new_values['data']['svg3_id'] > 0:
             svg3_id = new_values['data']['svg3_id']
+        else:
+            svg3_id = None
 
         if 'svg4_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg4_id'], int) and \
                 new_values['data']['svg4_id'] > 0:
             svg4_id = new_values['data']['svg4_id']
+        else:
+            svg4_id = None
 
         if 'svg5_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg5_id'], int) and \
                 new_values['data']['svg5_id'] > 0:
             svg5_id = new_values['data']['svg5_id']
+        else:
+            svg5_id = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
