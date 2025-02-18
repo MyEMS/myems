@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added portuguese language
 - added deep valley to time-of-use tariff 
 - added optional langitude point, latitude point and svgs to power stations
+- added hybrid power station
 ### Changed
 - updated notification in myems-web
 - updated realtime data title in myems-web
