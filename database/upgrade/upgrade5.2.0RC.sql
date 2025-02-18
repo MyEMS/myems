@@ -287,6 +287,96 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_users` (
 CREATE INDEX `tbl_hybrid_power_stations_users_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_users` (`hybrid_power_station_id`);
 
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_hybrid_power_station_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_charge_hourly_index_1`
+ ON `myems_energy_db`.`tbl_hybrid_power_station_charge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_hybrid_power_station_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_discharge_hourly_index_1`
+ ON `myems_energy_db`.`tbl_hybrid_power_station_discharge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_energy_db`.`tbl_hybrid_power_station_fuel_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_fuel_hourly_index_1`
+ ON `myems_energy_db`.`tbl_hybrid_power_station_fuel_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_hybrid_power_station_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_charge_hourly_index_1`
+ ON `myems_billing_db`.`tbl_hybrid_power_station_charge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_hybrid_power_station_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_discharge_hourly_index_1`
+ ON `myems_billing_db`.`tbl_hybrid_power_station_discharge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_billing_db`.`tbl_hybrid_power_station_fuel_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_fuel_hourly_index_1`
+ ON `myems_billing_db`.`tbl_hybrid_power_station_fuel_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_hybrid_power_station_charge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_charge_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_hybrid_power_station_charge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_hybrid_power_station_discharge_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_discharge_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_hybrid_power_station_discharge_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_hybrid_power_station_fuel_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `actual_value` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_station_fuel_hourly_index_1`
+ ON `myems_carbon_db`.`tbl_hybrid_power_station_fuel_hourly`
+ (`hybrid_power_station_id`, `start_datetime_utc`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.2.0RC', release_date='2025-02-15' WHERE id=1;
 
