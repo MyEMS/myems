@@ -2,7 +2,10 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.1.0</h1>
-<h4 align="center">领先的开源能源管理系统</h4>
+<h3 align="center">行业领先的开源能源管理系统</h3>
+<h6 align="center">承诺永久开源</h6>
+<h6 align="center">QQ群和微信群内技术支持免费</h6>
+<h6 align="center">保持更新，每个月1个小版本，每年1次大版本更新</h6>
 
  [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)

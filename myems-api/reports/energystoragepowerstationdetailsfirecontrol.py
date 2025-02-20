@@ -138,7 +138,7 @@ class Reporting:
             for row in rows:
                 units_dict[row[0]] = row[1]
         # query firecontrol parameters
-        hvac_list = list()
+        firecontrol_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT id, name, uuid, "
                                   "        water_immersion_point_id, "
@@ -224,7 +224,7 @@ class Reporting:
                     current_firecontrol['fire_extinguishing_device_status_point'] = \
                         (latest_value_dict.get(row[20], None),
                          units_dict.get(row[20], None))
-                    hvac_list.append(current_firecontrol)
+                    firecontrol_list.append(current_firecontrol)
 
         if cursor_system:
             cursor_system.close()
@@ -238,4 +238,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(hvac_list)
+        resp.text = json.dumps(firecontrol_list)
