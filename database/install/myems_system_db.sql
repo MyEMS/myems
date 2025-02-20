@@ -1029,6 +1029,10 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses` (
   `operating_status_point_id` BIGINT NOT NULL,
   `total_charge_energy_point_id` BIGINT NOT NULL,
   `total_discharge_energy_point_id` BIGINT NOT NULL,
+  `active_power_point_id` BIGINT NOT NULL,
+  `reactive_power_point_id` BIGINT NOT NULL,
+  `frequency_point_id` BIGINT NOT NULL,
+  `voltage_point_id` BIGINT NOT NULL,
   `phase_a_voltage_point_id` BIGINT NOT NULL,
   `phase_b_voltage_point_id` BIGINT NOT NULL,
   `phase_c_voltage_point_id` BIGINT NOT NULL,
@@ -2086,6 +2090,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_equipments` (
   `equipment_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_spaces_equipments_index_1` ON `myems_system_db`.`tbl_spaces_equipments` (`space_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_spaces_hybrid_power_stations`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_spaces_hybrid_power_stations` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_hybrid_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_hybrid_power_stations_index_1`
+ON `myems_system_db`.`tbl_spaces_hybrid_power_stations` (`space_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_spaces_meters`

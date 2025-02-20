@@ -242,6 +242,10 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses` (
   `operating_status_point_id` BIGINT NOT NULL,
   `total_charge_energy_point_id` BIGINT NOT NULL,
   `total_discharge_energy_point_id` BIGINT NOT NULL,
+  `active_power_point_id` BIGINT NOT NULL,
+  `reactive_power_point_id` BIGINT NOT NULL,
+  `frequency_point_id` BIGINT NOT NULL,
+  `voltage_point_id` BIGINT NOT NULL,
   `phase_a_voltage_point_id` BIGINT NOT NULL,
   `phase_b_voltage_point_id` BIGINT NOT NULL,
   `phase_c_voltage_point_id` BIGINT NOT NULL,
@@ -375,6 +379,14 @@ CREATE TABLE IF NOT EXISTS `myems_carbon_db`.`tbl_hybrid_power_station_fuel_hour
 CREATE INDEX `tbl_hybrid_power_station_fuel_hourly_index_1`
  ON `myems_carbon_db`.`tbl_hybrid_power_station_fuel_hourly`
  (`hybrid_power_station_id`, `start_datetime_utc`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_spaces_hybrid_power_stations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `space_id` BIGINT NOT NULL,
+  `hybrid_power_station_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_spaces_hybrid_power_stations_index_1`
+ON `myems_system_db`.`tbl_spaces_hybrid_power_stations` (`space_id`);
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.2.0RC', release_date='2025-02-15' WHERE id=1;
