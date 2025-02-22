@@ -38,16 +38,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}}</label>
-                <div class="col-sm-9">
-                    <input ng-model="energystoragepowerstation.latitude" type="number" name="energystoragepowerstationlatitude" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$invalid && form_energystoragepowerstation.energystoragepowerstationlatitude.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_LATITUDE' | translate}}</small>
-                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}}</label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.longitude" type="number" name="energystoragepowerstationlatitude" class="form-control" required>
@@ -58,9 +48,19 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}}</label>
                 <div class="col-sm-9">
-                    <ui-select ng-model="energystoragepowerstation.latitude_point.id" theme="bootstrap">
+                    <input ng-model="energystoragepowerstation.latitude" type="number" name="energystoragepowerstationlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$invalid && form_energystoragepowerstation.energystoragepowerstationlatitude.$dirty">
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$error.required">{{'ENERGY_STORAGE_POWER_STATION.INPUT_LATITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_energystoragepowerstation.energystoragepowerstationlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="energystoragepowerstation.longitude_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
@@ -69,9 +69,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <ui-select ng-model="energystoragepowerstation.longitude_point.id" theme="bootstrap">
+                    <ui-select ng-model="energystoragepowerstation.latitude_point.id" theme="bootstrap">
                         <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
