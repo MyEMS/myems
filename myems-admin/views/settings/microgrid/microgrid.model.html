@@ -38,22 +38,22 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.LATITUDE' | translate}}</label>
-                <div class="col-sm-9">
-                    <input ng-model="microgrid.latitude" type="number" name="microgridlatitude" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_microgrid.microgridlatitude.$invalid && form_microgrid.microgridlatitude.$dirty">
-                        <small class="text-danger" ng-show="form_microgrid.microgridlatitude.$error.required">{{'MICROGRID.INPUT_LATITUDE' | translate}}</small>
-                        <small class="text-danger" ng-show="form_microgrid.microgridlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.LONGITUDE' | translate}}</label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.longitude" type="number" name="microgridlatitude" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridlongitude.$invalid && form_microgrid.microgridlongitude.$dirty">
                         <small class="text-danger" ng-show="form_microgrid.microgridlongitude.$error.required">{{'MICROGRID.INPUT_LONGITUDE' | translate}}</small>
                         <small class="text-danger" ng-show="form_microgrid.microgridlongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'MICROGRID.LATITUDE' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="microgrid.latitude" type="number" name="microgridlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_microgrid.microgridlatitude.$invalid && form_microgrid.microgridlatitude.$dirty">
+                        <small class="text-danger" ng-show="form_microgrid.microgridlatitude.$error.required">{{'MICROGRID.INPUT_LATITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgrid.microgridlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
                     </div>
                 </div>
             </div>
