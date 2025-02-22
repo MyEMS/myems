@@ -160,6 +160,7 @@ Web UI:
 
 ![WhatsAPP: MyEMS](/docs/images/qr_code_whatsapp.png)
 
+![Feishu: 13011132526](/docs/images/qr_code_feishu.png)
 
 ## 微信公众号
 
