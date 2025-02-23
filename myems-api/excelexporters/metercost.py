@@ -521,16 +521,13 @@ def generate_excel(report,
                 line.add_data(base_line_data, titles_from_data=True)
                 line.add_data(reporting_line_data, titles_from_data=True)
                 line.set_categories(labels)
+                line.dLbls = None
                 for j in range(len(line.series)):
                     line.series[j].marker.symbol = "auto"
                     line.series[j].smooth = True
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = False
-                line.dLbls.showPercent = False
                 chart_col = 'B'
                 chart_cell = chart_col + str(table_start_draw_flag)
                 ws.add_chart(line, chart_cell)
