@@ -389,6 +389,6 @@ CREATE INDEX `tbl_spaces_hybrid_power_stations_index_1`
 ON `myems_system_db`.`tbl_spaces_hybrid_power_stations` (`space_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.2.0RC', release_date='2025-02-15' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.2.0', release_date='2025-02-25' WHERE id=1;
 
 COMMIT;

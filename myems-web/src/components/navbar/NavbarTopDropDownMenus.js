@@ -2,19 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import NavbarDropdown from './NavbarDropdown';
 import NavbarDropdownComponents from './NavbarDropdownComponents';
-// import {
-//   // authenticationRoutes,
-//   // chatRoutes,
-//   // componentRoutes,
-//   // ECommerceRoutes,
-//   // emailRoutes,
-//   // homeRoutes,
-//   // pageRoutes,
-//   // pluginRoutes,
-//   // utilityRoutes,
-//   // widgetsRoutes,
-//   // kanbanRoutes,
-// } from '../../routes';
 import routes from '../../routes';
 import { NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
