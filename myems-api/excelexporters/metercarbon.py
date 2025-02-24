@@ -362,10 +362,6 @@ def generate_excel(report,
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = False
-                line.dLbls.showPercent = False
                 chart_col = 'B'
                 chart_cell = chart_col + str(table_start_draw_flag)
                 ws.add_chart(line, chart_cell)
@@ -524,7 +520,6 @@ def generate_excel(report,
                 for j in range(len(line.series)):
                     line.series[j].marker.symbol = "auto"
                     line.series[j].smooth = True
-                line.dLbls = None
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
@@ -701,10 +696,6 @@ def generate_excel(report,
             line.x_axis.crosses = 'min'
             line.height = 8.25
             line.width = 24
-            line.dLbls = DataLabelList()
-            line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = False
-            line.dLbls.showPercent = False
             chart_col = 'B'
             chart_cell = chart_col + str(chart_start_row_number)
             chart_start_row_number += 6

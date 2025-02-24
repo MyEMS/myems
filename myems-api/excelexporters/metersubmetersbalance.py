@@ -292,9 +292,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                 line.x_axis.crosses = 'min'
                 line.height = 8.25
                 line.width = 24
-                line.dLbls = DataLabelList()
-                line.dLbls.dLblPos = 't'
-                line.dLbls.showVal = False
                 ws.add_chart(line, "B" + str(chart_start_number))
 
                 ws['B' + str(current_row_number)].font = title_font
@@ -473,7 +470,6 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                                   max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
-            line.dLbls = None
             line_data = line.series[0]
             line_data.marker.symbol = "auto"
             line_data.smooth = True
