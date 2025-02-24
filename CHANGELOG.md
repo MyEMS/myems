@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed variable defined multiple times
 - fixed meter comparison issue in myems-api
 - fixed explicit returns mixed with implicit (fall through) returns
+- fixed label issues of Excel exporter in myems-api
 ### Removed
 - removed console.log from myems-web and myems-admin
 

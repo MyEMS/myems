@@ -241,7 +241,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   timeOfUseItem = {};
                   timeOfUseItem['id'] = 5;
                   timeOfUseItem['name'] = t('Deep');
-                  timeOfUseItem['value'] = json['reporting_period']['deeps'][index];
+                  timeOfUseItem['value'] = json['reporting_period_input']['deeps'][index];
                   timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
                   timeOfUseArray.push(timeOfUseItem);
                 }
