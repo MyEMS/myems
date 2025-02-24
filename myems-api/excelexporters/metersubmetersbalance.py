@@ -473,16 +473,13 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
                                   max_row=(len(parameters_data['timestamps'][i]) + parameters_table_start_row_number))
             line.add_data(line_data, titles_from_data=True)
             line.set_categories(labels)
+            line.dLbls = None
             line_data = line.series[0]
             line_data.marker.symbol = "auto"
             line_data.smooth = True
             line.x_axis.crosses = 'min'
             line.height = 8.25
             line.width = 24
-            line.dLbls = DataLabelList()
-            line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = False
-            line.dLbls.showPercent = False
             chart_col = 'B'
             chart_cell = chart_col + str(chart_start_row_number)
             chart_start_row_number += 6
