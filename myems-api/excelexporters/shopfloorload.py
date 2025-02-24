@@ -468,9 +468,6 @@ def generate_excel(report,
                     line.x_axis.crosses = 'min'
                     line.height = 8.25
                     line.width = 24
-                    line.dLbls = DataLabelList()
-                    line.dLbls.dLblPos = 't'
-                    line.dLbls.showVal = False
                     ws.add_chart(line, "B" + str(current_chart_row_number))
                     current_chart_row_number += 6
                     current_chart_col_number += 1
@@ -490,9 +487,6 @@ def generate_excel(report,
                     line.x_axis.crosses = 'min'
                     line.height = 8.25
                     line.width = 24
-                    line.dLbls = DataLabelList()
-                    line.dLbls.dLblPos = 't'
-                    line.dLbls.showVal = False
                     ws.add_chart(line, "B" + str(current_chart_row_number))
                     current_chart_row_number += 6
                     current_chart_col_number += 1
@@ -706,10 +700,6 @@ def generate_excel(report,
                         line.x_axis.crosses = 'min'
                         line.height = 8.25
                         line.width = 24
-                        line.dLbls = DataLabelList()
-                        line.dLbls.dLblPos = 't'
-                        line.dLbls.showVal = False
-                        line.dLbls.showPercent = False
                         chart_col = 'B'
                         chart_cell = chart_col + str(current_chart_row_number)
                         ws.add_chart(line, chart_cell)
@@ -746,10 +736,6 @@ def generate_excel(report,
                         line.x_axis.crosses = 'min'
                         line.height = 8.25
                         line.width = 24
-                        line.dLbls = DataLabelList()
-                        line.dLbls.dLblPos = 't'
-                        line.dLbls.showVal = False
-                        line.dLbls.showPercent = False
                         chart_col = 'B'
                         chart_cell = chart_col + str(current_chart_row_number)
                         ws.add_chart(line, chart_cell)
@@ -924,10 +910,6 @@ def generate_excel(report,
             line.x_axis.crosses = 'min'
             line.height = 8.25
             line.width = 24
-            line.dLbls = DataLabelList()
-            line.dLbls.dLblPos = 't'
-            line.dLbls.showVal = False
-            line.dLbls.showPercent = False
             chart_col = 'B'
             chart_cell = chart_col + str(chart_start_row_number)
             chart_start_row_number += 6
