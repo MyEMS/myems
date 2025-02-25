@@ -100,6 +100,11 @@ from reports import metertracking
 from reports import metertrend
 from reports import microgriddashboard
 from reports import microgriddetails
+from reports import microgriddetailsbms
+from reports import microgriddetailsevcharger
+from reports import microgriddetailsgenerator
+from reports import microgriddetailspcs
+from reports import microgriddetailspv
 from reports import microgridlist
 from reports import microgridreportingenergy
 from reports import microgridsenergy
@@ -1214,6 +1219,16 @@ api.add_route('/reports/microgriddashboard',
               microgriddashboard.Reporting())
 api.add_route('/reports/microgriddetails',
               microgriddetails.Reporting())
+api.add_route('/reports/microgriddetails/{id_}/bms',
+              microgriddetailsbms.Reporting())
+api.add_route('/reports/microgriddetails/{id_}/evcharger',
+              microgriddetailsevcharger.Reporting())
+api.add_route('/reports/microgriddetails/{id_}/generator',
+              microgriddetailsgenerator.Reporting())
+api.add_route('/reports/microgriddetails/{id_}/pcs',
+              microgriddetailspcs.Reporting())
+api.add_route('/reports/microgriddetails/{id_}/pv',
+              microgriddetailspv.Reporting())
 api.add_route('/reports/microgridlist',
               microgridlist.Reporting())
 api.add_route('/reports/microgridreportingenergy',
