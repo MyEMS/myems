@@ -788,74 +788,6 @@ class Reporting:
             parameters_data['timestamps'].append(point_timestamps)
             parameters_data['values'].append(point_values)
 
-        # query pcs parameters
-        pcs_parameters_data = dict()
-        pcs_parameters_data['names'] = list()
-        pcs_parameters_data['timestamps'] = list()
-        pcs_parameters_data['values'] = list()
-        cursor_system.execute(" SELECT run_state_point_id "
-                              " FROM tbl_microgrids_power_conversion_systems "
-                              " WHERE microgrid_id = %s "
-                              " ORDER BY id "
-                              " LIMIT 1 ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            pcs_run_state_point_id = row_point[0]
-            point_values = []
-            point_timestamps = []
-            query = (" SELECT utc_date_time, actual_value "
-                     " FROM tbl_digital_value "
-                     " WHERE point_id = %s "
-                     "       AND utc_date_time BETWEEN %s AND %s "
-                     " ORDER BY utc_date_time ")
-            cursor_historical.execute(query, (pcs_run_state_point_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-            rows = cursor_historical.fetchall()
-
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
-                    point_timestamps.append(current_datetime)
-                    point_values.append(row[1])
-
-            pcs_parameters_data['names'].append('RunState')
-            pcs_parameters_data['timestamps'].append(point_timestamps)
-            pcs_parameters_data['values'].append(point_values)
-
-        # query battery parameters
-        battery_parameters_data = dict()
-        battery_parameters_data['names'] = list()
-        battery_parameters_data['timestamps'] = list()
-        battery_parameters_data['values'] = list()
-        if battery_state_point_id is not None:
-            point_values = []
-            point_timestamps = []
-            query = (" SELECT utc_date_time, actual_value "
-                     " FROM tbl_digital_value "
-                     " WHERE point_id = %s "
-                     "       AND utc_date_time BETWEEN %s AND %s "
-                     " ORDER BY utc_date_time ")
-            cursor_historical.execute(query, (battery_state_point_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-            rows = cursor_historical.fetchall()
-
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    current_datetime = current_datetime_local.strftime('%m-%d %H:%M')
-                    point_timestamps.append(current_datetime)
-                    point_values.append(row[1])
-
-            battery_parameters_data['names'].append('State')
-            battery_parameters_data['timestamps'].append(point_timestamps)
-            battery_parameters_data['values'].append(point_values)
-
         if cursor_system:
             cursor_system.close()
         if cnx_system:
@@ -914,14 +846,6 @@ class Reporting:
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
         }
-        result['pcs_parameters'] = {
-            "names": pcs_parameters_data['names'],
-            "timestamps": pcs_parameters_data['timestamps'],
-            "values": pcs_parameters_data['values']}
-        result['battery_parameters'] = {
-            "names": battery_parameters_data['names'],
-            "timestamps": battery_parameters_data['timestamps'],
-            "values": battery_parameters_data['values']}
 
         resp.text = json.dumps(result)
 

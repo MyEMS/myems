@@ -24,11 +24,17 @@ import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { v4 as uuid } from 'uuid';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
-import Datetime from 'react-datetime';
+import BMSDetails from './BMSDetails';
+import EVChargerDetails from './EVChargerDetails';
+import GeneratorDetails from './GeneratorDetails';
+import PCSDetails from './PCSDetails';
+import PVDetails from './PVDetails';
+import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
 
@@ -86,6 +92,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
   //Results
 
+  const [microgridID, setMicrogridID] = useState();
   const [microgridName, setMicrogridName] = useState();
   const [microgridSerialNumber, setMicrogridSerialNumber] = useState();
   const [microgridAddress, setMicrogridAddress] = useState();
@@ -121,13 +128,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
 
-  const [PCSParameterLineChartLabels, setPCSParameterLineChartLabels] = useState([]);
-  const [PCSParameterLineChartData, setPCSParameterLineChartData] = useState({});
-  const [PCSParameterLineChartOptions, setPCSParameterLineChartOptions] = useState([]);
-
-  const [BMSParameterLineChartLabels, setBMSParameterLineChartLabels] = useState([]);
-  const [BMSParameterLineChartData, setBMSParameterLineChartData] = useState({});
-  const [BMSParameterLineChartOptions, setBMSParameterLineChartOptions] = useState([]);
+  const [BMSDetailsList, setBMSDetailsList] = useState([]);
+  const [EVChargerDetailsList, setEVChargerDetailsList] = useState([]);
+  const [GeneratorDetailsList, setGeneratorDetailsList] = useState([]);
+  const [PCSDetailsList, setPCSDetailsList] = useState([]);
+  const [PVDetailsList, setPVDetailsList] = useState([]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -149,6 +154,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           console.log(json);
+          setMicrogridID(json['microgrid']['id'])
           setMicrogridName(json['microgrid']['name']);
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
@@ -209,45 +215,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
-
-          // pcs parameters
-          timestamps = {};
-          json['pcs_parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setPCSParameterLineChartLabels(timestamps);
-
-          values = {};
-          json['pcs_parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setPCSParameterLineChartData(values);
-
-          names = [];
-          json['pcs_parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setPCSParameterLineChartOptions(names);
-
-          // bms parameters
-          timestamps = {};
-          json['battery_parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setBMSParameterLineChartLabels(timestamps);
-
-          values = {};
-          json['battery_parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setBMSParameterLineChartData(values);
-
-          names = [];
-          json['battery_parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setBMSParameterLineChartOptions(names);
-
         }
       })
       .catch(err => {
@@ -303,6 +270,159 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   useInterval(() => {
     refreshSVGData();
   }, 1000 * 10);
+
+  // BMS
+  const fetchBMSDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/bms'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setBMSDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // EVCharger
+  const fetchEVChargerDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/evcharger'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setEVChargerDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  // Generator
+  const fetchGeneratorDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/generator'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setGeneratorDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // PCS
+  const fetchPCSDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pcs'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setPCSDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  // PV
+  const fetchPVDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pv'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setPVDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   return (
     <Fragment>
@@ -588,6 +708,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             className={classNames({ active: activeTabBottom === '4' })}
             onClick={() => {
               toggleTabBottom('4');
+              fetchPCSDetails();
             }}
           >
             <h6>PCS</h6>
@@ -599,6 +720,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             className={classNames({ active: activeTabBottom === '5' })}
             onClick={() => {
               toggleTabBottom('5');
+              fetchBMSDetails();
             }}
           >
             <h6>BMS</h6>
@@ -610,6 +732,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             className={classNames({ active: activeTabBottom === '6' })}
             onClick={() => {
               toggleTabBottom('6');
+              fetchPVDetails();
             }}
           >
             <h6>PV</h6>
@@ -621,6 +744,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             className={classNames({ active: activeTabBottom === '7' })}
             onClick={() => {
               toggleTabBottom('7');
+              fetchEVChargerDetails();
             }}
           >
             <h6>EV Charger</h6>
@@ -632,9 +756,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             className={classNames({ active: activeTabBottom === '8' })}
             onClick={() => {
               toggleTabBottom('8');
+              fetchGeneratorDetails();
             }}
           >
-            <h6>Heat Pump</h6>
+            <h6>Generators</h6>
           </NavLink>
         </NavItem>
       </Nav>
@@ -723,31 +848,19 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </TabPane>
         <TabPane tabId="4">
-            <MultipleLineChart
-              reportingTitle=""
-              baseTitle=""
-              labels={PCSParameterLineChartLabels}
-              data={PCSParameterLineChartData}
-              options={PCSParameterLineChartOptions}
-            />
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="5">
-            <MultipleLineChart
-              reportingTitle=""
-              baseTitle=""
-              labels={BMSParameterLineChartLabels}
-              data={BMSParameterLineChartData}
-              options={BMSParameterLineChartOptions}
-            />
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="6">
-
+            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <PVDetails key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="7">
-
+            {isIterableArray(EVChargerDetailsList) && EVChargerDetailsList.map(({ id, ...rest }) => <EVChargerDetails key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="8">
-
+          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <GeneratorDetails key={id} id={id} {...rest} />) }
         </TabPane>
       </TabContent>
     </Fragment>
