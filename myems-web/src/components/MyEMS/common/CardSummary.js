@@ -30,6 +30,7 @@ const getImage = color => {
       return corner3;
     case 'electricity':
       return corner5;
+    case 'fuelConsumption':
     case 'water':
       return corner6;
     case 'gas':

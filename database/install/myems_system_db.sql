@@ -896,6 +896,20 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_bmses` (
 CREATE INDEX `tbl_hybrid_power_stations_bmses_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_bmses` (`hybrid_power_station_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_bmses_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_bmses_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_bmses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bms_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_bmses_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_bmses_points` (`bms_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_cms` (Charge Machine)
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1253,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters` (
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
   `hourly_low_limit` DECIMAL(21, 6) NOT NULL
-  COMMENT 'Inclusive. The efault is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
+  COMMENT 'Inclusive. The default is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
   `hourly_high_limit` DECIMAL(21, 6) NOT NULL
   COMMENT 'Inclusive. Maximum energy consumption per hour, Rated total active Power, Rated Flow, etc.',
   `cost_center_id` BIGINT NOT NULL,
