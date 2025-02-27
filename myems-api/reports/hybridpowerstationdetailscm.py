@@ -63,9 +63,21 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.HYBRID_POWER_STATION_NOT_FOUND')
 
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
+
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
+
         ################################################################################################################
         # Step 3: query analog points latest values
         ################################################################################################################
+
         latest_value_dict = dict()
         query = (" SELECT point_id, actual_value "
                  " FROM tbl_analog_value_latest "
@@ -74,7 +86,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 4: query energy points latest values
@@ -86,7 +101,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query digital points latest values
@@ -98,25 +116,17 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
-        # Step 6: query the points of associated generators
+        # Step 6: query the points of associated CMs
         ################################################################################################################
-        # query all points with units
-        query = (" SELECT id, units "
-                 " FROM tbl_points ")
-        cursor_system.execute(query)
-        rows = cursor_system.fetchall()
-
-        units_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                units_dict[row[0]] = row[1]
 
         cm_list = list()
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              " operating_status_point_id, power_point_id "
+        cursor_system.execute(" SELECT id, name, uuid "
                               " FROM tbl_hybrid_power_stations_cms "
                               " WHERE hybrid_power_station_id = %s "
                               " ORDER BY id ",
@@ -128,13 +138,23 @@ class Reporting:
                 current_cm['id'] = row[0]
                 current_cm['name'] = row[1]
                 current_cm['uuid'] = row[2]
-                current_cm['operating_status_point'] = \
-                    (latest_value_dict.get(row[3], None),
-                     units_dict.get(row[3], None))
-                current_cm['power_point'] = \
-                    (latest_value_dict.get(row[4], None),
-                     units_dict.get(row[4], None))
+                current_cm['points'] = list()
                 cm_list.append(current_cm)
+
+        for index, cm in enumerate(cm_list):
+            cursor_system.execute(" SELECT p.id "
+                                  " FROM tbl_hybrid_power_stations_cms_points bp, tbl_points p "
+                                  " WHERE bp.cm_id = %s AND bp.point_id = p.id "
+                                  " ORDER BY bp.id ",
+                                  (cm['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                point_list = list()
+                for row in rows_points:
+                    point = latest_value_dict.get(row[0], None)
+                    if point is not None:
+                        point_list.append(point)
+                cm_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()

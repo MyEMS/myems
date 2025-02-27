@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import {
   Card,
   CardBody,
@@ -10,8 +11,7 @@ import {
 const CMDetails = ({
   id,
   name,
-  operating_status_point,
-  power_point,
+  points,
   t
 }) => {
 
@@ -20,18 +20,21 @@ const CMDetails = ({
       <CardBody className="bg-light">
         <Table striped className="border-bottom">
           <thead>
-              <tr>
-                <th>{name}</th>
-                {(operating_status_point[0] !== null) && (<th>{t('Operating Status')}: {operating_status_point[0]}</th>)}
-              </tr>
+            <tr>
+              <th>{name}</th>
+            </tr>
           </thead>
           <tbody>
-            <tr>
-              {(power_point[0 ] !== null) && (<td>{t('Power')}: {power_point[0]} {power_point[1]}</td>)}
-            </tr>
+              {points.map((currentPoint) => (
+                <tr key={uuid()}>
+                  <td>{currentPoint[0]}</td>
+                  <td>{currentPoint[3]}</td>
+                  <td>{currentPoint[1]}</td>
+                  <td>{currentPoint[2]}</td>
+                </tr>
+              ))}
           </tbody>
         </Table>
-
       </CardBody>
     </Card>
   );
@@ -40,8 +43,7 @@ const CMDetails = ({
 CMDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  operating_status_point: PropTypes.array,
-  power_point: PropTypes.array,
+  points: PropTypes.array,
 };
 
 export default withTranslation()(CMDetails);
