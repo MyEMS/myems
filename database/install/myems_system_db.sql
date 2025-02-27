@@ -928,6 +928,19 @@ CREATE INDEX `tbl_hybrid_power_stations_cms_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_cms` (`hybrid_power_station_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_cms_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_cms_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_cms_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `cm_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_cms_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_cms_points` (`cm_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_commands`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_commands` ;
@@ -980,6 +993,20 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_generato
 CREATE INDEX `tbl_hybrid_power_stations_generators_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_generators` (`hybrid_power_station_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_generators_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_generators_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_generators_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `generator_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_generators_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_generators_points` (`generator_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_loads` (Load)
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1010,6 +1037,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_loads` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_loads_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_loads` (`hybrid_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_loads_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_loads_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_loads_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_loads_points` (`load_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_mcus` (MCU)
@@ -1066,6 +1106,20 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses` (
 CREATE INDEX `tbl_hybrid_power_stations_pcses_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_pcses` (`hybrid_power_station_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_pcses_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `pcs_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_pcses_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_pcses_points` (`bms_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_pvs` (Photovoltaic)
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1087,6 +1141,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pvs` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_pvs_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_pvs` (`hybrid_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_pvs_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pvs_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pvs_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `pv_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_pvs_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_pvs_points` (`pv_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_users` (User)
