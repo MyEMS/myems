@@ -213,7 +213,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Like What You See?',
       'Get MyEMS now': 'Get MyEMS now',
-      Purchase: 'Purchase',
+      Purchase: 'Enterprise Edition',
       // Query Panel
       'Base Period Begins': 'Base Period Begins',
       'Base Period Ends': 'Base Period Ends',
@@ -1453,7 +1453,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': '喜欢这个系统?',
       'Get MyEMS now': '立即获取MyEMS',
-      Purchase: '购买',
+      Purchase: '采购企业版',
       // Query Panels
       'Base Period Begins': '基准期开始',
       'Base Period Ends': '基准期结束',
@@ -2684,7 +2684,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Wie was du siehst?',
       'Get MyEMS now': 'Holen Sie sich jetzt MyEMS',
-      Purchase: 'Kauf',
+      Purchase: 'Enterprise Edition',
       // Query Panels
       'Base Period Begins': 'Basisperiode beginnt',
       'Base Period Ends': 'Basisperiode endet',
@@ -3961,7 +3961,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Vous aimez ce que vous voyez ?',
       'Get MyEMS now': 'Avoir MyEMS Maintenant',
-      Purchase: 'Achat',
+      Purchase: 'Édition Enterprise',
       // Query Panel
       'Base Period Begins': 'Base Période Commence',
       'Base Period Ends': 'Base Période Finit',
@@ -5216,7 +5216,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Me gusta lo que ves?',
       'Get MyEMS now': 'Obtenga MyEMS ahora',
-      Purchase: 'Compra',
+      Purchase: 'Versión corporativa',
       // Query Panel
       'Base Period Begins': 'Comienza el período base',
       'Base Period Ends': 'Finaliza el período base',
@@ -6478,7 +6478,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Нравится то, что вы видите?',
       'Get MyEMS now': 'Получить MyEMS прямо сейчас',
-      Purchase: 'Покупать',
+      Purchase: 'Корпоративная версия',
       // Query Panel
       'Base Period Begins': 'Начинается базовый период',
       'Base Period Ends': 'Базовый период заканчивается',
@@ -7737,7 +7737,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'أعجبك ما تراه?',
       'Get MyEMS now': 'احصل على MyEMS الآن',
-      Purchase: 'ابتاع',
+      Purchase: 'الطبعة المؤسسة',
       // Query Panel
       'Base Period Begins': 'تبدأ فترة الأساس',
       'Base Period Ends': 'تنتهي فترة الأساس',
@@ -8989,7 +8989,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Thích những gì bạn thấy?',
       'Get MyEMS now': 'Tải MyEMS ngay bây giờ',
-      Purchase: 'Mua',
+      Purchase: 'Phiên bản doanh nghiệp',
       // Query Panel
       'Base Period Begins': 'Thời gian cơ sở bắt đầu',
       'Base Period Ends': 'Thời gian cơ sở kết thúc',
@@ -10236,7 +10236,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'ชอบสิ่งที่คุณเห็น?',
       'Get MyEMS now': 'รับ MyEMS ทันที',
-      Purchase: 'ซื้อ',
+      Purchase: 'รุ่นองค์กร',
       // Query Panel
       'Base Period Begins': 'ระยะเวลาฐานเริ่มต้น',
       'Base Period Ends': 'ระยะเวลาฐานเริ่มต้น',
@@ -11483,7 +11483,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Gördüklerinizi beğendiniz mi?',
       'Get MyEMS now': "MyEMS'yi şimdi edinin",
-      Purchase: 'Satın alma',
+      Purchase: 'Enterprise Edition',
       // Query Panel
       'Base Period Begins': 'Baz Dönemi Başlıyor',
       'Base Period Ends': 'Baz Dönem Biter',
@@ -12734,7 +12734,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Seperti apa yang anda lihat?',
       'Get MyEMS now': 'Dapatkan MyEMS sekarang',
-      Purchase: 'Pembelian',
+      Purchase: 'Editan Perusahaan',
       // Query Panel
       'Base Period Begins': 'Tempoh Asas Bermula',
       'Base Period Ends': 'Tempoh Asas Berakhir',
@@ -13988,7 +13988,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Saya Suka Sistem Ini?',
       'Get MyEMS now': 'Dapatkan MyEMS Sekarang',
-      Purchase: 'Membeli',
+      Purchase: 'Enterprise Edition',
       // Query Panels
       'Base Period Begins': 'Mulai Periode Benchmark',
       'Base Period Ends': 'Akhir Periode Benchmark',
@@ -15252,7 +15252,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': '喜歡這個系統?',
       'Get MyEMS now': '立即獲取 MyEMS',
-      Purchase: '購買',
+      Purchase: '採購企業版',
       // Query Panels
       'Base Period Begins': '基準期開始',
       'Base Period Ends': '基準期結束',
@@ -16514,7 +16514,7 @@ const resources = {
       'language-pt': 'Português',
       'Like What You See?': 'Gosto do que você vê?',
       'Get MyEMS now': 'Obtenha MyEMS agora',
-      Purchase: 'Compra',
+      Purchase: 'Edição Enterprise',
       // Query Panel
       'Base Period Begins': 'Período de base começa',
       'Base Period Ends': 'Período de base termina',
