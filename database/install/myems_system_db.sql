@@ -1118,7 +1118,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses_po
   `point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_pcses_points_index_1`
-ON `myems_system_db`.`tbl_hybrid_power_stations_pcses_points` (`bms_id`);
+ON `myems_system_db`.`tbl_hybrid_power_stations_pcses_points` (`pcs_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_pvs` (Photovoltaic)
