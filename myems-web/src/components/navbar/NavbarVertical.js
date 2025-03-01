@@ -197,7 +197,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
           </div>
           <Button
             tag={'a'}
-            href="https://myems.io"
+            href="https://myems.io/docs/enterprise"
             target="_blank"
             color="primary"
             size="sm"

@@ -75,10 +75,10 @@ const getContentClassNames = color => {
 const CardSummary = ({ title, rate, color, children, footnote, footvalue, footunit,
    secondfootnote, secondfootvalue, secondfootunit }) => {
   return (
-    <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem' }}>
+    <Card className="mb-3 overflow-hidden" style={{ minWidth: '15rem' }}>
       <Background image={getImage(color)} className="bg-card" />
       <CardBody className="position-relative">
-        <h6>
+        <h6 className="font-weight-normal fs--1">
           {title}
           <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>
             {getIcon(rate)}
@@ -86,12 +86,12 @@ const CardSummary = ({ title, rate, color, children, footnote, footvalue, footun
           </span>
         </h6>
         <div className={getContentClassNames(color)}>{children}</div>
-        <h6 className="font-weight-semi-bold fs--1 text-nowrap">
+        <h6 className="font-weight-light fs--2 text-nowrap">
           {footnote}{' '}
           {footvalue && <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
           {footunit}
         </h6>
-        <h6 className="font-weight-semi-bold fs--1 text-nowrap">
+        <h6 className="font-weight-light fs--2 text-nowrap">
           {secondfootnote}{' '}
           {secondfootvalue && <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
           {secondfootunit}
