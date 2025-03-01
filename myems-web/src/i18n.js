@@ -148,6 +148,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": "This Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "This Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Consumption CATEGORY VALUE UNIT": "This Month's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": "This Month's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}  in The Same Period Last Year',
@@ -1391,6 +1392,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": '本年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": '本年成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": '本月消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": '本月产出 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Costs CATEGORY VALUE UNIT": '本月成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year': '去年同期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Costs CATEGORY VALUE UNIT in The Same Period Last Year': '去年同期成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -2618,6 +2620,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Der Kosten Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Dieses Monat {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Der Kosten Dieses Monat {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Der Verbrauch {{CATEGORY}} {{VALUE}} {{UNIT}} im gleichen Zeitraum im vergangenen Jahr',
@@ -3895,6 +3898,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'La consommation de cette année {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Les coûts de cette année {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Ce mois-ci Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Coûts de ce mois-ci {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Consommation {{CATEGORY}} {{VALUE}} {{UNIT}} à la même période l’an dernier',
@@ -5151,6 +5155,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'El consumo de este año {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Los costos de este año {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'El consumo de este mes {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Los costos de este mes {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Consumo {{CATEGORY}} {{VALUE}} {{UNIT}}  en el mismo período del año pasado',
@@ -6413,6 +6418,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'В этом году Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Расходы этого года {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Потребление в этом месяце {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Расходы за этот месяц {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Потребление {{CATEGORY}} {{VALUE}} {{UNIT}} за аналогичный период прошлого года',
@@ -7673,6 +7679,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'استهلاك هذا العام {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'تكاليف هذا العام {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'استهلاك هذا الشهر {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'تكاليف هذا الشهر {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'استهلاك {{CATEGORY}} {{VALUE}} {{UNIT}} في نفس الفترة من العام الماضي',
@@ -8924,6 +8931,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'Tiêu thụ năm nay {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Chi phí năm nay {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Tiêu thụ tháng này {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Chi phí của tháng này {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Tiêu thụ {{CATEGORY}} {{VALUE}} {{UNIT}} cùng kỳ năm ngoái',
@@ -10171,6 +10179,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'การบริโภคในปีนี้ {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'ค่าใช้จ่ายในปีนี้ {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'การบริโภคในเดือนนี้ {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'ค่าใช้จ่ายของเดือนนี้ {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'การบริโภค {{CATEGORY}} {{VALUE}} {{UNIT}} ในช่วงเดียวกันของปีก่อน',
@@ -11418,6 +11427,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'Bu Yılın Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Bu Yılın Maliyetleri {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Bu Ayın Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Bu Ayın Maliyetleri {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Tüketim {{CATEGORY}} {{VALUE}} {{UNIT}} Geçen Yılın Aynı Döneminde',
@@ -12669,6 +12679,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'Penggunaan Tahun Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Kos Tahun Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Penggunaan Bulan Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Kos bulan ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Penggunaan {{CATEGORY}} {{VALUE}} {{UNIT}} dalam tempoh yang sama tahun lepas',
@@ -13923,6 +13934,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": 'Konsum Tahun Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Biaya Tahun Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Konsum Bulan Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": 'Biaya Bulan Ini {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Konsum Selama Periode Yang Sama Tahun Lalu {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -15189,6 +15201,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": '本年消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": '本年成本 {{CATEGORY}}{{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": '本⽉消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": '本⽉成本 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         '去年同期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -16449,6 +16462,7 @@ const resources = {
       "This Year's Consumption CATEGORY VALUE UNIT": "O consumo deste ano {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "Custos deste ano {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Consumption CATEGORY VALUE UNIT": "Este mês Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
+      "This Month's Generation CATEGORY VALUE UNIT": "This Month's Generation {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Costs CATEGORY VALUE UNIT": "Custos deste mês {{CATEGORY}} {{VALUE}} {{UNIT}}",
       'Consumption CATEGORY VALUE UNIT in The Same Period Last Year':
         'Consumo {{CATEGORY}} {{VALUE}} {{UNIT}} No mesmo período do ano passado',

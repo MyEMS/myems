@@ -29,14 +29,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [isFetchDashboard, setIsFetchDashboard] = useState(true);
   const [periodType, setPeriodType] = useState('monthly');
   const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(
-    current_moment
-      .clone()
-      .subtract(1, 'years')
-      .startOf('year')
+    current_moment.clone().subtract(1, 'years').subtract(1, 'years').startOf('month')
   );
   const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
   const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(
-    current_moment.clone().startOf('year')
+    current_moment.clone().subtract(1, 'years').startOf('month')
   );
   const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
 
@@ -111,13 +108,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </Fragment>
         );
 
-        fetch(
-          APIBaseURL +
-          '/reports/dashboard?' +
-          'useruuid=' +
-          user_uuid +
-          '&periodtype=' +
-          periodType +
+        fetch(APIBaseURL + '/reports/dashboard?' + 'useruuid=' + user_uuid + '&periodtype=' + periodType +
           '&baseperiodstartdatetime=' +
           (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
           '&baseperiodenddatetime=' +
@@ -530,7 +521,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 .split('"name":')
                 .join('"label":')
             );
-            // get Combined Equipments by root Space ID
+            // get chiildren of root Space
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/children', {
               method: 'GET',
@@ -587,7 +578,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               .catch(err => {
                 console.log(err);
               });
-            // end of get Combined Equipments by root Space ID
+            // end of get children of root Space
           } else {
             toast.error(t(json.description));
           }
@@ -602,12 +593,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div className="card-deck">
         <Spinner color="primary" hidden={spinnerHidden} />
-        <Spinner color="secondary" hidden={spinnerHidden} />
-        <Spinner color="success" hidden={spinnerHidden} />
-        <Spinner color="danger" hidden={spinnerHidden} />
-        <Spinner color="warning" hidden={spinnerHidden} />
-        <Spinner color="info" hidden={spinnerHidden} />
-        <Spinner color="light" hidden={spinnerHidden} />
         {thisMonthInputCardSummaryList.map(cardSummaryItem => (
           <CardSummary
             key={uuid()}
