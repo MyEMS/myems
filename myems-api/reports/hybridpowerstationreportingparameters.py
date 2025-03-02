@@ -4,7 +4,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.energystoragepowerstationreportingparameters
+import excelexporters.hybridpowerstationreportingparameters
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -22,11 +22,10 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the energy storage power station
-    # Step 3: query associated energy storage containers
-    # Step 4: query associated data sources
-    # Step 5: query associated points
-    # Step 6: query associated points data
-    # Step 7: construct the report
+    # Step 3: query associated data sources
+    # Step 4: query associated points
+    # Step 5: query associated points data
+    # Step 6: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -39,8 +38,8 @@ class Reporting:
         print(req.params)
         # this procedure accepts energy storage power station id or
         # energy storage power station uuid to identify a energy storage power station
-        energy_storage_power_station_id = req.params.get('id')
-        energy_storage_power_station_uuid = req.params.get('uuid')
+        hybrid_power_station_id = req.params.get('id')
+        hybrid_power_station_uuid = req.params.get('uuid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
@@ -49,22 +48,22 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if energy_storage_power_station_id is None and energy_storage_power_station_uuid is None:
+        if hybrid_power_station_id is None and hybrid_power_station_uuid is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                   description='API.INVALID_HYBRID_POWER_STATION_ID')
 
-        if energy_storage_power_station_id is not None:
-            energy_storage_power_station_id = str.strip(energy_storage_power_station_id)
-            if not energy_storage_power_station_id.isdigit() or int(energy_storage_power_station_id) <= 0:
+        if hybrid_power_station_id is not None:
+            hybrid_power_station_id = str.strip(hybrid_power_station_id)
+            if not hybrid_power_station_id.isdigit() or int(hybrid_power_station_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                       description='API.INVALID_HYBRID_POWER_STATION_ID')
 
-        if energy_storage_power_station_uuid is not None:
+        if hybrid_power_station_uuid is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(energy_storage_power_station_uuid))
+            match = regex.match(str.strip(hybrid_power_station_uuid))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
+                                       description='API.INVALID_HYBRID_POWER_STATION_UUID')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -127,65 +126,47 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        if energy_storage_power_station_id is not None:
+        if hybrid_power_station_id is not None:
             query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_storage_power_stations "
+                     " FROM tbl_hybrid_power_stations "
                      " WHERE id = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_id,))
+            cursor_system.execute(query, (hybrid_power_station_id,))
             row = cursor_system.fetchone()
-        elif energy_storage_power_station_uuid is not None:
+        elif hybrid_power_station_uuid is not None:
             query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_storage_power_stations "
+                     " FROM tbl_hybrid_power_stations "
                      " WHERE uuid = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_uuid,))
+            cursor_system.execute(query, (hybrid_power_station_uuid,))
             row = cursor_system.fetchone()
 
         if row is None:
             cursor_system.close()
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+                                   description='API.HYBRID_POWER_STATION_NOT_FOUND')
         else:
-            energy_storage_power_station_id = row[0]
+            hybrid_power_station_id = row[0]
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2]}
 
         ################################################################################################################
-        # Step 3: query associated energy storage containers
-        ################################################################################################################
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers sc, "
-                              "      tbl_energy_storage_containers c "
-                              " WHERE sc.energy_storage_power_station_id = %s "
-                              "      AND sc.energy_storage_container_id = c.id ",
-                              (energy_storage_power_station_id,))
-        rows_containers = cursor_system.fetchall()
-        if rows_containers is not None and len(rows_containers) > 0:
-            for row_container in rows_containers:
-                container_list.append({"id": row_container[0],
-                                       "name": row_container[1],
-                                       "uuid": row_container[2]})
-
-        ################################################################################################################
-        # Step 4: query associated data sources
+        # Step 3: query associated data sources
         ################################################################################################################
         data_source_list = list()
-        for container in container_list:
-            cursor_system.execute(" SELECT ds.id, ds.name "
-                                  " FROM tbl_energy_storage_containers_batteries b, tbl_points p, tbl_data_sources ds "
-                                  " WHERE b.energy_storage_container_id = %s "
-                                  "       AND b.soc_point_id = p.id "
-                                  "       AND p.data_source_id = ds.id ",
-                                  (container['id'],))
-            row_data_source = cursor_system.fetchone()
-            if row_data_source is not None:
-                data_source_list.append({"id": row_data_source[0],
-                                         "name": row_data_source[1]})
+        cursor_system.execute(" SELECT ds.id, ds.name "
+                              " FROM tbl_hybrid_power_stations_bmses b, tbl_points p, tbl_data_sources ds "
+                              " WHERE b.hybrid_power_station_id = %s "
+                              "       AND b.soc_point_id = p.id "
+                              "       AND p.data_source_id = ds.id ",
+                              (hybrid_power_station_id,))
+        row_data_source = cursor_system.fetchone()
+        if row_data_source is not None:
+            data_source_list.append({"id": row_data_source[0],
+                                     "name": row_data_source[1]})
 
         ################################################################################################################
-        # Step 5: query associated points
+        # Step 4: query associated points
         ################################################################################################################
         point_list = list()
         for data_source in data_source_list:
@@ -202,7 +183,7 @@ class Reporting:
                                        "object_type": row_point[3]})
 
         ################################################################################################################
-        # Step 6: query associated points data
+        # Step 5: query associated points data
         ################################################################################################################
         parameters_data = dict()
         parameters_data['names'] = list()
@@ -311,10 +292,10 @@ class Reporting:
         if cnx_historical:
             cnx_historical.close()
         ################################################################################################################
-        # Step 9: construct the report
+        # Step 6: construct the report
         ################################################################################################################
         result = dict()
-        result['energy_storage_power_station'] = meta_result
+        result['hybrid_power_station'] = meta_result
         result['parameters'] = {
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
@@ -324,9 +305,9 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.energystoragepowerstationreportingparameters.\
+                excelexporters.hybridpowerstationreportingparameters.\
                 export(result,
-                       result['energy_storage_power_station']['name'],
+                       result['hybrid_power_station']['name'],
                        reporting_period_start_datetime_local,
                        reporting_period_end_datetime_local,
                        language)

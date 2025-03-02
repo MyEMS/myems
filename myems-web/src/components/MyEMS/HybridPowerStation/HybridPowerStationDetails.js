@@ -37,17 +37,12 @@ import moment from 'moment';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import ScheduleDetails from './ScheduleDetails';
-import BMSDetails from './BMSDetails';
-import CMDetails from './CMDetails';
-import CommandDetails from './CommandDetails';
-import GeneratorDetails from './GeneratorDetails';
-import PCSDetails from './PCSDetails';
-import PVDetails from './PVDetails';
-import LoadDetails from './LoadDetails';
+import DetailsCard from './DetailsCard';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import PinModal from './PinModal';
 import FaultDetails from './FaultDetails';
+import CommandDetails from './CommandDetails';
 
 
 const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
@@ -1156,22 +1151,22 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
             />
           </TabPane>
           <TabPane tabId="2">
-            {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <GeneratorDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="3">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="5">
-            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <PVDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="6">
-            {isIterableArray(CMDetailsList) && CMDetailsList.map(({ id, ...rest }) => <CMDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(CMDetailsList) && CMDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="7">
-            {isIterableArray(loadDetailsList) && loadDetailsList.map(({ id, ...rest }) => <LoadDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(loadDetailsList) && loadDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="8">
             <ScheduleDetails

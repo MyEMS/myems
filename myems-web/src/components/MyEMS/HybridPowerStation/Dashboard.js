@@ -43,14 +43,19 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [chargeEnergyData, setChargeEnergyData] = useState({});
   const [dischargeEnergyData, setDischargeEnergyData] = useState({});
+  const [fuelConsumptionData, setFuelConsumptionData] = useState({});
   const [chargeBillingData, setChargeBillingData] = useState({});
   const [dischargeBillingData, setDischargeBillingData] = useState({});
+  const [fuelBillingData, setFuelBillingData] = useState({});
   const [chargeCarbonData, setChargeCarbonData] = useState({});
   const [dischargeCarbonData, setDischargeCarbonData] = useState({});
+  const [fuelCarbonData, setFuelCarbonData] = useState({});
   const [chargeEnergyLabels, setChargeEnergyLabels] = useState([]);
   const [dischargeEnergyLabels, setDischargeEnergyLabels] = useState([]);
+  const [fuelConsumptionLabels, setFuelConsumptionLabels] = useState([]);
   const [chargeBillingLabels, setChargeBillingLabels] = useState([]);
   const [dischargeBillingLabels, setDischargeBillingLabels] = useState([]);
+  const [fuelBillingLabels, setFuelBillingLabels] = useState([]);
   const [carbonLabels, setCarbonLabels] = useState([]);
   const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
@@ -216,6 +221,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
+              setFuelConsumptionData({
+                "unit": "L",
+                "station_names_array": json['hybrid_power_station_names'],
+                "subtotals_array": [
+                  json['reporting']['fuel_7_days']['values_array'],
+                  json['reporting']['fuel_this_month']['values_array'],
+                  json['reporting']['fuel_this_year']['values_array']
+                ],
+              });
               setChargeEnergyLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
@@ -225,6 +239,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 json['reporting']['discharge_7_days']['timestamps_array'][0],
                 json['reporting']['discharge_this_month']['timestamps_array'][0],
                 json['reporting']['discharge_this_year']['timestamps_array'][0]
+              ]);
+              setFuelConsumptionLabels([
+                json['reporting']['fuel_7_days']['timestamps_array'][0],
+                json['reporting']['fuel_this_month']['timestamps_array'][0],
+                json['reporting']['fuel_this_year']['timestamps_array'][0]
               ]);
             }
           });
@@ -289,6 +308,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
+              setFuelBillingData({
+                "unit": currency,
+                "station_names_array": json['hybrid_power_station_names'],
+                "subtotals_array": [
+                  json['reporting']['fuel_7_days']['values_array'],
+                  json['reporting']['fuel_this_month']['values_array'],
+                  json['reporting']['fuel_this_year']['values_array']
+                ],
+              });
               setChargeBillingLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
@@ -298,6 +326,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 json['reporting']['discharge_7_days']['timestamps_array'][0],
                 json['reporting']['discharge_this_month']['timestamps_array'][0],
                 json['reporting']['discharge_this_year']['timestamps_array'][0]
+              ]);
+              setFuelBillingLabels([
+                json['reporting']['fuel_7_days']['timestamps_array'][0],
+                json['reporting']['fuel_this_month']['timestamps_array'][0],
+                json['reporting']['fuel_this_year']['timestamps_array'][0]
               ]);
             }
           });
@@ -363,6 +396,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
+              setFuelCarbonData({
+                "unit": "kgCO2",
+                "station_names_array": json['hybrid_power_station_names'],
+                "subtotals_array": [
+                  json['reporting']['fuel_7_days']['values_array'],
+                  json['reporting']['fuel_this_month']['values_array'],
+                  json['reporting']['fuel_this_year']['values_array']
+                ]
+              });
               setCarbonLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
@@ -393,13 +435,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div className="card-deck">
         <Spinner color="primary" hidden={spinnerHidden} />
-        <Spinner color="secondary" hidden={spinnerHidden} />
-        <Spinner color="success" hidden={spinnerHidden} />
-        <Spinner color="danger" hidden={spinnerHidden} />
-        <Spinner color="warning" hidden={spinnerHidden} />
-        <Spinner color="info" hidden={spinnerHidden} />
-        <Spinner color="light" hidden={spinnerHidden} />
-
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
           {1 && <CountUp end={hybridPowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
@@ -434,7 +469,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('1');
                   }}
                 >
-                  <h6>{t('Fuel Indicator')}</h6>
+                  <h6>{t('Charge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -444,7 +479,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('2');
                   }}
                 >
-                  <h6>{t('Charge Energy Indicator')}</h6>
+                  <h6>{t('Discharge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -454,7 +489,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('3');
                   }}
                 >
-                  <h6>{t('Discharge Energy Indicator')}</h6>
+                  <h6>{t('Fuel Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -489,17 +524,17 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 </TabPane>
                 <TabPane tabId="2">
                   <StackBarChart
-                    labels={chargeEnergyLabels}
-                    unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
-                    chargeData={chargeEnergyData}
+                    labels={dischargeEnergyLabels}
+                    unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
+                    chargeData={dischargeEnergyData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
                 <TabPane tabId="3">
                   <StackBarChart
-                    labels={dischargeEnergyLabels}
-                    unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
-                    chargeData={dischargeEnergyData}
+                    labels={fuelConsumptionLabels}
+                    unit={ t('Charge UNIT', { UNIT: fuelConsumptionData['unit'] })}
+                    chargeData={fuelConsumptionData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>

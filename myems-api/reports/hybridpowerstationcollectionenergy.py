@@ -23,11 +23,14 @@ class Reporting:
     # Step 2: query the hybrid power station list
     # Step 3: query charge energy data in 7 days
     # Step 4: query discharge energy data in 7 days
-    # Step 5: query charge energy data in this month
-    # Step 6: query discharge energy data in this month
-    # Step 7: query charge energy data in this year
-    # Step 8: query discharge energy data in this year
-    # Step 9: construct the report
+    # Step 5: query fuel consumption data in 7 days
+    # Step 6: query charge energy data in this month
+    # Step 7: query discharge energy data in this month
+    # Step 8: query fuel consumption data in this month
+    # Step 9: query charge energy data in this year
+    # Step 10: query discharge energy data in this year
+    # Step 11: query fuel consumption data in this year
+    # Step 12: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -99,10 +102,13 @@ class Reporting:
         reporting = dict()
         reporting['charge_7_days'] = dict()
         reporting['discharge_7_days'] = dict()
+        reporting['fuel_7_days'] = dict()
         reporting['charge_this_month'] = dict()
         reporting['discharge_this_month'] = dict()
+        reporting['fuel_this_month'] = dict()
         reporting['charge_this_year'] = dict()
         reporting['discharge_this_year'] = dict()
+        reporting['fuel_this_year'] = dict()
 
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -213,7 +219,56 @@ class Reporting:
                     reporting['discharge_7_days']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 5: query charge energy data in this month
+        # Step 5: query fuel consumption data in 7 days
+        ################################################################################################################
+        reporting['fuel_7_days'] = dict()
+        reporting['fuel_7_days']['timestamps_array'] = list()
+        reporting['fuel_7_days']['values_array'] = list()
+        reporting['fuel_7_days']['total_values'] = list()
+        for hybrid_power_station in hybrid_power_station_list:
+            timestamps = list()
+            values = list()
+            query = (" SELECT start_datetime_utc, actual_value "
+                     " FROM tbl_hybrid_power_station_fuel_hourly "
+                     " WHERE hybrid_power_station_id = %s "
+                     " AND start_datetime_utc >= %s "
+                     " AND start_datetime_utc < %s "
+                     " ORDER BY start_datetime_utc ")
+            cursor_energy_db.execute(query, (hybrid_power_station['id'], start_datetime_utc, end_datetime_utc))
+            rows_fuel_hourly = cursor_energy_db.fetchall()
+
+            rows_fuel_periodically = utilities.aggregate_hourly_data_by_period(rows_fuel_hourly,
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
+
+            for row_fuel_periodically in rows_fuel_periodically:
+                current_datetime_local = row_fuel_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
+
+                actual_value = Decimal(0.0) if row_fuel_periodically[1] is None else row_fuel_periodically[1]
+                timestamps.append(current_datetime)
+                values.append(actual_value)
+            reporting['fuel_7_days']['timestamps_array'].append(timestamps)
+            reporting['fuel_7_days']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['fuel_7_days']['total_values']) <= i:
+                    reporting['fuel_7_days']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['fuel_7_days']['total_values'][i] += values[i]
+
+        ################################################################################################################
+        # Step 6: query charge energy data in this month
         ################################################################################################################
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -273,7 +328,7 @@ class Reporting:
                     reporting['charge_this_month']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 6: query discharge energy data in this month
+        # Step 7: query discharge energy data in this month
         ################################################################################################################
         reporting['discharge_this_month'] = dict()
         reporting['discharge_this_month']['timestamps_array'] = list()
@@ -323,7 +378,57 @@ class Reporting:
                     reporting['discharge_this_month']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 7: query charge energy data in this year
+        # Step 8: query fuel energy data in this month
+        ################################################################################################################
+        reporting['fuel_this_month'] = dict()
+        reporting['fuel_this_month']['timestamps_array'] = list()
+        reporting['fuel_this_month']['values_array'] = list()
+        reporting['fuel_this_month']['total_values'] = list()
+
+        for hybrid_power_station in hybrid_power_station_list:
+            timestamps = list()
+            values = list()
+            query = (" SELECT start_datetime_utc, actual_value "
+                     " FROM tbl_hybrid_power_station_fuel_hourly "
+                     " WHERE hybrid_power_station_id = %s "
+                     " AND start_datetime_utc >= %s "
+                     " AND start_datetime_utc < %s "
+                     " ORDER BY start_datetime_utc ")
+            cursor_energy_db.execute(query, (hybrid_power_station['id'], start_datetime_utc, end_datetime_utc))
+            rows_fuel_hourly = cursor_energy_db.fetchall()
+
+            rows_fuel_periodically = utilities.aggregate_hourly_data_by_period(rows_fuel_hourly,
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
+
+            for row_fuel_periodically in rows_fuel_periodically:
+                current_datetime_local = row_fuel_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
+
+                actual_value = Decimal(0.0) if row_fuel_periodically[1] is None else row_fuel_periodically[1]
+                timestamps.append(current_datetime)
+                values.append(actual_value)
+            reporting['fuel_this_month']['timestamps_array'].append(timestamps)
+            reporting['fuel_this_month']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['fuel_this_month']['total_values']) <= i:
+                    reporting['fuel_this_month']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['fuel_this_month']['total_values'][i] += values[i]
+
+        ################################################################################################################
+        # Step 9: query charge energy data in this year
         ################################################################################################################
         end_datetime_utc = datetime.utcnow()
         end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
@@ -382,7 +487,7 @@ class Reporting:
                     reporting['charge_this_year']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 8: query discharge energy data in this month
+        # Step 10: query discharge energy data in this year
         ################################################################################################################
         reporting['discharge_this_year'] = dict()
         reporting['discharge_this_year']['timestamps_array'] = list()
@@ -431,7 +536,56 @@ class Reporting:
                     reporting['discharge_this_year']['total_values'][i] += values[i]
 
         ################################################################################################################
-        # Step 9: construct the report
+        # Step 11: query fuel energy data in this year
+        ################################################################################################################
+        reporting['fuel_this_year'] = dict()
+        reporting['fuel_this_year']['timestamps_array'] = list()
+        reporting['fuel_this_year']['values_array'] = list()
+        reporting['fuel_this_year']['total_values'] = list()
+
+        for hybrid_power_station in hybrid_power_station_list:
+            timestamps = list()
+            values = list()
+            query = (" SELECT start_datetime_utc, actual_value "
+                     " FROM tbl_hybrid_power_station_fuel_hourly "
+                     " WHERE hybrid_power_station_id = %s "
+                     " AND start_datetime_utc >= %s "
+                     " AND start_datetime_utc < %s "
+                     " ORDER BY start_datetime_utc ")
+            cursor_energy_db.execute(query, (hybrid_power_station['id'], start_datetime_utc, end_datetime_utc))
+            rows_fuel_hourly = cursor_energy_db.fetchall()
+
+            rows_fuel_periodically = utilities.aggregate_hourly_data_by_period(rows_fuel_hourly,
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
+            for row_fuel_periodically in rows_fuel_periodically:
+                current_datetime_local = row_fuel_periodically[0].replace(tzinfo=timezone.utc) + \
+                                         timedelta(minutes=timezone_offset)
+                if period_type == 'hourly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                elif period_type == 'daily':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'weekly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                elif period_type == 'monthly':
+                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                elif period_type == 'yearly':
+                    current_datetime = current_datetime_local.strftime('%Y')
+
+                actual_value = Decimal(0.0) if row_fuel_periodically[1] is None else row_fuel_periodically[1]
+                timestamps.append(current_datetime)
+                values.append(actual_value)
+            reporting['fuel_this_year']['timestamps_array'].append(timestamps)
+            reporting['fuel_this_year']['values_array'].append(values)
+            for i in range(len(values)):
+                if len(reporting['fuel_this_year']['total_values']) <= i:
+                    reporting['fuel_this_year']['total_values'].append(Decimal(0.0))
+                else:
+                    reporting['fuel_this_year']['total_values'][i] += values[i]
+
+        ################################################################################################################
+        # Step 12: construct the report
         ################################################################################################################
         if cursor_system_db:
             cursor_system_db.close()

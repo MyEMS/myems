@@ -8,7 +8,7 @@ import {
   Table,
 } from 'reactstrap';
 
-const LoadDetails = ({
+const DetailsCard = ({
   id,
   name,
   points,
@@ -22,11 +22,16 @@ const LoadDetails = ({
           <thead>
             <tr>
               <th>{name}</th>
+              <th>{t('Point')}</th>
+              <th>{t('Realtime Value')}</th>
+              <th>{t('Unit')}</th>
+              <th>{t('Description')}</th>
             </tr>
           </thead>
           <tbody>
               {points.map((currentPoint) => (
                 <tr key={uuid()}>
+                  <td></td>
                   <td>{currentPoint[0]}</td>
                   <td>{currentPoint[3]}</td>
                   <td>{currentPoint[1]}</td>
@@ -40,10 +45,10 @@ const LoadDetails = ({
   );
 };
 
-LoadDetails.propTypes = {
+DetailsCard.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   points: PropTypes.array,
 };
 
-export default withTranslation()(LoadDetails);
+export default withTranslation()(DetailsCard);
