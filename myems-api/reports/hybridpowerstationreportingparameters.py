@@ -157,7 +157,7 @@ class Reporting:
         cursor_system.execute(" SELECT ds.id, ds.name "
                               " FROM tbl_hybrid_power_stations_bmses b, tbl_points p, tbl_data_sources ds "
                               " WHERE b.hybrid_power_station_id = %s "
-                              "       AND b.soc_point_id = p.id "
+                              "       AND b.operating_status_point_id = p.id "
                               "       AND p.data_source_id = ds.id ",
                               (hybrid_power_station_id,))
         row_data_source = cursor_system.fetchone()
@@ -172,7 +172,7 @@ class Reporting:
         for data_source in data_source_list:
             cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
                                   " FROM tbl_points p "
-                                  " WHERE p.data_source_id = %s ",
+                                  " WHERE p.data_source_id = %s AND p.object_type != 'TEXT_VALUE'",
                                   (data_source['id'],))
             rows_points = cursor_system.fetchall()
             if rows_points is not None and len(rows_points) > 0:

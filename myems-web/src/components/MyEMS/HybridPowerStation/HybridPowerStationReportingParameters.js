@@ -421,7 +421,7 @@ const HybridPowerStationReportingParameters = ({ setRedirect, setRedirectUrl, t 
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'energystoreagepowerstationparameters.xlsx';
+    const fileName = 'hybridpowerstationparameters.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
