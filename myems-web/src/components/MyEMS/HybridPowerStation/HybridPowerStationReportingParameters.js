@@ -252,14 +252,14 @@ const HybridPowerStationReportingParameters = ({ setRedirect, setRedirectUrl, t 
       })
       .then(json => {
         if (isResponseOK) {
-          setHybridPowerStationName(json['energy_storage_power_station']['name']);
-          setHybridPowerStationSerialNumber(json['energy_storage_power_station']['serial_number']);
-          setHybridPowerStationAddress(json['energy_storage_power_station']['address']);
-          setHybridPowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
-          setHybridPowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
-          setHybridPowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
-          setHybridPowerStationLatitude(json['energy_storage_power_station']['latitude']);
-          setHybridPowerStationLongitude(json['energy_storage_power_station']['longitude']);
+          setHybridPowerStationName(json['hybrid_power_station']['name']);
+          setHybridPowerStationSerialNumber(json['hybrid_power_station']['serial_number']);
+          setHybridPowerStationAddress(json['hybrid_power_station']['address']);
+          setHybridPowerStationPostalCode(json['hybrid_power_station']['postal_code']);
+          setHybridPowerStationRatedCapacity(json['hybrid_power_station']['rated_capacity']);
+          setHybridPowerStationRatedPower(json['hybrid_power_station']['rated_power']);
+          setHybridPowerStationLatitude(json['hybrid_power_station']['latitude']);
+          setHybridPowerStationLongitude(json['hybrid_power_station']['longitude']);
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -460,7 +460,7 @@ const HybridPowerStationReportingParameters = ({ setRedirect, setRedirectUrl, t 
               <Col xs="auto">
                 <FormGroup>
                   <Label className={labelClasses} for="hybridPowerStationSelect">
-                    {t('Energy Storage Power Station')}
+                    {t('Hybrid Power Station')}
                   </Label>
 
                   <Form inline>
