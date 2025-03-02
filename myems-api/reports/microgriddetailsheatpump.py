@@ -18,11 +18,11 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the hybrid power station
+    # Step 2: query the microgrid
     # Step 3: query analog points latest values
     # Step 4: query energy points latest values
     # Step 5: query digital points latest values
-    # Step 6: query the points of BMSes
+    # Step 6: query the points of Heatpumps
     # Step 7: construct the report
     ####################################################################################################################
     @staticmethod
@@ -39,10 +39,10 @@ class Reporting:
         ################################################################################################################
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_HYBRID_POWER_STATION_ID')
-        hybrid_power_station_id = id_
+                                   description='API.INVALID_MICROGRID_ID')
+        microgrid_id = id_
         ################################################################################################################
-        # Step 2: query the hybrid power station
+        # Step 2: query the microgrid
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -50,18 +50,18 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        if hybrid_power_station_id is not None:
+        if microgrid_id is not None:
             query = (" SELECT id, name, uuid "
-                     " FROM tbl_hybrid_power_stations "
+                     " FROM tbl_microgrids "
                      " WHERE id = %s ")
-            cursor_system.execute(query, (hybrid_power_station_id,))
+            cursor_system.execute(query, (microgrid_id,))
             row = cursor_system.fetchone()
 
         if row is None:
             cursor_system.close()
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.HYBRID_POWER_STATION_NOT_FOUND')
+                                   description='API.MICROGRID_NOT_FOUND')
 
         # query all points
         query = (" SELECT id, name, units, description "
@@ -122,31 +122,31 @@ class Reporting:
                                              row[1]]
 
         ################################################################################################################
-        # Step 6: query the points of associated BMSes
+        # Step 6: query the points of associated Heatpumps
         ################################################################################################################
 
-        bms_list = list()
+        heatpump_list = list()
         cursor_system.execute(" SELECT id, name, uuid "
-                              " FROM tbl_hybrid_power_stations_bmses "
-                              " WHERE hybrid_power_station_id = %s "
+                              " FROM tbl_microgrids_heatpumps "
+                              " WHERE microgrid_id = %s "
                               " ORDER BY id ",
-                              (hybrid_power_station_id,))
-        rows_bmses = cursor_system.fetchall()
-        if rows_bmses is not None and len(rows_bmses) > 0:
-            for row in rows_bmses:
-                current_bms = dict()
-                current_bms['id'] = row[0]
-                current_bms['name'] = row[1]
-                current_bms['uuid'] = row[2]
-                current_bms['points'] = list()
-                bms_list.append(current_bms)
-
-        for index, bms in enumerate(bms_list):
+                              (microgrid_id,))
+        rows_heatpumps = cursor_system.fetchall()
+        if rows_heatpumps is not None and len(rows_heatpumps) > 0:
+            for row in rows_heatpumps:
+                current_heatpump = dict()
+                current_heatpump['id'] = row[0]
+                current_heatpump['name'] = row[1]
+                current_heatpump['uuid'] = row[2]
+                current_heatpump['points'] = list()
+                heatpump_list.append(current_heatpump)
+        print(heatpump_list)
+        for index, heatpump in enumerate(heatpump_list):
             cursor_system.execute(" SELECT p.id "
-                                  " FROM tbl_hybrid_power_stations_bmses_points bp, tbl_points p "
-                                  " WHERE bp.bms_id = %s AND bp.point_id = p.id "
+                                  " FROM tbl_microgrids_heatpumps_points bp, tbl_points p "
+                                  " WHERE bp.heatpump_id = %s AND bp.point_id = p.id "
                                   " ORDER BY bp.id ",
-                                  (bms['id'],))
+                                  (heatpump['id'],))
             rows_points = cursor_system.fetchall()
             if rows_points is not None and len(rows_points) > 0:
                 point_list = list()
@@ -154,7 +154,7 @@ class Reporting:
                     point = latest_value_dict.get(row[0], None)
                     if point is not None:
                         point_list.append(point)
-                bms_list[index]['points'] = point_list
+                heatpump_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
@@ -168,4 +168,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(bms_list)
+        resp.text = json.dumps(heatpump_list)

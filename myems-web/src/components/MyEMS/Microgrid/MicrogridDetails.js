@@ -29,11 +29,7 @@ import { v4 as uuid } from 'uuid';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
-import BMSDetails from './BMSDetails';
-import EVChargerDetails from './EVChargerDetails';
-import GeneratorDetails from './GeneratorDetails';
-import PCSDetails from './PCSDetails';
-import PVDetails from './PVDetails';
+import DetailsTable from './DetailsTable';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
@@ -130,9 +126,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [BMSDetailsList, setBMSDetailsList] = useState([]);
   const [EVChargerDetailsList, setEVChargerDetailsList] = useState([]);
-  const [GeneratorDetailsList, setGeneratorDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
   const [PVDetailsList, setPVDetailsList] = useState([]);
+  const [GeneratorDetailsList, setGeneratorDetailsList] = useState([]);
+  const [GridDetailsList, setGridDetailsList] = useState([]);
+  const [LoadDetailsList, setLoadDetailsList] = useState([]);
+  const [HeatpumpDetailsList, setHeatpumpDetailsList] = useState([]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -332,36 +331,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }
 
-  // Generator
-  const fetchGeneratorDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/generator'
-    let isResponseOK = false;
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          setGeneratorDetailsList(json);
-        } else {
-          toast.error(t(json.description));
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
   // PCS
   const fetchPCSDetails = () => {
     let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pcs'
@@ -415,6 +384,126 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           setPVDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Generator
+  const fetchGeneratorDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/generator'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setGeneratorDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Grid
+  const fetchGridDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/grid'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setGridDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Load
+  const fetchLoadDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/load'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setLoadDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Heatpump
+  const fetchHeatpumpDetails = () => {
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/heatpump'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setHeatpumpDetailsList(json);
         } else {
           toast.error(t(json.description));
         }
@@ -762,6 +851,43 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             <h6>Generators</h6>
           </NavLink>
         </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '9' })}
+            onClick={() => {
+              toggleTabBottom('9');
+              fetchGridDetails();
+            }}
+          >
+            <h6>Grids</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '10' })}
+            onClick={() => {
+              toggleTabBottom('10');
+              fetchLoadDetails();
+            }}
+          >
+            <h6>Loads</h6>
+          </NavLink>
+        </NavItem>
+
+        <NavItem className="cursor-pointer">
+          <NavLink
+            className={classNames({ active: activeTabBottom === '11' })}
+            onClick={() => {
+              toggleTabBottom('11');
+              fetchHeatpumpDetails();
+            }}
+          >
+            <h6>Heatpumps</h6>
+          </NavLink>
+        </NavItem>
+
       </Nav>
       <TabContent activeTab={activeTabBottom}>
         <TabPane tabId="1">
@@ -848,19 +974,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </TabPane>
         <TabPane tabId="4">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="5">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="6">
-            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <PVDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="7">
-            {isIterableArray(EVChargerDetailsList) && EVChargerDetailsList.map(({ id, ...rest }) => <EVChargerDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(EVChargerDetailsList) && EVChargerDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
         </TabPane>
         <TabPane tabId="8">
-          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <GeneratorDetails key={id} id={id} {...rest} />) }
+          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+        </TabPane>
+        <TabPane tabId="9">
+          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+        </TabPane>
+        <TabPane tabId="10">
+          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+        </TabPane>
+        <TabPane tabId="11">
+          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
         </TabPane>
       </TabContent>
     </Fragment>

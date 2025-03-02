@@ -19,11 +19,11 @@ class Reporting:
     # PROCEDURES
     # Step 1: valid parameters
     # Step 2: query the microgrid
-    # Step 4: query analog points latest values
-    # Step 5: query energy points latest values
-    # Step 6: query digital points latest values
-    # Step 7: query the points of bms
-    # Step 8: construct the report
+    # Step 3: query analog points latest values
+    # Step 4: query energy points latest values
+    # Step 5: query digital points latest values
+    # Step 6: query the points of BMSes
+    # Step 7: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp, id_):
@@ -62,15 +62,22 @@ class Reporting:
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
-        else:
-            microgrid_id = row[0]
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2]}
+
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
+
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
 
         ################################################################################################################
         # Step 3: query analog points latest values
         ################################################################################################################
+
         latest_value_dict = dict()
         query = (" SELECT point_id, actual_value "
                  " FROM tbl_analog_value_latest "
@@ -79,7 +86,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 4: query energy points latest values
@@ -91,7 +101,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query digital points latest values
@@ -103,47 +116,45 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
-        # Step 6: query the points of bms
+        # Step 6: query the points of associated BMSes
         ################################################################################################################
-        # query all points with units
-        query = (" SELECT id, units "
-                 " FROM tbl_points ")
-        cursor_system.execute(query)
-        rows = cursor_system.fetchall()
 
-        units_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                units_dict[row[0]] = row[1]
-
-        # query parameters
-        pcs_list = list()
-
-        cursor_system.execute(" SELECT id, name, uuid, "
-                              "        battery_state_point_id, "
-                              "        soc_point_id, "
-                              "        power_point_id "
+        bms_list = list()
+        cursor_system.execute(" SELECT id, name, uuid "
                               " FROM tbl_microgrids_batteries "
                               " WHERE microgrid_id = %s "
                               " ORDER BY id ",
                               (microgrid_id,))
-        rows_pcs = cursor_system.fetchall()
-        if rows_pcs is not None and len(rows_pcs) > 0:
-            for row in rows_pcs:
-                current_pcs = dict()
-                current_pcs['id'] = row[0]
-                current_pcs['name'] = row[1]
-                current_pcs['uuid'] = row[2]
-                current_pcs['battery_state_point'] = (latest_value_dict.get(row[3], None),
-                                                      units_dict.get(row[3], None))
-                current_pcs['soc_point'] = (latest_value_dict.get(row[4], None),
-                                            units_dict.get(row[4], None))
-                current_pcs['power_point'] = (latest_value_dict.get(row[5], None),
-                                              units_dict.get(row[5], None))
-                pcs_list.append(current_pcs)
+        rows_bmses = cursor_system.fetchall()
+        if rows_bmses is not None and len(rows_bmses) > 0:
+            for row in rows_bmses:
+                current_bms = dict()
+                current_bms['id'] = row[0]
+                current_bms['name'] = row[1]
+                current_bms['uuid'] = row[2]
+                current_bms['points'] = list()
+                bms_list.append(current_bms)
+        print(bms_list)
+        for index, bms in enumerate(bms_list):
+            cursor_system.execute(" SELECT p.id "
+                                  " FROM tbl_microgrids_bmses_points bp, tbl_points p "
+                                  " WHERE bp.bms_id = %s AND bp.point_id = p.id "
+                                  " ORDER BY bp.id ",
+                                  (bms['id'],))
+            rows_points = cursor_system.fetchall()
+            if rows_points is not None and len(rows_points) > 0:
+                point_list = list()
+                for row in rows_points:
+                    point = latest_value_dict.get(row[0], None)
+                    if point is not None:
+                        point_list.append(point)
+                bms_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
@@ -157,4 +168,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(pcs_list)
+        resp.text = json.dumps(bms_list)

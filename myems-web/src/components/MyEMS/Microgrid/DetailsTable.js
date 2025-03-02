@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { v4 as uuid } from 'uuid';
 import {
   Card,
   CardBody,
   Table,
 } from 'reactstrap';
 
-const EVChargerDetails = ({
+const DetailsTable = ({
   id,
   name,
-  power_point,
+  points,
   t
 }) => {
 
@@ -24,9 +25,14 @@ const EVChargerDetails = ({
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {(power_point[0] !== null) && (<td>Power: {power_point[0]} {power_point[1]}</td>)}
-            </tr>
+              {points.map((currentPoint) => (
+                <tr key={uuid()}>
+                  <td>{currentPoint[0]}</td>
+                  <td>{currentPoint[3]}</td>
+                  <td>{currentPoint[1]}</td>
+                  <td>{currentPoint[2]}</td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </CardBody>
@@ -34,10 +40,10 @@ const EVChargerDetails = ({
   );
 };
 
-EVChargerDetails.propTypes = {
+DetailsTable.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  power_point: PropTypes.array,
+  points: PropTypes.array,
 };
 
-export default withTranslation()(EVChargerDetails);
+export default withTranslation()(DetailsTable);
