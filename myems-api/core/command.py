@@ -88,7 +88,7 @@ class CommandCollection:
                                    description='API.INVALID_PAYLOAD')
         payload = str.strip(new_values['data']['payload'])
 
-        if 'set_value' not in new_values['data'].keys():
+        if 'set_value' not in new_values['data'].keys() or new_values['data']['set_value'] is None:
             set_value = None
         elif isinstance(new_values['data']['set_value'], float) or \
                 isinstance(new_values['data']['set_value'], int):
@@ -340,7 +340,7 @@ class CommandItem:
                                    description='API.INVALID_PAYLOAD')
         payload = str.strip(new_values['data']['payload'])
 
-        if 'set_value' not in new_values['data'].keys():
+        if 'set_value' not in new_values['data'].keys() or new_values['data']['set_value'] is None:
             set_value = None
         elif isinstance(new_values['data']['set_value'], float) or \
                 isinstance(new_values['data']['set_value'], int):
@@ -421,7 +421,7 @@ class CommandSend:
 
         new_values = json.loads(raw_json)
 
-        if 'set_value' not in new_values['data'].keys():
+        if 'set_value' not in new_values['data'].keys() or new_values['data']['set_value'] is None:
             set_value = None
         elif isinstance(new_values['data']['set_value'], float):
             set_value = float(new_values['data']['set_value'])
@@ -582,7 +582,7 @@ class CommandImport:
                                    description='API.INVALID_PAYLOAD')
         payload = str.strip(new_values['payload'])
 
-        if 'set_value' not in new_values.keys() or new_values['set_value'] is None:
+        if 'set_value' not in new_values.keys() or new_values['data']['set_value'] is None:
             set_value = None
         elif isinstance(new_values['set_value'], float) or \
                 isinstance(new_values['set_value'], int):
