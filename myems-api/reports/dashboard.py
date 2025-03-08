@@ -26,11 +26,13 @@ class Reporting:
     # Step 5: query child spaces
     # Step 6: query base period energy input
     # Step 7: query base period energy cost
-    # Step 8: query reporting period energy input
-    # Step 9: query reporting period energy cost
-    # Step 10: query child spaces energy input
-    # Step 10: query child spaces energy cost
-    # Step 12: construct the report
+    # Step 8: query base period energy output
+    # Step 9: query reporting period energy input
+    # Step 10: query reporting period energy cost
+    # Step 11: query reporting period energy output
+    # Step 12: query child spaces energy input
+    # Step 13: query child spaces energy cost
+    # Step 14: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -227,7 +229,7 @@ class Reporting:
         cnx_billing = mysql.connector.connect(**config.myems_billing_db)
         cursor_billing = cnx_billing.cursor()
 
-        energy_category_set = set()
+        input_energy_category_set = set()
         # query energy categories in base period
         cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
                               " FROM tbl_space_input_category_hourly "
@@ -238,7 +240,7 @@ class Reporting:
         rows_energy_categories = cursor_energy.fetchall()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
+                input_energy_category_set.add(row_energy_category[0])
 
         # query energy categories in reporting period
         cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
@@ -250,9 +252,35 @@ class Reporting:
         rows_energy_categories = cursor_energy.fetchall()
         if rows_energy_categories is not None and len(rows_energy_categories) > 0:
             for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
+                input_energy_category_set.add(row_energy_category[0])
 
-        # query all energy categories in base period and reporting period
+
+        output_energy_category_set = set()
+        # query output energy categories in base period
+        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                              " FROM tbl_space_output_category_hourly "
+                              " WHERE space_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (space['id'], base_start_datetime_utc, base_end_datetime_utc))
+        rows_energy_categories = cursor_energy.fetchall()
+        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+            for row_energy_category in rows_energy_categories:
+                output_energy_category_set.add(row_energy_category[0])
+
+        # query output energy categories in reporting period
+        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                              " FROM tbl_space_output_category_hourly "
+                              " WHERE space_id = %s "
+                              "     AND start_datetime_utc >= %s "
+                              "     AND start_datetime_utc < %s ",
+                              (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+        rows_energy_categories = cursor_energy.fetchall()
+        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+            for row_energy_category in rows_energy_categories:
+                output_energy_category_set.add(row_energy_category[0])
+
+        # query all energy categories
         cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
                               " FROM tbl_energy_categories "
                               " ORDER BY id ", )
@@ -278,12 +306,11 @@ class Reporting:
                                    description='API.ENERGY_CATEGORY_NOT_FOUND')
         energy_category_dict = dict()
         for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set:
-                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                                "unit_of_measure": row_energy_category[2],
-                                                                "kgce": row_energy_category[3],
-                                                                "kgco2e": row_energy_category[4]}
-                
+            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                            "unit_of_measure": row_energy_category[2],
+                                                            "kgce": row_energy_category[3],
+                                                            "kgco2e": row_energy_category[4]}
+
         ################################################################################################################
         # Step 4: query sensor data
         ################################################################################################################
@@ -364,8 +391,8 @@ class Reporting:
         # Step 6: query base period energy input
         ################################################################################################################
         base_input = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
@@ -418,8 +445,8 @@ class Reporting:
         # Step 7: query base period energy cost
         ################################################################################################################
         base_cost = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 base_cost[energy_category_id] = dict()
                 base_cost[energy_category_id]['timestamps'] = list()
                 base_cost[energy_category_id]['values'] = list()
@@ -462,11 +489,65 @@ class Reporting:
                     base_cost[energy_category_id]['subtotal'] += actual_value
 
         ################################################################################################################
-        # Step 8: query reporting period energy input
+        # Step 8: query base period energy output
+        ################################################################################################################
+        base_output = dict()
+        if output_energy_category_set is not None and len(output_energy_category_set) > 0:
+            for energy_category_id in output_energy_category_set:
+                kgce = energy_category_dict[energy_category_id]['kgce']
+                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                base_output[energy_category_id] = dict()
+                base_output[energy_category_id]['timestamps'] = list()
+                base_output[energy_category_id]['values'] = list()
+                base_output[energy_category_id]['subtotal'] = Decimal(0.0)
+                base_output[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                base_output[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+
+                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                      " FROM tbl_space_output_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND energy_category_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (space['id'],
+                                       energy_category_id,
+                                       base_start_datetime_utc,
+                                       base_end_datetime_utc))
+                rows_space_hourly = cursor_energy.fetchall()
+
+                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
+                                                                                    base_start_datetime_utc,
+                                                                                    base_end_datetime_utc,
+                                                                                    period_type)
+                for row_space_periodically in rows_space_periodically:
+                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.strftime('%Y')
+
+                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
+                    base_output[energy_category_id]['timestamps'].append(current_datetime)
+                    base_output[energy_category_id]['values'].append(actual_value)
+                    base_output[energy_category_id]['subtotal'] += actual_value
+                    base_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                    base_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+
+        ################################################################################################################
+        # Step 9: query reporting period energy input
         ################################################################################################################
         reporting_input = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
@@ -538,11 +619,11 @@ class Reporting:
                         reporting_input[energy_category_id]['deep'] += row[1]
 
         ################################################################################################################
-        # Step 9: query reporting period energy cost
+        # Step 10: query reporting period energy cost
         ################################################################################################################
         reporting_cost = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
 
                 reporting_cost[energy_category_id] = dict()
                 reporting_cost[energy_category_id]['timestamps'] = list()
@@ -606,14 +687,90 @@ class Reporting:
                         reporting_cost[energy_category_id]['offpeak'] += row[1]
                     elif peak_type == 'deep':
                         reporting_cost[energy_category_id]['deep'] += row[1]
+        ################################################################################################################
+        # Step 11: query reporting period energy output
+        ################################################################################################################
+        reporting_output = dict()
+        if output_energy_category_set is not None and len(output_energy_category_set) > 0:
+            for energy_category_id in output_energy_category_set:
+                kgce = energy_category_dict[energy_category_id]['kgce']
+                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                reporting_output[energy_category_id] = dict()
+                reporting_output[energy_category_id]['timestamps'] = list()
+                reporting_output[energy_category_id]['values'] = list()
+                reporting_output[energy_category_id]['subtotal'] = Decimal(0.0)
+                reporting_output[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                reporting_output[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                reporting_output[energy_category_id]['toppeak'] = Decimal(0.0)
+                reporting_output[energy_category_id]['onpeak'] = Decimal(0.0)
+                reporting_output[energy_category_id]['midpeak'] = Decimal(0.0)
+                reporting_output[energy_category_id]['offpeak'] = Decimal(0.0)
+                reporting_output[energy_category_id]['deep'] = Decimal(0.0)
+
+                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                      " FROM tbl_space_output_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND energy_category_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (space['id'],
+                                       energy_category_id,
+                                       reporting_start_datetime_utc,
+                                       reporting_end_datetime_utc))
+                rows_space_hourly = cursor_energy.fetchall()
+
+                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
+                                                                                    reporting_start_datetime_utc,
+                                                                                    reporting_end_datetime_utc,
+                                                                                    period_type)
+                for row_space_periodically in rows_space_periodically:
+                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.strftime('%Y')
+
+                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else \
+                        row_space_periodically[1]
+                    reporting_output[energy_category_id]['timestamps'].append(current_datetime)
+                    reporting_output[energy_category_id]['values'].append(actual_value)
+                    reporting_output[energy_category_id]['subtotal'] += actual_value
+                    reporting_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                    reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+
+                energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
+                                                                                       energy_category_id,
+                                                                                       reporting_start_datetime_utc,
+                                                                                       reporting_end_datetime_utc)
+                for row in rows_space_hourly:
+                    peak_type = energy_category_tariff_dict.get(row[0], None)
+                    if peak_type == 'toppeak':
+                        reporting_output[energy_category_id]['toppeak'] += row[1]
+                    elif peak_type == 'onpeak':
+                        reporting_output[energy_category_id]['onpeak'] += row[1]
+                    elif peak_type == 'midpeak':
+                        reporting_output[energy_category_id]['midpeak'] += row[1]
+                    elif peak_type == 'offpeak':
+                        reporting_output[energy_category_id]['offpeak'] += row[1]
+                    elif peak_type == 'deep':
+                        reporting_output[energy_category_id]['deep'] += row[1]
 
         ################################################################################################################
-        # Step 10: query child spaces energy input
+        # Step 12: query child spaces energy input
         ################################################################################################################
         child_space_input = dict()
 
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 child_space_input[energy_category_id] = dict()
                 child_space_input[energy_category_id]['child_space_names'] = list()
                 child_space_input[energy_category_id]['subtotals'] = list()
@@ -653,12 +810,12 @@ class Reporting:
                     child_space_input[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
 
         ################################################################################################################
-        # Step 10: query child spaces energy cost
+        # Step 13: query child spaces energy cost
         ################################################################################################################
         child_space_cost = dict()
 
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 child_space_cost[energy_category_id] = dict()
                 child_space_cost[energy_category_id]['child_space_names'] = list()
                 child_space_cost[energy_category_id]['subtotals'] = list()
@@ -690,7 +847,7 @@ class Reporting:
                     child_space_cost[energy_category_id]['subtotals'].append(subtotal_list)
 
         ################################################################################################################
-        # Step 12: construct the report
+        # Step 14: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -726,8 +883,8 @@ class Reporting:
         result['base_period_input']['subtotals_per_capita'] = list()
         result['base_period_input']['total_in_kgce'] = Decimal(0.0)
         result['base_period_input']['total_in_kgco2e'] = Decimal(0.0)
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['base_period_input']['names'].append(
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_input']['units'].append(
@@ -767,8 +924,8 @@ class Reporting:
         result['base_period_cost']['subtotals_per_unit_area'] = list()
         result['base_period_cost']['subtotals_per_capita'] = list()
         result['base_period_cost']['total'] = Decimal(0.0)
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['base_period_cost']['names'].append(
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_cost']['units'].append(config.currency_unit)
@@ -785,6 +942,45 @@ class Reporting:
                     base_cost[energy_category_id]['subtotal'] / space['number_of_occupants']
                     if space['number_of_occupants'] > 0.0 else None)
                 result['base_period_cost']['total'] += base_cost[energy_category_id]['subtotal']
+
+        result['base_period_output'] = dict()
+        result['base_period_output']['names'] = list()
+        result['base_period_output']['units'] = list()
+        result['base_period_output']['timestamps'] = list()
+        result['base_period_output']['values'] = list()
+        result['base_period_output']['subtotals'] = list()
+        result['base_period_output']['subtotals_in_kgce'] = list()
+        result['base_period_output']['subtotals_in_kgco2e'] = list()
+        result['base_period_output']['subtotals_per_unit_area'] = list()
+        result['base_period_output']['subtotals_per_capita'] = list()
+        result['base_period_output']['total_in_kgce'] = Decimal(0.0)
+        result['base_period_output']['total_in_kgco2e'] = Decimal(0.0)
+        if output_energy_category_set is not None and len(output_energy_category_set) > 0:
+            for energy_category_id in output_energy_category_set:
+                result['base_period_output']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['base_period_output']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['base_period_output']['timestamps'].append(
+                    base_output[energy_category_id]['timestamps'])
+                result['base_period_output']['values'].append(
+                    base_output[energy_category_id]['values'])
+                result['base_period_output']['subtotals'].append(
+                    base_output[energy_category_id]['subtotal'])
+                result['base_period_output']['subtotals_in_kgce'].append(
+                    base_output[energy_category_id]['subtotal_in_kgce'])
+                result['base_period_output']['subtotals_in_kgco2e'].append(
+                    base_output[energy_category_id]['subtotal_in_kgco2e'])
+                result['base_period_output']['subtotals_per_unit_area'].append(
+                    base_output[energy_category_id]['subtotal'] / space['area']
+                    if space['area'] > 0.0 else None)
+                result['base_period_output']['subtotals_per_capita'].append(
+                    base_output[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    if space['number_of_occupants'] > 0.0 else None)
+                result['base_period_output']['total_in_kgce'] += \
+                    base_output[energy_category_id]['subtotal_in_kgce']
+                result['base_period_output']['total_in_kgco2e'] += \
+                    base_output[energy_category_id]['subtotal_in_kgco2e']
 
         result['reporting_period_input'] = dict()
         result['reporting_period_input']['names'] = list()
@@ -808,8 +1004,8 @@ class Reporting:
         result['reporting_period_input']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period_input']['increment_rate_in_kgco2e'] = Decimal(0.0)
 
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['reporting_period_input']['names'].append(energy_category_dict[energy_category_id]['name'])
                 result['reporting_period_input']['energy_category_ids'].append(energy_category_id)
                 result['reporting_period_input']['units'].append(
@@ -895,8 +1091,8 @@ class Reporting:
         result['reporting_period_cost']['total_increment_rate'] = Decimal(0.0)
         result['reporting_period_cost']['total_unit'] = config.currency_unit
 
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['reporting_period_cost']['names'].append(energy_category_dict[energy_category_id]['name'])
                 result['reporting_period_cost']['energy_category_ids'].append(energy_category_id)
                 result['reporting_period_cost']['units'].append(config.currency_unit)
@@ -940,6 +1136,94 @@ class Reporting:
             result['reporting_period_cost']['total'] \
             if result['reporting_period_cost']['total'] > Decimal(0.0) else None
 
+        result['reporting_period_output'] = dict()
+        result['reporting_period_output']['names'] = list()
+        result['reporting_period_output']['energy_category_ids'] = list()
+        result['reporting_period_output']['units'] = list()
+        result['reporting_period_output']['timestamps'] = list()
+        result['reporting_period_output']['values'] = list()
+        result['reporting_period_output']['subtotals'] = list()
+        result['reporting_period_output']['subtotals_in_kgce'] = list()
+        result['reporting_period_output']['subtotals_in_kgco2e'] = list()
+        result['reporting_period_output']['subtotals_per_unit_area'] = list()
+        result['reporting_period_output']['subtotals_per_capita'] = list()
+        result['reporting_period_output']['toppeaks'] = list()
+        result['reporting_period_output']['onpeaks'] = list()
+        result['reporting_period_output']['midpeaks'] = list()
+        result['reporting_period_output']['offpeaks'] = list()
+        result['reporting_period_output']['deeps'] = list()
+        result['reporting_period_output']['increment_rates'] = list()
+        result['reporting_period_output']['total_in_kgce'] = Decimal(0.0)
+        result['reporting_period_output']['total_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period_output']['increment_rate_in_kgce'] = Decimal(0.0)
+        result['reporting_period_output']['increment_rate_in_kgco2e'] = Decimal(0.0)
+
+        if output_energy_category_set is not None and len(output_energy_category_set) > 0:
+            for energy_category_id in output_energy_category_set:
+                result['reporting_period_output']['names'].append(energy_category_dict[energy_category_id]['name'])
+                result['reporting_period_output']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period_output']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['reporting_period_output']['timestamps'].append(
+                    reporting_output[energy_category_id]['timestamps'])
+                result['reporting_period_output']['values'].append(
+                    reporting_output[energy_category_id]['values'])
+                result['reporting_period_output']['subtotals'].append(
+                    reporting_output[energy_category_id]['subtotal'])
+                result['reporting_period_output']['subtotals_in_kgce'].append(
+                    reporting_output[energy_category_id]['subtotal_in_kgce'])
+                result['reporting_period_output']['subtotals_in_kgco2e'].append(
+                    reporting_output[energy_category_id]['subtotal_in_kgco2e'])
+                result['reporting_period_output']['subtotals_per_unit_area'].append(
+                    reporting_output[energy_category_id]['subtotal'] / space['area']
+                    if space['area'] > 0.0 else None)
+                result['reporting_period_output']['subtotals_per_capita'].append(
+                    reporting_output[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    if space['number_of_occupants'] > 0.0 else None)
+                result['reporting_period_output']['toppeaks'].append(
+                    reporting_output[energy_category_id]['toppeak'])
+                result['reporting_period_output']['onpeaks'].append(
+                    reporting_output[energy_category_id]['onpeak'])
+                result['reporting_period_output']['midpeaks'].append(
+                    reporting_output[energy_category_id]['midpeak'])
+                result['reporting_period_output']['offpeaks'].append(
+                    reporting_output[energy_category_id]['offpeak'])
+                result['reporting_period_output']['deeps'].append(
+                    reporting_output[energy_category_id]['deep'])
+                result['reporting_period_output']['increment_rates'].append(
+                    (reporting_output[energy_category_id]['subtotal'] -
+                     base_output[energy_category_id]['subtotal']) /
+                    base_output[energy_category_id]['subtotal']
+                    if base_output[energy_category_id]['subtotal'] > 0.0 else None)
+                result['reporting_period_output']['total_in_kgce'] += \
+                    reporting_output[energy_category_id]['subtotal_in_kgce']
+                result['reporting_period_output']['total_in_kgco2e'] += \
+                    reporting_output[energy_category_id]['subtotal_in_kgco2e']
+
+        result['reporting_period_output']['total_in_kgco2e_per_unit_area'] = \
+            result['reporting_period_output']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
+
+        result['reporting_period_output']['total_in_kgco2e_per_capita'] = \
+            result['reporting_period_output']['total_in_kgce'] / space['number_of_occupants'] \
+            if space['number_of_occupants'] > 0.0 else None
+
+        result['reporting_period_output']['increment_rate_in_kgce'] = \
+            (result['reporting_period_output']['total_in_kgce'] - result['base_period_input']['total_in_kgce']) / \
+            result['base_period_output']['total_in_kgce'] \
+            if result['reporting_period_output']['total_in_kgce'] > Decimal(0.0) else None
+
+        result['reporting_period_output']['total_in_kgce_per_unit_area'] = \
+            result['reporting_period_output']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
+
+        result['reporting_period_output']['total_in_kgce_per_capita'] = \
+            result['reporting_period_input']['total_in_kgco2e'] / space['number_of_occupants'] \
+            if space['number_of_occupants'] > 0.0 else None
+
+        result['reporting_period_output']['increment_rate_in_kgco2e'] = \
+            (result['reporting_period_output']['total_in_kgco2e'] - result['base_period_output']['total_in_kgco2e']) / \
+            result['base_period_output']['total_in_kgco2e'] \
+            if result['base_period_output']['total_in_kgco2e'] > Decimal(0.0) else None
+
         result['child_space_input'] = dict()
         result['child_space_input']['energy_category_names'] = list()  # 1D array [energy category]
         result['child_space_input']['units'] = list()  # 1D array [energy category]
@@ -947,8 +1231,8 @@ class Reporting:
         result['child_space_input']['subtotals_array'] = list()  # 2D array [energy category][child space]
         result['child_space_input']['subtotals_in_kgce_array'] = list()  # 2D array [energy category][child space]
         result['child_space_input']['subtotals_in_kgco2e_array'] = list()  # 2D array [energy category][child space]
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['child_space_input']['energy_category_names'].append(
                     energy_category_dict[energy_category_id]['name'])
                 result['child_space_input']['units'].append(
@@ -967,8 +1251,8 @@ class Reporting:
         result['child_space_cost']['units'] = list()  # 1D array [energy category]
         result['child_space_cost']['child_space_names_array'] = list()  # 2D array [energy category][child space]
         result['child_space_cost']['subtotals_array'] = list()  # 2D array [energy category][child space]
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
+        if input_energy_category_set is not None and len(input_energy_category_set) > 0:
+            for energy_category_id in input_energy_category_set:
                 result['child_space_cost']['energy_category_names'].append(
                     energy_category_dict[energy_category_id]['name'])
                 result['child_space_cost']['units'].append(config.currency_unit)

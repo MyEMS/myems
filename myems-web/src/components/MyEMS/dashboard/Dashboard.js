@@ -49,6 +49,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [lastYearBarList, setLastYearBarList] = useState([]);
   const [thisMonthInputCardSummaryList, setThisMonthInputCardSummaryList] = useState([]);
   const [thisMonthCostCardSummaryList, setThisMonthCostCardSummaryList] = useState([]);
+  const [thisMonthOutputCardSummaryList, setThisMonthOutputCardSummaryList] = useState([]);
   const [barLabels, setBarLabels] = useState([]);
   const [totalInTCE, setTotalInTCE] = useState({});
   const [totalInTCO2E, setTotalInTCO2E] = useState({});
@@ -323,6 +324,27 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
               setSpaceInputLineChartOptions(names);
               setThisMonthInputCardSummaryList(thisMonthInputArr);
+
+              let thisMonthOutputArr = [];
+              json['reporting_period_output']['names'].forEach((currentValue, index) => {
+                let unit = json['reporting_period_output']['units'][index];
+                let thisMonthItem = {};
+                names.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
+                thisMonthItem['name'] = json['reporting_period_output']['names'][index];
+                thisMonthItem['unit'] = json['reporting_period_output']['units'][index];
+                thisMonthItem['subtotal'] =
+                  json['reporting_period_output']['values'][index][
+                  json['reporting_period_output']['values'][index].length - 1
+                  ];
+                thisMonthItem['increment_rate'] =
+                  parseFloat(json['reporting_period_output']['increment_rates'][index] * 100).toFixed(2) + '%';
+                thisMonthItem['subtotal_per_unit_area'] =
+                  json['reporting_period_output']['subtotals_per_unit_area'][index];
+                thisMonthItem['subtotal_per_capita'] =
+                  json['reporting_period_output']['subtotals_per_capita'][index];
+                thisMonthOutputArr.push(thisMonthItem);
+              });
+              setThisMonthOutputCardSummaryList(thisMonthOutputArr);
 
               timestamps = {};
               json['reporting_period_cost']['timestamps'].forEach((currentValue, index) => {
@@ -651,7 +673,37 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-
+        {thisMonthOutputCardSummaryList.map(cardSummaryItem => (
+          <CardSummary
+            key={uuid()}
+            rate={cardSummaryItem['increment_rate']}
+            title={t("This Month's Generation CATEGORY VALUE UNIT", {
+              CATEGORY: cardSummaryItem['name'],
+              VALUE: null,
+              UNIT: '(' + cardSummaryItem['unit'] + ')'
+            })}
+            color="success"
+            footnote={t('Per Unit Area')}
+            footvalue={cardSummaryItem['subtotal_per_unit_area']}
+            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
+            secondfootnote={t('Per Capita')}
+            secondfootvalue={cardSummaryItem['subtotal_per_capita']}
+            secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
+          >
+            {cardSummaryItem['subtotal'] && (
+              <CountUp
+                end={cardSummaryItem['subtotal']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={0}
+              />
+            )}
+          </CardSummary>
+        ))}
+        </div>
+        <div className="card-deck">
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
