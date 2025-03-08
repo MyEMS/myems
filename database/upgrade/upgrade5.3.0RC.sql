@@ -211,6 +211,10 @@ CREATE INDEX `tbl_hybrid_power_station_load_hourly_index_1`
  ON `myems_energy_db`.`tbl_hybrid_power_station_load_hourly`
  (`hybrid_power_station_id`, `start_datetime_utc`);
 
+INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
+VALUES
+(115,'Prediction','/space/prediction',100,1);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0RC', release_date='2025-03-15' WHERE id=1;
 

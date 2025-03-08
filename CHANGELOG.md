@@ -6,8 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added space output data to dashboard in myems-web and myems-api
+- added space prediction report in  myems-web and myems-api
 ### Changed
 - updated microgrid
+- updated myems-api/example.env (myems-api/.env in production eviroment)
 ### Fixed
 - fixed issue in space statistics report
 ### Removed

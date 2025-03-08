@@ -36,6 +36,7 @@ const resources = {
       'Batch Analysis': 'Batch Analysis',
       Saving: 'Saving',
       Plan: 'Plan',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Equipment Tracking',
@@ -277,16 +278,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'Ton of Standard Coal(TCE) by Energy Category',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category',
       'Reporting Period Consumption CATEGORY UNIT': 'Reporting Period Consumption {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Reporting Period Consumption {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Reporting Period Consumption {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Reporting Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Reporting Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
-      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Base Period Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Reporting Period Consumption {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Reporting Period Consumption {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -1282,6 +1285,7 @@ const resources = {
       'Batch Analysis': '批量分析',
       Saving: '节能分析',
       Plan: '计划分析',
+      Prediction: '预测分析',
       'Production': '产量',
       'Space Production': '产量能耗分析',
       'Equipment Tracking': '设备台账',
@@ -1519,6 +1523,7 @@ const resources = {
       'Ton of Standard Coal by Energy Category': '吨标准煤(TCE)占比',
       'Ton of Carbon Dioxide Emissions by Energy Category': '吨二氧化碳排放(TCO2E)占比',
       'Reporting Period Consumption CATEGORY UNIT': '报告期消耗 {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': '报告期预测 {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT': '{{EQUIPMENT}} 报告期消耗 {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} 报告期消耗 {{CATEGORY}} {{UNIT}}',
@@ -1526,7 +1531,9 @@ const resources = {
       'Reporting Period Production PRODUCT VALUE UNIT': '报告期产量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': '基准期产量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': '报告期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': '报告期预测 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': '基准期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': '报告期预测 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': '报告期消耗 {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT': '报告期消耗 {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption ITEM CATEGORY VALUE UNIT': '基准期消耗 {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -2510,6 +2517,7 @@ const resources = {
       'Batch Analysis': 'Charge Analyse',
       Saving: 'Sparen',
       Plan: 'Planen',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Ausrüstung Datei',
@@ -2752,16 +2760,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'Tonne Standardkohle(TCE) nach Energiekategorie',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'Tonne Kohlendioxidemissionen(TCO2E) nach Energiekategorie',
       'Reporting Period Consumption CATEGORY UNIT': 'Verbrauch des Berichtszeitraums {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Verbrauch des Berichtszeitraums {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Verbrauch des Berichtszeitraums {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Verbrauch des Berichtszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Verbrauch des Berichtszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Verbrauch des Basiszeitraums {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Verbrauch des Berichtszeitraums {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -3789,6 +3799,7 @@ const resources = {
       'Batch Analysis': 'Analyse des lots',
       Saving: 'Épargne',
       Plan: 'Plan',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Suivi de l’équipement',
@@ -4033,16 +4044,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'Tonnes d’émissions de dioxyde de carbone (TCO2E) par catégorie d’énergie',
       'Reporting Period Consumption CATEGORY UNIT': 'Rapports Période Consommation {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Rapports Période Consommation {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Rapports Période Consommation {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Rapports Période Consommation {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Rapports Période Consommation {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Base Période Consommation {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Rapports Période Consommation {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Rapports Période Consommation {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -5047,6 +5060,7 @@ const resources = {
       'Batch Analysis': 'Análisis de lotes',
       Saving: 'Ahorro',
       Plan: 'Plan',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Seguimiento de equipos',
@@ -5290,16 +5304,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'Toneladas de emisiones de dióxido de carbono(TCO2E) por categoría de energía',
       'Reporting Period Consumption CATEGORY UNIT': 'Consumo del período de informe {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Consumo del período de informe {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Consumo del período de informe {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Consumo del período de informe {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Consumo del período de informe {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Consumo del período base {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Consumo del período de informe {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -6311,6 +6327,7 @@ const resources = {
       'Batch Analysis': 'Пакетный анализ',
       Saving: 'Спасительный',
       Plan: 'План',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Отслеживание оборудования',
@@ -6554,16 +6571,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'Тонн выбросов углекислого газа (TCO2E) по энергетическим категориям',
       'Reporting Period Consumption CATEGORY UNIT': 'Потребление за отчетный период {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Потребление за отчетный период {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Потребление за отчетный период{{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Потребление за отчетный период {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Потребление за отчетный период {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Потребление за базовый период {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'Потребление за отчетный период {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -7574,6 +7593,7 @@ const resources = {
       'Batch Analysis': 'تحليل الدفعات',
       Saving: 'حفظ',
       Plan: 'يخطط',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'تتبع المعدات',
@@ -7813,16 +7833,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'طن من الفحم القياسي (TCE) حسب فئة الطاقة',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'طن من انبعاثات ثاني أكسيد الكربون (TCO2E) حسب فئة الطاقة',
       'Reporting Period Consumption CATEGORY UNIT': 'استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'استهلاك الفترة المشمولة بالتقرير {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'استهلاك فترة الأساس {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'استهلاك الفترة المشمولة بالتقرير {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -8826,6 +8848,7 @@ const resources = {
       'Batch Analysis': 'Phân tích hàng loạt',
       Saving: 'Tiết kiệm',
       Plan: 'Kế hoạch',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Theo dõi thiết bị',
@@ -9067,14 +9090,17 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'Tấn than tiêu chuẩn (TCE) theo loại năng lượng',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'Tấn khí thải carbon dioxide (TCO2E) theo loại năng lượng',
       'Reporting Period Consumption CATEGORY UNIT': 'Tiêu thụ kỳ báo cáo {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT': '{{EQUIPMENT}} Tiêu thụ kỳ báo cáo {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Tiêu thụ kỳ báo cáo {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Tiêu thụ kỳ báo cáo {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Tiêu thụ thời gian cơ sở {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Tiêu thụ kỳ báo cáo {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Tiêu thụ kỳ báo cáo {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -10076,6 +10102,7 @@ const resources = {
       'Batch Analysis': 'การวิเคราะห์แบทช์',
       Saving: 'การประหยัด',
       Plan: 'วางแผน',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'การติดตามอุปกรณ์',
@@ -10317,16 +10344,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์ (TCO2E) ตามประเภทพลังงาน',
       'Reporting Period Consumption CATEGORY UNIT': 'ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'ปริมาณการใช้ในรอบระยะเวลารายงาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'การบริโภคช่วงฐาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT':
         'ปริมาณการใช้ในรอบระยะเวลารายงาน {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
@@ -11325,6 +11354,7 @@ const resources = {
       'Batch Analysis': 'Toplu Analiz',
       Saving: 'Tasarruf',
       Plan: 'Plan',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Ekipman Takibi',
@@ -11567,15 +11597,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'Enerji Kategorisine Göre Tonlarca Karbondioksit Emisyonu (TCO2E)',
       'Reporting Period Consumption CATEGORY UNIT': 'Raporlama Dönemi Tüketimi {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Raporlama Dönemi Tüketimi {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Raporlama Dönemi Tüketimi {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Raporlama Dönemi Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Baz Dönem Tüketimi {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Raporlama Dönemi Tüketimi {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Raporlama Dönemi Tüketimi {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -12577,6 +12610,7 @@ const resources = {
       'Batch Analysis': 'Analisis Kumpulan',
       Saving: 'Menyimpan',
       Plan: 'Rancang',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Penjejakan Peralatan',
@@ -12820,15 +12854,18 @@ const resources = {
       'Ton of Carbon Dioxide Emissions by Energy Category':
         'Tan pelepasan karbon dioksida (TCO2E) mengikut kategori tenaga',
       'Reporting Period Consumption CATEGORY UNIT': 'Tempoh Pelaporan Penggunaan {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Tempoh Pelaporan Penggunaan {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Tempoh Pelaporan Penggunaan {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': 'Tempoh Pelaporan Penggunaan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Tempoh Asas Penggunaan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Tempoh Pelaporan Penggunaan {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Tempoh Pelaporan Penggunaan {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -13833,6 +13870,7 @@ const resources = {
       'Batch Analysis': 'Analisi Seri',
       Saving: 'Analis Penyimpanan Energi',
       Plan: 'Rencana',
+      Prediction: 'Prediction',
       'Production': 'Production',
       'Space Production': 'Space Production',
       'Equipment Tracking': 'Buku Peralatan',
@@ -14074,16 +14112,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'Proporci Ton Coal Standard (TCE)',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'Proporci Ton Emisi Carbon Dioxide (TCO2E)',
       'Reporting Period Consumption CATEGORY UNIT': 'Konsum Selama Periode Laporan {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Konsum Selama Periode Laporan {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Konsum Selama Periode Laporan {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Konsum Selama Periode Laporan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Konsum Selama Periode Laporan {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Reporting Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Base Period Production {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Konsum Periode Dasar {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Konsum Selama Periode Laporan {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Konsum Selama Periode Laporan {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -15102,6 +15142,7 @@ const resources = {
       'Batch Analysis': '批量分析',
       Saving: '節能分析',
       Plan: '計劃分析',
+      Prediction: 'Prediction',
       'Production': '產量',
       'Space Production': '產量能耗分析',
       'Equipment Tracking': '設備台賬',
@@ -15340,15 +15381,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': '噸標準煤 (TCE) 占比',
       'Ton of Carbon Dioxide Emissions by Energy Category': '噸⼆氧化碳排放 (TCO2E) 占比',
       'Reporting Period Consumption CATEGORY UNIT': '報告期消耗{{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} 報告期消耗 {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} 報告期消耗 {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption CATEGORY VALUE UNIT': '報告期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': '報告期產量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': '基準期產量 {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': '基準期消耗 {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': '報告期消耗 {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT': '報告期消耗 {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption ITEM CATEGORY VALUE UNIT': '基準期消耗 {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -16363,6 +16407,7 @@ const resources = {
       'Batch Analysis': 'Análise em Lote',
       Saving: 'Poupança',
       Plan: 'Planejamento',
+      Prediction: 'Prediction',
       'Production': 'Produção',
       'Space Production': 'Produção Espacial',
       'Equipment Tracking': 'Rastreamento do equipamento',
@@ -16604,16 +16649,18 @@ const resources = {
       'Ton of Standard Coal by Energy Category': 'Tonelada de carvão normal(TCE) por categoria de energia',
       'Ton of Carbon Dioxide Emissions by Energy Category': 'Tonelada de Emissões de Dióxido de Carbono (TCO2E) por Categoria de Energia',
       'Reporting Period Consumption CATEGORY UNIT': 'Consumo do Período de Relatório {{CATEGORY}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY UNIT': 'Reporting Period Prediction {{CATEGORY}} {{UNIT}}',
       'EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{EQUIPMENT}} Consumo do Período de Relatório {{CATEGORY}} {{UNIT}}',
       'COMBINED_EQUIPMENT Reporting Period Consumption CATEGORY UNIT':
         '{{COMBINED_EQUIPMENT}} Consumo do Período de Relatório {{CATEGORY}} {{UNIT}}',
       'CATEGORY VALUE UNIT': '{{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'Reporting Period Consumption CATEGORY VALUE UNIT':
-        'Consumo do Período de Relatório {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Consumption CATEGORY VALUE UNIT': 'Consumo do Período de Relatório {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Reporting Period Prediction CATEGORY VALUE UNIT': 'Reporting Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Production PRODUCT VALUE UNIT': 'Produção do período de relatório {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Production PRODUCT VALUE UNIT': 'Produção do Período Base {{PRODUCT}} {{VALUE}} {{UNIT}}',
       'Base Period Consumption CATEGORY VALUE UNIT': 'Consumo do Período Base {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'Base Period Prediction CATEGORY VALUE UNIT': 'Base Period Prediction {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY UNIT': 'Consumo do Período de Relatório {{ITEM}} {{CATEGORY}} {{UNIT}}',
       'Reporting Period Consumption ITEM CATEGORY VALUE UNIT':
         'Consumo do Período de Relatório {{ITEM}} {{CATEGORY}} {{VALUE}} {{UNIT}}',

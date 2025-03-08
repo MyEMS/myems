@@ -13,6 +13,7 @@ import SpaceLoad from '../components/MyEMS/Space/SpaceLoad';
 import SpaceStatistics from '../components/MyEMS/Space/SpaceStatistics';
 import SpaceSaving from '../components/MyEMS/Space/SpaceSaving';
 import SpacePlan from '../components/MyEMS/Space/SpacePlan';
+import SpacePrediction from '../components/MyEMS/Space/SpacePrediction';
 import SpaceEnvironmentMonitor from '../components/MyEMS/Space/SpaceEnvironmentMonitor';
 import EnterProduction from '../components/MyEMS/Space/EnterProduction';
 import SpaceProduction from '../components/MyEMS/Space/SpaceProduction';
@@ -130,6 +131,7 @@ const MyEMSRoutes = () => (
     <Route path="/space/statistics" exact component={SpaceStatistics} />
     <Route path="/space/saving" exact component={SpaceSaving} />
     <Route path="/space/plan" exact component={SpacePlan} />
+    <Route path="/space/prediction" exact component={SpacePrediction} />
     <Route path="/space/environmentmonitor" exact component={SpaceEnvironmentMonitor} />
     <Route path="/space/enterproduction" exact component={EnterProduction} />
     <Route path="/space/production" exact component={SpaceProduction} />
