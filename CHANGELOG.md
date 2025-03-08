@@ -5,11 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- 
+- added space output data to dashboard in myems-web and myems-api
 ### Changed
 - updated microgrid
 ### Fixed
--
+- fixed issue in space statistics report
 ### Removed
 -
 
