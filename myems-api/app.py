@@ -157,6 +157,7 @@ from reports import spaceload
 from reports import spaceoutput
 from reports import spacesaving
 from reports import spaceplan
+from reports import spaceprediction
 from reports import spacestatistics
 from reports import storebatch
 from reports import storecarbon
@@ -1337,6 +1338,8 @@ api.add_route('/reports/spacesaving',
               spacesaving.Reporting())
 api.add_route('/reports/spaceplan',
               spaceplan.Reporting())
+api.add_route('/reports/spaceprediction',
+              spaceprediction.Reporting())
 api.add_route('/reports/spacestatistics',
               spacestatistics.Reporting())
 api.add_route('/reports/storebatch',
