@@ -68,7 +68,16 @@ class Reporting:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2]}
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
@@ -98,7 +107,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query energy points latest values
@@ -110,7 +122,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 6: query digital points latest values
@@ -122,7 +137,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 7: query the points of dcdcs
@@ -137,87 +155,38 @@ class Reporting:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 units_dict[row[0]] = row[1]
-        # query pcs parameters
+        # query dcdc parameters
         dcdc_list = list()
         for container in container_list:
-            cursor_system.execute(" SELECT id, name, uuid, "
-                                  " state_point_id, "
-                                  " module_environmental_temperature_point_id, "
-                                  " radiator_temperature_point_id, "
-                                  " environmental_temperature_limit_power_point_id, "
-                                  " high_voltage_side_positive_bus_voltage_point_id, "
-                                  " high_voltage_side_negative_bus_voltage_point_id, "
-                                  " high_voltage_side_positive_busbar_voltage_difference_point_id, "
-                                  " high_voltage_side_voltage_point_id, "
-                                  " low_voltage_side_voltage_point_id, "
-                                  " low_voltage_side_current_point_id, "
-                                  " low_voltage_side_dc_power_point_id, "
-                                  " high_voltage_side_pre_charging_overvoltage_point_id, "
-                                  " high_voltage_side_polarity_reverse_connection_point_id, "
-                                  " high_voltage_side_short_circuit_point_id, "
-                                  " high_voltage_side_unbalanced_busbars_point_id, "
-                                  " low_voltage_side_undervoltage_point_id, "
-                                  " low_voltage_side_overvoltage_point_id, "
-                                  " low_voltage_side_overcurrent_point_id, "
-                                  " low_voltage_side_reverse_polarity_connection_point_id, "
-                                  " low_insulation_resistance_point_id "
+            cursor_system.execute(" SELECT id, name, uuid "
                                   " FROM tbl_energy_storage_containers_dcdcs "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
-                                  (container_list[0]['id'],))
+                                  (container['id'],))
             rows_dcdcs = cursor_system.fetchall()
             if rows_dcdcs is not None and len(rows_dcdcs) > 0:
                 for row in rows_dcdcs:
-                    current_dcdc = dict()
-                    current_dcdc['id'] = row[0]
-                    current_dcdc['name'] = container['name'] + '-' + row[1]
-                    current_dcdc['uuid'] = row[2]
-                    current_dcdc['state_point'] = (latest_value_dict.get(row[3], None),
-                                                   units_dict.get(row[3], None))
-                    current_dcdc['module_environmental_temperature_point'] = (latest_value_dict.get(row[4], None),
-                                                                              units_dict.get(row[4], None))
-                    current_dcdc['radiator_temperature_point'] = (latest_value_dict.get(row[5], None),
-                                                                  units_dict.get(row[5], None))
-                    current_dcdc['environmental_temperature_limit_power_point'] = (latest_value_dict.get(row[6], None),
-                                                                                   units_dict.get(row[6], None))
-                    current_dcdc['high_voltage_side_positive_bus_voltage_point'] = (latest_value_dict.get(row[7], None),
-                                                                                    units_dict.get(row[7], None))
-                    current_dcdc['high_voltage_side_negative_bus_voltage_point'] = (latest_value_dict.get(row[8], None),
-                                                                                    units_dict.get(row[8], None))
-                    current_dcdc['high_voltage_side_positive_busbar_voltage_difference_point'] = \
-                        (latest_value_dict.get(row[9], None),
-                         units_dict.get(row[9], None))
-                    current_dcdc['high_voltage_side_voltage_point'] = (latest_value_dict.get(row[10], None),
-                                                                       units_dict.get(row[10], None))
-                    current_dcdc['low_voltage_side_voltage_point'] = (latest_value_dict.get(row[11], None),
-                                                                      units_dict.get(row[11], None))
-                    current_dcdc['low_voltage_side_current_point'] = (latest_value_dict.get(row[12], None),
-                                                                      units_dict.get(row[12], None))
-                    current_dcdc['low_voltage_side_dc_power_point'] = (latest_value_dict.get(row[13], None),
-                                                                       units_dict.get(row[13], None))
-                    current_dcdc['high_voltage_side_pre_charging_overvoltage_point'] = \
-                        (latest_value_dict.get(row[14], None),
-                         units_dict.get(row[14], None))
-                    current_dcdc['high_voltage_side_polarity_reverse_connection_point'] = \
-                        (latest_value_dict.get(row[15], None),
-                         units_dict.get(row[15], None))
-                    current_dcdc['high_voltage_side_short_circuit_point'] = (latest_value_dict.get(row[16], None),
-                                                                             units_dict.get(row[16], None))
-                    current_dcdc['high_voltage_side_unbalanced_busbars_point'] = \
-                        (latest_value_dict.get(row[17], None),
-                         units_dict.get(row[17], None))
-                    current_dcdc['low_voltage_side_undervoltage_point'] = (latest_value_dict.get(row[18], None),
-                                                                           units_dict.get(row[18], None))
-                    current_dcdc['low_voltage_side_overvoltage_point'] = (latest_value_dict.get(row[19], None),
-                                                                          units_dict.get(row[19], None))
-                    current_dcdc['low_voltage_side_overcurrent_point'] = (latest_value_dict.get(row[20], None),
-                                                                          units_dict.get(row[20], None))
-                    current_dcdc['low_voltage_side_reverse_polarity_connection_point'] = \
-                        (latest_value_dict.get(row[21], None),
-                         units_dict.get(row[21], None))
-                    current_dcdc['low_insulation_resistance_point'] = (latest_value_dict.get(row[22], None),
-                                                                       units_dict.get(row[22], None))
-                    dcdc_list.append(current_dcdc)
+                    current_bms = dict()
+                    current_bms['id'] = row[0]
+                    current_bms['name'] = row[1]
+                    current_bms['uuid'] = row[2]
+                    current_bms['points'] = list()
+                    dcdc_list.append(current_bms)
+
+            for index, dcdc in enumerate(dcdc_list):
+                cursor_system.execute(" SELECT p.id "
+                                      " FROM tbl_energy_storage_containers_dcdcs_points bp, tbl_points p "
+                                      " WHERE bp.dcdc_id = %s AND bp.point_id = p.id "
+                                      " ORDER BY bp.id ",
+                                      (dcdc['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    point_list = list()
+                    for row in rows_points:
+                        point = latest_value_dict.get(row[0], None)
+                        if point is not None:
+                            point_list.append(point)
+                    dcdc_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
