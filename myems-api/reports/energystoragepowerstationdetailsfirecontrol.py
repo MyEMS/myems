@@ -68,7 +68,16 @@ class Reporting:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2]}
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
@@ -98,7 +107,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query energy points latest values
@@ -110,7 +122,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 6: query digital points latest values
@@ -122,7 +137,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 7: query the points of firecontrols
@@ -140,25 +158,7 @@ class Reporting:
         # query firecontrol parameters
         firecontrol_list = list()
         for container in container_list:
-            cursor_system.execute(" SELECT id, name, uuid, "
-                                  "        water_immersion_point_id, "
-                                  "        emergency_stop_point_id, "
-                                  "        electrical_compartment_smoke_detector_point_id, "
-                                  "        battery_compartment_door_open_point_id, "
-                                  "        electrical_compartment_door_open_point_id, "
-                                  "        first_level_fire_alarm_point_id, "
-                                  "        second_level_fire_alarm_point_id, "
-                                  "        running_light_point_id, "
-                                  "        fault_light_point_id, "
-                                  "        ac_relay_tripping_point_id, "
-                                  "        inside_temperature_point_id, "
-                                  "        outside_temperature_point_id, "
-                                  "        temperature_alarm_point_id, "
-                                  "        smoke_sensor_value_point_id, "
-                                  "        smoke_sensor_alarm_point_id, "
-                                  "        battery_safety_detection_sensor_value_point_id, "
-                                  "        battery_safety_detection_sensor_alarm_point_id, "
-                                  "        fire_extinguishing_device_status_point_id "
+            cursor_system.execute(" SELECT id, name, uuid "
                                   " FROM tbl_energy_storage_containers_firecontrols "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
@@ -166,65 +166,27 @@ class Reporting:
             rows_firecontrols = cursor_system.fetchall()
             if rows_firecontrols is not None and len(rows_firecontrols) > 0:
                 for row in rows_firecontrols:
-                    current_firecontrol = dict()
-                    current_firecontrol['id'] = row[0]
-                    current_firecontrol['name'] = container['name'] + '-' + row[1]
-                    current_firecontrol['uuid'] = row[2]
-                    current_firecontrol['water_immersion_point'] = \
-                        (latest_value_dict.get(row[3], None),
-                         units_dict.get(row[3], None))
-                    current_firecontrol['emergency_stop_point'] = \
-                        (latest_value_dict.get(row[4], None),
-                         units_dict.get(row[4], None))
-                    current_firecontrol['electrical_compartment_smoke_detector_point'] = \
-                        (latest_value_dict.get(row[5], None),
-                         units_dict.get(row[5], None))
-                    current_firecontrol['battery_compartment_door_open_point'] = \
-                        (latest_value_dict.get(row[6], None),
-                         units_dict.get(row[6], None))
-                    current_firecontrol['electrical_compartment_door_open_point'] = \
-                        (latest_value_dict.get(row[7], None),
-                         units_dict.get(row[7], None))
-                    current_firecontrol['first_level_fire_alarm_point'] = \
-                        (latest_value_dict.get(row[8], None),
-                         units_dict.get(row[8], None))
-                    current_firecontrol['second_level_fire_alarm_point'] = \
-                        (latest_value_dict.get(row[9], None),
-                         units_dict.get(row[9], None))
-                    current_firecontrol['running_light_point'] = \
-                        (latest_value_dict.get(row[10], None),
-                         units_dict.get(row[10], None))
-                    current_firecontrol['fault_light_point'] = \
-                        (latest_value_dict.get(row[11], None),
-                         units_dict.get(row[11], None))
-                    current_firecontrol['ac_relay_tripping_point'] = \
-                        (latest_value_dict.get(row[12], None),
-                         units_dict.get(row[12], None))
-                    current_firecontrol['inside_temperature_point'] = \
-                        (latest_value_dict.get(row[13], None),
-                         units_dict.get(row[13], None))
-                    current_firecontrol['outside_temperature_point'] = \
-                        (latest_value_dict.get(row[14], None),
-                         units_dict.get(row[14], None))
-                    current_firecontrol['temperature_alarm_point'] = \
-                        (latest_value_dict.get(row[15], None),
-                         units_dict.get(row[15], None))
-                    current_firecontrol['smoke_sensor_value_point'] = \
-                        (latest_value_dict.get(row[16], None),
-                         units_dict.get(row[16], None))
-                    current_firecontrol['smoke_sensor_alarm_point'] = \
-                        (latest_value_dict.get(row[17], None),
-                         units_dict.get(row[17], None))
-                    current_firecontrol['battery_safety_detection_sensor_value_point'] = \
-                        (latest_value_dict.get(row[18], None),
-                         units_dict.get(row[18], None))
-                    current_firecontrol['battery_safety_detection_sensor_alarm_point'] = \
-                        (latest_value_dict.get(row[19], None),
-                         units_dict.get(row[19], None))
-                    current_firecontrol['fire_extinguishing_device_status_point'] = \
-                        (latest_value_dict.get(row[20], None),
-                         units_dict.get(row[20], None))
-                    firecontrol_list.append(current_firecontrol)
+                    current_bms = dict()
+                    current_bms['id'] = row[0]
+                    current_bms['name'] = row[1]
+                    current_bms['uuid'] = row[2]
+                    current_bms['points'] = list()
+                    firecontrol_list.append(current_bms)
+
+            for index, firecontrol in enumerate(firecontrol_list):
+                cursor_system.execute(" SELECT p.id "
+                                      " FROM tbl_energy_storage_containers_firecontrols_points bp, tbl_points p "
+                                      " WHERE bp.firecontrol_id = %s AND bp.point_id = p.id "
+                                      " ORDER BY bp.id ",
+                                      (firecontrol['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    point_list = list()
+                    for row in rows_points:
+                        point = latest_value_dict.get(row[0], None)
+                        if point is not None:
+                            point_list.append(point)
+                    firecontrol_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()

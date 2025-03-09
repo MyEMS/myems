@@ -396,6 +396,19 @@ CREATE INDEX `tbl_energy_storage_containers_batteries_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_batteries` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_bmses_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_bmses_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_bmses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bms_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_bmses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_bmses_points` (`bms_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_commands`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_commands` ;
@@ -443,6 +456,19 @@ CREATE INDEX `tbl_energy_storage_containers_dcdcs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_dcdcs` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `dcdc_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_dcdcs_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points` (`dcdc_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_firecontrols`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols` ;
@@ -473,6 +499,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_fire
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_firecontrols_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `firecontrol_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_firecontrols_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points` (`firecontrol_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_grids`
@@ -507,6 +546,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grid
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_grids_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_grids` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_grids_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `grid_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_grids_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_grids_points` (`grid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_hvacs`
@@ -547,6 +599,19 @@ CREATE INDEX `tbl_energy_storage_containers_hvacs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_hvacs` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_hvacs_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hvac_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_hvacs_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_hvacs_points` (`hvac_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_loads`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads` ;
@@ -579,6 +644,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_load
 CREATE INDEX `tbl_energy_storage_containers_loads_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_loads` (`energy_storage_container_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_loads_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_loads_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_loads_points` (`load_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems`
@@ -641,6 +719,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_powe
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_containers_pcs_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_pcses_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_pcses_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_pcses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `pcs_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_pcses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_pcses_points` (`pcs_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_schedules`

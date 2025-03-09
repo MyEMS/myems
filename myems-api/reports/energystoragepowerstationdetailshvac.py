@@ -68,7 +68,16 @@ class Reporting:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2]}
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
@@ -98,7 +107,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query energy points latest values
@@ -110,7 +122,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 6: query digital points latest values
@@ -122,7 +137,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 7: query the points of HVACs
@@ -140,91 +158,35 @@ class Reporting:
         # query pcs parameters
         hvac_list = list()
         for container in container_list:
-            cursor_system.execute(" SELECT id, name, uuid, "
-                                  "        working_status_point_id, "
-                                  "        indoor_fan_status_point_id, "
-                                  "        outdoor_fan_status_point_id, "
-                                  "        emergency_fan_status_point_id, "
-                                  "        compressor_status_point_id, "
-                                  "        electric_heating_status_point_id, "
-                                  "        coil_temperature_point_id, "
-                                  "        temperature_outside_point_id, "
-                                  "        temperature_inside_point_id, "
-                                  "        humidity_inside_point_id, "
-                                  "        condensation_temperature_point_id, "
-                                  "        defrosting_temperature_point_id, "
-                                  "        outlet_air_temperature_point_id, "
-                                  "        return_air_temperature_point_id, "
-                                  "        exhaust_temperature_point_id, "
-                                  "        heating_on_temperature_point_id, "
-                                  "        heating_off_temperature_point_id, "
-                                  "        heating_control_hysteresis_point_id, "
-                                  "        cooling_on_temperature_point_id, "
-                                  "        cooling_off_temperature_point_id, "
-                                  "        cooling_control_hysteresis_point_id, "
-                                  "        high_temperature_alarm_set_point_id, "
-                                  "        low_temperature_alarm_set_point_id, "
-                                  "        high_humidity_alarm_set_point_id "
+            cursor_system.execute(" SELECT id, name, uuid "
                                   " FROM tbl_energy_storage_containers_hvacs "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
-                                  (container_list[0]['id'],))
-            rows_hvac = cursor_system.fetchall()
-            if rows_hvac is not None and len(rows_hvac) > 0:
-                for row in rows_hvac:
+                                  (container['id'],))
+            rows_hvacs = cursor_system.fetchall()
+            if rows_hvacs is not None and len(rows_hvacs) > 0:
+                for row in rows_hvacs:
                     current_hvac = dict()
                     current_hvac['id'] = row[0]
-                    current_hvac['name'] = container['name'] + '-' + row[1]
+                    current_hvac['name'] = row[1]
                     current_hvac['uuid'] = row[2]
-                    current_hvac['working_status_point'] = (latest_value_dict.get(row[3], None),
-                                                            units_dict.get(row[3], None))
-                    current_hvac['indoor_fan_status_point'] = (latest_value_dict.get(row[4], None),
-                                                               units_dict.get(row[4], None))
-                    current_hvac['outdoor_fan_status_point'] = (latest_value_dict.get(row[5], None),
-                                                                units_dict.get(row[5], None))
-                    current_hvac['emergency_fan_status_point'] = (latest_value_dict.get(row[6], None),
-                                                                  units_dict.get(row[6], None))
-                    current_hvac['compressor_status_point'] = (latest_value_dict.get(row[7], None),
-                                                               units_dict.get(row[7], None))
-                    current_hvac['electric_heating_status_point'] = (latest_value_dict.get(row[8], None),
-                                                                     units_dict.get(row[8], None))
-                    current_hvac['coil_temperature_point'] = (latest_value_dict.get(row[9], None),
-                                                              units_dict.get(row[9], None))
-                    current_hvac['temperature_outside_point'] = (latest_value_dict.get(row[10], None),
-                                                                 units_dict.get(row[10], None))
-                    current_hvac['temperature_inside_point'] = (latest_value_dict.get(row[11], None),
-                                                                units_dict.get(row[11], None))
-                    current_hvac['humidity_inside_point'] = (latest_value_dict.get(row[12], None),
-                                                             units_dict.get(row[12], None))
-                    current_hvac['condensation_temperature_point'] = (latest_value_dict.get(row[13], None),
-                                                                      units_dict.get(row[13], None))
-                    current_hvac['defrosting_temperature_point'] = (latest_value_dict.get(row[14], None),
-                                                                    units_dict.get(row[14], None))
-                    current_hvac['outlet_air_temperature_point'] = (latest_value_dict.get(row[15], None),
-                                                                    units_dict.get(row[15], None))
-                    current_hvac['return_air_temperature_point'] = (latest_value_dict.get(row[16], None),
-                                                                    units_dict.get(row[16], None))
-                    current_hvac['exhaust_temperature_point'] = (latest_value_dict.get(row[17], None),
-                                                                 units_dict.get(row[17], None))
-                    current_hvac['heating_on_temperature_point'] = (latest_value_dict.get(row[18], None),
-                                                                    units_dict.get(row[18], None))
-                    current_hvac['heating_off_temperature_point'] = (latest_value_dict.get(row[19], None),
-                                                                     units_dict.get(row[19], None))
-                    current_hvac['heating_control_hysteresis_point'] = (latest_value_dict.get(row[20], None),
-                                                                        units_dict.get(row[20], None))
-                    current_hvac['cooling_on_temperature_point'] = (latest_value_dict.get(row[21], None),
-                                                                    units_dict.get(row[21], None))
-                    current_hvac['cooling_off_temperature_point'] = (latest_value_dict.get(row[22], None),
-                                                                     units_dict.get(row[22], None))
-                    current_hvac['cooling_control_hysteresis_point'] = (latest_value_dict.get(row[23], None),
-                                                                        units_dict.get(row[23], None))
-                    current_hvac['high_temperature_alarm_set_point'] = (latest_value_dict.get(row[24], None),
-                                                                        units_dict.get(row[24], None))
-                    current_hvac['low_temperature_alarm_set_point'] = (latest_value_dict.get(row[25], None),
-                                                                       units_dict.get(row[25], None))
-                    current_hvac['high_humidity_alarm_set_point'] = (latest_value_dict.get(row[26], None),
-                                                                     units_dict.get(row[26], None))
+                    current_hvac['points'] = list()
                     hvac_list.append(current_hvac)
+
+            for index, hvac in enumerate(hvac_list):
+                cursor_system.execute(" SELECT p.id "
+                                      " FROM tbl_energy_storage_containers_hvacs_points bp, tbl_points p "
+                                      " WHERE bp.hvac_id = %s AND bp.point_id = p.id "
+                                      " ORDER BY bp.id ",
+                                      (hvac['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    point_list = list()
+                    for row in rows_points:
+                        point = latest_value_dict.get(row[0], None)
+                        if point is not None:
+                            point_list.append(point)
+                    hvac_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()

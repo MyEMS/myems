@@ -23,7 +23,7 @@ class Reporting:
     # Step 4: query analog points latest values
     # Step 5: query energy points latest values
     # Step 6: query digital points latest values
-    # Step 7: query the points of power conversion systems
+    # Step 7: query the points of loads
     # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
@@ -143,7 +143,7 @@ class Reporting:
                                              row[1]]
 
         ################################################################################################################
-        # Step 7: query the points of power conversion systems
+        # Step 7: query the points of loads
         ################################################################################################################
         # query all points with units
         query = (" SELECT id, units "
@@ -156,30 +156,30 @@ class Reporting:
             for row in rows:
                 units_dict[row[0]] = row[1]
 
-        # query pcs parameters
-        pcs_list = list()
+        # query load parameters
+        load_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT id, name, uuid "
-                                  " FROM tbl_energy_storage_containers_batteries "
+                                  " FROM tbl_energy_storage_containers_loads "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
                                   (container['id'],))
-            rows_bmses = cursor_system.fetchall()
-            if rows_bmses is not None and len(rows_bmses) > 0:
-                for row in rows_bmses:
+            rows_loads = cursor_system.fetchall()
+            if rows_loads is not None and len(rows_loads) > 0:
+                for row in rows_loads:
                     current_bms = dict()
                     current_bms['id'] = row[0]
                     current_bms['name'] = row[1]
                     current_bms['uuid'] = row[2]
                     current_bms['points'] = list()
-                    pcs_list.append(current_bms)
+                    load_list.append(current_bms)
 
-            for index, pcs in enumerate(pcs_list):
+            for index, load in enumerate(load_list):
                 cursor_system.execute(" SELECT p.id "
-                                      " FROM tbl_energy_storage_containers_pcses_points bp, tbl_points p "
-                                      " WHERE bp.pcs_id = %s AND bp.point_id = p.id "
+                                      " FROM tbl_energy_storage_containers_loads_points bp, tbl_points p "
+                                      " WHERE bp.load_id = %s AND bp.point_id = p.id "
                                       " ORDER BY bp.id ",
-                                      (pcs['id'],))
+                                      (load['id'],))
                 rows_points = cursor_system.fetchall()
                 if rows_points is not None and len(rows_points) > 0:
                     point_list = list()
@@ -187,7 +187,7 @@ class Reporting:
                         point = latest_value_dict.get(row[0], None)
                         if point is not None:
                             point_list.append(point)
-                    pcs_list[index]['points'] = point_list
+                    load_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
@@ -201,4 +201,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(pcs_list)
+        resp.text = json.dumps(load_list)

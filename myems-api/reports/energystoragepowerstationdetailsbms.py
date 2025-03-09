@@ -23,7 +23,7 @@ class Reporting:
     # Step 4: query analog points latest values
     # Step 5: query energy points latest values
     # Step 6: query digital points latest values
-    # Step 7: query the points of batteries
+    # Step 7: query the points of BMSes
     # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
@@ -68,7 +68,16 @@ class Reporting:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2]}
+        # query all points
+        query = (" SELECT id, name, units, description "
+                 " FROM tbl_points ")
+        cursor_system.execute(query)
+        rows = cursor_system.fetchall()
 
+        points_dict = dict()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                points_dict[row[0]] = [row[1], row[2], row[3]]
         ################################################################################################################
         # Step 3: query associated containers
         ################################################################################################################
@@ -98,7 +107,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 5: query energy points latest values
@@ -110,7 +122,10 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
         # Step 6: query digital points latest values
@@ -122,10 +137,13 @@ class Reporting:
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                latest_value_dict[row[0]] = row[1]
+                latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                             points_dict[row[0]][1],
+                                             points_dict[row[0]][2],
+                                             row[1]]
 
         ################################################################################################################
-        # Step 7: query the points of batteries
+        # Step 7: query the points of BMSes
         ################################################################################################################
         # query all points with units
         query = (" SELECT id, units "
@@ -138,101 +156,39 @@ class Reporting:
             for row in rows:
                 units_dict[row[0]] = row[1]
 
-        # query battery parameters
-        battery_list = list()
+        # query bms parameters
+        bms_list = list()
 
         for container in container_list:
-            cursor_system.execute(" SELECT id, name, uuid, "
-                                  "        battery_state_point_id, "
-                                  "        soc_point_id, "
-                                  "        power_point_id, "
-                                  "        communication_status_with_pcs_point_id, "
-                                  "        communication_status_with_ems_point_id, "
-                                  "        grid_status_point_id, "
-                                  "        total_voltage_point_id, "
-                                  "        total_current_point_id, "
-                                  "        soh_point_id, "
-                                  "        charging_power_limit_point_id, "
-                                  "        discharge_limit_power_point_id, "
-                                  "        rechargeable_capacity_point_id, "
-                                  "        dischargeable_capacity_point_id, "
-                                  "        average_temperature_point_id, "
-                                  "        average_voltage_point_id, "
-                                  "        insulation_value_point_id, "
-                                  "        positive_insulation_value_point_id, "
-                                  "        negative_insulation_value_point_id, "
-                                  "        maximum_temperature_point_id, "
-                                  "        maximum_temperature_battery_cell_point_id, "
-                                  "        minimum_temperature_point_id, "
-                                  "        minimum_temperature_battery_cell_point_id, "
-                                  "        maximum_voltage_point_id, "
-                                  "        maximum_voltage_battery_cell_point_id, "
-                                  "        minimum_voltage_point_id, "
-                                  "        minimum_voltage_battery_cell_point_id "
+            cursor_system.execute(" SELECT id, name, uuid "
                                   " FROM tbl_energy_storage_containers_batteries "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
                                   (container['id'],))
-            rows_batteries = cursor_system.fetchall()
-            if rows_batteries is not None and len(rows_batteries) > 0:
-                for row in rows_batteries:
-                    current_battery = dict()
-                    current_battery['id'] = row[0]
-                    current_battery['name'] = container['name'] + '-' + row[1]
-                    current_battery['uuid'] = row[2]
-                    current_battery['battery_state_point'] = (latest_value_dict.get(row[3], None),
-                                                              units_dict.get(row[3], None))
-                    current_battery['soc_point'] = (latest_value_dict.get(row[4], None),
-                                                    units_dict.get(row[4], None))
-                    current_battery['power_point'] = (latest_value_dict.get(row[5], None),
-                                                      units_dict.get(row[5], None))
-                    current_battery['communication_status_with_pcs_point'] = (latest_value_dict.get(row[6], None),
-                                                                              units_dict.get(row[6], None))
-                    current_battery['communication_status_with_ems_point'] = (latest_value_dict.get(row[7], None),
-                                                                              units_dict.get(row[7], None))
-                    current_battery['grid_status_point'] = (latest_value_dict.get(row[8], None),
-                                                            units_dict.get(row[8], None))
-                    current_battery['total_voltage_point'] = (latest_value_dict.get(row[9], None),
-                                                              units_dict.get(row[9], None))
-                    current_battery['total_current_point'] = (latest_value_dict.get(row[10], None),
-                                                              units_dict.get(row[10], None))
-                    current_battery['soh_point'] = (latest_value_dict.get(row[11], None),
-                                                    units_dict.get(row[11], None))
-                    current_battery['charging_power_limit_point'] = (latest_value_dict.get(row[12], None),
-                                                                     units_dict.get(row[12], None))
-                    current_battery['discharge_limit_power_point'] = (latest_value_dict.get(row[13], None),
-                                                                      units_dict.get(row[13], None))
-                    current_battery['rechargeable_capacity_point'] = (latest_value_dict.get(row[14], None),
-                                                                      units_dict.get(row[14], None))
-                    current_battery['dischargeable_capacity_point'] = (latest_value_dict.get(row[15], None),
-                                                                       units_dict.get(row[15], None))
-                    current_battery['average_temperature_point'] = (latest_value_dict.get(row[16], None),
-                                                                    units_dict.get(row[16], None))
-                    current_battery['average_voltage_point'] = (latest_value_dict.get(row[17], None),
-                                                                units_dict.get(row[17], None))
-                    current_battery['insulation_value_point'] = (latest_value_dict.get(row[18], None),
-                                                                 units_dict.get(row[18], None))
-                    current_battery['positive_insulation_value_point'] = (latest_value_dict.get(row[19], None),
-                                                                          units_dict.get(row[19], None))
-                    current_battery['negative_insulation_value_point'] = (latest_value_dict.get(row[20], None),
-                                                                          units_dict.get(row[20], None))
-                    current_battery['maximum_temperature_point'] = (latest_value_dict.get(row[21], None),
-                                                                    units_dict.get(row[21], None))
-                    current_battery['maximum_temperature_battery_cell_point'] = (latest_value_dict.get(row[22], None),
-                                                                                 units_dict.get(row[22], None))
-                    current_battery['minimum_temperature_point'] = (latest_value_dict.get(row[23], None),
-                                                                    units_dict.get(row[23], None))
-                    current_battery['minimum_temperature_battery_cell_point'] = (latest_value_dict.get(row[24], None),
-                                                                                 units_dict.get(row[24], None))
-                    current_battery['maximum_voltage_point'] = (latest_value_dict.get(row[25], None),
-                                                                units_dict.get(row[25], None))
-                    current_battery['maximum_voltage_battery_cell_point'] = (latest_value_dict.get(row[26], None),
-                                                                             units_dict.get(row[26], None))
-                    current_battery['minimum_voltage_point'] = (latest_value_dict.get(row[27], None),
-                                                                units_dict.get(row[27], None))
-                    current_battery['minimum_voltage_battery_cell_point'] = (latest_value_dict.get(row[28], None),
-                                                                             units_dict.get(row[28], None))
-                    battery_list.append(current_battery)
+            rows_bmses = cursor_system.fetchall()
+            if rows_bmses is not None and len(rows_bmses) > 0:
+                for row in rows_bmses:
+                    current_bms = dict()
+                    current_bms['id'] = row[0]
+                    current_bms['name'] = row[1]
+                    current_bms['uuid'] = row[2]
+                    current_bms['points'] = list()
+                    bms_list.append(current_bms)
+
+            for index, bms in enumerate(bms_list):
+                cursor_system.execute(" SELECT p.id "
+                                      " FROM tbl_energy_storage_containers_bmses_points bp, tbl_points p "
+                                      " WHERE bp.bms_id = %s AND bp.point_id = p.id "
+                                      " ORDER BY bp.id ",
+                                      (bms['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    point_list = list()
+                    for row in rows_points:
+                        point = latest_value_dict.get(row[0], None)
+                        if point is not None:
+                            point_list.append(point)
+                    bms_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
@@ -246,4 +202,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(battery_list)
+        resp.text = json.dumps(bms_list)

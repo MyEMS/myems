@@ -36,13 +36,8 @@ import Datetime from 'react-datetime';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import ScheduleDetails from './ScheduleDetails';
-import BMSDetails from './BMSDetails';
-import FirecontrolDetails from './FirecontrolDetails';
+import DetailsCard from './DetailsCard';
 import CommandDetails from './CommandDetails';
-import DCDCDetails from './DCDCDetails';
-import PCSDetails from './PCSDetails';
-import HVACDetails from './HVACDetails';
-import MeterDetails from './MeterDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import PinModal from './PinModal';
@@ -153,7 +148,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [HVACDetailsList, setHVACDetailsList] = useState([]);
   const [DCDCDetailsList, setDCDCDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
-  const [meterDetailsList, setMeterDetailsList] = useState([]);
+  const [gridDetailsList, setGridDetailsList] = useState([]);
+  const [loadDetailsList, setLoadDetailsList] = useState([]);
   const [commandDetailsList, setCommandDetailsList] = useState([]);
 
   useEffect(() => {
@@ -579,10 +575,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         console.log(err);
       });
   }
-  // Meters
-  const fetchMetersDetails = () => {
+  // Grids
+  const fetchGridDetails = () => {
 
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/meter'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/grid'
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -601,7 +597,39 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          setMeterDetailsList(json);
+          setGridDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  // Loads
+  const fetchLoadDetails = () => {
+
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/load'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setLoadDetailsList(json);
         } else {
           toast.error(t(json.description));
 
@@ -1019,18 +1047,29 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '7' })}
               onClick={() => {
                 setActiveTabBottom('7');
-                fetchMetersDetails();
+                fetchGridDetails();
               }}
             >
-              <h6>{t('Meter')}</h6>
+              <h6>{t('Grid')}</h6>
             </NavLink>
           </NavItem>
-
           <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '8' })}
               onClick={() => {
                 setActiveTabBottom('8');
+                fetchLoadDetails();
+              }}
+            >
+              <h6>{t('Load')}</h6>
+            </NavLink>
+          </NavItem>
+
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '9' })}
+              onClick={() => {
+                setActiveTabBottom('9');
                 fetchHVACDetails();
               }}
             >
@@ -1040,9 +1079,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '9' })}
+              className={classNames({ active: activeTabBottom === '10' })}
               onClick={() => {
-                setActiveTabBottom('9');
+                setActiveTabBottom('10');
                 fetchFireControlDetails();
               }}
             >
@@ -1052,12 +1091,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '10' })}
+              className={classNames({ active: activeTabBottom === '11' })}
               onClick={() => {
                 let is_pin_valid = getCookieValue('is_pin_valid');
                 if (is_pin_valid) {
                   fetchCommandDetails();
-                  setActiveTabBottom('10');
+                  setActiveTabBottom('11');
                 } else {
                   setIsOpenPinModal(true);
                 }
@@ -1149,24 +1188,27 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DCDCDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="5">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <PCSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="6">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <BMSDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="7">
-            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(gridDetailsList) && gridDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="8">
-            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <HVACDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(loadDetailsList) && loadDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="9">
-            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <FirecontrolDetails key={id} id={id} {...rest} />) }
+            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="10">
+            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+          </TabPane>
+          <TabPane tabId="11">
             {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
           </TabPane>
         </TabContent>

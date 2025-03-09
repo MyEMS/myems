@@ -215,6 +215,63 @@ INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
 (115,'Prediction','/space/prediction',100,1);
 
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_bmses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bms_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_bmses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_bmses_points` (`bms_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `dcdc_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_dcdcs_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_dcdcs_points` (`dcdc_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `firecontrol_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_firecontrols_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_firecontrols_points` (`firecontrol_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_grids_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `grid_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_grids_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_grids_points` (`grid_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_hvacs_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `hvac_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_hvacs_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_hvacs_points` (`hvac_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_loads_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_loads_points` (`load_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_pcses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `pcs_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_pcses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_pcses_points` (`pcs_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0RC', release_date='2025-03-15' WHERE id=1;
 
