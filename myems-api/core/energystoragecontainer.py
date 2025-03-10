@@ -1705,25 +1705,7 @@ class EnergyStorageContainerFirecontrolCollection:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        water_immersion_point_id, "
-                 "        emergency_stop_point_id, "
-                 "        electrical_compartment_smoke_detector_point_id, "
-                 "        battery_compartment_door_open_point_id, "
-                 "        electrical_compartment_door_open_point_id, "
-                 "        first_level_fire_alarm_point_id, "
-                 "        second_level_fire_alarm_point_id, "
-                 "        running_light_point_id, "
-                 "        fault_light_point_id, "
-                 "        ac_relay_tripping_point_id, "
-                 "        inside_temperature_point_id, "
-                 "        outside_temperature_point_id, "
-                 "        temperature_alarm_point_id, "
-                 "        smoke_sensor_value_point_id, "
-                 "        smoke_sensor_alarm_point_id, "
-                 "        battery_safety_detection_sensor_value_point_id, "
-                 "        battery_safety_detection_sensor_alarm_point_id, "
-                 "        fire_extinguishing_device_status_point_id "
+        query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_storage_containers_firecontrols "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -1928,49 +1910,11 @@ class EnergyStorageContainerFirecontrolCollection:
                                    description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_firecontrols "
-                      "    (name, uuid, energy_storage_container_id, "
-                      "     water_immersion_point_id, "
-                      "     emergency_stop_point_id, "
-                      "     electrical_compartment_smoke_detector_point_id, "
-                      "     battery_compartment_door_open_point_id, "
-                      "     electrical_compartment_door_open_point_id, "
-                      "     first_level_fire_alarm_point_id, "
-                      "     second_level_fire_alarm_point_id, "
-                      "     running_light_point_id, "
-                      "     fault_light_point_id, "
-                      "     ac_relay_tripping_point_id, "
-                      "     inside_temperature_point_id, "
-                      "     outside_temperature_point_id, "
-                      "     temperature_alarm_point_id, "
-                      "     smoke_sensor_value_point_id, "
-                      "     smoke_sensor_alarm_point_id, "
-                      "     battery_safety_detection_sensor_value_point_id, "
-                      "     battery_safety_detection_sensor_alarm_point_id, "
-                      "     fire_extinguishing_device_status_point_id)"
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s) ")
+                      "    (name, uuid, energy_storage_container_id) "
+                      " VALUES (%s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    id_,
-                                    water_immersion_point_id,
-                                    emergency_stop_point_id,
-                                    electrical_compartment_smoke_detector_point_id,
-                                    battery_compartment_door_open_point_id,
-                                    electrical_compartment_door_open_point_id,
-                                    first_level_fire_alarm_point_id,
-                                    second_level_fire_alarm_point_id,
-                                    running_light_point_id,
-                                    fault_light_point_id,
-                                    ac_relay_tripping_point_id,
-                                    inside_temperature_point_id,
-                                    outside_temperature_point_id,
-                                    temperature_alarm_point_id,
-                                    smoke_sensor_value_point_id,
-                                    smoke_sensor_alarm_point_id,
-                                    battery_safety_detection_sensor_value_point_id,
-                                    battery_safety_detection_sensor_alarm_point_id,
-                                    fire_extinguishing_device_status_point_id
+                                    id_
                                     ))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -2036,25 +1980,7 @@ class EnergyStorageContainerFirecontrolItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        water_immersion_point_id, "
-                 "        emergency_stop_point_id, "
-                 "        electrical_compartment_smoke_detector_point_id, "
-                 "        battery_compartment_door_open_point_id, "
-                 "        electrical_compartment_door_open_point_id, "
-                 "        first_level_fire_alarm_point_id, "
-                 "        second_level_fire_alarm_point_id, "
-                 "        running_light_point_id, "
-                 "        fault_light_point_id, "
-                 "        ac_relay_tripping_point_id, "
-                 "        inside_temperature_point_id, "
-                 "        outside_temperature_point_id, "
-                 "        temperature_alarm_point_id, "
-                 "        smoke_sensor_value_point_id, "
-                 "        smoke_sensor_alarm_point_id, "
-                 "        battery_safety_detection_sensor_value_point_id, "
-                 "        battery_safety_detection_sensor_alarm_point_id, "
-                 "        fire_extinguishing_device_status_point_id "
+        query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_storage_containers_firecontrols "
                  " WHERE id = %s ")
         cursor.execute(query, (fid,))
@@ -2303,45 +2229,9 @@ class EnergyStorageContainerFirecontrolItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_energy_storage_containers_firecontrols "
-                      " SET name = %s, "
-                      "     water_immersion_point_id = %s, "
-                      "     emergency_stop_point_id = %s, "
-                      "     electrical_compartment_smoke_detector_point_id = %s, "
-                      "     battery_compartment_door_open_point_id = %s, "
-                      "     electrical_compartment_door_open_point_id = %s, "
-                      "     first_level_fire_alarm_point_id = %s, "
-                      "     second_level_fire_alarm_point_id = %s, "
-                      "     running_light_point_id = %s, "
-                      "     fault_light_point_id = %s, "
-                      "     ac_relay_tripping_point_id = %s, "
-                      "     inside_temperature_point_id = %s, "
-                      "     outside_temperature_point_id = %s, "
-                      "     temperature_alarm_point_id = %s, "
-                      "     smoke_sensor_value_point_id = %s, "
-                      "     smoke_sensor_alarm_point_id = %s, "
-                      "     battery_safety_detection_sensor_value_point_id = %s, "
-                      "     battery_safety_detection_sensor_alarm_point_id = %s, "
-                      "     fire_extinguishing_device_status_point_id = %s "
+                      " SET name = %s "
                       "     WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    water_immersion_point_id,
-                                    emergency_stop_point_id,
-                                    electrical_compartment_smoke_detector_point_id,
-                                    battery_compartment_door_open_point_id,
-                                    electrical_compartment_door_open_point_id,
-                                    first_level_fire_alarm_point_id,
-                                    second_level_fire_alarm_point_id,
-                                    running_light_point_id,
-                                    fault_light_point_id,
-                                    ac_relay_tripping_point_id,
-                                    inside_temperature_point_id,
-                                    outside_temperature_point_id,
-                                    temperature_alarm_point_id,
-                                    smoke_sensor_value_point_id,
-                                    smoke_sensor_alarm_point_id,
-                                    battery_safety_detection_sensor_value_point_id,
-                                    battery_safety_detection_sensor_alarm_point_id,
-                                    fire_extinguishing_device_status_point_id,
                                     fid))
         cnx.commit()
 
@@ -3195,31 +3085,7 @@ class EnergyStorageContainerHVACCollection:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        working_status_point_id, "
-                 "        indoor_fan_status_point_id, "
-                 "        outdoor_fan_status_point_id, "
-                 "        emergency_fan_status_point_id, "
-                 "        compressor_status_point_id, "
-                 "        electric_heating_status_point_id, "
-                 "        coil_temperature_point_id, "
-                 "        temperature_outside_point_id, "
-                 "        temperature_inside_point_id, "
-                 "        humidity_inside_point_id, "
-                 "        condensation_temperature_point_id, "
-                 "        defrosting_temperature_point_id, "
-                 "        outlet_air_temperature_point_id, "
-                 "        return_air_temperature_point_id, "
-                 "        exhaust_temperature_point_id, "
-                 "        heating_on_temperature_point_id, "
-                 "        heating_off_temperature_point_id, "
-                 "        heating_control_hysteresis_point_id, "
-                 "        cooling_on_temperature_point_id, "
-                 "        cooling_off_temperature_point_id, "
-                 "        cooling_control_hysteresis_point_id, "
-                 "        high_temperature_alarm_set_point_id, "
-                 "        low_temperature_alarm_set_point_id, "
-                 "        high_humidity_alarm_set_point_id "
+        query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_storage_containers_hvacs "
                  " WHERE energy_storage_container_id = %s "
                  " ORDER BY name ")
@@ -3231,31 +3097,7 @@ class EnergyStorageContainerHVACCollection:
             for row in rows:
                 meta_result = {"id": row[0],
                                "name": row[1],
-                               "uuid": row[2],
-                               "working_status_point": point_dict.get(row[3]),
-                               "indoor_fan_status_point": point_dict.get(row[4]),
-                               "outdoor_fan_status_point": point_dict.get(row[5]),
-                               "emergency_fan_status_point": point_dict.get(row[6]),
-                               "compressor_status_point": point_dict.get(row[7]),
-                               "electric_heating_status_point": point_dict.get(row[8]),
-                               "coil_temperature_point": point_dict.get(row[9]),
-                               "temperature_outside_point": point_dict.get(row[10]),
-                               "temperature_inside_point": point_dict.get(row[11]),
-                               "humidity_inside_point": point_dict.get(row[12]),
-                               "condensation_temperature_point": point_dict.get(row[13]),
-                               "defrosting_temperature_point": point_dict.get(row[14]),
-                               "outlet_air_temperature_point": point_dict.get(row[15]),
-                               "return_air_temperature_point": point_dict.get(row[16]),
-                               "exhaust_temperature_point": point_dict.get(row[17]),
-                               "heating_on_temperature_point": point_dict.get(row[18]),
-                               "heating_off_temperature_point": point_dict.get(row[19]),
-                               "heating_control_hysteresis_point": point_dict.get(row[20]),
-                               "cooling_on_temperature_point": point_dict.get(row[21]),
-                               "cooling_off_temperature_point": point_dict.get(row[22]),
-                               "cooling_control_hysteresis_point": point_dict.get(row[23]),
-                               "high_temperature_alarm_set_point": point_dict.get(row[24]),
-                               "low_temperature_alarm_set_point": point_dict.get(row[25]),
-                               "high_humidity_alarm_set_point": point_dict.get(row[26])
+                               "uuid": row[2]
                                }
                 result.append(meta_result)
 
@@ -3443,61 +3285,11 @@ class EnergyStorageContainerHVACCollection:
                                    description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
 
         add_values = (" INSERT INTO tbl_energy_storage_containers_hvacs "
-                      "    (name, uuid, energy_storage_container_id, "
-                      "     working_status_point_id, "
-                      "     indoor_fan_status_point_id, "
-                      "     outdoor_fan_status_point_id, "
-                      "     emergency_fan_status_point_id, "
-                      "     compressor_status_point_id, "
-                      "     electric_heating_status_point_id, "
-                      "     coil_temperature_point_id, "
-                      "     temperature_outside_point_id, "
-                      "     temperature_inside_point_id, "
-                      "     humidity_inside_point_id, "
-                      "     condensation_temperature_point_id, "
-                      "     defrosting_temperature_point_id, "
-                      "     outlet_air_temperature_point_id, "
-                      "     return_air_temperature_point_id, "
-                      "     exhaust_temperature_point_id, "
-                      "     heating_on_temperature_point_id, "
-                      "     heating_off_temperature_point_id, "
-                      "     heating_control_hysteresis_point_id, "
-                      "     cooling_on_temperature_point_id, "
-                      "     cooling_off_temperature_point_id, "
-                      "     cooling_control_hysteresis_point_id, "
-                      "     high_temperature_alarm_set_point_id, "
-                      "     low_temperature_alarm_set_point_id, "
-                      "     high_humidity_alarm_set_point_id) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, "
-                      "         %s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, energy_storage_container_id) "
+                      " VALUES (%s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
-                                    id_,
-                                    working_status_point_id,
-                                    indoor_fan_status_point_id,
-                                    outdoor_fan_status_point_id,
-                                    emergency_fan_status_point_id,
-                                    compressor_status_point_id,
-                                    electric_heating_status_point_id,
-                                    coil_temperature_point_id,
-                                    temperature_outside_point_id,
-                                    temperature_inside_point_id,
-                                    humidity_inside_point_id,
-                                    condensation_temperature_point_id,
-                                    defrosting_temperature_point_id,
-                                    outlet_air_temperature_point_id,
-                                    return_air_temperature_point_id,
-                                    exhaust_temperature_point_id,
-                                    heating_on_temperature_point_id,
-                                    heating_off_temperature_point_id,
-                                    heating_control_hysteresis_point_id,
-                                    cooling_on_temperature_point_id,
-                                    cooling_off_temperature_point_id,
-                                    cooling_control_hysteresis_point_id,
-                                    high_temperature_alarm_set_point_id,
-                                    low_temperature_alarm_set_point_id,
-                                    high_humidity_alarm_set_point_id
+                                    id_
                                     ))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -3563,31 +3355,7 @@ class EnergyStorageContainerHVACItem:
                 point_dict[row[0]] = {"id": row[0],
                                       "name": row[1]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        working_status_point_id, "
-                 "        indoor_fan_status_point_id, "
-                 "        outdoor_fan_status_point_id, "
-                 "        emergency_fan_status_point_id, "
-                 "        compressor_status_point_id, "
-                 "        electric_heating_status_point_id, "
-                 "        coil_temperature_point_id, "
-                 "        temperature_outside_point_id, "
-                 "        temperature_inside_point_id, "
-                 "        humidity_inside_point_id, "
-                 "        condensation_temperature_point_id, "
-                 "        defrosting_temperature_point_id, "
-                 "        outlet_air_temperature_point_id, "
-                 "        return_air_temperature_point_id, "
-                 "        exhaust_temperature_point_id, "
-                 "        heating_on_temperature_point_id, "
-                 "        heating_off_temperature_point_id, "
-                 "        heating_control_hysteresis_point_id, "
-                 "        cooling_on_temperature_point_id, "
-                 "        cooling_off_temperature_point_id, "
-                 "        cooling_control_hysteresis_point_id, "
-                 "        high_temperature_alarm_set_point_id, "
-                 "        low_temperature_alarm_set_point_id, "
-                 "        high_humidity_alarm_set_point_id "
+        query = (" SELECT id, name, uuid "
                  " FROM tbl_energy_storage_containers_hvacs "
                  " WHERE id = %s ")
         cursor.execute(query, (hid,))
@@ -3601,31 +3369,7 @@ class EnergyStorageContainerHVACItem:
         else:
             meta_result = {"id": row[0],
                            "name": row[1],
-                           "uuid": row[2],
-                           "working_status_point": point_dict.get(row[3]),
-                           "indoor_fan_status_point": point_dict.get(row[4]),
-                           "outdoor_fan_status_point": point_dict.get(row[5]),
-                           "emergency_fan_status_point": point_dict.get(row[6]),
-                           "compressor_status_point": point_dict.get(row[7]),
-                           "electric_heating_status_point": point_dict.get(row[8]),
-                           "coil_temperature_point": point_dict.get(row[9]),
-                           "temperature_outside_point": point_dict.get(row[10]),
-                           "temperature_inside_point": point_dict.get(row[11]),
-                           "humidity_inside_point": point_dict.get(row[12]),
-                           "condensation_temperature_point": point_dict.get(row[13]),
-                           "defrosting_temperature_point": point_dict.get(row[14]),
-                           "outlet_air_temperature_point": point_dict.get(row[15]),
-                           "return_air_temperature_point": point_dict.get(row[16]),
-                           "exhaust_temperature_point": point_dict.get(row[17]),
-                           "heating_on_temperature_point": point_dict.get(row[18]),
-                           "heating_off_temperature_point": point_dict.get(row[19]),
-                           "heating_control_hysteresis_point": point_dict.get(row[20]),
-                           "cooling_on_temperature_point": point_dict.get(row[21]),
-                           "cooling_off_temperature_point": point_dict.get(row[22]),
-                           "cooling_control_hysteresis_point": point_dict.get(row[23]),
-                           "high_temperature_alarm_set_point": point_dict.get(row[24]),
-                           "low_temperature_alarm_set_point": point_dict.get(row[25]),
-                           "high_humidity_alarm_set_point": point_dict.get(row[26])
+                           "uuid": row[2]
                            }
 
         resp.text = json.dumps(meta_result)
@@ -3852,57 +3596,9 @@ class EnergyStorageContainerHVACItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
 
         update_row = (" UPDATE tbl_energy_storage_containers_hvacs "
-                      " SET name = %s, "
-                      "     working_status_point_id = %s, "
-                      "     indoor_fan_status_point_id = %s, "
-                      "     outdoor_fan_status_point_id = %s, "
-                      "     emergency_fan_status_point_id = %s, "
-                      "     compressor_status_point_id = %s, "
-                      "     electric_heating_status_point_id = %s, "
-                      "     coil_temperature_point_id = %s, "
-                      "     temperature_outside_point_id = %s, "
-                      "     temperature_inside_point_id = %s, "
-                      "     humidity_inside_point_id = %s, "
-                      "     condensation_temperature_point_id = %s, "
-                      "     defrosting_temperature_point_id = %s, "
-                      "     outlet_air_temperature_point_id = %s, "
-                      "     return_air_temperature_point_id = %s, "
-                      "     exhaust_temperature_point_id = %s, "
-                      "     heating_on_temperature_point_id = %s, "
-                      "     heating_off_temperature_point_id = %s, "
-                      "     heating_control_hysteresis_point_id = %s, "
-                      "     cooling_on_temperature_point_id = %s, "
-                      "     cooling_off_temperature_point_id = %s, "
-                      "     cooling_control_hysteresis_point_id = %s, "
-                      "     high_temperature_alarm_set_point_id = %s, "
-                      "     low_temperature_alarm_set_point_id = %s, "
-                      "     high_humidity_alarm_set_point_id = %s "
+                      " SET name = %s "
                       "     WHERE id = %s ")
         cursor.execute(update_row, (name,
-                                    working_status_point_id,
-                                    indoor_fan_status_point_id,
-                                    outdoor_fan_status_point_id,
-                                    emergency_fan_status_point_id,
-                                    compressor_status_point_id,
-                                    electric_heating_status_point_id,
-                                    coil_temperature_point_id,
-                                    temperature_outside_point_id,
-                                    temperature_inside_point_id,
-                                    humidity_inside_point_id,
-                                    condensation_temperature_point_id,
-                                    defrosting_temperature_point_id,
-                                    outlet_air_temperature_point_id,
-                                    return_air_temperature_point_id,
-                                    exhaust_temperature_point_id,
-                                    heating_on_temperature_point_id,
-                                    heating_off_temperature_point_id,
-                                    heating_control_hysteresis_point_id,
-                                    cooling_on_temperature_point_id,
-                                    cooling_off_temperature_point_id,
-                                    cooling_control_hysteresis_point_id,
-                                    high_temperature_alarm_set_point_id,
-                                    low_temperature_alarm_set_point_id,
-                                    high_humidity_alarm_set_point_id,
                                     hid))
         cnx.commit()
 
