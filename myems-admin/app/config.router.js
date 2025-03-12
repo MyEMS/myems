@@ -1414,6 +1414,7 @@ app
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.master.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.controller.js',

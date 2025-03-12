@@ -42,5 +42,29 @@ app.factory('EnergyStorageContainerBatteryService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, bid, pid, headers, callback) {
+            $http.post(getAPI() + 'energystoragecontainers/' + id + '/batteries/' + bid + '/points', {data:{'point_id':pid}}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, bid, pid, headers, callback) {
+            $http.delete(getAPI() + 'energystoragecontainers/' + id + '/batteries/' + bid + '/points/' + pid, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByBMSID: function(id, bid, headers, callback) {
+            $http.get(getAPI() + 'energystoragecontainers/' + id + '/batteries/' + bid + '/points', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });

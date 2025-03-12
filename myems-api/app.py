@@ -388,10 +388,18 @@ api.add_route('/energystoragecontainers/{id_}/batteries',
               energystoragecontainer.EnergyStorageContainerBatteryCollection())
 api.add_route('/energystoragecontainers/{id_}/batteries/{bid}',
               energystoragecontainer.EnergyStorageContainerBatteryItem())
+api.add_route('/energystoragecontainers/{id_}/batteries/{bid}/points',
+              energystoragecontainer.EnergyStorageContainerBatteryPointCollection())
+api.add_route('/energystoragecontainers/{id_}/batteries/{bid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerBatteryPointItem())
 api.add_route('/energystoragecontainers/{id_}/commands',
               energystoragecontainer.EnergyStorageContainerCommandCollection())
 api.add_route('/energystoragecontainers/{id_}/commands/{cid}',
               energystoragecontainer.EnergyStorageContainerCommandItem())
+api.add_route('/energystoragecontainers/{id_}/dcdcs',
+              energystoragecontainer.EnergyStorageContainerDCDCCollection())
+api.add_route('/energystoragecontainers/{id_}/dcdcs/{did}',
+              energystoragecontainer.EnergyStorageContainerDCDCItem())
 api.add_route('/energystoragecontainers/{id_}/firecontrols',
               energystoragecontainer.EnergyStorageContainerFirecontrolCollection())
 api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}',
