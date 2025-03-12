@@ -271,7 +271,7 @@ class GatewayDataSourceCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
+    def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
 
     @staticmethod

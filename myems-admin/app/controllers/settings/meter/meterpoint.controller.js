@@ -2,8 +2,8 @@
 
 app.controller('MeterPointController', function (
     $scope,
-	$window,
-    $timeout, 
+    $window,
+    $timeout,
     $translate,
     MeterService,
     DataSourceService,
@@ -49,11 +49,11 @@ app.controller('MeterPointController', function (
         });
     };
 
-  $scope.changeMeter=function(item,model){
-  	$scope.currentMeter=item;
-  	$scope.currentMeter.selected=model;
-  	$scope.getPointsByMeterID($scope.currentMeter.id);
-  };
+    $scope.changeMeter=function(item,model){
+        $scope.currentMeter=item;
+        $scope.currentMeter.selected=model;
+        $scope.getPointsByMeterID($scope.currentMeter.id);
+    };
 
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
