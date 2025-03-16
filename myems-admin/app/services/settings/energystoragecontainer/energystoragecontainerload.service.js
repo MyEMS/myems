@@ -41,5 +41,29 @@ app.factory('EnergyStorageContainerLoadService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, lid, pid, headers, callback) {
+            $http.post(getAPI() + 'energystoragecontainers/' + id + '/loads/' + lid + '/points', {data:{'point_id':pid}}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, lid, pid, headers, callback) {
+            $http.delete(getAPI() + 'energystoragecontainers/' + id + '/loads/' + lid + '/points/' + pid, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByLoadID: function(id, lid, headers, callback) {
+            $http.get(getAPI() + 'energystoragecontainers/' + id + '/loads/' + lid + '/points', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });
