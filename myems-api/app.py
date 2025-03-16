@@ -400,26 +400,50 @@ api.add_route('/energystoragecontainers/{id_}/dcdcs',
               energystoragecontainer.EnergyStorageContainerDCDCCollection())
 api.add_route('/energystoragecontainers/{id_}/dcdcs/{did}',
               energystoragecontainer.EnergyStorageContainerDCDCItem())
+api.add_route('/energystoragecontainers/{id_}/dcdcs/{did}/points',
+              energystoragecontainer.EnergyStorageContainerDCDCPointCollection())
+api.add_route('/energystoragecontainers/{id_}/dcdcs/{did}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerDCDCPointItem())
 api.add_route('/energystoragecontainers/{id_}/firecontrols',
               energystoragecontainer.EnergyStorageContainerFirecontrolCollection())
 api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}',
               energystoragecontainer.EnergyStorageContainerFirecontrolItem())
+api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}/points',
+              energystoragecontainer.EnergyStorageContainerFirecontrolPointCollection())
+api.add_route('/energystoragecontainers/{id_}/firecontrols/{fid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerFirecontrolPointItem())
 api.add_route('/energystoragecontainers/{id_}/grids',
               energystoragecontainer.EnergyStorageContainerGridCollection())
 api.add_route('/energystoragecontainers/{id_}/grids/{gid}',
               energystoragecontainer.EnergyStorageContainerGridItem())
+api.add_route('/energystoragecontainers/{id_}/grids/{gid}/points',
+              energystoragecontainer.EnergyStorageContainerGridPointCollection())
+api.add_route('/energystoragecontainers/{id_}/grids/{gid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerGridPointItem())
 api.add_route('/energystoragecontainers/{id_}/hvacs',
               energystoragecontainer.EnergyStorageContainerHVACCollection())
 api.add_route('/energystoragecontainers/{id_}/hvacs/{hid}',
               energystoragecontainer.EnergyStorageContainerHVACItem())
+api.add_route('/energystoragecontainers/{id_}/hvacs/{hid}/points',
+              energystoragecontainer.EnergyStorageContainerHVACPointCollection())
+api.add_route('/energystoragecontainers/{id_}/hvacs/{hid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerHVACPointItem())
 api.add_route('/energystoragecontainers/{id_}/loads',
               energystoragecontainer.EnergyStorageContainerLoadCollection())
 api.add_route('/energystoragecontainers/{id_}/loads/{lid}',
               energystoragecontainer.EnergyStorageContainerLoadItem())
+api.add_route('/energystoragecontainers/{id_}/loads/{lid}/points',
+              energystoragecontainer.EnergyStorageContainerLoadPointCollection())
+api.add_route('/energystoragecontainers/{id_}/loads/{lid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerLoadPointItem())
 api.add_route('/energystoragecontainers/{id_}/powerconversionsystems',
-              energystoragecontainer.EnergyStorageContainerPowerconversionsystemCollection())
-api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pid}',
-              energystoragecontainer.EnergyStorageContainerPowerconversionsystemItem())
+              energystoragecontainer.EnergyStorageContainerPCSCollection())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pcsid}',
+              energystoragecontainer.EnergyStorageContainerPCSItem())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pcsid}/points',
+              energystoragecontainer.EnergyStorageContainerPCSPointCollection())
+api.add_route('/energystoragecontainers/{id_}/powerconversionsystems/{pcsid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerPCSPointItem())
 api.add_route('/energystoragecontainers/{id_}/schedules',
               energystoragecontainer.EnergyStorageContainerScheduleCollection())
 api.add_route('/energystoragecontainers/{id_}/schedules/{sid}',
