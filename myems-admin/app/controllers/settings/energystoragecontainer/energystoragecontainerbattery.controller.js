@@ -197,8 +197,6 @@ app.controller('EnergyStorageContainerBatteryController', function(
 			$rootScope.modalInstance = modalInstance;
 		};
 		$scope.bindEnergyStorageContainerBatteryPoint = function(energystoragecontainerbattery) {
-			console.log('bindEnergyStorageContainerBatteryPoint');
-
 			var modalInstance = $uibModal.open({
 				templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerbatterypoint.model.html',
 				controller: 'ModalBindEnergyStorageContainerBatteryCtrl',

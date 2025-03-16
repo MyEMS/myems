@@ -41,5 +41,29 @@ app.factory('EnergyStorageContainerPowerconversionsystemService', function($http
                 callback(response);
             });
         },
+        addPair: function(id, pcsid, pid, headers, callback) {
+            $http.post(getAPI() + 'energystoragecontainers/' + id + '/powerconversionsystems/' + pcsid + '/points', {data:{'point_id':pid}}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, pcsid, pid, headers, callback) {
+            $http.delete(getAPI() + 'energystoragecontainers/' + id + '/powerconversionsystems/' + pcsid + '/points/' + pid, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByPCSID: function(id, pcsid, headers, callback) {
+            $http.get(getAPI() + 'energystoragecontainers/' + id + '/powerconversionsystems/' + pcsid + '/points', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });

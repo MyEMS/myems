@@ -8,6 +8,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 	$uibModal,
 	EnergyStorageContainerService,
 	EnergyStorageContainerPowerconversionsystemService,
+	DataSourceService,
 	PointService,
 	MeterService,
 	CommandService,
@@ -31,9 +32,35 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   		});
   	};
 
+	$scope.getAllDataSources = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DataSourceService.getAllDataSources(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.datasources = response.data;
+				if ($scope.datasources.length > 0) {
+					$scope.currentDataSource = $scope.datasources[0].id;
+					$scope.getPointsByDataSourceID($scope.currentDataSource);
+				}
+			} else {
+				$scope.datasources = [];
+			}
+		});
+	};
+
 	$scope.getAllPoints = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getPointsByDataSourceID = function(id) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getPointsByDataSourceID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.points = response.data;
 			} else {
@@ -126,6 +153,27 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
 		$rootScope.modalInstance = modalInstance;
   	};
 
+	$scope.bindEnergyStorageContainerPCSPoint = function(energystoragecontainerpcs) {
+	var modalInstance = $uibModal.open({
+		templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerpowerconversionsystempoint.model.html',
+		controller: 'ModalBindEnergyStorageContainerPCSCtrl',
+		windowClass: "animated fadeIn",
+			resolve: {
+				params: function() {
+					return {
+						user_uuid: $scope.cur_user.uuid,
+						token: $scope.cur_user.token,
+						energystoragecontainerid: $scope.currentEnergyStorageContainer.id,
+						energystoragecontainerpcs: angular.copy(energystoragecontainerpcs),
+						meters: angular.copy($scope.meters),
+						datasources: angular.copy($scope.datasources),
+						points: angular.copy($scope.points),
+					};
+				}
+			}
+		});
+		$rootScope.modalInstance = modalInstance;
+	};
   	$scope.editEnergyStorageContainerPowerconversionsystem = function(energystoragecontainerpowerconversionsystem) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.model.html',
@@ -211,6 +259,7 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   	};
 
   	$scope.getAllEnergyStorageContainers();
+	$scope.getAllDataSources();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
 	$scope.getAllCommands();
@@ -249,4 +298,117 @@ app.controller('EnergyStorageContainerPowerconversionsystemController', function
   	$scope.cancel = function() {
   		$uibModalInstance.dismiss('cancel');
   	};
+  });
+
+
+  app.controller('ModalBindEnergyStorageContainerPCSCtrl', function(
+	$scope,
+	$uibModalInstance,
+	toaster,
+	$translate,
+	EnergyStorageContainerPowerconversionsystemService,
+	PointService,
+	params) {
+	$scope.operation = "ENERGY_STORAGE_CONTAINER.EDIT_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM";
+	$scope.energystoragecontainerid = params.energystoragecontainerid;
+	$scope.energystoragecontainerpcs = params.energystoragecontainerpcs;
+	$scope.datasources=params.datasources;
+	$scope.boundpoints=params.boundpoints;
+
+	let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+	EnergyStorageContainerPowerconversionsystemService.getPointsByPCSID($scope.energystoragecontainerid, $scope.energystoragecontainerpcs.id, headers, function (response) {
+		if (angular.isDefined(response.status) && response.status === 200) {
+			$scope.boundpoints = response.data;
+		} else {
+			$scope.boundpoints = [];
+		}
+	});
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+    $scope.changeDataSource = function (item, model) {
+		console.log('changeDataSource');
+        $scope.currentDataSource = model;
+		console.log($scope.currentDataSource);
+        $scope.getPointsByDataSourceID($scope.currentDataSource);
+    };
+
+    $scope.getPointsByDataSourceID = function(id) {
+		console.log('getPointsByDataSourceID');
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
+            } else {
+                $scope.points = [];
+            }
+        });
+    };
+
+    $scope.pairPoint = function (dragEl, dropEl) {
+        var pointid = angular.element('#' + dragEl).scope().point.id;
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        EnergyStorageContainerPowerconversionsystemService.addPair(params.energystoragecontainerid, params.energystoragecontainerpcs.id, pointid, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+                    showCloseButton: true,
+                });
+                let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+				EnergyStorageContainerPowerconversionsystemService.getPointsByPCSID(params.energystoragecontainerid, params.energystoragecontainerpcs.id, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						$scope.boundpoints = response.data;
+					} else {
+						$scope.boundpoints = [];
+					}
+				});
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
+    $scope.deletePointPair = function (dragEl, dropEl) {
+        if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+
+		var pointid  = angular.element('#' + dragEl).scope().boundpoint.id;
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        EnergyStorageContainerPowerconversionsystemService.deletePair(params.energystoragecontainerid, params.energystoragecontainerpcs.id, pointid, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
+                    showCloseButton: true,
+                });
+                let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+				EnergyStorageContainerPowerconversionsystemService.getPointsByPCSID(params.energystoragecontainerid, params.energystoragecontainerpcs.id, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						$scope.boundpoints = response.data;
+					} else {
+						$scope.boundpoints = [];
+					}
+				});
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
   });

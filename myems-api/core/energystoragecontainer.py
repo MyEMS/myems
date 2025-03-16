@@ -2464,13 +2464,13 @@ class EnergyStorageContainerFirecontrolPointCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
+                       " FROM tbl_energy_storage_containers_firecontrols "
                        " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid, ))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
         query = (" SELECT p.id, p.name, "
                  "        ds.id, ds.name, ds.uuid, "
@@ -2557,7 +2557,7 @@ class EnergyStorageContainerFirecontrolPointCollection:
 
 class EnergyStorageContainerFirecontrolPointItem:
     def __init__(self):
-        """Initializes MeterPointItem"""
+        """Initializes EnergyStorageContainerFirecontrolPointItem"""
         pass
 
     @staticmethod
@@ -2574,7 +2574,7 @@ class EnergyStorageContainerFirecontrolPointItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
         if not fid.isdigit() or int(fid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DCDC_ID')
+                                   description='API.INVALID_FIRECONTROL_ID')
         if not pid.isdigit() or int(pid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
@@ -2607,7 +2607,7 @@ class EnergyStorageContainerFirecontrolPointItem:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DCDC_POINT_RELATION_NOT_FOUND')
+                                   description='API.FIRECONTROL_POINT_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
                        " WHERE firecontrol_id = %s AND point_id = %s ", (fid, pid))
@@ -4260,7 +4260,7 @@ class EnergyStorageContainerLoadPointCollection:
 
     @staticmethod
     @user_logger
-    def on_post(req, resp, id_, hid):
+    def on_post(req, resp, id_, lid):
         """Handles POST requests"""
         admin_control(req)
         try:
@@ -4273,7 +4273,7 @@ class EnergyStorageContainerLoadPointCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not hid.isdigit() or int(hid) <= 0:
+        if not lid.isdigit() or int(lid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LOAD_ID')
 
@@ -4283,7 +4283,7 @@ class EnergyStorageContainerLoadPointCollection:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid,))
+                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -4303,7 +4303,7 @@ class EnergyStorageContainerLoadPointCollection:
         query = (" SELECT id " 
                  " FROM tbl_energy_storage_containers_loads_points "
                  " WHERE load_id = %s AND point_id = %s")
-        cursor.execute(query, (hid, new_values['data']['point_id'],))
+        cursor.execute(query, (lid, new_values['data']['point_id'],))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -4312,13 +4312,13 @@ class EnergyStorageContainerLoadPointCollection:
 
         add_row = (" INSERT INTO tbl_energy_storage_containers_loads_points (load_id, point_id) "
                    " VALUES (%s, %s) ")
-        cursor.execute(add_row, (hid, new_values['data']['point_id'],))
+        cursor.execute(add_row, (lid, new_values['data']['point_id'],))
         cnx.commit()
         cursor.close()
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/energystoragecontainers/' + str(id_) + '/loads/' + str(hid) + '/points/' + \
+        resp.location = '/energystoragecontainers/' + str(id_) + '/loads/' + str(lid) + '/points/' + \
                         str(new_values['data']['point_id'])
 
 
@@ -4554,16 +4554,16 @@ class EnergyStorageContainerPCSItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
+    def on_options(req, resp, id_, pcsid):
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_get(req, resp, id_, pid):
+    def on_get(req, resp, id_, pcsid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4628,7 +4628,7 @@ class EnergyStorageContainerPCSItem:
         query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power "
                  " FROM tbl_energy_storage_containers_power_conversion_systems "
                  " WHERE id = %s ")
-        cursor.execute(query, (pid,))
+        cursor.execute(query, (pcsid,))
         row = cursor.fetchone()
         cursor.close()
         cnx.close()
@@ -4649,12 +4649,12 @@ class EnergyStorageContainerPCSItem:
 
     @staticmethod
     @user_logger
-    def on_delete(req, resp, id_, pid):
+    def on_delete(req, resp, id_, pcsid):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4672,7 +4672,7 @@ class EnergyStorageContainerPCSItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
+                       " WHERE id = %s ", (pcsid,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -4680,7 +4680,7 @@ class EnergyStorageContainerPCSItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
+                       " WHERE id = %s ", (pcsid,))
         cnx.commit()
 
         cursor.close()
@@ -4690,7 +4690,7 @@ class EnergyStorageContainerPCSItem:
 
     @staticmethod
     @user_logger
-    def on_put(req, resp, id_, pid):
+    def on_put(req, resp, id_, pcsid):
         """Handles PUT requests"""
         admin_control(req)
         try:
@@ -4702,7 +4702,7 @@ class EnergyStorageContainerPCSItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4743,7 +4743,7 @@ class EnergyStorageContainerPCSItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
+                       " WHERE id = %s ", (pcsid,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -4753,7 +4753,7 @@ class EnergyStorageContainerPCSItem:
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_power_conversion_systems "
                        " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, pid))
+                       (id_, name, pcsid))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -4768,7 +4768,7 @@ class EnergyStorageContainerPCSItem:
                                     id_,
                                     run_state_point_id,
                                     rated_output_power,
-                                    pid))
+                                    pcsid))
         cnx.commit()
 
         cursor.close()
@@ -4783,11 +4783,11 @@ class EnergyStorageContainerPCSPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
+    def on_options(req, resp, id_, pcsid):
         resp.status = falcon.HTTP_200
 
     @staticmethod
-    def on_get(req, resp, id_, pid):
+    def on_get(req, resp, id_, pcsid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -4797,7 +4797,7 @@ class EnergyStorageContainerPCSPointCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PCS_ID')
 
@@ -4805,8 +4805,8 @@ class EnergyStorageContainerPCSPointCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_pcses "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pid, ))
+                       " FROM tbl_energy_storage_containers_power_conversion_systems "
+                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid, ))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -4819,7 +4819,7 @@ class EnergyStorageContainerPCSPointCollection:
                  " FROM tbl_points p, tbl_energy_storage_containers_pcses_points mp, tbl_data_sources ds "
                  " WHERE mp.pcs_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
                  " ORDER BY p.name ")
-        cursor.execute(query, (pid,))
+        cursor.execute(query, (pcsid,))
         rows = cursor.fetchall()
 
         result = list()
@@ -4834,7 +4834,7 @@ class EnergyStorageContainerPCSPointCollection:
 
     @staticmethod
     @user_logger
-    def on_post(req, resp, id_, pid):
+    def on_post(req, resp, id_, pcsid):
         """Handles POST requests"""
         admin_control(req)
         try:
@@ -4847,7 +4847,7 @@ class EnergyStorageContainerPCSPointCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PCS_ID')
 
@@ -4856,8 +4856,8 @@ class EnergyStorageContainerPCSPointCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_pcses "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pid,))
+                       " FROM tbl_energy_storage_containers_power_conversion_systems "
+                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
@@ -4877,7 +4877,7 @@ class EnergyStorageContainerPCSPointCollection:
         query = (" SELECT id " 
                  " FROM tbl_energy_storage_containers_pcses_points "
                  " WHERE pcs_id = %s AND point_id = %s")
-        cursor.execute(query, (pid, new_values['data']['point_id'],))
+        cursor.execute(query, (pcsid, new_values['data']['point_id'],))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -4886,13 +4886,13 @@ class EnergyStorageContainerPCSPointCollection:
 
         add_row = (" INSERT INTO tbl_energy_storage_containers_pcses_points (pcs_id, point_id) "
                    " VALUES (%s, %s) ")
-        cursor.execute(add_row, (hid, new_values['data']['point_id'],))
+        cursor.execute(add_row, (pcsid, new_values['data']['point_id'],))
         cnx.commit()
         cursor.close()
         cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/energystoragecontainers/' + str(id_) + '/pcses/' + str(pid) + '/points/' + \
+        resp.location = '/energystoragecontainers/' + str(id_) + '/pcses/' + str(pcsid) + '/points/' + \
                         str(new_values['data']['point_id'])
 
 
@@ -4924,7 +4924,7 @@ class EnergyStorageContainerPCSPointItem:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_pcses "
+                       " FROM tbl_energy_storage_containers_power_conversion_systems "
                        " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
         if cursor.fetchone() is None:
             cursor.close()

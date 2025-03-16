@@ -8,6 +8,7 @@ app.controller('EnergyStorageContainerLoadController', function(
 	$uibModal,
 	EnergyStorageContainerService,
 	EnergyStorageContainerLoadService,
+	DataSourceService,
 	PointService,
 	MeterService,
 	toaster,
@@ -29,9 +30,35 @@ app.controller('EnergyStorageContainerLoadController', function(
   		});
   	};
 
+	$scope.getAllDataSources = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		DataSourceService.getAllDataSources(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.datasources = response.data;
+				if ($scope.datasources.length > 0) {
+					$scope.currentDataSource = $scope.datasources[0].id;
+					$scope.getPointsByDataSourceID($scope.currentDataSource);
+				}
+			} else {
+				$scope.datasources = [];
+			}
+		});
+	};
+
 	$scope.getAllPoints = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PointService.getAllPoints(headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.points = response.data;
+			} else {
+				$scope.points = [];
+			}
+		});
+	};
+
+	$scope.getPointsByDataSourceID = function(id) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		PointService.getPointsByDataSourceID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.points = response.data;
 			} else {
@@ -158,6 +185,27 @@ app.controller('EnergyStorageContainerLoadController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+	$scope.bindEnergyStorageContainerLoadPoint = function(energystoragecontainerload) {
+	var modalInstance = $uibModal.open({
+		templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerloadpoint.model.html',
+		controller: 'ModalBindEnergyStorageContainerLoadCtrl',
+		windowClass: "animated fadeIn",
+			resolve: {
+				params: function() {
+					return {
+						user_uuid: $scope.cur_user.uuid,
+						token: $scope.cur_user.token,
+						energystoragecontainerid: $scope.currentEnergyStorageContainer.id,
+						energystoragecontainerload: angular.copy(energystoragecontainerload),
+						meters: angular.copy($scope.meters),
+						datasources: angular.copy($scope.datasources),
+						points: angular.copy($scope.points),
+					};
+				}
+			}
+		});
+		$rootScope.modalInstance = modalInstance;
+	};
   	$scope.deleteEnergyStorageContainerLoad = function(energystoragecontainerload) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -197,6 +245,7 @@ app.controller('EnergyStorageContainerLoadController', function(
   	};
 
   	$scope.getAllEnergyStorageContainers();
+	$scope.getAllDataSources();
 	$scope.getAllPoints();
 	$scope.getAllMeters();
     $scope.$on('handleBroadcastEnergyStorageContainerChanged', function(event) {
@@ -232,4 +281,116 @@ app.controller('EnergyStorageContainerLoadController', function(
   	$scope.cancel = function() {
   		$uibModalInstance.dismiss('cancel');
   	};
+  });
+
+  app.controller('ModalBindEnergyStorageContainerLoadCtrl', function(
+	$scope,
+	$uibModalInstance,
+	toaster,
+	$translate,
+	EnergyStorageContainerLoadService,
+	PointService,
+	params) {
+	$scope.operation = "ENERGY_STORAGE_CONTAINER.EDIT_ENERGY_STORAGE_CONTAINER_LOAD";
+	$scope.energystoragecontainerid = params.energystoragecontainerid;
+	$scope.energystoragecontainerload = params.energystoragecontainerload;
+	$scope.datasources=params.datasources;
+	$scope.boundpoints=params.boundpoints;
+
+	let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+	EnergyStorageContainerLoadService.getPointsByLoadID($scope.energystoragecontainerid, $scope.energystoragecontainerload.id, headers, function (response) {
+		if (angular.isDefined(response.status) && response.status === 200) {
+			$scope.boundpoints = response.data;
+		} else {
+			$scope.boundpoints = [];
+		}
+	});
+
+	$scope.cancel = function() {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+    $scope.changeDataSource = function (item, model) {
+		console.log('changeDataSource');
+        $scope.currentDataSource = model;
+		console.log($scope.currentDataSource);
+        $scope.getPointsByDataSourceID($scope.currentDataSource);
+    };
+
+    $scope.getPointsByDataSourceID = function(id) {
+		console.log('getPointsByDataSourceID');
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.points = response.data;
+            } else {
+                $scope.points = [];
+            }
+        });
+    };
+
+    $scope.pairPoint = function (dragEl, dropEl) {
+        var pointid = angular.element('#' + dragEl).scope().point.id;
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        EnergyStorageContainerLoadService.addPair(params.energystoragecontainerid, params.energystoragecontainerload.id, pointid, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+                    showCloseButton: true,
+                });
+                let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+				EnergyStorageContainerLoadService.getPointsByLoadID(params.energystoragecontainerid, params.energystoragecontainerload.id, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						$scope.boundpoints = response.data;
+					} else {
+						$scope.boundpoints = [];
+					}
+				});
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
+    $scope.deletePointPair = function (dragEl, dropEl) {
+        if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+
+		var pointid  = angular.element('#' + dragEl).scope().boundpoint.id;
+		let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+        EnergyStorageContainerLoadService.deletePair(params.energystoragecontainerid, params.energystoragecontainerload.id, pointid, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 204) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
+                    showCloseButton: true,
+                });
+                let headers = { "User-UUID": params.user_uuid, "Token": params.token };
+				EnergyStorageContainerLoadService.getPointsByLoadID(params.energystoragecontainerid, params.energystoragecontainerload.id, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						$scope.boundpoints = response.data;
+					} else {
+						$scope.boundpoints = [];
+					}
+				});
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
+    };
+
   });

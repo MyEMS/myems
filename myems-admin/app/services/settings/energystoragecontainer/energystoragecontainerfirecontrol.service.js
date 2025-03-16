@@ -41,5 +41,29 @@ app.factory('EnergyStorageContainerFirecontrolService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, fid, pid, headers, callback) {
+            $http.post(getAPI() + 'energystoragecontainers/' + id + '/firecontrols/' + fid + '/points', {data:{'point_id':pid}}, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, fid, pid, headers, callback) {
+            $http.delete(getAPI() + 'energystoragecontainers/' + id + '/firecontrols/' + fid + '/points/' + pid, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByFirecontrolID: function(id, fid, headers, callback) {
+            $http.get(getAPI() + 'energystoragecontainers/' + id + '/firecontrols/' + fid + '/points', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });
