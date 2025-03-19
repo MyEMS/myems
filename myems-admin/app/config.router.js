@@ -1410,6 +1410,7 @@ app
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerload.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerschedule.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainersts.service.js',
                                                     'app/services/settings/tariff/tariff.const.js',
                                                     'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
@@ -1428,6 +1429,7 @@ app
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerload.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerschedule.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainersts.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
                                                 ]

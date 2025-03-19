@@ -605,6 +605,23 @@ DROP COLUMN `dc_voltage_point_id`;
 ALTER TABLE `myems_system_db`.`tbl_energy_storage_containers_power_conversion_systems`
 DROP COLUMN `dc_current_point_id`;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_stses_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_stses` (`energy_storage_container_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `sts_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_stses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_stses_points` (`sts_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0RC', release_date='2025-03-15' WHERE id=1;
 

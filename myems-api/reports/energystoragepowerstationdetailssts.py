@@ -23,7 +23,7 @@ class Reporting:
     # Step 4: query analog points latest values
     # Step 5: query energy points latest values
     # Step 6: query digital points latest values
-    # Step 7: query the points of dcdcs
+    # Step 7: query the points of stses
     # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
@@ -143,7 +143,7 @@ class Reporting:
                                              row[1]]
 
         ################################################################################################################
-        # Step 7: query the points of dcdcs
+        # Step 7: query the points of stses
         ################################################################################################################
         # query all points with units
         query = (" SELECT id, units "
@@ -155,30 +155,30 @@ class Reporting:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 units_dict[row[0]] = row[1]
-        # query dcdc parameters
-        dcdc_list = list()
+        # query sts parameters
+        sts_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT id, name, uuid "
-                                  " FROM tbl_energy_storage_containers_dcdcs "
+                                  " FROM tbl_energy_storage_containers_stses "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
                                   (container['id'],))
-            rows_dcdcs = cursor_system.fetchall()
-            if rows_dcdcs is not None and len(rows_dcdcs) > 0:
-                for row in rows_dcdcs:
-                    current_dcdc = dict()
-                    current_dcdc['id'] = row[0]
-                    current_dcdc['name'] = row[1]
-                    current_dcdc['uuid'] = row[2]
-                    current_dcdc['points'] = list()
-                    dcdc_list.append(current_dcdc)
+            rows_stses = cursor_system.fetchall()
+            if rows_stses is not None and len(rows_stses) > 0:
+                for row in rows_stses:
+                    current_sts = dict()
+                    current_sts['id'] = row[0]
+                    current_sts['name'] = row[1]
+                    current_sts['uuid'] = row[2]
+                    current_sts['points'] = list()
+                    sts_list.append(current_sts)
 
-            for index, dcdc in enumerate(dcdc_list):
+            for index, sts in enumerate(sts_list):
                 cursor_system.execute(" SELECT p.id "
-                                      " FROM tbl_energy_storage_containers_dcdcs_points bp, tbl_points p "
-                                      " WHERE bp.dcdc_id = %s AND bp.point_id = p.id "
+                                      " FROM tbl_energy_storage_containers_stses_points bp, tbl_points p "
+                                      " WHERE bp.sts_id = %s AND bp.point_id = p.id "
                                       " ORDER BY bp.id ",
-                                      (dcdc['id'],))
+                                      (sts['id'],))
                 rows_points = cursor_system.fetchall()
                 if rows_points is not None and len(rows_points) > 0:
                     point_list = list()
@@ -186,7 +186,7 @@ class Reporting:
                         point = latest_value_dict.get(row[0], None)
                         if point is not None:
                             point_list.append(point)
-                    dcdc_list[index]['points'] = point_list
+                    sts_list[index]['points'] = point_list
 
         if cursor_system:
             cursor_system.close()
@@ -200,4 +200,4 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(dcdc_list)
+        resp.text = json.dumps(sts_list)

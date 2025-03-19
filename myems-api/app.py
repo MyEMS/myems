@@ -448,6 +448,14 @@ api.add_route('/energystoragecontainers/{id_}/schedules',
               energystoragecontainer.EnergyStorageContainerScheduleCollection())
 api.add_route('/energystoragecontainers/{id_}/schedules/{sid}',
               energystoragecontainer.EnergyStorageContainerScheduleItem())
+api.add_route('/energystoragecontainers/{id_}/stses',
+              energystoragecontainer.EnergyStorageContainerSTSCollection())
+api.add_route('/energystoragecontainers/{id_}/stses/{fid}',
+              energystoragecontainer.EnergyStorageContainerSTSItem())
+api.add_route('/energystoragecontainers/{id_}/stses/{fid}/points',
+              energystoragecontainer.EnergyStorageContainerSTSPointCollection())
+api.add_route('/energystoragecontainers/{id_}/stses/{fid}/points/{pid}',
+              energystoragecontainer.EnergyStorageContainerSTSPointItem())
 api.add_route('/energystoragecontainers/{id_}/clone',
               energystoragecontainer.EnergyStorageContainerClone())
 api.add_route('/energystoragecontainers/{id_}/export',
@@ -1136,6 +1144,8 @@ api.add_route('/reports/energystoragepowerstationdetails/{id_}/dcdc',
               energystoragepowerstationdetailsdcdc.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/pcs',
               energystoragepowerstationdetailspcs.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/sts',
+              energystoragepowerstationdetailssts.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/schedule',
               energystoragepowerstationdetailsschedule.Reporting())
 api.add_route('/reports/energystoragepowerstationlist',

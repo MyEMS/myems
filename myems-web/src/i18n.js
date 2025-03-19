@@ -145,8 +145,7 @@ const resources = {
 
       // Dashboard
       'Welcome to MyEMS': 'Welcome to MyEMS',
-      'An Industry Leading Open Source Energy Management System':
-        'An Industry Leading Open Source Energy Management System',
+      'An Industry Leading Open Source Energy Management System': 'An Industry Leading Open Source Energy Management System',
       "This Year's Consumption CATEGORY VALUE UNIT": "This Year's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Year's Costs CATEGORY VALUE UNIT": "This Year's Costs {{CATEGORY}} {{VALUE}} {{UNIT}}",
       "This Month's Consumption CATEGORY VALUE UNIT": "This Month's Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}",
@@ -2626,8 +2625,7 @@ const resources = {
 
       // Dashboard
       'Welcome to MyEMS': 'Willkommen bei MyEMS',
-      'An Industry Leading Open Source Energy Management System':
-        'Ein branchenführendes Open Source Energie Management System',
+      'An Industry Leading Open Source Energy Management System': 'Ein branchenführendes Open Source Energie Management System',
       "This Year's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Der Kosten Dieses Jahr {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Der Verbrauch Dieses Monat {{CATEGORY}} {{VALUE}} {{UNIT}}',
@@ -3908,8 +3906,7 @@ const resources = {
 
       // Dashboard
       'Welcome to MyEMS': 'Bienvenue chez MyEMS',
-      'An Industry Leading Open Source Energy Management System':
-        'Un système de gestion de l’énergie open source leader de l’industrie',
+      'An Industry Leading Open Source Energy Management System': 'Un système de gestion de l’énergie open source leader de l’industrie',
       "This Year's Consumption CATEGORY VALUE UNIT": 'La consommation de cette année {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Year's Costs CATEGORY VALUE UNIT": 'Les coûts de cette année {{CATEGORY}} {{VALUE}} {{UNIT}}',
       "This Month's Consumption CATEGORY VALUE UNIT": 'Ce mois-ci Consumption {{CATEGORY}} {{VALUE}} {{UNIT}}',

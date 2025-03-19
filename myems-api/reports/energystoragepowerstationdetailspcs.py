@@ -164,15 +164,15 @@ class Reporting:
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
                                   (container['id'],))
-            rows_bmses = cursor_system.fetchall()
-            if rows_bmses is not None and len(rows_bmses) > 0:
-                for row in rows_bmses:
-                    current_bms = dict()
-                    current_bms['id'] = row[0]
-                    current_bms['name'] = row[1]
-                    current_bms['uuid'] = row[2]
-                    current_bms['points'] = list()
-                    pcs_list.append(current_bms)
+            rows_pcses = cursor_system.fetchall()
+            if rows_pcses is not None and len(rows_pcses) > 0:
+                for row in rows_pcses:
+                    current_pcs = dict()
+                    current_pcs['id'] = row[0]
+                    current_pcs['name'] = row[1]
+                    current_pcs['uuid'] = row[2]
+                    current_pcs['points'] = list()
+                    pcs_list.append(current_pcs)
 
             for index, pcs in enumerate(pcs_list):
                 cursor_system.execute(" SELECT p.id "
