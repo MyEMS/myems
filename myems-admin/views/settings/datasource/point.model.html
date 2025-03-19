@@ -19,6 +19,7 @@
                                 <option value="ENERGY_VALUE">ENERGY VALUE</option>
                                 <option value="ANALOG_VALUE">ANALOG VALUE</option>
                                 <option value="DIGITAL_VALUE">DIGITAL VALUE</option>
+                                <option value="TEXT_VALUE">TEXT VALUE</option>
                             </select>
                     <div class="m-t-xs" ng-show="form_point.pointobject_type.$invalid && form_point.pointobject_type.$dirty">
                         <small class="text-danger" ng-show="form_point.pointobject_type.$error.required">--</small>
@@ -87,7 +88,7 @@
                 <div class="col-sm-8">
                     <div class="checkbox checkbox-success">
                         <input id="chk_point_isvirtual" type="checkbox" ng-model="point.is_virtual" ng-checked="point.is_virtual"
-                        ng-disabled="form_point.pointobject_type.$modelValue == 'DIGITAL_VALUE'">
+                        ng-disabled="form_point.pointobject_type.$modelValue == 'DIGITAL_VALUE' || form_point.pointobject_type.$modelValue == 'TEXT_VALUE'">
                         <label for="chk_point_isvirtual">{{'POINT.IS_VIRTUAL' | translate}}</label>
                     </div>
                 </div>

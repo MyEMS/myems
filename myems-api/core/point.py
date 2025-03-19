@@ -97,7 +97,7 @@ class PointCollection:
 
         if 'object_type' not in new_values['data'].keys() \
                 or str.strip(new_values['data']['object_type']) not in \
-                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE', 'TEXT_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -173,6 +173,9 @@ class PointCollection:
         if new_values['data']['is_virtual'] is True and object_type == 'DIGITAL_VALUE':
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE')
+        if new_values['data']['is_virtual'] is True and object_type == 'TEXT_VALUE':
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
@@ -707,7 +710,7 @@ class PointItem:
 
         if 'object_type' not in new_values['data'].keys() \
                 or str.strip(new_values['data']['object_type']) not in \
-                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                ('ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE', 'TEXT_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -783,6 +786,9 @@ class PointItem:
         if new_values['data']['is_virtual'] is True and object_type == 'DIGITAL_VALUE':
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE')
+        if new_values['data']['is_virtual'] is True and object_type == 'TEXT_VALUE':
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE')
         is_virtual = new_values['data']['is_virtual']
 
         if 'address' not in new_values['data'].keys() or \
@@ -1051,7 +1057,7 @@ class PointImport:
 
         if 'object_type' not in new_values.keys() \
                 or str.strip(new_values['object_type']) not in (
-                'ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE'):
+                'ENERGY_VALUE', 'ANALOG_VALUE', 'DIGITAL_VALUE', 'TEXT_VALUE'):
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OBJECT_TYPE')
@@ -1127,6 +1133,9 @@ class PointImport:
         if new_values['is_virtual'] is True and object_type == 'DIGITAL_VALUE':
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE')
+        if new_values['is_virtual'] is True and object_type == 'TEXT_VALUE':
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE')
         is_virtual = new_values['is_virtual']
 
         if 'address' not in new_values.keys() or \
