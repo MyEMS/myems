@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added space output data to dashboard in myems-web and myems-api
 - added space prediction report in  myems-web and myems-api
+- added new point type text_value to myems-admin and myems-api
 ### Changed
 - updated microgrid
 - updated myems-api/example.env (myems-api/.env in production eviroment)

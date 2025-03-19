@@ -58,8 +58,6 @@ Das Open-Source-Energiemanagementsystem MyEMS wird für die Erfassung, Analyse u
 ![MyEMS Web 27](/docs/images/myems_web_27.png)
 ![MyEMS Web 28](/docs/images/myems_web_28.png)
 ![MyEMS Web 29](/docs/images/myems_web_29.png)
-![MyEMS Web 30](/docs/images/myems_web_30.png)
-![MyEMS Web 31](/docs/images/myems_web_31.png)
 
 ## MyEMS Admin UI Präsentation
 

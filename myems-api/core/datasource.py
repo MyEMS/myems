@@ -446,6 +446,7 @@ class DataSourcePointCollection:
         digital_value_dict = dict()
         for v in digital_values:
             digital_value_dict[v[0]] = v[1]
+
         cursor_historical_db.execute(" SELECT point_id, actual_value "
                                      " FROM tbl_energy_value_latest "
                                      " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
@@ -453,6 +454,14 @@ class DataSourcePointCollection:
         energy_value_dict = dict()
         for v in energy_values:
             energy_value_dict[v[0]] = v[1]
+
+        cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                     " FROM tbl_text_value_latest "
+                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
+        text_values = cursor_historical_db.fetchall()
+        text_value_dict = dict()
+        for v in text_values:
+            text_value_dict[v[0]] = v[1]
 
         if rows_point is not None and len(rows_point) > 0:
             for row in rows_point:
@@ -466,8 +475,8 @@ class DataSourcePointCollection:
                     latest_value = energy_value_dict.get(row[0], None)
                     latest_value = Decimal(latest_value) if latest_value is not None else None
                 elif row[2] == 'TEXT_VALUE':
-                    # todo
-                    continue
+                    latest_value = text_value_dict.get(row[0], None)
+                    latest_value = str(latest_value) if latest_value is not None else None
 
                 meta_result = {"id": row[0],
                                "name": row[1],
