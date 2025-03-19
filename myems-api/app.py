@@ -53,6 +53,7 @@ from reports import energystoragepowerstationdetailsgrid
 from reports import energystoragepowerstationdetailsload
 from reports import energystoragepowerstationdetailsdcdc
 from reports import energystoragepowerstationdetailspcs
+from reports import energystoragepowerstationdetailssts
 from reports import energystoragepowerstationdetailsschedule
 from reports import energystoragepowerstationlist
 from reports import energystoragepowerstationreportingrevenue
