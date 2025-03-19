@@ -166,12 +166,12 @@ class Reporting:
             rows_firecontrols = cursor_system.fetchall()
             if rows_firecontrols is not None and len(rows_firecontrols) > 0:
                 for row in rows_firecontrols:
-                    current_bms = dict()
-                    current_bms['id'] = row[0]
-                    current_bms['name'] = row[1]
-                    current_bms['uuid'] = row[2]
-                    current_bms['points'] = list()
-                    firecontrol_list.append(current_bms)
+                    current_firecontrol = dict()
+                    current_firecontrol['id'] = row[0]
+                    current_firecontrol['name'] = row[1]
+                    current_firecontrol['uuid'] = row[2]
+                    current_firecontrol['points'] = list()
+                    firecontrol_list.append(current_firecontrol)
 
             for index, firecontrol in enumerate(firecontrol_list):
                 cursor_system.execute(" SELECT p.id "

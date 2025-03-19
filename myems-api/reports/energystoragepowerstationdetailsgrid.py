@@ -167,12 +167,12 @@ class Reporting:
             rows_grids = cursor_system.fetchall()
             if rows_grids is not None and len(rows_grids) > 0:
                 for row in rows_grids:
-                    current_bms = dict()
-                    current_bms['id'] = row[0]
-                    current_bms['name'] = row[1]
-                    current_bms['uuid'] = row[2]
-                    current_bms['points'] = list()
-                    grid_list.append(current_bms)
+                    current_grid = dict()
+                    current_grid['id'] = row[0]
+                    current_grid['name'] = row[1]
+                    current_grid['uuid'] = row[2]
+                    current_grid['points'] = list()
+                    grid_list.append(current_grid)
 
             for index, grid in enumerate(grid_list):
                 cursor_system.execute(" SELECT p.id "

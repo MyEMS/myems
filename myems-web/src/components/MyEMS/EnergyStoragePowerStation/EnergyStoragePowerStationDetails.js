@@ -150,6 +150,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
   const [gridDetailsList, setGridDetailsList] = useState([]);
   const [loadDetailsList, setLoadDetailsList] = useState([]);
+  const [STSDetailsList, setSTSDetailsList] = useState([]);
   const [commandDetailsList, setCommandDetailsList] = useState([]);
 
   useEffect(() => {
@@ -702,6 +703,37 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   }
 
+  // STS
+  const fetchSTSDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/sts'
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setSTSDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   // Command
   const fetchCommandDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/command'
@@ -1061,7 +1093,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchLoadDetails();
               }}
             >
-              <h6>{t('Load')}</h6>
+              <h6>Load</h6>
             </NavLink>
           </NavItem>
 
@@ -1093,6 +1125,18 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             <NavLink
               className={classNames({ active: activeTabBottom === '11' })}
               onClick={() => {
+                setActiveTabBottom('11');
+                fetchSTSDetails();
+              }}
+            >
+              <h6>{t('STS')}</h6>
+            </NavLink>
+          </NavItem>
+
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '12' })}
+              onClick={() => {
                 let is_pin_valid = getCookieValue('is_pin_valid');
                 if (is_pin_valid) {
                   fetchCommandDetails();
@@ -1123,7 +1167,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 seriesData={scheduleSeriesData}
                 markAreaData={scheduleMarkAreaData}
             />
-
           </TabPane>
           <TabPane tabId="3">
             <Card className="mb-3 fs--1">
@@ -1209,6 +1252,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
           <TabPane tabId="11">
+            {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+          </TabPane>
+          <TabPane tabId="12">
             {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
           </TabPane>
         </TabContent>

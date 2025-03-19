@@ -167,12 +167,12 @@ class Reporting:
             rows_loads = cursor_system.fetchall()
             if rows_loads is not None and len(rows_loads) > 0:
                 for row in rows_loads:
-                    current_bms = dict()
-                    current_bms['id'] = row[0]
-                    current_bms['name'] = row[1]
-                    current_bms['uuid'] = row[2]
-                    current_bms['points'] = list()
-                    load_list.append(current_bms)
+                    current_load = dict()
+                    current_load['id'] = row[0]
+                    current_load['name'] = row[1]
+                    current_load['uuid'] = row[2]
+                    current_load['points'] = list()
+                    load_list.append(current_load)
 
             for index, load in enumerate(load_list):
                 cursor_system.execute(" SELECT p.id "

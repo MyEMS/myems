@@ -600,6 +600,34 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_sens
 CREATE INDEX `tbl_energy_storage_containers_sensors_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_sensors` (`energy_storage_container_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_stses`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_stses_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_stses` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_stses_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `sts_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_stses_points_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_stses_points` (`sts_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_power_stations`
 -- ---------------------------------------------------------------------------------------------------------------------
