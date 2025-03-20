@@ -839,15 +839,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_bmses` (
   `hybrid_power_station_id` BIGINT NOT NULL,
   `operating_status_point_id` BIGINT NOT NULL,
   `soc_point_id` BIGINT NOT NULL,
-  `soh_point_id` BIGINT NOT NULL,
-  `total_voltage_point_id` BIGINT NULL,
-  `total_current_point_id` BIGINT NULL,
-  `maximum_cell_voltage_point_id` BIGINT NULL,
-  `minimum_cell_voltage_point_id` BIGINT NULL,
-  `maximum_temperature_point_id` BIGINT NULL,
-  `minimum_temperature_point_id` BIGINT NULL,
-  `average_temperature_point_id` BIGINT NULL,
-  `insulation_value_point_id` BIGINT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_bmses_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_bmses` (`hybrid_power_station_id`);
@@ -876,9 +867,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_cms` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
-  `meter_id` BIGINT NOT NULL,
   `operating_status_point_id` BIGINT NOT NULL,
-  `power_point_id` BIGINT NOT NULL,
+  `meter_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_cms_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_cms` (`hybrid_power_station_id`);
@@ -919,32 +909,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_generato
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
+  `operating_status_point_id` BIGINT NOT NULL,
   `fuel_consumption_meter_id` BIGINT NOT NULL,
   `power_generation_meter_id` BIGINT NOT NULL,
-  `operating_status_point_id` BIGINT NOT NULL,
-  `power_generation_point_id` BIGINT NOT NULL,
-  `phase_a_voltage_point_id` BIGINT NOT NULL,
-  `phase_b_voltage_point_id` BIGINT NOT NULL,
-  `phase_c_voltage_point_id` BIGINT NOT NULL,
-  `phase_a_current_point_id` BIGINT NOT NULL,
-  `phase_b_current_point_id` BIGINT NOT NULL,
-  `phase_c_current_point_id` BIGINT NOT NULL,
-  `phase_a_active_power_point_id` BIGINT NOT NULL,
-  `phase_b_active_power_point_id` BIGINT NOT NULL,
-  `phase_c_active_power_point_id` BIGINT NOT NULL,
-  `phase_a_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_b_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_c_reactive_power_point_id` BIGINT NOT NULL,
-  `power_factor_point_id` BIGINT NOT NULL,
-  `genset_active_power_point_id` BIGINT NOT NULL,
-  `genset_reactive_power_point_id` BIGINT NOT NULL,
-  `genset_frequency_point_id` BIGINT NOT NULL,
-  `engine_fuel_level_point_id` BIGINT NOT NULL,
-  `engine_oil_pressure_point_id` BIGINT NOT NULL,
-  `engine_coolant_temperature_point_id` BIGINT NOT NULL,
-  `cumulative_engine_fuel_consumption_point_id` BIGINT NOT NULL,
-  `cumulative_fuel_efficiency_point_id` BIGINT NOT NULL,
-  `instantaneous_fuel_efficiency_point_id` BIGINT NOT NULL,
    PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_generators_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_generators` (`hybrid_power_station_id`);
@@ -974,22 +941,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_loads` (
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
   `meter_id` BIGINT NOT NULL,
-  `total_active_power_point_id` BIGINT NOT NULL,
-  `total_reactive_power_point_id` BIGINT NOT NULL,
-  `power_consumption_point_id` BIGINT NOT NULL,
-  `phase_a_voltage_point_id` BIGINT NOT NULL,
-  `phase_b_voltage_point_id` BIGINT NOT NULL,
-  `phase_c_voltage_point_id` BIGINT NOT NULL,
-  `phase_a_current_point_id` BIGINT NOT NULL,
-  `phase_b_current_point_id` BIGINT NOT NULL,
-  `phase_c_current_point_id` BIGINT NOT NULL,
-  `phase_a_active_power_point_id` BIGINT NOT NULL,
-  `phase_b_active_power_point_id` BIGINT NOT NULL,
-  `phase_c_active_power_point_id` BIGINT NOT NULL,
-  `phase_a_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_b_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_c_reactive_power_point_id` BIGINT NOT NULL,
-  `power_factor_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_loads_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_loads` (`hybrid_power_station_id`);
@@ -1018,11 +969,22 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_mcus` (
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
   `operating_status_point_id` BIGINT NOT NULL,
-  `ambient_temperature_point_id` BIGINT NOT NULL,
-  `core_heatsink_temperature_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_mcus_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_mcus` (`hybrid_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_hybrid_power_stations_mcus_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations_mcus_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_mcus_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `mcu_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_mcus_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_mcus_points` (`mcu_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations_pcses` (PCS)
@@ -1034,30 +996,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pcses` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
+  `operating_status_point_id` BIGINT NOT NULL,
   `charge_meter_id` BIGINT NOT NULL,
   `discharge_meter_id` BIGINT NOT NULL,
-  `operating_status_point_id` BIGINT NOT NULL,
-  `total_charge_energy_point_id` BIGINT NOT NULL,
-  `total_discharge_energy_point_id` BIGINT NOT NULL,
-  `active_power_point_id` BIGINT NOT NULL,
-  `reactive_power_point_id` BIGINT NOT NULL,
-  `frequency_point_id` BIGINT NOT NULL,
-  `voltage_point_id` BIGINT NOT NULL,
-  `phase_a_voltage_point_id` BIGINT NOT NULL,
-  `phase_b_voltage_point_id` BIGINT NOT NULL,
-  `phase_c_voltage_point_id` BIGINT NOT NULL,
-  `phase_a_current_point_id` BIGINT NOT NULL,
-  `phase_b_current_point_id` BIGINT NOT NULL,
-  `phase_c_current_point_id` BIGINT NOT NULL,
-  `phase_a_active_power_point_id` BIGINT NOT NULL,
-  `phase_b_active_power_point_id` BIGINT NOT NULL,
-  `phase_c_active_power_point_id` BIGINT NOT NULL,
-  `phase_a_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_b_reactive_power_point_id` BIGINT NOT NULL,
-  `phase_c_reactive_power_point_id` BIGINT NOT NULL,
-  `power_factor_point_id` BIGINT NOT NULL,
-  `ambient_temperature_point_id` BIGINT NOT NULL,
-  `core_heatsink_temperature_point_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_pcses_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_pcses` (`hybrid_power_station_id`);
@@ -1086,14 +1027,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_pvs` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `hybrid_power_station_id` BIGINT NOT NULL,
-  `meter_id` BIGINT NOT NULL,
   `operating_status_point_id` BIGINT NOT NULL,
-  `active_power_point_id` BIGINT NOT NULL,
-  `reactive_power_point_id` BIGINT NOT NULL,
-  `daily_power_generation_point_id` BIGINT NOT NULL,
-  `total_power_generation_point_id` BIGINT NOT NULL,
-  `ambient_temperature_point_id` BIGINT NOT NULL,
-  `core_heatsink_temperature_point_id` BIGINT NOT NULL,
+  `meter_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_pvs_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_pvs` (`hybrid_power_station_id`);
