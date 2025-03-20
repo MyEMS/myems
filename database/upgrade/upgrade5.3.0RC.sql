@@ -622,6 +622,185 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_stse
 CREATE INDEX `tbl_energy_storage_containers_stses_points_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_stses_points` (`sts_id`);
 
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `soh_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `total_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `total_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `maximum_cell_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `minimum_cell_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `maximum_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `minimum_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `average_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_bmses`
+DROP COLUMN `insulation_value_point_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_cms`
+MODIFY COLUMN `operating_status_point_id` bigint NOT NULL AFTER `hybrid_power_station_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_cms`
+DROP COLUMN `power_point_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+MODIFY COLUMN `operating_status_point_id` bigint NOT NULL AFTER `hybrid_power_station_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `power_generation_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_a_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_b_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_c_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_a_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_b_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_c_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_a_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_b_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_c_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_a_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_b_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `phase_c_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `power_factor_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `genset_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `genset_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `genset_frequency_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `engine_fuel_level_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `engine_oil_pressure_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `engine_coolant_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `cumulative_engine_fuel_consumption_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `cumulative_fuel_efficiency_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_generators`
+DROP COLUMN `instantaneous_fuel_efficiency_point_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `total_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `total_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `power_consumption_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_a_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_b_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_c_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_a_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_b_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_c_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_a_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_b_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_c_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_a_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_b_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `phase_c_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_loads`
+DROP COLUMN `power_factor_point_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_mcus`
+DROP COLUMN `ambient_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_mcus`
+DROP COLUMN `core_heatsink_temperature_point_id`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_mcus_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `mcu_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_hybrid_power_stations_mcus_points_index_1`
+ON `myems_system_db`.`tbl_hybrid_power_stations_mcus_points` (`mcu_id`);
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+MODIFY COLUMN `operating_status_point_id` bigint NOT NULL AFTER `hybrid_power_station_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `total_charge_energy_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `total_discharge_energy_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `frequency_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_a_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_b_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_c_voltage_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_a_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_b_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_c_current_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_a_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_b_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_c_active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_a_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_b_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `phase_c_reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `power_factor_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `ambient_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pcses`
+DROP COLUMN `core_heatsink_temperature_point_id`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+MODIFY COLUMN `operating_status_point_id` bigint NOT NULL AFTER `hybrid_power_station_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `active_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `reactive_power_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `daily_power_generation_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `total_power_generation_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `ambient_temperature_point_id`;
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
+DROP COLUMN `core_heatsink_temperature_point_id`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0RC', release_date='2025-03-15' WHERE id=1;
 
