@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - updated microgrid
 - updated myems-api/example.env (myems-api/.env in production eviroment)
+- changed default color scheme to light in myems-web
+- 
 ### Fixed
 - fixed issue in space statistics report
 ### Removed

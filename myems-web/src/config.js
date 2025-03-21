@@ -6,7 +6,7 @@ export const APIBaseURL = window.location.protocol + '//' + window.location.host
 export const settings = {
   isFluid: true,
   isRTL: false,
-  isDark: true,
+  isDark: false,
   isTopNav: false,
   isVertical: true,
   get isCombo() {

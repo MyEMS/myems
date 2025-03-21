@@ -1496,6 +1496,77 @@ app
                         }
 
                     })
+                    .state('settings.hybridpowerstation', {
+                        url: "/hybridpowerstation",
+                        templateUrl: "views/settings/hybridpowerstation/hybridpowerstation.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.HYBRID_POWER_STATION',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstation.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstation.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationbms.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationcm.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationcommand.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationgenerator.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationload.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationmcu.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationpcs.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationpv.service.js',
+                                                    'app/services/settings/hybridpowerstation/hybridpowerstationuser.service.js',
+                                                    'app/services/settings/tariff/tariff.const.js',
+                                                    'app/services/settings/command/command.service.js',
+                                                    'app/services/settings/costcenter/costcenter.service.js',
+                                                    'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/meter/meter.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
+                                                    'app/services/settings/datasource/point.service.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstation.master.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstation.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationbms.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationcm.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationcommand.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationgenerator.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationload.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationmcu.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationpcs.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationpv.controller.js',
+                                                    'app/controllers/settings/hybridpowerstation/hybridpowerstationuser.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+
+                    })
                     .state('settings.photovoltaicpowerstation', {
                         url: "/photovoltaicpowerstation",
                         templateUrl: "views/settings/photovoltaicpowerstation/photovoltaicpowerstation.html",
