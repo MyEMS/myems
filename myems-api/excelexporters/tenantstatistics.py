@@ -6,7 +6,6 @@ import uuid
 import openpyxl.utils.cell as format_cell
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference
-from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from core.utilities import round2

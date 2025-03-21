@@ -195,7 +195,7 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
         ws['D' + str(current_row_number)].font = title_font
         ws['D' + str(current_row_number)].border = f_border
         ws['D' + str(current_row_number)].alignment = c_c_alignment
-        ws['D' + str(current_row_number)] = round2(report['links'][i]['value'],2)
+        ws['D' + str(current_row_number)] = round2(report['links'][i]['value'], 2)
 
         current_row_number += 1
 
