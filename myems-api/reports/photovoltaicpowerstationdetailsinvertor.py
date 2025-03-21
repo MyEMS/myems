@@ -51,7 +51,7 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if photovoltaic_power_station_id is not None:
-            query = (" SELECT id, name, uuid "
+            query = (" SELECT id "
                      " FROM tbl_photovoltaic_power_stations "
                      " WHERE id = %s ")
             cursor_system.execute(query, (photovoltaic_power_station_id,))
@@ -61,9 +61,6 @@ class Reporting:
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
-        else:
-            photovoltaic_power_station_id = row[0]
-            photovoltaic_power_station_name = row[1]
 
         ################################################################################################################
         # Step 3: query analog points latest values
