@@ -1,0 +1,224 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}(ID:{{hybridpowerstation.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_hybridpowerstation" novalidate class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.name" type="text" name="hybridpowerstationname" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationname.$invalid && form_hybridpowerstation.hybridpowerstationname.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.ADDRESS' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.address" type="text" name="hybridpowerstationaddress" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationaddress.$invalid && form_hybridpowerstation.hybridpowerstationaddress.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationaddress.$error.required">{{'HYBRID_POWER_STATION.INPUT_ADDRESS' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.POSTAL_CODE' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.postal_code" type="text" name="hybridpowerstationpostal_code" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationpostal_code.$invalid && form_hybridpowerstation.hybridpowerstationpostal_code.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationpostal_code.$error.required">{{'HYBRID_POWER_STATION.INPUT_POSTAL_CODE' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.GET_COORDINATE' | translate}}</label>
+                <div class="col-sm-9">
+                    <a class="btn btn-primary btn-rounded btn-outline" href="https://docs.mapbox.com/playground/geocoding-v6/" target="_blank">Mapbox</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.LONGITUDE' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.longitude" type="number" name="hybridpowerstationlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationlongitude.$invalid && form_hybridpowerstation.hybridpowerstationlongitude.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationlongitude.$error.required">{{'HYBRID_POWER_STATION.INPUT_LONGITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationlongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.LATITUDE' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.latitude" type="number" name="hybridpowerstationlatitude" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationlatitude.$invalid && form_hybridpowerstation.hybridpowerstationlatitude.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationlatitude.$error.required">{{'HYBRID_POWER_STATION.INPUT_LATITUDE' | translate}}</small>
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationlatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.LONGITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.longitude_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.LATITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.latitude_point.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="point.id as point in points | filter: $select.search">
+                            <div ng-bind-html="point.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.RATED_CAPACITY' | translate}}(kWh)</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.rated_capacity" type="number" name="hybridpowerstationrated_capacity" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationrated_capacity.$invalid && form_hybridpowerstation.hybridpowerstationrated_capacity.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationrated_capacity.$error.required">{{'HYBRID_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationrated_capacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.RATED_POWER' | translate}}(kW)</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.rated_power" type="number" name="hybridpowerstationrated_power" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationrated_power.$invalid && form_hybridpowerstation.hybridpowerstationrated_power.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationrated_power.$error.required">{{'HYBRID_POWER_STATION.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationrated_power.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.contact.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
+                            <div ng-bind-html="contact.name | highlight: $select.search"></div>
+                            <small>{{contact.email}},{{contact.phone}}</small>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="m-t-xs" ng-show="form_hybridpowerstation.hybridpowerstationcontact.$invalid && form_hybridpowerstation.hybridpowerstationcontact.$dirty">
+                        <small class="text-danger" ng-show="form_hybridpowerstation.hybridpowerstationcontact.$error.required">{{'SETTING.SELECT_CONTACT' | translate}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.cost_center.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
+                            <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.svg.id" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}2 ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.svg2.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}3 ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.svg3.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}4 ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.svg4.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}5 ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.svg5.id" theme="bootstrap">
+                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
+                            <div ng-bind-html="svg.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.IS_COST_DATA_DISPLAYED' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_hybridpowerstation_iscostdatadisplayed" type="checkbox" ng-model="hybridpowerstation.is_cost_data_displayed"
+                            ng-checked="hybridpowerstation.is_cost_data_displayed">
+                        <label for="chk_hybridpowerstation_iscostdatadisplayed">{{'HYBRID_POWER_STATION.IS_COST_DATA_DISPLAYED' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'HYBRID_POWER_STATION.PHASE_OF_LIFECYCLE' | translate}}</label>
+                <div class="col-sm-9">
+                    <ui-select ng-model="hybridpowerstation.phase_of_lifecycle" theme="bootstrap" required>
+                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="phaseoflifecycle.code as phaseoflifecycle in phaseoflifecycles | filter: $select.search">
+                            <div ng-bind-html="phaseoflifecycle.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <input ng-model="hybridpowerstation.description" type="text" name="hybridpowerstationdescription" class="form-control">
+                </div>
+            </div>
+            <div class="form-group" ng-show="hybridpowerstation.qrcode">
+                <label class="col-sm-3 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+                <div class="col-sm-9">
+                    <div>
+                        <qrcode data="{{hybridpowerstation.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" ng-disabled="form_hybridpowerstation.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>

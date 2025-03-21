@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, energyflowdiagram, \
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket
+    hybridpowerstation, windfarm, energyplanfile, svg, protocol, ticket
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -525,6 +525,81 @@ api.add_route('/gateways/import',
               gateway.GatewayImport())
 api.add_route('/gateways/{id_}/clone',
               gateway.GatewayClone())
+
+api.add_route('/hybridpowerstations',
+              hybridpowerstation.HybridPowerStationCollection())
+api.add_route('/hybridpowerstations/{id_}',
+              hybridpowerstation.HybridPowerStationItem())
+api.add_route('/hybridpowerstations/{id_}/clone',
+              hybridpowerstation.HybridPowerStationClone())
+api.add_route('/hybridpowerstations/{id_}/export',
+              hybridpowerstation.HybridPowerStationExport)
+api.add_route('/hybridpowerstations/{id_}/import',
+              hybridpowerstation.HybridPowerStationImport)
+api.add_route('/hybridpowerstations/{id_}/bmses',
+              hybridpowerstation.HybridPowerStationBMSCollection())
+api.add_route('/hybridpowerstations/{id_}/bmses/{bid}',
+              hybridpowerstation.HybridPowerStationBMSItem())
+api.add_route('/hybridpowerstations/{id_}/bmses/{bid}/points',
+              hybridpowerstation.HybridPowerStationBMSPointCollection())
+api.add_route('/hybridpowerstations/{id_}/bmses/{bid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationBMSPointItem())
+api.add_route('/hybridpowerstations/{id_}/commands',
+              hybridpowerstation.HybridPowerStationCommandCollection())
+api.add_route('/hybridpowerstations/{id_}/commands/{cid}',
+              hybridpowerstation.HybridPowerStationCommandItem())
+api.add_route('/hybridpowerstations/{id_}/cms',
+              hybridpowerstation.HybridPowerStationCMCollection())
+api.add_route('/hybridpowerstations/{id_}/cms/{cid}',
+              hybridpowerstation.HybridPowerStationCMItem())
+api.add_route('/hybridpowerstations/{id_}/cms/{cid}/points',
+              hybridpowerstation.HybridPowerStationCMPointCollection())
+api.add_route('/hybridpowerstations/{id_}/cms/{cid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationCMPointItem())
+api.add_route('/hybridpowerstations/{id_}/generators',
+              hybridpowerstation.HybridPowerStationGeneratorCollection())
+api.add_route('/hybridpowerstations/{id_}/generators/{gid}',
+              hybridpowerstation.HybridPowerStationGeneratorItem())
+api.add_route('/hybridpowerstations/{id_}/generators/{gid}/points',
+              hybridpowerstation.HybridPowerStationGeneratorPointCollection())
+api.add_route('/hybridpowerstations/{id_}/generators/{gid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationGeneratorPointItem())
+api.add_route('/hybridpowerstations/{id_}/loads',
+              hybridpowerstation.HybridPowerStationLoadCollection())
+api.add_route('/hybridpowerstations/{id_}/loads/{lid}',
+              hybridpowerstation.HybridPowerStationLoadItem())
+api.add_route('/hybridpowerstations/{id_}/loads/{lid}/points',
+              hybridpowerstation.HybridPowerStationLoadPointCollection())
+api.add_route('/hybridpowerstations/{id_}/loads/{lid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationLoadPointItem())
+api.add_route('/hybridpowerstations/{id_}/mcus',
+              hybridpowerstation.HybridPowerStationMCUCollection())
+api.add_route('/hybridpowerstations/{id_}/mcus/{mid}',
+              hybridpowerstation.HybridPowerStationMCUItem())
+api.add_route('/hybridpowerstations/{id_}/mcus/{mid}/points',
+              hybridpowerstation.HybridPowerStationMCUPointCollection())
+api.add_route('/hybridpowerstations/{id_}/mcus/{mid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationMCUPointItem())
+api.add_route('/hybridpowerstations/{id_}/pcses',
+              hybridpowerstation.HybridPowerStationPCSCollection())
+api.add_route('/hybridpowerstations/{id_}/pcses/{pcsid}',
+              hybridpowerstation.HybridPowerStationPCSItem())
+api.add_route('/hybridpowerstations/{id_}/pcses/{pcsid}/points',
+              hybridpowerstation.HybridPowerStationPCSPointCollection())
+api.add_route('/hybridpowerstations/{id_}/pcses/{pcsid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationPCSPointItem())
+api.add_route('/hybridpowerstations/{id_}/pvs',
+              hybridpowerstation.HybridPowerStationPVCollection())
+api.add_route('/hybridpowerstations/{id_}/pvs/{pvid}',
+              hybridpowerstation.HybridPowerStationPVItem())
+api.add_route('/hybridpowerstations/{id_}/pvs/{pvid}/points',
+              hybridpowerstation.HybridPowerStationPVPointCollection())
+api.add_route('/hybridpowerstations/{id_}/pvs/{pvid}/points/{pid}',
+              hybridpowerstation.HybridPowerStationPVPointItem())
+api.add_route('/hybridpowerstations/{id_}/users',
+              hybridpowerstation.HybridPowerStationUserCollection())
+api.add_route('/hybridpowerstations/{id_}/users/{uid}',
+              hybridpowerstation.HybridPowerStationUserItem())
 
 api.add_route('/knowledgefiles',
               knowledgefile.KnowledgeFileCollection())
