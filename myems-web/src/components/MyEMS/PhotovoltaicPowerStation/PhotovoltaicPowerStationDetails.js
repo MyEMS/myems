@@ -95,7 +95,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [stationList, setStationList] = useState([]);
   const [filteredStationList, setFilteredStationList] = useState([]);
   const [selectedStation, setSelectedStation] = useState(undefined);
@@ -170,10 +169,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
+            let selectedSpaceID  = [json[0]].map(o => o.value);
             // get Photovoltaic  Power Stations by root Space ID
             let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/photovoltaicpowerstations', {
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
               method: 'GET',
               headers: {
                 'Content-type': 'application/json',
@@ -318,15 +317,14 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         console.log(err);
       });
   };
-  
+
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/photovoltaicpowerstations', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

@@ -94,7 +94,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   // State
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [stationList, setStationList] = useState([]);
   const [filteredStationList, setFilteredStationList] = useState([]);
   const [selectedStation, setSelectedStation] = useState(undefined);
@@ -184,10 +183,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
+            let selectedSpaceID  = [json[0]].map(o => o.value);
             // get Energy Storage Power Stations by root Space ID
             let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/energystoragepowerstations', {
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
               method: 'GET',
               headers: {
                 'Content-type': 'application/json',
@@ -338,10 +337,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/energystoragepowerstations', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

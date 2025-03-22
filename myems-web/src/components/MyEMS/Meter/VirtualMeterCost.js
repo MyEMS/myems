@@ -72,7 +72,6 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [virtualMeterList, setVirtualMeterList] = useState([]);
   const [selectedVirtualMeter, setSelectedVirtualMeter] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
@@ -183,10 +182,10 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Virtual Meters by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/virtualmeters', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/virtualmeters', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -242,10 +241,9 @@ const VirtualMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/virtualmeters', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/virtualmeters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

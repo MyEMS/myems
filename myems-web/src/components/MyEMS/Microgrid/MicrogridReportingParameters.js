@@ -66,7 +66,6 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [microgridList, setMicrogridList] = useState([]);
   const [filteredMicrogridList, setFilteredMicrogridList] = useState([]);
   const [selectedMicrogrid, setSelectedMicrogrid] = useState(undefined);
@@ -182,10 +181,10 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID  = [json[0]].map(o => o.value);
           // get Microgrids by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/microgrids', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -520,10 +519,9 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/microgrids', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -735,15 +733,6 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(selectedSpaceID);
-    console.log(selectedMicrogrid);
-    console.log(comparisonType);
-    console.log(periodType);
-    console.log(basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : null);
-    console.log(basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : null);
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
 
     let url =
       APIBaseURL +

@@ -143,7 +143,6 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
           // set the default selected space
           setSelectedSpaceName([json[0]].map(o => o.label));
           setSelectedSpaceID([json[0]].map(o => o.value));
-
           setSubmitButtonDisabled(false);
           setSpinnerHidden(true);
         } else {

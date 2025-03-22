@@ -64,7 +64,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
   const [filteredMeterList, setFilteredMeterList] = useState([]);
   const [selectedMeter, setSelectedMeter] = useState(undefined);
@@ -172,10 +171,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
+            let selectedSpaceID  = [json[0]].map(o => o.value);
             // get Meters by root Space ID
             let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/meters', {
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
               method: 'GET',
               headers: {
                 'Content-type': 'application/json',
@@ -472,10 +471,9 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/meters', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

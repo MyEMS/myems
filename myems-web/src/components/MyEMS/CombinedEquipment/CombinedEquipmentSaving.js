@@ -74,7 +74,6 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [combinedEquipmentList, setCombinedEquipmentList] = useState([]);
   const [selectedCombinedEquipment, setSelectedCombinedEquipment] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
@@ -196,10 +195,10 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID  = [json[0]].map(o => o.value);
           // get Combined Equipments by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/combinedequipments', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/combinedequipments', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -254,10 +253,9 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/combinedequipments', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/combinedequipments', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
