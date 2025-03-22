@@ -12,19 +12,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated microgrid
 - updated myems-api/example.env (myems-api/.env in production eviroment)
 - changed default color scheme to light in myems-web
-- 
+-
 ### Fixed
 - fixed issue in space statistics report
 - fixed unused import issues in myems-api
 - fixed unused local variable in myems-api
 - fixed overwritten property in myems-admin
+- fixed duplicate property in myems-admin
 ### Removed
 -
 
 ## [v5.2.0] - 2025-02-25
 ### Added
 - added portuguese language
-- added deep valley to time-of-use tariff 
+- added deep valley to time-of-use tariff
 - added optional langitude point, latitude point and svgs to power stations
 - added hybrid power station
 ### Changed

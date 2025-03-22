@@ -732,7 +732,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -2721,7 +2720,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: '电池安全检测传感器报警状态数据点',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: '灭火装置反馈状态值数据点',
                 // HVACs
-                WORKING_STATUS_POINT: '工作状态',
                 INDOOR_FAN_STATUS_POINT: '室内风机状态',
                 OUTDOOR_FAN_STATUS_POINT: '室外风机状态',
                 EMERGENCY_FAN_STATUS_POINT: '应急风机状态',
@@ -4737,7 +4735,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -6768,7 +6765,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -8780,7 +8776,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -10791,7 +10786,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -12802,7 +12796,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -14813,7 +14806,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -16822,7 +16814,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -18832,7 +18823,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -20842,7 +20832,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -22852,7 +22841,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -24843,7 +24831,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Battery Safety Detection Sensor Alarm Point',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Fire Extinguishing Device Status Point',
                 // HVACs
-                WORKING_STATUS_POINT: 'Working Status Point',
                 INDOOR_FAN_STATUS_POINT: 'Indoor Fan Status Point',
                 OUTDOOR_FAN_STATUS_POINT: 'Outdoor Fan Status Point',
                 EMERGENCY_FAN_STATUS_POINT: 'Emergency Fan Status Point',
@@ -26881,7 +26868,6 @@ function config($translateProvider) {
                 BATTERY_SAFETY_DETECTION_SENSOR_ALARM_POINT: 'Ponto de Alarme do Sensor de Detecção de Segurança da Bateria',
                 FIRE_EXTINGUISHING_DEVICE_STATUS_POINT: 'Ponto de Status do Dispositivo de Extinção de Incêndio',
                 // HVACs
-                WORKING_STATUS_POINT: 'Ponto de Status de Funcionamento',
                 INDOOR_FAN_STATUS_POINT: 'Ponto de Status do Ventilador Interno',
                 OUTDOOR_FAN_STATUS_POINT: 'Ponto de Status do Ventilador Externo',
                 EMERGENCY_FAN_STATUS_POINT: 'Ponto de Status do Ventilador de Emergência',
