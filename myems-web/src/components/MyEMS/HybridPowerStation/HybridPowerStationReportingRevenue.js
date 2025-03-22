@@ -62,7 +62,6 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [hybridPowerStationList, setHybridPowerStationList] = useState([]);
   const [filteredHybridPowerStationList, setFilteredHybridPowerStationList] = useState([]);
   const [selectedHybridPowerStation, setSelectedHybridPowerStation] = useState(undefined);
@@ -160,10 +159,10 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID  = [json[0]].map(o => o.value);
           // get HybridPowerStations by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/hybridpowerstations', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/hybridpowerstations', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -438,10 +437,9 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/hybridpowerstations', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/hybridpowerstations', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

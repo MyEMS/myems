@@ -78,7 +78,6 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   // Query Parameters
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [shopfloorList, setShopfloorList] = useState([]);
   const [selectedShopfloor, setSelectedShopfloor] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('month-on-month');
@@ -201,10 +200,10 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            setSelectedSpaceID([json[0]].map(o => o.value));
+            let selectedSpaceID  = [json[0]].map(o => o.value);
             // get Shopfloors by root Space ID
             let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/shopfloors', {
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/shopfloors', {
               method: 'GET',
               headers: {
                 'Content-type': 'application/json',
@@ -817,10 +816,9 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/shopfloors', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/shopfloors', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

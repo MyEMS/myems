@@ -124,7 +124,6 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
   const { language } = useContext(AppContext);
 
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [tenantList, setTenantList] = useState([]);
   const [selectedTenant, setSelectedTenant] = useState(undefined);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
@@ -198,10 +197,10 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID  = [json[0]].map(o => o.value);
           // get Tenants by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/tenants', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/tenants', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -257,10 +256,9 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/tenants', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/tenants', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',

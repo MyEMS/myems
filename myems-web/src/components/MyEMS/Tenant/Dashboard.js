@@ -542,7 +542,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             );
             // get Combined Equipments by root Space ID
             let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/children', {
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/children', {
               method: 'GET',
               headers: {
                 'Content-type': 'application/json',

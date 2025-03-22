@@ -72,8 +72,6 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   //Query Form
   const [selectedSpaceName1, setSelectedSpaceName1] = useState(undefined);
   const [selectedSpaceName2, setSelectedSpaceName2] = useState(undefined);
-  const [selectedSpaceID1, setSelectedSpaceID1] = useState(undefined);
-  const [selectedSpaceID2, setSelectedSpaceID2] = useState(undefined);
   const [meterList1, setMeterList1] = useState([]);
   const [meterList2, setMeterList2] = useState([]);
   const [filteredMeterList1, setFilteredMeterList1] = useState([]);
@@ -177,11 +175,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setCascaderOptions(json);
           setSelectedSpaceName1([json[0]].map(o => o.label));
           setSelectedSpaceName2([json[0]].map(o => o.label));
-          setSelectedSpaceID1([json[0]].map(o => o.value));
-          setSelectedSpaceID2([json[0]].map(o => o.value));
+          let selectedSpaceID = [json[0]].map(o => o.value)
           // get Meters by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/meters', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -242,10 +239,9 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID1(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/meters', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -292,10 +288,9 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID2(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/meters', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -694,7 +689,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName1 || ''} readOnly />
+                    <Input bsSize="sm" value={selectedSpaceName1 || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>

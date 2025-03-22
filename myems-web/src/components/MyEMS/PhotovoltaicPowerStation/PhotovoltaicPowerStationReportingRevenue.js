@@ -62,7 +62,6 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
   // State
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [photovoltaicPowerStationList, setPhotovoltaicPowerStationList] = useState([]);
   const [filteredPhotovoltaicPowerStationList, setFilteredPhotovoltaicPowerStationList] = useState([]);
   const [selectedPhotovoltaicPowerStation, setSelectedPhotovoltaicPowerStation] = useState(undefined);
@@ -162,10 +161,10 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
+          let selectedSpaceID  = [json[0]].map(o => o.value);
           // get PhotovoltaicPowerStations by root Space ID
           let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + [json[0]].map(o => o.value) + '/photovoltaicpowerstations', {
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -442,10 +441,9 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-
+    let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + value[value.length - 1] + '/photovoltaicpowerstations', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
