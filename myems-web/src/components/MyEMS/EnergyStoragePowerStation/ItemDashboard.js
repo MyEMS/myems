@@ -164,7 +164,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   const loadData = () => {
-
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -241,7 +240,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }
               });
             }
-            energyStoragePowerStation['nameuuid'] = energyStoragePowerStation['name'] + energyStoragePowerStation['uuid']
+            energyStoragePowerStation['nameuuid'] = energyStoragePowerStation['name'] + energyStoragePowerStation['uuid'];
 
             geojson['type'] = 'FeatureCollection';
             geojson['features'] = geojsonData;
@@ -253,7 +252,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadEnergyData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -324,7 +323,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadBillingData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -395,7 +394,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadCarbonData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -466,7 +465,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));

@@ -506,7 +506,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                 detailed_value_list[valueIndex] = { id: valueIndex };
               }
               detailed_value_list[valueIndex]['a' + i] = meterValue;
-            })
+            });
           }
 
           let detailed_value = {};
