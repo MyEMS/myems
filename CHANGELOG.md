@@ -15,7 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Fixed
 - fixed issue in space statistics report
-- fixed unused import issues
+- fixed unused import issues in myems-api
+- fixed unused local variable in myems-api
+- fixed overwritten property in myems-admin
 ### Removed
 -
 

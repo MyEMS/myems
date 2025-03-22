@@ -1,4 +1,3 @@
-import re
 from datetime import datetime, timedelta, timezone
 import falcon
 from core.useractivity import user_logger, access_control
