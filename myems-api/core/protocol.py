@@ -1,5 +1,3 @@
-import re
-import uuid
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector
