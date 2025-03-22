@@ -172,7 +172,6 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
           // enable submit button
@@ -712,12 +711,12 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
               json['base_period']['subtotals'].forEach((currentValue, index) => {
                 detailed_value['a' + (index * 2 + 1)] = currentValue;
               });
-              detailed_value['a0'] = json['base_total_production']
+              detailed_value['a0'] = json['base_total_production'];
               detailed_value['reportingPeriodDatetime'] = t('Subtotal');
               json['reporting_period']['subtotals'].forEach((currentValue, index) => {
                 detailed_value['b' + (index * 2 + 1)] = currentValue;
               });
-              detailed_value['b0'] = json['reporting_total_production']
+              detailed_value['b0'] = json['reporting_total_production'];
               detailed_value_list.push(detailed_value);
               setTimeout(() => {
                 setDetailedDataTableData(detailed_value_list);

@@ -238,7 +238,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }
               });
             }
-            photovoltaicPowerStation['nameuuid'] = photovoltaicPowerStation['name'] + photovoltaicPowerStation['uuid']
+            photovoltaicPowerStation['nameuuid'] = photovoltaicPowerStation['name'] + photovoltaicPowerStation['uuid'];
 
             geojson['type'] = 'FeatureCollection';
             geojson['features'] = geojsonData;

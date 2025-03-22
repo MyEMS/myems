@@ -253,7 +253,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadEnergyData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -324,7 +324,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadBillingData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -395,7 +395,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   const loadCarbonData = () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -466,7 +466,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));

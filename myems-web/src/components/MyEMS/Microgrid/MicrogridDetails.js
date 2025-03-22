@@ -153,7 +153,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           console.log(json);
-          setMicrogridID(json['microgrid']['id'])
+          setMicrogridID(json['microgrid']['id']);
           setMicrogridName(json['microgrid']['name']);
           setMicrogridSerialNumber(json['microgrid']['serial_number']);
           setMicrogridAddress(json['microgrid']['address']);
@@ -170,9 +170,9 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
 
           if (json['energy_indicators']['total_charge_energy_value'] > 0) {
-            setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2))
+            setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2));
           } else {
-            setTotalEfficiency(0)
+            setTotalEfficiency(0);
           }
 
           setTodayChargeRevenueValue(json['revenue_indicators']['today_charge_revenue_value']);

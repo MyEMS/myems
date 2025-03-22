@@ -274,9 +274,9 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
 
           if (json['energy_indicators']['performance_ratio'] != null) {
-            setTotalEfficiency((json['energy_indicators']['performance_ratio']).toFixed(2))
+            setTotalEfficiency((json['energy_indicators']['performance_ratio']).toFixed(2));
           } else {
-            setTotalEfficiency(0)
+            setTotalEfficiency(0);
           }
 
           setTodayGenerationRevenueValue(json['revenue_indicators']['today_generation_revenue_value'].toFixed(2));
@@ -317,7 +317,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+  
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
@@ -499,7 +500,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+
   // Invertor
   const fetchInvertorDetails = () => {
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/invertor'
@@ -531,7 +533,8 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+
   // Meters
   const fetchMetersDetails = () => {
     let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/meter'
@@ -563,7 +566,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   return (
     <Fragment>

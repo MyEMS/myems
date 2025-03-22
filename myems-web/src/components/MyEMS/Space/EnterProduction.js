@@ -324,7 +324,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
       saveChange(currentValue['daily_value'], value, currentValue)
     });
     setProductionList(newProductionList)
-  }
+  };
 
   const onProductionChange = (value) => {
     if (value == null || value === '' || value < 0 ) {
@@ -337,7 +337,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
     }
     value = value.replace(/^[0]+/,'');
     setProduction(value)
-  }
+  };
 
   return (
     <Fragment>

@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unused local variable in myems-api
 - fixed overwritten property in myems-admin
 - fixed duplicate property in myems-admin
+- fixed semicolon insertion in myems-web
 ### Removed
 -
 
