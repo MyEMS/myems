@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   Modal,
@@ -8,9 +7,6 @@ import {
   ModalFooter,
   Form,
   FormGroup,
-  Label,
-  Input,
-  CustomInput
 } from 'reactstrap';
 import Flex from '../../common/Flex';
 import ReactCodeInput from 'react-code-input';

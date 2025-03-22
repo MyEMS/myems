@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
 import range from 'lodash/range';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, CardHeader, CardBody, ListGroup, ListGroupItem, CardFooter } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
 import { rgbaColor } from '../../../helpers/utils';
 import { activeUserHistory } from '../../../data/dashboard/activeUsers';
 

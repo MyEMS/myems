@@ -1,8 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Row, Col, Card, CardBody } from 'reactstrap';
-import { CheckPicker } from 'rsuite';
-import { rgbaColor, themeColors, isIterableArray, getGrays } from '../../../helpers/utils';
-import AppContext from '../../../context/Context';
+import React from 'react';
 
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
@@ -30,7 +26,7 @@ echarts.use([
   UniversalTransition]);
 
 const SectionLineChart = ({ xaxisData, seriesName, seriesData, markAreaData}) => {
-  
+
   let getOption = () => {
     return {
       tooltip: {

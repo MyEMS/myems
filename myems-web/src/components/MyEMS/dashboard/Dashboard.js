@@ -17,7 +17,6 @@ import { Chart as ChartJS } from 'chart.js';
 import BarChart from '../common/BarChart';
 import ChartSpacesStackBar from '../common/ChartSpacesStackBar';
 import RealtimeSensor from '../common/RealtimeSensor';
-import { getItemFromStore } from '../../../helpers/utils';
 import CustomizeMapBox from '../common/CustomizeMapBox';
 
 ChartJS.register(annotationPlugin);

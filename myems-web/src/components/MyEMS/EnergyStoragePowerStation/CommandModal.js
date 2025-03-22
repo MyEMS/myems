@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -10,10 +9,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  CustomInput
+  Input
 } from 'reactstrap';
-import { v4 as uuid } from 'uuid';
 import Flex from '../../common/Flex';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';

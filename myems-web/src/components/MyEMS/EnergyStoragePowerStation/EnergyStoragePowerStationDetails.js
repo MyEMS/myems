@@ -6,12 +6,9 @@ import {
   CardBody,
   Col,
   CustomInput,
-  CardTitle,
-  CardText,
   Form,
   FormGroup,
   Input,
-  Label,
   Row,
   Table,
   Spinner,
@@ -22,7 +19,6 @@ import {
   TabPane
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
-import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -32,7 +28,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { APIBaseURL, settings } from '../../../config';
 import useInterval from '../../../hooks/useInterval';
 import { useLocation } from 'react-router-dom';
-import Datetime from 'react-datetime';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import ScheduleDetails from './ScheduleDetails';

@@ -11,8 +11,7 @@ import {
   FormGroup,
   Input,
   Label,
-  Row,
-  CustomInput
+  Row
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import moment from 'moment';
