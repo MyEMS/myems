@@ -235,13 +235,13 @@ app.controller('LoginController', function (
 		date.setTime(date.getTime() + cookieExpireTime);
 		const expires = '; expires=' + date.toUTCString();
 		document.cookie = name + '=' + value + expires + '; path=/';
-	  };
+	};
 
 	$scope.getTime = function () {
 		if ($cookies.get('is_logged_in') == null || $cookies.get('is_logged_in') == undefined ) {
 			$scope.logout();
 		}
-	}
+	};
 
 	// web message alarm section end
 

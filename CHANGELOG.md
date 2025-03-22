@@ -16,10 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issue in space statistics report
 - fixed unused import issues in myems-api
-- fixed unused local variable in myems-api
-- fixed overwritten property in myems-admin
-- fixed duplicate property in myems-admin
-- fixed semicolon insertion in myems-web
+- fixed unused local variable issues in myems-api
+- fixed overwritten property issues in myems-admin
+- fixed duplicate property issues in myems-admin
+- fixed semicolon insertion issues in myems-web
+- fixed unused variable, import, function or class issues in myems-web
 ### Removed
 -
 

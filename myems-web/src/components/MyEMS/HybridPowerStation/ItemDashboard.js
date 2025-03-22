@@ -241,7 +241,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }
               });
             }
-            hybridPowerStation['nameuuid'] = hybridPowerStation['name'] + hybridPowerStation['uuid']
+            hybridPowerStation['nameuuid'] = hybridPowerStation['name'] + hybridPowerStation['uuid'];
 
             geojson['type'] = 'FeatureCollection';
             geojson['features'] = geojsonData;
