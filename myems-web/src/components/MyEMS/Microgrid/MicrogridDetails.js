@@ -3,22 +3,14 @@ import {
   Card,
   CardBody,
   Col,
-  CustomInput,
-  CardTitle,
-  CardText,
-  Form,
-  FormGroup,
-  Label,
   Row,
   Table,
-  Spinner,
   Nav,
   NavItem,
   NavLink,
   TabContent,
   TabPane
 } from 'reactstrap';
-import FalconCardHeader from '../../common/FalconCardHeader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';

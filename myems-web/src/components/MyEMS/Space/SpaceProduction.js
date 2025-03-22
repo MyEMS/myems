@@ -21,7 +21,6 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
-import MultipleLineChart from '../common/MultipleLineChart';
 import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';

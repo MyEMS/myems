@@ -20,13 +20,9 @@ import {
   UncontrolledDropdown,
   Spinner
 } from 'reactstrap';
-import CardSummary from '../common/CardSummary';
-import ButtonIcon from '../../common/ButtonIcon';
-import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import { v4 as uuid } from 'uuid';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import Datetime from 'react-datetime';

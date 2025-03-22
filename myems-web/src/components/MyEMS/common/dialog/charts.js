@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, {useEffect } from 'react';
 import * as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';

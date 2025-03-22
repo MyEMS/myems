@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Charts from './charts';
 export const Dialog = props => {
   if (props.type === 'charts') {

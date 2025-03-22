@@ -1,41 +1,16 @@
-import React, { createRef, Fragment, useEffect, useState } from 'react';
+import React, { createRef, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { toast } from 'react-toastify';
 import {
-  Breadcrumb,
-  BreadcrumbItem,
   Row,
   Col,
-  Card,
-  CardBody,
-  Button,
-  ButtonGroup,
-  Form,
-  FormGroup,
-  Label,
-  CustomInput,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  InputGroup,
-  UncontrolledDropdown,
-  Spinner
+  Button
 } from 'reactstrap';
-import CountUp from 'react-countup';
-import CardSummary from '../common/CardSummary';
-import ButtonIcon from '../../common/ButtonIcon';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
-import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import { endOfDay } from 'date-fns';
-import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import moment from 'moment';
 
 const FaultDetails = ({
   faults,

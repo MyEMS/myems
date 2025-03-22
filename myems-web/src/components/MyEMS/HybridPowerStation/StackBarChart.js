@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, useRef, Fragment } from 'react';
 import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils';
-import FalconCardHeader from '../../common/FalconCardHeader';
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import { Bar } from 'react-chartjs-2';

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import MicrogridTable from './MicrogridTable';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import { InputGroup, CustomInput, Button, Card, CardBody } from 'reactstrap';
-import ButtonIcon from '../../common/ButtonIcon';
+import { Card, CardBody } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 
 const MicrogridTableCard = ({ microgridList, t }) => {

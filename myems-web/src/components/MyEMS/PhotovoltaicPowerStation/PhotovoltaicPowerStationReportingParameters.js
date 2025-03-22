@@ -1,7 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
-  Breadcrumb,
-  BreadcrumbItem,
   Row,
   Col,
   Card,
@@ -15,18 +13,14 @@ import {
   CustomInput,
   Spinner
 } from 'reactstrap';
-import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import CardSummary from '../common/CardSummary';
-import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';

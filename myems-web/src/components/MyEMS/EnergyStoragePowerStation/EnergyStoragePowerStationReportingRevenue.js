@@ -1,7 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react';
 import {
-  Breadcrumb,
-  BreadcrumbItem,
   Row,
   Col,
   Card,
@@ -18,7 +16,6 @@ import {
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';

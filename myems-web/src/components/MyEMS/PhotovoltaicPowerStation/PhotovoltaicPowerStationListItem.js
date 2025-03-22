@@ -2,12 +2,8 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Badge, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { isIterableArray } from '../../../helpers/utils';
-import Slider from 'react-slick/lib';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Flex from '../../common/Flex';
 import classNames from 'classnames';
-import ButtonIcon from '../../common/ButtonIcon';
 import AppContext, { ProductContext } from '../../../context/Context';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from "echarts"

@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, Dropdown } from 'reactstrap';

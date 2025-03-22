@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import NavbarDropdown from './NavbarDropdown';
 import NavbarDropdownComponents from './NavbarDropdownComponents';
 import routes from '../../routes';
 import { NavItem } from 'reactstrap';

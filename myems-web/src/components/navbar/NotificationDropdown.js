@@ -1,11 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import ListGroup from 'reactstrap/es/ListGroup';
 import ListGroupItem from 'reactstrap/es/ListGroupItem';
-import { rawEarlierNotifications, rawNewNotifications } from '../../data/notification/notification';
 import { isIterableArray } from '../../helpers/utils';
 import FalconCardHeader from '../common/FalconCardHeader';
 import Notification from '../notification/Notification';

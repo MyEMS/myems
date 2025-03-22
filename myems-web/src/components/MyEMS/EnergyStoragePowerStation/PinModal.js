@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   Modal,
@@ -8,14 +7,11 @@ import {
   ModalFooter,
   Form,
   FormGroup,
-  Label,
-  Input,
-  CustomInput
 } from 'reactstrap';
 import Flex from '../../common/Flex';
 import ReactCodeInput from 'react-code-input';
 import { withTranslation } from 'react-i18next';
-import { createCookie, getItemFromStore, setItemToStore } from '../../../helpers/utils';
+import { createCookie} from '../../../helpers/utils';
 
 const CORRECT_PIN_CODE = "111222";
 

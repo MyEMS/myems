@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import is from 'is_js';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Collapse, Nav, Navbar, NavItem } from 'reactstrap';
+import { Button, Collapse, Nav, Navbar } from 'reactstrap';
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
 import { APIBaseURL, settings, navbarBreakPoint, topNavbarBreakpoint } from '../../config';
 import AppContext from '../../context/Context';
