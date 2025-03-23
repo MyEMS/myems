@@ -9,10 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added space prediction report in  myems-web and myems-api
 - added new point type text_value to myems-admin and myems-api
 ### Changed
-- updated microgrid
+- updated microgrid and power stations
 - updated myems-api/example.env (myems-api/.env in production eviroment)
 - changed default color scheme to light in myems-web
--
+- updated dashboard in myems-api and myems-web
 ### Fixed
 - fixed issue in space statistics report
 - fixed unused import issues in myems-api

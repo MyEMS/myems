@@ -397,8 +397,6 @@ class Reporting:
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
                 base_input[energy_category_id] = dict()
-                base_input[energy_category_id]['timestamps'] = list()
-                base_input[energy_category_id]['values'] = list()
                 base_input[energy_category_id]['subtotal'] = Decimal(0.0)
                 base_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
@@ -435,8 +433,6 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y')
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_input[energy_category_id]['timestamps'].append(current_datetime)
-                    base_input[energy_category_id]['values'].append(actual_value)
                     base_input[energy_category_id]['subtotal'] += actual_value
                     base_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     base_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
@@ -448,8 +444,6 @@ class Reporting:
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
             for energy_category_id in input_energy_category_set:
                 base_cost[energy_category_id] = dict()
-                base_cost[energy_category_id]['timestamps'] = list()
-                base_cost[energy_category_id]['values'] = list()
                 base_cost[energy_category_id]['subtotal'] = Decimal(0.0)
 
                 cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
@@ -484,8 +478,6 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y')
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_cost[energy_category_id]['timestamps'].append(current_datetime)
-                    base_cost[energy_category_id]['values'].append(actual_value)
                     base_cost[energy_category_id]['subtotal'] += actual_value
 
         ################################################################################################################
@@ -498,8 +490,6 @@ class Reporting:
                 kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
                 base_output[energy_category_id] = dict()
-                base_output[energy_category_id]['timestamps'] = list()
-                base_output[energy_category_id]['values'] = list()
                 base_output[energy_category_id]['subtotal'] = Decimal(0.0)
                 base_output[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base_output[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
@@ -536,8 +526,6 @@ class Reporting:
                         current_datetime = current_datetime_local.strftime('%Y')
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_output[energy_category_id]['timestamps'].append(current_datetime)
-                    base_output[energy_category_id]['values'].append(actual_value)
                     base_output[energy_category_id]['subtotal'] += actual_value
                     base_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     base_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
@@ -874,13 +862,9 @@ class Reporting:
         result['base_period_input'] = dict()
         result['base_period_input']['names'] = list()
         result['base_period_input']['units'] = list()
-        result['base_period_input']['timestamps'] = list()
-        result['base_period_input']['values'] = list()
         result['base_period_input']['subtotals'] = list()
         result['base_period_input']['subtotals_in_kgce'] = list()
         result['base_period_input']['subtotals_in_kgco2e'] = list()
-        result['base_period_input']['subtotals_per_unit_area'] = list()
-        result['base_period_input']['subtotals_per_capita'] = list()
         result['base_period_input']['total_in_kgce'] = Decimal(0.0)
         result['base_period_input']['total_in_kgco2e'] = Decimal(0.0)
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
@@ -889,22 +873,12 @@ class Reporting:
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_input']['units'].append(
                     energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['base_period_input']['timestamps'].append(
-                    base_input[energy_category_id]['timestamps'])
-                result['base_period_input']['values'].append(
-                    base_input[energy_category_id]['values'])
                 result['base_period_input']['subtotals'].append(
                     base_input[energy_category_id]['subtotal'])
                 result['base_period_input']['subtotals_in_kgce'].append(
                     base_input[energy_category_id]['subtotal_in_kgce'])
                 result['base_period_input']['subtotals_in_kgco2e'].append(
                     base_input[energy_category_id]['subtotal_in_kgco2e'])
-                result['base_period_input']['subtotals_per_unit_area'].append(
-                    base_input[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['base_period_input']['subtotals_per_capita'].append(
-                    base_input[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['base_period_input']['total_in_kgce'] += \
                     base_input[energy_category_id]['subtotal_in_kgce']
                 result['base_period_input']['total_in_kgco2e'] += \
@@ -918,41 +892,23 @@ class Reporting:
         result['base_period_cost'] = dict()
         result['base_period_cost']['names'] = list()
         result['base_period_cost']['units'] = list()
-        result['base_period_cost']['timestamps'] = list()
-        result['base_period_cost']['values'] = list()
         result['base_period_cost']['subtotals'] = list()
-        result['base_period_cost']['subtotals_per_unit_area'] = list()
-        result['base_period_cost']['subtotals_per_capita'] = list()
         result['base_period_cost']['total'] = Decimal(0.0)
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
             for energy_category_id in input_energy_category_set:
                 result['base_period_cost']['names'].append(
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_cost']['units'].append(config.currency_unit)
-                result['base_period_cost']['timestamps'].append(
-                    base_cost[energy_category_id]['timestamps'])
-                result['base_period_cost']['values'].append(
-                    base_cost[energy_category_id]['values'])
                 result['base_period_cost']['subtotals'].append(
                     base_cost[energy_category_id]['subtotal'])
-                result['base_period_cost']['subtotals_per_unit_area'].append(
-                    base_cost[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['base_period_cost']['subtotals_per_capita'].append(
-                    base_cost[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['base_period_cost']['total'] += base_cost[energy_category_id]['subtotal']
 
         result['base_period_output'] = dict()
         result['base_period_output']['names'] = list()
         result['base_period_output']['units'] = list()
-        result['base_period_output']['timestamps'] = list()
-        result['base_period_output']['values'] = list()
         result['base_period_output']['subtotals'] = list()
         result['base_period_output']['subtotals_in_kgce'] = list()
         result['base_period_output']['subtotals_in_kgco2e'] = list()
-        result['base_period_output']['subtotals_per_unit_area'] = list()
-        result['base_period_output']['subtotals_per_capita'] = list()
         result['base_period_output']['total_in_kgce'] = Decimal(0.0)
         result['base_period_output']['total_in_kgco2e'] = Decimal(0.0)
         if output_energy_category_set is not None and len(output_energy_category_set) > 0:
@@ -961,22 +917,12 @@ class Reporting:
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_output']['units'].append(
                     energy_category_dict[energy_category_id]['unit_of_measure'])
-                result['base_period_output']['timestamps'].append(
-                    base_output[energy_category_id]['timestamps'])
-                result['base_period_output']['values'].append(
-                    base_output[energy_category_id]['values'])
                 result['base_period_output']['subtotals'].append(
                     base_output[energy_category_id]['subtotal'])
                 result['base_period_output']['subtotals_in_kgce'].append(
                     base_output[energy_category_id]['subtotal_in_kgce'])
                 result['base_period_output']['subtotals_in_kgco2e'].append(
                     base_output[energy_category_id]['subtotal_in_kgco2e'])
-                result['base_period_output']['subtotals_per_unit_area'].append(
-                    base_output[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['base_period_output']['subtotals_per_capita'].append(
-                    base_output[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['base_period_output']['total_in_kgce'] += \
                     base_output[energy_category_id]['subtotal_in_kgce']
                 result['base_period_output']['total_in_kgco2e'] += \
@@ -991,8 +937,6 @@ class Reporting:
         result['reporting_period_input']['subtotals'] = list()
         result['reporting_period_input']['subtotals_in_kgce'] = list()
         result['reporting_period_input']['subtotals_in_kgco2e'] = list()
-        result['reporting_period_input']['subtotals_per_unit_area'] = list()
-        result['reporting_period_input']['subtotals_per_capita'] = list()
         result['reporting_period_input']['toppeaks'] = list()
         result['reporting_period_input']['onpeaks'] = list()
         result['reporting_period_input']['midpeaks'] = list()
@@ -1020,12 +964,6 @@ class Reporting:
                     reporting_input[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_input']['subtotals_in_kgco2e'].append(
                     reporting_input[energy_category_id]['subtotal_in_kgco2e'])
-                result['reporting_period_input']['subtotals_per_unit_area'].append(
-                    reporting_input[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['reporting_period_input']['subtotals_per_capita'].append(
-                    reporting_input[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period_input']['toppeaks'].append(
                     reporting_input[energy_category_id]['toppeak'])
                 result['reporting_period_input']['onpeaks'].append(
@@ -1046,24 +984,10 @@ class Reporting:
                 result['reporting_period_input']['total_in_kgco2e'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgco2e']
 
-        result['reporting_period_input']['total_in_kgco2e_per_unit_area'] = \
-            result['reporting_period_input']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period_input']['total_in_kgco2e_per_capita'] = \
-            result['reporting_period_input']['total_in_kgce'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
-
         result['reporting_period_input']['increment_rate_in_kgce'] = \
             (result['reporting_period_input']['total_in_kgce'] - result['base_period_input']['total_in_kgce']) / \
             result['base_period_input']['total_in_kgce'] \
             if result['base_period_input']['total_in_kgce'] > Decimal(0.0) else None
-
-        result['reporting_period_input']['total_in_kgce_per_unit_area'] = \
-            result['reporting_period_input']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period_input']['total_in_kgce_per_capita'] = \
-            result['reporting_period_input']['total_in_kgco2e'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
 
         result['reporting_period_input']['increment_rate_in_kgco2e'] = \
             (result['reporting_period_input']['total_in_kgco2e'] - result['base_period_input']['total_in_kgco2e']) / \
@@ -1077,8 +1001,6 @@ class Reporting:
         result['reporting_period_cost']['timestamps'] = list()
         result['reporting_period_cost']['values'] = list()
         result['reporting_period_cost']['subtotals'] = list()
-        result['reporting_period_cost']['subtotals_per_unit_area'] = list()
-        result['reporting_period_cost']['subtotals_per_capita'] = list()
         result['reporting_period_cost']['toppeaks'] = list()
         result['reporting_period_cost']['onpeaks'] = list()
         result['reporting_period_cost']['midpeaks'] = list()
@@ -1086,8 +1008,6 @@ class Reporting:
         result['reporting_period_cost']['deeps'] = list()
         result['reporting_period_cost']['increment_rates'] = list()
         result['reporting_period_cost']['total'] = Decimal(0.0)
-        result['reporting_period_cost']['total_per_unit_area'] = Decimal(0.0)
-        result['reporting_period_cost']['total_per_capita'] = Decimal(0.0)
         result['reporting_period_cost']['total_increment_rate'] = Decimal(0.0)
         result['reporting_period_cost']['total_unit'] = config.currency_unit
 
@@ -1102,12 +1022,6 @@ class Reporting:
                     reporting_cost[energy_category_id]['values'])
                 result['reporting_period_cost']['subtotals'].append(
                     reporting_cost[energy_category_id]['subtotal'])
-                result['reporting_period_cost']['subtotals_per_unit_area'].append(
-                    reporting_cost[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['reporting_period_cost']['subtotals_per_capita'].append(
-                    reporting_cost[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period_cost']['toppeaks'].append(
                     reporting_cost[energy_category_id]['toppeak'])
                 result['reporting_period_cost']['onpeaks'].append(
@@ -1124,12 +1038,6 @@ class Reporting:
                     base_cost[energy_category_id]['subtotal']
                     if base_cost[energy_category_id]['subtotal'] > 0.0 else None)
                 result['reporting_period_cost']['total'] += reporting_cost[energy_category_id]['subtotal']
-        result['reporting_period_cost']['total_per_unit_area'] = \
-            result['reporting_period_cost']['total'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period_cost']['total_per_unit_capita'] = \
-            result['reporting_period_cost']['total'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
 
         result['reporting_period_cost']['total_increment_rate'] = \
             (result['reporting_period_cost']['total'] - result['base_period_cost']['total']) / \
@@ -1145,8 +1053,6 @@ class Reporting:
         result['reporting_period_output']['subtotals'] = list()
         result['reporting_period_output']['subtotals_in_kgce'] = list()
         result['reporting_period_output']['subtotals_in_kgco2e'] = list()
-        result['reporting_period_output']['subtotals_per_unit_area'] = list()
-        result['reporting_period_output']['subtotals_per_capita'] = list()
         result['reporting_period_output']['toppeaks'] = list()
         result['reporting_period_output']['onpeaks'] = list()
         result['reporting_period_output']['midpeaks'] = list()
@@ -1174,12 +1080,6 @@ class Reporting:
                     reporting_output[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_output']['subtotals_in_kgco2e'].append(
                     reporting_output[energy_category_id]['subtotal_in_kgco2e'])
-                result['reporting_period_output']['subtotals_per_unit_area'].append(
-                    reporting_output[energy_category_id]['subtotal'] / space['area']
-                    if space['area'] > 0.0 else None)
-                result['reporting_period_output']['subtotals_per_capita'].append(
-                    reporting_output[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
                 result['reporting_period_output']['toppeaks'].append(
                     reporting_output[energy_category_id]['toppeak'])
                 result['reporting_period_output']['onpeaks'].append(
@@ -1199,25 +1099,10 @@ class Reporting:
                     reporting_output[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_output']['total_in_kgco2e'] += \
                     reporting_output[energy_category_id]['subtotal_in_kgco2e']
-
-        result['reporting_period_output']['total_in_kgco2e_per_unit_area'] = \
-            result['reporting_period_output']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period_output']['total_in_kgco2e_per_capita'] = \
-            result['reporting_period_output']['total_in_kgce'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
-
         result['reporting_period_output']['increment_rate_in_kgce'] = \
             (result['reporting_period_output']['total_in_kgce'] - result['base_period_input']['total_in_kgce']) / \
             result['base_period_output']['total_in_kgce'] \
             if result['reporting_period_output']['total_in_kgce'] > Decimal(0.0) else None
-
-        result['reporting_period_output']['total_in_kgce_per_unit_area'] = \
-            result['reporting_period_output']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period_output']['total_in_kgce_per_capita'] = \
-            result['reporting_period_input']['total_in_kgco2e'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
 
         result['reporting_period_output']['increment_rate_in_kgco2e'] = \
             (result['reporting_period_output']['total_in_kgco2e'] - result['base_period_output']['total_in_kgco2e']) / \
