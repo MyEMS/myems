@@ -254,7 +254,6 @@ class Reporting:
             for row_energy_category in rows_energy_categories:
                 input_energy_category_set.add(row_energy_category[0])
 
-
         output_energy_category_set = set()
         # query output energy categories in base period
         cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
@@ -401,41 +400,24 @@ class Reporting:
                 base_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                cursor_energy.execute(" SELECT SUM(actual_value) "
                                       " FROM tbl_space_input_category_hourly "
                                       " WHERE space_id = %s "
                                       "     AND energy_category_id = %s "
                                       "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
+                                      "     AND start_datetime_utc < %s ",
                                       (space['id'],
                                        energy_category_id,
                                        base_start_datetime_utc,
                                        base_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_input[energy_category_id]['subtotal'] += actual_value
-                    base_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    base_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                row_space_sum = cursor_energy.fetchone()
+                if row_space_sum is None or len(row_space_sum) < 1 or row_space_sum[0] is None:
+                    actual_value = Decimal(0.0)
+                else:
+                    actual_value = row_space_sum[0]
+                base_input[energy_category_id]['subtotal'] = actual_value
+                base_input[energy_category_id]['subtotal_in_kgce'] = actual_value * kgce
+                base_input[energy_category_id]['subtotal_in_kgco2e'] = actual_value * kgco2e
 
         ################################################################################################################
         # Step 7: query base period energy cost
@@ -446,39 +428,22 @@ class Reporting:
                 base_cost[energy_category_id] = dict()
                 base_cost[energy_category_id]['subtotal'] = Decimal(0.0)
 
-                cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                cursor_billing.execute(" SELECT SUM(actual_value) "
                                        " FROM tbl_space_input_category_hourly "
                                        " WHERE space_id = %s "
                                        "     AND energy_category_id = %s "
                                        "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
+                                       "     AND start_datetime_utc < %s ",
                                        (space['id'],
                                         energy_category_id,
                                         base_start_datetime_utc,
                                         base_end_datetime_utc))
-                rows_space_hourly = cursor_billing.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_cost[energy_category_id]['subtotal'] += actual_value
+                row_space_sum = cursor_billing.fetchone()
+                if row_space_sum is None or len(row_space_sum) < 1 or row_space_sum[0] is None:
+                    actual_value = Decimal(0.0)
+                else:
+                    actual_value = row_space_sum[0]
+                base_cost[energy_category_id]['subtotal'] = actual_value
 
         ################################################################################################################
         # Step 8: query base period energy output
@@ -494,41 +459,24 @@ class Reporting:
                 base_output[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                 base_output[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                cursor_energy.execute(" SELECT SUM(actual_value) "
                                       " FROM tbl_space_output_category_hourly "
                                       " WHERE space_id = %s "
                                       "     AND energy_category_id = %s "
                                       "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
+                                      "     AND start_datetime_utc < %s ",
                                       (space['id'],
                                        energy_category_id,
                                        base_start_datetime_utc,
                                        base_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_output[energy_category_id]['subtotal'] += actual_value
-                    base_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    base_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                row_space_sum = cursor_energy.fetchone()
+                if row_space_sum is None or len(row_space_sum) < 1 or row_space_sum[0] is None:
+                    actual_value = Decimal(0.0)
+                else:
+                    actual_value = row_space_sum[0]
+                base_output[energy_category_id]['subtotal'] = actual_value
+                base_output[energy_category_id]['subtotal_in_kgce'] = actual_value * kgce
+                base_output[energy_category_id]['subtotal_in_kgco2e'] = actual_value * kgco2e
 
         ################################################################################################################
         # Step 9: query reporting period energy input
