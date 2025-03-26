@@ -1023,15 +1023,44 @@ class SpaceEnergyStoragePowerStationCollection:
 
     @staticmethod
     def on_get(req, resp, id_):
-        if 'API-KEY' not in req.headers or \
-                not isinstance(req.headers['API-KEY'], str) or \
-                len(str.strip(req.headers['API-KEY'])) == 0:
-            access_control(req)
-        else:
-            api_key_control(req)
+        # NOTE: DO NOT allow to be called by api_key
+        access_control(req)
+
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
+
+        if 'USER-UUID' not in req.headers or \
+                not isinstance(req.headers['USER-UUID'], str) or \
+                len(str.strip(req.headers['USER-UUID'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USER_UUID')
+        user_uuid = str.strip(req.headers['USER-UUID'])
+
+        cnx_user = mysql.connector.connect(**config.myems_user_db)
+        cursor_user = cnx_user.cursor()
+        cursor_user.execute(" SELECT id FROM tbl_users WHERE uuid = %s ", (user_uuid,))
+        row_user = cursor_user.fetchone()
+        if row_user is None or len(row_user) != 1:
+            cursor_user.close()
+            cnx_user.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
+        else:
+            user_id = row_user[0]
+
+        # get privilege
+        query = (" SELECT is_admin "
+                 " FROM tbl_users "
+                 " WHERE uuid = %s ")
+        cursor_user.execute(query, (user_uuid,))
+        row = cursor_user.fetchone()
+        if row is None:
+            cursor_user.close()
+            cnx_user.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
+        else:
+            is_admin = bool(row[0])
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -1045,11 +1074,21 @@ class SpaceEnergyStoragePowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
-        query = (" SELECT e.id, e.name, e.uuid, e.phase_of_lifecycle "
-                 " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se, tbl_energy_storage_power_stations e "
-                 " WHERE se.space_id = s.id AND e.id = se.energy_storage_power_station_id AND s.id = %s "
-                 " ORDER BY e.phase_of_lifecycle, e.id ")
-        cursor.execute(query, (id_,))
+        if is_admin:
+            query = (" SELECT e.id, e.name, e.uuid, e.phase_of_lifecycle "
+                     " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se, "
+                     "      tbl_energy_storage_power_stations e "
+                     " WHERE se.space_id = s.id AND e.id = se.energy_storage_power_station_id AND s.id = %s "
+                     " ORDER BY e.phase_of_lifecycle, e.id ")
+            cursor.execute(query, (id_,))
+        else:
+            query = (" SELECT e.id, e.name, e.uuid, e.phase_of_lifecycle "
+                     " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se, "
+                     "      tbl_energy_storage_power_stations e, tbl_energy_storage_power_stations_users su "
+                     " WHERE se.space_id = s.id AND e.id = se.energy_storage_power_station_id AND "
+                     "       e.id = su.energy_storage_power_station_id AND s.id = %s AND su.user_id = %s "
+                     " ORDER BY e.phase_of_lifecycle, e.id ")
+            cursor.execute(query, (id_, user_id))
         rows = cursor.fetchall()
 
         result = list()

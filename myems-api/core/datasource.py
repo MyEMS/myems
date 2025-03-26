@@ -778,7 +778,7 @@ class DataSourceClone:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description "
+                       "        is_trend, is_virtual, address, description, faults "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -799,7 +799,8 @@ class DataSourceClone:
                           "is_trend": bool(row[9]),
                           "is_virtual": bool(row[10]),
                           "address": row[11],
-                          "description": row[12]}
+                          "description": row[12],
+                          "faults": row[13]}
                 point_result.append(result)
             meta_result['points'] = point_result
 
