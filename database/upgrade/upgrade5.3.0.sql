@@ -802,6 +802,6 @@ ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations_pvs`
 DROP COLUMN `core_heatsink_temperature_point_id`;
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0RC', release_date='2025-03-15' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.3.0', release_date='2025-03-28' WHERE id=1;
 
 COMMIT;

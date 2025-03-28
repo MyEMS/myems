@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.3.0] - 2025-03-28
+### Added
 - added space output data to dashboard in myems-web and myems-api
 - added space prediction report in  myems-web and myems-api
 - added new point type text_value to myems-admin and myems-api
@@ -23,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed unused variable, import, function or class issues in myems-web
 - fixed data source clone issue in myems-api
 ### Removed
--
+- None
 
 ## [v5.2.0] - 2025-02-25
 ### Added
@@ -1915,7 +1921,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.2.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.3.0...HEAD
+[5.3.0]: https://gitee.com/MyEMS/myems/compare/v5.2.0...v5.3.0
 [5.2.0]: https://gitee.com/MyEMS/myems/compare/v5.1.0...v5.2.0
 [5.1.0]: https://gitee.com/MyEMS/myems/compare/v4.12.0...v5.1.0
 [4.12.0]: https://gitee.com/MyEMS/myems/compare/v4.11.0...v4.12.0
