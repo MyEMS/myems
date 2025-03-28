@@ -272,6 +272,7 @@ class Reporting:
                     if row_point is not None and len(row_point) > 0:
                         if analog_value_latest_dict.get(row_point[0]) is not None:
                             battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
+                        if analog_value_latest_dict.get(row_point[1]) is not None:
                             battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
 
                 # complete the charge_report_dict

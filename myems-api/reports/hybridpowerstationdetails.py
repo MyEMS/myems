@@ -211,80 +211,80 @@ class Reporting:
                                    "units": row_point[3],
                                    "object_type": row_point[4]})
 
-        ################################################################################################################
-        # Step 5: query associated power point from cms
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
-                              " FROM tbl_hybrid_power_stations_cms h, tbl_points p "
-                              " WHERE h.hybrid_power_station_id = %s AND h.power_point_id = p.id ",
-                              (hybrid_power_station_id,))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row_point in rows_points:
-                point_list.append({"id": row_point[0],
-                                   "name": row_point[1] + '.' + row_point[2],
-                                   "units": row_point[3],
-                                   "object_type": row_point[4]})
+        # ################################################################################################################
+        # # Step 5: query associated power point from cms
+        # ################################################################################################################
+        # cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
+        #                       " FROM tbl_hybrid_power_stations_cms h, tbl_points p "
+        #                       " WHERE h.hybrid_power_station_id = %s AND h.power_point_id = p.id ",
+        #                       (hybrid_power_station_id,))
+        # rows_points = cursor_system.fetchall()
+        # if rows_points is not None and len(rows_points) > 0:
+        #     for row_point in rows_points:
+        #         point_list.append({"id": row_point[0],
+        #                            "name": row_point[1] + '.' + row_point[2],
+        #                            "units": row_point[3],
+        #                            "object_type": row_point[4]})
 
         ################################################################################################################
         # Step 6: query associated power point from generators
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
-                              " FROM tbl_hybrid_power_stations_generators h, tbl_points p "
-                              " WHERE h.hybrid_power_station_id = %s AND h.genset_active_power_point_id = p.id ",
-                              (hybrid_power_station_id,))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row_point in rows_points:
-                point_list.append({"id": row_point[0],
-                                   "name": row_point[1] + '.' + row_point[2],
-                                   "units": row_point[3],
-                                   "object_type": row_point[4]})
+        # cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
+        #                       " FROM tbl_hybrid_power_stations_generators h, tbl_points p "
+        #                       " WHERE h.hybrid_power_station_id = %s AND h.genset_active_power_point_id = p.id ",
+        #                       (hybrid_power_station_id,))
+        # rows_points = cursor_system.fetchall()
+        # if rows_points is not None and len(rows_points) > 0:
+        #     for row_point in rows_points:
+        #         point_list.append({"id": row_point[0],
+        #                            "name": row_point[1] + '.' + row_point[2],
+        #                            "units": row_point[3],
+        #                            "object_type": row_point[4]})
 
-        ################################################################################################################
-        # Step 7: query associated power point from loads
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
-                              " FROM tbl_hybrid_power_stations_loads h, tbl_points p "
-                              " WHERE h.hybrid_power_station_id = %s AND h.total_active_power_point_id = p.id ",
-                              (hybrid_power_station_id,))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row_point in rows_points:
-                point_list.append({"id": row_point[0],
-                                   "name": row_point[1] + '-' + row_point[2],
-                                   "units": row_point[3],
-                                   "object_type": row_point[4]})
+        # ################################################################################################################
+        # # Step 7: query associated power point from loads
+        # ################################################################################################################
+        # cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
+        #                       " FROM tbl_hybrid_power_stations_loads h, tbl_points p "
+        #                       " WHERE h.hybrid_power_station_id = %s AND h.total_active_power_point_id = p.id ",
+        #                       (hybrid_power_station_id,))
+        # rows_points = cursor_system.fetchall()
+        # if rows_points is not None and len(rows_points) > 0:
+        #     for row_point in rows_points:
+        #         point_list.append({"id": row_point[0],
+        #                            "name": row_point[1] + '-' + row_point[2],
+        #                            "units": row_point[3],
+        #                            "object_type": row_point[4]})
 
-        ################################################################################################################
-        # Step 8: query associated power point from pcses
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
-                              " FROM tbl_hybrid_power_stations_pcses h, tbl_points p "
-                              " WHERE h.hybrid_power_station_id = %s AND h.active_power_point_id = p.id ",
-                              (hybrid_power_station_id,))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row_point in rows_points:
-                point_list.append({"id": row_point[0],
-                                   "name": row_point[1] + '-' + row_point[2],
-                                   "units": row_point[3],
-                                   "object_type": row_point[4]})
+        # ################################################################################################################
+        # # Step 8: query associated power point from pcses
+        # ################################################################################################################
+        # cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
+        #                       " FROM tbl_hybrid_power_stations_pcses h, tbl_points p "
+        #                       " WHERE h.hybrid_power_station_id = %s AND h.active_power_point_id = p.id ",
+        #                       (hybrid_power_station_id,))
+        # rows_points = cursor_system.fetchall()
+        # if rows_points is not None and len(rows_points) > 0:
+        #     for row_point in rows_points:
+        #         point_list.append({"id": row_point[0],
+        #                            "name": row_point[1] + '-' + row_point[2],
+        #                            "units": row_point[3],
+        #                            "object_type": row_point[4]})
 
         ################################################################################################################
         # Step 9: query associated power point from pvs
         ################################################################################################################
-        cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
-                              " FROM tbl_hybrid_power_stations_pvs h, tbl_points p "
-                              " WHERE h.hybrid_power_station_id = %s AND h.active_power_point_id = p.id ",
-                              (hybrid_power_station_id,))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row_point in rows_points:
-                point_list.append({"id": row_point[0],
-                                   "name": row_point[1] + '-' + row_point[2],
-                                   "units": row_point[3],
-                                   "object_type": row_point[4]})
+        # cursor_system.execute(" SELECT p.id, h.name, p.name, p.units, p.object_type  "
+        #                       " FROM tbl_hybrid_power_stations_pvs h, tbl_points p "
+        #                       " WHERE h.hybrid_power_station_id = %s AND h.active_power_point_id = p.id ",
+        #                       (hybrid_power_station_id,))
+        # rows_points = cursor_system.fetchall()
+        # if rows_points is not None and len(rows_points) > 0:
+        #     for row_point in rows_points:
+        #         point_list.append({"id": row_point[0],
+        #                            "name": row_point[1] + '-' + row_point[2],
+        #                            "units": row_point[3],
+        #                            "object_type": row_point[4]})
 
         ################################################################################################################
         # Step 10: query energy indicator data
