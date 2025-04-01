@@ -175,7 +175,6 @@ CREATE INDEX `tbl_energy_storage_power_station_grid_buy_hourly_index_1`
  ON `myems_carbon_db`.`tbl_energy_storage_power_station_grid_buy_hourly`
  (`energy_storage_power_station_id`, `start_datetime_utc`);
 
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_carbon_db`.`tbl_energy_storage_power_station_grid_sell_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------

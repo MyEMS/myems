@@ -26,9 +26,9 @@ app.controller('HybridPowerStationUserController', function (
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         HybridPowerStationUserService.getUsersByHybridPowerStationID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.energystoragepowerstationusers = response.data;
+                $scope.hybridpowerstationusers = response.data;
             } else {
-                $scope.energystoragepowerstationusers = [];
+                $scope.hybridpowerstationusers = [];
             }
         });
     };
@@ -43,18 +43,18 @@ app.controller('HybridPowerStationUserController', function (
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         HybridPowerStationService.getAllHybridPowerStations(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.energystoragepowerstations = response.data;
+                $scope.hybridpowerstations = response.data;
             } else {
-                $scope.energystoragepowerstations = [];
+                $scope.hybridpowerstations = [];
             }
         });
     };
 
     $scope.pairUser = function (dragEl, dropEl) {
         var userid = angular.element('#' + dragEl).scope().user.id;
-        var energystoragepowerstationid = $scope.currentHybridPowerStation.id;
+        var hybridpowerstationid = $scope.currentHybridPowerStation.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        HybridPowerStationUserService.addPair(energystoragepowerstationid, userid, headers, function (response) {
+        HybridPowerStationUserService.addPair(hybridpowerstationid, userid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -78,10 +78,10 @@ app.controller('HybridPowerStationUserController', function (
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
         }
-        var energystoragepowerstationuserid = angular.element('#' + dragEl).scope().energystoragepowerstationuser.id;
-        var energystoragepowerstationid = $scope.currentHybridPowerStation.id;
+        var hybridpowerstationuserid = angular.element('#' + dragEl).scope().hybridpowerstationuser.id;
+        var hybridpowerstationid = $scope.currentHybridPowerStation.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        HybridPowerStationUserService.deletePair(energystoragepowerstationid, energystoragepowerstationuserid, headers, function (response) {
+        HybridPowerStationUserService.deletePair(hybridpowerstationid, hybridpowerstationuserid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
