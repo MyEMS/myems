@@ -16,7 +16,7 @@ export const settings = {
   currency: '¥',
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
-  language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW
+  language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, pt
   showOnlineMap: false, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
