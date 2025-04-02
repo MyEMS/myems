@@ -205,8 +205,8 @@ class CommandItem:
                        " FROM tbl_meters_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_meters = cursor.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -231,8 +231,8 @@ class CommandItem:
                        " FROM tbl_equipments_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_equipments = cursor.fetchall()
-        if rows_equipments is not None and len(rows_equipments) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -244,8 +244,8 @@ class CommandItem:
                        " FROM tbl_combined_equipments_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_combined_equipments = cursor.fetchall()
-        if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -257,8 +257,8 @@ class CommandItem:
                        " FROM tbl_tenants_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -270,8 +270,8 @@ class CommandItem:
                        " FROM tbl_stores_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -283,13 +283,52 @@ class CommandItem:
                        " FROM tbl_shopfloors_commands "
                        " WHERE command_id = %s ",
                        (id_,))
-        rows_shopfloors = cursor.fetchall()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+
+        # check relation with energy storage container
+        cursor.execute(" SELECT energy_storage_container_id "
+                       " FROM tbl_energy_storage_containers_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
+
+        # check relation with microgrid
+        cursor.execute(" SELECT microgrid_id "
+                       " FROM tbl_microgrids_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+
+        # check relation with hybrid power station
+        cursor.execute(" SELECT hybrid_power_station_id "
+                       " FROM tbl_hybrid_power_stations_commands "
+                       " WHERE command_id = %s ",
+                       (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_HYBRID_POWER_STATIONS')
 
         # todo: check relation with points
 
