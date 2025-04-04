@@ -419,7 +419,7 @@ class Reporting:
                     for k, v in energy_category_tariff_dict.items():
                         # convert k from utc to local
                         k = k + timedelta(minutes=timezone_offset)
-                        tariff_timestamp_list.append(k.isoformat()[0:19][0:19])
+                        tariff_timestamp_list.append(k.isoformat()[0:19])
                         tariff_value_list.append(v)
 
                     parameters_data['names'].append(_('Tariff')
