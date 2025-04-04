@@ -90,7 +90,7 @@ class Reporting:
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(
                     minutes=timezone_offset)
                 charge_report_dict[row_hourly[0]]['charge_times'].append(
-                    current_datetime_local.strftime('%H:%M'))
+                    current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 charge_report_dict[row_hourly[0]]['charge_values'].append(actual_value)
 
@@ -115,7 +115,7 @@ class Reporting:
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(
                     minutes=timezone_offset)
                 discharge_report_dict[row_hourly[0]]['discharge_times'].append(
-                    current_datetime_local.strftime('%H:%M'))
+                    current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 discharge_report_dict[row_hourly[0]]['discharge_values'].append(actual_value)
         cursor_energy_db.close()
@@ -130,7 +130,7 @@ class Reporting:
             minutes=timezone_offset)
         current_datetime_local = start_datetime_local
         while current_datetime_local < end_datetime_local:
-            default_time_list.append(current_datetime_local.strftime('%H:%M'))
+            default_time_list.append(current_datetime_local.isoformat()[11:16])
             default_value_list.append(Decimal(0.0))
             current_datetime_local = current_datetime_local + timedelta(hours=1)
 

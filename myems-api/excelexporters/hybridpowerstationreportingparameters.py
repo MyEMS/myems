@@ -83,8 +83,6 @@ def generate_excel(report,
             ws['A' + str(i+2)] = t
 
         for i in range(0, len(report['parameters']['names'])):
-            if len(report['parameters']['timestamps'][i]) == 0:
-                continue
             column_letter = format_cell.get_column_letter(i + 2)
             # the first row is for name
             current_row_number = 1

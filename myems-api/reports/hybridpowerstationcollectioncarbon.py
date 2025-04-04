@@ -144,15 +144,15 @@ class Reporting:
                 current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
                 timestamps.append(current_datetime)
@@ -186,15 +186,15 @@ class Reporting:
                 current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
                 timestamps.append(current_datetime)
@@ -228,15 +228,15 @@ class Reporting:
                 current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
                 timestamps.append(current_datetime)
@@ -282,15 +282,15 @@ class Reporting:
                 current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
                 timestamps.append(current_datetime)
@@ -326,15 +326,15 @@ class Reporting:
                 current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
                 timestamps.append(current_datetime)
@@ -370,15 +370,15 @@ class Reporting:
                 current_datetime_local = row_fuel_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_fuel_periodically[1] is None else row_fuel_periodically[1]
                 timestamps.append(current_datetime)
@@ -423,15 +423,15 @@ class Reporting:
                 current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
                 timestamps.append(current_datetime)
@@ -466,15 +466,15 @@ class Reporting:
                 current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
                 timestamps.append(current_datetime)
@@ -509,15 +509,15 @@ class Reporting:
                 current_datetime_local = row_fuel_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
                 actual_value = Decimal(0.0) if row_fuel_periodically[1] is None else row_fuel_periodically[1]
                 timestamps.append(current_datetime)
