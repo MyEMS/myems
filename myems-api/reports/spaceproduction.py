@@ -226,7 +226,7 @@ class Reporting:
                     subtotal += row[1]
             if flag:
                 subtotal = None
-            current_datetime = start_datetime_local.strftime('%Y-%m-%d')
+            current_datetime = start_datetime_local.isoformat()[0:10]
 
             base_date_list.append(current_datetime)
             base_daily_values.append(subtotal)
@@ -338,7 +338,7 @@ class Reporting:
                     subtotal += row[1]
             if flag:
                 subtotal = None
-            current_datetime = start_datetime_local.strftime('%Y-%m-%d')
+            current_datetime = start_datetime_local.isoformat()[0:10]
 
             reporting_date_list.append(current_datetime)
             reporting_daily_values.append(subtotal)
@@ -392,7 +392,7 @@ class Reporting:
                     subtotal += row[1]
             if flag:
                 subtotal = None
-            current_datetime = start_datetime_local.strftime('%Y-%m-%d')
+            current_datetime = start_datetime_local.isoformat()[0:10]
 
             base_date_list.append(current_datetime)
             base_daily_values.append(subtotal)
@@ -436,15 +436,15 @@ class Reporting:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     base[energy_category_id]['timestamps'].append(current_datetime)
@@ -490,15 +490,15 @@ class Reporting:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     reporting[energy_category_id]['timestamps'].append(current_datetime)
@@ -614,7 +614,7 @@ class Reporting:
 
         result['reporting_period']['total_in_kgco2e_per_prodution'] = \
             result['reporting_period']['total_in_kgce'] / reporting_period_total_production \
-                if reporting_period_total_production > 0.0 else None
+            if reporting_period_total_production > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgce'] = \
             (result['reporting_period']['total_in_kgce'] - result['base_period']['total_in_kgce']) / \
@@ -623,7 +623,7 @@ class Reporting:
 
         result['reporting_period']['total_in_kgce_per_prodution'] = \
             result['reporting_period']['total_in_kgco2e'] / reporting_period_total_production \
-                if reporting_period_total_production > 0.0 else None
+            if reporting_period_total_production > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgco2e'] = \
             (result['reporting_period']['total_in_kgco2e'] - result['base_period']['total_in_kgco2e']) / \
@@ -638,7 +638,7 @@ class Reporting:
         result['reporting_production'] = dict()
         result['reporting_production']['timestamps'] = reporting_date_list
         result['reporting_production']['values'] = reporting_daily_values
-        for base, reporting in zip(base_daily_values,reporting_daily_values):
+        for base, reporting in zip(base_daily_values, reporting_daily_values):
             rate = (reporting - base) / base \
                 if reporting is not None and base is not None and base > 0 and reporting > 0 else 0
             rates.append(rate)

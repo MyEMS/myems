@@ -469,14 +469,14 @@ class Reporting:
 
                     while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
                             timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
                         point_values.append(rows[0][1])
                         current_datetime_local += timedelta(minutes=1)
 
                     for index in range(len(rows) - 1):
                         while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
                                 timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
                             point_values.append(rows[index][1])
                             current_datetime_local += timedelta(minutes=1)
             elif point['object_type'] == 'ANALOG_VALUE':
@@ -497,14 +497,14 @@ class Reporting:
 
                     while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
                             timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
                         point_values.append(rows[0][1])
                         current_datetime_local += timedelta(minutes=1)
 
                     for index in range(len(rows) - 1):
                         while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
                                 timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
                             point_values.append(rows[index][1])
                             current_datetime_local += timedelta(minutes=1)
             elif point['object_type'] == 'DIGITAL_VALUE':
@@ -525,14 +525,14 @@ class Reporting:
 
                     while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
                             timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
                         point_values.append(rows[0][1])
                         current_datetime_local += timedelta(minutes=1)
 
                     for index in range(len(rows) - 1):
                         while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
                                 timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.strftime('%m-%d %H:%M'))
+                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
                             point_values.append(rows[index][1])
                             current_datetime_local += timedelta(minutes=1)
 

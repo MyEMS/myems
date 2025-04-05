@@ -198,7 +198,7 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                         point_timestamp_list.append(current_datetime)
                         point_value_list.append(row[1])
             elif point['object_type'] == 'ANALOG_VALUE':
@@ -216,7 +216,7 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                         point_timestamp_list.append(current_datetime)
                         point_value_list.append(row[1])
             elif point['object_type'] == 'DIGITAL_VALUE':
@@ -234,7 +234,7 @@ class Reporting:
                     for row in rows:
                         current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                         point_timestamp_list.append(current_datetime)
                         point_value_list.append(row[1])
 

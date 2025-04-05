@@ -2848,8 +2848,8 @@ class HybridPowerStationLoadItem:
         if rows_hybridpowerstations is not None and len(rows_hybridpowerstations) > 0:
             for row in rows_hybridpowerstations:
                 hybrid_power_station_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                                                     "name": row[1],
+                                                     "uuid": row[2]}
         # query meter dict
         query = (" SELECT id, name, uuid "
                  " FROM tbl_meters ")

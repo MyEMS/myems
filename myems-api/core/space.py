@@ -5690,6 +5690,7 @@ class SpaceEnergyFlowDiagramItem:
 
         resp.status = falcon.HTTP_204
 
+
 class DistributionSystemCollection:
     def __init__(self):
         """Initializes Class"""

@@ -355,7 +355,7 @@ class Reporting:
                                        base_end_datetime_non_working_day))
                 rows = cursor_system.fetchall()
                 for row in rows:
-                    row_datetime = row[0].strftime('%Y-%m-%d')
+                    row_datetime = row[0].isoformat()[0:10]
                     base['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
@@ -391,15 +391,15 @@ class Reporting:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     base[energy_category_id]['timestamps'].append(current_datetime)
@@ -431,7 +431,7 @@ class Reporting:
                                    reporting_end_datetime_non_working_day))
             rows = cursor_system.fetchall()
             for row in rows:
-                row_datetime = row[0].strftime('%Y-%m-%d')
+                row_datetime = row[0].isoformat()[0:10]
                 reporting['non_working_days'].append(row_datetime)
             for energy_category_id in energy_category_set:
                 kgce = energy_category_dict[energy_category_id]['kgce']
@@ -472,15 +472,15 @@ class Reporting:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     reporting[energy_category_id]['timestamps'].append(current_datetime)
@@ -558,7 +558,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'ANALOG_VALUE':
@@ -576,7 +576,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'DIGITAL_VALUE':
@@ -594,7 +594,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
 

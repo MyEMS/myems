@@ -39,11 +39,9 @@ class ApiKeyCollection:
                                    "name": row[1],
                                    "token": row[2],
                                    "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
-                                                            + timedelta(minutes=timezone_offset))
-                                   .strftime("%Y-%m-%d %H:%M:%S"),
+                                                            + timedelta(minutes=timezone_offset)).soformat()[0:19],
                                    "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
-                                                            + timedelta(minutes=timezone_offset))
-                                   .strftime("%Y-%m-%d %H:%M:%S")})
+                                                            + timedelta(minutes=timezone_offset)).soformat()[0:19]})
 
         cursor.close()
         cnx.close()
@@ -141,10 +139,10 @@ class ApiKeyItem:
                            "token": row[2],
                            "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
                                                     + timedelta(minutes=timezone_offset))
-                           .strftime('%Y-%m-%dT%H:%M:%S'),
+                           .isoformat()[0:19],
                            "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
                                                     + timedelta(minutes=timezone_offset))
-                           .strftime('%Y-%m-%dT%H:%M:%S')}
+                           .isoformat()[0:19]}
 
         resp.text = json.dumps(meta_result)
 

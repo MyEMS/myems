@@ -51,7 +51,7 @@ class DataSourceCollection:
             for row in rows:
                 if isinstance(row[6], datetime):
                     last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                    last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    last_seen_datetime = last_seen_datetime_local.isoformat()[0:19]
                 else:
                     last_seen_datetime = None
                 meta_result = {"id": row[0],
@@ -221,7 +221,7 @@ class DataSourceItem:
         if isinstance(row[6], datetime):
             last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                 timedelta(minutes=timezone_offset)
-            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_seen_datetime = last_seen_datetime_local.isoformat()[0:19]
         else:
             last_seen_datetime = None
 
@@ -551,7 +551,7 @@ class DataSourceExport:
         if isinstance(row[6], datetime):
             last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                                        timedelta(minutes=timezone_offset)
-            last_seen_datetime = last_seen_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_seen_datetime = last_seen_datetime_local.isoformat()[0:19]
         else:
             last_seen_datetime = None
 

@@ -52,9 +52,9 @@ class TariffCollection:
                                "tariff_type": row[5],
                                "unit_of_price": row[6],
                                "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                              + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                              + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
+                                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
                 if meta_result['tariff_type'] == 'timeofuse':
                     meta_result['timeofuse'] = list()
@@ -251,9 +251,9 @@ class TariffItem:
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
                   "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                    + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
+                                    + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
@@ -504,9 +504,9 @@ class TariffExport:
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
                   "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                 + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                    + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')}
+                                    + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()
@@ -699,8 +699,8 @@ class TariffClone:
                                       "name": row[4]},
                   "tariff_type": row[5],
                   "unit_of_price": row[6],
-                  "valid_from": row[7].strftime('%Y-%m-%dT%H:%M:%S'),
-                  "valid_through": row[8].strftime('%Y-%m-%dT%H:%M:%S')}
+                  "valid_from": row[7].isoformat()[0:19],
+                  "valid_through": row[8].isoformat()[0:19]}
 
         if result['tariff_type'] == 'timeofuse':
             result['timeofuse'] = list()

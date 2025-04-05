@@ -43,7 +43,7 @@ class CostFileCollection:
                                "file_name": row[1],
                                "uuid": row[2],
                                "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
-                                                   + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                   + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "status": row[4]}
                 result.append(meta_result)
 
@@ -184,7 +184,7 @@ class CostFileItem:
                   "file_name": row[1],
                   "uuid": row[2],
                   "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
-                                      + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                      + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "status": row[4]}
         resp.text = json.dumps(result)
 

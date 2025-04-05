@@ -183,7 +183,7 @@ class Reporting:
                     subtotal += row[1]
             if flag:
                 subtotal = None
-            current_datetime = start_datetime_local.strftime('%Y-%m-%d')
+            current_datetime = start_datetime_local.isoformat()[0:10]
 
             reporting_date_list.append(current_datetime)
             reporting_daily_values.append(subtotal)
