@@ -7025,7 +7025,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations",
@@ -7063,7 +7063,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/1",
@@ -7399,7 +7399,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Beijing Office\",\n    \"uuid\": \"7297cfc1-8978-487b-a14b-fedb9b3525f5\",\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\n    \"postal_code\": \"100000\",\n    \"latitude\": 39.909429,\n    \"longitude\": 116.416993,\n    \"rated_capacity\": 600.000,\n    \"rated_power\": 100.000,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"svg\": {\n        \"id\": 1,\n        \"name\": \"SVG1\",\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n    },\n    \"is_cost_data_displayed\":false, \n    \"description\": \"Classic\"\n}"
+									"raw": "{\n    \"name\": \"Beijing Office\",\n    \"uuid\": \"7297cfc1-8978-487b-a14b-fedb9b3525f5\",\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\n   \"latitude\": 39.909429,\n    \"longitude\": 116.416993,\n    \"rated_capacity\": 600.000,\n    \"rated_power\": 100.000,\n    \"contact\": {\n        \"id\": 1,\n        \"name\": \"江工\",\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n    },\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"成本中心\",\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n    },\n    \"svg\": {\n        \"id\": 1,\n        \"name\": \"SVG1\",\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n    },\n    \"is_cost_data_displayed\":false, \n    \"description\": \"Classic\"\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/energystoragepowerstations/import",
@@ -13023,7 +13023,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Harbin Office\", \"station_code\":\"XAAA123456\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Harbin Office\", \"station_code\":\"XAAA123456\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":100.000,\"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"1use\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations",
@@ -13061,7 +13061,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"station_code\":\"XAAA123456\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"station_code\":\"XAAA123456\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_capacity\":600.000, \"rated_power\":200.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"is_cost_data_displayed\":false, \"phase_of_lifecycle\":\"2commissioning\", \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/photovoltaicpowerstations/1",
@@ -13171,7 +13171,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Harbin Office\",\r\n    \"uuid\": \"fd19346c-0e5a-4a1c-b3c3-3ef4fea9c1ea\",\r\n    \"station_code\":\"XAAAA123456\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"a0e79d2e-8756-457e-b1f2-4152e3591bff\"\r\n    },\r\n    \"is_cost_data_displayed\": false,\r\n    \"phase_of_lifecycle\": \"2commissioning\",\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Harbin Office\",\r\n    \"uuid\": \"fd19346c-0e5a-4a1c-b3c3-3ef4fea9c1ea\",\r\n    \"station_code\":\"XAAAA123456\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n  \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_capacity\": 600.000,\r\n    \"rated_power\": 200.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\": {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"a0e79d2e-8756-457e-b1f2-4152e3591bff\"\r\n    },\r\n    \"is_cost_data_displayed\": false,\r\n    \"phase_of_lifecycle\": \"2commissioning\",\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -24999,7 +24999,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":600.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms",
@@ -25037,7 +25037,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"postal_code\":\"100000\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":800.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
+									"raw": "{\"data\":{\"name\":\"Beijing Office\", \"address\":\"Wangfujing Street, Dongcheng District, Beijing\", \"latitude\":39.909429, \"longitude\":116.416993, \"rated_power\":800.000, \"contact_id\":1, \"cost_center_id\":1, \"svg_id\":1, \"description\":\"Classic\"}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/windfarms/1",
@@ -25147,7 +25147,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n    \"postal_code\": \"100000\",\r\n    \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 800.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Beijing Office_1\",\r\n    \"address\": \"Wangfujing Street, Dongcheng District, Beijing\",\r\n  \"latitude\": 39.909429,\r\n    \"longitude\": 116.416993,\r\n    \"rated_power\": 800.000,\r\n    \"contact\": {\r\n        \"id\": 1,\r\n        \"name\": \"江工\",\r\n        \"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"svg\":  {\r\n        \"id\": 1,\r\n        \"name\": \"SVG1\",\r\n        \"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\r\n    },\r\n    \"description\": \"Classic\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

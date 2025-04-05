@@ -101,7 +101,6 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
   const [hybridPowerStationName, setHybridPowerStationName] = useState();
   const [hybridPowerStationSerialNumber, setHybridPowerStationSerialNumber] = useState();
   const [hybridPowerStationAddress, setHybridPowerStationAddress] = useState();
-  const [hybridPowerStationPostalCode, setHybridPowerStationPostalCode] = useState();
   const [hybridPowerStationRatedCapacity, setHybridPowerStationRatedCapacity] = useState();
   const [hybridPowerStationRatedPower, setHybridPowerStationRatedPower] = useState();
   const [hybridPowerStationLatitude, setHybridPowerStationLatitude] = useState();
@@ -246,7 +245,6 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
           setHybridPowerStationName(json['hybrid_power_station']['name']);
           setHybridPowerStationSerialNumber(json['hybrid_power_station']['serial_number']);
           setHybridPowerStationAddress(json['hybrid_power_station']['address']);
-          setHybridPowerStationPostalCode(json['hybrid_power_station']['postal_code']);
           setHybridPowerStationRatedCapacity(json['hybrid_power_station']['rated_capacity']);
           setHybridPowerStationRatedPower(json['hybrid_power_station']['rated_power']);
           setHybridPowerStationLatitude(json['hybrid_power_station']['latitude']);

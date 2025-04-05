@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed datetime isoformat issues in myems-api
 - fixed api key datetime issue in myems-api and myems-admin
 ### Removed
+- removed postal code from power stations
 
 ## [v5.3.0] - 2025-03-28
 ### Added

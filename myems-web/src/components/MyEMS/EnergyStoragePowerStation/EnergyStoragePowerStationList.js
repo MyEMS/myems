@@ -92,7 +92,6 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               energyStoragePowerStation['name'] = json[index]['name'];
               energyStoragePowerStation['uuid'] = json[index]['uuid'];
               energyStoragePowerStation['address'] = json[index]['address'];
-              energyStoragePowerStation['postal_code'] = json[index]['postal_code'];
               energyStoragePowerStation['latitude'] = json[index]['latitude'];
               energyStoragePowerStation['longitude'] = json[index]['longitude'];
               energyStoragePowerStation['files'] = [

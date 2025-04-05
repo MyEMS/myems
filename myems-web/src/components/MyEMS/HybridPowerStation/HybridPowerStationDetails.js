@@ -107,7 +107,6 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [hybridPowerStationName, setHybridPowerStationName] = useState();
   const [hybridPowerStationAddress, setHybridPowerStationAddress] = useState();
-  const [hybridPowerStationPostalCode, setHybridPowerStationPostalCode] = useState();
   const [hybridPowerStationRatedCapacity, setHybridPowerStationRatedCapacity] = useState();
   const [hybridPowerStationRatedPower, setHybridPowerStationRatedPower] = useState();
   const [hybridPowerStationSVG, setHybridPowerStationSVG] = useState();
@@ -272,7 +271,6 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
           }
           setHybridPowerStationName(json['hybrid_power_station']['name']);
           setHybridPowerStationAddress(json['hybrid_power_station']['address']);
-          setHybridPowerStationPostalCode(json['hybrid_power_station']['postal_code']);
           setHybridPowerStationRatedCapacity(json['hybrid_power_station']['rated_capacity']);
           setHybridPowerStationRatedPower(json['hybrid_power_station']['rated_power']);
           setHybridPowerStationSVG({ __html: json['hybrid_power_station']['svg'] });
@@ -988,10 +986,6 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <tr className="border-bottom">
                             <th className="pl-0">{t('Address')}</th>
                             <th className="pr-0 text-right ">{hybridPowerStationAddress}</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                            <th className="pr-0 text-right">{hybridPowerStationPostalCode}</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t('Rated Capacity')} </th>

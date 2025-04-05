@@ -70,7 +70,7 @@ class HybridPowerStationCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                  "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_hybrid_power_stations "
@@ -85,23 +85,22 @@ class HybridPowerStationCollection:
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "rated_capacity": row[7],
-                               "rated_power": row[8],
-                               "contact": contact_dict.get(row[9], None),
-                               "cost_center": cost_center_dict.get(row[10], None),
-                               "svg": svg_dict.get(row[11], None),
-                               "is_cost_data_displayed": bool(row[12]),
-                               "phase_of_lifecycle": row[13],
-                               "description": row[14],
-                               "latitude_point": point_dict.get(row[15], None),
-                               "longitude_point": point_dict.get(row[16], None),
-                               "svg2": svg_dict.get(row[17], None),
-                               "svg3": svg_dict.get(row[18], None),
-                               "svg4": svg_dict.get(row[19], None),
-                               "svg5": svg_dict.get(row[20], None),
+                               "latitude": row[4],
+                               "longitude": row[5],
+                               "rated_capacity": row[6],
+                               "rated_power": row[7],
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
+                               "svg": svg_dict.get(row[10], None),
+                               "is_cost_data_displayed": bool(row[11]),
+                               "phase_of_lifecycle": row[12],
+                               "description": row[13],
+                               "latitude_point": point_dict.get(row[14], None),
+                               "longitude_point": point_dict.get(row[15], None),
+                               "svg2": svg_dict.get(row[16], None),
+                               "svg3": svg_dict.get(row[17], None),
+                               "svg4": svg_dict.get(row[18], None),
+                               "svg5": svg_dict.get(row[19], None),
                                "qrcode": 'hybridpowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -136,13 +135,6 @@ class HybridPowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -307,14 +299,13 @@ class HybridPowerStationCollection:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_hybrid_power_stations "
-                      " (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                      " (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
                       "  contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                       "  latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id ) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -404,7 +395,7 @@ class HybridPowerStationItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                  "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_hybrid_power_stations "
@@ -422,23 +413,22 @@ class HybridPowerStationItem:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "svg": svg_dict.get(row[11], None),
-                           "is_cost_data_displayed": bool(row[12]),
-                           "phase_of_lifecycle": row[13],
-                           "description": row[14],
-                           "latitude_point": point_dict.get(row[15], None),
-                           "longitude_point": point_dict.get(row[16], None),
-                           "svg2": svg_dict.get(row[17], None),
-                           "svg3": svg_dict.get(row[18], None),
-                           "svg4": svg_dict.get(row[19], None),
-                           "svg5": svg_dict.get(row[20], None),
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
+                           "svg": svg_dict.get(row[10], None),
+                           "is_cost_data_displayed": bool(row[11]),
+                           "phase_of_lifecycle": row[12],
+                           "description": row[13],
+                           "latitude_point": point_dict.get(row[14], None),
+                           "longitude_point": point_dict.get(row[15], None),
+                           "svg2": svg_dict.get(row[16], None),
+                           "svg3": svg_dict.get(row[17], None),
+                           "svg4": svg_dict.get(row[18], None),
+                           "svg5": svg_dict.get(row[19], None),
                            "qrcode": 'hybridpowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -505,13 +495,6 @@ class HybridPowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -685,7 +668,7 @@ class HybridPowerStationItem:
                                    description='API.SVG_NOT_FOUND')
 
         update_row = (" UPDATE tbl_hybrid_power_stations "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
+                      " SET name = %s, address = %s, latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
                       "     svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s, "
@@ -694,7 +677,6 @@ class HybridPowerStationItem:
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,

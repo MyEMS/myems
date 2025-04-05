@@ -64,7 +64,6 @@ const HybridPowerStationListItem = ({
   files,
   name,
   address,
-  postal_code,
   batteryOperatingState,
   batterySocPointValue,
   batteryPowerPointValue,
@@ -119,7 +118,6 @@ const HybridPowerStationListItem = ({
                   </Link>
                 </h5>
                 <p className="fs--1 mb-1">{address}</p>
-                <p className="fs--1 mb-1">{postal_code}</p>
                 <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
                 <p className="fs--1 mb-1">{t("Today's Charge")}
                 <ReactEchartsCore
@@ -223,7 +221,6 @@ HybridPowerStationListItem.propTypes = {
   name: PropTypes.string.isRequired,
   files: PropTypes.array,
   address: PropTypes.string,
-  postal_code: PropTypes.string,
   batteryOperatingState: PropTypes.string,
   batterySocPointValue: PropTypes.number,
   batteryPowerPointValue: PropTypes.number,

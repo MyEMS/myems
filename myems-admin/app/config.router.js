@@ -1545,6 +1545,7 @@ app
                                                     'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/svg/svg.service.js',
                                                     'app/services/settings/meter/meter.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',

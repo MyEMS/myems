@@ -95,7 +95,6 @@ const PhotovoltaicPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               photovoltaicPowerStation['name'] = json[index]['name'];
               photovoltaicPowerStation['uuid'] = json[index]['uuid'];
               photovoltaicPowerStation['address'] = json[index]['address'];
-              photovoltaicPowerStation['postal_code'] = json[index]['postal_code'];
               photovoltaicPowerStation['latitude'] = json[index]['latitude'];
               photovoltaicPowerStation['longitude'] = json[index]['longitude'];
               photovoltaicPowerStation['files'] = [

@@ -189,7 +189,7 @@ class Reporting:
 
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        address, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE id = %s ")
@@ -197,7 +197,7 @@ class Reporting:
             row = cursor_system.fetchone()
         elif energy_storage_power_station_uuid is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        address, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
                      " FROM tbl_energy_storage_power_stations "
                      " WHERE uuid = %s ")
@@ -215,13 +215,12 @@ class Reporting:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
                            "qrcode": 'energy_storage_power_station:' + row[2]}
 
         ################################################################################################################

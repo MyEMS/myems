@@ -138,7 +138,7 @@ class Reporting:
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
         query = (" SELECT m.id, m.name, m.uuid, "
-                 "        m.address, m.postal_code, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
+                 "        m.address, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
                  "        m.description, m.phase_of_lifecycle "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
@@ -289,13 +289,12 @@ class Reporting:
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "rated_capacity": row[7],
-                               "rated_power": row[8],
-                               "description": row[9],
-                               "phase_of_lifecycle": row[10],
+                               "latitude": row[4],
+                               "longitude": row[5],
+                               "rated_capacity": row[6],
+                               "rated_power": row[7],
+                               "description": row[8],
+                               "phase_of_lifecycle": row[9],
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,
