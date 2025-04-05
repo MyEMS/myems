@@ -10,7 +10,7 @@ app.factory('ApiKeyService', function($http) {
             });
         },
         addApiKey: function(apikey, headers, callback) {
-		    delete apikey.created_datetime_utc;
+		    delete apikey.created_datetime;
             $http.post(getAPI()+'apikeys', {data:apikey}, {headers})
             .then(function (response) {
                 callback(response);
@@ -19,7 +19,7 @@ app.factory('ApiKeyService', function($http) {
             });
         },
         editApiKey: function(apikey, headers, callback) {
-		    delete apikey.created_datetime_utc;
+		    delete apikey.created_datetime;
             $http.put(getAPI()+'apikeys/'+apikey.id, {data:apikey}, {headers})
             .then(function (response) {
                 callback(response);

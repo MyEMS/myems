@@ -20,17 +20,17 @@
                     <input ng-model="apiKey.name" type="text" name="apikeyname" class="form-control" required>
                 </div>
             </div>
-            
+
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.CREATED_TIME' | translate}}</label>
                 <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" disabled type="text" ng-model="apiKey.created_datetime_utc" options="dtOptions"
+                    <input date-range-picker class="form-control date-picker" disabled type="text" ng-model="apiKey.created_datetime" options="dtOptions"
                         placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>
-            
+
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}</label>
                 <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="apiKey.expires_datetime_utc" options="dtOptions"
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="apiKey.expires_datetime" options="dtOptions"
                         placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>

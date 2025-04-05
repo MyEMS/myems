@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced datetime.strftime() with datetime.isoformat() in myems-api
 ### Fixed
 - fixed datetime isoformat issues in myems-api
+- fixed api key datetime issue in myems-api and myems-admin
 ### Removed
 
 ## [v5.3.0] - 2025-03-28

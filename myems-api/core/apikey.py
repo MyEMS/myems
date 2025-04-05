@@ -23,9 +23,8 @@ class ApiKeyCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        query = (" select id, name, token, created_datetime_utc, "
-                 " expires_datetime_utc "
-                 " from tbl_api_keys ")
+        query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
+                 " FROM tbl_api_keys ")
         cursor.execute(query)
         rows = cursor.fetchall()
         
@@ -38,10 +37,10 @@ class ApiKeyCollection:
                 token_list.append({"id": row[0],
                                    "name": row[1],
                                    "token": row[2],
-                                   "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
-                                                            + timedelta(minutes=timezone_offset)).soformat()[0:19],
-                                   "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
-                                                            + timedelta(minutes=timezone_offset)).soformat()[0:19]})
+                                   "created_datetime": (row[3].replace(tzinfo=timezone.utc)
+                                                        + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                                   "expires_datetime": (row[4].replace(tzinfo=timezone.utc)
+                                                        + timedelta(minutes=timezone_offset)).isoformat()[0:19]})
 
         cursor.close()
         cnx.close()
@@ -69,9 +68,8 @@ class ApiKeyCollection:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        expires_datetime_utc = datetime.strptime(new_values['data']['expires_datetime_utc'], '%Y-%m-%dT%H:%M:%S')
-        expires_datetime_utc = expires_datetime_utc.replace(tzinfo=timezone.utc)
-        expires_datetime_utc -= timedelta(minutes=timezone_offset)
+        expires_datetime_local = datetime.strptime(new_values['data']['expires_datetime'], '%Y-%m-%dT%H:%M:%S')
+        expires_datetime_utc = expires_datetime_local.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
         
         token = hashlib.sha512(os.urandom(16)).hexdigest()
         cnx = mysql.connector.connect(**config.myems_user_db)
@@ -137,12 +135,10 @@ class ApiKeyItem:
             meta_result = {"id": row[0],
                            "name": row[1],
                            "token": row[2],
-                           "created_datetime_utc": (row[3].replace(tzinfo=timezone.utc)
-                                                    + timedelta(minutes=timezone_offset))
-                           .isoformat()[0:19],
-                           "expires_datetime_utc": (row[4].replace(tzinfo=timezone.utc)
-                                                    + timedelta(minutes=timezone_offset))
-                           .isoformat()[0:19]}
+                           "created_datetime": (row[3].replace(tzinfo=timezone.utc) +
+                                                timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                           "expires_datetime": (row[4].replace(tzinfo=timezone.utc) +
+                                                timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
         resp.text = json.dumps(meta_result)
 
@@ -169,21 +165,21 @@ class ApiKeyItem:
                                    description='API.INVALID_API_KEY_NAME')
         name = str.strip(new_values['data']['name'])        
 
-        if 'expires_datetime_utc' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['expires_datetime_utc'], str) or \
-                len(str.strip(new_values['data']['expires_datetime_utc'])) == 0:
+        if 'expires_datetime' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['expires_datetime'], str) or \
+                len(str.strip(new_values['data']['expires_datetime'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EXPIRES_DATETIME')
-        expires_datetime_local = str.strip(new_values['data']['expires_datetime_utc'])
+        expires_datetime_local = str.strip(new_values['data']['expires_datetime'])
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
         try:
-            expires_datetime_utc = datetime.strptime(expires_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            expires_datetime_utc = expires_datetime_utc.replace(tzinfo=timezone.utc)
-            expires_datetime_utc -= timedelta(minutes=timezone_offset)
+            expires_datetime_local = datetime.strptime(expires_datetime_local, '%Y-%m-%dT%H:%M:%S')
+            expires_datetime_utc = expires_datetime_local.replace(tzinfo=timezone.utc) - \
+                timedelta(minutes=timezone_offset)
         except ValueError:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_EXPIRES_DATETIME")

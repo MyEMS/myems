@@ -25724,7 +25724,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"data\": {\"name\": \"myems\", \"expires_datetime_utc\": \"2023-06-30T12:00:00\"}\n}"
+									"raw": "{\n    \"data\": {\"name\": \"myems\", \"expires_datetime\": \"2023-06-30T12:00:00\"}\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/apikeys",
@@ -25831,7 +25831,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"data\":{\n        \"name\": \"myems\",\n        \"expires_datetime_utc\": \"2024-06-06T12:00:00\"\n    }\n}"
+									"raw": "{\n    \"data\":{\n        \"name\": \"myems\",\n        \"expires_datetime\": \"2024-06-06T12:00:00\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/apikeys/1",
