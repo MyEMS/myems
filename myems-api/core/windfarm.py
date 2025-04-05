@@ -58,7 +58,7 @@ class WindFarmCollection:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_power, "
+                 "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_wind_farms "
                  " ORDER BY id ")
@@ -73,14 +73,13 @@ class WindFarmCollection:
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "rated_power": row[7],
-                               "contact": contact_dict.get(row[8], None),
-                               "cost_center": cost_center_dict.get(row[9], None),
-                               "svg": svg_dict.get(row[10], None),
-                               "description": row[11],
+                               "latitude": row[4],
+                               "longitude": row[5],
+                               "rated_power": row[6],
+                               "contact": contact_dict.get(row[7], None),
+                               "cost_center": cost_center_dict.get(row[8], None),
+                               "svg": svg_dict.get(row[9], None),
+                               "description": row[10],
                                "qrcode": 'windfarm:' + row[2]}
                 result.append(meta_result)
 
@@ -115,13 +114,6 @@ class WindFarmCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -223,13 +215,12 @@ class WindFarmCollection:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_wind_farms "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
+                      "    (name, uuid, address, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_power,
@@ -301,7 +292,7 @@ class WindFarmItem:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_power, "
+                 "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_wind_farms "
                  " WHERE id = %s ")
@@ -318,14 +309,13 @@ class WindFarmItem:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_power": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "svg": svg_dict.get(row[10], None),
-                           "description": row[11],
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_power": row[6],
+                           "contact": contact_dict.get(row[7], None),
+                           "cost_center": cost_center_dict.get(row[8], None),
+                           "svg": svg_dict.get(row[9], None),
+                           "description": row[10],
                            "qrcode": 'windfarm:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -389,13 +379,6 @@ class WindFarmItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -506,12 +489,11 @@ class WindFarmItem:
                                    description='API.SVG_NOT_FOUND')
 
         update_row = (" UPDATE tbl_wind_farms "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, rated_power = %s,"
+                      " SET name = %s, address = %s, latitude = %s, longitude = %s, rated_power = %s,"
                       "     contact_id = %s, cost_center_id = %s, svg_id = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_power,
@@ -584,7 +566,7 @@ class WindFarmExport:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_power, "
+                 "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_wind_farms "
                  " WHERE id = %s ")
@@ -601,14 +583,13 @@ class WindFarmExport:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_power": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "svg": svg_dict.get(row[10], None),
-                           "description": row[11]}
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_power": row[6],
+                           "contact": contact_dict.get(row[7], None),
+                           "cost_center": cost_center_dict.get(row[8], None),
+                           "svg": svg_dict.get(row[9], None),
+                           "description": row[10]}
 
         resp.text = json.dumps(meta_result)
 
@@ -649,13 +630,6 @@ class WindFarmImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['address'])
-
-        if 'postal_code' not in new_values.keys() or \
-                not isinstance(new_values['postal_code'], str) or \
-                len(str.strip(new_values['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['postal_code'])
 
         if 'latitude' not in new_values.keys() or \
                 not (isinstance(new_values['latitude'], float) or
@@ -758,13 +732,12 @@ class WindFarmImport:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_wind_farms "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
+                      "    (name, uuid, address, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg_id, description) "
                       " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_power,
@@ -807,7 +780,7 @@ class WindFarmClone:
         rows_contacts = cursor.fetchall()
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_power, "
+                 "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "
                  " FROM tbl_wind_farms "
                  " WHERE id = %s ")
@@ -822,27 +795,25 @@ class WindFarmClone:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_power": row[7],
-                           "contact_id": row[8],
-                           "cost_center_id": row[9],
-                           "svg_id": row[10],
-                           "description": row[11]}
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_power": row[6],
+                           "contact_id": row[7],
+                           "cost_center_id": row[8],
+                           "svg_id": row[9],
+                           "description": row[10]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name']) +
                         (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_wind_farms "
-                          "    (name, uuid, address, postal_code, latitude, longitude, rated_power, "
+                          "    (name, uuid, address, latitude, longitude, rated_power, "
                           "     contact_id, cost_center_id, svg_id, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['address'],
-                                        meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['rated_power'],

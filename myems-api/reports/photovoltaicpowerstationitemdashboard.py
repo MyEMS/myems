@@ -77,7 +77,7 @@ class Reporting:
         # Get energy storage power station
         if photovoltaic_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        address, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
                      " FROM tbl_photovoltaic_power_stations "
                      " WHERE id = %s ")
@@ -85,7 +85,7 @@ class Reporting:
             row = cursor_system_db.fetchone()
         elif photovoltaic_power_station_uuid is not None:
             query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                     "        address, latitude, longitude, rated_capacity, rated_power, "
                      "        contact_id, cost_center_id "
                      " FROM tbl_photovoltaic_power_stations "
                      " WHERE uuid = %s ")
@@ -105,11 +105,10 @@ class Reporting:
                 "uuid": row[2],
                 "address": row[3],
                 "space_name": space_dict.get(row[0]),
-                "postal_code": row[4],
-                "latitude": row[5],
-                "longitude": row[6],
-                "rated_capacity": row[7],
-                "rated_power": row[8]
+                "latitude": row[4],
+                "longitude": row[5],
+                "rated_capacity": row[6],
+                "rated_power": row[7]
             }
 
         ################################################################################################################

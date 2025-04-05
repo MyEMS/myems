@@ -101,7 +101,6 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
   const [photovoltaicPowerStationName, setPhotovoltaicPowerStationName] = useState();
   const [photovoltaicPowerStationSerialNumber, setPhotovoltaicPowerStationSerialNumber] = useState();
   const [photovoltaicPowerStationAddress, setPhotovoltaicPowerStationAddress] = useState();
-  const [photovoltaicPowerStationPostalCode, setPhotovoltaicPowerStationPostalCode] = useState();
   const [photovoltaicPowerStationRatedCapacity, setPhotovoltaicPowerStationRatedCapacity] = useState();
   const [photovoltaicPowerStationRatedPower, setPhotovoltaicPowerStationRatedPower] = useState();
   const [photovoltaicPowerStationLatitude, setPhotovoltaicPowerStationLatitude] = useState();
@@ -250,7 +249,6 @@ const PhotovoltaicPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl,
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
           setPhotovoltaicPowerStationSerialNumber(json['photovoltaic_power_station']['serial_number']);
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
-          setPhotovoltaicPowerStationPostalCode(json['photovoltaic_power_station']['postal_code']);
           setPhotovoltaicPowerStationRatedCapacity(json['photovoltaic_power_station']['rated_capacity']);
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
           setPhotovoltaicPowerStationLatitude(json['photovoltaic_power_station']['latitude']);

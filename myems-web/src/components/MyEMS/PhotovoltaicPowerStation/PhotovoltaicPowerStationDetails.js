@@ -105,7 +105,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   //Results
   const [photovoltaicPowerStationName, setPhotovoltaicPowerStationName] = useState();
   const [photovoltaicPowerStationAddress, setPhotovoltaicPowerStationAddress] = useState();
-  const [photovoltaicPowerStationPostalCode, setPhotovoltaicPowerStationPostalCode] = useState();
   const [photovoltaicPowerStationRatedCapacity, setPhotovoltaicPowerStationRatedCapacity] = useState();
   const [photovoltaicPowerStationRatedPower, setPhotovoltaicPowerStationRatedPower] = useState();
   const [photovoltaicPowerStationSVG, setPhotovoltaicPowerStationSVG] = useState();
@@ -259,7 +258,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           }
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
-          setPhotovoltaicPowerStationPostalCode(json['photovoltaic_power_station']['postal_code']);
           setPhotovoltaicPowerStationRatedCapacity(json['photovoltaic_power_station']['rated_capacity']);
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
           setPhotovoltaicPowerStationSVG({ __html: json['photovoltaic_power_station']['svg'] });
@@ -751,10 +749,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                           <tr className="border-bottom">
                             <td className="pl-0">{t('Address')}</td>
                             <td className="pr-0 text-right ">{photovoltaicPowerStationAddress}</td>
-                          </tr>
-                          <tr className="border-bottom">
-                            <td className="pl-0 pb-0">{t('Postal Code')}</td>
-                            <td className="pr-0 text-right">{photovoltaicPowerStationPostalCode}</td>
                           </tr>
                           <tr className="border-bottom">
                             <td className="pl-0 pb-0">{t('Rated Capacity')} </td>

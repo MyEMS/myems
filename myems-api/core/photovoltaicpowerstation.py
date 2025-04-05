@@ -60,7 +60,7 @@ class PhotovoltaicPowerStationCollection:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        station_code, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        station_code, address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " ORDER BY id ")
@@ -75,17 +75,16 @@ class PhotovoltaicPowerStationCollection:
                                "uuid": row[2],
                                "station_code": row[3],
                                "address": row[4],
-                               "postal_code": row[5],
-                               "latitude": row[6],
-                               "longitude": row[7],
-                               "rated_capacity": row[8],
-                               "rated_power": row[9],
-                               "contact": contact_dict.get(row[10], None),
-                               "cost_center": cost_center_dict.get(row[11], None),
-                               "svg": svg_dict.get(row[12], None),
-                               "is_cost_data_displayed": bool(row[13]),
-                               "phase_of_lifecycle": row[14],
-                               "description": row[15],
+                               "latitude": row[5],
+                               "longitude": row[6],
+                               "rated_capacity": row[7],
+                               "rated_power": row[8],
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "svg": svg_dict.get(row[11], None),
+                               "is_cost_data_displayed": bool(row[12]),
+                               "phase_of_lifecycle": row[13],
+                               "description": row[14],
                                "qrcode": 'photovoltaicpowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -127,13 +126,6 @@ class PhotovoltaicPowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STATION_CODE')
         station_code = str.strip(new_values['data']['station_code'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -256,15 +248,14 @@ class PhotovoltaicPowerStationCollection:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                      " (name, uuid, station_code, address, postal_code, latitude, longitude, "
+                      " (name, uuid, station_code, address, latitude, longitude, "
                       "  rated_capacity, rated_power, contact_id, cost_center_id, svg_id, is_cost_data_displayed, "
                       "  phase_of_lifecycle, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     station_code,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -339,7 +330,7 @@ class PhotovoltaicPowerStationItem:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        station_code, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        station_code, address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -357,17 +348,16 @@ class PhotovoltaicPowerStationItem:
                            "uuid": row[2],
                            "station_code": row[3],
                            "address": row[4],
-                           "postal_code": row[5],
-                           "latitude": row[6],
-                           "longitude": row[7],
-                           "rated_capacity": row[8],
-                           "rated_power": row[9],
-                           "contact": contact_dict.get(row[10], None),
-                           "cost_center": cost_center_dict.get(row[11], None),
-                           "svg": svg_dict.get(row[12], None),
-                           "is_cost_data_displayed": bool(row[13]),
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15],
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "svg": svg_dict.get(row[11], None),
+                           "is_cost_data_displayed": bool(row[12]),
+                           "phase_of_lifecycle": row[13],
+                           "description": row[14],
                            "qrcode": 'photovoltaicpowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -439,13 +429,6 @@ class PhotovoltaicPowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -577,7 +560,7 @@ class PhotovoltaicPowerStationItem:
                                    description='API.SVG_NOT_FOUND')
 
         update_row = (" UPDATE tbl_photovoltaic_power_stations "
-                      " SET name = %s, station_code = %s, address = %s, postal_code = %s, "
+                      " SET name = %s, station_code = %s, address = %s, "
                       "     latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
@@ -586,7 +569,6 @@ class PhotovoltaicPowerStationItem:
         cursor.execute(update_row, (name,
                                     station_code,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -662,7 +644,7 @@ class PhotovoltaicPowerStationExport:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        station_code, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        station_code, address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -679,17 +661,16 @@ class PhotovoltaicPowerStationExport:
                            "uuid": row[2],
                            "station_code": row[3],
                            "address": row[4],
-                           "postal_code": row[5],
-                           "latitude": row[6],
-                           "longitude": row[7],
-                           "rated_capacity": row[8],
-                           "rated_power": row[9],
-                           "contact": contact_dict.get(row[10], None),
-                           "cost_center": cost_center_dict.get(row[11], None),
-                           "svg": svg_dict.get(row[12], None),
-                           "is_cost_data_displayed": bool(row[13]),
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15]}
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "svg": svg_dict.get(row[11], None),
+                           "is_cost_data_displayed": bool(row[12]),
+                           "phase_of_lifecycle": row[13],
+                           "description": row[14]}
 
         resp.text = json.dumps(meta_result)
 
@@ -737,13 +718,6 @@ class PhotovoltaicPowerStationImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['address'])
-
-        if 'postal_code' not in new_values.keys() or \
-                not isinstance(new_values['postal_code'], str) or \
-                len(str.strip(new_values['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['postal_code'])
 
         if 'latitude' not in new_values.keys() or \
                 not (isinstance(new_values['latitude'], float) or
@@ -869,16 +843,15 @@ class PhotovoltaicPowerStationImport:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                      "    (name, uuid, station_code, address, postal_code, latitude, longitude, "
+                      "    (name, uuid, station_code, address, latitude, longitude, "
                       "     rated_capacity, rated_power, "
                       "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle,"
                       "     description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     station_code,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -919,7 +892,7 @@ class PhotovoltaicPowerStationClone:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        station_code, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        station_code, address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_photovoltaic_power_stations "
                  " WHERE id = %s ")
@@ -936,17 +909,16 @@ class PhotovoltaicPowerStationClone:
                            "uuid": row[2],
                            "station_code": row[3],
                            "address": row[4],
-                           "postal_code": row[5],
-                           "latitude": row[6],
-                           "longitude": row[7],
-                           "rated_capacity": row[8],
-                           "rated_power": row[9],
-                           "contact_id": row[10],
-                           "cost_center_id": row[11],
-                           "svg_id": row[12],
-                           "is_cost_data_displayed": row[13],
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15]}
+                           "latitude": row[5],
+                           "longitude": row[6],
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact_id": row[9],
+                           "cost_center_id": row[10],
+                           "svg_id": row[11],
+                           "is_cost_data_displayed": row[12],
+                           "phase_of_lifecycle": row[13],
+                           "description": row[14]}
 
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
@@ -955,16 +927,15 @@ class PhotovoltaicPowerStationClone:
                 (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
             add_values = (" INSERT INTO tbl_photovoltaic_power_stations "
-                          "    (name, uuid, station_code, address, postal_code, latitude, longitude, "
+                          "    (name, uuid, station_code, address, latitude, longitude, "
                           "     rated_capacity, rated_power, "
                           "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, "
                           "     description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['station_code'],
                                         meta_result['address'],
-                                        meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['rated_capacity'],

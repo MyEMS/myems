@@ -92,7 +92,6 @@ const HybridPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               hybridPowerStation['name'] = json[index]['name'];
               hybridPowerStation['uuid'] = json[index]['uuid'];
               hybridPowerStation['address'] = json[index]['address'];
-              hybridPowerStation['postal_code'] = json[index]['postal_code'];
               hybridPowerStation['latitude'] = json[index]['latitude'];
               hybridPowerStation['longitude'] = json[index]['longitude'];
               hybridPowerStation['files'] = [

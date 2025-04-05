@@ -104,7 +104,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   //Results
   const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
   const [energyStoragePowerStationAddress, setEnergyStoragePowerStationAddress] = useState();
-  const [energyStoragePowerStationPostalCode, setEnergyStoragePowerStationPostalCode] = useState();
   const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
   const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
   const [energyStoragePowerStationSVG, setEnergyStoragePowerStationSVG] = useState();
@@ -271,7 +270,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           }
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
-          setEnergyStoragePowerStationPostalCode(json['energy_storage_power_station']['postal_code']);
           setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
@@ -975,10 +973,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                           <tr className="border-bottom">
                             <th className="pl-0">{t('Address')}</th>
                             <th className="pr-0 text-right ">{energyStoragePowerStationAddress}</th>
-                          </tr>
-                          <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                            <th className="pr-0 text-right">{energyStoragePowerStationPostalCode}</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t('Rated Capacity')} </th>

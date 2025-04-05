@@ -82,7 +82,7 @@ class Reporting:
 
         if photovoltaic_power_station_id is not None:
             query = (" SELECT e.id, e.name, e.uuid, "
-                     "        e.address, e.postal_code, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
+                     "        e.address, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
                      "        s.source_code, e.description, e.phase_of_lifecycle "
                      " FROM tbl_photovoltaic_power_stations e, tbl_svgs s "
                      " WHERE e.svg_id = s.id AND e.id = %s ")
@@ -90,7 +90,7 @@ class Reporting:
             row = cursor_system.fetchone()
         elif photovoltaic_power_station_uuid is not None:
             query = (" SELECT e.id, e.name, e.uuid, "
-                     "        e.address, e.postal_code, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
+                     "        e.address, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "
                      "        s.source_code, e.description, e.phase_of_lifecycle "
                      " FROM tbl_photovoltaic_power_stations e, tbl_svgs s "
                      " WHERE e.svg_id = s.id AND e.uuid = %s ")
@@ -108,14 +108,13 @@ class Reporting:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "svg": row[9],
-                           "description": row[10],
-                           "phase_of_lifecycle": row[11],
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "svg": row[8],
+                           "description": row[9],
+                           "phase_of_lifecycle": row[10],
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         point_list = list()

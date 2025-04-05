@@ -69,7 +69,7 @@ class EnergyStoragePowerStationCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                  "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_energy_storage_power_stations "
@@ -84,23 +84,22 @@ class EnergyStoragePowerStationCollection:
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
-                               "postal_code": row[4],
-                               "latitude": row[5],
-                               "longitude": row[6],
-                               "rated_capacity": row[7],
-                               "rated_power": row[8],
-                               "contact": contact_dict.get(row[9], None),
-                               "cost_center": cost_center_dict.get(row[10], None),
-                               "svg": svg_dict.get(row[11], None),
-                               "is_cost_data_displayed": bool(row[12]),
-                               "phase_of_lifecycle": row[13],
-                               "description": row[14],
-                               "latitude_point": point_dict.get(row[15], None),
-                               "longitude_point": point_dict.get(row[16], None),
-                               "svg2": svg_dict.get(row[17], None),
-                               "svg3": svg_dict.get(row[18], None),
-                               "svg4": svg_dict.get(row[19], None),
-                               "svg5": svg_dict.get(row[20], None),
+                               "latitude": row[4],
+                               "longitude": row[5],
+                               "rated_capacity": row[6],
+                               "rated_power": row[7],
+                               "contact": contact_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
+                               "svg": svg_dict.get(row[10], None),
+                               "is_cost_data_displayed": bool(row[11]),
+                               "phase_of_lifecycle": row[12],
+                               "description": row[13],
+                               "latitude_point": point_dict.get(row[14], None),
+                               "longitude_point": point_dict.get(row[15], None),
+                               "svg2": svg_dict.get(row[16], None),
+                               "svg3": svg_dict.get(row[17], None),
+                               "svg4": svg_dict.get(row[18], None),
+                               "svg5": svg_dict.get(row[19], None),
                                "qrcode": 'energystoragepowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -135,13 +134,6 @@ class EnergyStoragePowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -306,14 +298,13 @@ class EnergyStoragePowerStationCollection:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                      " (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                      " (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
                       "  contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                       "  latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id ) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -403,7 +394,7 @@ class EnergyStoragePowerStationItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
                  "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
                  " FROM tbl_energy_storage_power_stations "
@@ -421,23 +412,22 @@ class EnergyStoragePowerStationItem:
                            "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "svg": svg_dict.get(row[11], None),
-                           "is_cost_data_displayed": bool(row[12]),
-                           "phase_of_lifecycle": row[13],
-                           "description": row[14],
-                           "latitude_point": point_dict.get(row[15], None),
-                           "longitude_point": point_dict.get(row[16], None),
-                           "svg2": svg_dict.get(row[17], None),
-                           "svg3": svg_dict.get(row[18], None),
-                           "svg4": svg_dict.get(row[19], None),
-                           "svg5": svg_dict.get(row[20], None),
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
+                           "svg": svg_dict.get(row[10], None),
+                           "is_cost_data_displayed": bool(row[11]),
+                           "phase_of_lifecycle": row[12],
+                           "description": row[13],
+                           "latitude_point": point_dict.get(row[14], None),
+                           "longitude_point": point_dict.get(row[15], None),
+                           "svg2": svg_dict.get(row[16], None),
+                           "svg3": svg_dict.get(row[17], None),
+                           "svg4": svg_dict.get(row[18], None),
+                           "svg5": svg_dict.get(row[19], None),
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -504,13 +494,6 @@ class EnergyStoragePowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['data']['address'])
-
-        if 'postal_code' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['postal_code'], str) or \
-                len(str.strip(new_values['data']['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['data']['postal_code'])
 
         if 'latitude' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['latitude'], float) or
@@ -684,7 +667,7 @@ class EnergyStoragePowerStationItem:
                                    description='API.SVG_NOT_FOUND')
 
         update_row = (" UPDATE tbl_energy_storage_power_stations "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
+                      " SET name = %s, address = %s, latitude = %s, longitude = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
                       "     svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s, "
@@ -693,7 +676,6 @@ class EnergyStoragePowerStationItem:
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -1123,7 +1105,7 @@ class EnergyStoragePowerStationExport:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
@@ -1139,16 +1121,15 @@ class EnergyStoragePowerStationExport:
             meta_result = {"name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "svg": svg_dict.get(row[11], None),
-                           "is_cost_data_displayed": bool(row[12]),
-                           "description": row[13]}
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "contact": contact_dict.get(row[8], None),
+                           "cost_center": cost_center_dict.get(row[9], None),
+                           "svg": svg_dict.get(row[10], None),
+                           "is_cost_data_displayed": bool(row[11]),
+                           "description": row[12]}
 
         resp.text = json.dumps(meta_result)
 
@@ -1194,13 +1175,6 @@ class EnergyStoragePowerStationImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADDRESS_VALUE')
         address = str.strip(new_values['address'])
-
-        if 'postal_code' not in new_values.keys() or \
-                not isinstance(new_values['postal_code'], str) or \
-                len(str.strip(new_values['postal_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_POSTAL_CODE_VALUE')
-        postal_code = str.strip(new_values['postal_code'])
 
         if 'latitude' not in new_values.keys() or \
                 not (isinstance(new_values['latitude'], float) or
@@ -1319,13 +1293,12 @@ class EnergyStoragePowerStationImport:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                      "    (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
                       "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
-                                    postal_code,
                                     latitude,
                                     longitude,
                                     rated_capacity,
@@ -1366,7 +1339,7 @@ class EnergyStoragePowerStationClone:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                 "        address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
@@ -1382,16 +1355,15 @@ class EnergyStoragePowerStationClone:
             meta_result = {"name": row[1],
                            "uuid": row[2],
                            "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact_id": row[9],
-                           "cost_center_id": row[10],
-                           "svg_id": row[11],
-                           "is_cost_data_displayed": row[12],
-                           "description": row[13]}
+                           "latitude": row[4],
+                           "longitude": row[5],
+                           "rated_capacity": row[6],
+                           "rated_power": row[7],
+                           "contact_id": row[8],
+                           "cost_center_id": row[9],
+                           "svg_id": row[10],
+                           "is_cost_data_displayed": row[11],
+                           "description": row[12]}
 
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
@@ -1400,13 +1372,12 @@ class EnergyStoragePowerStationClone:
                 (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
             add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                          "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                          "    (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
                           "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['address'],
-                                        meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['rated_capacity'],
