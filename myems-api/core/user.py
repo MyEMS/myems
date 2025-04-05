@@ -55,10 +55,10 @@ class UserCollection:
                                    "name": row[8]} if row[7] is not None else None,
                                "account_expiration_datetime":
                                    (row[9].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "password_expiration_datetime":
                                    (row[10].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
@@ -263,10 +263,10 @@ class UserItem:
                       "name": row[8]} if row[7] is not None else None,
                   "account_expiration_datetime":
                       (row[9].replace(tzinfo=timezone.utc) +
-                       timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "password_expiration_datetime":
                       (row[10].replace(tzinfo=timezone.utc) +
-                       timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
         resp.text = json.dumps(result)
 
@@ -631,12 +631,12 @@ class UserLogin:
 
         result['account_expiration_datetime'] = \
             (result['account_expiration_datetime_utc'].replace(tzinfo=timezone.utc) +
-             timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')
+             timedelta(minutes=timezone_offset)).isoformat()[0:19]
         del result['account_expiration_datetime_utc']
 
         result['password_expiration_datetime'] = \
             (result['password_expiration_datetime_utc'].replace(tzinfo=timezone.utc) +
-             timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S')
+             timedelta(minutes=timezone_offset)).isoformat()[0:19]
         del result['password_expiration_datetime_utc']
 
         result['token'] = token

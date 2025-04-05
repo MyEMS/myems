@@ -341,15 +341,15 @@ class Reporting:
                     current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     baseline_value = Decimal(0.0) if row_equipment_periodically[1] is None \
                         else row_equipment_periodically[1]
@@ -381,15 +381,15 @@ class Reporting:
                     current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
                         else row_equipment_periodically[1]
@@ -458,15 +458,15 @@ class Reporting:
                     current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     baseline_value = Decimal(0.0) if row_equipment_periodically[1] is None \
                         else row_equipment_periodically[1]
@@ -498,15 +498,15 @@ class Reporting:
                     current_datetime_local = row_equipment_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
                     if period_type == 'hourly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                        current_datetime = current_datetime_local.isoformat()[0:19]
                     elif period_type == 'daily':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                        current_datetime = current_datetime_local.isoformat()[0:10]
                     elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.strftime('%Y-%m')
+                        current_datetime = current_datetime_local.isoformat()[0:7]
                     elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.strftime('%Y')
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
                     actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
                         else row_equipment_periodically[1]
@@ -579,7 +579,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'ANALOG_VALUE':
@@ -597,7 +597,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
                 elif point['object_type'] == 'DIGITAL_VALUE':
@@ -615,7 +615,7 @@ class Reporting:
                         for row in rows:
                             current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                            current_datetime = current_datetime_local.isoformat()[0:19]
                             point_timestamps.append(current_datetime)
                             point_values.append(row[1])
 

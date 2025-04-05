@@ -313,7 +313,7 @@ class NonWorkingDayCollection:
             for row in rows_date_local:
                 date_local_dict = {'id': row[0],
                                    'working_calendar_id': row[1],
-                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'date_local': row[2].isoformat()[0:10],
                                    'description': row[3]}
                 meta_result.append(date_local_dict)
 
@@ -416,7 +416,7 @@ class NonWorkingDayItem:
         else:
             meta_result = {"id": row[0],
                            "working_calendar_id": row[1],
-                           "date_local": row[2].strftime('%Y-%m-%d'),
+                           "date_local": row[2].isoformat()[0:10],
                            "description": row[3]}
         resp.text = json.dumps(meta_result)
 
@@ -558,7 +558,7 @@ class WorkingCalendarExport:
             for row in rows_date_local:
                 date_local_dict = {'id': row[0],
                                    'working_calendar_id': row[1],
-                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'date_local': row[2].isoformat()[0:10],
                                    'description': row[3]}
                 result.append(date_local_dict)
         meta_result['non_working_days'] = result
@@ -705,7 +705,7 @@ class WorkingCalendarClone:
             for row in rows_date_local:
                 date_local_dict = {'id': row[0],
                                    'working_calendar_id': row[1],
-                                   'date_local': row[2].strftime('%Y-%m-%d'),
+                                   'date_local': row[2].isoformat()[0:10],
                                    'description': row[3]}
                 result.append(date_local_dict)
         meta_result['non_working_days'] = result

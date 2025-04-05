@@ -452,9 +452,9 @@ class Reporting:
         rows_hourly = cursor_energy.fetchall()
         if rows_hourly is not None and len(rows_hourly) > 0:
             rows_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
-                                                                                reporting_start_datetime_utc,
-                                                                                reporting_end_datetime_utc,
-                                                                                period_type)
+                                                                          reporting_start_datetime_utc,
+                                                                          reporting_end_datetime_utc,
+                                                                          period_type)
             meta_report = dict()
             meta_report['name'] = '购'
             meta_report['energy_category_id'] = energy_category_id
@@ -521,9 +521,9 @@ class Reporting:
         rows_hourly = cursor_energy.fetchall()
         if rows_hourly is not None and len(rows_hourly) > 0:
             rows_periodically = utilities.aggregate_hourly_data_by_period(rows_hourly,
-                                                                                reporting_start_datetime_utc,
-                                                                                reporting_end_datetime_utc,
-                                                                                period_type)
+                                                                          reporting_start_datetime_utc,
+                                                                          reporting_end_datetime_utc,
+                                                                          period_type)
             meta_report = dict()
             meta_report['name'] = '售'
             meta_report['energy_category_id'] = energy_category_id

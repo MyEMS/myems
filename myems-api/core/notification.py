@@ -143,7 +143,7 @@ class NotificationCollection:
                 meta_result = {"id": row[0],
                                "created_datetime":
                                    (row[1] +
-                                    timedelta(hours=int(config.utc_offset[1:3]))).strftime('%Y-%m-%dT%H:%M:%S'),
+                                    timedelta(hours=int(config.utc_offset[1:3]))).isoformat()[0:19],
                                "status": row[2],
                                "subject": row[3],
                                "message": row[4],
@@ -245,7 +245,7 @@ class NotificationItem:
         meta_result = {"id": row[0],
                        "created_datetime":
                            (row[1] +
-                            timedelta(hours=int(config.utc_offset[1:3]))).strftime('%Y-%m-%dT%H:%M:%S'),
+                            timedelta(hours=int(config.utc_offset[1:3]))).isoformat()[0:19],
                        "status": row[2],
                        "subject": row[3],
                        "message": row[4],

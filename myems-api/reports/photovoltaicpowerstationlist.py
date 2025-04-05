@@ -90,7 +90,7 @@ class Reporting:
                     generation_report_dict[row_hourly[0]]['values'] = list()
 
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                generation_report_dict[row_hourly[0]]['times'].append(current_datetime_local.strftime('%H:%M'))
+                generation_report_dict[row_hourly[0]]['times'].append(current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 generation_report_dict[row_hourly[0]]['values'].append(actual_value)
 
@@ -102,7 +102,7 @@ class Reporting:
 
         current_datetime_local = reporting_start_datetime_local
         while current_datetime_local < reporting_end_datetime_local:
-            default_time_list.append(current_datetime_local.strftime('%H:%M'))
+            default_time_list.append(current_datetime_local.isoformat()[11:16])
             default_value_list.append(Decimal(0.0))
             current_datetime_local = current_datetime_local + timedelta(hours=1)
 

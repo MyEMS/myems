@@ -46,7 +46,7 @@ def main():
     mqc = None
     try:
         mqc = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
-                          client_id='MYEMS' + datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S"),
+                          client_id='MYEMS' + datetime.utcnow().isoformat()[0:19],
                           clean_session=None,
                           userdata=None,
                           protocol=mqtt.MQTTv5,

@@ -44,14 +44,14 @@ class RuleCollection:
                 if isinstance(row[10], datetime):
                     last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
-                    last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
                 else:
                     last_run_datetime = None
 
                 if isinstance(row[11], datetime):
                     next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
-                    next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
                 else:
                     next_run_datetime = None
 
@@ -240,14 +240,14 @@ class RuleItem:
         if isinstance(row[10], datetime):
             last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[11], datetime):
             next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 
@@ -518,14 +518,14 @@ class RuleExport:
         if isinstance(row[10], datetime):
             last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[11], datetime):
             next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 
@@ -720,14 +720,14 @@ class RuleClone:
         if isinstance(row[10], datetime):
             last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[11], datetime):
             next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 

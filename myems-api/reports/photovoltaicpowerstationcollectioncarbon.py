@@ -128,24 +128,25 @@ class Reporting:
             rows_generation_hourly = cursor_carbon_db.fetchall()
 
             rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
-                                                                                 start_datetime_utc,
-                                                                                 end_datetime_utc,
-                                                                                 period_type)
+                                                                                     start_datetime_utc,
+                                                                                     end_datetime_utc,
+                                                                                     period_type)
             for row_generation_periodically in rows_generation_periodically:
                 current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else \
+                    row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
             reporting['generation_7_days']['timestamps_array'].append(timestamps)
@@ -181,25 +182,26 @@ class Reporting:
             rows_generation_hourly = cursor_carbon_db.fetchall()
 
             rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
-                                                                                 start_datetime_utc,
-                                                                                 end_datetime_utc,
-                                                                                 period_type)
+                                                                                     start_datetime_utc,
+                                                                                     end_datetime_utc,
+                                                                                     period_type)
 
             for row_generation_periodically in rows_generation_periodically:
                 current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else \
+                    row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
             reporting['generation_this_month']['timestamps_array'].append(timestamps)
@@ -235,24 +237,25 @@ class Reporting:
             rows_generation_hourly = cursor_carbon_db.fetchall()
 
             rows_generation_periodically = utilities.aggregate_hourly_data_by_period(rows_generation_hourly,
-                                                                                 start_datetime_utc,
-                                                                                 end_datetime_utc,
-                                                                                 period_type)
+                                                                                     start_datetime_utc,
+                                                                                     end_datetime_utc,
+                                                                                     period_type)
             for row_generation_periodically in rows_generation_periodically:
                 current_datetime_local = row_generation_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    current_datetime = current_datetime_local.isoformat()[0:19]
                 elif period_type == 'daily':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m-%d')
+                    current_datetime = current_datetime_local.isoformat()[0:10]
                 elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.strftime('%Y-%m')
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                 elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.strftime('%Y')
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else row_generation_periodically[1]
+                actual_value = Decimal(0.0) if row_generation_periodically[1] is None else \
+                    row_generation_periodically[1]
                 timestamps.append(current_datetime)
                 values.append(actual_value)
             reporting['generation_this_year']['timestamps_array'].append(timestamps)

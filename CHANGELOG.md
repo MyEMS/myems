@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Changed
+- replaced datetime.strftime() with datetime.isoformat() in myems-api
 ### Fixed
 - fixed datetime isoformat issues in myems-api
 ### Removed

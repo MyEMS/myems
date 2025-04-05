@@ -94,9 +94,9 @@ class TenantCollection:
                                "lease_number": row[10],
                                "lease_start_datetime":
                                    (row[11].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
-                                                      timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                      timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "is_in_lease": bool(row[13]),
                                "contact": contact_dict.get(row[14], None),
                                "cost_center": cost_center_dict.get(row[15], None),
@@ -393,9 +393,9 @@ class TenantItem:
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
                            "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
-                                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
-                                                  timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                  timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "is_in_lease": bool(row[13]),
                            "contact": contact_dict.get(row[14], None),
                            "cost_center": cost_center_dict.get(row[15], None),
@@ -2056,9 +2056,9 @@ class TenantExport:
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
                            "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
-                                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
-                                                  timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                  timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "is_in_lease": bool(row[13]),
                            "contact": contact_dict.get(row[14], None),
                            "cost_center": cost_center_dict.get(row[15], None),
@@ -2684,9 +2684,9 @@ class TenantClone:
                            "is_input_counted": bool(row[9]),
                            "lease_number": row[10],
                            "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
-                                                    timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
-                                                  timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                  timedelta(minutes=timezone_offset)).isoformat()[0:19],
                            "is_in_lease": bool(row[13]),
                            "contact": contact_dict.get(row[14], None),
                            "cost_center": cost_center_dict.get(row[15], None),

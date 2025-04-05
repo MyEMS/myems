@@ -201,8 +201,8 @@ def generate_excel(report,
         # Simulated data
         ws['H37'] = ''
         ws['H38'] = report_tenant_data['lease_number']
-        ws['H39'] = datetime.datetime.strptime(reporting_start_datetime_local, '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
-        ws['H40'] = datetime.datetime.strptime(reporting_end_datetime_local, '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
+        ws['H39'] = datetime.datetime.strptime(reporting_start_datetime_local, '%Y-%m-%dT%H:%M:%S').isoformat()[0:10]
+        ws['H40'] = datetime.datetime.strptime(reporting_end_datetime_local, '%Y-%m-%dT%H:%M:%S').isoformat()[0:10]
         ws['H41'] = report['reporting_period']['currency_unit'] + \
             str(round2(report['reporting_period']['total_cost']
                        if 'reporting_period' in report.keys()
@@ -245,10 +245,10 @@ def generate_excel(report,
                     ws[chr(j) + str(i)] = reporting_period_data['names'][i - 54]
                 elif chr(j) == 'C':
                     ws[chr(j) + str(i)] = datetime.datetime.strptime(reporting_start_datetime_local,
-                                                                     '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
+                                                                     '%Y-%m-%dT%H:%M:%S').isoformat()[0:10]
                 elif chr(j) == 'D':
                     ws[chr(j) + str(i)] = datetime.datetime.strptime(reporting_end_datetime_local,
-                                                                     '%Y-%m-%dT%H:%M:%S').strftime('%Y-%m-%d')
+                                                                     '%Y-%m-%dT%H:%M:%S').isoformat()[0:10]
                 elif chr(j) == 'E':
                     ws[chr(j) + str(i)] = round2(reporting_period_data['subtotals_input'][i - 54], 3)
                 elif chr(j) == 'F':

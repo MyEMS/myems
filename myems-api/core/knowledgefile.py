@@ -65,7 +65,7 @@ class KnowledgeFileCollection:
                                "file_name": row[1],
                                "uuid": row[2],
                                "upload_datetime": (row[3].replace(tzinfo=None)
-                                                   + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                                   + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "user_display_name": user_dict.get(row[4], None),
                                "file_size_bytes": sys.getsizeof(row[5]),
                                "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')
@@ -228,7 +228,7 @@ class KnowledgeFileItem:
                   "file_name": row[1],
                   "uuid": row[2],
                   "upload_datetime": (row[3].replace(tzinfo=timezone.utc)
-                                      + timedelta(minutes=timezone_offset)).strftime('%Y-%m-%dT%H:%M:%S'),
+                                      + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "user_display_name": user_dict.get(row[4], None)}
         resp.text = json.dumps(result)
 

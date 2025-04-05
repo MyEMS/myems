@@ -46,14 +46,14 @@ class AdvancedReportCollection:
                 if isinstance(row[5], datetime):
                     last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
-                    last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
                 else:
                     last_run_datetime = None
 
                 if isinstance(row[6], datetime):
                     next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                                               timedelta(minutes=timezone_offset)
-                    next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
                 else:
                     next_run_datetime = None
 
@@ -203,14 +203,14 @@ class AdvancedReportItem:
         if isinstance(row[5], datetime):
             last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[6], datetime):
             next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 
@@ -450,14 +450,14 @@ class AdvancedReportExport:
         if isinstance(row[5], datetime):
             last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[6], datetime):
             next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 
@@ -613,14 +613,14 @@ class AdvancedReportClone:
         if isinstance(row[5], datetime):
             last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
         else:
             last_run_datetime = None
 
         if isinstance(row[6], datetime):
             next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
                                       timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.strftime('%Y-%m-%dT%H:%M:%S')
+            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
         else:
             next_run_datetime = None
 
