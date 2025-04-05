@@ -26,8 +26,8 @@
                                             {{ apiKey.token }}
                                             <button class="btn btn-primary btn-rounded btn-xs" ng-click="copyToClipboard(apiKey)">{{'SETTING.COPY' | translate}}</button>
                                         </td>
-                                        <td class="text-center">{{ apiKey.created_datetime_utc }}</td>
-                                        <td class="text-center">{{ apiKey.expires_datetime_utc }}</td>
+                                        <td class="text-center">{{ apiKey.created_datetime }}</td>
+                                        <td class="text-center">{{ apiKey.expires_datetime }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-primary btn-rounded btn-xs" ng-click="editApiKey(apiKey)">{{'SETTING.EDIT' | translate}}</a>
                                             <a ng-click="deleteApiKey(apiKey)" class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>

@@ -160,7 +160,7 @@ app.controller('ApiKeyController', function (
 
 app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
 	$scope.isButtonDisabled = function() {
-		if ($scope.apiKey.name && $scope.apiKey.expires_datetime_utc > $scope.apiKey.created_datetime_utc) {
+		if ($scope.apiKey.name && $scope.apiKey.expires_datetime > $scope.apiKey.created_datetime) {
 			return false;
 		} else {
 			return true;
@@ -168,8 +168,8 @@ app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
 	};
 	$scope.operation = "USER.ADD_API_KEY";
 	$scope.apiKey = {
-		created_datetime_utc:moment(),
-        expires_datetime_utc:moment().add(1,'years'),
+		created_datetime:moment(),
+        expires_datetime:moment().add(1,'years'),
 	};
 	$scope.flag = false;
 	$scope.dtOptions = {
@@ -184,8 +184,8 @@ app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
         singleDatePicker: true,
     };
 	$scope.ok = function () {
-		$scope.apiKey.created_datetime_utc = $scope.apiKey.created_datetime_utc.format().slice(0,19);
-        $scope.apiKey.expires_datetime_utc = $scope.apiKey.expires_datetime_utc.format().slice(0,19);
+		$scope.apiKey.created_datetime = $scope.apiKey.created_datetime.format().slice(0,19);
+        $scope.apiKey.expires_datetime = $scope.apiKey.expires_datetime.format().slice(0,19);
 		$uibModalInstance.close($scope.apiKey);
 	};
 
@@ -198,7 +198,7 @@ app.controller('ModalEditApiKeyCtrl', function ($scope,
 	$uibModalInstance,
 	params) {
 	$scope.isButtonDisabled = function() {
-		if ($scope.apiKey.name && $scope.apiKey.expires_datetime_utc > $scope.apiKey.created_datetime_utc) {
+		if ($scope.apiKey.name && $scope.apiKey.expires_datetime > $scope.apiKey.created_datetime) {
 			return false;
 		} else {
 			return true;
@@ -220,8 +220,8 @@ app.controller('ModalEditApiKeyCtrl', function ($scope,
     };
 
 	$scope.ok = function () {
-		$scope.apiKey.created_datetime_utc = moment($scope.apiKey.created_datetime_utc).format().slice(0,19);
-        $scope.apiKey.expires_datetime_utc = moment($scope.apiKey.expires_datetime_utc).format().slice(0,19);
+		$scope.apiKey.created_datetime = moment($scope.apiKey.created_datetime).format().slice(0,19);
+        $scope.apiKey.expires_datetime = moment($scope.apiKey.expires_datetime).format().slice(0,19);
 		$uibModalInstance.close($scope.apiKey);
 	};
 
