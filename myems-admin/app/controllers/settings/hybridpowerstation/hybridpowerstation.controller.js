@@ -9,7 +9,7 @@ app.controller('HybridPowerStationController', function(
     CostCenterService,
     ContactService,
     SVGService,
-	PointService,
+    PointService,
     HybridPowerStationService,
     toaster,
     SweetAlert) {

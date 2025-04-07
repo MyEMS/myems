@@ -4,7 +4,7 @@ from falcon_multipart.middleware import MultipartMiddleware
 # for debugging this api on Linux or macOS
 from wsgiref import simple_server
 
-from core import advancedreport, apikey, command, energyflowdiagram, \
+from core import advancedreport, apikey, command, controlmode, energyflowdiagram, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
     costfile, offlinemeterfile, version, contact, emailserver, combinedequipment, datasource, equipment, tenant, \
@@ -275,6 +275,17 @@ api.add_route('/contacts',
               contact.ContactCollection())
 api.add_route('/contacts/{id_}',
               contact.ContactItem())
+
+api.add_route('/controlmodes',
+              controlmode.ControlModeCollection())
+api.add_route('/controlmodes/{id_}',
+              controlmode.ControlModeItem())
+api.add_route('/controlmodes/{id_}/export',
+              controlmode.ControlModeExport())
+api.add_route('/controlmodes/import',
+              controlmode.ControlModeImport())
+api.add_route('/controlmodes/{id_}/clone',
+              controlmode.ControlModeClone())
 
 api.add_route('/costcenters',
               costcenter.CostCenterCollection())

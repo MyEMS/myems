@@ -9,7 +9,7 @@ app.controller('EnergyStoragePowerStationController', function(
     ContactService,
     CostCenterService,
     SVGService,
-	PointService,
+    PointService,
     EnergyStoragePowerStationService,
     toaster,
     SweetAlert) {

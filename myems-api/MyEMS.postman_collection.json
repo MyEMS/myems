@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fd8cb444-7019-4af4-b416-4cc298832faf",
+		"_postman_id": "85739821-6a0e-4777-a68a-f1ac46880af5",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10906958"
@@ -1876,7 +1876,7 @@
 							"response": []
 						},
 						{
-							"name": "GET a Comand by ID",
+							"name": "GET a Command by ID",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -2253,6 +2253,311 @@
 									],
 									"path": [
 										"commands",
+										"1",
+										"clone"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Control Mode",
+					"item": [
+						{
+							"name": "Get All Control Modes",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET a Control Mode by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Control Mode",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"CM1\", \"is_active\":false}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/controlmodes",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Control Mode",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"data\":{\"name\":\"CM1\", \"is_active\":true}}"
+								},
+								"url": {
+									"raw": "{{base_url}}/controlmodes/3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE a Control Mode by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes/5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Export a Control Mode by ID to JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes/1/export",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"1",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import a Control Mode from JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"自发自用\",\n    \"is_active\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/controlmodes/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clone a Control Mode by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"description": "Any admin users' UUID"
+									},
+									{
+										"key": "Token",
+										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"description": "Login first to get a valid token"
+									},
+									{
+										"key": "API-Key",
+										"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+										"description": "Create API Key at myems-admin",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes/1/clone",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
 										"1",
 										"clone"
 									]
