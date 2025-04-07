@@ -2361,7 +2361,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"CM1\", \"is_active\":false}}"
+									"raw": "{\"data\":\n    {\"name\":\"CM11\", \n     \"is_active\":false,\n     \"times\":[\n        {\n                \"start_time_of_day\": \"0:00:00\",\n                \"end_time_of_day\": \"5:59:59\",\n                \"power_value\": 10.000000\n            },\n            {\n                \"start_time_of_day\": \"6:00:00\",\n                \"end_time_of_day\": \"7:59:59\",\n                \"power_value\": 0.000000\n            },\n            {\n                \"start_time_of_day\": \"8:00:00\",\n                \"end_time_of_day\": \"10:59:59\",\n                \"power_value\": -5.000000\n            },\n            {\n                \"start_time_of_day\": \"11:00:00\",\n                \"end_time_of_day\": \"17:59:59\",\n                \"power_value\": 10.000000\n            },\n            {\n                \"start_time_of_day\": \"18:00:00\",\n                \"end_time_of_day\": \"20:59:59\",\n                \"power_value\": -5.000000\n            },\n            {\n                \"start_time_of_day\": \"21:00:00\",\n                \"end_time_of_day\": \"21:59:59\",\n                \"power_value\": 0.000000\n            },\n            {\n                \"start_time_of_day\": \"22:00:00\",\n                \"end_time_of_day\": \"23:59:59\",\n                \"power_value\": 10.000000\n            }\n     ]\n    }\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/controlmodes",
@@ -2399,16 +2399,16 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"CM1\", \"is_active\":true}}"
+									"raw": "{\"data\":{\n    \"name\": \"削峰填谷\",\n    \"is_active\": false,\n    \"times\": [\n        {\n            \"start_time_of_day\": \"0:00:00\",\n            \"end_time_of_day\": \"5:59:59\",\n            \"power_value\": 10.000000\n        },\n        {\n            \"start_time_of_day\": \"6:00:00\",\n            \"end_time_of_day\": \"7:59:59\",\n            \"power_value\": 0.000000\n        },\n        {\n            \"start_time_of_day\": \"8:00:00\",\n            \"end_time_of_day\": \"23:59:59\",\n            \"power_value\": -5.000000\n        }\n    ]\n  }\n}"
 								},
 								"url": {
-									"raw": "{{base_url}}/controlmodes/3",
+									"raw": "{{base_url}}/controlmodes/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"controlmodes",
-										"3"
+										"1"
 									]
 								}
 							},
@@ -2437,13 +2437,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/controlmodes/5",
+									"raw": "{{base_url}}/controlmodes/11",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"controlmodes",
-										"5"
+										"11"
 									]
 								}
 							},
@@ -2509,7 +2509,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"自发自用\",\n    \"is_active\": false\n}",
+									"raw": "{\n    \"name\": \"自发自用\",\n    \"is_active\": false,\n    \"times\": [\n        {\n            \"start_time_of_day\": \"0:00:00\",\n            \"end_time_of_day\": \"5:59:59\",\n            \"power_value\": 10.000000\n        },\n        {\n            \"start_time_of_day\": \"6:00:00\",\n            \"end_time_of_day\": \"7:59:59\",\n            \"power_value\": 0.000000\n        },\n        {\n            \"start_time_of_day\": \"8:00:00\",\n            \"end_time_of_day\": \"10:59:59\",\n            \"power_value\": -5.000000\n        },\n        {\n            \"start_time_of_day\": \"11:00:00\",\n            \"end_time_of_day\": \"17:59:59\",\n            \"power_value\": 10.000000\n        },\n        {\n            \"start_time_of_day\": \"18:00:00\",\n            \"end_time_of_day\": \"20:59:59\",\n            \"power_value\": -5.000000\n        },\n        {\n            \"start_time_of_day\": \"21:00:00\",\n            \"end_time_of_day\": \"21:59:59\",\n            \"power_value\": 0.000000\n        },\n        {\n            \"start_time_of_day\": \"22:00:00\",\n            \"end_time_of_day\": \"23:59:59\",\n            \"power_value\": 10.000000\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
