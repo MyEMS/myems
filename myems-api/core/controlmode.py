@@ -36,10 +36,20 @@ class ControlModeCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "is_active": bool(row[3])}
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+
+                query = (" SELECT start_time_of_day, end_time_of_day, power_value "
+                         " FROM tbl_control_modes_times "
+                         " WHERE control_mode_id = %s  "
+                         " ORDER BY id")
+                cursor.execute(query, (meta_result['id'],))
+                rows_times = cursor.fetchall()
+                if rows_times is not None and len(rows_times) > 0:
+                    for row_time in rows_times:
+                        meta_data = {"start_time_of_day": str(row_time[0]),
+                                     "end_time_of_day": str(row_time[1]),
+                                     "power_value": row_time[2]}
+                        meta_result['times'].append(meta_data)
                 result.append(meta_result)
 
         cursor.close()
@@ -64,7 +74,7 @@ class ControlModeCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_NAME')
+                                   description='API.INVALID_CONTROL_MODE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'is_active' not in new_values['data'].keys() or \
@@ -72,6 +82,11 @@ class ControlModeCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ACTIVE_VALUE')
         is_active = new_values['data']['is_active']
+
+        if new_values['data']['times'] is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTROL_MODE_TIMES')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -93,6 +108,15 @@ class ControlModeCollection:
                                  is_active))
         new_id = cursor.lastrowid
         cnx.commit()
+        for item in new_values['data']['times']:
+            add_time = (" INSERT INTO tbl_control_modes_times "
+                        "             (control_mode_id, start_time_of_day, end_time_of_day, power_value) "
+                        " VALUES (%s, %s, %s, %s) ")
+            cursor.execute(add_time, (new_id,
+                                      item['start_time_of_day'],
+                                      item['end_time_of_day'],
+                                      item['power_value']))
+            cnx.commit()
 
         cursor.close()
         cnx.close()
@@ -137,10 +161,20 @@ class ControlModeItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTROL_MODE_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "is_active": bool(row[3])}
+        result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+
+        query = (" SELECT start_time_of_day, end_time_of_day, power_value "
+                 " FROM tbl_control_modes_times "
+                 " WHERE control_mode_id = %s  "
+                 " ORDER BY id ")
+        cursor.execute(query, (result['id'],))
+        rows_times = cursor.fetchall()
+        if rows_times is not None and len(rows_times) > 0:
+            for row_time in rows_times:
+                meta_data = {"start_time_of_day": str(row_time[0]),
+                             "end_time_of_day": str(row_time[1]),
+                             "power_value": row_time[2]}
+                result['times'].append(meta_data)
 
         cursor.close()
         cnx.close()
@@ -168,6 +202,9 @@ class ControlModeItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTROL_MODE_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_control_modes_times WHERE control_mode_id = %s ", (id_,))
+        cnx.commit()
 
         cursor.execute(" DELETE FROM tbl_control_modes WHERE id = %s ", (id_,))
         cnx.commit()
@@ -208,6 +245,13 @@ class ControlModeItem:
                                    description='API.INVALID_IS_ACTIVE_VALUE')
         is_active = new_values['data']['is_active']
 
+        if 'times' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['times'], list) or \
+                len(new_values['data']['times']) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTROL_MODE_TIMES')
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -242,6 +286,21 @@ class ControlModeItem:
                                     id_,))
         cnx.commit()
 
+        # remove all (possible) exist times
+        cursor.execute(" DELETE FROM tbl_control_modes_times "
+                       " WHERE control_mode_id = %s ",
+                       (id_,))
+        cnx.commit()
+
+        for item in new_values['data']['times']:
+            add_time = (" INSERT INTO tbl_control_modes_times "
+                        "             (control_mode_id, start_time_of_day, end_time_of_day, power_value) "
+                        " VALUES (%s, %s, %s, %s) ")
+            cursor.execute(add_time, (id_,
+                                      item['start_time_of_day'],
+                                      item['end_time_of_day'],
+                                      item['power_value']))
+            cnx.commit()
         cursor.close()
         cnx.close()
         resp.status = falcon.HTTP_200
@@ -283,10 +342,20 @@ class ControlModeExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTROL_MODE_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "is_active": bool(row[3])}
+        result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+
+        query = (" SELECT start_time_of_day, end_time_of_day, power_value "
+                 " FROM tbl_control_modes_times "
+                 " WHERE control_mode_id = %s  "
+                 " ORDER BY id")
+        cursor.execute(query, (result['id'],))
+        rows_times = cursor.fetchall()
+        if rows_times is not None and len(rows_times) > 0:
+            for row_time in rows_times:
+                meta_data = {"start_time_of_day": str(row_time[0]),
+                             "end_time_of_day": str(row_time[1]),
+                             "power_value": row_time[2]}
+                result['times'].append(meta_data)
 
         cursor.close()
         cnx.close()
@@ -329,6 +398,13 @@ class ControlModeImport:
                                    description='API.INVALID_IS_ACTIVE_VALUE')
         is_active = new_values['is_active']
 
+        if 'times' not in new_values.keys() or \
+                not isinstance(new_values['times'], list) or \
+                len(new_values['times']) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_CONTROL_MODE_TIMES')
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -349,6 +425,16 @@ class ControlModeImport:
                                  is_active,))
         new_id = cursor.lastrowid
         cnx.commit()
+
+        for item in new_values['times']:
+            add_time = (" INSERT INTO tbl_control_modes_times "
+                        "             (control_mode_id, start_time_of_day, end_time_of_day, power_value) "
+                        " VALUES (%s, %s, %s, %s) ")
+            cursor.execute(add_time, (new_id,
+                                      item['start_time_of_day'],
+                                      item['end_time_of_day'],
+                                      item['power_value']))
+            cnx.commit()
 
         cursor.close()
         cnx.close()
@@ -393,10 +479,20 @@ class ControlModeClone:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTROL_MODE_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "is_active": bool(row[3])}
+        result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+
+        query = (" SELECT start_time_of_day, end_time_of_day, power_value "
+                 " FROM tbl_control_modes_times "
+                 " WHERE control_mode_id = %s  "
+                 " ORDER BY id")
+        cursor.execute(query, (result['id'],))
+        rows_times = cursor.fetchall()
+        if rows_times is not None and len(rows_times) > 0:
+            for row_time in rows_times:
+                meta_data = {"start_time_of_day": str(row_time[0]),
+                             "end_time_of_day": str(row_time[1]),
+                             "power_value": row_time[2]}
+                result['times'].append(meta_data)
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -411,7 +507,15 @@ class ControlModeClone:
                                  result['is_active']))
         new_id = cursor.lastrowid
         cnx.commit()
-
+        for item in result['times']:
+            add_time = (" INSERT INTO tbl_control_modes_times "
+                        "             (control_mode_id, start_time_of_day, end_time_of_day, power_value) "
+                        " VALUES (%s, %s, %s, %s) ")
+            cursor.execute(add_time, (new_id,
+                                      item['start_time_of_day'],
+                                      item['end_time_of_day'],
+                                      item['power_value']))
+            cnx.commit()
         cursor.close()
         cnx.close()
 

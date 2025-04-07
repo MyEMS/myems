@@ -102,7 +102,7 @@ class TariffCollection:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_NAME')
+                                   description='API.INVALID_CONTROL_MODE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'energy_category' not in new_values['data'].keys() or \
@@ -340,7 +340,7 @@ class TariffItem:
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_NAME')
+                                   description='API.INVALID_CONTROL_MODE_NAME')
         name = str.strip(new_values['data']['name'])
 
         if 'energy_category' not in new_values['data'].keys() or \
@@ -555,7 +555,7 @@ class TariffImport:
                 not isinstance(new_values['name'], str) or \
                 len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_METER_NAME')
+                                   description='API.INVALID_CONTROL_MODE_NAME')
         name = str.strip(new_values['name'])
 
         if 'energy_category' not in new_values.keys() or \
