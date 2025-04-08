@@ -507,6 +507,49 @@ app
                             ]
                         }
                     })
+                    .state('settings.controlmode', {
+                        url: "/controlmode",
+                        templateUrl: "views/settings/controlmode/controlmode.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.CONTROL_MODE'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/controlmode/controlmode.service.js',
+                                                    'app/controllers/settings/controlmode/controlmode.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.gateway', {
                         url: "/gateway",
                         templateUrl: "views/settings/gateway/gateway.html",

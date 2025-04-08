@@ -1,0 +1,46 @@
+<div class="wrapper wrapper-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<uib-tabset>
+					<uib-tab heading="{{'SETTING.CONTROL_MODE_LIST' | translate}}" >
+						<div class="panel-body" ng-controller="ControlModeController">
+							<a ng-click="addControlMode()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTROL_MODE' | translate}}</a>
+							<a ng-click="importControlMode()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ACTIVE' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="controlmode in controlmodes">
+										<td class="text-center">{{ controlmode.id }}</td>
+										<td class="text-center">{{ controlmode.name }}</td>
+										<td class="text-center"> {{ controlmode.is_active==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editControlMode(controlmode)" >{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteControlMode(controlmode)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-click="exportControlMode(controlmode)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
+											<a ng-click="cloneControlMode(controlmode)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</uib-tab>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
