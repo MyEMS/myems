@@ -319,7 +319,8 @@ class KnowledgeFileRestore:
             # being used.
             temp_file_path = file_path + '~'
 
-            open(temp_file_path, 'wb').write(raw_blob)
+            with open(temp_file_path, 'wb') as f:
+                f.write(raw_blob)
 
             # Now that we know the file has been fully saved to disk
             # move it into place.
