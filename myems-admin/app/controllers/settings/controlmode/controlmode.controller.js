@@ -372,7 +372,7 @@ app.controller('ModalEditControlModeCtrl', function($scope, $timeout, $uibModalI
 	};
 
 	$scope.delete = function(key) {
-		$scope.timeofuse.splice(key, 1);
+		$scope.times.splice(key, 1);
 		$timeout(function() {
 			angular.element('#touTable').trigger('footable_redraw');
 		}, 10);
