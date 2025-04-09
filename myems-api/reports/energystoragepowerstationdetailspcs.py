@@ -160,7 +160,7 @@ class Reporting:
         pcs_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT id, name, uuid "
-                                  " FROM tbl_energy_storage_containers_batteries "
+                                  " FROM tbl_energy_storage_containers_power_conversion_systems "
                                   " WHERE energy_storage_container_id = %s "
                                   " ORDER BY id ",
                                   (container['id'],))
