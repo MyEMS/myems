@@ -10698,7 +10698,6 @@ function config($translateProvider) {
                 ADD_MICROGRID_POWER_CONVERSION_SYSTEM: 'Добавить систему переключения питания (PCS)',
                 EDIT_MICROGRID_POWER_CONVERSION_SYSTEM: 'Изменить систему переключения питания (PCS)',
                 BIND_USER: 'Связанные пользователи',
-                BIND_USER: 'Связанные пользователи',
                 PHASE_OF_LIFECYCLE: 'Этапы жизненного цикла',
                 PHASE_1USE: 'Этап использования',
                 PHASE_2COMMISSIONING: 'Этап отладки',
