@@ -51,20 +51,20 @@ class Reporting:
         ################################################################################################################
         if hybrid_power_station_id is None and hybrid_power_station_uuid is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                   description='API.INVALID_HYBRID_POWER_STATION_ID')
 
         if hybrid_power_station_id is not None:
             hybrid_power_station_id = str.strip(hybrid_power_station_id)
             if not hybrid_power_station_id.isdigit() or int(hybrid_power_station_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                       description='API.INVALID_HYBRID_POWER_STATION_ID')
 
         if hybrid_power_station_uuid is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
             match = regex.match(str.strip(hybrid_power_station_uuid))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
+                                       description='API.INVALID_HYBRID_POWER_STATION_UUID')
 
         reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=3)
         reporting_end_datetime_utc = datetime.utcnow()

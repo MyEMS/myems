@@ -72,11 +72,11 @@ class Reporting:
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
 
-        cursor_energy_db.execute(" SELECT energy_storage_power_station_id, start_datetime_utc, actual_value "
-                                 " FROM tbl_energy_storage_power_station_charge_hourly "
+        cursor_energy_db.execute(" SELECT hybrid_power_station_id, start_datetime_utc, actual_value "
+                                 " FROM tbl_hybrid_power_station_charge_hourly "
                                  " WHERE start_datetime_utc >= %s "
                                  "     AND start_datetime_utc < %s "
-                                 " ORDER BY energy_storage_power_station_id, start_datetime_utc ",
+                                 " ORDER BY hybrid_power_station_id, start_datetime_utc ",
                                  (reporting_start_datetime_utc,
                                   reporting_end_datetime_utc))
         rows_hourly = cursor_energy_db.fetchall()
@@ -97,11 +97,11 @@ class Reporting:
         # get discharge data in latest 24 hours
         discharge_report_dict = dict()
 
-        cursor_energy_db.execute(" SELECT energy_storage_power_station_id, start_datetime_utc, actual_value "
-                                 " FROM tbl_energy_storage_power_station_discharge_hourly "
+        cursor_energy_db.execute(" SELECT hybrid_power_station_id, start_datetime_utc, actual_value "
+                                 " FROM tbl_hybrid_power_station_discharge_hourly "
                                  " WHERE start_datetime_utc >= %s "
                                  "     AND start_datetime_utc < %s "
-                                 " ORDER BY energy_storage_power_station_id, start_datetime_utc ",
+                                 " ORDER BY hybrid_power_station_id, start_datetime_utc ",
                                  (reporting_start_datetime_utc,
                                   reporting_end_datetime_utc))
         rows_hourly = cursor_energy_db.fetchall()
@@ -134,34 +134,32 @@ class Reporting:
             default_value_list.append(Decimal(0.0))
             current_datetime_local = current_datetime_local + timedelta(hours=1)
 
-        # get energy storage power stations
+        # get hybrid power stations
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
                  "        m.description, m.phase_of_lifecycle "
-                 " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
-                 " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
+                 " FROM tbl_hybrid_power_stations m, tbl_hybrid_power_stations_users mu "
+                 " WHERE m.id = mu.hybrid_power_station_id AND mu.user_id = %s "
                  " ORDER BY m.phase_of_lifecycle, m.id ")
         cursor_system_db.execute(query, (user_id, ))
-        rows_energy_storage_power_stations = cursor_system_db.fetchall()
+        rows_hybrid_power_stations = cursor_system_db.fetchall()
 
         # construct the report
         result = list()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            for row in rows_energy_storage_power_stations:
-                energy_storage_power_station_id = row[0]
+        if rows_hybrid_power_stations is not None and len(rows_hybrid_power_stations) > 0:
+            for row in rows_hybrid_power_stations:
+                hybrid_power_station_id = row[0]
                 # get is_online by data source latest seen datetime
                 query = (" SELECT tds.last_seen_datetime_utc   "
-                         " FROM tbl_energy_storage_power_stations_containers tespsesc, "
-                         "      tbl_energy_storage_containers_power_conversion_systems tescpcs, "
+                         " FROM tbl_hybrid_power_stations_pcses tescpcs, "
                          "      tbl_points tp, tbl_data_sources tds  "
-                         " WHERE tespsesc.energy_storage_power_station_id  = %s "
-                         "        AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id  "
-                         "        AND tescpcs.run_state_point_id = tp.id  "
+                         " WHERE tescpcs.hybrid_power_station_id  = %s "
+                         "        AND tescpcs.operating_status_point_id = tp.id  "
                          "        AND tp.data_source_id = tds.id  "
                          " LIMIT 1 ")
-                cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                cursor_system_db.execute(query, (hybrid_power_station_id,))
                 row_datetime = cursor_system_db.fetchone()
 
                 is_online = False
@@ -173,13 +171,11 @@ class Reporting:
                 # get PCS run state point
                 pcs_run_state_point_value = None
                 if is_online:
-                    query = (" SELECT tescpcs.run_state_point_id "
-                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
-                             "     tbl_energy_storage_containers_power_conversion_systems tescpcs "
-                             " WHERE tespsesc.energy_storage_power_station_id  = %s "
-                             "       AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id "
+                    query = (" SELECT operating_status_point_id "
+                             " FROM tbl_hybrid_power_stations_pcses "
+                             " WHERE hybrid_power_station_id  = %s "
                              " LIMIT 1 ")
-                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    cursor_system_db.execute(query, (hybrid_power_station_id,))
                     row_point = cursor_system_db.fetchone()
                     if row_point is not None and len(row_point) > 0:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
@@ -218,13 +214,11 @@ class Reporting:
                 # get battery state point
                 battery_state_point_value = None
                 if is_online:
-                    query = (" SELECT tescb.battery_state_point_id "
-                             " FROM tbl_energy_storage_power_stations_containers tespsesc, "
-                             "      tbl_energy_storage_containers_batteries tescb "
-                             " WHERE tespsesc.energy_storage_power_station_id = %s "
-                             "       AND tespsesc.energy_storage_container_id = tescb.energy_storage_container_id "
+                    query = (" SELECT operating_status_point_id "
+                             " FROM tbl_hybrid_power_stations_bmses "
+                             " WHERE hybrid_power_station_id = %s "
                              " LIMIT 1 ")
-                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    cursor_system_db.execute(query, (hybrid_power_station_id,))
                     row_point = cursor_system_db.fetchone()
                     if row_point is not None and len(row_point) > 0:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
@@ -266,30 +260,27 @@ class Reporting:
                 battery_soc_point_value = None
                 battery_power_point_value = None
                 if is_online:
-                    query = (" SELECT tescb.soc_point_id, tescb.power_point_id "
-                             " FROM tbl_energy_storage_power_stations_containers tespsc, "
-                             "      tbl_energy_storage_containers_batteries tescb "
-                             " WHERE tespsc.energy_storage_power_station_id = %s "
-                             "       AND tespsc.energy_storage_container_id = tescb.energy_storage_container_id "
+                    query = (" SELECT soc_point_id "
+                             " FROM tbl_hybrid_power_stations_bmses "
+                             " WHERE hybrid_power_station_id = %s "
                              " LIMIT 1 ")
-                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    cursor_system_db.execute(query, (hybrid_power_station_id,))
                     row_point = cursor_system_db.fetchone()
                     if row_point is not None and len(row_point) > 0:
                         if analog_value_latest_dict.get(row_point[0]) is not None:
                             battery_soc_point_value = analog_value_latest_dict.get(row_point[0])['actual_value']
-                            battery_power_point_value = analog_value_latest_dict.get(row_point[1])['actual_value']
 
                 # complete the charge_report_dict
-                if energy_storage_power_station_id not in charge_report_dict.keys():
-                    charge_report_dict[energy_storage_power_station_id] = dict()
-                    charge_report_dict[energy_storage_power_station_id]['charge_times'] = default_time_list
-                    charge_report_dict[energy_storage_power_station_id]['charge_values'] = default_value_list
-                if energy_storage_power_station_id not in discharge_report_dict.keys():
-                    discharge_report_dict[energy_storage_power_station_id] = dict()
-                    discharge_report_dict[energy_storage_power_station_id]['discharge_times'] = default_time_list
-                    discharge_report_dict[energy_storage_power_station_id]['discharge_values'] = default_value_list
+                if hybrid_power_station_id not in charge_report_dict.keys():
+                    charge_report_dict[hybrid_power_station_id] = dict()
+                    charge_report_dict[hybrid_power_station_id]['charge_times'] = default_time_list
+                    charge_report_dict[hybrid_power_station_id]['charge_values'] = default_value_list
+                if hybrid_power_station_id not in discharge_report_dict.keys():
+                    discharge_report_dict[hybrid_power_station_id] = dict()
+                    discharge_report_dict[hybrid_power_station_id]['discharge_times'] = default_time_list
+                    discharge_report_dict[hybrid_power_station_id]['discharge_values'] = default_value_list
 
-                meta_result = {"id": energy_storage_power_station_id,
+                meta_result = {"id": hybrid_power_station_id,
                                "name": row[1],
                                "uuid": row[2],
                                "address": row[3],
@@ -299,18 +290,17 @@ class Reporting:
                                "rated_power": row[7],
                                "description": row[8],
                                "phase_of_lifecycle": row[9],
-                               "qrcode": 'energystoragepowerstation:' + row[2],
+                               "qrcode": 'hybridpowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,
                                "battery_operating_state": battery_operating_state,
                                "battery_soc_point_value": battery_soc_point_value,
-                               "battery_power_point_value": battery_power_point_value,
-                               "charge_times": charge_report_dict[energy_storage_power_station_id]['charge_times'],
-                               "charge_values": charge_report_dict[energy_storage_power_station_id]['charge_values'],
+                               "charge_times": charge_report_dict[hybrid_power_station_id]['charge_times'],
+                               "charge_values": charge_report_dict[hybrid_power_station_id]['charge_values'],
                                "discharge_times":
-                                   discharge_report_dict[energy_storage_power_station_id]['discharge_times'],
+                                   discharge_report_dict[hybrid_power_station_id]['discharge_times'],
                                "discharge_values":
-                                   discharge_report_dict[energy_storage_power_station_id]['discharge_values']
+                                   discharge_report_dict[hybrid_power_station_id]['discharge_values']
                                }
                 result.append(meta_result)
 
