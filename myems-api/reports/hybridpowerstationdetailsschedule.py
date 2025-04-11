@@ -37,7 +37,7 @@ class Reporting:
         ################################################################################################################
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_ENERGY_STORAGE_POWER_STATION_ID')
+                                   description='API.INVALID_HYBRID_POWER_STATION_ID')
         energy_storage_power_station_id = id_
 
         ################################################################################################################
@@ -60,7 +60,7 @@ class Reporting:
             cursor_system.close()
             cnx_system.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+                                   description='API.HYBRID_POWER_STATION_NOT_FOUND')
         else:
             energy_storage_power_station_id = row[0]
             meta_result = {"id": row[0],
