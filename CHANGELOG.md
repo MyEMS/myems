@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added control modes and control times
 ### Changed
 - replaced datetime.strftime() with datetime.isoformat() in myems-api
+- changed space energy category report to automaticly submit in myems-web
 ### Fixed
 - fixed datetime isoformat issues in myems-api
 - fixed api key datetime issue in myems-api and myems-admin
