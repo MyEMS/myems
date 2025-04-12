@@ -185,9 +185,26 @@ const HybridPowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) 
                 setHybridPowerStationList(json[0]);
                 setFilteredHybridPowerStationList(json[0]);
                 if (json[0].length > 0) {
-                  setSelectedHybridPowerStation(json[0][0].value);
+                  // select the first station in the list
+                  let stationID = json[0][0].value;
+                  setSelectedHybridPowerStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+                  // automatically submit with station
+                  let url =
+                    APIBaseURL +
+                    '/reports/hybridpowerstationreportingrevenue?' +
+                    'id=' +
+                    stationID +
+                    '&periodtype=' +
+                    periodType +
+                    '&reportingperiodstartdatetime=' +
+                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&reportingperiodenddatetime=' +
+                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&language=' +
+                    language;
+                  loadData(url);
                 } else {
                   setSelectedHybridPowerStation(undefined);
                   // disable submit button
