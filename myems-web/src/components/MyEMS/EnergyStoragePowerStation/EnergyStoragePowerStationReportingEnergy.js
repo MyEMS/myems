@@ -154,6 +154,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
               .join('"label":')
           );
           setCascaderOptions(json);
+          //select ths root space
           setSelectedSpaceName([json[0]].map(o => o.label));
           let selectedSpaceID  = [json[0]].map(o => o.value);
           // get EnergyStoragePowerStations by root Space ID
@@ -185,9 +186,26 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
                 setEnergyStoragePowerStationList(json[0]);
                 setFilteredEnergyStoragePowerStationList(json[0]);
                 if (json[0].length > 0) {
-                  setSelectedEnergyStoragePowerStation(json[0][0].value);
+                  // select the first station in the list
+                  let stationID = json[0][0].value;
+                  setSelectedEnergyStoragePowerStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+                  // automatically submit with the first station
+                  let url =
+                    APIBaseURL +
+                    '/reports/energystoragepowerstationreportingenergy?' +
+                    'id=' +
+                    stationID +
+                    '&periodtype=' +
+                    periodType +
+                    '&reportingperiodstartdatetime=' +
+                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&reportingperiodenddatetime=' +
+                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&language=' +
+                    language;
+                  loadData(url);
                 } else {
                   setSelectedEnergyStoragePowerStation(undefined);
                   // disable submit button
