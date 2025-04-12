@@ -45,7 +45,6 @@ const WorkingDaysConsumptionTable = loadable(() => import('../common/WorkingDays
 const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();
-  console.log('location=' + location.search.split('='));
   //parse space uuid from url, the space uuid is null in most cases, and it exists only when clicking on the map
   const spaceUUID = location.search.split('=')[1];
   useEffect(() => {
@@ -89,8 +88,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
     current_moment
       .clone()
+      .subtract(7, 'days')
       .subtract(1, 'months')
-      .startOf('month')
+      .startOf('day')
       .toDate(),
     current_moment
       .clone()
@@ -101,7 +101,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(7, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);

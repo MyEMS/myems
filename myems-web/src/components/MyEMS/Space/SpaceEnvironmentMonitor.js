@@ -23,6 +23,7 @@ import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
+import { Link } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
@@ -229,7 +230,9 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Environment Monitor')}</BreadcrumbItem>
+          <BreadcrumbItem active onClick={() => window.location.reload()}>
+            <Link to="/space/environmentmonitor">{t('Environment Monitor')}</Link>
+          </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">

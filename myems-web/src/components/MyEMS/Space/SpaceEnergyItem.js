@@ -34,6 +34,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
+import { Link } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -81,8 +82,9 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
     current_moment
       .clone()
+      .subtract(7, 'days')
       .subtract(1, 'months')
-      .startOf('month')
+      .startOf('day')
       .toDate(),
     current_moment
       .clone()
@@ -93,7 +95,8 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(7, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -188,8 +191,12 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               .join('"label":')
           );
           setCascaderOptions(json);
+          // select root space name
           setSelectedSpaceName([json[0]].map(o => o.label));
+          // select root space ID
           setSelectedSpaceID([json[0]].map(o => o.value));
+          // load data with root space ID
+          loadData([json[0]].map(o => o.value));
         } else {
           toast.error(t(json.description));
         }
@@ -355,6 +362,10 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
+    loadData(selectedSpaceID);
+  }
+
+  const loadData = (spaceID) => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -373,7 +384,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
       '/reports/spaceenergyitem?' +
       'spaceid=' +
-      selectedSpaceID +
+      spaceID +
       '&periodtype=' +
       periodType +
       '&baseperiodstartdatetime=' +
@@ -774,7 +785,9 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Energy Item Data')}</BreadcrumbItem>
+          <BreadcrumbItem active onClick={() => window.location.reload()}>
+            <Link to="/space/energyitem">{t('Energy Item Data')}</Link>
+          </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
