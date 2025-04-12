@@ -37,7 +37,6 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { useLocation, Link } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
-import { day } from 'is_js';
 
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -46,8 +45,8 @@ const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment().add(1, 'days');
   const location = useLocation();
-  const uuid_ = location.search.split('=')[1];
-  const { isDark } = useContext(AppContext);
+  //parse space uuid from url, the space uuid is null in most cases, and it exists only when clicking on the map
+  const spaceUUID = location.search.split('=')[1];
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -89,8 +88,9 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
     current_moment
       .clone()
+      .subtract(7, 'days')
       .subtract(1, 'months')
-      .startOf('month')
+      .startOf('day')
       .toDate(),
     current_moment
       .clone()
@@ -101,7 +101,8 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(7, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -197,10 +198,14 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
               .split('"name":')
               .join('"label":')
           );
+          // initilize space cascader
           setCascaderOptions(json);
+          // select root space name
           setSelectedSpaceName([json[0]].map(o => o.label));
+          // select root space id
           setSelectedSpaceID([json[0]].map(o => o.value));
-          loadUUID(json);
+          // load data with space tree
+          loadWithSpaceTree(json);
         } else {
           toast.error(t(json.description));
         }
@@ -210,10 +215,11 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, [t]);
 
-  const spaceName = (spaceList, spaceID, name, ids) => {
+  // recursive parse space full name from space tree
+  const spaceFullName = (spaceTree, spaceID, name, ids) => {
     let newName = name;
     let newIds = ids + '';
-    for (let space of spaceList) {
+    for (let space of spaceTree) {
       if (space.value === spaceID) {
         setSelectedSpaceName(newName.length === 0 ? space.label : newName + '/' + space.label);
         let idArr = [];
@@ -224,7 +230,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
       }
       let rt = false;
       if (space['children'] && space.children.length > 0) {
-        rt = spaceName(
+        rt = spaceFullName(
           space.children,
           spaceID,
           newName.length === 0 ? space.label : newName + '/' + space.label,
@@ -235,13 +241,15 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     }
     return false;
   };
-  const loadUUID = spaceList => {
-    if (uuid_ !== null && uuid_) {
+  const loadWithSpaceTree = spaceTree => {
+    // there is spaceuuid in the url
+    if (spaceUUID !== null && spaceUUID) {
+      // make api url with spaceuuid
       let url =
         APIBaseURL +
         '/reports/spaceprediction?' +
         'spaceuuid=' +
-        uuid_ +
+        spaceUUID +
         '&periodtype=' +
         periodType +
         '&baseperiodstartdatetime=' +
@@ -254,11 +262,35 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
         moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' +
         language;
-      loadData(url, spaceList);
+      loadData(url, spaceTree);
+    } else {
+      // there isn't spaceuuid in the url
+      // make api url with spaceid
+      if (spaceTree && spaceTree.length > 0) {
+        let spaceID = [spaceTree[0]].map(o => o.value)[0];
+        let url =
+          APIBaseURL +
+          '/reports/spaceprediction?' +
+          'spaceid=' +
+          spaceID +
+          '&periodtype=' +
+          periodType +
+          '&baseperiodstartdatetime=' +
+          (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&baseperiodenddatetime=' +
+          (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&reportingperiodstartdatetime=' +
+          moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+          '&reportingperiodenddatetime=' +
+          moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+          '&language=' +
+          language;
+        loadData(url, null);
+      }
+
     }
   };
-
-  const loadData = (url, spaceList) => {
+  const loadData = (url, spaceTree) => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -288,10 +320,9 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-          if (spaceList && spaceList.length > 0) {
+          if (spaceTree && spaceTree.length > 0) {
             let spaceID = json['space']['id'];
-            spaceName(spaceList, spaceID, '', '');
+            spaceFullName(spaceTree, spaceID, '', '');
             setSelectedSpaceID(spaceID);
           }
           let cardSummaryArray = [];

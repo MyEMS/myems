@@ -35,6 +35,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
+import { Link } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
@@ -82,8 +83,9 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
     current_moment
       .clone()
+      .subtract(7, 'days')
       .subtract(1, 'months')
-      .startOf('month')
+      .startOf('day')
       .toDate(),
     current_moment
       .clone()
@@ -94,7 +96,8 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(7, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -194,8 +197,12 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               .join('"label":')
           );
           setCascaderOptions(json);
+          // select root space name
           setSelectedSpaceName([json[0]].map(o => o.label));
+          // select root space ID
           setSelectedSpaceID([json[0]].map(o => o.value));
+          // load data with root space ID
+          loadData([json[0]].map(o => o.value));
         } else {
           toast.error(t(json.description));
         }
@@ -361,6 +368,10 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
+    loadData(selectedSpaceID);
+  }
+
+  const loadData = (spaceID) => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -379,7 +390,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
       '/reports/spacecarbon?' +
       'spaceid=' +
-      selectedSpaceID +
+      spaceID +
       '&periodtype=' +
       periodType +
       '&baseperiodstartdatetime=' +
@@ -410,8 +421,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryList = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -617,7 +626,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
-
           if (!isBasePeriodTimestampExists(json['base_period'])) {
             let detailed_value_list = [];
             if (json['reporting_period']['timestamps'].length > 0) {
@@ -929,7 +937,9 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Carbon')}</BreadcrumbItem>
+          <BreadcrumbItem active onClick={() => window.location.reload()}>
+            <Link to="/space/carbon">{t('Carbon')}</Link>
+          </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
