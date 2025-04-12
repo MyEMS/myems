@@ -208,10 +208,14 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   setStationList(json[0]);
                   setFilteredStationList(json[0]);
                   if (json[0].length > 0) {
-                    setSelectedStation(json[0][0].value);
+                    // select the first station in the list
+                    let stationID = json[0][0].value;
+                    setSelectedStation(stationID);
                     // enable submit button
                     setSubmitButtonDisabled(false);
                     setSubmitButtonHidden(false);
+                    // automatically submit with station
+                    loadData(APIBaseURL + '/reports/hybridpowerstationdetails?id=' + stationID);
                   } else {
                     setSelectedStation(undefined);
                     // disable submit button
@@ -235,7 +239,7 @@ const HybridPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else {
         setSpaceCascaderHidden(true);
-        loadData(APIBaseURL + '/reports/hybridpowerstationdetails?uuid=' + hybridPowerStationUUID)
+        loadData(APIBaseURL + '/reports/hybridpowerstationdetails?uuid=' + hybridPowerStationUUID);
       }
   }, [hybridPowerStationUUID]);
 
