@@ -185,9 +185,26 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
                 setEnergyStoragePowerStationList(json[0]);
                 setFilteredEnergyStoragePowerStationList(json[0]);
                 if (json[0].length > 0) {
-                  setSelectedEnergyStoragePowerStation(json[0][0].value);
+                  // select the first station
+                  let stationID = json[0][0].value;
+                  setSelectedEnergyStoragePowerStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+                  // automatically submit with the first station
+                  let url =
+                    APIBaseURL +
+                    '/reports/energystoragepowerstationreportingrevenue?' +
+                    'id=' +
+                    stationID +
+                    '&periodtype=' +
+                    periodType +
+                    '&reportingperiodstartdatetime=' +
+                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&reportingperiodenddatetime=' +
+                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&language=' +
+                    language;
+                  loadData(url);
                 } else {
                   setSelectedEnergyStoragePowerStation(undefined);
                   // disable submit button

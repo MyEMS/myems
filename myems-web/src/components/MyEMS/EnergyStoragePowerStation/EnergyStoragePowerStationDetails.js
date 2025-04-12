@@ -207,10 +207,14 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   setStationList(json[0]);
                   setFilteredStationList(json[0]);
                   if (json[0].length > 0) {
-                    setSelectedStation(json[0][0].value);
+                    // select the first station
+                    let stationID = json[0][0].value;
+                    setSelectedStation(stationID);
                     // enable submit button
                     setSubmitButtonDisabled(false);
                     setSubmitButtonHidden(false);
+                    // automatically submit with the first station
+                    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + stationID);
                   } else {
                     setSelectedStation(undefined);
                     // disable submit button
@@ -1025,7 +1029,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavLink>
           </NavItem>
 
-          <NavItem className="cursor-pointer">
+          {/* <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
@@ -1035,7 +1039,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             >
               <h6>DCDC</h6>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
 
           <NavItem className="cursor-pointer">
             <NavLink
@@ -1108,7 +1112,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavLink>
           </NavItem>
 
-          <NavItem className="cursor-pointer">
+          {/* <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '11' })}
               onClick={() => {
@@ -1118,7 +1122,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             >
               <h6>{t('STS')}</h6>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
 
           <NavItem className="cursor-pointer">
             <NavLink
@@ -1217,9 +1221,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               </CardBody>
             </Card>
           </TabPane>
-          <TabPane tabId="4">
+          {/* <TabPane tabId="4">
             {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane>
+          </TabPane> */}
           <TabPane tabId="5">
             {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
@@ -1238,9 +1242,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <TabPane tabId="10">
             {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
-          <TabPane tabId="11">
+          {/* <TabPane tabId="11">
             {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane>
+          </TabPane> */}
           <TabPane tabId="12">
             {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
           </TabPane>
