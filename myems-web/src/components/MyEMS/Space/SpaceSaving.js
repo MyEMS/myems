@@ -367,7 +367,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     loadData(selectedSpaceID);
-  }
+  };
 
   const loadData = (spaceID) => {
     // disable submit button

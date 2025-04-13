@@ -138,7 +138,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 setFilteredStationList(json[0]);
                 if (json[0].length > 0) {
                   // select the first station in the list
-                  let stationID = json[0][0].value
+                  let stationID = json[0][0].value;
                   setSelectedStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
