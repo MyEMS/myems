@@ -190,9 +190,23 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
                 setPhotovoltaicPowerStationList(json[0]);
                 setFilteredPhotovoltaicPowerStationList(json[0]);
                 if (json[0].length > 0) {
-                  setSelectedPhotovoltaicPowerStation(json[0][0].value);
+                  // select the first station in the list
+                  let stationID = json[0][0].value;
+                  setSelectedPhotovoltaicPowerStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+                  let url =
+                    APIBaseURL +
+                    '/reports/photovoltaicpowerstationreportingparameters?' +
+                    'id=' +
+                    stationID +
+                    '&reportingperiodstartdatetime=' +
+                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&reportingperiodenddatetime=' +
+                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+                    '&language=' +
+                    language;
+                  loadData(url);
                 } else {
                   setSelectedPhotovoltaicPowerStation(undefined);
                   // disable submit button

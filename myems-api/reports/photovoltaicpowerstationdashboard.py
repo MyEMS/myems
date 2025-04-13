@@ -117,8 +117,8 @@ class Reporting:
                                "description": row[8],
                                "phase_of_lifecycle": row[9],
                                "status": 'online' if is_online else 'offline'}
-                total_rated_capacity += row[7]
-                total_rated_power += row[8]
+                total_rated_capacity += row[6]
+                total_rated_power += row[7]
                 # todo: check locked status
                 if is_online:
                     total_online += 1

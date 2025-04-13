@@ -1131,7 +1131,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 let is_pin_valid = getCookieValue('is_pin_valid');
                 if (is_pin_valid) {
                   fetchCommandDetails();
-                  setActiveTabBottom('11');
+                  setActiveTabBottom('12');
                 } else {
                   setIsOpenPinModal(true);
                 }
