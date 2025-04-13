@@ -1221,9 +1221,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               </CardBody>
             </Card>
           </TabPane>
-          {/* <TabPane tabId="4">
+          <TabPane tabId="4">
             {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane> */}
+          </TabPane>
           <TabPane tabId="5">
             {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
@@ -1242,9 +1242,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           <TabPane tabId="10">
             {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
           </TabPane>
-          {/* <TabPane tabId="11">
+          <TabPane tabId="11">
             {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane> */}
+          </TabPane>
           <TabPane tabId="12">
             {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
           </TabPane>
