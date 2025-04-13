@@ -130,7 +130,7 @@ class Reporting:
         _ = trans.gettext
 
         ################################################################################################################
-        # Step 2: query the energy storage power station
+        # Step 2: query the photovoltaic power station
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -246,7 +246,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meta_report = dict()
-            meta_report['name'] = '发'
+            meta_report['name'] = '發電量'
             meta_report['energy_category_id'] = energy_category_id
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()
@@ -315,7 +315,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meta_report = dict()
-            meta_report['name'] = '网购'
+            meta_report['name'] = '購買電量'
             meta_report['energy_category_id'] = energy_category_id
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()
@@ -384,7 +384,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meta_report = dict()
-            meta_report['name'] = '网售'
+            meta_report['name'] = '銷售電量'
             meta_report['energy_category_id'] = energy_category_id
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()
@@ -453,7 +453,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meta_report = dict()
-            meta_report['name'] = '荷'
+            meta_report['name'] = '負荷電量'
             meta_report['energy_category_id'] = energy_category_id
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()

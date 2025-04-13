@@ -1029,7 +1029,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavLink>
           </NavItem>
 
-          {/* <NavItem className="cursor-pointer">
+          <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
@@ -1039,7 +1039,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             >
               <h6>DCDC</h6>
             </NavLink>
-          </NavItem> */}
+          </NavItem>
 
           <NavItem className="cursor-pointer">
             <NavLink
@@ -1112,7 +1112,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </NavLink>
           </NavItem>
 
-          {/* <NavItem className="cursor-pointer">
+          <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '11' })}
               onClick={() => {
@@ -1122,7 +1122,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             >
               <h6>{t('STS')}</h6>
             </NavLink>
-          </NavItem> */}
+          </NavItem>
 
           <NavItem className="cursor-pointer">
             <NavLink
@@ -1131,7 +1131,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 let is_pin_valid = getCookieValue('is_pin_valid');
                 if (is_pin_valid) {
                   fetchCommandDetails();
-                  setActiveTabBottom('11');
+                  setActiveTabBottom('12');
                 } else {
                   setIsOpenPinModal(true);
                 }

@@ -133,9 +133,19 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 setStationList(json[0]);
                 setFilteredStationList(json[0]);
                 if (json[0].length > 0) {
-                  setSelectedStation(json[0][0].value);
+                  // select the first station in the list
+                  let stationID = json[0][0].value;
+                  setSelectedStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+
+                  // show spinner
+                  setSpinnerHidden(false);
+                  // automatically submit with station
+                  loadData(stationID);
+                  loadEnergyData(stationID);
+                  loadBillingData(stationID);
+                  loadCarbonData(stationID);
                 } else {
                   setSelectedStation(undefined);
                   // disable submit button
@@ -158,7 +168,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, []);
 
-  const loadData = () => {
+  const loadData = (stationID) => {
 
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -184,7 +194,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemdashboard?id=' + selectedStation,
+        APIBaseURL + '/reports/photovoltaicpowerstationitemdashboard?id=' + stationID,
         {
           method: 'GET',
           headers: {
@@ -250,7 +260,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }
 
-  const loadEnergyData = () => {
+  const loadEnergyData = (stationID) => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -269,7 +279,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemenergy?id=' + selectedStation,
+        APIBaseURL + '/reports/photovoltaicpowerstationitemenergy?id=' + stationID,
         {
           method: 'GET',
           headers: {
@@ -309,7 +319,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }
 
-  const loadBillingData = () => {
+  const loadBillingData = (stationID) => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -328,7 +338,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitembilling?id=' + selectedStation,
+        APIBaseURL + '/reports/photovoltaicpowerstationitembilling?id=' + stationID,
         {
           method: 'GET',
           headers: {
@@ -368,7 +378,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }
 
-  const loadCarbonData = () => {
+  const loadCarbonData = (stationID) => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -387,7 +397,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemcarbon?id=' + selectedStation,
+        APIBaseURL + '/reports/photovoltaicpowerstationitemcarbon?id=' + stationID,
         {
           method: 'GET',
           headers: {
@@ -459,9 +469,19 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           setStationList(json[0]);
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
-            setSelectedStation(json[0][0].value);
+            // select the first station in the list
+            let stationID = json[0][0].value;
+            setSelectedStation(stationID);
             // enable submit button
             setSubmitButtonDisabled(false);
+
+            // show spinner
+            setSpinnerHidden(false);
+            // automatically submit with station
+            loadData(stationID);
+            loadEnergyData(stationID);
+            loadBillingData(stationID);
+            loadCarbonData(stationID);
           } else {
             setSelectedStation(undefined);
             // disable submit button
@@ -481,10 +501,10 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     e.preventDefault();
     // show spinner
     setSpinnerHidden(false);
-    loadData();
-    loadEnergyData();
-    loadBillingData();
-    loadCarbonData();
+    loadData(selectedStation);
+    loadEnergyData(selectedStation);
+    loadBillingData(selectedStation);
+    loadCarbonData(selectedStation);
   };
 
   useEffect(() => {

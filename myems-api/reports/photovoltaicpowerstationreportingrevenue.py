@@ -249,7 +249,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meter_report = dict()
-            meter_report['name'] = '发'
+            meter_report['name'] = '發電量'
             meter_report['energy_category_id'] = energy_category_id
             meter_report['unit_of_measure'] = \
                 energy_category_dict[energy_category_id]['unit_of_measure']
@@ -319,7 +319,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meter_report = dict()
-            meter_report['name'] = '网购'
+            meter_report['name'] = '購買電量'
             meter_report['energy_category_id'] = energy_category_id
             meter_report['unit_of_measure'] = \
                 energy_category_dict[energy_category_id]['unit_of_measure']
@@ -388,7 +388,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meter_report = dict()
-            meter_report['name'] = '网售'
+            meter_report['name'] = '銷售電量'
             meter_report['energy_category_id'] = energy_category_id
             meter_report['unit_of_measure'] = \
                 energy_category_dict[energy_category_id]['unit_of_measure']
@@ -457,7 +457,7 @@ class Reporting:
                                                                                 reporting_end_datetime_utc,
                                                                                 period_type)
             meter_report = dict()
-            meter_report['name'] = '荷'
+            meter_report['name'] = '負荷電量'
             meter_report['energy_category_id'] = energy_category_id
             meter_report['unit_of_measure'] = \
                 energy_category_dict[energy_category_id]['unit_of_measure']
