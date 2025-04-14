@@ -621,6 +621,42 @@ class PointItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES')
 
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_bmses_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ", (id_, ))
+        row_energy_storage_container_battery = cursor.fetchone()
+        if row_energy_storage_container_battery is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES')
+        # check if this point is being used by energy storage container dcdc
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_dcdcs_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ", (id_, ))
+        row_energy_storage_container_dcdc = cursor.fetchone()
+        if row_energy_storage_container_dcdc is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS')
+        # check if this point is being used by energy storage container firecontrol
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_firecontrols_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ", (id_,))
+        row_energy_storage_container_dcdc = cursor.fetchone()
+        if row_energy_storage_container_dcdc is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS')
+
         # check if this point is being used by energy storage container grid
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_grids "
@@ -635,10 +671,49 @@ class PointItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS')
 
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_grids_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_energy_storage_container_grid = cursor.fetchone()
+        if row_energy_storage_container_grid is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS')
+
+        # check if this point is being used by energy storage container hvac
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_hvacs_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_energy_storage_container_hvac = cursor.fetchone()
+        if row_energy_storage_container_hvac is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS')
+
         # check if this point is being used by energy storage container load
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_loads "
                        " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_energy_storage_container_load = cursor.fetchone()
+        if row_energy_storage_container_load is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS')
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_loads_points "
+                       " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
         row_energy_storage_container_load = cursor.fetchone()
@@ -653,12 +728,8 @@ class PointItem:
         cursor.execute(" SELECT name "
                        " FROM tbl_energy_storage_containers_power_conversion_systems "
                        " WHERE run_state_point_id = %s "
-                       "   OR today_charge_energy_point_id = %s "
-                       "   OR today_discharge_energy_point_id = %s "
-                       "   OR total_charge_energy_point_id = %s "
-                       "   OR total_discharge_energy_point_id = %s "
                        " LIMIT 1 ",
-                       (id_, id_, id_, id_, id_,))
+                       (id_, ))
         row_energy_storage_container_power_conversion_system = cursor.fetchone()
         if row_energy_storage_container_power_conversion_system is not None:
             cursor.close()
@@ -667,6 +738,34 @@ class PointItem:
                                    title='API.BAD_REQUEST',
                                    description=
                                    'API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS')
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_pcses_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_energy_storage_container_power_conversion_system = cursor.fetchone()
+        if row_energy_storage_container_power_conversion_system is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS')
+
+        # check if this point is being used by energy storage container sts
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_storage_containers_stses_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_energy_storage_container_sts = cursor.fetchone()
+        if row_energy_storage_container_sts is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES')
 
         cursor.execute(" DELETE FROM tbl_points WHERE id = %s ", (id_,))
         cnx.commit()
