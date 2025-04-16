@@ -67,8 +67,10 @@ class Reporting:
             timezone_offset = -timezone_offset
         reporting_end_datetime_utc = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
         reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
+        today_start_datetime_local = (reporting_end_datetime_utc.replace(tzinfo=timezone.utc) +
+                                      timedelta(minutes=timezone_offset)).replace(hour=0, minute=0, second=0,
+                                                                                  microsecond=0)
         charge_report_dict = dict()
-
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
 
@@ -86,6 +88,8 @@ class Reporting:
                     charge_report_dict[row_hourly[0]] = dict()
                     charge_report_dict[row_hourly[0]]['charge_times'] = list()
                     charge_report_dict[row_hourly[0]]['charge_values'] = list()
+                    # today total charge, not 24 hours
+                    charge_report_dict[row_hourly[0]]['today_total_charge'] = Decimal(0.0)
 
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(
                     minutes=timezone_offset)
@@ -93,10 +97,11 @@ class Reporting:
                     current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 charge_report_dict[row_hourly[0]]['charge_values'].append(actual_value)
+                if current_datetime_local >= current_datetime_local:
+                    charge_report_dict[row_hourly[0]]['today_total_charge'] += actual_value
 
         # get discharge data in latest 24 hours
         discharge_report_dict = dict()
-
         cursor_energy_db.execute(" SELECT energy_storage_power_station_id, start_datetime_utc, actual_value "
                                  " FROM tbl_energy_storage_power_station_discharge_hourly "
                                  " WHERE start_datetime_utc >= %s "
@@ -111,6 +116,8 @@ class Reporting:
                     discharge_report_dict[row_hourly[0]] = dict()
                     discharge_report_dict[row_hourly[0]]['discharge_times'] = list()
                     discharge_report_dict[row_hourly[0]]['discharge_values'] = list()
+                    # today total discharge, not 24 hours
+                    discharge_report_dict[row_hourly[0]]['today_total_discharge'] = Decimal(0.0)
 
                 current_datetime_local = row_hourly[1].replace(tzinfo=timezone.utc) + timedelta(
                     minutes=timezone_offset)
@@ -118,6 +125,9 @@ class Reporting:
                     current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 discharge_report_dict[row_hourly[0]]['discharge_values'].append(actual_value)
+                if current_datetime_local >= current_datetime_local:
+                    discharge_report_dict[row_hourly[0]]['today_total_discharge'] += actual_value
+
         cursor_energy_db.close()
         cnx_energy_db.close()
 
@@ -139,7 +149,7 @@ class Reporting:
         cursor_system_db = cnx_system_db.cursor()
         query = (" SELECT m.id, m.name, m.uuid, "
                  "        m.address, m.latitude, m.longitude, m.rated_capacity, m.rated_power, "
-                 "        m.description, m.phase_of_lifecycle "
+                 "        m.description, m.phase_of_lifecycle, m.commissioning_date "
                  " FROM tbl_energy_storage_power_stations m, tbl_energy_storage_power_stations_users mu "
                  " WHERE m.id = mu.energy_storage_power_station_id AND mu.user_id = %s "
                  " ORDER BY m.phase_of_lifecycle, m.id ")
@@ -185,6 +195,17 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
+                # 鸿博：关联PCS开机关机指令设置，.0为停机，1为运行
+                if pcs_run_state_point_value is None:
+                    pcs_run_state = 'Unknown'
+                elif pcs_run_state_point_value == 0:
+                    pcs_run_state = 'Shutdown'
+                elif pcs_run_state_point_value == 1:
+                    pcs_run_state = 'Running'
+                else:
+                    pcs_run_state = 'Unknown'
+
+                # MyEMS标准状态
                 # 0：关闭 Shutdown
                 # 1：软启动中 Soft Starting
                 # 2：并网充电 On Grid Charging
@@ -193,27 +214,27 @@ class Reporting:
                 # 5：降额并网 Derating On Grid
                 # 6：待机 Standby
                 # 7：离网充电 Off Grid Charging
-
-                if pcs_run_state_point_value is None:
-                    pcs_run_state = 'Unknown'
-                elif pcs_run_state_point_value == 0:
-                    pcs_run_state = 'Shutdown'
-                elif pcs_run_state_point_value == 1:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 2:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 3:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 4:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 5:
-                    pcs_run_state = 'Running'
-                elif pcs_run_state_point_value == 6:
-                    pcs_run_state = 'Standby'
-                elif pcs_run_state_point_value == 7:
-                    pcs_run_state = 'Running'
-                else:
-                    pcs_run_state = 'Running'
+                #
+                # if pcs_run_state_point_value is None:
+                #     pcs_run_state = 'Unknown'
+                # elif pcs_run_state_point_value == 0:
+                #     pcs_run_state = 'Shutdown'
+                # elif pcs_run_state_point_value == 1:
+                #     pcs_run_state = 'Running'
+                # elif pcs_run_state_point_value == 2:
+                #     pcs_run_state = 'Running'
+                # elif pcs_run_state_point_value == 3:
+                #     pcs_run_state = 'Running'
+                # elif pcs_run_state_point_value == 4:
+                #     pcs_run_state = 'Running'
+                # elif pcs_run_state_point_value == 5:
+                #     pcs_run_state = 'Running'
+                # elif pcs_run_state_point_value == 6:
+                #     pcs_run_state = 'Standby'
+                # elif pcs_run_state_point_value == 7:
+                #     pcs_run_state = 'Running'
+                # else:
+                #     pcs_run_state = 'Running'
 
                 # get battery state point
                 battery_state_point_value = None
@@ -230,32 +251,43 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
-                # 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
+                # MyEMS 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
+                # 鸿博 1 充电 2放电 3开路
                 print(battery_state_point_value)
                 if battery_state_point_value is None:
                     battery_operating_state = 'Unknown'
-                elif battery_state_point_value == 0:
-                    battery_operating_state = 'Reserved'
                 elif battery_state_point_value == 1:
-                    battery_operating_state = 'Fault'
-                elif battery_state_point_value == 2:
-                    battery_operating_state = 'Warning'
-                elif battery_state_point_value == 3:
-                    battery_operating_state = 'Standby'
-                elif battery_state_point_value == 4:
-                    battery_operating_state = 'ProhibitDisCharging'
-                elif battery_state_point_value == 5:
-                    battery_operating_state = 'ProhibitCharging'
-                elif battery_state_point_value == 6:
-                    battery_operating_state = 'Normal'
-                elif battery_state_point_value == 7:
                     battery_operating_state = 'Charging'
-                elif battery_state_point_value == 8:
+                elif battery_state_point_value == 2:
                     battery_operating_state = 'Discharging'
-                elif battery_state_point_value == 9:
+                elif battery_state_point_value == 3:
                     battery_operating_state = 'Idle'
                 else:
                     battery_operating_state = 'Unknown'
+                # if battery_state_point_value is None:
+                #     battery_operating_state = 'Unknown'
+                # elif battery_state_point_value == 0:
+                #     battery_operating_state = 'Reserved'
+                # elif battery_state_point_value == 1:
+                #     battery_operating_state = 'Fault'
+                # elif battery_state_point_value == 2:
+                #     battery_operating_state = 'Warning'
+                # elif battery_state_point_value == 3:
+                #     battery_operating_state = 'Standby'
+                # elif battery_state_point_value == 4:
+                #     battery_operating_state = 'ProhibitDisCharging'
+                # elif battery_state_point_value == 5:
+                #     battery_operating_state = 'ProhibitCharging'
+                # elif battery_state_point_value == 6:
+                #     battery_operating_state = 'Normal'
+                # elif battery_state_point_value == 7:
+                #     battery_operating_state = 'Charging'
+                # elif battery_state_point_value == 8:
+                #     battery_operating_state = 'Discharging'
+                # elif battery_state_point_value == 9:
+                #     battery_operating_state = 'Idle'
+                # else:
+                #     battery_operating_state = 'Unknown'
 
                 # get battery soc point, power point
                 battery_soc_point_value = None
@@ -280,10 +312,13 @@ class Reporting:
                     charge_report_dict[energy_storage_power_station_id] = dict()
                     charge_report_dict[energy_storage_power_station_id]['charge_times'] = default_time_list
                     charge_report_dict[energy_storage_power_station_id]['charge_values'] = default_value_list
+                    charge_report_dict[energy_storage_power_station_id]['today_total_charge'] = Decimal(0.0)
+
                 if energy_storage_power_station_id not in discharge_report_dict.keys():
                     discharge_report_dict[energy_storage_power_station_id] = dict()
                     discharge_report_dict[energy_storage_power_station_id]['discharge_times'] = default_time_list
                     discharge_report_dict[energy_storage_power_station_id]['discharge_values'] = default_value_list
+                    discharge_report_dict[energy_storage_power_station_id]['today_total_discharge'] = Decimal(0.0)
 
                 meta_result = {"id": energy_storage_power_station_id,
                                "name": row[1],
@@ -295,6 +330,7 @@ class Reporting:
                                "rated_power": row[7],
                                "description": row[8],
                                "phase_of_lifecycle": row[9],
+                               "commissioning_date": str(row[10]) if row[10] is not None else None,
                                "qrcode": 'energystoragepowerstation:' + row[2],
                                "is_online": is_online,
                                "pcs_run_state": pcs_run_state,
@@ -303,10 +339,14 @@ class Reporting:
                                "battery_power_point_value": battery_power_point_value,
                                "charge_times": charge_report_dict[energy_storage_power_station_id]['charge_times'],
                                "charge_values": charge_report_dict[energy_storage_power_station_id]['charge_values'],
+                               "today_total_charge":
+                                   charge_report_dict[energy_storage_power_station_id]['today_total_charge'],
                                "discharge_times":
                                    discharge_report_dict[energy_storage_power_station_id]['discharge_times'],
                                "discharge_values":
-                                   discharge_report_dict[energy_storage_power_station_id]['discharge_values']
+                                   discharge_report_dict[energy_storage_power_station_id]['discharge_values'],
+                               "today_total_discharge":
+                                   discharge_report_dict[energy_storage_power_station_id]['today_total_discharge'],
                                }
                 result.append(meta_result)
 

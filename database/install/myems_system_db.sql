@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_charging_stations` (
   `svg5_id` BIGINT,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `commissioning_date` DATE,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_charging_stations_index_1` ON `myems_system_db`.`tbl_charging_stations` (`name`);
@@ -682,6 +683,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_power_stations`
   `svg5_id` BIGINT,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `commissioning_date` DATE,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_energy_storage_power_stations_index_1`
@@ -850,6 +852,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations` (
   `svg5_id` BIGINT,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `commissioning_date` DATE,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_index_1` ON `myems_system_db`.`tbl_hybrid_power_stations` (`name`);
@@ -1317,6 +1320,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids` (
   `svg5_id` BIGINT,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `commissioning_date` DATE,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_index_1` ON `myems_system_db`.`tbl_microgrids` (`name`);
@@ -1661,6 +1665,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   `svg5_id` BIGINT,
   `is_cost_data_displayed` BOOL NOT NULL,
   `phase_of_lifecycle` VARCHAR(255) NOT NULL,
+  `commissioning_date` DATE,
   `description` VARCHAR(255),
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
