@@ -100,6 +100,22 @@ CREATE INDEX `tbl_hybrid_power_station_load_hourly_index_1`
  ON `myems_energy_prediction_db`.`tbl_hybrid_power_station_load_hourly`
  (`hybrid_power_station_id`, `start_datetime_utc`);
 
+
+ALTER TABLE `myems_system_db`.`tbl_charging_stations`
+ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
+
+ALTER TABLE `myems_system_db`.`tbl_energy_storage_power_stations`
+ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
+
+ALTER TABLE `myems_system_db`.`tbl_hybrid_power_stations`
+ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
+
+ALTER TABLE `myems_system_db`.`tbl_microgrids`
+ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
+
+ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
+ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0RC', release_date='2025-04-25' WHERE id=1;
 

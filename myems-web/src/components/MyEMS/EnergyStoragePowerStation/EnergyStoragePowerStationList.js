@@ -92,6 +92,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               energyStoragePowerStation['name'] = json[index]['name'];
               energyStoragePowerStation['uuid'] = json[index]['uuid'];
               energyStoragePowerStation['address'] = json[index]['address'];
+              energyStoragePowerStation['commissioningDate'] = json[index]['commissioning_date'];
               energyStoragePowerStation['latitude'] = json[index]['latitude'];
               energyStoragePowerStation['longitude'] = json[index]['longitude'];
               energyStoragePowerStation['files'] = [
@@ -106,8 +107,10 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
               energyStoragePowerStation['isOnline'] = json[index]['is_online'];
               energyStoragePowerStation['chargeTimes'] = json[index]['charge_times'];
               energyStoragePowerStation['chargeValues'] = json[index]['charge_values'];
+              energyStoragePowerStation['todayTotalCharge'] = json[index]['today_total_charge'];
               energyStoragePowerStation['dischargeTimes'] = json[index]['discharge_times'];
               energyStoragePowerStation['dischargeValues'] = json[index]['discharge_values'];
+              energyStoragePowerStation['todayTotalDischarge'] = json[index]['today_total_discharge'];
 
               energyStoragePowerStationArray.push(energyStoragePowerStation);
               energyStoragePowerStationIds.push(energyStoragePowerStation['id']);

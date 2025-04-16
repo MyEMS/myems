@@ -64,6 +64,7 @@ const EnergyStoragePowerStationListItem = ({
   files,
   name,
   address,
+  commissioningDate,
   batteryOperatingState,
   batterySocPointValue,
   batteryPowerPointValue,
@@ -72,8 +73,10 @@ const EnergyStoragePowerStationListItem = ({
   PCSRunState,
   chargeTimes,
   chargeValues,
+  todayTotalCharge,
   dischargeTimes,
   dischargeValues,
+  todayTotalDischarge,
   index,
   t
 }) => {
@@ -118,8 +121,9 @@ const EnergyStoragePowerStationListItem = ({
                   </Link>
                 </h5>
                 <p className="fs--1 mb-1">{address}</p>
+                <p className='fs--1 mb-1'>{t('Commissioning Date')}:{commissioningDate}</p>
                 <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
-                <p className="fs--1 mb-1">{t("Today's Charge")}
+                <p className="fs--1 mb-1">{t("Today's Charge")}:<strong>{todayTotalCharge} kWh</strong>
                 <ReactEchartsCore
                     echarts={echarts}
                     option={getOption(chargeTimes, chargeValues, isDark)}
@@ -200,7 +204,7 @@ const EnergyStoragePowerStationListItem = ({
                         : t('PCS Unknown')}
                     </strong>
                   </p>
-                  <p className="fs--1 mb-1">{t("Today's Discharge")}
+                  <p className="fs--1 mb-1">{t("Today's Discharge")}:<strong>{todayTotalDischarge} kWh</strong>
                   <ReactEchartsCore
                     echarts={echarts}
                     option={getOption(dischargeTimes, dischargeValues, isDark)}
@@ -232,8 +236,10 @@ EnergyStoragePowerStationListItem.propTypes = {
   PCSRunState: PropTypes.string,
   chargeTimes: PropTypes.array,
   chargeValues: PropTypes.array,
+  todayTotalCharge: PropTypes.number,
   dischargeTimes: PropTypes.array,
   dischargeValues: PropTypes.array,
+  todayTotalDischarge: PropTypes.number,
 };
 
 EnergyStoragePowerStationListItem.defaultProps = { isOnline: false, files: [] };
