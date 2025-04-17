@@ -111,7 +111,7 @@ app.controller('CombinedEquipmentController', function (
 		modalInstance.result.then(function (modifiedCombinedEquipment) {
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			modifiedCombinedEquipment.cost_center_id = modifiedCombinedEquipment.cost_center.id;
-			if (angular.isDefined(modifiedCombinedEquipment.svg) && angular.isDefined(modifiedCombinedEquipment.svg.id)) {
+			if (angular.isDefined(modifiedCombinedEquipment.svg) && modifiedCombinedEquipment.svg != null && angular.isDefined(modifiedCombinedEquipment.svg.id)) {
 				modifiedCombinedEquipment.svg_id = modifiedCombinedEquipment.svg.id;
 			}
 			CombinedEquipmentService.editCombinedEquipment(modifiedCombinedEquipment, headers, function (response) {

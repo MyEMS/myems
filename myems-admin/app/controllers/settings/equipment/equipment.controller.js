@@ -111,7 +111,7 @@ app.controller('EquipmentController', function(
 
 		modalInstance.result.then(function(modifiedEquipment) {
 		  	modifiedEquipment.cost_center_id = modifiedEquipment.cost_center.id;
-			if (angular.isDefined(modifiedEquipment.svg) && angular.isDefined(modifiedEquipment.svg.id)) {
+			if (angular.isDefined(modifiedEquipment.svg) && modifiedEquipment.svg != null && angular.isDefined(modifiedEquipment.svg.id)) {
 				modifiedEquipment.svg_id = modifiedEquipment.svg.id;
 			}
 		  	let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
