@@ -116,6 +116,18 @@ ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
 ALTER TABLE `myems_system_db`.`tbl_photovoltaic_power_stations`
 ADD COLUMN `commissioning_date` DATE AFTER `phase_of_lifecycle`;
 
+RENAME TABLE `myems_system_db`.`tbl_integrators` TO `myems_system_db`.`tbl_heat_integrators`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_power_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_power_integrators_index_1` ON `myems_system_db`.`tbl_power_integrators` (`name`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0RC', release_date='2025-04-25' WHERE id=1;
 
