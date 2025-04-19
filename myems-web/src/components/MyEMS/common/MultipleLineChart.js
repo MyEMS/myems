@@ -64,6 +64,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
   ]);
   const [lastMoment, setLastMoment] = useState(moment());
   const [lineLabels, setLineLabels] = useState([]);
+  const [interval, setInterval] = useState(0);
 
   let handleChange = arr => {
     if (arr.length < 1) {
@@ -127,6 +128,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
     }
     setNodes(tempNodes);
     setLineLabels(labels[values[0]]);
+    setInterval(labels[values[0]] ? parseInt(labels[values[0]].length / 20) : 0);
     setValues(['a0']);
     setOldValues(['a0']);
   }, [data, labels, options]);
@@ -190,10 +192,17 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
     }
     setNodes(tempNodes);
     setLineLabels(labels[values[0]]);
+    setInterval(labels[values[0]] ? parseInt(labels[values[0]].length / 20) : 0);
   }, [lastMoment]);
 
   let getOption = () => {
     return {
+      legend: {
+        orient: 'horizontal',
+        textStyle: {
+          color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
+        }
+      },
       tooltip: {
         trigger: 'axis',
         backgroundColor: getGrays(isDark)[100],
@@ -210,7 +219,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
         type: 'category',
         data: lineLabels ? lineLabels : ['0'],
         axisLabel: {
-          interval: 'auto',
+          interval: interval,
           color: rgbaColor(isDark ? '#fff' : '#000', 0.8),
           rotate: 30
         },
@@ -242,7 +251,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       dataZoom: [
         {
           id: 'dataZoomX',
-          type: 'slider',
+          type: 'inside',
           xAxisIndex: [0],
           filterMode: 'filter'
         }
