@@ -828,6 +828,26 @@ VALUES
 (1, 'Gateway1', 'dc681938-5053-8660-98ed-266c58227231', '983427af-1c35-42ba-8b4d-288675550225', null, null);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_heat_integrators`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_heat_integrators` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_heat_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `high_temperature_point_id` BIGINT NOT NULL,
+  `low_temperature_point_id` BIGINT NOT NULL,
+  `flow_point_id` BIGINT NOT NULL,
+  `heat_capacity` DECIMAL(21, 6) NOT NULL,
+  `liquid_density` DECIMAL(21, 6) NOT NULL,
+  `coefficient` DECIMAL(21, 6) NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_heat_integrators_index_1` ON `myems_system_db`.`tbl_heat_integrators` (`name`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_hybrid_power_stations`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_hybrid_power_stations` ;
@@ -1088,26 +1108,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_hybrid_power_stations_users` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_hybrid_power_stations_users_index_1`
 ON `myems_system_db`.`tbl_hybrid_power_stations_users` (`hybrid_power_station_id`);
-
--- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_integrators`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_integrators` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_integrators` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `uuid` CHAR(36) NOT NULL,
-  `high_temperature_point_id` BIGINT NOT NULL,
-  `low_temperature_point_id` BIGINT NOT NULL,
-  `flow_point_id` BIGINT NOT NULL,
-  `heat_capacity` DECIMAL(21, 6) NOT NULL,
-  `liquid_density` DECIMAL(21, 6) NOT NULL,
-  `coefficient` DECIMAL(21, 6) NOT NULL,
-  `result_point_id` BIGINT NOT NULL,
-  `is_enabled` BOOL NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_integrators_index_1` ON `myems_system_db`.`tbl_integrators` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_knowledge_files`
@@ -1884,6 +1884,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
 CREATE INDEX `tbl_points_index_1` ON `myems_system_db`.`tbl_points` (`name`);
 CREATE INDEX `tbl_points_index_2` ON `myems_system_db`.`tbl_points` (`data_source_id`);
 CREATE INDEX `tbl_points_index_3` ON `myems_system_db`.`tbl_points` (`id`, `object_type`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_power_integrators`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_power_integrators` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_power_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_power_integrators_index_1` ON `myems_system_db`.`tbl_power_integrators` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_protocols`
