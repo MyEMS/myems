@@ -128,6 +128,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_power_integrators` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_power_integrators_index_1` ON `myems_system_db`.`tbl_power_integrators` (`name`);
 
+ALTER TABLE `myems_historical_db`.`tbl_analog_value`
+ADD COLUMN `is_published` BOOL AFTER `is_bad`;
+
+ALTER TABLE `myems_historical_db`.`tbl_digital_value`
+ADD COLUMN `is_published` BOOL AFTER `is_bad`;
+
+ALTER TABLE `myems_historical_db`.`tbl_energy_value`
+ADD COLUMN `is_published` BOOL AFTER `is_bad`;
+
+ALTER TABLE `myems_historical_db`.`tbl_text_value`
+ADD COLUMN `is_published` BOOL AFTER `is_bad`;
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0RC', release_date='2025-04-25' WHERE id=1;
 
