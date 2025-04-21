@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed off-by-one comparison against length issue in myems-admin
 - fixed on_delete action of point in myems-api
 - fixed equipment and combiend equipment update isssue in myems-admin
+- fixed distribution svg preview issue in myems-admin
 ### Removed
 - removed postal code from power stations
 
