@@ -30,7 +30,10 @@ app.controller('DistributionSystemPreviewController', function($scope, $window, 
     $scope.changeDistributionSystem=function(item,model){
         $scope.currentDistributionSystem=item;
         $scope.currentDistributionSystem.selected=model;
-        document.getElementById("preview-svg").innerHTML = $scope.currentDistributionSystem.svg;
+        if ($scope.currentDistributionSystem.svg != null &&
+            $scope.currentDistributionSystem.svg.source_code != null) {
+            document.getElementById("preview-svg").innerHTML = $scope.currentDistributionSystem.svg.source_code;
+        }
     };
 
     $scope.getAllDistributionSystems();
