@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added legend to MultipleLineChart in myems-web
 - added power integrator table in database
 - added columns is_published to historical database
+- added fuel integrator table in database
 ### Changed
 - replaced datetime.strftime() with datetime.isoformat() in myems-api
 - changed space reports to automaticly submit in myems-web

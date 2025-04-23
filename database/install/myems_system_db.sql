@@ -804,6 +804,22 @@ CREATE INDEX `tbl_equipments_virtual_meters_index_1`
 ON `myems_system_db`.`tbl_equipments_virtual_meters` (`equipment_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_fuel_integrators`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_fuel_integrators` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_fuel_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `model` VARCHAR(255) NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_fuel_integrators_index_1` ON `myems_system_db`.`tbl_fuel_integrators` (`name`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_gateways`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_gateways` ;
