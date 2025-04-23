@@ -140,6 +140,17 @@ ADD COLUMN `is_published` BOOL AFTER `is_bad`;
 ALTER TABLE `myems_historical_db`.`tbl_text_value`
 ADD COLUMN `is_published` BOOL AFTER `is_bad`;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_fuel_integrators` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `model` VARCHAR(255) NOT NULL,
+  `power_point_id` BIGINT NOT NULL,
+  `result_point_id` BIGINT NOT NULL,
+  `is_enabled` BOOL NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_fuel_integrators_index_1` ON `myems_system_db`.`tbl_fuel_integrators` (`name`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0RC', release_date='2025-04-25' WHERE id=1;
 
