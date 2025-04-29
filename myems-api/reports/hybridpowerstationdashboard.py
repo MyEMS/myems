@@ -22,11 +22,12 @@ class Reporting:
     # Step 2: query the hybrid power station list
     # Step 3: query charge energy data
     # Step 4: query discharge energy data
-    # Step 5: query charge billing data
-    # Step 6: query discharge billing data
-    # Step 7: query charge carbon data
-    # Step 8: query discharge carbon data
-    # Step 9: construct the report
+    # Step 5: query fuel data
+    # Step 6: query charge billing data
+    # Step 7: query discharge billing data
+    # Step 8: query charge carbon data
+    # Step 9: query discharge carbon data
+    # Step 10: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -186,7 +187,27 @@ class Reporting:
             new_hybrid_power_station_list.append(hybrid_power_station)
         hybrid_power_station_list = new_hybrid_power_station_list
         ################################################################################################################
-        # Step 5:  query charge billing data
+        # Step 5: query fuel data
+        ################################################################################################################
+        query = (" SELECT hybrid_power_station_id, SUM(actual_value) "
+                 " FROM tbl_hybrid_power_station_fuel_hourly "
+                 " GROUP BY hybrid_power_station_id ")
+        cursor_energy_db.execute(query, )
+        rows_hybrid_power_stations_subtotal_fuel = cursor_energy_db.fetchall()
+
+        new_hybrid_power_station_list = list()
+        total_fuel_consumption = Decimal(0.0)
+        for hybrid_power_station in hybrid_power_station_list:
+            hybrid_power_station['subtotal_fuel_consumption'] = Decimal(0.0)
+            for row in rows_hybrid_power_stations_subtotal_fuel:
+                if row[0] == hybrid_power_station['id']:
+                    hybrid_power_station['subtotal_fuel_consumption'] = row[1]
+                    total_fuel_consumption += hybrid_power_station['subtotal_fuel_consumption']
+                    break
+            new_hybrid_power_station_list.append(hybrid_power_station)
+        hybrid_power_station_list = new_hybrid_power_station_list
+        ################################################################################################################
+        # Step 6:  query charge billing data
         ################################################################################################################
         query = (" SELECT hybrid_power_station_id, SUM(actual_value) "
                  " FROM tbl_hybrid_power_station_charge_hourly "
@@ -206,7 +227,7 @@ class Reporting:
             new_hybrid_power_station_list.append(hybrid_power_station)
         hybrid_power_station_list = new_hybrid_power_station_list
         ################################################################################################################
-        # Step 6: query discharge billing data
+        # Step 7: query discharge billing data
         ################################################################################################################
         query = (" SELECT hybrid_power_station_id, SUM(actual_value) "
                  " FROM tbl_hybrid_power_station_discharge_hourly "
@@ -226,7 +247,7 @@ class Reporting:
             new_hybrid_power_station_list.append(hybrid_power_station)
         hybrid_power_station_list = new_hybrid_power_station_list
         ################################################################################################################
-        # Step 7:  query charge carbon data
+        # Step 8:  query charge carbon data
         ################################################################################################################
         query = (" SELECT hybrid_power_station_id, SUM(actual_value) "
                  " FROM tbl_hybrid_power_station_charge_hourly "
@@ -245,7 +266,7 @@ class Reporting:
             new_hybrid_power_station_list.append(hybrid_power_station)
         hybrid_power_station_list = new_hybrid_power_station_list
         ################################################################################################################
-        # Step 8: query discharge carbon data
+        # Step 9: query discharge carbon data
         ################################################################################################################
         query = (" SELECT hybrid_power_station_id, SUM(actual_value) "
                  " FROM tbl_hybrid_power_station_discharge_hourly "
@@ -264,7 +285,7 @@ class Reporting:
             new_hybrid_power_station_list.append(hybrid_power_station)
         hybrid_power_station_list = new_hybrid_power_station_list
         ################################################################################################################
-        # Step 7: construct the report
+        # Step 10: construct the report
         ################################################################################################################
         if cursor_system_db:
             cursor_system_db.close()
@@ -295,6 +316,7 @@ class Reporting:
         result['hybrid_power_stations'] = hybrid_power_station_list
         result['total_charge_energy'] = total_charge_energy
         result['total_discharge_energy'] = total_discharge_energy
+        result['total_fuel_consumption'] = total_fuel_consumption
         result['total_charge_billing'] = total_charge_billing
         result['total_discharge_billing'] = total_discharge_billing
         result['total_charge_carbon'] = total_charge_carbon

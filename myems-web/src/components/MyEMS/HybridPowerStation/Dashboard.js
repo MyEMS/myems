@@ -203,6 +203,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
+              setFuelConsumptionData({
+                "unit": "L",
+                "station_names_array": json['hybrid_power_station_names'],
+                "subtotals_array": [
+                  json['reporting']['fuel_7_days']['values_array'],
+                  json['reporting']['fuel_this_month']['values_array'],
+                  json['reporting']['fuel_this_year']['values_array']
+                ],
+              });
               setChargeEnergyData({
                 "unit": "kWh",
                 "station_names_array": json['hybrid_power_station_names'],
@@ -221,15 +230,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting']['discharge_this_year']['values_array']
                 ]
               });
-              setFuelConsumptionData({
-                "unit": "L",
-                "station_names_array": json['hybrid_power_station_names'],
-                "subtotals_array": [
-                  json['reporting']['fuel_7_days']['values_array'],
-                  json['reporting']['fuel_this_month']['values_array'],
-                  json['reporting']['fuel_this_year']['values_array']
-                ],
-              });
+              setFuelConsumptionLabels([
+                json['reporting']['fuel_7_days']['timestamps_array'][0],
+                json['reporting']['fuel_this_month']['timestamps_array'][0],
+                json['reporting']['fuel_this_year']['timestamps_array'][0]
+              ]);
               setChargeEnergyLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
@@ -239,11 +244,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 json['reporting']['discharge_7_days']['timestamps_array'][0],
                 json['reporting']['discharge_this_month']['timestamps_array'][0],
                 json['reporting']['discharge_this_year']['timestamps_array'][0]
-              ]);
-              setFuelConsumptionLabels([
-                json['reporting']['fuel_7_days']['timestamps_array'][0],
-                json['reporting']['fuel_this_month']['timestamps_array'][0],
-                json['reporting']['fuel_this_year']['timestamps_array'][0]
               ]);
             }
           });
@@ -438,23 +438,23 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
           {1 && <CountUp end={hybridPowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'MW'} color="ratedPower">
-          {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">
-          {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+        <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
+          {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Fuel Consumption')} footunit={'kL'} color="fuelConsumption">
           {1 && <CountUp end={totalFuelConsumption/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
+        <CardSummary rate={''} title={t('Total Rated Power')} footunit={'MW'} color="ratedPower">
+          {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+        </CardSummary>
+        {/* <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">
+          {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+        </CardSummary> */}
         <CardSummary rate={''} title={t('Total Charge')} footunit={'MWH'} color="electricity">
           {1 && <CountUp end={totalCharge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Discharge')} footunit={'MWH'} color="electricity">
           {1 && <CountUp end={totalDischarge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
-        </CardSummary>
-        <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
-          {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
       </div>
 
@@ -469,7 +469,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('1');
                   }}
                 >
-                  <h6>{t('Charge Energy Indicator')}</h6>
+                  <h6>{t('Fuel Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -479,7 +479,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('2');
                   }}
                 >
-                  <h6>{t('Discharge Energy Indicator')}</h6>
+                  <h6>{t('Charge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -489,7 +489,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     toggleTabLeft('3');
                   }}
                 >
-                  <h6>{t('Fuel Indicator')}</h6>
+                  <h6>{t('Discharge Energy Indicator')}</h6>
                 </NavLink>
               </NavItem>
               <NavItem className="cursor-pointer">
@@ -516,25 +516,25 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <TabContent activeTab={activeTabLeft}>
                 <TabPane tabId="1">
                   <StackBarChart
+                    labels={fuelConsumptionLabels}
+                    unit={ t('Charge UNIT', { UNIT: fuelConsumptionData['unit'] })}
+                    chargeData={fuelConsumptionData}
+                    periodTypes={periodTypes}
+                  />
+                </TabPane>
+                <TabPane tabId="2">
+                  <StackBarChart
                     labels={chargeEnergyLabels}
                     unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
                     chargeData={chargeEnergyData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
-                <TabPane tabId="2">
+                <TabPane tabId="3">
                   <StackBarChart
                     labels={dischargeEnergyLabels}
                     unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
                     chargeData={dischargeEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="3">
-                  <StackBarChart
-                    labels={fuelConsumptionLabels}
-                    unit={ t('Charge UNIT', { UNIT: fuelConsumptionData['unit'] })}
-                    chargeData={fuelConsumptionData}
                     periodTypes={periodTypes}
                   />
                 </TabPane>
