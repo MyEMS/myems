@@ -52,18 +52,21 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [totalRatedCapacity, setTotalRatedCapacity] = useState({});
   const [totalRatedPower, setTotalRatedPower] = useState({});
+  const [totalFuelConsumption, setTotalFuelConsumption] = useState({});
   const [totalCharge, setTotalCharge] = useState({});
   const [totalDischarge, setTotalDischarge] = useState({});
   const [totalRevenue, setTotalRevenue] = useState({});
 
   const [chargeEnergyData, setChargeEnergyData] = useState({});
   const [dischargeEnergyData, setDischargeEnergyData] = useState({});
+  const [fuelConsumptionData, setFuelConsumptionData] = useState({});
   const [chargeBillingData, setChargeBillingData] = useState({});
   const [dischargeBillingData, setDischargeBillingData] = useState({});
   const [chargeCarbonData, setChargeCarbonData] = useState({});
   const [dischargeCarbonData, setDischargeCarbonData] = useState({});
   const [chargeEnergyLabels, setChargeEnergyLabels] = useState([]);
   const [dischargeEnergyLabels, setDischargeEnergyLabels] = useState([]);
+  const [fuelConsumptionLabels, setFuelConsumptionLabels] = useState([]);
   const [chargeBillingLabels, setChargeBillingLabels] = useState([]);
   const [dischargeBillingLabels, setDischargeBillingLabels] = useState([]);
   const [chargeCarbonLabels, setChargeCarbonLabels] = useState([]);
@@ -255,6 +258,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             geojson['features'] = geojsonData;
             setGeojson(geojson);
 
+            setTotalFuelConsumption(json['total_fuel_consumption']);
             setTotalCharge(json['total_charge_energy']);
             setTotalDischarge(json['total_discharge_energy']);
             setTotalRevenue(json['total_discharge_billing']);
@@ -319,6 +323,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 json['reporting']['discharge_this_year']['values_array']
               ]
             });
+            setFuelConsumptionData({
+              "unit": "L",
+              "station_names_array": [json['hybrid_power_station']['name']],
+              "subtotals_array": [
+                json['reporting']['fuel_consumption_7_days']['values_array'],
+                json['reporting']['fuel_consumption_this_month']['values_array'],
+                json['reporting']['fuel_consumption_this_year']['values_array']
+              ],
+            });
             setChargeEnergyLabels([
               json['reporting']['charge_7_days']['timestamps_array'][0],
               json['reporting']['charge_this_month']['timestamps_array'][0],
@@ -328,6 +341,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['reporting']['discharge_7_days']['timestamps_array'][0],
               json['reporting']['discharge_this_month']['timestamps_array'][0],
               json['reporting']['discharge_this_year']['timestamps_array'][0]
+            ]);
+            setFuelConsumptionLabels([
+              json['reporting']['fuel_consumption_7_days']['timestamps_array'][0],
+              json['reporting']['fuel_consumption_this_month']['timestamps_array'][0],
+              json['reporting']['fuel_consumption_this_year']['timestamps_array'][0]
             ]);
           }
         });
@@ -606,6 +624,12 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
         <div className="card-deck">
+          <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
+            {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+          </CardSummary>
+          <CardSummary rate={''} title={t('Total Fuel Consumption')} footunit={'kL'} color="fuelConsumption">
+            {1 && <CountUp end={totalFuelConsumption/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          </CardSummary>
           <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">
             {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
@@ -617,9 +641,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </CardSummary>
           <CardSummary rate={''} title={t('Total Discharge')} footunit={'MWH'} color="electricity">
             {1 && <CountUp end={totalDischarge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
-          </CardSummary>
-          <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
-            {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
           </CardSummary>
         </div>
 
@@ -681,9 +702,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               <TabContent activeTab={activeTabLeft}>
                   <TabPane tabId="1">
                     <StackBarChart
-                      labels={chargeEnergyLabels}
-                      unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
-                      chargeData={chargeEnergyData}
+                      labels={fuelConsumptionLabels}
+                      unit={ t('Charge UNIT', { UNIT: fuelConsumptionData['unit'] })}
+                      chargeData={fuelConsumptionData}
                       periodTypes={periodTypes}
                     />
                   </TabPane>
