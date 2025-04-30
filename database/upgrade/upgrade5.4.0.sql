@@ -152,6 +152,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_fuel_integrators` (
 CREATE INDEX `tbl_fuel_integrators_index_1` ON `myems_system_db`.`tbl_fuel_integrators` (`name`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0RC', release_date='2025-04-25' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.4.0', release_date='2025-04-30' WHERE id=1;
 
 COMMIT;
