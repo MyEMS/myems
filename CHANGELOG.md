@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+
+## [v5.4.0] - 2025-04-30
+### Added
 - added control modes and control times
 - added legend to MultipleLineChart in myems-web
 - added power integrator table in database
@@ -1939,7 +1946,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.3.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.4.0...HEAD
+[5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0
 [5.3.0]: https://gitee.com/MyEMS/myems/compare/v5.2.0...v5.3.0
 [5.2.0]: https://gitee.com/MyEMS/myems/compare/v5.1.0...v5.2.0
 [5.1.0]: https://gitee.com/MyEMS/myems/compare/v4.12.0...v5.1.0
