@@ -3,20 +3,21 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.4.0</h1>
 <h3 align="center">Industry Leading Open Source Energy Management System</h3>
+<h6 align="center">Nearly a thousand project cases</h6>
 <h6 align="center">Commitment to permanent open source</h6>
 <h6 align="center">Free technical support within QQ and WeChat groups</h6>
 <h6 align="center">Keep updated, 1 minor version per month, 1 major version per year</h6>
 
- [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
- [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
- [简体中文](./README_CN.md) | English | [German](./README_DE.md)
+[简体中文](./README_CN.md) | English | [German](./README_DE.md)
 
 ## MyEMS Introduction
 
-MyEMS open source energy management system is used for electricity, water, gas and other energy data collection, analysis, and reporting in buildings, factories, shopping malls, hospitals, and parks, as well as photovoltaic, energy storage, charging piles, microgrids, equipment control, fault diagnosis, Work order management, artificial intelligence optimization and other optional functions. Development and maintenance by a senior professional company to ensure long-term support. Use open source to support the low-carbon development of enterprise groups, industrial parks, and energy operators!
+The MyEMS open source energy management system refers to the ISO 50001 energy management system standard (equivalent to GB/T 23331-2020) and is suitable for energy data collection, analysis, and reporting of electricity, water, gas, cold, heat, and other energy sources in buildings, factories, shopping malls, hospitals, parks, and energy carbon management centers. It also has optional enterprise features such as photovoltaics, energy storage, charging stations, microgrids, virtual power plants, equipment control, fault diagnosis, work order management, and AI optimization. Developed and maintained by a senior professional company to ensure long-term support. Using open source to assist enterprise groups, industrial parks, and energy operators in low-carbon development!
 
 ## MyEMS Architecture
 
