@@ -2,21 +2,23 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.4.0</h1>
-<h3 align="center">Führendes Open-Source-Energiemanagementsystem</h3>
+<h3 align="center">Fast tausend Projektfälle</h3>
+<h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Kostenloser technischer Support innerhalb von QQ- und WeChat-Gruppen</h6>
 <h6 align="center">Bleiben Sie auf dem Laufenden, 1 Nebenversion pro Monat, 1 Hauptversion pro Jahr</h6>
- [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
- [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+ 
+[![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
- [简体中文](./README_CN.md) | [English](./README.md) | German
+[简体中文](./README_CN.md) | [English](./README.md) | German
 
 ## MyEMS-Einführung
 
-Das Open-Source-Energiemanagementsystem MyEMS wird für die Erfassung, Analyse und Berichterstattung von Energiedaten wie Strom, Wasser und Gas in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern und Parks verwendet. Es hat auch optionale Funktionen wie Photovoltaik, Energiespeicher, Ladepfähle, Mikronetze, Gerätesteuerung, Fehlerdiagnose, Arbeitsauftragsmanagement und künstliche Intelligenz Optimierung. Entwickelt und gewartet von einem erfahrenen professionellen Unternehmen, um langfristige Unterstützung zu gewährleisten. Nutzung von Open Source zur Unterstützung von Unternehmensgruppen, Industrieparks und Energiebetreibern bei der CO2-armen Entwicklung!
+Das Open-Source-Energiemanagementsystem MyEMS bezieht sich auf den ISO 50001-Energiemanagementsystem Standard (äquivalent zu GB/T 23331-2020) und eignet sich für die Energiedatenerfassung, -analyse und -berichterstattung von Strom, Wasser, Gas, Kälte, Wärme und anderen Energiequellen in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern, Parks und Energiekohlenstoffmanagementzentren. Es verfügt auch über optionale Unternehmensfunktionen wie Photovoltaik, Energiespeicher, Ladestationen, Microgrids, virtuelle Kraftwerke, Anlagensteuerung, Fehlerdiagnose, Arbeitsauftragsmanagement und KI-Optimierung. Entwickelt und gewartet von einem erfahrenen professionellen Unternehmen, um langfristige Unterstützung zu gewährleisten. Nutzung von Open Source zur Unterstützung von Unternehmensgruppen, Industrieparks und Energiebetreibern bei der CO2-armen Entwicklung!
 
 ## MyEMS Architektur
 

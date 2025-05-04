@@ -3,21 +3,22 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.4.0</h1>
 <h3 align="center">行业领先的开源能源管理系统</h3>
+<h3 align="center">近千个项目案例</h3>
 <h6 align="center">承诺永久开源</h6>
 <h6 align="center">QQ群和微信群内技术支持免费</h6>
 <h6 align="center">保持更新，每个月1个小版本，每年1次大版本更新</h6>
 
- [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
- [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
- 简体中文 | [English](./README.md) | [German](./README_DE.md)
+简体中文 | [English](./README.md) | [German](./README_DE.md)
 
 ## MyEMS 介绍
 
-MyEMS开源能源管理系统用于建筑、工厂、商场、医院、园区的电、水、气等能源数据采集、分析、报表，还有光伏、储能、充电桩、微电网、设备控制、故障诊断、工单管理、人工智能优化等可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(等同GB/T 23331-2020），适用于建筑、工厂、商场、医院、园区、能碳管理中心的电、水、气、冷、热等能源数据采集、分析、报表，还有光伏、储能、充电桩、微电网、虚拟电厂、设备控制、故障诊断、工单管理、人工智能优化等企业版可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
 
 ## MyEMS架构
 
