@@ -2,7 +2,7 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.4.0</h1>
-<h3 align="center">Fast tausend Projektfälle</h3>
+<h6 align="center">Fast tausend Projektfälle</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Kostenloser technischer Support innerhalb von QQ- und WeChat-Gruppen</h6>
