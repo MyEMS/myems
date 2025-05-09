@@ -1896,6 +1896,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `address` LONGTEXT NOT NULL COMMENT 'Address MUST be in JSON format',
   `description` VARCHAR(255),
   `faults` LONGTEXT COMMENT 'Faults MUST be in JSON format',
+  `definitions` LONGTEXT COMMENT 'Definitions MUST be in JSON format',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_points_index_1` ON `myems_system_db`.`tbl_points` (`name`);
 CREATE INDEX `tbl_points_index_2` ON `myems_system_db`.`tbl_points` (`data_source_id`);
@@ -2877,7 +2878,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '5.4.0', '2025-04-30');
+(1, '5.5.0RC', '2025-05-25');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

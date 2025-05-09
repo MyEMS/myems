@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added column definitions to tbl_points in databse
 ### Changed
 ### Fixed
 ### Removed
+- removed hybrid power station
 
 
 ## [v5.4.0] - 2025-04-30
