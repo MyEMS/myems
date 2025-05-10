@@ -2280,7 +2280,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -2314,7 +2314,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -2349,7 +2349,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -2387,7 +2387,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -2426,7 +2426,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "3f8c523a6536d766c8bae190d6e4d261ff3e4f325ed2a9b32122b8b2e1c7799b6e141ba019e1633c40884c0a1858f66436dc17de6631dc0236f70572ef34e338",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -2560,6 +2560,36 @@
 										"controlmodes",
 										"1",
 										"clone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Times of Control Mode by ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "User-UUID",
+										"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+										"type": "text"
+									},
+									{
+										"key": "Token",
+										"value": "1ed22b552400f6ddb117cf8c546314d1b41dd34688173f3f1c00328716b3865972fd46fa87bf2aa21ed16f51e7b00973a0681e2db36e3679f5fcee37f8091e7b",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/controlmodes/1/times",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"controlmodes",
+										"1",
+										"times"
 									]
 								}
 							},
@@ -3440,7 +3470,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14235,7 +14265,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14269,7 +14299,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14304,7 +14334,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14316,7 +14346,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint2\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1, \"offset_constant\":0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint3\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":1, \"offset_constant\":0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points",
@@ -14342,7 +14372,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14377,7 +14407,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14389,7 +14419,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"offset_constant\":12.0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null}}"
+									"raw": "{\"data\":{\"name\":\"ModbusPoint1\", \"data_source_id\":1, \"object_type\": \"ENERGY_VALUE\", \"units\":\"kWh\", \"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0, \"ratio\":100, \"offset_constant\":12.0, \"is_trend\":true, \"is_virtual\":false, \"address\":\"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\", \"description\":null, \"faults\":null, \"definitions\":null}}"
 								},
 								"url": {
 									"raw": "{{base_url}}/points/1",
@@ -14416,7 +14446,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14431,13 +14461,13 @@
 									"raw": "{\"data\":{\"high_limit\":999999999, \"low_limit\":0, \"higher_limit\":1099999998.9, \"lower_limit\":0}}"
 								},
 								"url": {
-									"raw": "{{base_url}}/pointlimits/1",
+									"raw": "{{base_url}}/pointlimits/10001",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"pointlimits",
-										"1"
+										"10001"
 									]
 								}
 							},
@@ -14455,7 +14485,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14466,13 +14496,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/points/1/export",
+									"raw": "{{base_url}}/points/10001/export",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"points",
-										"1",
+										"10001",
 										"export"
 									]
 								}
@@ -14491,7 +14521,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14503,7 +14533,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Active Energy Import Tariff 2\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"offset_constant\": 0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null,\r\n    \"faults\": null\r\n}",
+									"raw": "{\r\n    \"name\": \"Active Energy Import 1\",\r\n    \"data_source\": {\r\n        \"id\": 1,\r\n        \"name\": \"示例ModbusTCP数据源\",\r\n        \"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\r\n    },\r\n    \"object_type\": \"ENERGY_VALUE\",\r\n    \"units\": \"kWh\",\r\n    \"high_limit\": 99999999999.000,\r\n    \"low_limit\": 0.000,\r\n    \"higher_limit\": null,\r\n    \"lower_limit\": null,\r\n    \"ratio\": 1.0,\r\n    \"offset_constant\": 0,\r\n    \"is_trend\": true,\r\n    \"is_virtual\": false,\r\n    \"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\r\n    \"description\": null,\r\n    \"faults\": null,\r\n    \"definitions\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -14535,7 +14565,7 @@
 									},
 									{
 										"key": "Token",
-										"value": "6df053ee285bbd554f4c1af5ce4c81fc7e253dfdd150233f5f368235ee1c8351b62c7d943386887d49a768a78270aa0c3763c077e94e3c0a0cc2432bc90733f5",
+										"value": "a7a11ccf5d8d544e8c670ec2c0b42be8d906eaf61d548adbe4238a93d0aafd3696a2e981ed9bc68baf4f70fec773ceff92a4ef8786030c7174f0360c2efb251a",
 										"description": "Login first to get a valid token"
 									},
 									{
@@ -14546,13 +14576,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/points/1/clone",
+									"raw": "{{base_url}}/points/10001/clone",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"points",
-										"1",
+										"10001",
 										"clone"
 									]
 								}

@@ -422,7 +422,7 @@ class DataSourcePointCollection:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                       "        is_trend, is_virtual, address, description, faults "
+                       "        is_trend, is_virtual, address, description, faults, definitions "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -493,6 +493,7 @@ class DataSourcePointCollection:
                                "address": row[12],
                                "description": row[13],
                                "faults": row[14],
+                               "definitions": row[15],
                                "latest_value": latest_value,
                                }
 
@@ -569,7 +570,7 @@ class DataSourceExport:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description, faults "
+                       "        is_trend, is_virtual, address, description, faults, definitions "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -591,7 +592,8 @@ class DataSourceExport:
                                "is_virtual": bool(row[10]),
                                "address": row[11],
                                "description": row[12],
-                               "faults": row[13]}
+                               "faults": row[13],
+                               "definitions": row[14]}
                 point_result.append(meta_result)
             result['points'] = point_result
         cursor.close()
@@ -708,8 +710,9 @@ class DataSourceImport:
                 # todo: validate point properties
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description, faults) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                             "                         is_trend, is_virtual, address, description, faults, "
+                             "                         definitions) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_value, (point['name'],
                                            new_id,
                                            point['object_type'],
@@ -723,7 +726,8 @@ class DataSourceImport:
                                            point['is_virtual'],
                                            point['address'],
                                            point['description'],
-                                           point['faults']))
+                                           point['faults'],
+                                           point['definitions']))
         cnx.commit()
         cursor.close()
         cnx.close()
@@ -778,7 +782,7 @@ class DataSourceClone:
         # NOTE: there is no uuid in tbl_points
         query_point = (" SELECT id, name, object_type, "
                        "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description, faults "
+                       "        is_trend, is_virtual, address, description, faults, definitions "
                        " FROM tbl_points "
                        " WHERE data_source_id = %s "
                        " ORDER BY id ")
@@ -800,7 +804,8 @@ class DataSourceClone:
                           "is_virtual": bool(row[10]),
                           "address": row[11],
                           "description": row[12],
-                          "faults": row[13]}
+                          "faults": row[13],
+                          "definitions": row[14]}
                 point_result.append(result)
             meta_result['points'] = point_result
 
@@ -823,8 +828,9 @@ class DataSourceClone:
             for point in meta_result['points']:
                 add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                              "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description, faults) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                             "                         is_trend, is_virtual, address, description, faults, "
+                             "                         definitions) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_value, (point['name'],
                                            new_id,
                                            point['object_type'],
@@ -838,7 +844,8 @@ class DataSourceClone:
                                            point['is_virtual'],
                                            point['address'],
                                            point['description'],
-                                           point['faults']))
+                                           point['faults'],
+                                           point['definitions']))
         cnx.commit()
         cursor.close()
         cnx.close()

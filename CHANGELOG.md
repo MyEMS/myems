@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added column definitions to tbl_points in databse
+- added definitions to points in myems-api and myems-admin
+- 
 ### Changed
 ### Fixed
 ### Removed
