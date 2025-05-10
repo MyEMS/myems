@@ -37,7 +37,7 @@ class PointCollection:
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
                  " FROM tbl_points ")
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -62,7 +62,8 @@ class PointCollection:
                                "is_virtual": bool(row[12]),
                                "address": row[13],
                                "description": row[14],
-                               "faults": row[15]}
+                               "faults": row[15],
+                               "definitions": row[16]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -199,6 +200,13 @@ class PointCollection:
         else:
             faults = None
 
+        if 'definitions' in new_values['data'].keys() and \
+                new_values['data']['definitions'] is not None and \
+                len(str(new_values['data']['definitions'])) > 0:
+            definitions = str.strip(new_values['data']['definitions'])
+        else:
+            definitions = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -222,8 +230,9 @@ class PointCollection:
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
+                     "                         definitions) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -238,7 +247,8 @@ class PointCollection:
                                    is_virtual,
                                    address,
                                    description,
-                                   faults))
+                                   faults,
+                                   definitions))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -282,7 +292,7 @@ class PointItem:
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
                  " FROM tbl_points "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -308,7 +318,8 @@ class PointItem:
                   "is_virtual": bool(row[12]),
                   "address": row[13],
                   "description": row[14],
-                  "faults": row[15]}
+                  "faults": row[15],
+                  "definitions": row[16]}
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -911,6 +922,12 @@ class PointItem:
         else:
             faults = None
 
+        if 'definitions' in new_values['data'].keys() and \
+                new_values['data']['definitions'] is not None and \
+                len(str(new_values['data']['definitions'])) > 0:
+            definitions = str.strip(new_values['data']['definitions'])
+        else:
+            definitions = None
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -946,7 +963,7 @@ class PointItem:
                       "     object_type = %s, units = %s, "
                       "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, "
                       "     offset_constant = %s, is_trend = %s, is_virtual = %s, address = %s, description = %s, "
-                      "     faults = %s "
+                      "     faults = %s, definitions = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     data_source_id,
@@ -963,6 +980,7 @@ class PointItem:
                                     address,
                                     description,
                                     faults,
+                                    definitions,
                                     id_,))
         cnx.commit()
 
@@ -1087,7 +1105,7 @@ class PointExport:
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
                  " FROM tbl_points "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -1113,7 +1131,8 @@ class PointExport:
                   "is_virtual": bool(row[12]),
                   "address": row[13],
                   "description": row[14],
-                  "faults": row[15]}
+                  "faults": row[15],
+                  "definitions": row[16]}
         resp.text = json.dumps(result)
 
 
@@ -1258,6 +1277,13 @@ class PointImport:
         else:
             faults = None
 
+        if 'definitions' in new_values.keys() and \
+                new_values['definitions'] is not None and \
+                len(str(new_values['definitions'])) > 0:
+            definitions = str.strip(new_values['definitions'])
+        else:
+            definitions = None
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1281,8 +1307,9 @@ class PointImport:
 
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
+                     "                         definitions) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (name,
                                    data_source_id,
                                    object_type,
@@ -1297,7 +1324,8 @@ class PointImport:
                                    is_virtual,
                                    address,
                                    description,
-                                   faults))
+                                   faults,
+                                   definitions))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -1329,7 +1357,7 @@ class PointClone:
 
         query = (" SELECT id, name, data_source_id, object_type, units, "
                  "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
                  " FROM tbl_points "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -1353,7 +1381,8 @@ class PointClone:
                   "is_virtual": bool(row[12]),
                   "address": row[13],
                   "description": row[14],
-                  "faults": row[15]}
+                  "faults": row[15],
+                  "definitions": row[16]}
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -1361,8 +1390,9 @@ class PointClone:
                     (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                      "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
+                     "                         definitions) "
+                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_value, (new_name,
                                    result['data_source_id'],
                                    result['object_type'],
@@ -1377,7 +1407,8 @@ class PointClone:
                                    result['is_virtual'],
                                    result['address'],
                                    result['description'],
-                                   result['faults']))
+                                   result['faults'],
+                                   result['definitions']))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()

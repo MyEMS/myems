@@ -15,6 +15,6 @@ ADD `definitions` LONGTEXT COMMENT 'Definitions MUST be in JSON format';
 
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.5.0', release_date='2025-05-15' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.5.0', release_date='2025-05-25' WHERE id=1;
 
 COMMIT;
