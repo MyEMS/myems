@@ -1,9 +1,10 @@
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
+import re
 import config
 
 
@@ -46,8 +47,18 @@ class ControlModeCollection:
                 rows_times = cursor.fetchall()
                 if rows_times is not None and len(rows_times) > 0:
                     for row_time in rows_times:
-                        meta_data = {"start_time_of_day": str(row_time[0]),
-                                     "end_time_of_day": str(row_time[1]),
+                        start_time_of_day = str(row_time[0])
+                        if re.search("^\d:", start_time_of_day):
+                            start_time_of_day = '0' + start_time_of_day[:4]
+                        else:
+                            start_time_of_day = start_time_of_day[:5]
+                        end_time_of_day = str(row_time[1])
+                        if re.search("^\d:", end_time_of_day):
+                            end_time_of_day = '0' + end_time_of_day[:4]
+                        else:
+                            end_time_of_day = end_time_of_day[:5]
+                        meta_data = {"start_time_of_day": start_time_of_day,
+                                     "end_time_of_day": end_time_of_day,
                                      "power_value": row_time[2]}
                         meta_result['times'].append(meta_data)
                 result.append(meta_result)
@@ -171,8 +182,19 @@ class ControlModeItem:
         rows_times = cursor.fetchall()
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
-                meta_data = {"start_time_of_day": str(row_time[0]),
-                             "end_time_of_day": str(row_time[1]),
+                start_time_of_day = str(row_time[0])
+                print('start_time_of_day=' + start_time_of_day)
+                if re.search("^\d:", start_time_of_day):
+                    start_time_of_day = '0' + start_time_of_day[:4]
+                else:
+                    start_time_of_day = start_time_of_day[:5]
+                end_time_of_day = str(row_time[1])
+                if re.search("^\d:", end_time_of_day):
+                    end_time_of_day = '0' + end_time_of_day[:4]
+                else:
+                    end_time_of_day = end_time_of_day[:5]
+                meta_data = {"start_time_of_day": start_time_of_day,
+                             "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
                 result['times'].append(meta_data)
 
@@ -352,8 +374,18 @@ class ControlModeExport:
         rows_times = cursor.fetchall()
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
-                meta_data = {"start_time_of_day": str(row_time[0]),
-                             "end_time_of_day": str(row_time[1]),
+                start_time_of_day = str(row_time[0])
+                if re.search("^\d:", start_time_of_day):
+                    start_time_of_day = '0' + start_time_of_day[:4]
+                else:
+                    start_time_of_day = start_time_of_day[:5]
+                end_time_of_day = str(row_time[1])
+                if re.search("^\d:", end_time_of_day):
+                    end_time_of_day = '0' + end_time_of_day[:4]
+                else:
+                    end_time_of_day = end_time_of_day[:5]
+                meta_data = {"start_time_of_day": start_time_of_day,
+                             "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
                 result['times'].append(meta_data)
 
@@ -489,8 +521,18 @@ class ControlModeClone:
         rows_times = cursor.fetchall()
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
-                meta_data = {"start_time_of_day": str(row_time[0]),
-                             "end_time_of_day": str(row_time[1]),
+                start_time_of_day = str(row_time[0])
+                if re.search("^\d:", start_time_of_day):
+                    start_time_of_day = '0' + start_time_of_day[:4]
+                else:
+                    start_time_of_day = start_time_of_day[:5]
+                end_time_of_day = str(row_time[1])
+                if re.search("^\d:", end_time_of_day):
+                    end_time_of_day = '0' + end_time_of_day[:4]
+                else:
+                    end_time_of_day = end_time_of_day[:5]
+                meta_data = {"start_time_of_day": start_time_of_day,
+                             "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
                 result['times'].append(meta_data)
 
@@ -577,16 +619,26 @@ class ControlModeTimeCollection:
 
         result = list()
         if rows_times is not None and len(rows_times) > 0:
-            for row in rows_times:
+            for row_time in rows_times:
+                start_time_of_day = str(row_time[1])
+                if re.search("^\d:", start_time_of_day):
+                    start_time_of_day = '0' + start_time_of_day[:4]
+                else:
+                    start_time_of_day = start_time_of_day[:5]
+                end_time_of_day = str(row_time[2])
+                if re.search("^\d:", end_time_of_day):
+                    end_time_of_day = '0' + end_time_of_day[:4]
+                else:
+                    end_time_of_day = end_time_of_day[:5]
                 meta_result = {"id": row[0],
-                               "start_time_of_day": row[1],
-                               "end_time_of_day": row[2],
-                               "power_value": row[3],
-                               "power_point":  point_dict.get(row[4], None),
-                               "power_equation": row[5],
-                               "description": row[6]}
+                               "start_time_of_day": start_time_of_day,
+                               "end_time_of_day": end_time_of_day,
+                               "power_value": row_time[3],
+                               "power_point":  point_dict.get(row_time[4], None),
+                               "power_equation": row_time[5],
+                               "description": row_time[6]}
                 result.append(meta_result)
-
+        print(result)
         cursor.close()
         cnx.close()
         resp.text = json.dumps(result)
@@ -728,22 +780,32 @@ class ControlModeTimeItem:
                  " FROM tbl_control_modes_times "
                  " WHERE control_mode_id = %s AND id = %s ")
         cursor.execute(query, (id_, tid))
-        row = cursor.fetchone()
+        row_time = cursor.fetchone()
         cursor.close()
         cnx.close()
 
-        if row is None:
+        if row_time is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.CONTROL_MODE_TIME_NOT_FOUND_OR_NOT_MATCH')
         else:
-            meta_result = {"id": row[0],
-                           "control_mode_id": row[1],
-                           "start_time_of_day": row[2],
-                           "end_time_of_day": row[3],
-                           "power_value": row[4],
-                           "power_point": point_dict.get(row[5], None),
-                           "power_equation": row[6],
-                           "description": row[7]}
+            start_time_of_day = str(row_time[2])
+            if re.search("^\d:", start_time_of_day):
+                start_time_of_day = '0' + start_time_of_day[:4]
+            else:
+                start_time_of_day = start_time_of_day[:5]
+            end_time_of_day = str(row_time[3])
+            if re.search("^\d:", end_time_of_day):
+                end_time_of_day = '0' + end_time_of_day[:4]
+            else:
+                end_time_of_day = end_time_of_day[:5]
+            meta_result = {"id": row_time[0],
+                           "control_mode_id": row_time[1],
+                           "start_time_of_day": start_time_of_day,
+                           "end_time_of_day": end_time_of_day,
+                           "power_value": row_time[4],
+                           "power_point": point_dict.get(row_time[5], None),
+                           "power_equation": row_time[6],
+                           "description": row_time[7]}
 
         resp.text = json.dumps(meta_result)
 
