@@ -278,8 +278,8 @@ class ControlModeItem:
         cursor = cnx.cursor()
 
         # check if the control mode exists
-        query = (" SELECT name " 
-                 " FROM tbl_control_modes " 
+        query = (" SELECT name "
+                 " FROM tbl_control_modes "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         cursor.fetchone()
@@ -614,7 +614,7 @@ class ControlModeTimeCollection:
                  " FROM tbl_control_modes_times "
                  " WHERE control_mode_id = %s "
                  " ORDER BY id ")
-        cursor.execute(query, (id_, ))
+        cursor.execute(query, (id_,))
         rows_times = cursor.fetchall()
 
         result = list()
@@ -634,7 +634,7 @@ class ControlModeTimeCollection:
                                "start_time_of_day": start_time_of_day,
                                "end_time_of_day": end_time_of_day,
                                "power_value": row_time[3],
-                               "power_point":  point_dict.get(row_time[4], None),
+                               "power_point": point_dict.get(row_time[4], None),
                                "power_equation": row_time[5],
                                "description": row_time[6]}
                 result.append(meta_result)
@@ -677,7 +677,7 @@ class ControlModeTimeCollection:
         power_value = None
         if 'power_value' in new_values['data'].keys():
             if new_values['data']['power_value'] is not None and \
-                    (isinstance(new_values['data']['power_value'], int) or \
+                    (isinstance(new_values['data']['power_value'], int) or
                      isinstance(new_values['data']['power_value'], float)):
                 power_value = str.strip(new_values['data']['power_value'])
 
@@ -849,7 +849,7 @@ class ControlModeTimeItem:
                                    description='API.CONTROL_MODE_TIME_NOT_FOUND_OR_NOT_MATCH')
 
         cursor.execute(" DELETE FROM tbl_control_modes_times "
-                       " WHERE id = %s ", (tid, ))
+                       " WHERE id = %s ", (tid,))
         cnx.commit()
 
         cursor.close()
@@ -896,7 +896,7 @@ class ControlModeTimeItem:
         power_value = None
         if 'power_value' in new_values['data'].keys():
             if new_values['data']['power_value'] is not None and \
-                    (isinstance(new_values['data']['power_value'], int) or \
+                    (isinstance(new_values['data']['power_value'], int) or
                      isinstance(new_values['data']['power_value'], float)):
                 power_value = str.strip(new_values['data']['power_value'])
 
