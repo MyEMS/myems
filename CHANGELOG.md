@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 ### Fixed
+- fixed inefficient regular expression in myems-web
 ### Removed
 - removed hybrid power station
 
