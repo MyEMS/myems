@@ -774,11 +774,6 @@ class WindFarmClone:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
-
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed inefficient regular expression in myems-web
 - fixed comparison of identical values in myems-api
+- fixed unused local variable in myems-api
 ### Removed
 - removed hybrid power station
 
