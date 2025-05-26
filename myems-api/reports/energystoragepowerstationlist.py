@@ -97,7 +97,7 @@ class Reporting:
                     current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 charge_report_dict[row_hourly[0]]['charge_values'].append(actual_value)
-                if current_datetime_local >= current_datetime_local:
+                if current_datetime_local >= today_start_datetime_local:
                     charge_report_dict[row_hourly[0]]['today_total_charge'] += actual_value
 
         # get discharge data in latest 24 hours
@@ -125,7 +125,7 @@ class Reporting:
                     current_datetime_local.isoformat()[11:16])
                 actual_value = Decimal(0.0) if row_hourly[2] is None else row_hourly[2]
                 discharge_report_dict[row_hourly[0]]['discharge_values'].append(actual_value)
-                if current_datetime_local >= current_datetime_local:
+                if current_datetime_local >= today_start_datetime_local:
                     discharge_report_dict[row_hourly[0]]['today_total_discharge'] += actual_value
 
         cursor_energy_db.close()
