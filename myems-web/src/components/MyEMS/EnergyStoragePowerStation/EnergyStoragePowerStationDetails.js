@@ -1073,7 +1073,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchGridDetails();
               }}
             >
-              <h6>{t('Grid')}</h6>
+              <h6>{t('Grid Meter')}</h6>
             </NavLink>
           </NavItem>
           <NavItem className="cursor-pointer">
@@ -1084,7 +1084,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchLoadDetails();
               }}
             >
-              <h6>Load</h6>
+              <h6>{t('Load Meter')}</h6>
             </NavLink>
           </NavItem>
 
