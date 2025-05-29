@@ -5,10 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.5.0] - 2025-05-29
+### Added
 - added column definitions to tbl_points in databse
 - added definitions to points in myems-api and myems-admin
-- 
 ### Changed
+- None
 ### Fixed
 - fixed inefficient regular expression in myems-web
 - fixed comparison of identical values in myems-api
@@ -1953,7 +1959,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.4.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.5.0...HEAD
+[5.5.0]: https://gitee.com/MyEMS/myems/compare/v5.4.0...v5.5.0
 [5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0
 [5.3.0]: https://gitee.com/MyEMS/myems/compare/v5.2.0...v5.3.0
 [5.2.0]: https://gitee.com/MyEMS/myems/compare/v5.1.0...v5.2.0
