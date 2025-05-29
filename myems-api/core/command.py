@@ -317,19 +317,6 @@ class CommandItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-        # check relation with hybrid power station
-        cursor.execute(" SELECT hybrid_power_station_id "
-                       " FROM tbl_hybrid_power_stations_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_HYBRID_POWER_STATIONS')
-
         # todo: check relation with points
 
         cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))

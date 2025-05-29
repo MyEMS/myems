@@ -18,7 +18,6 @@ const resources = {
       'Auxiliary System': 'Auxiliary System',
       Microgrid: 'Microgrid',
       'Energy Storage Power Station': 'Power Station',
-      'Hybrid Power Station': 'Power Station',
       'Photovoltaic Power Station': 'Power Station',
       'Fault Alarm': 'Fault Alarm',
       Monitoring: 'Monitoring',
@@ -100,17 +99,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -604,7 +592,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -1267,7 +1254,6 @@ const resources = {
       'Auxiliary System': '辅助系统',
       Microgrid: '微电网',
       'Energy Storage Power Station': '电站',
-      'Hybrid Power Station': '电站',
       'Photovoltaic Power Station': '电站',
       'Fault Alarm': '故障报警',
       Monitoring: '设备监控',
@@ -1349,17 +1335,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': '电量报表',
       'Energy Storage Power Station Reports Revenue': '收益报表',
       'Energy Storage Power Station Reports Parameters': '数据查询',
-      'Multiple Hybrid Power Stations': '多站数据',
-      'Multiple Hybrid Power Stations Dashboard': '多站总览',
-      'Multiple Hybrid Power Stations List': '电站列表',
-      'Single Hybrid Power Station': '单站数据',
-      'Single Hybrid Power Station Dashboard': '单站总览',
-      'Single Hybrid Power Station Details': '设备数据',
-      'Single Hybrid Power Station Fault Alarm': '故障告警',
-      'Hybrid Power Station Reports': '统计报表',
-      'Hybrid Power Station Reports Energy': '电量报表',
-      'Hybrid Power Station Reports Revenue': '收益报表',
-      'Hybrid Power Station Reports Parameters': '数据查询',
       'Photovoltaic Power Station List': '电站列表',
       'Photovoltaic Power Station Details': '设备监控',
       'Photovoltaic Power Station Reporting': '数据报表',
@@ -1841,8 +1816,6 @@ const resources = {
       'Active Energy Export': '反向有功电能',
       'Active Energy Net': '净有功电能',
 
-
-      // Hybrid Power Station
       'Generator': '发电机',
 
       // Photovoltaic Power Station
@@ -2500,7 +2473,6 @@ const resources = {
       'Auxiliary System': 'Hilfssystem',
       Microgrid: 'Mikronetz',
       'Energy Storage Power Station': 'Kraftwerk',
-      'Hybrid Power Station': 'Kraftwerk',
       'Photovoltaic Power Station': 'Kraftwerk',
       'Fault Alarm': 'Fehleralarm',
       Monitoring: 'Überwachung',
@@ -2582,17 +2554,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -3103,7 +3064,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -3782,7 +3742,6 @@ const resources = {
       'Auxiliary System': 'Système auxiliaire',
       Microgrid: 'Micro-réseau',
       'Energy Storage Power Station': 'Centrale électrique',
-      'Hybrid Power Station': 'Centrale électrique',
       'Photovoltaic Power Station': 'Centrale électrique',
       'Fault Alarm': 'Alarme de panne',
       Monitoring: 'Surveillance',
@@ -3864,17 +3823,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -4380,7 +4328,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -5043,7 +4990,6 @@ const resources = {
       'Auxiliary System': 'Sistema auxiliar',
       Microgrid: 'Microrred',
       'Energy Storage Power Station': 'Central eléctrica',
-      'Hybrid Power Station': 'Central eléctrica',
       'Photovoltaic Power Station': 'Central eléctrica',
       'Fault Alarm': 'Alarma de falla',
       Monitoring: 'Monitorización',
@@ -5125,17 +5071,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -5648,7 +5583,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -6311,7 +6245,6 @@ const resources = {
       'Auxiliary System': 'Вспомогательная система',
       Microgrid: 'Микросеть',
       'Energy Storage Power Station': 'Электростанция',
-      'Hybrid Power Station': 'Электростанция',
       'Photovoltaic Power Station': 'Электростанция',
       'Fault Alarm': 'Сигнализация неисправности',
       Monitoring: 'Контроль',
@@ -6393,17 +6326,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -6915,7 +6837,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -7578,7 +7499,6 @@ const resources = {
       'Auxiliary System': 'النظام المساعد',
       Microgrid: 'الشبكة المصغرة',
       'Energy Storage Power Station': 'محطة توليد الكهرباء',
-      'Hybrid Power Station': 'محطة توليد الكهرباء',
       'Photovoltaic Power Station': 'محطة توليد الكهرباء',
       'Fault Alarm': 'إنذار الأعطال',
       Monitoring: 'رصد',
@@ -7660,17 +7580,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -8172,7 +8081,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -8834,7 +8742,6 @@ const resources = {
       'Auxiliary System': 'Hệ thống phụ trợ',
       Microgrid: 'Lưới điện siêu nhỏ',
       'Energy Storage Power Station': 'Trạm điện',
-      'Hybrid Power Station': 'Trạm điện',
       'Photovoltaic Power Station': 'Trạm điện',
       'Fault Alarm': 'Báo động lỗi',
       Monitoring: 'Giám sát',
@@ -8916,17 +8823,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -9426,7 +9322,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -10089,7 +9984,6 @@ const resources = {
       'Auxiliary System': 'ระบบเสริม',
       Microgrid: 'ไมโครกริด',
       'Energy Storage Power Station': 'สถานีไฟฟ้า',
-      'Hybrid Power Station': 'สถานีไฟฟ้า',
       'Photovoltaic Power Station': 'สถานีไฟฟ้า',
       'Fault Alarm': 'สัญญาณเตือนความผิดพลาด',
       Monitoring: 'ตรวจ สอบ',
@@ -10171,17 +10065,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -10681,7 +10564,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -11342,7 +11224,6 @@ const resources = {
       'Auxiliary System': 'Yardımcı Sistem',
       Microgrid: 'Mikro şebeke',
       'Energy Storage Power Station': 'Güç İstasyonu',
-      'Hybrid Power Station': 'Güç İstasyonu',
       'Photovoltaic Power Station': 'Güç İstasyonu',
       'Fault Alarm': 'Arıza Alarmı',
       Monitoring: 'Izleme',
@@ -11424,17 +11305,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -11936,7 +11806,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -12599,7 +12468,6 @@ const resources = {
       'Auxiliary System': 'Sistem Bantuan',
       Microgrid: 'Microgrid',
       'Energy Storage Power Station': 'Stesen Kuasa',
-      'Hybrid Power Station': 'Stesen Kuasa',
       'Photovoltaic Power Station': 'Stesen Kuasa',
       'Fault Alarm': 'Penggera Kesalahan',
       Monitoring: 'Pemantauan',
@@ -12681,17 +12549,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -13197,7 +13054,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -13860,7 +13716,6 @@ const resources = {
       'Auxiliary System': 'Sistem Bantuan',
       Microgrid: 'Microgrid',
       'Energy Storage Power Station': 'Stasiun Daya',
-      'Hybrid Power Station': 'Stasiun Daya',
       'Photovoltaic Power Station': 'Stasiun Daya',
       'Fault Alarm': 'Alarm Cacat',
       Monitoring: 'Monitor Peralatan',
@@ -13942,17 +13797,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energy',
       'Energy Storage Power Station Reports Revenue': 'Revenue',
       'Energy Storage Power Station Reports Parameters': 'Parameters',
-      'Multiple Hybrid Power Stations': 'Multiple Power Stations',
-      'Multiple Hybrid Power Stations Dashboard': 'Dashboard',
-      'Multiple Hybrid Power Stations List': 'List',
-      'Single Hybrid Power Station': 'Single Power Station',
-      'Single Hybrid Power Station Dashboard': 'Dashboard',
-      'Single Hybrid Power Station Details': 'Details',
-      'Single Hybrid Power Station Fault Alarm': 'Fault Alarm',
-      'Hybrid Power Station Reports': 'Power Station Reports',
-      'Hybrid Power Station Reports Energy': 'Energy',
-      'Hybrid Power Station Reports Revenue': 'Revenue',
-      'Hybrid Power Station Reports Parameters': 'Parameters',
       'Photovoltaic Power Station List': 'Power Station List',
       'Photovoltaic Power Station Details': 'Details',
       'Photovoltaic Power Station Reporting': 'Reporting',
@@ -14460,7 +14304,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -15133,7 +14976,6 @@ const resources = {
       'Auxiliary System': '輔助系統',
       Microgrid: '微電網',
       'Energy Storage Power Station': '儲能電站',
-      'Hybrid Power Station': '電站',
       'Photovoltaic Power Station': '電站',
       'Fault Alarm': '故障報警',
       Monitoring: '設備監控',
@@ -15215,17 +15057,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': '電量報表',
       'Energy Storage Power Station Reports Revenue': '收益報表',
       'Energy Storage Power Station Reports Parameters': '數據査詢',
-      'Multiple Hybrid Power Stations': '多站數據',
-      'Multiple Hybrid Power Stations Dashboard': '多站總覽',
-      'Multiple Hybrid Power Stations List': '電站列表',
-      'Single Hybrid Power Station': '單站數據',
-      'Single Hybrid Power Station Dashboard': '單站總覽',
-      'Single Hybrid Power Station Details': '設備數據',
-      'Single Hybrid Power Station Fault Alarm': '故障告警',
-      'Hybrid Power Station Reports': '統計報表',
-      'Hybrid Power Station Reports Energy': '電量報表',
-      'Hybrid Power Station Reports Revenue': '收益報表',
-      'Hybrid Power Station Reports Parameters': '數據査詢',
       'Photovoltaic Power Station List': '電站列表',
       'Photovoltaic Power Station Details': '設備監控',
       'Photovoltaic Power Station Reporting': '數據報表',
@@ -15711,7 +15542,6 @@ const resources = {
       'Active Energy Export': 'Active Energy Export',
       'Active Energy Net': 'Active Energy Net',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
@@ -16399,7 +16229,6 @@ const resources = {
       'Auxiliary System': 'Sistema Auxiliar',
       Microgrid: 'Microgrelha',
       'Energy Storage Power Station': 'Central eléctrica',
-      'Hybrid Power Station': 'Central eléctrica',
       'Photovoltaic Power Station': 'Central eléctrica',
       'Fault Alarm': 'Alarme de falha',
       Monitoring: 'Monitoramento',
@@ -16481,17 +16310,6 @@ const resources = {
       'Energy Storage Power Station Reports Energy': 'Energia',
       'Energy Storage Power Station Reports Revenue': 'Receita',
       'Energy Storage Power Station Reports Parameters': 'Parâmetros',
-      'Multiple Hybrid Power Stations': 'Várias estações elétricas',
-      'Multiple Hybrid Power Stations Dashboard': 'Painel',
-      'Multiple Hybrid Power Stations List': 'Lista',
-      'Single Hybrid Power Station': 'Estação elétrica única',
-      'Single Hybrid Power Station Dashboard': 'Painel',
-      'Single Hybrid Power Station Details': 'Detalhes',
-      'Single Hybrid Power Station Fault Alarm': 'Alarme de falha',
-      'Hybrid Power Station Reports': 'Relatórios da Estação de Energia',
-      'Hybrid Power Station Reports Energy': 'Energia',
-      'Hybrid Power Station Reports Revenue': 'Receita',
-      'Hybrid Power Station Reports Parameters': 'Parâmetros',
       'Photovoltaic Power Station List': 'Lista de Estações de Energia',
       'Photovoltaic Power Station Details': 'Detalhes',
       'Photovoltaic Power Station Reporting': 'Relatórios',
@@ -16986,7 +16804,6 @@ const resources = {
       'Active Energy Export': 'Exportação de energia ativa',
       'Active Energy Net': 'Rede de Energia Ativa',
 
-      // Hybrid Power Station
       'Generator': 'Generator',
 
       // Photovoltaic Power Station
