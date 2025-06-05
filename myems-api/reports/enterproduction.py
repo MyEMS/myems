@@ -245,6 +245,7 @@ class Reporting:
                                            description='API.INVALID_PRODUCTION_VALUE')
                 production_data['data'][start_datetime_utc] = Decimal(item[1])
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRODUCTION_VALUE')
 

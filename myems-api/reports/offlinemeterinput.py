@@ -52,7 +52,8 @@ class Reporting:
                 offline_meter_data['data'][start_datetime_utc] = Decimal(onepieces[1])
             if len(offline_meter_data['data']) > 0:
                 energy_data_list.append(offline_meter_data)
-        except Exception:
+        except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_VALUE')
 
