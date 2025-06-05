@@ -53,6 +53,7 @@ class Reporting:
             if len(offline_meter_data['data']) > 0:
                 energy_data_list.append(offline_meter_data)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_VALUE')
 
