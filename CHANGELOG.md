@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Changed
 ### Fixed
+- fixed image path issues in readme.md
 ### Removed
 
 ## [v5.5.0] - 2025-05-29
