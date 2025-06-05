@@ -18,74 +18,74 @@
 
 ## MyEMS-Einführung
 
-Das Open-Source-Energiemanagementsystem MyEMS bezieht sich auf den ISO 50001-Energiemanagementsystem Standard (äquivalent zu GB/T 23331-2020) und eignet sich für die Energiedatenerfassung, -analyse und -berichterstattung von Strom, Wasser, Gas, Kälte, Wärme und anderen Energiequellen in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern, Parks und Energiekohlenstoffmanagementzentren. Es verfügt auch über optionale Unternehmensfunktionen wie Photovoltaik, Energiespeicher, Ladestationen, Microgrids, virtuelle Kraftwerke, Anlagensteuerung, Fehlerdiagnose, Arbeitsauftragsmanagement und KI-Optimierung. Entwickelt und gewartet von einem erfahrenen professionellen Unternehmen, um langfristige Unterstützung zu gewährleisten. Nutzung von Open Source zur Unterstützung von Unternehmensgruppen, Industrieparks und Energiebetreibern bei der CO2-armen Entwicklung!
+Das Open Source Energy Management System (EMS) von MyEMS basiert auf der ISO 50001 Energy Management System Standard (GB/T 23331-2020) und eignet sich für die Erfassung, Analyse und Berichterstattung von Energie- und Kohlenstoffemissionen in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern, Parks und Energie- und Kohlenstoffmanagementzentren sowie für optionale Funktionen wie Photovoltaik, Energiespeicher, Ladestallen, Mikronetze, virtuelle Kraftwerke, Gerätesteuerung, Fehlerbehebung, Auftragsmanagement und Optimierung von künstlicher Intelligenz. Senior professionelle Unternehmen entwickeln und warten, um langfristige Unterstützung zu gewährleisten. Mit Open Source unterstützen Sie die kohlenstoffarme Entwicklung von Unternehmensgruppen, Industrieparks und Energiebetreibern!
 
 ## MyEMS Architektur
 
-![MyEMS Architecture Function View](/docs/images/architecture-function-view-de.png)
+![MyEMS Architecture Function View](./docs/images/architecture-function-view-de.png)
 
-![MyEMS Architecture Site View](/docs/images/architecture-site-view-de.png)
+![MyEMS Architecture Site View](./docs/images/architecture-site-view-de.png)
 
-![MyEMS Data Flow](/docs/images/myems-data-flow-de.svg)
+![MyEMS Data Flow](./docs/images/myems-data-flow-de.svg)
 
 ## MyEMS Web UI Präsentation
 
-![MyEMS Web 0](/docs/images/myems_web_0.png)
-![MyEMS Web 1](/docs/images/myems_web_1.png)
-![MyEMS Web 2](/docs/images/myems_web_2.png)
-![MyEMS Web 3](/docs/images/myems_web_3.png)
-![MyEMS Web 4](/docs/images/myems_web_4.png)
-![MyEMS Web 5](/docs/images/myems_web_5.png)
-![MyEMS Web 6](/docs/images/myems_web_6.png)
-![MyEMS Web 7](/docs/images/myems_web_7.png)
-![MyEMS Web 8](/docs/images/myems_web_8.png)
-![MyEMS Web 9](/docs/images/myems_web_9.png)
-![MyEMS Web 10](/docs/images/myems_web_10.png)
-![MyEMS Web 11](/docs/images/myems_web_11.png)
-![MyEMS Web 12](/docs/images/myems_web_12.png)
-![MyEMS Web 13](/docs/images/myems_web_13.png)
-![MyEMS Web 14](/docs/images/myems_web_14.png)
-![MyEMS Web 15](/docs/images/myems_web_15.png)
-![MyEMS Web 16](/docs/images/myems_web_16.png)
-![MyEMS Web 17](/docs/images/myems_web_17.png)
-![MyEMS Web 18](/docs/images/myems_web_18.png)
-![MyEMS Web 19](/docs/images/myems_web_19.png)
-![MyEMS Web 20](/docs/images/myems_web_20.png)
-![MyEMS Web 21](/docs/images/myems_web_21.png)
-![MyEMS Web 22](/docs/images/myems_web_22.png)
-![MyEMS Web 23](/docs/images/myems_web_23.png)
-![MyEMS Web 24](/docs/images/myems_web_24.png)
-![MyEMS Web 25](/docs/images/myems_web_25.png)
-![MyEMS Web 26](/docs/images/myems_web_26.png)
-![MyEMS Web 27](/docs/images/myems_web_27.png)
-![MyEMS Web 28](/docs/images/myems_web_28.png)
-![MyEMS Web 29](/docs/images/myems_web_29.png)
+![MyEMS Web 0](./docs/images/myems_web_0.png)
+![MyEMS Web 1](./docs/images/myems_web_1.png)
+![MyEMS Web 2](./docs/images/myems_web_2.png)
+![MyEMS Web 3](./docs/images/myems_web_3.png)
+![MyEMS Web 4](./docs/images/myems_web_4.png)
+![MyEMS Web 5](./docs/images/myems_web_5.png)
+![MyEMS Web 6](./docs/images/myems_web_6.png)
+![MyEMS Web 7](./docs/images/myems_web_7.png)
+![MyEMS Web 8](./docs/images/myems_web_8.png)
+![MyEMS Web 9](./docs/images/myems_web_9.png)
+![MyEMS Web 10](./docs/images/myems_web_10.png)
+![MyEMS Web 11](./docs/images/myems_web_11.png)
+![MyEMS Web 12](./docs/images/myems_web_12.png)
+![MyEMS Web 13](./docs/images/myems_web_13.png)
+![MyEMS Web 14](./docs/images/myems_web_14.png)
+![MyEMS Web 15](./docs/images/myems_web_15.png)
+![MyEMS Web 16](./docs/images/myems_web_16.png)
+![MyEMS Web 17](./docs/images/myems_web_17.png)
+![MyEMS Web 18](./docs/images/myems_web_18.png)
+![MyEMS Web 19](./docs/images/myems_web_19.png)
+![MyEMS Web 20](./docs/images/myems_web_20.png)
+![MyEMS Web 21](./docs/images/myems_web_21.png)
+![MyEMS Web 22](./docs/images/myems_web_22.png)
+![MyEMS Web 23](./docs/images/myems_web_23.png)
+![MyEMS Web 24](./docs/images/myems_web_24.png)
+![MyEMS Web 25](./docs/images/myems_web_25.png)
+![MyEMS Web 26](./docs/images/myems_web_26.png)
+![MyEMS Web 27](./docs/images/myems_web_27.png)
+![MyEMS Web 28](./docs/images/myems_web_28.png)
+![MyEMS Web 29](./docs/images/myems_web_29.png)
 
 ## MyEMS Admin UI Präsentation
 
-![MyEMS Admin 0](/docs/images/myems_admin_0.png)
-![MyEMS Admin 1](/docs/images/myems_admin_1.png)
-![MyEMS Admin 2](/docs/images/myems_admin_2.png)
-![MyEMS Admin 3](/docs/images/myems_admin_3.png)
-![MyEMS Admin 4](/docs/images/myems_admin_4.png)
-![MyEMS Admin 5](/docs/images/myems_admin_5.png)
-![MyEMS Admin 6](/docs/images/myems_admin_6.png)
-![MyEMS Admin 7](/docs/images/myems_admin_7.png)
-![MyEMS Admin 8](/docs/images/myems_admin_8.png)
-![MyEMS Admin 9](/docs/images/myems_admin_9.png)
-![MyEMS Admin 10](/docs/images/myems_admin_10.png)
-![MyEMS Admin 11](/docs/images/myems_admin_11.png)
-![MyEMS Admin 12](/docs/images/myems_admin_12.png)
-![MyEMS Admin 13](/docs/images/myems_admin_13.png)
-![MyEMS Admin 14](/docs/images/myems_admin_14.png)
-![MyEMS Admin 15](/docs/images/myems_admin_15.png)
-![MyEMS Admin 16](/docs/images/myems_admin_16.png)
+![MyEMS Admin 0](./docs/images/myems_admin_0.png)
+![MyEMS Admin 1](./docs/images/myems_admin_1.png)
+![MyEMS Admin 2](./docs/images/myems_admin_2.png)
+![MyEMS Admin 3](./docs/images/myems_admin_3.png)
+![MyEMS Admin 4](./docs/images/myems_admin_4.png)
+![MyEMS Admin 5](./docs/images/myems_admin_5.png)
+![MyEMS Admin 6](./docs/images/myems_admin_6.png)
+![MyEMS Admin 7](./docs/images/myems_admin_7.png)
+![MyEMS Admin 8](./docs/images/myems_admin_8.png)
+![MyEMS Admin 9](./docs/images/myems_admin_9.png)
+![MyEMS Admin 10](./docs/images/myems_admin_10.png)
+![MyEMS Admin 11](./docs/images/myems_admin_11.png)
+![MyEMS Admin 12](./docs/images/myems_admin_12.png)
+![MyEMS Admin 13](./docs/images/myems_admin_13.png)
+![MyEMS Admin 14](./docs/images/myems_admin_14.png)
+![MyEMS Admin 15](./docs/images/myems_admin_15.png)
+![MyEMS Admin 16](./docs/images/myems_admin_16.png)
 
 ## MyEMS Dashboard UI Präsentation
 
-![MyEMS Großbild-Dashboard](/docs/images/myems-large-screen-dashboard.gif)
+![MyEMS Großbild-Dashboard](./docs/images/myems-large-screen-dashboard.gif)
 
-![MyEMS Dashboard GCC](/docs/images/myems-dashboard-gcc.png)
+![MyEMS Dashboard GCC](./docs/images/myems-dashboard-gcc.png)
 
 
 ## Funktionen der MyEMS Community Edition
@@ -192,21 +192,21 @@ Passwort: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](/docs/images/qr_code_wechat.png)
+![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
 
-![Line: MyEMS](/docs/images/qr_code_line.png)
+![Line: MyEMS](./docs/images/qr_code_line.png)
 
-![WhatsAPP: MyEMS](/docs/images/qr_code_whatsapp.png)
+![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
 
-![Feishu: 13011132526](/docs/images/qr_code_feishu.png)
+![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
 
 ## Offizielles Abonnement Weixin
 
-![Open Source Energiemanagementsystem](/docs/images/qr_code_mp_weixin.png)
+![Open Source Energiemanagementsystem](./docs/images/qr_code_mp_weixin.png)
 
 ## WeChat-Gruppe
 
-![WeChat-Gruppe](/docs/images/qr_code_wechat_group.png)
+![WeChat-Gruppe](./docs/images/qr_code_wechat_group.png)
 
 ## QQ-Gruppe
 
@@ -214,11 +214,11 @@ Gruppennummer: 792528967
 
 ## Xiaohongshu
 
-![Xiaohongshju](/docs/images/qr_code_xiaohongshu.png)
+![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
 
 
 
-![QQ Group 1](/docs/images/qr_code_qq_group.png)
+![QQ Group 1](./docs/images/qr_code_qq_group.png)
 
 
 ## Videos
