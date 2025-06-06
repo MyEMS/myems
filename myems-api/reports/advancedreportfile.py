@@ -15,6 +15,7 @@ class AdvancedReportFileCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     ####################################################################################################################
@@ -124,7 +125,9 @@ class AdvancedReportFileItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
