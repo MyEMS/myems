@@ -13,7 +13,9 @@ class Reporting:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     ####################################################################################################################
     # PROCEDURES

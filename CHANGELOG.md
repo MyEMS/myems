@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 ### Fixed
 - fixed image path issues in readme.md
+- fixed unused local symbols warnings in myems-api
 ### Removed
 
 ## [v5.5.0] - 2025-05-29
