@@ -312,6 +312,13 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setParameterLineChartOptions(names);
 
+          setGatewayStatus('正常');
+          setPCSStatus('正常');
+          setBMSStatus('正常');
+          setHVACStatus('正常');
+          setGridMeterStatus('正常');
+          setLoadMeterStatus('正常');
+
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -1037,7 +1044,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchDCDCDetails()
             }}
             >
-              <h6>DCDC</h6>
+              <h6>{t('DCDC')}</h6>
             </NavLink>
           </NavItem>
 
@@ -1049,7 +1056,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchPCSDetails()
               }}
             >
-              <h6>PCS</h6>
+              <h6>{t('PCS')}</h6>
             </NavLink>
           </NavItem>
 
@@ -1061,7 +1068,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                 fetchBMSDetails();
               }}
             >
-              <h6>BMS</h6>
+              <h6>{t('BMS')}</h6>
             </NavLink>
           </NavItem>
 

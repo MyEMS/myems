@@ -59,7 +59,7 @@ class Reporting:
                      " WHERE id = %s ")
             cursor_system.execute(query, (energy_storage_power_station_id,))
             row = cursor_system.fetchone()
-
+        # todo: fix
         if row is None:
             cursor_system.close()
             cnx_system.close()
