@@ -175,7 +175,7 @@ const EnergyStoragePowerStationListItem = ({
                         ? t('Battery Idle')
                         : batteryOperatingState === 'Reserved'
                         ? t('Battery Reserved')
-                        : t('Battery Unknown')}
+                        : batteryOperatingState}
                     </strong>
                   </p>
                   <p className="fs--1 mb-1">
@@ -201,7 +201,7 @@ const EnergyStoragePowerStationListItem = ({
                         ? t('PCS Shutdown')
                         : PCSRunState === 'Fault'
                         ? t('PCS Fault')
-                        : t('PCS Unknown')}
+                        : PCSRunState}
                     </strong>
                   </p>
                   <p className="fs--1 mb-1">{t("Today's Discharge")}:<strong>{todayTotalDischarge} kWh</strong>
