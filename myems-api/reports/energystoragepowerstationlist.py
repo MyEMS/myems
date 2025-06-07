@@ -156,6 +156,21 @@ class Reporting:
                  " ORDER BY m.phase_of_lifecycle, m.id ")
         cursor_system_db.execute(query, (user_id, ))
         rows_energy_storage_power_stations = cursor_system_db.fetchall()
+        # get all digital value points definitions
+        point_definition_dict = dict()
+        query = (" SELECT id, definitions "
+                 " FROM tbl_points "
+                 " WHERE object_type = 'DIGITAL_VALUE' AND definitions IS NOT NULL ")
+        cursor_system_db.execute(query, ())
+        rows_point_definitions = cursor_system_db.fetchall()
+        if rows_point_definitions is not None and len(rows_point_definitions) > 0:
+            for row in rows_point_definitions:
+                try:
+                    definition = json.loads(row[1])
+                except Exception as e:
+                    print("Invalid point definitions in JSON " + str(e))
+                    continue
+                point_definition_dict[row[0]] = definition
 
         # construct the report
         result = list()
@@ -196,46 +211,40 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
-                # 鸿博：关联PCS开机关机指令设置，.0为停机，1为运行
-                if pcs_run_state_point_value is None:
-                    pcs_run_state = 'Unknown'
-                elif pcs_run_state_point_value == 0:
-                    pcs_run_state = 'Shutdown'
-                elif pcs_run_state_point_value == 1:
-                    pcs_run_state = 'Running'
-                else:
-                    pcs_run_state = 'Unknown'
-
-                # MyEMS标准状态
-                # 0：关闭 Shutdown
-                # 1：软启动中 Soft Starting
-                # 2：并网充电 On Grid Charging
-                # 3：并网放电 On Grid DisCharging
-                # 4：离网放电 Off Grid DisCharging
-                # 5：降额并网 Derating On Grid
-                # 6：待机 Standby
-                # 7：离网充电 Off Grid Charging
-                #
-                # if pcs_run_state_point_value is None:
-                #     pcs_run_state = 'Unknown'
-                # elif pcs_run_state_point_value == 0:
-                #     pcs_run_state = 'Shutdown'
-                # elif pcs_run_state_point_value == 1:
-                #     pcs_run_state = 'Running'
-                # elif pcs_run_state_point_value == 2:
-                #     pcs_run_state = 'Running'
-                # elif pcs_run_state_point_value == 3:
-                #     pcs_run_state = 'Running'
-                # elif pcs_run_state_point_value == 4:
-                #     pcs_run_state = 'Running'
-                # elif pcs_run_state_point_value == 5:
-                #     pcs_run_state = 'Running'
-                # elif pcs_run_state_point_value == 6:
-                #     pcs_run_state = 'Standby'
-                # elif pcs_run_state_point_value == 7:
-                #     pcs_run_state = 'Running'
-                # else:
-                #     pcs_run_state = 'Running'
+                    # 0：关闭 Shutdown
+                    # 1：软启动中 Soft Starting
+                    # 2：并网充电 On Grid Charging
+                    # 3：并网放电 On Grid DisCharging
+                    # 4：离网放电 Off Grid DisCharging
+                    # 5：降额并网 Derating On Grid
+                    # 6：待机 Standby
+                    # 7：离网充电 Off Grid Charging
+                    print(pcs_run_state_point_value)
+                    if point_definition_dict.get(row_point[0]) is not None:
+                        definition = point_definition_dict.get(row_point[0])
+                        print(definition)
+                        pcs_run_state = definition.get(str(pcs_run_state_point_value))
+                    else:
+                        if pcs_run_state_point_value is None:
+                            pcs_run_state = 'Unknown'
+                        elif pcs_run_state_point_value == 0:
+                            pcs_run_state = 'Shutdown'
+                        elif pcs_run_state_point_value == 1:
+                            pcs_run_state = 'Running'
+                        elif pcs_run_state_point_value == 2:
+                            pcs_run_state = 'Running'
+                        elif pcs_run_state_point_value == 3:
+                            pcs_run_state = 'Running'
+                        elif pcs_run_state_point_value == 4:
+                            pcs_run_state = 'Running'
+                        elif pcs_run_state_point_value == 5:
+                            pcs_run_state = 'Running'
+                        elif pcs_run_state_point_value == 6:
+                            pcs_run_state = 'Standby'
+                        elif pcs_run_state_point_value == 7:
+                            pcs_run_state = 'Running'
+                        else:
+                            pcs_run_state = 'Running'
 
                 # get battery state point
                 battery_state_point_value = None
@@ -252,43 +261,37 @@ class Reporting:
                         if digital_value_latest_dict.get(row_point[0]) is not None:
                             battery_state_point_value = digital_value_latest_dict.get(row_point[0])['actual_value']
 
-                # MyEMS 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
-                # 鸿博 1 充电 2放电 3开路
-                print(battery_state_point_value)
-                if battery_state_point_value is None:
-                    battery_operating_state = 'Unknown'
-                elif battery_state_point_value == 1:
-                    battery_operating_state = 'Charging'
-                elif battery_state_point_value == 2:
-                    battery_operating_state = 'Discharging'
-                elif battery_state_point_value == 3:
-                    battery_operating_state = 'Idle'
-                else:
-                    battery_operating_state = 'Unknown'
-                # if battery_state_point_value is None:
-                #     battery_operating_state = 'Unknown'
-                # elif battery_state_point_value == 0:
-                #     battery_operating_state = 'Reserved'
-                # elif battery_state_point_value == 1:
-                #     battery_operating_state = 'Fault'
-                # elif battery_state_point_value == 2:
-                #     battery_operating_state = 'Warning'
-                # elif battery_state_point_value == 3:
-                #     battery_operating_state = 'Standby'
-                # elif battery_state_point_value == 4:
-                #     battery_operating_state = 'ProhibitDisCharging'
-                # elif battery_state_point_value == 5:
-                #     battery_operating_state = 'ProhibitCharging'
-                # elif battery_state_point_value == 6:
-                #     battery_operating_state = 'Normal'
-                # elif battery_state_point_value == 7:
-                #     battery_operating_state = 'Charging'
-                # elif battery_state_point_value == 8:
-                #     battery_operating_state = 'Discharging'
-                # elif battery_state_point_value == 9:
-                #     battery_operating_state = 'Idle'
-                # else:
-                #     battery_operating_state = 'Unknown'
+                    # 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
+                    print(battery_state_point_value)
+                    if point_definition_dict.get(row_point[0]) is not None:
+                        definition = point_definition_dict.get(row_point[0])
+                        print(definition)
+                        battery_operating_state = definition.get(str(battery_state_point_value))
+                    else:
+                        if battery_state_point_value is None:
+                            battery_operating_state = 'Unknown'
+                        elif battery_state_point_value == 0:
+                            battery_operating_state = 'Reserved'
+                        elif battery_state_point_value == 1:
+                            battery_operating_state = 'Fault'
+                        elif battery_state_point_value == 2:
+                            battery_operating_state = 'Warning'
+                        elif battery_state_point_value == 3:
+                            battery_operating_state = 'Standby'
+                        elif battery_state_point_value == 4:
+                            battery_operating_state = 'ProhibitDisCharging'
+                        elif battery_state_point_value == 5:
+                            battery_operating_state = 'ProhibitCharging'
+                        elif battery_state_point_value == 6:
+                            battery_operating_state = 'Normal'
+                        elif battery_state_point_value == 7:
+                            battery_operating_state = 'Charging'
+                        elif battery_state_point_value == 8:
+                            battery_operating_state = 'Discharging'
+                        elif battery_state_point_value == 9:
+                            battery_operating_state = 'Idle'
+                        else:
+                            battery_operating_state = 'Unknown'
 
                 # get battery soc point, power point
                 battery_soc_point_value = None
