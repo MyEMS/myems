@@ -19,7 +19,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
       $scope.getWorkingCalendarsByShopfloorID($scope.currentShopfloor.id);
     };
 
-  $scope.getAllShopfloors = function(id) {
+  $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ShopfloorService.getAllShopfloors(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
