@@ -106,6 +106,8 @@ class Reporting:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        # Get energy storage power station
+        row = None
         if energy_storage_power_station_id is not None:
             query = (" SELECT e.id, e.name, e.uuid, "
                      "        e.address, e.latitude, e.longitude, e.rated_capacity, e.rated_power, "

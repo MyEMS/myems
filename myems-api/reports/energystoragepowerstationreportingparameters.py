@@ -127,7 +127,8 @@ class Reporting:
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
-
+        # Get energy storage power station
+        row = None
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid "
                      " FROM tbl_energy_storage_power_stations "
