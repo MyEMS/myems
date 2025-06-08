@@ -187,7 +187,8 @@ class Reporting:
                                                             "unit_of_measure": row_energy_category[2],
                                                             "kgce": row_energy_category[3],
                                                             "kgco2e": row_energy_category[4]}
-
+        # Get energy storage power station
+        row = None
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, latitude, longitude, rated_capacity, rated_power, "

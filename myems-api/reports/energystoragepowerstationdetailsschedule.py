@@ -57,17 +57,11 @@ class Reporting:
                      " WHERE id = %s ")
             cursor_system.execute(query, (energy_storage_power_station_id,))
             row = cursor_system.fetchone()
-
-        if row is None:
-            cursor_system.close()
-            cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
-        else:
-            energy_storage_power_station_id = row[0]
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2]}
+            if row is None:
+                cursor_system.close()
+                cnx_system.close()
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
         ################################################################################################################
         # Step 3: query associated containers

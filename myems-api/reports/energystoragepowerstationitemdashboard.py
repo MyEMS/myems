@@ -79,6 +79,7 @@ class Reporting:
                 space_dict[row[0]] = row[1]
         print(space_dict)
         # Get energy storage power station
+        row = None
         if energy_storage_power_station_id is not None:
             query = (" SELECT id, name, uuid, "
                      "        address, latitude, longitude, rated_capacity, rated_power, "
