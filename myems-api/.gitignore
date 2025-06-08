@@ -66,3 +66,5 @@ ee/
 
 # debug files
 pid
+
+[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*
