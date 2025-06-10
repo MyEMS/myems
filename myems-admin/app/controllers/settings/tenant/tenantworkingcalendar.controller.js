@@ -19,7 +19,7 @@ app.controller('TenantWorkingCalendarController', function(
       $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
     };
 
-  $scope.getAllTenants = function(id) {
+  $scope.getAllTenants = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.getAllTenants(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
