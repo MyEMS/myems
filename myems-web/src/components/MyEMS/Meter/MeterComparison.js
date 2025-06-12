@@ -128,8 +128,6 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [meterLineChartOptions1, setMeterLineChartOptions1] = useState([]);
-  const [meterLineChartOptions2, setMeterLineChartOptions2] = useState([]);
   const [meterLineChartData1, setMeterLineChartData1] = useState({ a0: [] });
   const [meterLineChartData2, setMeterLineChartData2] = useState({ a0: [] });
   const [meterLineChartLabels1, setMeterLineChartLabels1] = useState({ a0: [] });
@@ -486,11 +484,9 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setReportingPeriodEnergyConsumptionInDifference(json['diff']['total_in_category']);
           let names1 = [];
           names1.push({ value: 'a0', label: json['meter1']['energy_category_name'] });
-          setMeterLineChartOptions1(names1);
 
           let names2 = [];
           names2.push({ value: 'a0', label: json['meter2']['energy_category_name'] });
-          setMeterLineChartOptions2(names2);
 
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
