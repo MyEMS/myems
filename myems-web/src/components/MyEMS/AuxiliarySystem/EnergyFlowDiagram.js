@@ -31,7 +31,6 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import ButtonIcon from '../../common/ButtonIcon';
 
-const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
