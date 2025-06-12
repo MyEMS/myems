@@ -369,7 +369,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(selectedSpaceID);
   };
 
-  const loadData = (spaceID) => {
+  const loadData = spaceID => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
