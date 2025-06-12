@@ -216,6 +216,8 @@ class Reporting:
         for row in digital_value_latest_rows:
             digital_value_latest_dict[row[0]] = row[1]
 
+        charge_meter_id_list = list()
+        discharge_meter_id_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT p.id, cb.name, p.units, p.object_type  "
                                   " FROM tbl_energy_storage_containers_batteries cb, tbl_points p "
@@ -241,7 +243,6 @@ class Reporting:
                                        "units": row_point[2],
                                        "object_type": row_point[3]})
 
-            charge_meter_id_list = list()
             cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
                                   " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
                                   " WHERE cb.energy_storage_container_id = %s AND cb.charge_meter_id = m.id ",
@@ -254,7 +255,6 @@ class Reporting:
                                        "energy_category_id": row_meter[2]})
                     charge_meter_id_list.append(row_meter[0])
 
-            discharge_meter_id_list = list()
             cursor_system.execute(" SELECT m.id, cb.name, m.energy_category_id  "
                                   " FROM tbl_energy_storage_containers_batteries cb, tbl_meters m "
                                   " WHERE cb.energy_storage_container_id = %s AND cb.discharge_meter_id = m.id ",
