@@ -14,6 +14,7 @@ class EmailMessageCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -104,6 +105,7 @@ class EmailMessageCollection:
             # Retrieve filename
             attachment_file_name = upload.filename
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
         try:
@@ -246,8 +248,9 @@ class EmailMessageItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -303,6 +306,7 @@ class EmailMessageItem:
             # Retrieve filename
             attachment_file_name = upload.filename
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
 
