@@ -95,8 +95,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
   // buttons
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
-  const [submitButtonHidden, setSubmitButtonHidden] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
@@ -210,16 +208,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     // select the first station
                     let stationID = json[0][0].value;
                     setSelectedStation(stationID);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                    setSubmitButtonHidden(false);
                     // automatically submit with the first station
                     loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + stationID);
                   } else {
                     setSelectedStation(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                    setSubmitButtonHidden(true);
                   }
                 } else {
                   toast.error(t(json.description));
@@ -243,8 +235,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   }, [energyStoragePowerStationUUID]);
 
   const loadData = url => {
-    // disable submit button
-    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide result data
@@ -318,17 +308,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setHVACStatus('正常');
           setGridMeterStatus('正常');
           setLoadMeterStatus('正常');
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show result data
           setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
-          // enable submit button
-          setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -371,14 +356,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
             setSelectedStation(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
-            setSubmitButtonHidden(false);
+            loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + json[0][0].value);
           } else {
             setSelectedStation(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
-            setSubmitButtonHidden(true);
           }
         } else {
           toast.error(t(json.description));
@@ -389,12 +369,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   };
 
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
-    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation);
+  let onStationChange = ({ target }) => {
+    setSelectedStation(target.value);
+    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + target.value);
   };
-
 
   const refreshSVGData = () => {
     let isResponseOK = false;
@@ -771,7 +749,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   return (
     <Fragment>
 
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Row form>
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
@@ -793,7 +771,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   id="stationSelect"
                   name="stationSelect"
                   bsSize="sm"
-                  onChange={({ target }) => setSelectedStation(target.value)}
+                  onChange={onStationChange}
                 >
                   {filteredStationList.map((station, index) => (
                     <option value={station.value} key={index}>
@@ -802,15 +780,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   ))}
                 </CustomInput>
               </Form>
-            </FormGroup>
-          </Col>
-          <Col xs="auto">
-            <FormGroup>
-              <ButtonGroup id="submit">
-                <Button size="sm" color="success" hidden={submitButtonHidden} disabled={submitButtonDisabled}>
-                  {t('Submit')}
-                </Button>
-              </ButtonGroup>
             </FormGroup>
           </Col>
           <Col xs="auto">
