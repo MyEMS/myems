@@ -5,13 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added uuid file name pattern in myems-api/.gitignore 
+- added uuid file name pattern in myems-api/.gitignore
 ### Changed
 - updated datasource in myems-admin
 ### Fixed
 - fixed image path issues in readme.md
 - fixed unused local symbols warnings in myems-api
+- fixed wangings in myems-web
 ### Removed
+- None
 
 ## [v5.5.0] - 2025-05-29
 ### Added

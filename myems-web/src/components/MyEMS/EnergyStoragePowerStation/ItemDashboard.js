@@ -44,7 +44,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
   // buttons
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
@@ -139,9 +138,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 if (json[0].length > 0) {
                   let stationID = json[0][0].value;
                   setSelectedStation(stationID);
-                  // enable submit button
-                  setSubmitButtonDisabled(false);
-
                   // show spinner
                   setSpinnerHidden(false);
                   loadData(stationID);
@@ -150,8 +146,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   loadCarbonData(stationID);
                 } else {
                   setSelectedStation(undefined);
-                  // disable submit button
-                  setSubmitButtonDisabled(true);
                 }
               } else {
                 toast.error(t(json.description));
@@ -186,8 +180,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
-      // disable submit button
-      setSubmitButtonDisabled(true);
       // show spinner
       setSpinnerHidden(false);
       // hide result data
@@ -214,8 +206,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-            // enable submit button
-            setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
             // show result data
@@ -506,12 +496,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
             setSelectedStation(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            // show spinner
+            setSpinnerHidden(false);
+            loadData(json[0][0].value);
+            loadEnergyData(json[0][0].value);
+            loadBillingData(json[0][0].value);
+            loadCarbonData(json[0][0].value);
           } else {
             setSelectedStation(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
           }
         } else {
           toast.error(t(json.description));
@@ -522,15 +514,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
+  let onStationChange = ({ target }) => {
+    setSelectedStation(target.value);
     // show spinner
     setSpinnerHidden(false);
-    loadData(selectedStation);
-    loadEnergyData(selectedStation);
-    loadBillingData(selectedStation);
-    loadCarbonData(selectedStation);
+    loadData(target.value);
+    loadEnergyData(target.value);
+    loadBillingData(target.value);
+    loadCarbonData(target.value);
   };
 
   useEffect(() => {
@@ -550,7 +541,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Fragment>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Row form>
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
@@ -572,7 +563,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   id="stationSelect"
                   name="stationSelect"
                   bsSize="sm"
-                  onChange={({ target }) => setSelectedStation(target.value)}
+                  onChange={onStationChange}
                 >
                   {filteredStationList.map((station, index) => (
                     <option value={station.value} key={station.value}>
@@ -581,15 +572,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   ))}
                 </CustomInput>
               </Form>
-            </FormGroup>
-          </Col>
-          <Col xs="auto">
-            <FormGroup>
-              <ButtonGroup id="submit">
-                <Button size="sm" color="success" disabled={submitButtonDisabled}>
-                  {t('Submit')}
-                </Button>
-              </ButtonGroup>
             </FormGroup>
           </Col>
           <Col xs="auto">
