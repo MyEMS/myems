@@ -152,15 +152,12 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         body: null
       })
         .then(response => {
-
           if (response.ok) {
             isResponseOK = true;
           }
           return response.json();
         })
-        .then(json => {
-
-          if (isResponseOK) {
+        .then(json => {          if (isResponseOK) {
             // rename keys
             json = JSON.parse(
               JSON.stringify([json])
@@ -171,7 +168,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID  = [json[0]].map(o => o.value);
+            let selectedSpaceID = [json[0]].map(o => o.value);
             // get Meters by root Space ID
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
@@ -280,7 +277,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
           if (uuid !== null && uuid) {
             setFilteredMeterList([{ id: json['meter']['id'], label: json['meter']['name'] }]);
             setSelectedMeter(json['meter']['id']);
@@ -356,7 +352,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a0',
                 text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -380,7 +376,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   UNIT: '(' + json['meter']['unit_of_measure'] + ')'
                 }),
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -396,7 +392,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
                   UNIT: '(' + json['meter']['unit_of_measure'] + ')'
                 }),
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -536,7 +532,6 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -873,10 +868,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           <CardSummary
             rate={reportingPeriodEnergyConsumptionRate}
