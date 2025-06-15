@@ -459,21 +459,21 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/combinedequipmentcost?' +
-      'combinedequipmentid=' +
-      selectedCombinedEquipment +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/combinedequipmentcost?' +
+        'combinedequipmentid=' +
+        selectedCombinedEquipment +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -697,7 +697,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -710,7 +710,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'total',
               text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -738,7 +738,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -752,7 +752,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'basePeriodTotal',
               text: t('Base Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -773,7 +773,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -787,7 +787,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'reportingPeriodTotal',
               text: t('Reporting Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -878,7 +878,8 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 associated_equipment_value['name'] = currentEquipmentName;
                 let total = 0.0;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                  let subtotal_of_equipment = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+                  let subtotal_of_equipment =
+                    json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
                   associated_equipment_value['a' + energyCategoryIndex] = subtotal_of_equipment;
                   total += subtotal_of_equipment;
                 });
@@ -888,11 +889,11 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               }
             );
           }
-          associated_equipment_value_list.forEach((associated_equipment_value) => {
+          associated_equipment_value_list.forEach(associated_equipment_value => {
             if (overalltotal > 0) {
-               associated_equipment_value['b'] = (associated_equipment_value['total'] / overalltotal) * 100;
+              associated_equipment_value['b'] = (associated_equipment_value['total'] / overalltotal) * 100;
             } else {
-                associated_equipment_value['b'] = 0;
+              associated_equipment_value['b'] = 0;
             }
           });
 
@@ -910,7 +911,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'a' + index,
               text: currentValue + ' (' + unit + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -923,7 +924,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             dataField: 'total',
             text: t('Total') + ' (' + json['associated_equipment']['total_unit'] + ')',
             sort: true,
-            formatter: function (decimalValue) {
+            formatter: function(decimalValue) {
               if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
@@ -935,7 +936,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             dataField: 'b',
             text: t('Total') + ' ' + '%',
             sort: true,
-            formatter: function (decimalValue) {
+            formatter: function(decimalValue) {
               if (typeof decimalValue === 'number') {
                 return decimalValue.toFixed(2);
               } else {
@@ -1144,10 +1145,10 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
