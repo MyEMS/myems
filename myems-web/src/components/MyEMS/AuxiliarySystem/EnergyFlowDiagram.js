@@ -563,28 +563,9 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-
-
-      {/*<div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>*/}
-      {/*  <img className="img-fluid" src={blankPage} alt="" />*/}
-      {/*</div>*/}
-
-      {/*<div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>*/}
-      {/*  <Card className="mb-3 fs--1">*/}
-      {/*    <CardBody className="rounded-soft bg-gradient">*/}
-      {/*      <ReactEchartsCore*/}
-      {/*        echarts={echarts}*/}
-      {/*        option={getOption()}*/}
-      {/*        style={{ width: '100%', height: 600 }}*/}
-      {/*      />*/}
-      {/*    </CardBody>*/}
-      {/*  </Card>*/}
-      {/*</div>*/}
-
       <div style={{ display: resultDataHidden ? 'block' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
-
       <div style={{ display: resultDataHidden ? 'none' : 'block' }}>
         <Card className="mb-3 fs--1">
           <CardBody className="rounded-soft bg-gradient">
@@ -596,7 +577,6 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           </CardBody>
         </Card>
       </div>
-
     </Fragment>
   );
 };
