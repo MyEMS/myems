@@ -15,6 +15,7 @@ class DataRepairFileCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -72,6 +73,7 @@ class DataRepairFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_DATA_REPAIR_FILE')
 
@@ -151,8 +153,9 @@ class DataRepairFileItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -216,6 +219,7 @@ class DataRepairFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
+            print(str(ex))
             # ignore exception and don't return API.DATA_REPAIR_FILE_NOT_FOUND error
             pass
 
@@ -236,8 +240,9 @@ class DataRepairFileRestore:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -280,6 +285,7 @@ class DataRepairFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
         resp.text = json.dumps('success')
