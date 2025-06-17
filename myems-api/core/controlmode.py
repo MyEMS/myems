@@ -15,6 +15,7 @@ class ControlModeCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -76,6 +77,7 @@ class ControlModeCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -143,8 +145,9 @@ class ControlModeItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -244,6 +247,7 @@ class ControlModeItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -335,8 +339,9 @@ class ControlModeExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -402,6 +407,7 @@ class ControlModeImport:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -412,6 +418,7 @@ class ControlModeImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -482,8 +489,9 @@ class ControlModeClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
@@ -572,8 +580,9 @@ class ControlModeTimeCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -654,6 +663,7 @@ class ControlModeTimeCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -743,8 +753,9 @@ class ControlModeTimeItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_, tid):
         if 'API-KEY' not in req.headers or \
@@ -873,6 +884,7 @@ class ControlModeTimeItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

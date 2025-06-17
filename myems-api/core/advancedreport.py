@@ -14,6 +14,7 @@ class AdvancedReportCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -168,7 +169,9 @@ class AdvancedReportItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
+        _=id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -372,8 +375,9 @@ class AdvancedReportRun:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _= req
         resp.status = falcon.HTTP_200
-
+        _= id_
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
@@ -415,8 +419,9 @@ class AdvancedReportExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -478,6 +483,7 @@ class AdvancedReportImport:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -528,6 +534,7 @@ class AdvancedReportImport:
                 next_run_datetime_local = datetime.strptime(new_values['next_run_datetime'],
                                                             '%Y-%m-%dT%H:%M:%S')
             except Exception as ex:
+                print(str(ex))
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_NEXT_RUN_DATETIME')
 
@@ -580,7 +587,9 @@ class AdvancedReportClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
+        _=id_
 
     @staticmethod
     @user_logger

@@ -181,7 +181,9 @@ class DataSourceItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
+        _=id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -289,6 +291,7 @@ class DataSourceItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -397,8 +400,9 @@ class DataSourcePointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -514,8 +518,9 @@ class DataSourceExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -610,6 +615,7 @@ class DataSourceImport:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -620,6 +626,7 @@ class DataSourceImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -744,8 +751,9 @@ class DataSourceClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

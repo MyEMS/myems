@@ -13,6 +13,7 @@ class CostCenterCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -118,8 +119,9 @@ class CostCenterItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -390,8 +392,9 @@ class CostCenterTariffCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -501,8 +504,9 @@ class CostCenterTariffItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, tid):
