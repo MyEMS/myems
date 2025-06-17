@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 import moment from 'moment';
 import Cascader from 'rc-cascader';
-import loadable from '@loadable/component';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
 import { SankeyChart } from 'echarts/charts';
@@ -30,6 +29,7 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import ButtonIcon from '../../common/ButtonIcon';
+import blankPage from "../../../assets/img/generic/blank-page.png";
 
 
 echarts.use([SankeyChart]);
@@ -563,16 +563,40 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Card className="mb-3 fs--1">
-        <CardBody className="rounded-soft bg-gradient">
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption()}
-            data={energyFlowDiagramData}
-            style={{ width: '100%', height: 600 }}
-          />
-        </CardBody>
-      </Card>
+
+
+      {/*<div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>*/}
+      {/*  <img className="img-fluid" src={blankPage} alt="" />*/}
+      {/*</div>*/}
+
+      {/*<div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>*/}
+      {/*  <Card className="mb-3 fs--1">*/}
+      {/*    <CardBody className="rounded-soft bg-gradient">*/}
+      {/*      <ReactEchartsCore*/}
+      {/*        echarts={echarts}*/}
+      {/*        option={getOption()}*/}
+      {/*        style={{ width: '100%', height: 600 }}*/}
+      {/*      />*/}
+      {/*    </CardBody>*/}
+      {/*  </Card>*/}
+      {/*</div>*/}
+
+      <div style={{ display: resultDataHidden ? 'block' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+
+      <div style={{ display: resultDataHidden ? 'none' : 'block' }}>
+        <Card className="mb-3 fs--1">
+          <CardBody className="rounded-soft bg-gradient">
+            <ReactEchartsCore
+              echarts={echarts}
+              option={getOption()}
+              style={{ width: '100%', height: 600 }}
+            />
+          </CardBody>
+        </Card>
+      </div>
+
     </Fragment>
   );
 };
