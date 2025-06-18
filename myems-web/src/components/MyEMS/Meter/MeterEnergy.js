@@ -157,7 +157,8 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           }
           return response.json();
         })
-        .then(json => {          if (isResponseOK) {
+        .then(json => {
+          if (isResponseOK) {
             // rename keys
             json = JSON.parse(
               JSON.stringify([json])
@@ -868,7 +869,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
