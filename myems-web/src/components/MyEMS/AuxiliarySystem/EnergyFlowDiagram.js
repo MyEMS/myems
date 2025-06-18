@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 import moment from 'moment';
 import Cascader from 'rc-cascader';
-import loadable from '@loadable/component';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
 import { SankeyChart } from 'echarts/charts';
@@ -30,7 +29,7 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import ButtonIcon from '../../common/ButtonIcon';
-
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 echarts.use([SankeyChart]);
 const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
@@ -109,88 +108,88 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
 
   useEffect(() => {
     let isResponseOK = false;
-      fetch(APIBaseURL + '/spaces/tree', {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
+    fetch(APIBaseURL + '/spaces/tree', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
       })
-        .then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        })
-        .then(json => {
-          if (isResponseOK) {
-            // rename keys
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            setCascaderOptions(json);
-            setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID  = [json[0]].map(o => o.value);
-            // get EnergyFlowDiagrams by root Space ID
-            let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energyflowdiagrams', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
+      .then(json => {
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          let selectedSpaceID = [json[0]].map(o => o.value);
+          // get EnergyFlowDiagrams by root Space ID
+          let isResponseOK = false;
+          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energyflowdiagrams', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          })
+            .then(response => {
+              if (response.ok) {
+                isResponseOK = true;
+              }
+              return response.json();
             })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOK = true;
-                }
-                return response.json();
-              })
-              .then(json => {
-                if (isResponseOK) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  setEnergyFlowDiagramList(json[0]);
-                  if (json[0].length > 0) {
-                    setSelectedEnergyFlowDiagram(json[0][0].value);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                  } else {
-                    setSelectedEnergyFlowDiagram(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                    // hide export button
-                    setExportButtonHidden(true);
-                  }
+            .then(json => {
+              if (isResponseOK) {
+                json = JSON.parse(
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
+                );
+                setEnergyFlowDiagramList(json[0]);
+                if (json[0].length > 0) {
+                  setSelectedEnergyFlowDiagram(json[0][0].value);
+                  // enable submit button
+                  setSubmitButtonDisabled(false);
                 } else {
-                  toast.error(t(json.description));
+                  setSelectedEnergyFlowDiagram(undefined);
+                  // disable submit button
+                  setSubmitButtonDisabled(true);
+                  // hide export button
+                  setExportButtonHidden(true);
                 }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            // end of get EnergyFlowDiagrams by root Space ID
-          } else {
-            toast.error(t(json.description));
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }, []);
+              } else {
+                toast.error(t(json.description));
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          // end of get EnergyFlowDiagrams by root Space ID
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -402,9 +401,11 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
 
           let detial_value_list = [];
           // choose the first point's timestamps (not empty) for all points
-          if (json['reporting_period'] !== undefined &&
-          json['reporting_period']['timestamps'] !== undefined &&
-          json['reporting_period']['timestamps'].length > 0) {
+          if (
+            json['reporting_period'] !== undefined &&
+            json['reporting_period']['timestamps'] !== undefined &&
+            json['reporting_period']['timestamps'].length > 0
+          ) {
             let arr_index = 0;
             for (let index in json['reporting_period']['timestamps']) {
               if (json['reporting_period']['timestamps'][index].length === 0) {
@@ -495,20 +496,20 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses} for="energyFlowDiagramSelect">
                     {t('Energy Flow Diagram')}
                   </Label>
-                    <CustomInput
-                      type="select"
-                      id="energyFlowDiagramSelect"
-                      name="energyFlowDiagramSelect"
-                      bsSize="sm"
-                      value={selectedEnergyFlowDiagram}
-                      onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
-                    >
-                      {energyFlowDiagramList.map((energyFlowDiagram, index) => (
-                        <option value={energyFlowDiagram.value} key={index}>
-                          {energyFlowDiagram.label}
-                        </option>
-                      ))}
-                    </CustomInput>
+                  <CustomInput
+                    type="select"
+                    id="energyFlowDiagramSelect"
+                    name="energyFlowDiagramSelect"
+                    bsSize="sm"
+                    value={selectedEnergyFlowDiagram}
+                    onChange={({ target }) => setSelectedEnergyFlowDiagram(target.value)}
+                  >
+                    {energyFlowDiagramList.map((energyFlowDiagram, index) => (
+                      <option value={energyFlowDiagram.value} key={index}>
+                        {energyFlowDiagram.label}
+                      </option>
+                    ))}
+                  </CustomInput>
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
@@ -563,16 +564,16 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <Card className="mb-3 fs--1">
-        <CardBody className="rounded-soft bg-gradient">
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption()}
-            data={energyFlowDiagramData}
-            style={{ width: '100%', height: 600 }}
-          />
-        </CardBody>
-      </Card>
+      <div style={{ display: resultDataHidden ? 'block' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ display: resultDataHidden ? 'none' : 'block' }}>
+        <Card className="mb-3 fs--1">
+          <CardBody className="rounded-soft bg-gradient">
+            <ReactEchartsCore echarts={echarts} option={getOption()} style={{ width: '100%', height: 600 }} />
+          </CardBody>
+        </Card>
+      </div>
     </Fragment>
   );
 };
