@@ -425,7 +425,7 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
               parseFloat(json['reporting_period']['increment_rates_saving'][index] * 100).toFixed(2) + '%';
             cardSummaryItem['subtotal_per_unit_area'] =
               json['reporting_period']['subtotals_per_unit_area_saving'][index];
-              cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita_saving'][index];
+            cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita_saving'][index];
             cardSummaryArray.push(cardSummaryItem);
           });
           setCardSummaryList(cardSummaryArray);
@@ -1067,9 +1067,9 @@ const SpaceSaving = ({ setRedirect, setRedirectUrl, t }) => {
         />
         <br />
         <ChildSpacesTable
-         data={childSpacesTableData}
-         title={t('Child Spaces Data')}
-         columns={childSpacesTableColumns}
+          data={childSpacesTableData}
+          title={t('Child Spaces Data')}
+          columns={childSpacesTableColumns}
         />
       </div>
     </Fragment>
