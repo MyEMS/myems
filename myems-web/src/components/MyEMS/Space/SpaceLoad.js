@@ -161,7 +161,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
           // enable submit button
@@ -170,7 +169,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -199,13 +197,11 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
-
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -355,7 +351,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(selectedSpaceID);
   };
 
-  const loadData = (spaceID) => {
+  const loadData = spaceID => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -371,21 +367,21 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/spaceload?' +
-      'spaceid=' +
-      spaceID +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/spaceload?' +
+        'spaceid=' +
+        spaceID +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -404,8 +400,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -546,7 +540,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + 2 * index,
                 text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -558,7 +552,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + (2 * index + 1),
                 text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -587,7 +581,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + 2 * index,
                 text: t('Base Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -599,7 +593,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + (2 * index + 1),
                 text: t('Base Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -621,7 +615,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + 2 * index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -633,7 +627,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + (2 * index + 1),
                 text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -873,10 +867,10 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         {cardSummaryList.map(cardSummaryItem => (
           <div className="card-deck" key={cardSummaryItem['name']}>
             <CardSummary
@@ -895,7 +889,14 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['average'] && (
-                <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['average']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -914,7 +915,14 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
               {cardSummaryItem['maximum'] && (
-                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['maximum']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -925,7 +933,14 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Ratio of Average Load to Maximum Load')}
             >
               {cardSummaryItem['factor'] && (
-                <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['factor']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
           </div>
