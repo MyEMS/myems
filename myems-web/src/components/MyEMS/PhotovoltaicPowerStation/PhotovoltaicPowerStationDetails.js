@@ -38,7 +38,6 @@ import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import FaultDetails from './FaultDetails';
 
-
 const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const uuid = location.search.split('=')[1];
@@ -78,7 +77,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const [activeTabLeft, setActiveTabLeft] = useState('1');
   const toggleTabLeft = tab => {
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
-
   };
 
   const [activeTabRight, setActiveTabRight] = useState('1');
@@ -113,7 +111,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const [gridMeterStatus, setGridMeterStatus] = useState();
   const [loadMeterStatus, setLoadMeterStatus] = useState();
 
-
   const [todayGenerationEnergyValue, setTodayGenerationEnergyValue] = useState();
   const [totalGenerationEnergyValue, setTotalGenerationEnergyValue] = useState();
   const [totalEfficiency, setTotalEfficiency] = useState();
@@ -129,7 +126,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const [InvertorDetailsList, setInvertorDetailsList] = useState([]);
   const [meterDetailsList, setMeterDetailsList] = useState([]);
 
-
   useEffect(() => {
     if (uuid === null || !uuid) {
       let isResponseOK = false;
@@ -144,14 +140,12 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         body: null
       })
         .then(response => {
-
           if (response.ok) {
             isResponseOK = true;
           }
           return response.json();
         })
         .then(json => {
-
           if (isResponseOK) {
             // rename keys
             json = JSON.parse(
@@ -163,7 +157,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID  = [json[0]].map(o => o.value);
+            let selectedSpaceID = [json[0]].map(o => o.value);
             // get Photovoltaic  Power Stations by root Space ID
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
@@ -220,9 +214,9 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           console.log(err);
         });
     } else {
-        setSpaceCascaderHidden(true);
-        loadData(APIBaseURL + '/reports/photovoltaicpowerstationdetails?uuid=' + photovoltaicPowerStationUUID)
-      }
+      setSpaceCascaderHidden(true);
+      loadData(APIBaseURL + '/reports/photovoltaicpowerstationdetails?uuid=' + photovoltaicPowerStationUUID);
+    }
   }, [photovoltaicPowerStationUUID]);
 
   const loadData = url => {
@@ -251,9 +245,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-
           if (uuid !== null && uuid) {
-            setFilteredStationList([{ id: json['photovoltaic_power_station']['id'], label: json['photovoltaic_power_station']['name'] }]);
+            setFilteredStationList([
+              { id: json['photovoltaic_power_station']['id'], label: json['photovoltaic_power_station']['name'] }
+            ]);
             setSelectedStation(json['photovoltaic_power_station']['id']);
           }
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
@@ -266,7 +261,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
 
           if (json['energy_indicators']['performance_ratio'] != null) {
-            setTotalEfficiency((json['energy_indicators']['performance_ratio']).toFixed(2));
+            setTotalEfficiency(json['energy_indicators']['performance_ratio'].toFixed(2));
           } else {
             setTotalEfficiency(0);
           }
@@ -370,7 +365,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
     loadData(APIBaseURL + '/reports/photovoltaicpowerstationdetails?id=' + selectedStation);
   };
 
-
   const refreshSVGData = () => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/pointrealtime', {
@@ -390,7 +384,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-
           json.forEach(currentPoint => {
             let textElement = document.getElementById('PT' + currentPoint['point_id']);
             if (textElement) {
@@ -426,7 +419,13 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
     // Query Parameters
     let priority = 'all';
     let status = 'all';
-    let reportingPeriodDateRange = [current_moment.clone().subtract(1, 'weeks').toDate(), current_moment.toDate()]
+    let reportingPeriodDateRange = [
+      current_moment
+        .clone()
+        .subtract(1, 'weeks')
+        .toDate(),
+      current_moment.toDate()
+    ];
     // results
     let totalFaultNumber = 0;
     let newFaultNumber = 0;
@@ -495,7 +494,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
   // Invertor
   const fetchInvertorDetails = () => {
-    let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/invertor'
+    let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/invertor';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -514,11 +513,9 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-
           setInvertorDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
@@ -528,7 +525,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
   // Meters
   const fetchMetersDetails = () => {
-    let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/meter'
+    let url = APIBaseURL + '/reports/photovoltaicpowerstationdetails/' + selectedStation + '/meter';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -547,11 +544,9 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
       })
       .then(json => {
         if (isResponseOK) {
-
           setMeterDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
@@ -561,17 +556,11 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
 
   return (
     <Fragment>
-
       <Form onSubmit={handleSubmit}>
         <Row form>
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
-              <Cascader
-                options={cascaderOptions}
-                onChange={onSpaceCascaderChange}
-                changeOnSelect
-                expandTrigger="hover"
-              >
+              <Cascader options={cascaderOptions} onChange={onSpaceCascaderChange} changeOnSelect expandTrigger="hover">
                 <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
               </Cascader>
             </FormGroup>
@@ -605,16 +594,16 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             </FormGroup>
           </Col>
           <Col xs="auto">
-              <FormGroup>
-                <Spinner color="primary" hidden={spinnerHidden} />
-              </FormGroup>
+            <FormGroup>
+              <Spinner color="primary" hidden={spinnerHidden} />
+            </FormGroup>
           </Col>
         </Row>
       </Form>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <Row noGutters>
           <Col lg="3" className="pr-lg-2">
             <Nav tabs>
@@ -661,11 +650,11 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                             <th className="pr-0 text-right">{todayGenerationEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Generation")}</th>
+                            <th className="pl-0 pb-0">{t('Total Generation')}</th>
                             <th className="pr-0 text-right">{(totalGenerationEnergyValue / 1000.0).toFixed(3)} MWH</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Efficiency")} PR</th>
+                            <th className="pl-0 pb-0">{t('Total Efficiency')} PR</th>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
                           {/* <tr className="border-bottom">
@@ -686,11 +675,15 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                         <tbody>
                           <tr className="border-bottom">
                             <th className="pl-0">{t("Today's Income")}</th>
-                            <th className="pr-0 text-right ">{todayGenerationRevenueValue} {currency}</th>
+                            <th className="pr-0 text-right ">
+                              {todayGenerationRevenueValue} {currency}
+                            </th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Income")}</th>
-                            <th className="pr-0 text-right">{totalGenerationRevenueValue} {currency}</th>
+                            <th className="pl-0 pb-0">{t('Total Income')}</th>
+                            <th className="pr-0 text-right">
+                              {totalGenerationRevenueValue} {currency}
+                            </th>
                           </tr>
                         </tbody>
                       </Table>
@@ -722,7 +715,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                     toggleTabRight('2');
                   }}
                 >
-                  <h6>{t("Basic Information")}</h6>
+                  <h6>{t('Basic Information')}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
@@ -799,7 +792,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                 fetchInvertorDetails();
               }}
             >
-              <h6>{t("Invertor")}</h6>
+              <h6>{t('Invertor')}</h6>
             </NavLink>
           </NavItem>
 
@@ -814,7 +807,6 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               <h6>{t('Meter')}</h6>
             </NavLink>
           </NavItem>
-
         </Nav>
         <TabContent activeTab={activeTabBottom}>
           <TabPane tabId="1">
@@ -834,10 +826,12 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             </Card>
           </TabPane>
           <TabPane tabId="3">
-            {isIterableArray(InvertorDetailsList) && InvertorDetailsList.map(({ id, ...rest }) => <InvertorDetails {...rest} key={id} />) }
+            {isIterableArray(InvertorDetailsList) &&
+              InvertorDetailsList.map(({ id, ...rest }) => <InvertorDetails {...rest} key={id} />)}
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(meterDetailsList) && meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />) }
+            {isIterableArray(meterDetailsList) &&
+              meterDetailsList.map(({ id, ...rest }) => <MeterDetails {...rest} key={id} />)}
           </TabPane>
         </TabContent>
       </div>

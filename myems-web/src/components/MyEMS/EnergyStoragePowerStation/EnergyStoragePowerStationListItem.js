@@ -6,7 +6,7 @@ import Flex from '../../common/Flex';
 import classNames from 'classnames';
 import AppContext, { ProductContext } from '../../../context/Context';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import * as echarts from "echarts"
+import * as echarts from 'echarts';
 import { themeColors, getPosition, numberFormatter, getGrays } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 
@@ -47,7 +47,7 @@ const getOption = (times, values, isDark) => {
       {
         type: 'line',
         itemStyle: {
-          color: themeColors.primary,
+          color: themeColors.primary
         },
         data: values,
         emphasis: { itemStyle: { color: themeColors.primary } },
@@ -88,7 +88,11 @@ const EnergyStoragePowerStationListItem = ({
         <Row>
           <Col sm={4} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/singleenergystoragepowerstation/details?uuid=${uuid}`} target="_blank">
+              <Link
+                className="d-block h-100"
+                to={`/singleenergystoragepowerstation/details?uuid=${uuid}`}
+                target="_blank"
+              >
                 <img
                   alt=""
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
@@ -121,15 +125,20 @@ const EnergyStoragePowerStationListItem = ({
                   </Link>
                 </h5>
                 <p className="fs--1 mb-1">{address}</p>
-                <p className='fs--1 mb-1'>{t('Commissioning Date')}:{commissioningDate}</p>
-                <p className="fs--1 mb-1">{t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong></p>
-                <p className="fs--1 mb-1">{t("Today's Charge")}:<strong>{todayTotalCharge} kWh</strong>
-                <ReactEchartsCore
+                <p className="fs--1 mb-1">
+                  {t('Commissioning Date')}:{commissioningDate}
+                </p>
+                <p className="fs--1 mb-1">
+                  {t('Battery Power')}:<strong>{batteryPowerPointValue} kW</strong>
+                </p>
+                <p className="fs--1 mb-1">
+                  {t("Today's Charge")}:<strong>{todayTotalCharge} kWh</strong>
+                  <ReactEchartsCore
                     echarts={echarts}
                     option={getOption(chargeTimes, chargeValues, isDark)}
                     style={{ width: '100%', height: '50%' }}
                   />
-                  </p>
+                </p>
               </Col>
               <Col lg={6} tag={Flex} justify="between" column>
                 <div>
@@ -204,12 +213,13 @@ const EnergyStoragePowerStationListItem = ({
                         : PCSRunState}
                     </strong>
                   </p>
-                  <p className="fs--1 mb-1">{t("Today's Discharge")}:<strong>{todayTotalDischarge} kWh</strong>
-                  <ReactEchartsCore
-                    echarts={echarts}
-                    option={getOption(dischargeTimes, dischargeValues, isDark)}
-                    style={{ width: '100%', height: '50%' }}
-                  />
+                  <p className="fs--1 mb-1">
+                    {t("Today's Discharge")}:<strong>{todayTotalDischarge} kWh</strong>
+                    <ReactEchartsCore
+                      echarts={echarts}
+                      option={getOption(dischargeTimes, dischargeValues, isDark)}
+                      style={{ width: '100%', height: '50%' }}
+                    />
                   </p>
                 </div>
               </Col>
@@ -239,7 +249,7 @@ EnergyStoragePowerStationListItem.propTypes = {
   todayTotalCharge: PropTypes.number,
   dischargeTimes: PropTypes.array,
   dischargeValues: PropTypes.array,
-  todayTotalDischarge: PropTypes.number,
+  todayTotalDischarge: PropTypes.number
 };
 
 EnergyStoragePowerStationListItem.defaultProps = { isOnline: false, files: [] };

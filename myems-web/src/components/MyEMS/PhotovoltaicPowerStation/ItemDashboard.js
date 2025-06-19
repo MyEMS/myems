@@ -61,12 +61,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [generationEnergyLabels, setGenerationEnergyLabels] = useState([]);
   const [generationBillingLabels, setGenerationBillingLabels] = useState([]);
   const [generationCarbonLabels, setGenerationCarbonLabels] = useState([]);
-  const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
+  const [periodTypes, setPeriodTypes] = useState([
+    { value: 'a0', label: t('7 Days') },
+    { value: 'a1', label: t('This Month') },
+    { value: 'a2', label: t('This Year') }
+  ]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
   const [rootLatitude, setRootLatitude] = useState('');
   const [rootLongitude, setRootLongitude] = useState('');
-
 
   useEffect(() => {
     let isResponseOK = false;
@@ -81,14 +84,12 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // hide spinner
           setSpinnerHidden(true);
@@ -102,7 +103,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Photovoltaic  Power Stations by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
@@ -168,8 +169,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, []);
 
-  const loadData = (stationID) => {
-
+  const loadData = stationID => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -193,18 +193,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       setResultDataHidden(true);
 
       let isResponseOK = false;
-      fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemdashboard?id=' + stationID,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null
-        }
-      )
+      fetch(APIBaseURL + '/reports/photovoltaicpowerstationitemdashboard?id=' + stationID, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
         .then(response => {
           if (response.ok) {
             isResponseOK = true;
@@ -213,7 +210,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-
             // enable submit button
             setSubmitButtonDisabled(false);
             // hide spinner
@@ -258,9 +254,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
-  const loadEnergyData = (stationID) => {
+  const loadEnergyData = stationID => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -278,18 +274,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemenergy?id=' + stationID,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null
-        }
-      )
+      fetch(APIBaseURL + '/reports/photovoltaicpowerstationitemenergy?id=' + stationID, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
         .then(response => {
           if (response.ok) {
             isResponseOK = true;
@@ -298,16 +291,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-
-
             setGenerationEnergyData({
-              "unit": "kWh",
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
+              unit: 'kWh',
+              station_names_array: [json['photovoltaic_power_station']['name']],
+              subtotals_array: [
                 json['reporting']['generation_7_days']['values_array'],
                 json['reporting']['generation_this_month']['values_array'],
                 json['reporting']['generation_this_year']['values_array']
-              ],
+              ]
             });
             setGenerationEnergyLabels([
               json['reporting']['generation_7_days']['timestamps_array'][0],
@@ -317,9 +308,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
-  const loadBillingData = (stationID) => {
+  const loadBillingData = stationID => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -337,18 +328,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitembilling?id=' + stationID,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null
-        }
-      )
+      fetch(APIBaseURL + '/reports/photovoltaicpowerstationitembilling?id=' + stationID, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
         .then(response => {
           if (response.ok) {
             isResponseOK = true;
@@ -357,16 +345,14 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-
-
             setGenerationBillingData({
-              "unit": currency,
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
+              unit: currency,
+              station_names_array: [json['photovoltaic_power_station']['name']],
+              subtotals_array: [
                 json['reporting']['generation_7_days']['values_array'],
                 json['reporting']['generation_this_month']['values_array'],
                 json['reporting']['generation_this_year']['values_array']
-              ],
+              ]
             });
             setGenerationBillingLabels([
               json['reporting']['generation_7_days']['timestamps_array'][0],
@@ -376,9 +362,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         });
     }
-  }
+  };
 
-  const loadCarbonData = (stationID) => {
+  const loadCarbonData = stationID => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
@@ -396,18 +382,15 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('token', token, settings.cookieExpireTime);
 
       let isResponseOK = false;
-      fetch(
-        APIBaseURL + '/reports/photovoltaicpowerstationitemcarbon?id=' + stationID,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-            'User-UUID': getCookieValue('user_uuid'),
-            Token: getCookieValue('token')
-          },
-          body: null
-        }
-      )
+      fetch(APIBaseURL + '/reports/photovoltaicpowerstationitemcarbon?id=' + stationID, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
         .then(response => {
           if (response.ok) {
             isResponseOK = true;
@@ -416,26 +399,24 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (isResponseOK) {
-
-
             setGenerationCarbonData({
-              "unit": "kgCO2",
-              "station_names_array": [json['photovoltaic_power_station']['name']],
-              "subtotals_array": [
+              unit: 'kgCO2',
+              station_names_array: [json['photovoltaic_power_station']['name']],
+              subtotals_array: [
                 json['reporting']['generation_7_days']['values_array'],
                 json['reporting']['generation_this_month']['values_array'],
                 json['reporting']['generation_this_year']['values_array']
-              ],
+              ]
             });
             setGenerationCarbonLabels([
               json['reporting']['generation_7_days']['timestamps_array'][0],
               json['reporting']['generation_this_month']['timestamps_array'][0],
-              json['reporting']['generation_this_year']['timestamps_array'][0]]
-            );
+              json['reporting']['generation_this_year']['timestamps_array'][0]
+            ]);
           }
         });
     }
-  }
+  };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -528,12 +509,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Row form>
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
-              <Cascader
-                options={cascaderOptions}
-                onChange={onSpaceCascaderChange}
-                changeOnSelect
-                expandTrigger="hover"
-              >
+              <Cascader options={cascaderOptions} onChange={onSpaceCascaderChange} changeOnSelect expandTrigger="hover">
                 <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
               </Cascader>
             </FormGroup>
@@ -567,16 +543,16 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             </FormGroup>
           </Col>
           <Col xs="auto">
-              <FormGroup>
-                <Spinner color="primary" hidden={spinnerHidden} />
-              </FormGroup>
+            <FormGroup>
+              <Spinner color="primary" hidden={spinnerHidden} />
+            </FormGroup>
           </Col>
         </Row>
       </Form>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'kWh'} color="ratedCapacity">
             {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={3} />}
@@ -585,7 +561,9 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={3} />}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Generation')} footunit={'MWH'} color="electricity">
-            {1 && <CountUp end={totalGeneration / 1000.0 } duration={2} prefix="" separator="," decimal="." decimals={3} />}
+            {1 && (
+              <CountUp end={totalGeneration / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />
+            )}
           </CardSummary>
           <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
             {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
@@ -618,23 +596,23 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 </NavItem>
               </Nav>
               <TabContent activeTab={activeTabLeft}>
-                  <TabPane tabId="1">
-                    <StackBarChart
-                      labels={generationEnergyLabels}
-                      unit={ t('Generation UNIT', { UNIT: generationEnergyData['unit'] })}
-                      generationData={generationEnergyData}
-                      periodTypes={periodTypes}
-                    />
-                  </TabPane>
-                  <TabPane tabId="4">
-                    <StackBarChart
-                      labels={generationBillingLabels}
-                      unit={t('Generation UNIT', { UNIT: generationBillingData['unit'] })}
-                      generationData={generationBillingData}
-                      periodTypes={periodTypes}
-                    />
-                  </TabPane>
-                </TabContent>
+                <TabPane tabId="1">
+                  <StackBarChart
+                    labels={generationEnergyLabels}
+                    unit={t('Generation UNIT', { UNIT: generationEnergyData['unit'] })}
+                    generationData={generationEnergyData}
+                    periodTypes={periodTypes}
+                  />
+                </TabPane>
+                <TabPane tabId="4">
+                  <StackBarChart
+                    labels={generationBillingLabels}
+                    unit={t('Generation UNIT', { UNIT: generationBillingData['unit'] })}
+                    generationData={generationBillingData}
+                    periodTypes={periodTypes}
+                  />
+                </TabPane>
+              </TabContent>
             </div>
           </Col>
           <Col lg={6} xl={6} className="mb-3 pr-lg-2">
@@ -651,7 +629,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               <></>
             )}
           </Col>
-
         </Row>
       </div>
     </Fragment>

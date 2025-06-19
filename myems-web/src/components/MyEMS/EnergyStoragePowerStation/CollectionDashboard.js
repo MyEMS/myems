@@ -16,9 +16,18 @@ import StackBarChart from './StackBarChart';
 
 const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [isDashboardFetched, setIsDashboardFetched] = useState(false);
-  const [isEnergyStoragePowerStationCollectionEnergyFetched, setIsEnergyStoragePowerStationCollectionEnergyFetched] = useState(false);
-  const [isEnergyStoragePowerStationCollectionBillingFetched, setIsEnergyStoragePowerStationCollectionBillingFetched] = useState(false);
-  const [isEnergyStoragePowerStationCollectionCarbonFetched, setIsEnergyStoragePowerStationCollectionCarbonFetched] = useState(false);
+  const [
+    isEnergyStoragePowerStationCollectionEnergyFetched,
+    setIsEnergyStoragePowerStationCollectionEnergyFetched
+  ] = useState(false);
+  const [
+    isEnergyStoragePowerStationCollectionBillingFetched,
+    setIsEnergyStoragePowerStationCollectionBillingFetched
+  ] = useState(false);
+  const [
+    isEnergyStoragePowerStationCollectionCarbonFetched,
+    setIsEnergyStoragePowerStationCollectionCarbonFetched
+  ] = useState(false);
 
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [activeTabLeft, setActiveTabLeft] = useState('1');
@@ -51,7 +60,11 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [chargeBillingLabels, setChargeBillingLabels] = useState([]);
   const [dischargeBillingLabels, setDischargeBillingLabels] = useState([]);
   const [carbonLabels, setCarbonLabels] = useState([]);
-  const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
+  const [periodTypes, setPeriodTypes] = useState([
+    { value: 'a0', label: t('7 Days') },
+    { value: 'a1', label: t('This Month') },
+    { value: 'a2', label: t('This Year') }
+  ]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
   const [rootLatitude, setRootLatitude] = useState('');
@@ -85,18 +98,15 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </Fragment>
         );
 
-        fetch(
-          APIBaseURL + '/reports/energystoragepowerstationdashboard?useruuid=' + user_uuid,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/energystoragepowerstationdashboard?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -125,7 +135,10 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     type: 'Feature',
                     geometry: {
                       type: 'Point',
-                      coordinates: [energyStoragePowerStationItem['longitude'], energyStoragePowerStationItem['latitude']]
+                      coordinates: [
+                        energyStoragePowerStationItem['longitude'],
+                        energyStoragePowerStationItem['latitude']
+                      ]
                     },
                     properties: {
                       title: energyStoragePowerStationItem['name'],
@@ -135,9 +148,9 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     }
                   });
                 }
-                energyStoragePowerStationItem['nameuuid'] = energyStoragePowerStationItem['name'] + energyStoragePowerStationItem['uuid']
+                energyStoragePowerStationItem['nameuuid'] =
+                  energyStoragePowerStationItem['name'] + energyStoragePowerStationItem['uuid'];
                 energyStoragePowerStationList.push(energyStoragePowerStationItem);
-
               });
               setEnergyStoragePowerStationList(energyStoragePowerStationList);
               setTotalRatedCapacity(totalRatedCapacity);
@@ -151,7 +164,6 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setTotalDischarge(json['total_discharge_energy']);
 
               setTotalRevenue(json['total_discharge_billing']);
-
             }
           });
       }
@@ -178,18 +190,15 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isEnergyStoragePowerStationCollectionEnergyFetched) {
         setIsEnergyStoragePowerStationCollectionEnergyFetched(true);
-        fetch(
-          APIBaseURL + '/reports/energystoragepowerstationcollectionenergy?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/energystoragepowerstationcollectionenergy?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -199,18 +208,18 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           .then(json => {
             if (isResponseOK) {
               setChargeEnergyData({
-                "unit": "kWh",
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: 'kWh',
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeEnergyData({
-                "unit": "kWh",
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: 'kWh',
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -221,7 +230,7 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 json['reporting']['charge_this_month']['timestamps_array'][0],
                 json['reporting']['charge_this_year']['timestamps_array'][0]
               ]);
-setDischargeEnergyLabels([
+              setDischargeEnergyLabels([
                 json['reporting']['discharge_7_days']['timestamps_array'][0],
                 json['reporting']['discharge_this_month']['timestamps_array'][0],
                 json['reporting']['discharge_this_year']['timestamps_array'][0]
@@ -251,18 +260,15 @@ setDischargeEnergyLabels([
       let isResponseOK = false;
       if (!isEnergyStoragePowerStationCollectionBillingFetched) {
         setIsEnergyStoragePowerStationCollectionBillingFetched(true);
-        fetch(
-          APIBaseURL + '/reports/energystoragepowerstationcollectionbilling?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/energystoragepowerstationcollectionbilling?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -272,18 +278,18 @@ setDischargeEnergyLabels([
           .then(json => {
             if (isResponseOK) {
               setChargeBillingData({
-                "unit": currency,
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: currency,
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeBillingData({
-                "unit": currency,
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: currency,
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -325,18 +331,15 @@ setDischargeEnergyLabels([
       let isResponseOK = false;
       if (!isEnergyStoragePowerStationCollectionCarbonFetched) {
         setIsEnergyStoragePowerStationCollectionCarbonFetched(true);
-        fetch(
-          APIBaseURL + '/reports/energystoragepowerstationcollectioncarbon?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/energystoragepowerstationcollectioncarbon?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -346,18 +349,18 @@ setDischargeEnergyLabels([
           .then(json => {
             if (isResponseOK) {
               setChargeCarbonData({
-                "unit": "kgCO2",
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: 'kgCO2',
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeCarbonData({
-                "unit": "kgCO2",
-                "station_names_array": json['energy_storage_power_station_names'],
-                "subtotals_array": [
+                unit: 'kgCO2',
+                station_names_array: json['energy_storage_power_station_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -401,19 +404,32 @@ setDischargeEnergyLabels([
         <Spinner color="light" hidden={spinnerHidden} />
 
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
-          {1 && <CountUp end={energyStoragePowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+          {1 && (
+            <CountUp
+              end={energyStoragePowerStationList.length}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={0}
+            />
+          )}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Power')} footunit={'MW'} color="ratedPower">
-          {1 && <CountUp end={totalRatedPower/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          {1 && (
+            <CountUp end={totalRatedPower / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />
+          )}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Capacity')} footunit={'MWH'} color="ratedCapacity">
-          {1 && <CountUp end={totalRatedCapacity/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          {1 && (
+            <CountUp end={totalRatedCapacity / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />
+          )}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Charge')} footunit={'MWH'} color="electricity">
-          {1 && <CountUp end={totalCharge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          {1 && <CountUp end={totalCharge / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Discharge')} footunit={'MWH'} color="electricity">
-          {1 && <CountUp end={totalDischarge/1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          {1 && <CountUp end={totalDischarge / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
           {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
@@ -466,39 +482,39 @@ setDischargeEnergyLabels([
               </NavItem>
             </Nav>
             <TabContent activeTab={activeTabLeft}>
-                <TabPane tabId="1">
-                  <StackBarChart
-                    labels={chargeEnergyLabels}
-                    unit={ t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
-                    chargeData={chargeEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="2">
-                  <StackBarChart
-                    labels={dischargeEnergyLabels}
-                    unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
-                    chargeData={dischargeEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="3">
-                  <StackBarChart
-                    labels={chargeBillingLabels}
-                    unit={ t('Charge UNIT', { UNIT: chargeBillingData['unit'] })}
-                    chargeData={chargeBillingData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="4">
-                  <StackBarChart
-                    labels={dischargeBillingLabels}
-                    unit={t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] })}
-                    chargeData={dischargeBillingData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-              </TabContent>
+              <TabPane tabId="1">
+                <StackBarChart
+                  labels={chargeEnergyLabels}
+                  unit={t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })}
+                  chargeData={chargeEnergyData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="2">
+                <StackBarChart
+                  labels={dischargeEnergyLabels}
+                  unit={t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })}
+                  chargeData={dischargeEnergyData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="3">
+                <StackBarChart
+                  labels={chargeBillingLabels}
+                  unit={t('Charge UNIT', { UNIT: chargeBillingData['unit'] })}
+                  chargeData={chargeBillingData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="4">
+                <StackBarChart
+                  labels={dischargeBillingLabels}
+                  unit={t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] })}
+                  chargeData={dischargeBillingData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+            </TabContent>
           </div>
         </Col>
         <Col lg={6} xl={6} className="mb-3 pr-lg-2">

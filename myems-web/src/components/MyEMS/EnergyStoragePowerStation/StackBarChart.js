@@ -3,15 +3,7 @@ import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils'
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-  LogarithmicScale
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale } from 'chart.js';
 import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);

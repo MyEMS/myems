@@ -2,20 +2,13 @@ import React, { createRef, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
-import {
-  Row,
-  Col,
-  Button
-} from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getPaginationArray } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 
-const FaultDetails = ({
-  faults,
-  t
-}) => {
+const FaultDetails = ({ faults, t }) => {
   // State
   let table = createRef();
 
@@ -104,7 +97,7 @@ const FaultDetails = ({
       text: t('Notification Update Datetime'),
       classes: 'py-2 align-middle',
       sort: true
-    },
+    }
   ];
 
   const options = {
@@ -173,7 +166,7 @@ const FaultDetails = ({
 };
 
 FaultDetails.propTypes = {
-  faults: PropTypes.array,
+  faults: PropTypes.array
 };
 
 export default withTranslation()(FaultDetails);
