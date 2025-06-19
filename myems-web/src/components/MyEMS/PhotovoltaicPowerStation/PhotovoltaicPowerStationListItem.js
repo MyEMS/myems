@@ -6,13 +6,11 @@ import Flex from '../../common/Flex';
 import classNames from 'classnames';
 import AppContext, { ProductContext } from '../../../context/Context';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
-import * as echarts from "echarts"
+import * as echarts from 'echarts';
 import { themeColors, getPosition, numberFormatter, getGrays } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 
-
 const getOption = (times, values, isDark) => {
-
   const grays = getGrays(isDark);
   return {
     tooltip: {
@@ -50,7 +48,7 @@ const getOption = (times, values, isDark) => {
         type: 'line',
         barWidth: '5px',
         itemStyle: {
-          color: themeColors.primary,
+          color: themeColors.primary
         },
         data: values,
         emphasis: { itemStyle: { color: themeColors.primary } },
@@ -84,7 +82,11 @@ const PhotovoltaicPowerStationListItem = ({
         <Row>
           <Col sm={5} md={4}>
             <div className="position-relative h-sm-100">
-              <Link className="d-block h-100" to={`/singlephotovoltaicpowerstation/details?uuid=${uuid}`} target="_blank">
+              <Link
+                className="d-block h-100"
+                to={`/singlephotovoltaicpowerstation/details?uuid=${uuid}`}
+                target="_blank"
+              >
                 <img
                   alt=""
                   className="img-fluid fit-cover w-sm-100 h-sm-100 rounded absolute-sm-centered"
@@ -117,7 +119,15 @@ const PhotovoltaicPowerStationListItem = ({
                   </Link>
                 </h5>
                 <p className="fs--1 mb-2 mb-md-3">{address}</p>
-                <p className="fs--1 mb-2 mb-md-3">{t("Today's Generation")}:{values.reduce(function (x, y) {return x + y; }, 0).toFixed(2)} kWh</p>
+                <p className="fs--1 mb-2 mb-md-3">
+                  {t("Today's Generation")}:
+                  {values
+                    .reduce(function(x, y) {
+                      return x + y;
+                    }, 0)
+                    .toFixed(2)}{' '}
+                  kWh
+                </p>
               </Col>
               <Col lg={5} tag={Flex} justify="between" column>
                 <div>
@@ -154,17 +164,15 @@ const PhotovoltaicPowerStationListItem = ({
                     </strong>
                   </p>
                   <ReactEchartsCore
-                  echarts={echarts}
-                  option={getOption(times, values, isDark)}
-                  style={{ width: '100%', height: '100%' }}
-                />
+                    echarts={echarts}
+                    option={getOption(times, values, isDark)}
+                    style={{ width: '100%', height: '100%' }}
+                  />
                 </div>
-
               </Col>
             </Row>
           </Col>
         </Row>
-
       </div>
     </Col>
   );
@@ -179,7 +187,7 @@ PhotovoltaicPowerStationListItem.propTypes = {
   isOnline: PropTypes.bool,
   invertorRunState: PropTypes.string,
   times: PropTypes.array,
-  values: PropTypes.array,
+  values: PropTypes.array
 };
 
 PhotovoltaicPowerStationListItem.defaultProps = { isOnline: false, files: [] };

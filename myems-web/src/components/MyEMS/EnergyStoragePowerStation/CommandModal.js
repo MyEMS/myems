@@ -1,31 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 import Flex from '../../common/Flex';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
-const CommandModal = ({
-  setIsOpenCommandModal,
-  isOpenCommandModal,
-  id,
-  name,
-  description,
-  set_value,
-  t
-}) => {
+const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, description, set_value, t }) => {
   const [newValue, setNewValue] = useState(undefined);
   const [commandID, setCommandID] = useState(undefined);
   useEffect(() => {
@@ -41,11 +23,11 @@ const CommandModal = ({
   const handleInputSetValue = e => {
     e.preventDefault();
     setNewValue(e.target.value);
-  }
+  };
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
-    fetch(APIBaseURL + '/commands/'+commandID+'/send', {
+    fetch(APIBaseURL + '/commands/' + commandID + '/send', {
       method: 'PUT',
       body: JSON.stringify({
         data: {
@@ -58,31 +40,33 @@ const CommandModal = ({
         Token: getCookieValue('token')
       }
     })
-    .then(response => {
-      if (response.ok) {
-        isResponseOK = true;
-      }
-      return response.json();
-    })
-    .then(json => {
-      if (isResponseOK) {
-        toast.success(t('Command has been submitted'));
-      } else {
-        toast.error(t(json.description));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          toast.success(t('Command has been submitted'));
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
     setIsOpenCommandModal(false);
   };
 
   return (
     <Modal isOpen={isOpenCommandModal} toggle={toggle} modalClassName="theme-modal" contentClassName="border">
-      <Form
-        onSubmit={handleSubmit}
-      >
-        <ModalHeader toggle={toggle} className="bg-light d-flex flex-between-center border-bottom-0" close={closeButton}>
+      <Form onSubmit={handleSubmit}>
+        <ModalHeader
+          toggle={toggle}
+          className="bg-light d-flex flex-between-center border-bottom-0"
+          close={closeButton}
+        >
           {name}
         </ModalHeader>
         <ModalBody>
@@ -116,7 +100,7 @@ CommandModal.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  set_value: PropTypes.number,
+  set_value: PropTypes.number
 };
 
 export default withTranslation()(CommandModal);

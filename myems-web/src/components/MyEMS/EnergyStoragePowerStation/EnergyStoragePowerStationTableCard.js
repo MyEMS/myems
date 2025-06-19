@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EnergyStoragePowerStationTable from './EnergyStoragePowerStationTable';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import {Card, CardBody } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 
 const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList, t }) => {
@@ -9,10 +9,12 @@ const EnergyStoragePowerStationTableCard = ({ energyStoragePowerStationList, t }
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title={t("Energy Storage Power Station List")} light={false}>
-      </FalconCardHeader>
+      <FalconCardHeader title={t('Energy Storage Power Station List')} light={false} />
       <CardBody className="p-0">
-        <EnergyStoragePowerStationTable setIsSelected={setIsSelected}  energyStoragePowerStationList={energyStoragePowerStationList}/>
+        <EnergyStoragePowerStationTable
+          setIsSelected={setIsSelected}
+          energyStoragePowerStationList={energyStoragePowerStationList}
+        />
       </CardBody>
     </Card>
   );

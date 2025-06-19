@@ -1,11 +1,7 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import {
-  Card,
-  CardBody,
-  Table,
-} from 'reactstrap';
+import { Card, CardBody, Table } from 'reactstrap';
 
 const DeviceStatusDetails = ({
   id,
@@ -17,7 +13,6 @@ const DeviceStatusDetails = ({
   loadMeterStatus,
   t
 }) => {
-
   return (
     <Card className="mb-3 fs--1">
       <Fragment>
@@ -63,7 +58,7 @@ DeviceStatusDetails.propTypes = {
   bms_status: PropTypes.string.isRequired,
   hvac_status: PropTypes.string.isRequired,
   grid_meter_status: PropTypes.string.isRequired,
-  load_meter_status: PropTypes.string.isRequired,
+  load_meter_status: PropTypes.string.isRequired
 };
 
 export default withTranslation()(DeviceStatusDetails);

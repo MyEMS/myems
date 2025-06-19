@@ -29,7 +29,6 @@ import { useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, t }) => {
@@ -138,14 +137,12 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -157,7 +154,7 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get PhotovoltaicPowerStations by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
@@ -261,7 +258,6 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
       })
       .then(json => {
         if (isResponseOK) {
-
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
           setPhotovoltaicPowerStationSerialNumber(json['photovoltaic_power_station']['serial_number']);
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
@@ -307,7 +303,6 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
           });
           setPhotovoltaicPowerStationReportingOptions(options);
           setExcelBytesBase64(json['excel_bytes_base64']);
-
 
           let detailed_column_list = [];
 
@@ -738,13 +733,13 @@ const PhotovoltaicPowerStationReportingEnergy = ({ setRedirect, setRedirectUrl, 
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <DetailedDataTable
           data={timeOfUseDataTableData}
-          title='分时数据'
+          title="分时数据"
           columns={detailedDataTableColumns}
           pagesize={50}
           hidden={true}

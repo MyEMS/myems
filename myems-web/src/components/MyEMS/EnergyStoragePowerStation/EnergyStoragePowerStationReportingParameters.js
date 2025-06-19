@@ -29,7 +29,6 @@ import { Link, useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
@@ -159,7 +158,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get EnergyStoragePowerStations by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
@@ -538,10 +537,10 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <MultipleLineChart
           reportingTitle={t('Operating Characteristic Curve')}
           baseTitle=""
