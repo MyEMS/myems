@@ -79,22 +79,12 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .startOf('month')
-      .toDate(),
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .toDate()
+    current_moment.clone().subtract(1, 'months').startOf('month').toDate(),
+    current_moment.clone().subtract(1, 'months').toDate(),
   ]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .startOf('month')
-      .toDate(),
+    current_moment.clone().startOf('month').toDate(),
     current_moment.toDate()
   ]);
   const dateRangePickerLocale = {
@@ -125,33 +115,25 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
   const [carbonShareData, setCarbonShareData] = useState([]);
-
   const [cardSummaryList, setCardSummaryList] = useState([]);
-
   const [equipmentBaseAndReportingNames, setEquipmentBaseAndReportingNames] = useState({ a0: '' });
   const [equipmentBaseAndReportingUnits, setEquipmentBaseAndReportingUnits] = useState({ a0: '()' });
-
   const [equipmentBaseLabels, setEquipmentBaseLabels] = useState({ a0: [] });
   const [equipmentBaseData, setEquipmentBaseData] = useState({ a0: [] });
   const [equipmentBaseSubtotals, setEquipmentBaseSubtotals] = useState({ a0: (0).toFixed(2) });
-
   const [equipmentReportingLabels, setEquipmentReportingLabels] = useState({ a0: [] });
   const [equipmentReportingData, setEquipmentReportingData] = useState({ a0: [] });
   const [equipmentReportingSubtotals, setEquipmentReportingSubtotals] = useState({ a0: (0).toFixed(2) });
-
   const [equipmentReportingRates, setEquipmentReportingRates] = useState({ a0: [] });
   const [equipmentReportingOptions, setEquipmentReportingOptions] = useState([]);
-
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -172,16 +154,10 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           // rename keys
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
+          json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Equipments by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
@@ -202,11 +178,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             .then(json => {
               if (isResponseOK) {
                 json = JSON.parse(
-                  JSON.stringify([json])
-                    .split('"id":')
-                    .join('"value":')
-                    .split('"name":')
-                    .join('"label":')
+                  JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'),
                 );
                 setEquipmentList(json[0]);
                 if (json[0].length > 0) {
@@ -258,13 +230,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
+          json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
           setEquipmentList(json[0]);
           if (json[0].length > 0) {
             setSelectedEquipment(json[0][0].value);
@@ -289,32 +255,20 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0])
-          .subtract(1, 'years')
-          .toDate(),
-        moment(reportingPeriodDateRange[1])
-          .subtract(1, 'years')
-          .toDate()
+        moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate(),
       ]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0])
-          .subtract(1, 'months')
-          .toDate(),
-        moment(reportingPeriodDateRange[1])
-          .subtract(1, 'months')
-          .toDate()
+        moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate(),
       ]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0])
-          .subtract(1, 'days')
-          .toDate(),
-        moment(reportingPeriodDateRange[1])
-          .subtract(1, 'days')
-          .toDate()
+        moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
+        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate(),
       ]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
@@ -379,32 +333,20 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
-          moment(DateRange[0])
-            .clone()
-            .subtract(1, 'years')
-            .toDate(),
-          moment(DateRange[1])
-            .clone()
-            .subtract(1, 'years')
-            .toDate()
+          moment(DateRange[0]).clone().subtract(1, 'years').toDate(),
+          moment(DateRange[1]).clone().subtract(1, 'years').toDate(),
         ]);
       } else if (comparisonType === 'month-on-month') {
         setBasePeriodDateRange([
-          moment(DateRange[0])
-            .clone()
-            .subtract(1, 'months')
-            .toDate(),
-          moment(DateRange[1])
-            .clone()
-            .subtract(1, 'months')
-            .toDate()
+          moment(DateRange[0]).clone().subtract(1, 'months').toDate(),
+          moment(DateRange[1]).clone().subtract(1, 'months').toDate(),
         ]);
       }
     }
   };
 
   // Callback fired when value clean
-  let onBasePeriodClean = event => {
+  let onBasePeriodClean = (event) => {
     setBasePeriodDateRange([null, null]);
   };
 
@@ -497,7 +439,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             parseFloat(json['reporting_period']['total_increment_rate'] * 100).toFixed(2) + '%';
           cardSummaryList.push(cardSummaryItem);
           setCardSummaryList(cardSummaryList);
-
           let timeOfUseArray = [];
           json['reporting_period']['energy_category_ids'].forEach((currentValue, index) => {
             if (currentValue === 1) {
@@ -508,28 +449,24 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               timeOfUseItem['value'] = json['reporting_period']['toppeaks'][index];
               timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
               timeOfUseArray.push(timeOfUseItem);
-
               timeOfUseItem = {};
               timeOfUseItem['id'] = 2;
               timeOfUseItem['name'] = t('On-Peak');
               timeOfUseItem['value'] = json['reporting_period']['onpeaks'][index];
               timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
               timeOfUseArray.push(timeOfUseItem);
-
               timeOfUseItem = {};
               timeOfUseItem['id'] = 3;
               timeOfUseItem['name'] = t('Mid-Peak');
               timeOfUseItem['value'] = json['reporting_period']['midpeaks'][index];
               timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
               timeOfUseArray.push(timeOfUseItem);
-
               timeOfUseItem = {};
               timeOfUseItem['id'] = 4;
               timeOfUseItem['name'] = t('Off-Peak');
               timeOfUseItem['value'] = json['reporting_period']['offpeaks'][index];
               timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
               timeOfUseArray.push(timeOfUseItem);
-
               timeOfUseItem = {};
               timeOfUseItem['id'] = 5;
               timeOfUseItem['name'] = t('Deep');
@@ -539,7 +476,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             }
           });
           setTimeOfUseShareData(timeOfUseArray);
-
           let carbonDataArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let carbonDataItem = {};
@@ -550,13 +486,11 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             carbonDataArray.push(carbonDataItem);
           });
           setCarbonShareData(carbonDataArray);
-
           let base_timestamps = {};
           json['base_period']['timestamps'].forEach((currentValue, index) => {
             base_timestamps['a' + index] = currentValue;
           });
           setEquipmentBaseLabels(base_timestamps);
-
           let base_values = {};
           json['base_period']['values'].forEach((currentValue, index) => {
             base_values['a' + index] = currentValue;
@@ -574,37 +508,31 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             base_and_reporting_names['a' + index] = currentValue;
           });
           setEquipmentBaseAndReportingNames(base_and_reporting_names);
-
           let base_and_reporting_units = {};
           json['reporting_period']['units'].forEach((currentValue, index) => {
             base_and_reporting_units['a' + index] = '(' + currentValue + ')';
           });
           setEquipmentBaseAndReportingUnits(base_and_reporting_units);
-
           let base_subtotals = {};
           json['base_period']['subtotals'].forEach((currentValue, index) => {
             base_subtotals['a' + index] = currentValue.toFixed(2);
           });
           setEquipmentBaseSubtotals(base_subtotals);
-
           let reporting_timestamps = {};
           json['reporting_period']['timestamps'].forEach((currentValue, index) => {
             reporting_timestamps['a' + index] = currentValue;
           });
           setEquipmentReportingLabels(reporting_timestamps);
-
           let reporting_values = {};
           json['reporting_period']['values'].forEach((currentValue, index) => {
             reporting_values['a' + index] = currentValue;
           });
           setEquipmentReportingData(reporting_values);
-
           let reporting_subtotals = {};
           json['reporting_period']['subtotals'].forEach((currentValue, index) => {
             reporting_subtotals['a' + index] = currentValue.toFixed(2);
           });
           setEquipmentReportingSubtotals(reporting_subtotals);
-
           let rates = {};
           json['reporting_period']['rates'].forEach((currentValue, index) => {
             let currentRate = [];
@@ -683,7 +611,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -696,7 +624,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'total',
               text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -724,7 +652,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -738,7 +666,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'basePeriodTotal',
               text: t('Base Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -759,7 +687,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -773,7 +701,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'reportingPeriodTotal',
               text: t('Reporting Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -829,7 +757,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 });
                 detailed_value_list.push(detailed_value);
               }
-
               let detailed_value = {};
               detailed_value['id'] = detailed_value_list.length;
               detailed_value['basePeriodDatetime'] = t('Subtotal');
@@ -839,7 +766,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 total_of_subtotals_from_base_period += detailed_value['a' + index];
               });
               detailed_value['basePeriodTotal'] = total_of_subtotals_from_base_period;
-
               let total_of_subtotals_from_reporting_period = 0.0;
               detailed_value['reportingPeriodDatetime'] = t('Subtotal');
               json['reporting_period']['subtotals'].forEach((currentValue, index) => {
@@ -853,9 +779,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               }, 0);
             }
           }
-
           setExcelBytesBase64(json['excel_bytes_base64']);
-
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -872,7 +796,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
   };
-
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -889,7 +812,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         document.body.removeChild(link);
       });
   };
-
   return (
     <Fragment>
       <div>
@@ -1052,10 +974,10 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
@@ -1125,7 +1047,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           rates={equipmentReportingRates}
           options={equipmentReportingOptions}
         />
-
         <MultipleLineChart
           reportingTitle={t('Operating Characteristic Curve')}
           baseTitle=""
@@ -1133,7 +1054,6 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           data={parameterLineChartData}
           options={parameterLineChartOptions}
         />
-
         <br />
         <DetailedDataTable
           data={detailedDataTableData}
@@ -1145,5 +1065,4 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     </Fragment>
   );
 };
-
 export default withTranslation()(withRedirect(EquipmentCarbon));
