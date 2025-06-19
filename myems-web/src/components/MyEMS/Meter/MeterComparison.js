@@ -153,14 +153,12 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -173,7 +171,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setCascaderOptions(json);
           setSelectedSpaceName1([json[0]].map(o => o.label));
           setSelectedSpaceName2([json[0]].map(o => o.label));
-          let selectedSpaceID = [json[0]].map(o => o.value)
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Meters by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
@@ -435,19 +433,19 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/metercomparison?' +
-      'meterid1=' +
-      selectedMeter1 +
-      '&meterid2=' +
-      selectedMeter2 +
-      '&periodtype=' +
-      periodType +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/metercomparison?' +
+        'meterid1=' +
+        selectedMeter1 +
+        '&meterid2=' +
+        selectedMeter2 +
+        '&periodtype=' +
+        periodType +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -466,7 +464,6 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
           setMeter1({
             name: json['meter1']['name'],
             energy_category_id: json['meter1']['energy_category_id'],
@@ -559,7 +556,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 json['meter1']['unit_of_measure'] +
                 ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -576,7 +573,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 json['meter2']['unit_of_measure'] +
                 ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -591,7 +588,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 UNIT: '(' + json['meter1']['unit_of_measure'] + ')'
               }),
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -831,10 +828,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           <CardSummary
             id="cardSummary1"

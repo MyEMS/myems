@@ -130,14 +130,12 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -380,17 +378,17 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/metertracking?' +
-      'spaceid=' +
-      selectedSpaceID +
-      '&energyCategory=' +
-      energyCategory +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/metertracking?' +
+        'spaceid=' +
+        selectedSpaceID +
+        '&energyCategory=' +
+        energyCategory +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -566,10 +564,10 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           <CardSummary title={t('Start Integrity Rate')} color="success">
             <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
