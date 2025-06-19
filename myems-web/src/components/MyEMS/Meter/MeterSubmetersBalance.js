@@ -141,14 +141,12 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -160,7 +158,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Meters by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
@@ -350,17 +348,17 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/metersubmetersbalance?' +
-      'meterid=' +
-      selectedMeter +
-      '&periodtype=' +
-      periodType +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/metersubmetersbalance?' +
+        'meterid=' +
+        selectedMeter +
+        '&periodtype=' +
+        periodType +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -379,7 +377,6 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
           setMeterEnergyCategory({
             name: json['meter']['energy_category_name'],
             unit: json['meter']['unit_of_measure']
@@ -448,7 +445,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                     dataField: 'a' + i,
                     text: t('MasterMeter') + ':' + json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
                     sort: true,
-                    formatter: function (decimalValue) {
+                    formatter: function(decimalValue) {
                       if (typeof decimalValue === 'number') {
                         return decimalValue.toFixed(2);
                       } else {
@@ -456,13 +453,12 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                       }
                     }
                   });
-                }
-                else {
+                } else {
                   columns.push({
                     dataField: 'a' + i,
                     text: t('SubMeter') + ':' + json['parameters']['names'][i] + ' (' + unitOfMeasure + ')',
                     sort: true,
-                    formatter: function (decimalValue) {
+                    formatter: function(decimalValue) {
                       if (typeof decimalValue === 'number') {
                         return decimalValue.toFixed(2);
                       } else {
@@ -477,9 +473,15 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             })(),
             {
               dataField: 'a' + Math.min(8, json['parameters']['names'].length),
-              text: t('Difference Value') + ':' + json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
+              text:
+                t('Difference Value') +
+                ':' +
+                json['meter']['energy_category_name'] +
+                ' (' +
+                json['meter']['unit_of_measure'] +
+                ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -494,7 +496,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a' + Math.min(8, json['parameters']['names'].length)] = json['reporting_period']['difference_values'][timestampIndex];
+            detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+              json['reporting_period']['difference_values'][timestampIndex];
             detailed_value_list.push(detailed_value);
           });
 
@@ -510,7 +513,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           let detailed_value = {};
           detailed_value['id'] = detailed_value_list.length;
           detailed_value['startdatetime'] = t('Total');
-          detailed_value['a' + Math.min(8, json['parameters']['names'].length)] = json['reporting_period']['difference_in_category'];
+          detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+            json['reporting_period']['difference_in_category'];
           detailed_value_list.push(detailed_value);
 
           setTimeout(() => {
@@ -677,10 +681,10 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <Fragment>
           <div className="card-deck">
             <CardSummary
