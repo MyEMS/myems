@@ -14,6 +14,7 @@ class EquipmentCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -203,7 +204,9 @@ class EquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -621,7 +624,9 @@ class EquipmentParameterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -942,7 +947,10 @@ class EquipmentParameterItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -1325,7 +1333,9 @@ class EquipmentMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1462,7 +1472,10 @@ class EquipmentMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1522,7 +1535,9 @@ class EquipmentOfflineMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1659,7 +1674,10 @@ class EquipmentOfflineMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1720,7 +1738,9 @@ class EquipmentVirtualMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1857,7 +1877,10 @@ class EquipmentVirtualMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1918,7 +1941,9 @@ class EquipmentCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2035,7 +2060,10 @@ class EquipmentCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = cid
 
     @staticmethod
     @user_logger
@@ -2095,7 +2123,9 @@ class EquipmentExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2355,6 +2385,7 @@ class EquipmentImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -2708,7 +2739,9 @@ class EquipmentClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
