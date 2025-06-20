@@ -15,7 +15,7 @@ class EnergyStorageContainerCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -192,9 +192,9 @@ class EnergyStorageContainerItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -442,9 +442,9 @@ class EnergyStorageContainerBatteryCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -708,9 +708,9 @@ class EnergyStorageContainerBatteryItem:
 
     @staticmethod
     def on_options(req, resp, id_, bid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, bid):
         access_control(req)
@@ -1040,9 +1040,9 @@ class EnergyStorageContainerBatteryPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, bid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, bid):
         if 'API-KEY' not in req.headers or \
@@ -1817,9 +1817,9 @@ class EnergyStorageContainerDCDCPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, did, pid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, did, pid):
@@ -1882,9 +1882,9 @@ class EnergyStorageContainerFirecontrolCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2005,9 +2005,9 @@ class EnergyStorageContainerFirecontrolItem:
 
     @staticmethod
     def on_options(req, resp, id_, fid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, fid):
         access_control(req)
@@ -2182,9 +2182,9 @@ class EnergyStorageContainerFirecontrolPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, fid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, fid):
         if 'API-KEY' not in req.headers or \
@@ -2303,9 +2303,9 @@ class EnergyStorageContainerFirecontrolPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, fid, pid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, fid, pid):
@@ -2368,9 +2368,9 @@ class EnergyStorageContainerGridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2583,9 +2583,9 @@ class EnergyStorageContainerGridItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2853,9 +2853,9 @@ class EnergyStorageContainerGridPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         if 'API-KEY' not in req.headers or \
@@ -2974,9 +2974,9 @@ class EnergyStorageContainerGridPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid, pid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
@@ -3039,9 +3039,9 @@ class EnergyStorageContainerHVACCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3162,9 +3162,9 @@ class EnergyStorageContainerHVACItem:
 
     @staticmethod
     def on_options(req, resp, id_, hid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, hid):
         access_control(req)
@@ -3339,9 +3339,9 @@ class EnergyStorageContainerHVACPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, hid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, hid):
         if 'API-KEY' not in req.headers or \

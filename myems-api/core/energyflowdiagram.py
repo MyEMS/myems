@@ -14,7 +14,7 @@ class EnergyFlowDiagramCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -183,9 +183,9 @@ class EnergyFlowDiagramItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -397,9 +397,9 @@ class EnergyFlowDiagramLinkCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -658,9 +658,9 @@ class EnergyFlowDiagramLinkItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, lid):
         access_control(req)
@@ -971,9 +971,9 @@ class EnergyFlowDiagramNodeCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1083,9 +1083,9 @@ class EnergyFlowDiagramNodeItem:
 
     @staticmethod
     def on_options(req, resp, id_, nid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, nid):
         access_control(req)
@@ -1249,9 +1249,9 @@ class EnergyFlowDiagramExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1375,7 +1375,7 @@ class EnergyFlowDiagramImport:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1583,9 +1583,9 @@ class EnergyFlowDiagramClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
