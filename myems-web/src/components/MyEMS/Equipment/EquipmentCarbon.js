@@ -79,12 +79,22 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
-    current_moment.clone().subtract(1, 'months').startOf('month').toDate(),
-    current_moment.clone().subtract(1, 'months').toDate(),
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .startOf('month')
+      .toDate(),
+    current_moment
+      .clone()
+      .subtract(1, 'months')
+      .toDate()
   ]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
-    current_moment.clone().startOf('month').toDate(),
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
     current_moment.toDate()
   ]);
   const dateRangePickerLocale = {
@@ -154,7 +164,13 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           // rename keys
-          json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
           let selectedSpaceID = [json[0]].map(o => o.value);
@@ -178,7 +194,11 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             .then(json => {
               if (isResponseOK) {
                 json = JSON.parse(
-                  JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'),
+                  JSON.stringify([json])
+                    .split('"id":')
+                    .join('"value":')
+                    .split('"name":')
+                    .join('"label":')
                 );
                 setEquipmentList(json[0]);
                 if (json[0].length > 0) {
@@ -230,7 +250,13 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          json = JSON.parse(JSON.stringify([json]).split('"id":').join('"value":').split('"name":').join('"label":'));
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
           setEquipmentList(json[0]);
           if (json[0].length > 0) {
             setSelectedEquipment(json[0][0].value);
@@ -255,20 +281,32 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0]).subtract(1, 'years').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'years').toDate(),
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'years')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'years')
+          .toDate()
       ]);
     } else if (target.value === 'month-on-month') {
       setBasePeriodDateRangePickerDisabled(true);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0]).subtract(1, 'months').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'months').toDate(),
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'months')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'months')
+          .toDate()
       ]);
     } else if (target.value === 'free-comparison') {
       setBasePeriodDateRangePickerDisabled(false);
       setBasePeriodDateRange([
-        moment(reportingPeriodDateRange[0]).subtract(1, 'days').toDate(),
-        moment(reportingPeriodDateRange[1]).subtract(1, 'days').toDate(),
+        moment(reportingPeriodDateRange[0])
+          .subtract(1, 'days')
+          .toDate(),
+        moment(reportingPeriodDateRange[1])
+          .subtract(1, 'days')
+          .toDate()
       ]);
     } else if (target.value === 'none-comparison') {
       setBasePeriodDateRange([null, null]);
@@ -333,20 +371,32 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
-          moment(DateRange[0]).clone().subtract(1, 'years').toDate(),
-          moment(DateRange[1]).clone().subtract(1, 'years').toDate(),
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'years')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'years')
+            .toDate()
         ]);
       } else if (comparisonType === 'month-on-month') {
         setBasePeriodDateRange([
-          moment(DateRange[0]).clone().subtract(1, 'months').toDate(),
-          moment(DateRange[1]).clone().subtract(1, 'months').toDate(),
+          moment(DateRange[0])
+            .clone()
+            .subtract(1, 'months')
+            .toDate(),
+          moment(DateRange[1])
+            .clone()
+            .subtract(1, 'months')
+            .toDate()
         ]);
       }
     }
   };
 
   // Callback fired when value clean
-  let onBasePeriodClean = (event) => {
+  let onBasePeriodClean = event => {
     setBasePeriodDateRange([null, null]);
   };
 
@@ -388,21 +438,21 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/equipmentcarbon?' +
-      'equipmentid=' +
-      selectedEquipment +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/equipmentcarbon?' +
+        'equipmentid=' +
+        selectedEquipment +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
