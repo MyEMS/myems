@@ -14,6 +14,7 @@ class MeterCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -112,6 +113,7 @@ class MeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -284,6 +286,8 @@ class MeterItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -659,6 +663,7 @@ class MeterItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -859,6 +864,8 @@ class MeterSubmeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -963,6 +970,8 @@ class MeterPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1016,6 +1025,7 @@ class MeterPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1085,6 +1095,9 @@ class MeterPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
+        _ = id_
+        _ = pid
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1146,6 +1159,8 @@ class MeterCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1195,6 +1210,7 @@ class MeterCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1261,6 +1277,9 @@ class MeterCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
+        _ = id_
+        _ = cid
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1321,6 +1340,8 @@ class MeterExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1437,6 +1458,7 @@ class MeterImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1447,6 +1469,7 @@ class MeterImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1673,6 +1696,8 @@ class MeterClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod

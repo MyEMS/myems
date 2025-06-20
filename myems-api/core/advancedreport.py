@@ -14,7 +14,7 @@ class AdvancedReportCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -169,9 +169,9 @@ class AdvancedReportItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -419,9 +419,9 @@ class AdvancedReportExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -483,7 +483,7 @@ class AdvancedReportImport:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -587,9 +587,9 @@ class AdvancedReportClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
 
     @staticmethod
     @user_logger
