@@ -14,6 +14,7 @@ class MeterCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -284,6 +285,8 @@ class MeterItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -859,6 +862,8 @@ class MeterSubmeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -963,6 +968,8 @@ class MeterPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1085,6 +1092,9 @@ class MeterPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
+        _ = id_
+        _ = pid
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1146,6 +1156,8 @@ class MeterCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1261,6 +1273,9 @@ class MeterCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
+        _ = id_
+        _ = cid
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1321,6 +1336,8 @@ class MeterExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1437,6 +1454,7 @@ class MeterImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1673,6 +1691,8 @@ class MeterClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
+        _ = id_
         resp.status = falcon.HTTP_200
 
     @staticmethod
