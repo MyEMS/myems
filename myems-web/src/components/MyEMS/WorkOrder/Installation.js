@@ -41,9 +41,9 @@ const WorkOrderInstallation = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
 
   // Query Parameters
-    const [priority, setPriority] = useState('all');
+  const [priority, setPriority] = useState('all');
   const [status, setStatus] = useState('all');
-const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
       .startOf('month')
@@ -117,7 +117,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     });
   };
 
-// Callback fired when value changed
+  // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
@@ -127,7 +127,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-
     }
   };
   // Callback fired when value clean
@@ -340,12 +339,8 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
               fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
+              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format('YYYY-MM-DD HH:mm:ss');
+              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
               fault['status'] = currentValue['status'];
               totalFaultNumber += 1;
               // todo: parse status
@@ -400,7 +395,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -432,8 +426,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -448,9 +440,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -499,7 +489,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -531,8 +520,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -547,9 +534,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -592,7 +577,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -624,8 +608,6 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -640,9 +622,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -756,7 +736,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
-              <FormGroup className="form-group">
+                <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
                     {t('Reporting Period')}
                   </Label>
@@ -808,7 +788,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         </CardBody>
       </Card>
       <div className="card-deck">
-                <CardSummary rate={''} title={t('Total Number of Work Orders')} footunit={''} color="info">
+        <CardSummary rate={''} title={t('Total Number of Work Orders')} footunit={''} color="info">
           {1 && <CountUp end={totalFaultNumber} duration={2} prefix="" separator="," decimal="." decimals={0} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Number of New Work Orders')} footunit={''} color="info">
@@ -825,10 +805,7 @@ const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
         <FalconCardHeader title={t('Work Order Installation')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
-              <CustomInput
-                type="select"
-                id="bulk-select"
-                bsSize="sm">
+              <CustomInput type="select" id="bulk-select" bsSize="sm">
                 <option>{t('Bulk actions')}</option>
                 <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
                 <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>

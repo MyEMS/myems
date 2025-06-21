@@ -257,8 +257,12 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
           setPhotovoltaicPowerStationSVG({ __html: json['photovoltaic_power_station']['svg'] });
 
-          setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value'].toFixed(3));
-          setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
+          if (json['energy_indicators']['today_generation_energy_value'] !== null) {
+            setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value'].toFixed(3));
+          }
+          if (json['energy_indicators']['total_generation_energy_value'] !== null) {
+            setTotalGenerationEnergyValue(json['energy_indicators']['total_generation_energy_value'].toFixed(3));
+          }
 
           if (json['energy_indicators']['performance_ratio'] != null) {
             setTotalEfficiency(json['energy_indicators']['performance_ratio'].toFixed(2));
@@ -266,8 +270,12 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             setTotalEfficiency(0);
           }
 
-          setTodayGenerationRevenueValue(json['revenue_indicators']['today_generation_revenue_value'].toFixed(2));
-          setTotalGenerationRevenueValue(json['revenue_indicators']['total_generation_revenue_value'].toFixed(2));
+          if (json['revenue_indicators']['today_generation_revenue_value'] !== null) {
+            setTodayGenerationRevenueValue(json['revenue_indicators']['today_generation_revenue_value'].toFixed(2));
+          }
+          if (json['revenue_indicators']['total_generation_revenue_value'] !== null) {
+            setTotalGenerationRevenueValue(json['revenue_indicators']['total_generation_revenue_value'].toFixed(2));
+          }
 
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
