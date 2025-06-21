@@ -15,6 +15,7 @@ class ShopfloorCollection:
     @staticmethod
     def on_options(req, resp):
         resp.status = falcon.HTTP_200
+        _ = req
 
     @staticmethod
     def on_get(req, resp):
@@ -199,6 +200,8 @@ class ShopfloorItem:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _  = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -463,6 +466,8 @@ class ShopfloorEquipmentCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -578,6 +583,9 @@ class ShopfloorEquipmentItem:
     @staticmethod
     def on_options(req, resp, id_, eid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = eid
 
     @staticmethod
     @user_logger
@@ -639,6 +647,8 @@ class ShopfloorMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -767,6 +777,9 @@ class ShopfloorMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -827,6 +840,8 @@ class ShopfloorOfflineMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -955,6 +970,9 @@ class ShopfloorOfflineMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1016,6 +1034,8 @@ class ShopfloorPointCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1143,6 +1163,9 @@ class ShopfloorPointItem:
     @staticmethod
     def on_options(req, resp, id_, pid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = pid
 
     @staticmethod
     @user_logger
@@ -1204,6 +1227,8 @@ class ShopfloorSensorCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1319,6 +1344,9 @@ class ShopfloorSensorItem:
     @staticmethod
     def on_options(req, resp, id_, sid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = sid
 
     @staticmethod
     @user_logger
@@ -1379,6 +1407,8 @@ class ShopfloorVirtualMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1507,6 +1537,9 @@ class ShopfloorVirtualMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1568,6 +1601,8 @@ class ShopfloorWorkingCalendarCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1683,6 +1718,9 @@ class ShopfloorWorkingCalendarItem:
     @staticmethod
     def on_options(req, resp, id_, wcid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = wcid
 
     @staticmethod
     @user_logger
@@ -1744,6 +1782,8 @@ class ShopfloorCommandCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1859,6 +1899,9 @@ class ShopfloorCommandItem:
     @staticmethod
     def on_options(req, resp, id_, cid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = cid
 
     @staticmethod
     @user_logger
@@ -1919,6 +1962,8 @@ class ShopfloorExport:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2165,6 +2210,7 @@ class ShopfloorImport:
     @staticmethod
     def on_options(req, resp):
         resp.status = falcon.HTTP_200
+        _ = req
 
     @staticmethod
     @user_logger
@@ -2480,6 +2526,8 @@ class ShopfloorClone:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_post(req, resp, id_):
