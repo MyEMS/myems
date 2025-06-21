@@ -31,7 +31,6 @@ import { useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const MicrogridReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
@@ -176,7 +175,7 @@ const MicrogridReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Microgrids by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
@@ -390,13 +389,12 @@ const MicrogridReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
               });
             });
             setDetailedDataTableColumns(detailed_column_list);
-
           } else {
             /*
-                        * Tip:
-                        *     json['base_period']['names'] ===  json['reporting_period']['names']
-                        *     json['base_period']['units'] ===  json['reporting_period']['units']
-                        * */
+             * Tip:
+             *     json['base_period']['names'] ===  json['reporting_period']['names']
+             *     json['base_period']['units'] ===  json['reporting_period']['units']
+             * */
             let detailed_column_list = [];
             detailed_column_list.push({
               dataField: 'basePeriodDatetime',
@@ -563,9 +561,7 @@ const MicrogridReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
 
   const onSearchMicrogrid = ({ target }) => {
     const keyword = target.value.toLowerCase();
-    const filteredResult = microgridList.filter(microgrid =>
-      microgrid.label.toLowerCase().includes(keyword)
-    );
+    const filteredResult = microgridList.filter(microgrid => microgrid.label.toLowerCase().includes(keyword));
     setFilteredMicrogridList(keyword.length ? filteredResult : microgridList);
     if (filteredResult.length > 0) {
       setSelectedMicrogrid(filteredResult[0].value);
@@ -925,10 +921,10 @@ const MicrogridReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         {/* <div className="card-deck" >
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary

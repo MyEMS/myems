@@ -9,10 +9,9 @@ const MicrogridTableCard = ({ microgridList, t }) => {
 
   return (
     <Card className="mb-3">
-      <FalconCardHeader title={t("Microgrid List")} light={false}>
-      </FalconCardHeader>
+      <FalconCardHeader title={t('Microgrid List')} light={false} />
       <CardBody className="p-0">
-        <MicrogridTable setIsSelected={setIsSelected}  microgridList={microgridList}/>
+        <MicrogridTable setIsSelected={setIsSelected} microgridList={microgridList} />
       </CardBody>
     </Card>
   );
