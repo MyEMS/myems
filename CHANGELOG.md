@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed image path issues in readme.md
 - fixed unused local symbols warnings in myems-api
-- fixed wangings in myems-web
+- fixed warnings in myems-web
 ### Removed
 - None
 
