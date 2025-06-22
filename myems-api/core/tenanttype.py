@@ -13,6 +13,7 @@ class TenantTypeCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _=req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -54,6 +55,7 @@ class TenantTypeCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -128,8 +130,9 @@ class TenantTypeItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _=req
         resp.status = falcon.HTTP_200
-
+        _=id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -210,6 +213,7 @@ class TenantTypeItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
