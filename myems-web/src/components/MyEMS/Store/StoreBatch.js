@@ -122,14 +122,12 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -191,7 +189,7 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
-   // hide result data
+    // hide result data
     setResultDataHidden(true);
 
     // Reinitialize tables
@@ -227,7 +225,6 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
           let detailed_column_list = [];
           detailed_column_list.push({
             dataField: 'name',
@@ -401,11 +398,16 @@ const StoreBatch = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
-        <DetailedDataTable data={storeList} title={t('Detailed Data')} columns={detailedDataTableColumns} pagesize={50} />
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <DetailedDataTable
+          data={storeList}
+          title={t('Detailed Data')}
+          columns={detailedDataTableColumns}
+          pagesize={50}
+        />
       </div>
     </Fragment>
   );

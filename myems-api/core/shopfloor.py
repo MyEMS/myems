@@ -15,6 +15,7 @@ class ShopfloorCollection:
     @staticmethod
     def on_options(req, resp):
         resp.status = falcon.HTTP_200
+        _ = req
 
     @staticmethod
     def on_get(req, resp):
@@ -85,6 +86,7 @@ class ShopfloorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -199,6 +201,8 @@ class ShopfloorItem:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -337,6 +341,7 @@ class ShopfloorItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -463,6 +468,8 @@ class ShopfloorEquipmentCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -511,6 +518,7 @@ class ShopfloorEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -578,6 +586,9 @@ class ShopfloorEquipmentItem:
     @staticmethod
     def on_options(req, resp, id_, eid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = eid
 
     @staticmethod
     @user_logger
@@ -639,6 +650,8 @@ class ShopfloorMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -700,6 +713,7 @@ class ShopfloorMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -767,6 +781,9 @@ class ShopfloorMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -827,6 +844,8 @@ class ShopfloorOfflineMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -888,6 +907,7 @@ class ShopfloorOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -955,6 +975,9 @@ class ShopfloorOfflineMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1016,6 +1039,8 @@ class ShopfloorPointCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1076,6 +1101,7 @@ class ShopfloorPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1143,6 +1169,9 @@ class ShopfloorPointItem:
     @staticmethod
     def on_options(req, resp, id_, pid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = pid
 
     @staticmethod
     @user_logger
@@ -1204,6 +1233,8 @@ class ShopfloorSensorCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1252,6 +1283,7 @@ class ShopfloorSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1319,6 +1351,9 @@ class ShopfloorSensorItem:
     @staticmethod
     def on_options(req, resp, id_, sid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = sid
 
     @staticmethod
     @user_logger
@@ -1379,6 +1414,8 @@ class ShopfloorVirtualMeterCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1440,6 +1477,7 @@ class ShopfloorVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1507,6 +1545,9 @@ class ShopfloorVirtualMeterItem:
     @staticmethod
     def on_options(req, resp, id_, mid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1568,6 +1609,8 @@ class ShopfloorWorkingCalendarCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1616,6 +1659,7 @@ class ShopfloorWorkingCalendarCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1683,6 +1727,9 @@ class ShopfloorWorkingCalendarItem:
     @staticmethod
     def on_options(req, resp, id_, wcid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = wcid
 
     @staticmethod
     @user_logger
@@ -1744,6 +1791,8 @@ class ShopfloorCommandCollection:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1792,6 +1841,7 @@ class ShopfloorCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1859,6 +1909,9 @@ class ShopfloorCommandItem:
     @staticmethod
     def on_options(req, resp, id_, cid):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
+        _ = cid
 
     @staticmethod
     @user_logger
@@ -1919,6 +1972,8 @@ class ShopfloorExport:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2165,6 +2220,7 @@ class ShopfloorImport:
     @staticmethod
     def on_options(req, resp):
         resp.status = falcon.HTTP_200
+        _ = req
 
     @staticmethod
     @user_logger
@@ -2174,6 +2230,7 @@ class ShopfloorImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2480,6 +2537,8 @@ class ShopfloorClone:
     @staticmethod
     def on_options(req, resp, id_):
         resp.status = falcon.HTTP_200
+        _ = req
+        _ = id_
 
     @staticmethod
     def on_post(req, resp, id_):

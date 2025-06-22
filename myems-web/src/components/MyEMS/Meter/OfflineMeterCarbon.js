@@ -163,14 +163,12 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -288,7 +286,6 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -445,21 +442,21 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/offlinemetercarbon?' +
-      'offlinemeterid=' +
-      selectedOfflineMeter +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/offlinemetercarbon?' +
+        'offlinemeterid=' +
+        selectedOfflineMeter +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -478,7 +475,6 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
           setOfflineMeterEnergyCategory({
             name: json['offline_meter']['energy_category_name'],
             unit: json['offline_meter']['unit_of_measure']
@@ -566,7 +562,7 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   json['offline_meter']['energy_category_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -610,7 +606,7 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   json['offline_meter']['unit_of_measure'] +
                   ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -633,7 +629,7 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   json['offline_meter']['unit_of_measure'] +
                   ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -878,10 +874,10 @@ const OfflineMeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           <CardSummary
             rate={reportingPeriodEnergyCarbonRate}

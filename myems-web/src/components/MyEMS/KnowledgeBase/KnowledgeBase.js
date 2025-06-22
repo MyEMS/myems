@@ -53,7 +53,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
               setFetchSuccess(true);
               let reportList = [];
               if (json.length > 0) {

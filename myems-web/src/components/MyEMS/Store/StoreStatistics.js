@@ -160,14 +160,12 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -179,7 +177,7 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Stores by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
@@ -285,7 +283,6 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -481,8 +478,6 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -951,10 +946,10 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         {cardSummaryList.map(cardSummaryItem => (
           <div className="card-deck" key={cardSummaryItem['name']}>
             <CardSummary
@@ -986,7 +981,14 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
               {cardSummaryItem['median'] && (
-                <CountUp end={cardSummaryItem['median']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['median']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -1002,7 +1004,14 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
               {cardSummaryItem['minimum'] && (
-                <CountUp end={cardSummaryItem['minimum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['minimum']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -1018,7 +1027,14 @@ const StoreStatistics = ({ setRedirect, setRedirectUrl, t }) => {
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
               {cardSummaryItem['maximum'] && (
-                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['maximum']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary

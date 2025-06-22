@@ -37,7 +37,6 @@ import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import PinModal from './PinModal';
 
-
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const uuid = location.search.split('=')[1];
@@ -77,7 +76,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [activeTabLeft, setActiveTabLeft] = useState('1');
   const toggleTabLeft = tab => {
     if (activeTabLeft !== tab) setActiveTabLeft(tab);
-
   };
 
   const [activeTabRight, setActiveTabRight] = useState('1');
@@ -95,8 +93,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
   // buttons
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
-  const [submitButtonHidden, setSubmitButtonHidden] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
@@ -113,7 +109,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [HVACStatus, setHVACStatus] = useState();
   const [gridMeterStatus, setGridMeterStatus] = useState();
   const [loadMeterStatus, setLoadMeterStatus] = useState();
-
 
   const [todayChargeEnergyValue, setTodayChargeEnergyValue] = useState();
   const [todayDischargeEnergyValue, setTodayDischargeEnergyValue] = useState();
@@ -134,7 +129,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
 
   const [BMSDetailsList, setBMSDetailsList] = useState([]);
   const [firecontrolDetailsList, setFirecontrolDetailsList] = useState([]);
@@ -177,7 +171,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID  = [json[0]].map(o => o.value);
+            let selectedSpaceID = [json[0]].map(o => o.value);
             // get Energy Storage Power Stations by root Space ID
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
@@ -210,16 +204,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     // select the first station
                     let stationID = json[0][0].value;
                     setSelectedStation(stationID);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                    setSubmitButtonHidden(false);
                     // automatically submit with the first station
                     loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + stationID);
                   } else {
                     setSelectedStation(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                    setSubmitButtonHidden(true);
                   }
                 } else {
                   toast.error(t(json.description));
@@ -237,14 +225,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           console.log(err);
         });
     } else {
-        setSpaceCascaderHidden(true);
-        loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID)
-      }
+      setSpaceCascaderHidden(true);
+      loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?uuid=' + energyStoragePowerStationUUID);
+    }
   }, [energyStoragePowerStationUUID]);
 
   const loadData = url => {
-    // disable submit button
-    setSubmitButtonDisabled(true);
     // show spinner
     setSpinnerHidden(false);
     // hide result data
@@ -269,7 +255,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       .then(json => {
         if (isResponseOK) {
           if (uuid !== null && uuid) {
-            setFilteredStationList([{ id: json['energy_storage_power_station']['id'], label: json['energy_storage_power_station']['name'] }]);
+            setFilteredStationList([
+              { id: json['energy_storage_power_station']['id'], label: json['energy_storage_power_station']['name'] }
+            ]);
             setSelectedStation(json['energy_storage_power_station']['id']);
           }
           setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
@@ -284,7 +272,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
 
           if (json['energy_indicators']['total_charge_energy_value'] > 0) {
-            setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2));
+            setTotalEfficiency(
+              (
+                (100 * json['energy_indicators']['total_discharge_energy_value']) /
+                json['energy_indicators']['total_charge_energy_value']
+              ).toFixed(2)
+            );
           } else {
             setTotalEfficiency(0);
           }
@@ -318,17 +311,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setHVACStatus('正常');
           setGridMeterStatus('正常');
           setLoadMeterStatus('正常');
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show result data
           setResultDataHidden(false);
         } else {
           toast.error(t(json.description));
-          // enable submit button
-          setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -336,7 +324,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
@@ -371,14 +359,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setFilteredStationList(json[0]);
           if (json[0].length > 0) {
             setSelectedStation(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
-            setSubmitButtonHidden(false);
+            loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + json[0][0].value);
           } else {
             setSelectedStation(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
-            setSubmitButtonHidden(true);
           }
         } else {
           toast.error(t(json.description));
@@ -389,12 +372,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       });
   };
 
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
-    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + selectedStation);
+  let onStationChange = ({ target }) => {
+    setSelectedStation(target.value);
+    loadData(APIBaseURL + '/reports/energystoragepowerstationdetails?id=' + target.value);
   };
-
 
   const refreshSVGData = () => {
     let isResponseOK = false;
@@ -444,7 +425,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
   // Schedule
   const fetchScheduleDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/schedule'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/schedule';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -463,31 +444,79 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
       })
       .then(json => {
         if (isResponseOK) {
-          setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
-          '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
-          '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00',
-          '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '23:59:59']);
+          setScheduleXaxisData([
+            '00:00:00',
+            '00:30:00',
+            '01:00:00',
+            '01:30:00',
+            '02:00:00',
+            '02:30:00',
+            '03:00:00',
+            '03:30:00',
+            '04:00:00',
+            '04:30:00',
+            '05:00:00',
+            '05:30:00',
+            '06:00:00',
+            '06:30:00',
+            '07:00:00',
+            '07:30:00',
+            '08:00:00',
+            '08:30:00',
+            '09:00:00',
+            '09:30:00',
+            '10:00:00',
+            '10:30:00',
+            '11:00:00',
+            '11:30:00',
+            '12:00:00',
+            '12:30:00',
+            '13:00:00',
+            '13:30:00',
+            '14:00:00',
+            '14:30:00',
+            '15:00:00',
+            '15:30:00',
+            '16:00:00',
+            '16:30:00',
+            '17:00:00',
+            '17:30:00',
+            '18:00:00',
+            '18:30:00',
+            '19:00:00',
+            '19:30:00',
+            '20:00:00',
+            '20:30:00',
+            '21:00:00',
+            '21:30:00',
+            '22:00:00',
+            '22:30:00',
+            '23:00:00',
+            '23:30:00',
+            '23:59:59'
+          ]);
           setScheduleSeriesName('Power');
           setScheduleSeriesData(json['schedule']['series_data']);
           let schedule_mark_area_data = [];
           json['schedule']['schedule_list'].forEach((schedule_item, index) => {
-            schedule_mark_area_data.push([{name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day']}, {xAxis: schedule_item['end_time_of_day']}])
+            schedule_mark_area_data.push([
+              { name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day'] },
+              { xAxis: schedule_item['end_time_of_day'] }
+            ]);
           });
           setScheduleMarkAreaData(schedule_mark_area_data);
-
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   // DCDC
   const fetchDCDCDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/dcdc'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/dcdc';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -509,16 +538,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setDCDCDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // PCS
   const fetchPCSDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/pcs'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/pcs';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -540,16 +568,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setPCSDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // BMS
   const fetchBMSDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/bms'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/bms';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -571,17 +598,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setBMSDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Grids
   const fetchGridDetails = () => {
-
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/grid'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/grid';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -603,17 +628,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setGridDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Loads
   const fetchLoadDetails = () => {
-
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/load'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/load';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -635,16 +658,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setLoadDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // HVAC
   const fetchHVACDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/hvac'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/hvac';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -666,16 +688,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setHVACDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Fire Control
   const fetchFireControlDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/firecontrol'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/firecontrol';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -697,17 +718,16 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setFirecontrolDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   // STS
   const fetchSTSDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/sts'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/sts';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -729,16 +749,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setSTSDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Command
   const fetchCommandDetails = () => {
-    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/command'
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/command';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -760,27 +779,20 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setCommandDetailsList(json);
         } else {
           toast.error(t(json.description));
-
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   return (
     <Fragment>
-
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Row form>
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
-              <Cascader
-                options={cascaderOptions}
-                onChange={onSpaceCascaderChange}
-                changeOnSelect
-                expandTrigger="hover"
-              >
+              <Cascader options={cascaderOptions} onChange={onSpaceCascaderChange} changeOnSelect expandTrigger="hover">
                 <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
               </Cascader>
             </FormGroup>
@@ -793,7 +805,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                   id="stationSelect"
                   name="stationSelect"
                   bsSize="sm"
-                  onChange={({ target }) => setSelectedStation(target.value)}
+                  onChange={onStationChange}
                 >
                   {filteredStationList.map((station, index) => (
                     <option value={station.value} key={index}>
@@ -806,24 +818,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </Col>
           <Col xs="auto">
             <FormGroup>
-              <ButtonGroup id="submit">
-                <Button size="sm" color="success" hidden={submitButtonHidden} disabled={submitButtonDisabled}>
-                  {t('Submit')}
-                </Button>
-              </ButtonGroup>
+              <Spinner color="primary" hidden={spinnerHidden} />
             </FormGroup>
-          </Col>
-          <Col xs="auto">
-              <FormGroup>
-                <Spinner color="primary" hidden={spinnerHidden} />
-              </FormGroup>
           </Col>
         </Row>
       </Form>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <Row noGutters>
           <Col lg="3" className="pr-lg-2">
             <Nav tabs>
@@ -874,20 +877,22 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Charge")}</th>
+                            <th className="pl-0 pb-0">{t('Total Charge')}</th>
                             <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Discharge")}</th>
+                            <th className="pl-0 pb-0">{t('Total Discharge')}</th>
                             <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Efficiency")}</th>
+                            <th className="pl-0 pb-0">{t('Total Efficiency')}</th>
                             <th className="pr-0 text-right">{totalEfficiency}%</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Discharge Achievement Rate")}</th>
-                            <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / energyStoragePowerStationRatedCapacity).toFixed(2)}%</th>
+                            <th className="pl-0 pb-0">{t('Discharge Achievement Rate')}</th>
+                            <th className="pr-0 text-right">
+                              {((100 * todayDischargeEnergyValue) / energyStoragePowerStationRatedCapacity).toFixed(2)}%
+                            </th>
                           </tr>
                         </tbody>
                       </Table>
@@ -910,20 +915,24 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                             <th className="pr-0 text-right ">{todayDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Cost")}</th>
+                            <th className="pl-0 pb-0">{t('Total Cost')}</th>
                             <th className="pr-0 text-right">{totalChargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Income")}</th>
+                            <th className="pl-0 pb-0">{t('Total Income')}</th>
                             <th className="pr-0 text-right">{totalDischargeRevenueValue} 元</th>
                           </tr>
                           <tr className="border-bottom">
                             <th className="pl-0 pb-0">{t("Today's Revenue")}</th>
-                            <th className="pr-0 text-right">{(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} 元</th>
+                            <th className="pr-0 text-right">
+                              {(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} 元
+                            </th>
                           </tr>
                           <tr className="border-bottom">
-                            <th className="pl-0 pb-0">{t("Total Revenue")}</th>
-                            <th className="pr-0 text-right">{(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} 元</th>
+                            <th className="pl-0 pb-0">{t('Total Revenue')}</th>
+                            <th className="pr-0 text-right">
+                              {(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} 元
+                            </th>
                           </tr>
                         </tbody>
                       </Table>
@@ -955,7 +964,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     toggleTabRight('2');
                   }}
                 >
-                  <h6>{t("Basic Information")}</h6>
+                  <h6>{t('Basic Information')}</h6>
                 </NavLink>
               </NavItem>
             </Nav>
@@ -1041,8 +1050,8 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '4' })}
               onClick={() => {
                 setActiveTabBottom('4');
-                fetchDCDCDetails()
-            }}
+                fetchDCDCDetails();
+              }}
             >
               <h6>{t('DCDC')}</h6>
             </NavLink>
@@ -1053,7 +1062,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               className={classNames({ active: activeTabBottom === '5' })}
               onClick={() => {
                 setActiveTabBottom('5');
-                fetchPCSDetails()
+                fetchPCSDetails();
               }}
             >
               <h6>{t('PCS')}</h6>
@@ -1160,10 +1169,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </TabPane>
           <TabPane tabId="2">
             <ScheduleDetails
-                xaxisData={scheduleXaxisData}
-                seriesName={scheduleSeriesName}
-                seriesData={scheduleSeriesData}
-                markAreaData={scheduleMarkAreaData}
+              xaxisData={scheduleXaxisData}
+              seriesName={scheduleSeriesName}
+              seriesData={scheduleSeriesData}
+              markAreaData={scheduleMarkAreaData}
             />
           </TabPane>
           <TabPane tabId="3">
@@ -1229,39 +1238,45 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             </Card>
           </TabPane>
           <TabPane tabId="4">
-            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(DCDCDetailsList) &&
+              DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="5">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(PCSDetailsList) &&
+              PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="6">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(BMSDetailsList) &&
+              BMSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="7">
-            {isIterableArray(gridDetailsList) && gridDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(gridDetailsList) &&
+              gridDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="8">
-            {isIterableArray(loadDetailsList) && loadDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(loadDetailsList) &&
+              loadDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="9">
-            {isIterableArray(HVACDetailsList) && HVACDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(HVACDetailsList) &&
+              HVACDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="10">
-            {isIterableArray(firecontrolDetailsList) && firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(firecontrolDetailsList) &&
+              firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="11">
-            {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+            {isIterableArray(STSDetailsList) &&
+              STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="12">
-            {isIterableArray(commandDetailsList) && commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} { ...rest} />) }
+            {isIterableArray(commandDetailsList) &&
+              commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} {...rest} />)}
           </TabPane>
         </TabContent>
       </div>
 
-      <PinModal
-        isOpenPinModal={isOpenPinModal}
-        setIsOpenPinModal={setIsOpenPinModal}
-      />
+      <PinModal isOpenPinModal={isOpenPinModal} setIsOpenPinModal={setIsOpenPinModal} />
     </Fragment>
   );
 };

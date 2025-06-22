@@ -128,14 +128,12 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -147,7 +145,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Meters by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/meters', {
@@ -305,15 +303,15 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/metertrend?' +
-      'meterid=' +
-      selectedMeter +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/metertrend?' +
+        'meterid=' +
+        selectedMeter +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -332,8 +330,6 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let names = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             names.push({ value: 'a' + index, label: currentValue });
@@ -553,10 +549,10 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <MultipleLineChart
           reportingTitle={t('Trend Values')}
           baseTitle

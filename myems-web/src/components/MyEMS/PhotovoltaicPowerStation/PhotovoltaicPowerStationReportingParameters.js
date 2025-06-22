@@ -28,7 +28,6 @@ import { Link, useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
@@ -140,14 +139,12 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -159,7 +156,7 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get PhotovoltaicPowerStations by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/photovoltaicpowerstations', {
@@ -258,7 +255,6 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
       })
       .then(json => {
         if (isResponseOK) {
-
           setPhotovoltaicPowerStationName(json['photovoltaic_power_station']['name']);
           setPhotovoltaicPowerStationSerialNumber(json['photovoltaic_power_station']['serial_number']);
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
@@ -504,10 +500,10 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <MultipleLineChart
           reportingTitle={t('Operating Characteristic Curve')}
           baseTitle=""

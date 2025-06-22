@@ -218,7 +218,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             );
             setCascaderOptions(json);
             setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID  = [json[0]].map(o => o.value);
+            let selectedSpaceID = [json[0]].map(o => o.value);
             // get Combined Equipments by root Space ID
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/combinedequipments', {
@@ -552,7 +552,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -581,7 +581,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -603,7 +603,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -685,7 +685,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             }
             const currentIndex = Object.keys(
               associatedTimestampsList[
-              associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
+                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
               ]
             ).length;
             associatedTimestampsList[
@@ -705,7 +705,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
             }
             const currentIndex = Object.keys(
               associatedValuesList[
-              associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
+                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
               ]
             ).length;
             associatedValuesList[
@@ -735,24 +735,25 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
 
           let associated_equipment_value_list = [];
           if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
-            json['associated_equipment']['associated_equipment_names_array'][0].forEach((currentEquipmentName, equipmentIndex) => {
+            json['associated_equipment']['associated_equipment_names_array'][0].forEach(
+              (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
 
                 associated_equipment_value['id'] = equipmentIndex;
                 associated_equipment_value['name'] = currentEquipmentName;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                  let subtotal_of_equipment = json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+                  let subtotal_of_equipment =
+                    json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
                   associated_equipment_value['a' + energyCategoryIndex] = subtotal_of_equipment;
                   let subtotal_in_category = json['reporting_period']['subtotals'][energyCategoryIndex];
                   if (subtotal_in_category > 0) {
-                    associated_equipment_value['b' + energyCategoryIndex] = subtotal_of_equipment / subtotal_in_category * 100;
+                    associated_equipment_value['b' + energyCategoryIndex] =
+                      (subtotal_of_equipment / subtotal_in_category) * 100;
                   } else {
                     associated_equipment_value['b' + energyCategoryIndex] = 0;
                   }
-
                 });
                 associated_equipment_value_list.push(associated_equipment_value);
-
               }
             );
           }
@@ -771,7 +772,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
               dataField: 'a' + index,
               text: current_energy_category_name + ' (' + unit + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -783,7 +784,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
               dataField: 'b' + index,
               text: current_energy_category_name + ' ' + '%',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -1210,10 +1211,10 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary

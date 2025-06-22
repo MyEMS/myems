@@ -9,51 +9,57 @@ import { Link } from 'react-router-dom';
 import AppContext from '../../../context/Context';
 import { withTranslation } from 'react-i18next';
 
-
 const PhotovoltaicPowerStationTable = ({ setIsSelected, photovoltaicPowerStationList, t }) => {
   const { currency } = useContext(AppContext);
   const energyFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} MWH</Fragment>;
-  const capacityFormatter = amount => <Fragment>{(amount).toFixed(3)} kWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{(amount).toFixed(3)} kWp</Fragment>;
-  const currencyFormatter = amount => <Fragment>{amount.toFixed(2)} {currency}</Fragment>;
+  const capacityFormatter = amount => <Fragment>{amount.toFixed(3)} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount.toFixed(3)} kWp</Fragment>;
+  const currencyFormatter = amount => (
+    <Fragment>
+      {amount.toFixed(2)} {currency}
+    </Fragment>
+  );
 
-  const nameFormatter = (nameuuid) => (
-    <Link to={"/singlephotovoltaicpowerstation/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} className="font-weight-semi-bold" target="_blank">
-      {nameuuid.substring(0, nameuuid.length-36)}
+  const nameFormatter = nameuuid => (
+    <Link
+      to={'/singlephotovoltaicpowerstation/details?uuid=' + nameuuid.substring(nameuuid.length - 36, nameuuid.length)}
+      className="font-weight-semi-bold"
+      target="_blank"
+    >
+      {nameuuid.substring(0, nameuuid.length - 36)}
     </Link>
   );
 
+  const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
+    <span>
+      {(page - 1) * sizePerPage + 1} to {lastIndex > totalSize ? totalSize : lastIndex} of {totalSize} —{' '}
+    </span>
+  );
 
-const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
-  <span>
-    {(page - 1) * sizePerPage + 1} to {lastIndex > totalSize ? totalSize : lastIndex} of {totalSize} —{' '}
-  </span>
-);
+  const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
+    <div className="custom-control custom-checkbox">
+      <input
+        className="custom-control-input"
+        {...rest}
+        onChange={() => {}}
+        ref={input => {
+          if (input) input.indeterminate = indeterminate;
+        }}
+      />
+      <label className="custom-control-label" />
+    </div>
+  );
 
-const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
-  <div className="custom-control custom-checkbox">
-    <input
-      className="custom-control-input"
-      {...rest}
-      onChange={() => {}}
-      ref={input => {
-        if (input) input.indeterminate = indeterminate;
-      }}
-    />
-    <label className="custom-control-label" />
-  </div>
-);
-
-const selectRow = onSelect => ({
-  mode: 'checkbox',
-  clickToSelect: false,
-  selectionHeaderRenderer: ({ mode, ...rest }) => <SelectRowInput type="checkbox" {...rest} />,
-  selectionRenderer: ({ mode, ...rest }) => <SelectRowInput type={mode} {...rest} />,
-  headerColumnStyle: { border: 0, verticalAlign: 'middle' },
-  selectColumnStyle: { border: 0, verticalAlign: 'middle' },
-  onSelect: onSelect,
-  onSelectAll: onSelect
-});
+  const selectRow = onSelect => ({
+    mode: 'checkbox',
+    clickToSelect: false,
+    selectionHeaderRenderer: ({ mode, ...rest }) => <SelectRowInput type="checkbox" {...rest} />,
+    selectionRenderer: ({ mode, ...rest }) => <SelectRowInput type={mode} {...rest} />,
+    headerColumnStyle: { border: 0, verticalAlign: 'middle' },
+    selectColumnStyle: { border: 0, verticalAlign: 'middle' },
+    onSelect: onSelect,
+    onSelectAll: onSelect
+  });
 
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -80,7 +86,6 @@ const selectRow = onSelect => ({
     totalSize: photovoltaicPowerStationList.length
   };
 
-
   const phaseFormatter = phaseOfLifecycle => {
     let text = '';
     switch (phaseOfLifecycle) {
@@ -88,17 +93,15 @@ const selectRow = onSelect => ({
         text = t('Use Phase');
         break;
       case '2commissioning':
-        text = t('Commissioning Phase')
+        text = t('Commissioning Phase');
         break;
       case '3installation':
-        text = t('Installation Phase')
+        text = t('Installation Phase');
         break;
       default:
         text = t('Use Phase');
     }
-    return (
-      <Fragment>{text}</Fragment>
-    );
+    return <Fragment>{text}</Fragment>;
   };
 
   const statusFormatter = status => {
@@ -158,7 +161,7 @@ const selectRow = onSelect => ({
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'subtotal_generation_billing',
@@ -166,7 +169,7 @@ const selectRow = onSelect => ({
       formatter: currencyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'rated_capacity',
@@ -174,7 +177,7 @@ const selectRow = onSelect => ({
       formatter: capacityFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'rated_power',
@@ -182,7 +185,7 @@ const selectRow = onSelect => ({
       formatter: powerFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'phase_of_lifecycle',
@@ -190,7 +193,7 @@ const selectRow = onSelect => ({
       formatter: phaseFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'status',

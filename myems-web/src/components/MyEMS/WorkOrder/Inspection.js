@@ -127,7 +127,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-
     }
   };
   // Callback fired when value clean
@@ -340,12 +339,8 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
               fault['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
+              fault['start_datetime'] = moment(parseInt(currentValue['start_datetime'])).format('YYYY-MM-DD HH:mm:ss');
+              fault['end_datetime'] = moment(parseInt(currentValue['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
               fault['status'] = currentValue['status'];
               totalFaultNumber += 1;
               // todo: parse status
@@ -400,7 +395,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -432,8 +426,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -448,9 +440,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -499,7 +489,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -531,8 +520,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -547,9 +534,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -592,7 +577,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -624,8 +608,6 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -640,9 +622,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
                     fault['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    fault['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss');
                     fault['status'] = json[index]['status'];
                     fault['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
@@ -756,7 +736,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
               <Col xs={6} sm={3}>
-              <FormGroup className="form-group">
+                <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
                     {t('Reporting Period')}
                   </Label>
@@ -825,10 +805,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
         <FalconCardHeader title={t('Work Order Inspection')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
-              <CustomInput
-                type="select"
-                id="bulk-select"
-                bsSize="sm">
+              <CustomInput type="select" id="bulk-select" bsSize="sm">
                 <option>{t('Bulk actions')}</option>
                 <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
                 <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>

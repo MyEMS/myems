@@ -8,7 +8,6 @@ import {
   CustomInput,
   Form,
   FormGroup,
-  Label,
   Row,
   Spinner
 } from 'reactstrap';

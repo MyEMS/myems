@@ -2,19 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
-import {
-  Card,
-  CardBody,
-  Table,
-} from 'reactstrap';
+import { Card, CardBody, Table } from 'reactstrap';
 
-const DetailsCard = ({
-  id,
-  name,
-  points,
-  t
-}) => {
-
+const DetailsCard = ({ id, name, points, t }) => {
   return (
     <Card className="mb-3 fs--1">
       <CardBody className="bg-light">
@@ -29,15 +19,15 @@ const DetailsCard = ({
             </tr>
           </thead>
           <tbody>
-              {points.map((currentPoint) => (
-                <tr key={uuid()}>
-                  <td></td>
-                  <td>{currentPoint[0]}</td>
-                  <td>{currentPoint[3]}</td>
-                  <td>{currentPoint[1]}</td>
-                  <td>{currentPoint[2]}</td>
-                </tr>
-              ))}
+            {points.map(currentPoint => (
+              <tr key={uuid()}>
+                <td />
+                <td>{currentPoint[0]}</td>
+                <td>{currentPoint[3]}</td>
+                <td>{currentPoint[1]}</td>
+                <td>{currentPoint[2]}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </CardBody>
@@ -48,7 +38,7 @@ const DetailsCard = ({
 DetailsCard.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  points: PropTypes.array,
+  points: PropTypes.array
 };
 
 export default withTranslation()(DetailsCard);

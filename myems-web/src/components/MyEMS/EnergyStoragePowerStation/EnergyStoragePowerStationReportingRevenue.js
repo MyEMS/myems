@@ -29,7 +29,6 @@ import { useLocation } from 'react-router-dom';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl, t }) => {
@@ -155,7 +154,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get EnergyStoragePowerStations by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
@@ -305,7 +304,6 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           setEnergyStoragePowerStationReportingOptions(options);
           setExcelBytesBase64(json['excel_bytes_base64']);
 
-
           let detailed_column_list = [];
 
           detailed_column_list.push({
@@ -451,7 +449,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' +selectedSpaceID + '/energystoragepowerstations', {
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/energystoragepowerstations', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -718,13 +716,13 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <DetailedDataTable
           data={timeOfUseDataTableData}
-          title='分时数据'
+          title="分时数据"
           columns={detailedDataTableColumns}
           pagesize={50}
           hidden={true}

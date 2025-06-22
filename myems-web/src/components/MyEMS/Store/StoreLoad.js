@@ -158,14 +158,12 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -177,7 +175,7 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Stores by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
@@ -283,7 +281,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -479,8 +476,6 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -964,10 +959,10 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         {cardSummaryList.map(cardSummaryItem => (
           <div className="card-deck" key={cardSummaryItem['name']}>
             <CardSummary
@@ -983,7 +978,14 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
             >
               {cardSummaryItem['average'] && (
-                <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['average']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -999,7 +1001,14 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footunit={'(' + cardSummaryItem['unit'] + '/H/M²)'}
             >
               {cardSummaryItem['maximum'] && (
-                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['maximum']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -1010,7 +1019,14 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Ratio of Average Load to Maximum Load')}
             >
               {cardSummaryItem['factor'] && (
-                <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['factor']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
           </div>

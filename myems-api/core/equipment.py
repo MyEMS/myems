@@ -14,6 +14,7 @@ class EquipmentCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -86,6 +87,7 @@ class EquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -203,7 +205,9 @@ class EquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -356,6 +360,7 @@ class EquipmentItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -621,7 +626,9 @@ class EquipmentParameterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -762,6 +769,7 @@ class EquipmentParameterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -942,7 +950,10 @@ class EquipmentParameterItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -1130,6 +1141,7 @@ class EquipmentParameterItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1325,7 +1337,9 @@ class EquipmentMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1390,6 +1404,7 @@ class EquipmentMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1462,7 +1477,10 @@ class EquipmentMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1522,7 +1540,9 @@ class EquipmentOfflineMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1587,6 +1607,7 @@ class EquipmentOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1659,7 +1680,10 @@ class EquipmentOfflineMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1720,7 +1744,9 @@ class EquipmentVirtualMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1785,6 +1811,7 @@ class EquipmentVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1857,7 +1884,10 @@ class EquipmentVirtualMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = mid
 
     @staticmethod
     @user_logger
@@ -1918,7 +1948,9 @@ class EquipmentCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1969,6 +2001,7 @@ class EquipmentCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2035,7 +2068,10 @@ class EquipmentCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
+        _ = cid
 
     @staticmethod
     @user_logger
@@ -2095,7 +2131,9 @@ class EquipmentExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2355,6 +2393,7 @@ class EquipmentImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -2364,6 +2403,7 @@ class EquipmentImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2708,7 +2748,9 @@ class EquipmentClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger

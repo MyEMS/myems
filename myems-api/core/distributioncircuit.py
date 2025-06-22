@@ -13,7 +13,7 @@ class DistributionCircuitCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -187,9 +187,10 @@ class DistributionCircuitItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -409,9 +410,9 @@ class DistributionCircuitPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -537,9 +538,9 @@ class DistributionCircuitPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):

@@ -15,7 +15,7 @@ class ApiKeyCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -107,9 +107,9 @@ class ApiKeyItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ = req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)

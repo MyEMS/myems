@@ -45,7 +45,11 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [generationEnergyLabels, setGenerationEnergyLabels] = useState([]);
   const [generationBillingLabels, setGenerationBillingLabels] = useState([]);
   const [carbonLabels, setCarbonLabels] = useState([]);
-  const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
+  const [periodTypes, setPeriodTypes] = useState([
+    { value: 'a0', label: t('7 Days') },
+    { value: 'a1', label: t('This Month') },
+    { value: 'a2', label: t('This Year') }
+  ]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
   const [rootLatitude, setRootLatitude] = useState('');
@@ -79,18 +83,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </Fragment>
         );
 
-        fetch(
-          APIBaseURL + '/reports/photovoltaicpowerstationdashboard?useruuid=' + user_uuid,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/photovoltaicpowerstationdashboard?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -99,7 +100,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
               // hide spinner
               setSpinnerHidden(true);
 
@@ -130,9 +130,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     }
                   });
                 }
-                photovoltaicPowerStationItem['nameuuid'] = photovoltaicPowerStationItem['name'] + photovoltaicPowerStationItem['uuid']
+                photovoltaicPowerStationItem['nameuuid'] =
+                  photovoltaicPowerStationItem['name'] + photovoltaicPowerStationItem['uuid'];
                 photovoltaicPowerStationList.push(photovoltaicPowerStationItem);
-
               });
               setPhotovoltaicPowerStationList(photovoltaicPowerStationList);
               setTotalRatedCapacity(totalRatedCapacity);
@@ -144,7 +144,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setTotalGeneration(json['total_generation_energy']);
 
               setTotalRevenue(json['total_generation_billing']);
-
             }
           });
       }
@@ -171,18 +170,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isPhotovoltaicPowerStationsEnergyFetched) {
         setIsPhotovoltaicPowerStationsEnergyFetched(true);
-        fetch(
-          APIBaseURL + '/reports/photovoltaicpowerstationcollectionenergy?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/photovoltaicpowerstationcollectionenergy?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -191,16 +187,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
-
               setGenerationEnergyData({
-                "unit": "kWh",
-                "station_names_array": json['photovoltaic_power_station_names'],
-                "subtotals_array": [
+                unit: 'kWh',
+                station_names_array: json['photovoltaic_power_station_names'],
+                subtotals_array: [
                   json['reporting']['generation_7_days']['values_array'],
                   json['reporting']['generation_this_month']['values_array'],
                   json['reporting']['generation_this_year']['values_array']
-                ],
+                ]
               });
               setGenerationEnergyLabels([
                 json['reporting']['generation_7_days']['timestamps_array'][0],
@@ -232,18 +226,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isPhotovoltaicPowerStationsBillingFetched) {
         setIsPhotovoltaicPowerStationsBillingFetched(true);
-        fetch(
-          APIBaseURL + '/reports/photovoltaicpowerstationcollectionbilling?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/photovoltaicpowerstationcollectionbilling?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -252,16 +243,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
-
               setGenerationBillingData({
-                "unit": currency,
-                "station_names_array": json['photovoltaic_power_station_names'],
-                "subtotals_array": [
+                unit: currency,
+                station_names_array: json['photovoltaic_power_station_names'],
+                subtotals_array: [
                   json['reporting']['generation_7_days']['values_array'],
                   json['reporting']['generation_this_month']['values_array'],
                   json['reporting']['generation_this_year']['values_array']
-                ],
+                ]
               });
               setGenerationBillingLabels([
                 json['reporting']['generation_7_days']['timestamps_array'][0],
@@ -294,18 +283,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isPhotovoltaicPowerStationsCarbonFetched) {
         setIsPhotovoltaicPowerStationsCarbonFetched(true);
-        fetch(
-          APIBaseURL + '/reports/photovoltaicpowerstationcollectioncarbon?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/photovoltaicpowerstationcollectioncarbon?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -314,16 +300,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
-
               setGenerationCarbonData({
-                "unit": "kgCO2",
-                "station_names_array": json['photovoltaic_power_station_names'],
-                "subtotals_array": [
+                unit: 'kgCO2',
+                station_names_array: json['photovoltaic_power_station_names'],
+                subtotals_array: [
                   json['reporting']['generation_7_days']['values_array'],
                   json['reporting']['generation_this_month']['values_array'],
                   json['reporting']['generation_this_year']['values_array']
-                ],
+                ]
               });
               setCarbonLabels([
                 json['reporting']['generation_7_days']['timestamps_array'][0],
@@ -363,7 +347,16 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         <Spinner color="light" hidden={spinnerHidden} />
 
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
-          {1 && <CountUp end={photovoltaicPowerStationList.length} duration={2} prefix="" separator="," decimal="." decimals={0} />}
+          {1 && (
+            <CountUp
+              end={photovoltaicPowerStationList.length}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={0}
+            />
+          )}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kWp'} color="ratedPower">
           {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={3} />}
@@ -372,7 +365,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           {1 && <CountUp end={totalRatedCapacity} duration={2} prefix="" separator="," decimal="." decimals={3} />}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Generation')} footunit={'MWH'} color="electricity">
-          {1 && <CountUp end={totalGeneration / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />}
+          {1 && (
+            <CountUp end={totalGeneration / 1000.0} duration={2} prefix="" separator="," decimal="." decimals={3} />
+          )}
         </CardSummary>
         <CardSummary rate={''} title={t('Total Revenue')} footunit={currency} color="income">
           {1 && <CountUp end={totalRevenue} duration={2} prefix="" separator="," decimal="." decimals={0} />}
@@ -405,22 +400,22 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               </NavItem>
             </Nav>
             <TabContent activeTab={activeTabLeft}>
-                <TabPane tabId="1">
-                  <StackBarChart
-                    labels={generationEnergyLabels}
-                    unit={ t('Generation UNIT', { UNIT: generationEnergyData['unit'] })}
-                    generationData={generationEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="3">
-                  <StackBarChart
-                    labels={generationBillingLabels}
-                    unit={ t('Generation UNIT', { UNIT: generationBillingData['unit'] })}
-                    generationData={generationBillingData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
+              <TabPane tabId="1">
+                <StackBarChart
+                  labels={generationEnergyLabels}
+                  unit={t('Generation UNIT', { UNIT: generationEnergyData['unit'] })}
+                  generationData={generationEnergyData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="3">
+                <StackBarChart
+                  labels={generationBillingLabels}
+                  unit={t('Generation UNIT', { UNIT: generationBillingData['unit'] })}
+                  generationData={generationBillingData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
             </TabContent>
           </div>
         </Col>

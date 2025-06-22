@@ -1,11 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import {
-  Card,
-  CardBody,
-  Col,
-  CustomInput,
-  Row
-} from 'reactstrap';
+import { Card, CardBody, Col, CustomInput, Row } from 'reactstrap';
 import Loader from '../../common/Loader';
 import { isIterableArray } from '../../../helpers/utils';
 import Flex from '../../common/Flex';
@@ -71,16 +65,13 @@ const PhotovoltaicPowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
-
           setPhotovoltaicPowerStationArray([]);
           setPhotovoltaicPowerStationIds([]);
           let photovoltaicPowerStationArray = [];
