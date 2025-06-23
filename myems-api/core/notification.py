@@ -13,7 +13,7 @@ class NotificationCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
     @staticmethod
     def on_get(req, resp):
@@ -160,9 +160,9 @@ class NotificationItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""

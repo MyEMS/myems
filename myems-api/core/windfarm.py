@@ -14,7 +14,7 @@ class WindFarmCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -246,9 +246,9 @@ class WindFarmItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -521,9 +521,9 @@ class WindFarmExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -606,7 +606,7 @@ class WindFarmImport:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -768,9 +768,9 @@ class WindFarmClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

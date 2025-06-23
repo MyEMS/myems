@@ -15,7 +15,7 @@ class PhotovoltaicPowerStationCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -284,9 +284,9 @@ class PhotovoltaicPowerStationItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -599,9 +599,9 @@ class PhotovoltaicPowerStationExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -687,7 +687,7 @@ class PhotovoltaicPowerStationImport:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -885,9 +885,9 @@ class PhotovoltaicPowerStationClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
@@ -970,9 +970,9 @@ class PhotovoltaicPowerStationGridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1348,9 +1348,9 @@ class PhotovoltaicPowerStationGridItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -1782,9 +1782,9 @@ class PhotovoltaicPowerStationInvertorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2886,9 +2886,9 @@ class PhotovoltaicPowerStationInvertorItem:
 
     @staticmethod
     def on_options(req, resp, id_, iid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, iid):
         access_control(req)
@@ -4024,9 +4024,9 @@ class PhotovoltaicPowerStationLoadCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4381,9 +4381,9 @@ class PhotovoltaicPowerStationLoadItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, lid):
         access_control(req)
@@ -4793,9 +4793,9 @@ class PhotovoltaicPowerStationUserCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4905,9 +4905,9 @@ class PhotovoltaicPowerStationUserItem:
 
     @staticmethod
     def on_options(req, resp, id_, uid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, uid):

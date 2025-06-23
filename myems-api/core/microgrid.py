@@ -14,7 +14,7 @@ class MicrogridCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -292,9 +292,9 @@ class MicrogridItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -651,9 +651,9 @@ class MicrogridBatteryCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -913,9 +913,9 @@ class MicrogridBatteryItem:
 
     @staticmethod
     def on_options(req, resp, id_, bid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, bid):
         access_control(req)
@@ -1242,9 +1242,9 @@ class MicrogridCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1287,9 +1287,9 @@ class MicrogridEVChargerCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1481,9 +1481,9 @@ class MicrogridEVChargerItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, eid):
         access_control(req)
@@ -1728,9 +1728,9 @@ class MicrogridGeneratorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1921,9 +1921,9 @@ class MicrogridGeneratorItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2169,9 +2169,9 @@ class MicrogridGridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2381,9 +2381,9 @@ class MicrogridGridItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2650,9 +2650,9 @@ class MicrogridHeatpumpCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2882,9 +2882,9 @@ class MicrogridHeatpumpItem:
 
     @staticmethod
     def on_options(req, resp, id_, hid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, hid):
         access_control(req)
@@ -3171,9 +3171,9 @@ class MicrogridLoadCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3364,9 +3364,9 @@ class MicrogridLoadItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, lid):
         access_control(req)
@@ -3612,9 +3612,9 @@ class MicrogridPhotovoltaicCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3806,9 +3806,9 @@ class MicrogridPhotovoltaicItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, pid):
         access_control(req)
@@ -4054,9 +4054,9 @@ class MicrogridPowerconversionsystemCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4257,9 +4257,9 @@ class MicrogridPowerconversionsystemItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, pid):
         access_control(req)
@@ -4528,9 +4528,9 @@ class MicrogridScheduleCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4636,9 +4636,9 @@ class MicrogridScheduleItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, sid):
         access_control(req)
@@ -4827,9 +4827,9 @@ class MicrogridSensorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4939,9 +4939,9 @@ class MicrogridSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
@@ -5001,9 +5001,9 @@ class MicrogridUserCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -5113,9 +5113,9 @@ class MicrogridUserItem:
 
     @staticmethod
     def on_options(req, resp, id_, uid):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, uid):
@@ -5176,9 +5176,9 @@ class MicrogridExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -5253,7 +5253,7 @@ class MicrogridImport:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -5435,9 +5435,9 @@ class MicrogridClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

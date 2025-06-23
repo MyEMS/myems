@@ -18,7 +18,7 @@ class UserCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -222,9 +222,9 @@ class UserItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -478,7 +478,7 @@ class UserLogin:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -660,7 +660,7 @@ class UserLogout:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -705,7 +705,7 @@ class ChangePassword:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -835,7 +835,7 @@ class ResetPassword:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -959,9 +959,9 @@ class Unlock:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_put(req, resp, id_):
         """Handles PUT requests"""
@@ -1030,7 +1030,7 @@ class ForgotPassword:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1143,7 +1143,7 @@ class EmailMessageCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1357,9 +1357,9 @@ class EmailMessageItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -1576,7 +1576,7 @@ class NewUserCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1756,12 +1756,12 @@ class NewUserItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     def on_get(req, resp, email):
-        _ =req
+        _ = req
         if not isinstance(email, str) or len(str.strip(email)) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
@@ -1933,9 +1933,9 @@ class NewUserApprove:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ =req
+        _ = req
         resp.status = falcon.HTTP_200
-        _ =id_
+        _ = id_
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
