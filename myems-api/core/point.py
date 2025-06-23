@@ -14,7 +14,7 @@ class PointCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -267,9 +267,9 @@ class PointItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -1001,9 +1001,9 @@ class PointLimit:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
@@ -1083,9 +1083,9 @@ class PointExport:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -1149,7 +1149,7 @@ class PointImport:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1350,9 +1350,9 @@ class PointClone:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

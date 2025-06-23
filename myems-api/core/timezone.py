@@ -12,7 +12,7 @@ class TimezoneCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -52,9 +52,9 @@ class TimezoneItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \

@@ -12,7 +12,7 @@ class MenuCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -55,9 +55,9 @@ class MenuItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -138,9 +138,9 @@ class MenuChildrenCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
-        _=id_
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -215,7 +215,7 @@ class MenuWebCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _=req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod

@@ -15,7 +15,7 @@ class DataRepairFileCollection:
 
     @staticmethod
     def on_options(req, resp):
-        _ = req
+        _ =req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -153,10 +153,9 @@ class DataRepairFileItem:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ = req
+        _ =req
         resp.status = falcon.HTTP_200
-        _ = id_
-
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -241,10 +240,9 @@ class DataRepairFileRestore:
 
     @staticmethod
     def on_options(req, resp, id_):
-        _ = req
+        _ =req
         resp.status = falcon.HTTP_200
-        _ = id_
-
+        _ =id_
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -287,7 +285,6 @@ class DataRepairFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except Exception as ex:
-            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
         resp.text = json.dumps('success')
