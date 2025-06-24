@@ -1,16 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import {
-  Card,
-  CardBody,
-  Col,
-  Row,
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane
-} from 'reactstrap';
+import { Card, CardBody, Col, Row, Table, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
@@ -162,7 +151,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setTotalDischargeEnergyValue(json['energy_indicators']['total_discharge_energy_value']);
 
           if (json['energy_indicators']['total_charge_energy_value'] > 0) {
-            setTotalEfficiency((100 * json['energy_indicators']['total_discharge_energy_value'] / json['energy_indicators']['total_charge_energy_value']).toFixed(2));
+            setTotalEfficiency(
+              (
+                (100 * json['energy_indicators']['total_discharge_energy_value']) /
+                json['energy_indicators']['total_charge_energy_value']
+              ).toFixed(2)
+            );
           } else {
             setTotalEfficiency(0);
           }
@@ -177,15 +171,65 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setTotalChargeCarbonValue(json['carbon_indicators']['total_charge_carbon_value']);
           setTotalDischargeCarbonValue(json['carbon_indicators']['total_discharge_carbon_value']);
 
-          setScheduleXaxisData(['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00',
-          '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',  '13:30:00',
-          '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00',
-          '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '23:59:59']);
+          setScheduleXaxisData([
+            '00:00:00',
+            '00:30:00',
+            '01:00:00',
+            '01:30:00',
+            '02:00:00',
+            '02:30:00',
+            '03:00:00',
+            '03:30:00',
+            '04:00:00',
+            '04:30:00',
+            '05:00:00',
+            '05:30:00',
+            '06:00:00',
+            '06:30:00',
+            '07:00:00',
+            '07:30:00',
+            '08:00:00',
+            '08:30:00',
+            '09:00:00',
+            '09:30:00',
+            '10:00:00',
+            '10:30:00',
+            '11:00:00',
+            '11:30:00',
+            '12:00:00',
+            '12:30:00',
+            '13:00:00',
+            '13:30:00',
+            '14:00:00',
+            '14:30:00',
+            '15:00:00',
+            '15:30:00',
+            '16:00:00',
+            '16:30:00',
+            '17:00:00',
+            '17:30:00',
+            '18:00:00',
+            '18:30:00',
+            '19:00:00',
+            '19:30:00',
+            '20:00:00',
+            '20:30:00',
+            '21:00:00',
+            '21:30:00',
+            '22:00:00',
+            '22:30:00',
+            '23:00:00',
+            '23:30:00',
+            '23:59:59'
+          ]);
           setScheduleSeriesName('Power');
           setScheduleSeriesData(json['schedule']['series_data']);
           let schedule_mark_area_data = [];
           json['schedule']['schedule_list'].forEach((schedule_item, index) => {
-            schedule_mark_area_data.push([{name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day']}, {xAxis: schedule_item['end_time_of_day']}])
+            schedule_mark_area_data.push([
+              { name: t(schedule_item['peak_type']), xAxis: schedule_item['start_time_of_day'] },
+              { xAxis: schedule_item['end_time_of_day'] }
+            ]);
           });
           setScheduleMarkAreaData(schedule_mark_area_data);
 
@@ -264,7 +308,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
   // BMS
   const fetchBMSDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/bms'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/bms';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -291,10 +335,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // EVCharger
   const fetchEVChargerDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/evcharger'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/evcharger';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -321,11 +365,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   // PCS
   const fetchPCSDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pcs'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pcs';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -352,11 +396,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   // PV
   const fetchPVDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pv'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/pv';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -383,10 +427,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Generator
   const fetchGeneratorDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/generator'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/generator';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -413,10 +457,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Grid
   const fetchGridDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/grid'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/grid';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -443,10 +487,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Load
   const fetchLoadDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/load'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/load';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -473,10 +517,10 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
   // Heatpump
   const fetchHeatpumpDetails = () => {
-    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/heatpump'
+    let url = APIBaseURL + '/reports/microgriddetails/' + microgridID + '/heatpump';
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -503,7 +547,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   return (
     <Fragment>
@@ -570,7 +614,9 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">Discharge Achievement Rate</th>
-                          <th className="pr-0 text-right">{ (100 * todayDischargeEnergyValue / microgridRatedCapacity).toFixed(2)}%</th>
+                          <th className="pr-0 text-right">
+                            {((100 * todayDischargeEnergyValue) / microgridRatedCapacity).toFixed(2)}%
+                          </th>
                         </tr>
                       </tbody>
                     </Table>
@@ -585,28 +631,40 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Today\'s Cost')}</th>
-                          <th className="pr-0 text-right">{todayChargeRevenueValue} {currency}</th>
+                          <th className="pl-0">{t("Today's Cost")}</th>
+                          <th className="pr-0 text-right">
+                            {todayChargeRevenueValue} {currency}
+                          </th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Revenue')}</th>
-                          <th className="pr-0 text-right">{todayDischargeRevenueValue} {currency}</th>
+                          <th className="pl-0 pb-0">{t("Today's Revenue")}</th>
+                          <th className="pr-0 text-right">
+                            {todayDischargeRevenueValue} {currency}
+                          </th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0">{t('Total Cost')}</th>
-                          <th className="pr-0 text-right ">{totalChargeRevenueValue} {currency}</th>
+                          <th className="pr-0 text-right ">
+                            {totalChargeRevenueValue} {currency}
+                          </th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Revenue')}</th>
-                          <th className="pr-0 text-right">{totalDischargeRevenueValue} {currency}</th>
+                          <th className="pr-0 text-right">
+                            {totalDischargeRevenueValue} {currency}
+                          </th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Profit')}</th>
-                          <th className="pr-0 text-right">{(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} {currency}</th>
+                          <th className="pl-0 pb-0">{t("Today's Profit")}</th>
+                          <th className="pr-0 text-right">
+                            {(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} {currency}
+                          </th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Profit')}</th>
-                          <th className="pr-0 text-right">{(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} {currency}</th>
+                          <th className="pr-0 text-right">
+                            {(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} {currency}
+                          </th>
                         </tr>
                       </tbody>
                     </Table>
@@ -621,11 +679,11 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0">{t('Today\'s Emission')} </th>
+                          <th className="pl-0">{t("Today's Emission")} </th>
                           <th className="pr-0 text-right">{todayChargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Reduction')}</th>
+                          <th className="pl-0 pb-0">{t("Today's Reduction")}</th>
                           <th className="pr-0 text-right">{todayDischargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
@@ -637,12 +695,16 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pr-0 text-right">{totalDischargeCarbonValue} kgCO2</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Today\'s Net Reduction')}</th>
-                          <th className="pr-0 text-right">{(todayDischargeCarbonValue - todayChargeCarbonValue).toFixed(2)} kgCO2</th>
+                          <th className="pl-0 pb-0">{t("Today's Net Reduction")}</th>
+                          <th className="pr-0 text-right">
+                            {(todayDischargeCarbonValue - todayChargeCarbonValue).toFixed(2)} kgCO2
+                          </th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">{t('Total Net Reduction')}</th>
-                          <th className="pr-0 text-right">{(totalDischargeCarbonValue - totalChargeCarbonValue).toFixed(2)} kgCO2</th>
+                          <th className="pr-0 text-right">
+                            {(totalDischargeCarbonValue - totalChargeCarbonValue).toFixed(2)} kgCO2
+                          </th>
                         </tr>
                       </tbody>
                     </Table>
@@ -664,7 +726,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                 <h6>{t('Devices')}</h6>
+                <h6>{t('Devices')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -741,7 +803,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pl-0 pb-0">{t('Rated Power')} </th>
                           <th className="pr-0 text-right">{microgridRatedPower} kW</th>
                         </tr>
-
                       </tbody>
                     </Table>
                   </CardBody>
@@ -879,7 +940,6 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             <h6>Heatpumps</h6>
           </NavLink>
         </NavItem>
-
       </Nav>
       <TabContent activeTab={activeTabBottom}>
         <TabPane tabId="1">
@@ -966,28 +1026,36 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </TabPane>
         <TabPane tabId="4">
-            {isIterableArray(PCSDetailsList) && PCSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(PCSDetailsList) &&
+            PCSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="5">
-            {isIterableArray(BMSDetailsList) && BMSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(BMSDetailsList) &&
+            BMSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="6">
-            {isIterableArray(PVDetailsList) && PVDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(PVDetailsList) &&
+            PVDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="7">
-            {isIterableArray(EVChargerDetailsList) && EVChargerDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(EVChargerDetailsList) &&
+            EVChargerDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="8">
-          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(GeneratorDetailsList) &&
+            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="9">
-          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(GeneratorDetailsList) &&
+            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="10">
-          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(GeneratorDetailsList) &&
+            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
         <TabPane tabId="11">
-          {isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />) }
+          {isIterableArray(GeneratorDetailsList) &&
+            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
       </TabContent>
     </Fragment>

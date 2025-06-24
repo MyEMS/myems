@@ -15,13 +15,15 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   </span>
 );
 
-const nameFormatter = (nameuuid) => (
-  <Link to={"/singlemicrogrid/details?uuid="+nameuuid.substring(nameuuid.length-36, nameuuid.length)} target="_blank" className="font-weight-semi-bold">
-    {nameuuid.substring(0, nameuuid.length-36)}
+const nameFormatter = nameuuid => (
+  <Link
+    to={'/singlemicrogrid/details?uuid=' + nameuuid.substring(nameuuid.length - 36, nameuuid.length)}
+    target="_blank"
+    className="font-weight-semi-bold"
+  >
+    {nameuuid.substring(0, nameuuid.length - 36)}
   </Link>
 );
-
-
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
@@ -48,15 +50,17 @@ const selectRow = onSelect => ({
   onSelectAll: onSelect
 });
 
-
 const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
-
   const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
   const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
   const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
 
   const { currency } = useContext(AppContext);
-  const currencyFormatter = amount => <Fragment>{amount} {currency}</Fragment>;
+  const currencyFormatter = amount => (
+    <Fragment>
+      {amount} {currency}
+    </Fragment>
+  );
 
   let table = createRef();
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -149,7 +153,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'subtotal_discharge_energy',
@@ -157,7 +161,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       formatter: energyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'subtotal_discharge_billing',
@@ -165,7 +169,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       formatter: currencyFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'rated_capacity',
@@ -173,7 +177,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       formatter: capacityFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'rated_power',
@@ -181,7 +185,7 @@ const MicrogridTable = ({ setIsSelected, microgridList, t }) => {
       formatter: powerFormatter,
       classes: 'border-0 align-middle',
       headerClasses: 'border-0',
-      sort: true,
+      sort: true
     },
     {
       dataField: 'status',

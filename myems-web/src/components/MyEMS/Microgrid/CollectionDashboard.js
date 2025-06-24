@@ -62,7 +62,11 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [energyLabels, setEnergyLabels] = useState([]);
   const [billingLabels, setBillingLabels] = useState([]);
   const [carbonLabels, setCarbonLabels] = useState([]);
-  const [periodTypes, setPeriodTypes] = useState([{ value: 'a0', label: t('7 Days') }, { value: 'a1', label: t('This Month') }, { value: 'a2', label: t('This Year') }]);
+  const [periodTypes, setPeriodTypes] = useState([
+    { value: 'a0', label: t('7 Days') },
+    { value: 'a1', label: t('This Month') },
+    { value: 'a2', label: t('This Year') }
+  ]);
   const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
   const [geojson, setGeojson] = useState({});
   const [rootLatitude, setRootLatitude] = useState('');
@@ -160,9 +164,8 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     }
                   });
                 }
-                microgridItem['nameuuid'] = microgridItem['name'] + microgridItem['uuid']
+                microgridItem['nameuuid'] = microgridItem['name'] + microgridItem['uuid'];
                 microgridList.push(microgridItem);
-
               });
               setMicrogridList(microgridList);
               setTotalRatedCapacity(totalRatedCapacity);
@@ -176,7 +179,6 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setTotalDischarge(json['total_discharge_energy']);
 
               setTotalRevenue(json['total_discharge_billing']);
-
             }
           });
       }
@@ -203,18 +205,15 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isMicrogridsEnergyFetched) {
         setIsMicrogridsEnergyFetched(true);
-        fetch(
-          APIBaseURL + '/reports/microgridsenergy?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/microgridsenergy?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -226,18 +225,18 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               console.log(json);
 
               setChargeEnergyData({
-                "unit": "kWh",
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: 'kWh',
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeEnergyData({
-                "unit": "kWh",
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: 'kWh',
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -246,8 +245,8 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setEnergyLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
             }
           });
       }
@@ -273,18 +272,15 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isMicrogridsBillingFetched) {
         setIsMicrogridsBillingFetched(true);
-        fetch(
-          APIBaseURL + '/reports/microgridsbilling?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/microgridsbilling?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -296,18 +292,18 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               console.log(json);
 
               setChargeBillingData({
-                "unit": currency,
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: currency,
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeBillingData({
-                "unit": currency,
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: currency,
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -316,8 +312,8 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setBillingLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
             }
           });
       }
@@ -344,18 +340,15 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       let isResponseOK = false;
       if (!isMicrogridsCarbonFetched) {
         setIsMicrogridsCarbonFetched(true);
-        fetch(
-          APIBaseURL + '/reports/microgridscarbon?useruuid=' + user_uuid ,
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
+        fetch(APIBaseURL + '/reports/microgridscarbon?useruuid=' + user_uuid, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        })
           .then(response => {
             if (response.ok) {
               isResponseOK = true;
@@ -367,18 +360,18 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               console.log(json);
 
               setChargeCarbonData({
-                "unit": "kgCO2",
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: 'kgCO2',
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['charge_7_days']['values_array'],
                   json['reporting']['charge_this_month']['values_array'],
                   json['reporting']['charge_this_year']['values_array']
-                ],
+                ]
               });
               setDischargeCarbonData({
-                "unit": "kgCO2",
-                "station_names_array": json['microgrid_names'],
-                "subtotals_array": [
+                unit: 'kgCO2',
+                station_names_array: json['microgrid_names'],
+                subtotals_array: [
                   json['reporting']['discharge_7_days']['values_array'],
                   json['reporting']['discharge_this_month']['values_array'],
                   json['reporting']['discharge_this_year']['values_array']
@@ -387,8 +380,8 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setCarbonLabels([
                 json['reporting']['charge_7_days']['timestamps_array'][0],
                 json['reporting']['charge_this_month']['timestamps_array'][0],
-                json['reporting']['charge_this_year']['timestamps_array'][0]]);
-
+                json['reporting']['charge_this_year']['timestamps_array'][0]
+              ]);
             }
           });
       }
@@ -477,31 +470,31 @@ const CollectionDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               </NavItem>
             </Nav>
             <TabContent activeTab={activeTabLeft}>
-                <TabPane tabId="1">
-                  <StackBarChart
-                    labels={energyLabels}
-                    chargeData={chargeEnergyData}
-                    dischargeData={dischargeEnergyData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="2">
-                  <StackBarChart
-                    labels={billingLabels}
-                    chargeData={chargeBillingData}
-                    dischargeData={dischargeBillingData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-                <TabPane tabId="3">
-                  <StackBarChart
-                    labels={carbonLabels}
-                    chargeData={chargeCarbonData}
-                    dischargeData={dischargeCarbonData}
-                    periodTypes={periodTypes}
-                  />
-                </TabPane>
-              </TabContent>
+              <TabPane tabId="1">
+                <StackBarChart
+                  labels={energyLabels}
+                  chargeData={chargeEnergyData}
+                  dischargeData={dischargeEnergyData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="2">
+                <StackBarChart
+                  labels={billingLabels}
+                  chargeData={chargeBillingData}
+                  dischargeData={dischargeBillingData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+              <TabPane tabId="3">
+                <StackBarChart
+                  labels={carbonLabels}
+                  chargeData={chargeCarbonData}
+                  dischargeData={dischargeCarbonData}
+                  periodTypes={periodTypes}
+                />
+              </TabPane>
+            </TabContent>
           </div>
         </Col>
         <Col lg={6} xl={6} className="mb-3 pr-lg-2">

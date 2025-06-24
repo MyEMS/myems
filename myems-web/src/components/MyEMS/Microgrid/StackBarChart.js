@@ -3,15 +3,7 @@ import { rgbaColor, themeColors, isIterableArray } from '../../../helpers/utils'
 import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-  LogarithmicScale
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale } from 'chart.js';
 import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
@@ -49,7 +41,10 @@ const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) =>
       if (dischargeData['subtotals_array'] !== undefined && dischargeData['subtotals_array'].length > 0) {
         dischargeData['subtotals_array'][index].forEach((item, itemIndex) => {
           dataArray.push({
-            label: dischargeData['station_names_array'][itemIndex] + ' ' + t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
+            label:
+              dischargeData['station_names_array'][itemIndex] +
+              ' ' +
+              t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
             stack: t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
             data: item,
             backgroundColor: colors[itemIndex % 5]
