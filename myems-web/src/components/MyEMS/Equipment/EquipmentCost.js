@@ -181,7 +181,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Equipments by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
@@ -446,21 +446,21 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/equipmentcost?' +
-      'equipmentid=' +
-      selectedEquipment +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/equipmentcost?' +
+        'equipmentid=' +
+        selectedEquipment +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -683,7 +683,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -696,7 +696,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'total',
               text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -724,7 +724,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -738,7 +738,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'basePeriodTotal',
               text: t('Base Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -759,7 +759,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -773,7 +773,7 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'reportingPeriodTotal',
               text: t('Reporting Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -1052,10 +1052,10 @@ const EquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
           {cardSummaryList.map(cardSummaryItem => (
             <CardSummary
