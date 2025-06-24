@@ -14,6 +14,7 @@ class MicrogridCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -100,6 +101,7 @@ class MicrogridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -290,8 +292,9 @@ class MicrogridItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -443,6 +446,7 @@ class MicrogridItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -647,8 +651,9 @@ class MicrogridBatteryCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -727,6 +732,7 @@ class MicrogridBatteryCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -907,8 +913,9 @@ class MicrogridBatteryItem:
 
     @staticmethod
     def on_options(req, resp, id_, bid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, bid):
         access_control(req)
@@ -1045,6 +1052,7 @@ class MicrogridBatteryItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1234,8 +1242,9 @@ class MicrogridCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1278,8 +1287,9 @@ class MicrogridEVChargerCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1352,6 +1362,7 @@ class MicrogridEVChargerCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1470,8 +1481,9 @@ class MicrogridEVChargerItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, eid):
         access_control(req)
@@ -1600,6 +1612,7 @@ class MicrogridEVChargerItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1715,8 +1728,9 @@ class MicrogridGeneratorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -1789,6 +1803,7 @@ class MicrogridGeneratorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1906,8 +1921,9 @@ class MicrogridGeneratorItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2037,6 +2053,7 @@ class MicrogridGeneratorItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2152,8 +2169,9 @@ class MicrogridGridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2227,6 +2245,7 @@ class MicrogridGridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2362,8 +2381,9 @@ class MicrogridGridItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2494,6 +2514,7 @@ class MicrogridGridItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2629,8 +2650,9 @@ class MicrogridHeatpumpCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2705,6 +2727,7 @@ class MicrogridHeatpumpCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2859,8 +2882,9 @@ class MicrogridHeatpumpItem:
 
     @staticmethod
     def on_options(req, resp, id_, hid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, hid):
         access_control(req)
@@ -2993,6 +3017,7 @@ class MicrogridHeatpumpItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3146,8 +3171,9 @@ class MicrogridLoadCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3220,6 +3246,7 @@ class MicrogridLoadCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3337,8 +3364,9 @@ class MicrogridLoadItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, lid):
         access_control(req)
@@ -3468,6 +3496,7 @@ class MicrogridLoadItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3583,8 +3612,9 @@ class MicrogridPhotovoltaicCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3658,6 +3688,7 @@ class MicrogridPhotovoltaicCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3775,8 +3806,9 @@ class MicrogridPhotovoltaicItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, pid):
         access_control(req)
@@ -3906,6 +3938,7 @@ class MicrogridPhotovoltaicItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4021,8 +4054,9 @@ class MicrogridPowerconversionsystemCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4098,6 +4132,7 @@ class MicrogridPowerconversionsystemCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4222,8 +4257,9 @@ class MicrogridPowerconversionsystemItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, pid):
         access_control(req)
@@ -4370,6 +4406,7 @@ class MicrogridPowerconversionsystemItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4491,8 +4528,9 @@ class MicrogridScheduleCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4540,6 +4578,7 @@ class MicrogridScheduleCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4597,8 +4636,9 @@ class MicrogridScheduleItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_, sid):
         access_control(req)
@@ -4702,6 +4742,7 @@ class MicrogridScheduleItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4786,8 +4827,9 @@ class MicrogridSensorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -4830,6 +4872,7 @@ class MicrogridSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4896,8 +4939,9 @@ class MicrogridSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
@@ -4957,8 +5001,9 @@ class MicrogridUserCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -5002,6 +5047,7 @@ class MicrogridUserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5067,8 +5113,9 @@ class MicrogridUserItem:
 
     @staticmethod
     def on_options(req, resp, id_, uid):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, uid):
@@ -5129,8 +5176,9 @@ class MicrogridExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -5205,6 +5253,7 @@ class MicrogridImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -5215,6 +5264,7 @@ class MicrogridImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5385,8 +5435,9 @@ class MicrogridClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
-
+        _ = id_
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
