@@ -159,14 +159,12 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -178,7 +176,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID  = [json[0]].map(o => o.value);
+          let selectedSpaceID = [json[0]].map(o => o.value);
           // get Equipments by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
@@ -284,7 +282,6 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -446,21 +443,21 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/equipmentload?' +
-      'equipmentid=' +
-      selectedEquipment +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/equipmentload?' +
+        'equipmentid=' +
+        selectedEquipment +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -479,8 +476,6 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryArray = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -615,7 +610,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + 2 * index,
                 text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -627,7 +622,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + (2 * index + 1),
                 text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -656,7 +651,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + 2 * index,
                 text: t('Base Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -668,7 +663,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + (2 * index + 1),
                 text: t('Base Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -690,7 +685,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + 2 * index,
                 text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -702,7 +697,7 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + (2 * index + 1),
                 text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -960,10 +955,10 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         {cardSummaryList.map(cardSummaryItem => (
           <div className="card-deck" key={cardSummaryItem['name']}>
             <CardSummary
@@ -976,7 +971,14 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
               color="success"
             >
               {cardSummaryItem['average'] && (
-                <CountUp end={cardSummaryItem['average']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['average']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -989,7 +991,14 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
               color="success"
             >
               {cardSummaryItem['maximum'] && (
-                <CountUp end={cardSummaryItem['maximum']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['maximum']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
             <CardSummary
@@ -1000,7 +1009,14 @@ const EquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Ratio of Average Load to Maximum Load')}
             >
               {cardSummaryItem['factor'] && (
-                <CountUp end={cardSummaryItem['factor']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                <CountUp
+                  end={cardSummaryItem['factor']}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
               )}
             </CardSummary>
           </div>
