@@ -270,6 +270,7 @@ class PointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -1004,6 +1005,7 @@ class PointLimit:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
@@ -1086,6 +1088,7 @@ class PointExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -1353,6 +1356,7 @@ class PointClone:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

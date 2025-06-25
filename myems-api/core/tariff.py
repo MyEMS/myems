@@ -211,6 +211,7 @@ class TariffItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -466,6 +467,7 @@ class TariffExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -669,6 +671,7 @@ class TariffClone:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
