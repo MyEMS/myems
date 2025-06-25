@@ -15,6 +15,7 @@ class NotificationCollection:
     def on_options(req, resp):
         _ = req
         resp.status = falcon.HTTP_200
+
     @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
@@ -163,6 +164,7 @@ class NotificationItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""

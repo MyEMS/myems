@@ -225,6 +225,7 @@ class UserItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -962,6 +963,7 @@ class Unlock:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_put(req, resp, id_):
         """Handles PUT requests"""
@@ -1360,6 +1362,7 @@ class EmailMessageItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
@@ -1759,6 +1762,7 @@ class NewUserItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, email):
         _ = req
@@ -1936,6 +1940,7 @@ class NewUserApprove:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):

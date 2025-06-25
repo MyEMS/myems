@@ -207,6 +207,7 @@ class CombinedEquipmentItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -607,6 +608,7 @@ class CombinedEquipmentEquipmentCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -726,6 +728,7 @@ class CombinedEquipmentEquipmentItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
@@ -788,6 +791,7 @@ class CombinedEquipmentParameterCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1123,6 +1127,7 @@ class CombinedEquipmentParameterItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, pid):
         if 'API-KEY' not in req.headers or \
@@ -1518,6 +1523,7 @@ class CombinedEquipmentMeterCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1658,6 +1664,7 @@ class CombinedEquipmentMeterItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
@@ -1720,6 +1727,7 @@ class CombinedEquipmentOfflineMeterCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1861,6 +1869,7 @@ class CombinedEquipmentOfflineMeterItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
@@ -1923,6 +1932,7 @@ class CombinedEquipmentVirtualMeterCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -2063,6 +2073,7 @@ class CombinedEquipmentVirtualMeterItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
@@ -2125,6 +2136,7 @@ class CombinedEquipmentCommandCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -2242,6 +2254,7 @@ class CombinedEquipmentCommandItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
@@ -2304,6 +2317,7 @@ class CombinedEquipmentExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \

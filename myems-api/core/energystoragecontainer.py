@@ -195,6 +195,7 @@ class EnergyStorageContainerItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -445,6 +446,7 @@ class EnergyStorageContainerBatteryCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -711,6 +713,7 @@ class EnergyStorageContainerBatteryItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, bid):
         access_control(req)
@@ -1043,6 +1046,7 @@ class EnergyStorageContainerBatteryPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, bid):
         if 'API-KEY' not in req.headers or \
@@ -1820,6 +1824,7 @@ class EnergyStorageContainerDCDCPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, did, pid):
@@ -1885,6 +1890,7 @@ class EnergyStorageContainerFirecontrolCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2008,6 +2014,7 @@ class EnergyStorageContainerFirecontrolItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, fid):
         access_control(req)
@@ -2185,6 +2192,7 @@ class EnergyStorageContainerFirecontrolPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, fid):
         if 'API-KEY' not in req.headers or \
@@ -2306,6 +2314,7 @@ class EnergyStorageContainerFirecontrolPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, fid, pid):
@@ -2371,6 +2380,7 @@ class EnergyStorageContainerGridCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2586,6 +2596,7 @@ class EnergyStorageContainerGridItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2856,6 +2867,7 @@ class EnergyStorageContainerGridPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, gid):
         if 'API-KEY' not in req.headers or \
@@ -2977,6 +2989,7 @@ class EnergyStorageContainerGridPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
@@ -3042,6 +3055,7 @@ class EnergyStorageContainerHVACCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3165,6 +3179,7 @@ class EnergyStorageContainerHVACItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, hid):
         access_control(req)
@@ -3342,6 +3357,7 @@ class EnergyStorageContainerHVACPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, hid):
         if 'API-KEY' not in req.headers or \

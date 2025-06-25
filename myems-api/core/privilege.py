@@ -103,6 +103,7 @@ class PrivilegeItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):

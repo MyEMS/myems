@@ -99,6 +99,7 @@ class TicketItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""

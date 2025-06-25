@@ -186,6 +186,7 @@ class EnergyFlowDiagramItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -400,6 +401,7 @@ class EnergyFlowDiagramLinkCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -661,6 +663,7 @@ class EnergyFlowDiagramLinkItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, lid):
         access_control(req)
@@ -974,6 +977,7 @@ class EnergyFlowDiagramNodeCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1086,6 +1090,7 @@ class EnergyFlowDiagramNodeItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, nid):
         access_control(req)
@@ -1252,6 +1257,7 @@ class EnergyFlowDiagramExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -1586,6 +1592,7 @@ class EnergyFlowDiagramClone:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):

@@ -249,6 +249,7 @@ class WindFarmItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -524,6 +525,7 @@ class WindFarmExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -771,6 +773,7 @@ class WindFarmClone:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
