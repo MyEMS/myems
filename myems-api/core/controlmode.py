@@ -148,6 +148,7 @@ class ControlModeItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -342,6 +343,7 @@ class ControlModeExport:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
@@ -492,6 +494,7 @@ class ControlModeClone:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
@@ -583,6 +586,7 @@ class ControlModeTimeCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
@@ -756,6 +760,7 @@ class ControlModeTimeItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, tid):
         if 'API-KEY' not in req.headers or \
