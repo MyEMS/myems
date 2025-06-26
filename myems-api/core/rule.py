@@ -562,6 +562,7 @@ class RuleImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod

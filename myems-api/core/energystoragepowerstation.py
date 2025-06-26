@@ -14,6 +14,7 @@ class EnergyStoragePowerStationCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -115,6 +116,7 @@ class EnergyStoragePowerStationCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -337,7 +339,9 @@ class EnergyStoragePowerStationItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -471,6 +475,7 @@ class EnergyStoragePowerStationItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -708,7 +713,9 @@ class EnergyStoragePowerStationContainerCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -755,6 +762,7 @@ class EnergyStoragePowerStationContainerCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -822,7 +830,9 @@ class EnergyStoragePowerStationContainerItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -883,7 +893,9 @@ class EnergyStoragePowerStationUserCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -928,6 +940,7 @@ class EnergyStoragePowerStationUserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -993,7 +1006,9 @@ class EnergyStoragePowerStationUserItem:
 
     @staticmethod
     def on_options(req, resp, id_, uid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1056,7 +1071,9 @@ class EnergyStoragePowerStationExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1141,6 +1158,7 @@ class EnergyStoragePowerStationImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -1151,6 +1169,7 @@ class EnergyStoragePowerStationImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1324,7 +1343,9 @@ class EnergyStoragePowerStationClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger

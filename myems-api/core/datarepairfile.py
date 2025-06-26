@@ -287,6 +287,7 @@ class DataRepairFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
         resp.text = json.dumps('success')
