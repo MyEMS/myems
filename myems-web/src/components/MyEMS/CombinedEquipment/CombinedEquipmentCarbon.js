@@ -934,7 +934,7 @@ const CombinedEquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           });
           associated_equipment_column_list.push({
             dataField: 'b',
-            text: t('Total') + ' ' + '%',
+            text: t('Total') + ' %',
             sort: true,
             formatter: function(decimalValue) {
               if (typeof decimalValue === 'number') {
