@@ -99,9 +99,9 @@ const EnergyStoragePowerStationListItem = ({
                   src={files[0]['src']}
                 />
               </Link>
-              {isOnline && (
-                <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  {PCSRunState === 'Running'
+              <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
+                  { !isOnline ? t('Communication Offline') :
+                    PCSRunState === 'Running'
                     ? t('PCS Running')
                     : PCSRunState === 'Initializing'
                     ? t('PCS Initializing')
@@ -111,9 +111,8 @@ const EnergyStoragePowerStationListItem = ({
                     ? t('PCS Shutdown')
                     : PCSRunState === 'Fault'
                     ? t('PCS Fault')
-                    : t('PCS Unknown')}
-                </Badge>
-              )}
+                    : PCSRunState}
+              </Badge>
             </div>
           </Col>
           <Col sm={8} md={8}>
@@ -164,7 +163,8 @@ const EnergyStoragePowerStationListItem = ({
                           batteryOperatingState === 'Warning'
                       })}
                     >
-                      {batteryOperatingState === 'Normal'
+                      {!isOnline ? t('Battery Unknown') :
+                        batteryOperatingState === 'Normal'
                         ? t('Battery Normal')
                         : batteryOperatingState === 'Standby'
                         ? t('Battery Standby')
@@ -200,7 +200,8 @@ const EnergyStoragePowerStationListItem = ({
                           PCSRunState === 'Fault'
                       })}
                     >
-                      {PCSRunState === 'Running'
+                      {!isOnline ? t('PCS Unknown') :
+                        PCSRunState === 'Running'
                         ? t('PCS Running')
                         : PCSRunState === 'Initializing'
                         ? t('PCS Initializing')
