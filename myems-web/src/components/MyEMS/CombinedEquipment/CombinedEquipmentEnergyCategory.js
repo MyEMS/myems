@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -187,6 +187,537 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
 
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
+  const loadData = useCallback(
+    url => {
+      // disable submit button
+      setSubmitButtonDisabled(true);
+      // show spinner
+      setSpinnerHidden(false);
+      // hide export button
+      setExportButtonHidden(true);
+      // hide result data
+      setResultDataHidden(true);
+
+      // Reinitialize tables
+      setDetailedDataTableData([]);
+      setAssociatedEquipmentTableData([]);
+      setAssociatedEquipmentNamesOfAssociatedReportPeriodList([]);
+      setAssociatedEquipmentLineChartLabelsList([]);
+      setAssociatedEquipmentLineChartDataList([]);
+      setAssociatedEquipmentLineChartOptionsList([]);
+      let isResponseOK = false;
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            if (uuid != null && uuid) {
+              setCombinedEquipmentList([
+                {
+                  value: json['combined_equipment']['id'],
+                  label: json['combined_equipment']['name']
+                }
+              ]);
+              setSelectedCombinedEquipment(json['combined_equipment']['id']);
+            }
+            let cardSummaryArray = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let cardSummaryItem = {};
+              cardSummaryItem['name'] = json['reporting_period']['names'][index];
+              cardSummaryItem['unit'] = json['reporting_period']['units'][index];
+              cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
+              cardSummaryItem['increment_rate'] =
+                parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
+              cardSummaryArray.push(cardSummaryItem);
+            });
+            setCardSummaryList(cardSummaryArray);
+
+            let timeOfUseArray = [];
+            json['reporting_period']['energy_category_ids'].forEach((currentValue, index) => {
+              if (currentValue === 1) {
+                // energy_category_id 1 electricity
+                let timeOfUseItem = {};
+                timeOfUseItem['id'] = 1;
+                timeOfUseItem['name'] = t('Top-Peak');
+                timeOfUseItem['value'] = json['reporting_period']['toppeaks'][index];
+                timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                timeOfUseArray.push(timeOfUseItem);
+
+                timeOfUseItem = {};
+                timeOfUseItem['id'] = 2;
+                timeOfUseItem['name'] = t('On-Peak');
+                timeOfUseItem['value'] = json['reporting_period']['onpeaks'][index];
+                timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                timeOfUseArray.push(timeOfUseItem);
+
+                timeOfUseItem = {};
+                timeOfUseItem['id'] = 3;
+                timeOfUseItem['name'] = t('Mid-Peak');
+                timeOfUseItem['value'] = json['reporting_period']['midpeaks'][index];
+                timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                timeOfUseArray.push(timeOfUseItem);
+
+                timeOfUseItem = {};
+                timeOfUseItem['id'] = 4;
+                timeOfUseItem['name'] = t('Off-Peak');
+                timeOfUseItem['value'] = json['reporting_period']['offpeaks'][index];
+                timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                timeOfUseArray.push(timeOfUseItem);
+
+                timeOfUseItem = {};
+                timeOfUseItem['id'] = 5;
+                timeOfUseItem['name'] = t('Deep');
+                timeOfUseItem['value'] = json['reporting_period']['deeps'][index];
+                timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                timeOfUseArray.push(timeOfUseItem);
+              }
+            });
+            setTimeOfUseShareData(timeOfUseArray);
+
+            let totalInTCE = {};
+            totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000; // convert from kg to t
+            totalInTCE['increment_rate'] =
+              parseFloat(json['reporting_period']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
+            setTotalInTCE(totalInTCE);
+
+            let totalInTCO2E = {};
+            totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e'] / 1000; // convert from kg to t
+            totalInTCO2E['increment_rate'] =
+              parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
+            setTotalInTCO2E(totalInTCO2E);
+
+            let TCEDataArray = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let TCEDataItem = {};
+              TCEDataItem['id'] = index;
+              TCEDataItem['name'] = currentValue;
+              TCEDataItem['value'] = json['reporting_period']['subtotals_in_kgce'][index] / 1000; // convert from kg to t
+              TCEDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+              TCEDataArray.push(TCEDataItem);
+            });
+            setTCEShareData(TCEDataArray);
+
+            let TCO2EDataArray = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let TCO2EDataItem = {};
+              TCO2EDataItem['id'] = index;
+              TCO2EDataItem['name'] = currentValue;
+              TCO2EDataItem['value'] = json['reporting_period']['subtotals_in_kgco2e'][index] / 1000; // convert from kg to t
+              TCO2EDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+              TCO2EDataArray.push(TCO2EDataItem);
+            });
+            setTCO2EShareData(TCO2EDataArray);
+
+            let base_timestamps = {};
+            json['base_period']['timestamps'].forEach((currentValue, index) => {
+              base_timestamps['a' + index] = currentValue;
+            });
+            setCombinedEquipmentBaseLabels(base_timestamps);
+
+            let base_values = {};
+            json['base_period']['values'].forEach((currentValue, index) => {
+              base_values['a' + index] = currentValue;
+            });
+            setCombinedEquipmentBaseData(base_values);
+
+            /*
+             * Tip:
+             *     base_names === reporting_names
+             *     base_units === reporting_units
+             * */
+
+            let base_and_reporting_names = {};
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              base_and_reporting_names['a' + index] = currentValue;
+            });
+            setCombinedEquipmentBaseAndReportingNames(base_and_reporting_names);
+
+            let base_and_reporting_units = {};
+            json['reporting_period']['units'].forEach((currentValue, index) => {
+              base_and_reporting_units['a' + index] = '(' + currentValue + ')';
+            });
+            setCombinedEquipmentBaseAndReportingUnits(base_and_reporting_units);
+
+            let base_subtotals = {};
+            json['base_period']['subtotals'].forEach((currentValue, index) => {
+              base_subtotals['a' + index] = currentValue.toFixed(2);
+            });
+            setCombinedEquipmentBaseSubtotals(base_subtotals);
+
+            let reporting_timestamps = {};
+            json['reporting_period']['timestamps'].forEach((currentValue, index) => {
+              reporting_timestamps['a' + index] = currentValue;
+            });
+            setCombinedEquipmentReportingLabels(reporting_timestamps);
+
+            let reporting_values = {};
+            json['reporting_period']['values'].forEach((currentValue, index) => {
+              reporting_values['a' + index] = currentValue;
+            });
+            setCombinedEquipmentReportingData(reporting_values);
+
+            let reporting_subtotals = {};
+            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+              reporting_subtotals['a' + index] = currentValue.toFixed(2);
+            });
+            setCombinedEquipmentReportingSubtotals(reporting_subtotals);
+
+            let rates = {};
+            json['reporting_period']['rates'].forEach((currentValue, index) => {
+              let currentRate = [];
+              currentValue.forEach(rate => {
+                currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+              });
+              rates['a' + index] = currentRate;
+            });
+            setCombinedEquipmentReportingRates(rates);
+
+            let options = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
+            });
+            setCombinedEquipmentReportingOptions(options);
+
+            let timestamps = {};
+            json['parameters']['timestamps'].forEach((currentValue, index) => {
+              timestamps['a' + index] = currentValue;
+            });
+            setParameterLineChartLabels(timestamps);
+
+            let values = {};
+            json['parameters']['values'].forEach((currentValue, index) => {
+              values['a' + index] = currentValue;
+            });
+            setParameterLineChartData(values);
+
+            let names = [];
+            json['parameters']['names'].forEach((currentValue, index) => {
+              names.push({ value: 'a' + index, label: currentValue });
+            });
+            setParameterLineChartOptions(names);
+
+            if (!isBasePeriodTimestampExists(json['base_period'])) {
+              let detailed_value_list = [];
+              if (json['reporting_period']['timestamps'].length > 0) {
+                json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+                  let detailed_value = {};
+                  detailed_value['id'] = timestampIndex;
+                  detailed_value['startdatetime'] = currentTimestamp;
+                  json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['a' + energyCategoryIndex] =
+                      json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
+                  });
+                  detailed_value_list.push(detailed_value);
+                });
+              }
+
+              let detailed_value = {};
+              detailed_value['id'] = detailed_value_list.length;
+              detailed_value['startdatetime'] = t('Subtotal');
+              json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+                detailed_value['a' + index] = currentValue;
+              });
+              detailed_value_list.push(detailed_value);
+              setTimeout(() => {
+                setDetailedDataTableData(detailed_value_list);
+              }, 0);
+
+              let detailed_column_list = [];
+              detailed_column_list.push({
+                dataField: 'startdatetime',
+                text: t('Datetime'),
+                sort: true
+              });
+              json['reporting_period']['names'].forEach((currentValue, index) => {
+                let unit = json['reporting_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'a' + index,
+                  text: currentValue + ' (' + unit + ')',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+              setDetailedDataTableColumns(detailed_column_list);
+            } else {
+              /*
+               * Tip:
+               *     json['base_period']['names'] ===  json['reporting_period']['names']
+               *     json['base_period']['units'] ===  json['reporting_period']['units']
+               * */
+              let detailed_column_list = [];
+              detailed_column_list.push({
+                dataField: 'basePeriodDatetime',
+                text: t('Base Period') + ' - ' + t('Datetime'),
+                sort: true
+              });
+
+              json['base_period']['names'].forEach((currentValue, index) => {
+                let unit = json['base_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'a' + index,
+                  text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+
+              detailed_column_list.push({
+                dataField: 'reportingPeriodDatetime',
+                text: t('Reporting Period') + ' - ' + t('Datetime'),
+                sort: true
+              });
+
+              json['reporting_period']['names'].forEach((currentValue, index) => {
+                let unit = json['reporting_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'b' + index,
+                  text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+              setDetailedDataTableColumns(detailed_column_list);
+
+              let detailed_value_list = [];
+              if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
+                const max_timestamps_length =
+                  json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
+                    ? json['base_period']['timestamps'][0].length
+                    : json['reporting_period']['timestamps'][0].length;
+                for (let index = 0; index < max_timestamps_length; index++) {
+                  let detailed_value = {};
+                  detailed_value['id'] = index;
+                  detailed_value['basePeriodDatetime'] =
+                    index < json['base_period']['timestamps'][0].length
+                      ? json['base_period']['timestamps'][0][index]
+                      : null;
+                  json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['a' + energyCategoryIndex] =
+                      index < json['base_period']['values'][energyCategoryIndex].length
+                        ? json['base_period']['values'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  detailed_value['reportingPeriodDatetime'] =
+                    index < json['reporting_period']['timestamps'][0].length
+                      ? json['reporting_period']['timestamps'][0][index]
+                      : null;
+                  json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['b' + energyCategoryIndex] =
+                      index < json['reporting_period']['values'][energyCategoryIndex].length
+                        ? json['reporting_period']['values'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  detailed_value_list.push(detailed_value);
+                }
+
+                let detailed_value = {};
+                detailed_value['id'] = detailed_value_list.length;
+                detailed_value['basePeriodDatetime'] = t('Subtotal');
+                json['base_period']['subtotals'].forEach((currentValue, index) => {
+                  detailed_value['a' + index] = currentValue;
+                });
+                detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+                json['reporting_period']['subtotals'].forEach((currentValue, index) => {
+                  detailed_value['b' + index] = currentValue;
+                });
+                detailed_value_list.push(detailed_value);
+                setTimeout(() => {
+                  setDetailedDataTableData(detailed_value_list);
+                }, 0);
+              }
+            }
+
+            let associatedEquipmentNamesOfAssociatedReportPeriodList = [];
+            json['associated_report_period_list'].forEach((currentValue, index) => {
+              if (
+                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(
+                  currentValue['associated_equipment_name']
+                ) === -1
+              ) {
+                associatedEquipmentNamesOfAssociatedReportPeriodList.push(currentValue['associated_equipment_name']);
+              }
+            });
+
+            let associatedTimestampsList = [];
+            associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(() => {
+              associatedTimestampsList.push({});
+            });
+            json['associated_report_period_list'].forEach((currentValue, index) => {
+              timestamps = {};
+              for (let i = 0; i < currentValue['timestamps'].length; i++) {
+                timestamps['a' + i] = currentValue['timestamps'][i];
+              }
+              const currentIndex = Object.keys(
+                associatedTimestampsList[
+                  associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(
+                    currentValue['associated_equipment_name']
+                  )
+                ]
+              ).length;
+              associatedTimestampsList[
+                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
+              ]['a' + currentIndex] = currentValue['timestamps'][0];
+            });
+            setAssociatedEquipmentLineChartLabelsList(associatedTimestampsList);
+
+            let associatedValuesList = [];
+            associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(() => {
+              associatedValuesList.push({});
+            });
+            json['associated_report_period_list'].forEach((currentValue, index) => {
+              values = {};
+              for (let i = 0; i < currentValue['values'].length; i++) {
+                values['a' + i] = currentValue['values'][i];
+              }
+              const currentIndex = Object.keys(
+                associatedValuesList[
+                  associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(
+                    currentValue['associated_equipment_name']
+                  )
+                ]
+              ).length;
+              associatedValuesList[
+                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
+              ]['a' + currentIndex] = currentValue['values'][0];
+            });
+            setAssociatedEquipmentLineChartDataList(associatedValuesList);
+
+            let associatedNamesList = [];
+            associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(currentEquipment => {
+              names = [];
+              let currentIndex = 0;
+              json['associated_report_period_list'].forEach((currentValue, index) => {
+                for (let i = 0; i < currentValue['names'].length; i++) {
+                  if (currentValue['associated_equipment_name'] === currentEquipment) {
+                    let unit = json['associated_report_period_list'][index]['units'][0];
+                    names.push({ value: 'a' + currentIndex, label: currentValue['names'][0] + ' (' + unit + ')' });
+                    currentIndex += 1;
+                  }
+                }
+              });
+              associatedNamesList.push(names);
+            });
+            setAssociatedEquipmentLineChartOptionsList(associatedNamesList);
+
+            setAssociatedEquipmentNamesOfAssociatedReportPeriodList(
+              associatedEquipmentNamesOfAssociatedReportPeriodList
+            );
+
+            let associated_equipment_value_list = [];
+            if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
+              json['associated_equipment']['associated_equipment_names_array'][0].forEach(
+                (currentEquipmentName, equipmentIndex) => {
+                  let associated_equipment_value = {};
+
+                  associated_equipment_value['id'] = equipmentIndex;
+                  associated_equipment_value['name'] = currentEquipmentName;
+                  json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+                    let subtotal_of_equipment =
+                      json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
+                    associated_equipment_value['a' + energyCategoryIndex] = subtotal_of_equipment;
+                    let subtotal_in_category = json['reporting_period']['subtotals'][energyCategoryIndex];
+                    if (subtotal_in_category > 0) {
+                      associated_equipment_value['b' + energyCategoryIndex] =
+                        (subtotal_of_equipment / subtotal_in_category) * 100;
+                    } else {
+                      associated_equipment_value['b' + energyCategoryIndex] = 0;
+                    }
+                  });
+                  associated_equipment_value_list.push(associated_equipment_value);
+                }
+              );
+            }
+            setAssociatedEquipmentTableData(associated_equipment_value_list);
+
+            let associated_equipment_column_list = [];
+            associated_equipment_column_list.push({
+              dataField: 'name',
+              text: t('Associated Equipment'),
+              sort: true
+            });
+
+            json['associated_equipment']['energy_category_names'].forEach((current_energy_category_name, index) => {
+              let unit = json['associated_equipment']['units'][index];
+              associated_equipment_column_list.push({
+                dataField: 'a' + index,
+                text: current_energy_category_name + ' (' + unit + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+              associated_equipment_column_list.push({
+                dataField: 'b' + index,
+                text: current_energy_category_name + ' %',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+            });
+
+            setAssociatedEquipmentTableColumns(associated_equipment_column_list);
+
+            setExcelBytesBase64(json['excel_bytes_base64']);
+
+            // enable submit button
+            setSubmitButtonDisabled(false);
+            // hide spinner
+            setSpinnerHidden(true);
+            // show export button
+            setExportButtonHidden(false);
+            // show result data
+            setResultDataHidden(false);
+          } else {
+            toast.error(t(json.description));
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    [t, uuid]
+  );
+
   useEffect(() => {
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
@@ -291,529 +822,8 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
         language;
       loadData(url);
     }
-  }, []);
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, t]);
 
-  const loadData = url => {
-    // disable submit button
-    setSubmitButtonDisabled(true);
-    // show spinner
-    setSpinnerHidden(false);
-    // hide export button
-    setExportButtonHidden(true);
-    // hide result data
-    setResultDataHidden(true);
-
-    // Reinitialize tables
-    setDetailedDataTableData([]);
-    setAssociatedEquipmentTableData([]);
-    setAssociatedEquipmentNamesOfAssociatedReportPeriodList([]);
-    setAssociatedEquipmentLineChartLabelsList([]);
-    setAssociatedEquipmentLineChartDataList([]);
-    setAssociatedEquipmentLineChartOptionsList([]);
-    let isResponseOK = false;
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          if (uuid != null && uuid) {
-            setCombinedEquipmentList([
-              {
-                value: json['combined_equipment']['id'],
-                label: json['combined_equipment']['name']
-              }
-            ]);
-            setSelectedCombinedEquipment(json['combined_equipment']['id']);
-          }
-          let cardSummaryArray = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let cardSummaryItem = {};
-            cardSummaryItem['name'] = json['reporting_period']['names'][index];
-            cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-            cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-            cardSummaryItem['increment_rate'] =
-              parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
-            cardSummaryArray.push(cardSummaryItem);
-          });
-          setCardSummaryList(cardSummaryArray);
-
-          let timeOfUseArray = [];
-          json['reporting_period']['energy_category_ids'].forEach((currentValue, index) => {
-            if (currentValue === 1) {
-              // energy_category_id 1 electricity
-              let timeOfUseItem = {};
-              timeOfUseItem['id'] = 1;
-              timeOfUseItem['name'] = t('Top-Peak');
-              timeOfUseItem['value'] = json['reporting_period']['toppeaks'][index];
-              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-              timeOfUseArray.push(timeOfUseItem);
-
-              timeOfUseItem = {};
-              timeOfUseItem['id'] = 2;
-              timeOfUseItem['name'] = t('On-Peak');
-              timeOfUseItem['value'] = json['reporting_period']['onpeaks'][index];
-              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-              timeOfUseArray.push(timeOfUseItem);
-
-              timeOfUseItem = {};
-              timeOfUseItem['id'] = 3;
-              timeOfUseItem['name'] = t('Mid-Peak');
-              timeOfUseItem['value'] = json['reporting_period']['midpeaks'][index];
-              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-              timeOfUseArray.push(timeOfUseItem);
-
-              timeOfUseItem = {};
-              timeOfUseItem['id'] = 4;
-              timeOfUseItem['name'] = t('Off-Peak');
-              timeOfUseItem['value'] = json['reporting_period']['offpeaks'][index];
-              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-              timeOfUseArray.push(timeOfUseItem);
-
-              timeOfUseItem = {};
-              timeOfUseItem['id'] = 5;
-              timeOfUseItem['name'] = t('Deep');
-              timeOfUseItem['value'] = json['reporting_period']['deeps'][index];
-              timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-              timeOfUseArray.push(timeOfUseItem);
-            }
-          });
-          setTimeOfUseShareData(timeOfUseArray);
-
-          let totalInTCE = {};
-          totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000; // convert from kg to t
-          totalInTCE['increment_rate'] =
-            parseFloat(json['reporting_period']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
-          setTotalInTCE(totalInTCE);
-
-          let totalInTCO2E = {};
-          totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e'] / 1000; // convert from kg to t
-          totalInTCO2E['increment_rate'] =
-            parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
-          setTotalInTCO2E(totalInTCO2E);
-
-          let TCEDataArray = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let TCEDataItem = {};
-            TCEDataItem['id'] = index;
-            TCEDataItem['name'] = currentValue;
-            TCEDataItem['value'] = json['reporting_period']['subtotals_in_kgce'][index] / 1000; // convert from kg to t
-            TCEDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-            TCEDataArray.push(TCEDataItem);
-          });
-          setTCEShareData(TCEDataArray);
-
-          let TCO2EDataArray = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let TCO2EDataItem = {};
-            TCO2EDataItem['id'] = index;
-            TCO2EDataItem['name'] = currentValue;
-            TCO2EDataItem['value'] = json['reporting_period']['subtotals_in_kgco2e'][index] / 1000; // convert from kg to t
-            TCO2EDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-            TCO2EDataArray.push(TCO2EDataItem);
-          });
-          setTCO2EShareData(TCO2EDataArray);
-
-          let base_timestamps = {};
-          json['base_period']['timestamps'].forEach((currentValue, index) => {
-            base_timestamps['a' + index] = currentValue;
-          });
-          setCombinedEquipmentBaseLabels(base_timestamps);
-
-          let base_values = {};
-          json['base_period']['values'].forEach((currentValue, index) => {
-            base_values['a' + index] = currentValue;
-          });
-          setCombinedEquipmentBaseData(base_values);
-
-          /*
-           * Tip:
-           *     base_names === reporting_names
-           *     base_units === reporting_units
-           * */
-
-          let base_and_reporting_names = {};
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            base_and_reporting_names['a' + index] = currentValue;
-          });
-          setCombinedEquipmentBaseAndReportingNames(base_and_reporting_names);
-
-          let base_and_reporting_units = {};
-          json['reporting_period']['units'].forEach((currentValue, index) => {
-            base_and_reporting_units['a' + index] = '(' + currentValue + ')';
-          });
-          setCombinedEquipmentBaseAndReportingUnits(base_and_reporting_units);
-
-          let base_subtotals = {};
-          json['base_period']['subtotals'].forEach((currentValue, index) => {
-            base_subtotals['a' + index] = currentValue.toFixed(2);
-          });
-          setCombinedEquipmentBaseSubtotals(base_subtotals);
-
-          let reporting_timestamps = {};
-          json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-            reporting_timestamps['a' + index] = currentValue;
-          });
-          setCombinedEquipmentReportingLabels(reporting_timestamps);
-
-          let reporting_values = {};
-          json['reporting_period']['values'].forEach((currentValue, index) => {
-            reporting_values['a' + index] = currentValue;
-          });
-          setCombinedEquipmentReportingData(reporting_values);
-
-          let reporting_subtotals = {};
-          json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-            reporting_subtotals['a' + index] = currentValue.toFixed(2);
-          });
-          setCombinedEquipmentReportingSubtotals(reporting_subtotals);
-
-          let rates = {};
-          json['reporting_period']['rates'].forEach((currentValue, index) => {
-            let currentRate = [];
-            currentValue.forEach(rate => {
-              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-            });
-            rates['a' + index] = currentRate;
-          });
-          setCombinedEquipmentReportingRates(rates);
-
-          let options = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period']['units'][index];
-            options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
-          });
-          setCombinedEquipmentReportingOptions(options);
-
-          let timestamps = {};
-          json['parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setParameterLineChartLabels(timestamps);
-
-          let values = {};
-          json['parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setParameterLineChartData(values);
-
-          let names = [];
-          json['parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setParameterLineChartOptions(names);
-
-          if (!isBasePeriodTimestampExists(json['base_period'])) {
-            let detailed_value_list = [];
-            if (json['reporting_period']['timestamps'].length > 0) {
-              json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-                let detailed_value = {};
-                detailed_value['id'] = timestampIndex;
-                detailed_value['startdatetime'] = currentTimestamp;
-                json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['a' + energyCategoryIndex] =
-                    json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
-                });
-                detailed_value_list.push(detailed_value);
-              });
-            }
-
-            let detailed_value = {};
-            detailed_value['id'] = detailed_value_list.length;
-            detailed_value['startdatetime'] = t('Subtotal');
-            json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-              detailed_value['a' + index] = currentValue;
-            });
-            detailed_value_list.push(detailed_value);
-            setTimeout(() => {
-              setDetailedDataTableData(detailed_value_list);
-            }, 0);
-
-            let detailed_column_list = [];
-            detailed_column_list.push({
-              dataField: 'startdatetime',
-              text: t('Datetime'),
-              sort: true
-            });
-            json['reporting_period']['names'].forEach((currentValue, index) => {
-              let unit = json['reporting_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'a' + index,
-                text: currentValue + ' (' + unit + ')',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-            setDetailedDataTableColumns(detailed_column_list);
-          } else {
-            /*
-             * Tip:
-             *     json['base_period']['names'] ===  json['reporting_period']['names']
-             *     json['base_period']['units'] ===  json['reporting_period']['units']
-             * */
-            let detailed_column_list = [];
-            detailed_column_list.push({
-              dataField: 'basePeriodDatetime',
-              text: t('Base Period') + ' - ' + t('Datetime'),
-              sort: true
-            });
-
-            json['base_period']['names'].forEach((currentValue, index) => {
-              let unit = json['base_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'a' + index,
-                text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-
-            detailed_column_list.push({
-              dataField: 'reportingPeriodDatetime',
-              text: t('Reporting Period') + ' - ' + t('Datetime'),
-              sort: true
-            });
-
-            json['reporting_period']['names'].forEach((currentValue, index) => {
-              let unit = json['reporting_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'b' + index,
-                text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-            setDetailedDataTableColumns(detailed_column_list);
-
-            let detailed_value_list = [];
-            if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
-              const max_timestamps_length =
-                json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
-                  ? json['base_period']['timestamps'][0].length
-                  : json['reporting_period']['timestamps'][0].length;
-              for (let index = 0; index < max_timestamps_length; index++) {
-                let detailed_value = {};
-                detailed_value['id'] = index;
-                detailed_value['basePeriodDatetime'] =
-                  index < json['base_period']['timestamps'][0].length
-                    ? json['base_period']['timestamps'][0][index]
-                    : null;
-                json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['a' + energyCategoryIndex] =
-                    index < json['base_period']['values'][energyCategoryIndex].length
-                      ? json['base_period']['values'][energyCategoryIndex][index]
-                      : null;
-                });
-                detailed_value['reportingPeriodDatetime'] =
-                  index < json['reporting_period']['timestamps'][0].length
-                    ? json['reporting_period']['timestamps'][0][index]
-                    : null;
-                json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['b' + energyCategoryIndex] =
-                    index < json['reporting_period']['values'][energyCategoryIndex].length
-                      ? json['reporting_period']['values'][energyCategoryIndex][index]
-                      : null;
-                });
-                detailed_value_list.push(detailed_value);
-              }
-
-              let detailed_value = {};
-              detailed_value['id'] = detailed_value_list.length;
-              detailed_value['basePeriodDatetime'] = t('Subtotal');
-              json['base_period']['subtotals'].forEach((currentValue, index) => {
-                detailed_value['a' + index] = currentValue;
-              });
-              detailed_value['reportingPeriodDatetime'] = t('Subtotal');
-              json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-                detailed_value['b' + index] = currentValue;
-              });
-              detailed_value_list.push(detailed_value);
-              setTimeout(() => {
-                setDetailedDataTableData(detailed_value_list);
-              }, 0);
-            }
-          }
-
-          let associatedEquipmentNamesOfAssociatedReportPeriodList = [];
-          json['associated_report_period_list'].forEach((currentValue, index) => {
-            if (
-              associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(
-                currentValue['associated_equipment_name']
-              ) === -1
-            ) {
-              associatedEquipmentNamesOfAssociatedReportPeriodList.push(currentValue['associated_equipment_name']);
-            }
-          });
-
-          let associatedTimestampsList = [];
-          associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(() => {
-            associatedTimestampsList.push({});
-          });
-          json['associated_report_period_list'].forEach((currentValue, index) => {
-            timestamps = {};
-            for (let i = 0; i < currentValue['timestamps'].length; i++) {
-              timestamps['a' + i] = currentValue['timestamps'][i];
-            }
-            const currentIndex = Object.keys(
-              associatedTimestampsList[
-                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
-              ]
-            ).length;
-            associatedTimestampsList[
-              associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
-            ]['a' + currentIndex] = currentValue['timestamps'][0];
-          });
-          setAssociatedEquipmentLineChartLabelsList(associatedTimestampsList);
-
-          let associatedValuesList = [];
-          associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(() => {
-            associatedValuesList.push({});
-          });
-          json['associated_report_period_list'].forEach((currentValue, index) => {
-            values = {};
-            for (let i = 0; i < currentValue['values'].length; i++) {
-              values['a' + i] = currentValue['values'][i];
-            }
-            const currentIndex = Object.keys(
-              associatedValuesList[
-                associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
-              ]
-            ).length;
-            associatedValuesList[
-              associatedEquipmentNamesOfAssociatedReportPeriodList.indexOf(currentValue['associated_equipment_name'])
-            ]['a' + currentIndex] = currentValue['values'][0];
-          });
-          setAssociatedEquipmentLineChartDataList(associatedValuesList);
-
-          let associatedNamesList = [];
-          associatedEquipmentNamesOfAssociatedReportPeriodList.forEach(currentEquipment => {
-            names = [];
-            let currentIndex = 0;
-            json['associated_report_period_list'].forEach((currentValue, index) => {
-              for (let i = 0; i < currentValue['names'].length; i++) {
-                if (currentValue['associated_equipment_name'] === currentEquipment) {
-                  let unit = json['associated_report_period_list'][index]['units'][0];
-                  names.push({ value: 'a' + currentIndex, label: currentValue['names'][0] + ' (' + unit + ')' });
-                  currentIndex += 1;
-                }
-              }
-            });
-            associatedNamesList.push(names);
-          });
-          setAssociatedEquipmentLineChartOptionsList(associatedNamesList);
-
-          setAssociatedEquipmentNamesOfAssociatedReportPeriodList(associatedEquipmentNamesOfAssociatedReportPeriodList);
-
-          let associated_equipment_value_list = [];
-          if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
-            json['associated_equipment']['associated_equipment_names_array'][0].forEach(
-              (currentEquipmentName, equipmentIndex) => {
-                let associated_equipment_value = {};
-
-                associated_equipment_value['id'] = equipmentIndex;
-                associated_equipment_value['name'] = currentEquipmentName;
-                json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                  let subtotal_of_equipment =
-                    json['associated_equipment']['subtotals_array'][energyCategoryIndex][equipmentIndex];
-                  associated_equipment_value['a' + energyCategoryIndex] = subtotal_of_equipment;
-                  let subtotal_in_category = json['reporting_period']['subtotals'][energyCategoryIndex];
-                  if (subtotal_in_category > 0) {
-                    associated_equipment_value['b' + energyCategoryIndex] =
-                      (subtotal_of_equipment / subtotal_in_category) * 100;
-                  } else {
-                    associated_equipment_value['b' + energyCategoryIndex] = 0;
-                  }
-                });
-                associated_equipment_value_list.push(associated_equipment_value);
-              }
-            );
-          }
-          setAssociatedEquipmentTableData(associated_equipment_value_list);
-
-          let associated_equipment_column_list = [];
-          associated_equipment_column_list.push({
-            dataField: 'name',
-            text: t('Associated Equipment'),
-            sort: true
-          });
-
-          json['associated_equipment']['energy_category_names'].forEach((current_energy_category_name, index) => {
-            let unit = json['associated_equipment']['units'][index];
-            associated_equipment_column_list.push({
-              dataField: 'a' + index,
-              text: current_energy_category_name + ' (' + unit + ')',
-              sort: true,
-              formatter: function(decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            });
-            associated_equipment_column_list.push({
-              dataField: 'b' + index,
-              text: current_energy_category_name + ' ' + '%',
-              sort: true,
-              formatter: function(decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
-            });
-          });
-
-          setAssociatedEquipmentTableColumns(associated_equipment_column_list);
-
-          setExcelBytesBase64(json['excel_bytes_base64']);
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
-          // hide spinner
-          setSpinnerHidden(true);
-          // show export button
-          setExportButtonHidden(false);
-          // show result data
-          setResultDataHidden(false);
-        } else {
-          toast.error(t(json.description));
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
