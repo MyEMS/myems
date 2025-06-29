@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -149,6 +149,375 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
+  const loadData = useCallback(
+    spaceID => {
+      // disable submit button
+      setSubmitButtonDisabled(true);
+      // show spinner
+      setSpinnerHidden(false);
+      // hide export button
+      setExportButtonHidden(true);
+      // hide result data
+      setResultDataHidden(true);
+
+      // Reinitialize tables
+      setDetailedDataTableData([]);
+
+      let isResponseOK = false;
+      fetch(
+        APIBaseURL +
+          '/reports/spaceload?' +
+          'spaceid=' +
+          spaceID +
+          '&periodtype=' +
+          periodType +
+          '&baseperiodstartdatetime=' +
+          (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&baseperiodenddatetime=' +
+          (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+          '&reportingperiodstartdatetime=' +
+          moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+          '&reportingperiodenddatetime=' +
+          moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+          '&language=' +
+          language,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        }
+      )
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            let cardSummaryArray = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let cardSummaryItem = {};
+              cardSummaryItem['name'] = json['reporting_period']['names'][index];
+              cardSummaryItem['unit'] = json['reporting_period']['units'][index];
+              cardSummaryItem['average'] = json['reporting_period']['averages'][index];
+              cardSummaryItem['average_increment_rate'] =
+                parseFloat(json['reporting_period']['averages_increment_rate'][index] * 100).toFixed(2) + '%';
+              cardSummaryItem['average_per_unit_area'] = json['reporting_period']['averages_per_unit_area'][index];
+              cardSummaryItem['average_per_capita'] = json['reporting_period']['averages_per_capita'][index];
+              cardSummaryItem['maximum'] = json['reporting_period']['maximums'][index];
+              cardSummaryItem['maximum_increment_rate'] =
+                parseFloat(json['reporting_period']['maximums_increment_rate'][index] * 100).toFixed(2) + '%';
+              cardSummaryItem['maximum_per_unit_area'] = json['reporting_period']['maximums_per_unit_area'][index];
+              cardSummaryItem['maximum_per_capita'] = json['reporting_period']['maximums_per_capita'][index];
+              cardSummaryItem['factor'] = json['reporting_period']['factors'][index];
+              cardSummaryItem['factor_increment_rate'] =
+                parseFloat(json['reporting_period']['factors_increment_rate'][index] * 100).toFixed(2) + '%';
+              cardSummaryArray.push(cardSummaryItem);
+            });
+            setCardSummaryList(cardSummaryArray);
+
+            let base_timestamps = {};
+            json['base_period']['timestamps'].forEach((currentValue, index) => {
+              base_timestamps['a' + index] = currentValue;
+            });
+            setSpaceBaseLabels(base_timestamps);
+
+            let base_values = {};
+            json['base_period']['sub_maximums'].forEach((currentValue, index) => {
+              base_values['a' + index] = currentValue;
+            });
+            setSpaceBaseData(base_values);
+
+            /*
+             * Tip:
+             *     base_names === reporting_names
+             *     base_units === reporting_units
+             * */
+
+            let base_and_reporting_names = {};
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              base_and_reporting_names['a' + index] = currentValue;
+            });
+            setSpaceBaseAndReportingNames(base_and_reporting_names);
+
+            let base_and_reporting_units = {};
+            json['reporting_period']['units'].forEach((currentValue, index) => {
+              base_and_reporting_units['a' + index] = '(' + currentValue + '/H)';
+            });
+            setSpaceBaseAndReportingUnits(base_and_reporting_units);
+
+            let reporting_timestamps = {};
+            json['reporting_period']['timestamps'].forEach((currentValue, index) => {
+              reporting_timestamps['a' + index] = currentValue;
+            });
+            setSpaceReportingLabels(reporting_timestamps);
+
+            let reporting_values = {};
+            json['reporting_period']['sub_maximums'].forEach((currentValue, index) => {
+              reporting_values['a' + index] = currentValue;
+            });
+            setSpaceReportingData(reporting_values);
+
+            let rates = {};
+            json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
+              let currentRate = [];
+              currentValue.forEach(rate => {
+                currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+              });
+              rates['a' + index] = currentRate;
+            });
+            setSpaceReportingRates(rates);
+
+            let options = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let unit = json['reporting_period']['units'][index];
+              options.push({ value: 'a' + index, label: currentValue + ' (' + unit + '/H)' });
+            });
+            setSpaceReportingOptions(options);
+
+            let timestamps = {};
+            json['parameters']['timestamps'].forEach((currentValue, index) => {
+              timestamps['a' + index] = currentValue;
+            });
+            setParameterLineChartLabels(timestamps);
+
+            let values = {};
+            json['parameters']['values'].forEach((currentValue, index) => {
+              values['a' + index] = currentValue;
+            });
+            setParameterLineChartData(values);
+
+            let names = [];
+            json['parameters']['names'].forEach((currentValue, index) => {
+              names.push({ value: 'a' + index, label: currentValue });
+            });
+            setParameterLineChartOptions(names);
+
+            if (!isBasePeriodTimestampExists(json['base_period'])) {
+              let detailed_value_list = [];
+              if (json['reporting_period']['timestamps'].length > 0) {
+                json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
+                  let detailed_value = {};
+                  detailed_value['id'] = timestampIndex;
+                  detailed_value['startdatetime'] = currentTimestamp;
+                  json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
+                    if (json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex] != null) {
+                      detailed_value['a' + 2 * energyCategoryIndex] =
+                        json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex];
+                    } else {
+                      detailed_value['a' + 2 * energyCategoryIndex] = null;
+                    }
+
+                    if (json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex] != null) {
+                      detailed_value['a' + (2 * energyCategoryIndex + 1)] =
+                        json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex];
+                    } else {
+                      detailed_value['a' + (2 * energyCategoryIndex + 1)] = null;
+                    }
+                  });
+                  detailed_value_list.push(detailed_value);
+                });
+              }
+              setTimeout(() => {
+                setDetailedDataTableData(detailed_value_list);
+              }, 0);
+
+              let detailed_column_list = [];
+              detailed_column_list.push({
+                dataField: 'startdatetime',
+                text: t('Datetime'),
+                sort: true
+              });
+              json['reporting_period']['names'].forEach((currentValue, index) => {
+                let unit = json['reporting_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'a' + 2 * index,
+                  text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+                detailed_column_list.push({
+                  dataField: 'a' + (2 * index + 1),
+                  text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+              setDetailedDataTableColumns(detailed_column_list);
+            } else {
+              /*
+               * Tip:
+               *     json['base_period']['names'] ===  json['reporting_period']['names']
+               *     json['base_period']['units'] ===  json['reporting_period']['units']
+               * */
+              let detailed_column_list = [];
+              detailed_column_list.push({
+                dataField: 'basePeriodDatetime',
+                text: t('Base Period') + ' - ' + t('Datetime'),
+                sort: true
+              });
+
+              json['base_period']['names'].forEach((currentValue, index) => {
+                let unit = json['base_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'a' + 2 * index,
+                  text: t('Base Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+                detailed_column_list.push({
+                  dataField: 'a' + (2 * index + 1),
+                  text: t('Base Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+
+              detailed_column_list.push({
+                dataField: 'reportingPeriodDatetime',
+                text: t('Reporting Period') + ' - ' + t('Datetime'),
+                sort: true
+              });
+
+              json['reporting_period']['names'].forEach((currentValue, index) => {
+                let unit = json['reporting_period']['units'][index];
+                detailed_column_list.push({
+                  dataField: 'b' + 2 * index,
+                  text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+                detailed_column_list.push({
+                  dataField: 'b' + (2 * index + 1),
+                  text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
+                  sort: true,
+                  formatter: function(decimalValue) {
+                    if (typeof decimalValue === 'number') {
+                      return decimalValue.toFixed(2);
+                    } else {
+                      return null;
+                    }
+                  }
+                });
+              });
+              setDetailedDataTableColumns(detailed_column_list);
+
+              let detailed_value_list = [];
+              if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
+                const max_timestamps_length =
+                  json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
+                    ? json['base_period']['timestamps'][0].length
+                    : json['reporting_period']['timestamps'][0].length;
+                for (let index = 0; index < max_timestamps_length; index++) {
+                  let detailed_value = {};
+                  detailed_value['id'] = index;
+                  detailed_value['basePeriodDatetime'] =
+                    index < json['base_period']['timestamps'][0].length
+                      ? json['base_period']['timestamps'][0][index]
+                      : null;
+                  json['base_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['a' + energyCategoryIndex * 2] =
+                      index < json['base_period']['sub_averages'][energyCategoryIndex].length
+                        ? json['base_period']['sub_averages'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  json['base_period']['sub_maximums'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['a' + (energyCategoryIndex * 2 + 1)] =
+                      index < json['base_period']['sub_maximums'][energyCategoryIndex].length
+                        ? json['base_period']['sub_maximums'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  detailed_value['reportingPeriodDatetime'] =
+                    index < json['reporting_period']['timestamps'][0].length
+                      ? json['reporting_period']['timestamps'][0][index]
+                      : null;
+                  json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['b' + energyCategoryIndex * 2] =
+                      index < json['reporting_period']['sub_averages'][energyCategoryIndex].length
+                        ? json['reporting_period']['sub_averages'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  json['reporting_period']['sub_maximums'].forEach((currentValue, energyCategoryIndex) => {
+                    detailed_value['b' + (energyCategoryIndex * 2 + 1)] =
+                      index < json['reporting_period']['sub_maximums'][energyCategoryIndex].length
+                        ? json['reporting_period']['sub_maximums'][energyCategoryIndex][index]
+                        : null;
+                  });
+                  detailed_value_list.push(detailed_value);
+                }
+                setTimeout(() => {
+                  setDetailedDataTableData(detailed_value_list);
+                }, 0);
+              }
+            }
+
+            setExcelBytesBase64(json['excel_bytes_base64']);
+
+            // enable submit button
+            setSubmitButtonDisabled(false);
+            // hide spinner
+            setSpinnerHidden(true);
+            // show export button
+            setExportButtonHidden(false);
+            // show result data
+            setResultDataHidden(false);
+          } else {
+            toast.error(t(json.description));
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    [
+      periodType,
+      basePeriodDateRange,
+      reportingPeriodDateRange,
+      language,
+      setSubmitButtonDisabled,
+      setSpinnerHidden,
+      setExportButtonHidden,
+      setResultDataHidden,
+      setDetailedDataTableData,
+      t
+    ]
+  );
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -192,7 +561,7 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }, [t]);
+  }, [t, loadData]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -349,361 +718,6 @@ const SpaceLoad = ({ setRedirect, setRedirectUrl, t }) => {
   const handleSubmit = e => {
     e.preventDefault();
     loadData(selectedSpaceID);
-  };
-
-  const loadData = spaceID => {
-    // disable submit button
-    setSubmitButtonDisabled(true);
-    // show spinner
-    setSpinnerHidden(false);
-    // hide export button
-    setExportButtonHidden(true);
-    // hide result data
-    setResultDataHidden(true);
-
-    // Reinitialize tables
-    setDetailedDataTableData([]);
-
-    let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/reports/spaceload?' +
-        'spaceid=' +
-        spaceID +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      }
-    )
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          let cardSummaryArray = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let cardSummaryItem = {};
-            cardSummaryItem['name'] = json['reporting_period']['names'][index];
-            cardSummaryItem['unit'] = json['reporting_period']['units'][index];
-            cardSummaryItem['average'] = json['reporting_period']['averages'][index];
-            cardSummaryItem['average_increment_rate'] =
-              parseFloat(json['reporting_period']['averages_increment_rate'][index] * 100).toFixed(2) + '%';
-            cardSummaryItem['average_per_unit_area'] = json['reporting_period']['averages_per_unit_area'][index];
-            cardSummaryItem['average_per_capita'] = json['reporting_period']['averages_per_capita'][index];
-            cardSummaryItem['maximum'] = json['reporting_period']['maximums'][index];
-            cardSummaryItem['maximum_increment_rate'] =
-              parseFloat(json['reporting_period']['maximums_increment_rate'][index] * 100).toFixed(2) + '%';
-            cardSummaryItem['maximum_per_unit_area'] = json['reporting_period']['maximums_per_unit_area'][index];
-            cardSummaryItem['maximum_per_capita'] = json['reporting_period']['maximums_per_capita'][index];
-            cardSummaryItem['factor'] = json['reporting_period']['factors'][index];
-            cardSummaryItem['factor_increment_rate'] =
-              parseFloat(json['reporting_period']['factors_increment_rate'][index] * 100).toFixed(2) + '%';
-            cardSummaryArray.push(cardSummaryItem);
-          });
-          setCardSummaryList(cardSummaryArray);
-
-          let base_timestamps = {};
-          json['base_period']['timestamps'].forEach((currentValue, index) => {
-            base_timestamps['a' + index] = currentValue;
-          });
-          setSpaceBaseLabels(base_timestamps);
-
-          let base_values = {};
-          json['base_period']['sub_maximums'].forEach((currentValue, index) => {
-            base_values['a' + index] = currentValue;
-          });
-          setSpaceBaseData(base_values);
-
-          /*
-           * Tip:
-           *     base_names === reporting_names
-           *     base_units === reporting_units
-           * */
-
-          let base_and_reporting_names = {};
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            base_and_reporting_names['a' + index] = currentValue;
-          });
-          setSpaceBaseAndReportingNames(base_and_reporting_names);
-
-          let base_and_reporting_units = {};
-          json['reporting_period']['units'].forEach((currentValue, index) => {
-            base_and_reporting_units['a' + index] = '(' + currentValue + '/H)';
-          });
-          setSpaceBaseAndReportingUnits(base_and_reporting_units);
-
-          let reporting_timestamps = {};
-          json['reporting_period']['timestamps'].forEach((currentValue, index) => {
-            reporting_timestamps['a' + index] = currentValue;
-          });
-          setSpaceReportingLabels(reporting_timestamps);
-
-          let reporting_values = {};
-          json['reporting_period']['sub_maximums'].forEach((currentValue, index) => {
-            reporting_values['a' + index] = currentValue;
-          });
-          setSpaceReportingData(reporting_values);
-
-          let rates = {};
-          json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
-            let currentRate = [];
-            currentValue.forEach(rate => {
-              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-            });
-            rates['a' + index] = currentRate;
-          });
-          setSpaceReportingRates(rates);
-
-          let options = [];
-          json['reporting_period']['names'].forEach((currentValue, index) => {
-            let unit = json['reporting_period']['units'][index];
-            options.push({ value: 'a' + index, label: currentValue + ' (' + unit + '/H)' });
-          });
-          setSpaceReportingOptions(options);
-
-          let timestamps = {};
-          json['parameters']['timestamps'].forEach((currentValue, index) => {
-            timestamps['a' + index] = currentValue;
-          });
-          setParameterLineChartLabels(timestamps);
-
-          let values = {};
-          json['parameters']['values'].forEach((currentValue, index) => {
-            values['a' + index] = currentValue;
-          });
-          setParameterLineChartData(values);
-
-          let names = [];
-          json['parameters']['names'].forEach((currentValue, index) => {
-            names.push({ value: 'a' + index, label: currentValue });
-          });
-          setParameterLineChartOptions(names);
-
-          if (!isBasePeriodTimestampExists(json['base_period'])) {
-            let detailed_value_list = [];
-            if (json['reporting_period']['timestamps'].length > 0) {
-              json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-                let detailed_value = {};
-                detailed_value['id'] = timestampIndex;
-                detailed_value['startdatetime'] = currentTimestamp;
-                json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
-                  if (json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex] != null) {
-                    detailed_value['a' + 2 * energyCategoryIndex] =
-                      json['reporting_period']['sub_averages'][energyCategoryIndex][timestampIndex];
-                  } else {
-                    detailed_value['a' + 2 * energyCategoryIndex] = null;
-                  }
-
-                  if (json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex] != null) {
-                    detailed_value['a' + (2 * energyCategoryIndex + 1)] =
-                      json['reporting_period']['sub_maximums'][energyCategoryIndex][timestampIndex];
-                  } else {
-                    detailed_value['a' + (2 * energyCategoryIndex + 1)] = null;
-                  }
-                });
-                detailed_value_list.push(detailed_value);
-              });
-            }
-            setTimeout(() => {
-              setDetailedDataTableData(detailed_value_list);
-            }, 0);
-
-            let detailed_column_list = [];
-            detailed_column_list.push({
-              dataField: 'startdatetime',
-              text: t('Datetime'),
-              sort: true
-            });
-            json['reporting_period']['names'].forEach((currentValue, index) => {
-              let unit = json['reporting_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'a' + 2 * index,
-                text: currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-              detailed_column_list.push({
-                dataField: 'a' + (2 * index + 1),
-                text: currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-            setDetailedDataTableColumns(detailed_column_list);
-          } else {
-            /*
-             * Tip:
-             *     json['base_period']['names'] ===  json['reporting_period']['names']
-             *     json['base_period']['units'] ===  json['reporting_period']['units']
-             * */
-            let detailed_column_list = [];
-            detailed_column_list.push({
-              dataField: 'basePeriodDatetime',
-              text: t('Base Period') + ' - ' + t('Datetime'),
-              sort: true
-            });
-
-            json['base_period']['names'].forEach((currentValue, index) => {
-              let unit = json['base_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'a' + 2 * index,
-                text: t('Base Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-              detailed_column_list.push({
-                dataField: 'a' + (2 * index + 1),
-                text: t('Base Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-
-            detailed_column_list.push({
-              dataField: 'reportingPeriodDatetime',
-              text: t('Reporting Period') + ' - ' + t('Datetime'),
-              sort: true
-            });
-
-            json['reporting_period']['names'].forEach((currentValue, index) => {
-              let unit = json['reporting_period']['units'][index];
-              detailed_column_list.push({
-                dataField: 'b' + 2 * index,
-                text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Average Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-              detailed_column_list.push({
-                dataField: 'b' + (2 * index + 1),
-                text: t('Reporting Period') + ' - ' + currentValue + ' ' + t('Maximum Load') + ' (' + unit + '/H)',
-                sort: true,
-                formatter: function(decimalValue) {
-                  if (typeof decimalValue === 'number') {
-                    return decimalValue.toFixed(2);
-                  } else {
-                    return null;
-                  }
-                }
-              });
-            });
-            setDetailedDataTableColumns(detailed_column_list);
-
-            let detailed_value_list = [];
-            if (json['base_period']['timestamps'].length > 0 || json['reporting_period']['timestamps'].length > 0) {
-              const max_timestamps_length =
-                json['base_period']['timestamps'][0].length >= json['reporting_period']['timestamps'][0].length
-                  ? json['base_period']['timestamps'][0].length
-                  : json['reporting_period']['timestamps'][0].length;
-              for (let index = 0; index < max_timestamps_length; index++) {
-                let detailed_value = {};
-                detailed_value['id'] = index;
-                detailed_value['basePeriodDatetime'] =
-                  index < json['base_period']['timestamps'][0].length
-                    ? json['base_period']['timestamps'][0][index]
-                    : null;
-                json['base_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['a' + energyCategoryIndex * 2] =
-                    index < json['base_period']['sub_averages'][energyCategoryIndex].length
-                      ? json['base_period']['sub_averages'][energyCategoryIndex][index]
-                      : null;
-                });
-                json['base_period']['sub_maximums'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['a' + (energyCategoryIndex * 2 + 1)] =
-                    index < json['base_period']['sub_maximums'][energyCategoryIndex].length
-                      ? json['base_period']['sub_maximums'][energyCategoryIndex][index]
-                      : null;
-                });
-                detailed_value['reportingPeriodDatetime'] =
-                  index < json['reporting_period']['timestamps'][0].length
-                    ? json['reporting_period']['timestamps'][0][index]
-                    : null;
-                json['reporting_period']['sub_averages'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['b' + energyCategoryIndex * 2] =
-                    index < json['reporting_period']['sub_averages'][energyCategoryIndex].length
-                      ? json['reporting_period']['sub_averages'][energyCategoryIndex][index]
-                      : null;
-                });
-                json['reporting_period']['sub_maximums'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['b' + (energyCategoryIndex * 2 + 1)] =
-                    index < json['reporting_period']['sub_maximums'][energyCategoryIndex].length
-                      ? json['reporting_period']['sub_maximums'][energyCategoryIndex][index]
-                      : null;
-                });
-                detailed_value_list.push(detailed_value);
-              }
-              setTimeout(() => {
-                setDetailedDataTableData(detailed_value_list);
-              }, 0);
-            }
-          }
-
-          setExcelBytesBase64(json['excel_bytes_base64']);
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
-          // hide spinner
-          setSpinnerHidden(true);
-          // show export button
-          setExportButtonHidden(false);
-          // show result data
-          setResultDataHidden(false);
-        } else {
-          toast.error(t(json.description));
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
   };
 
   const handleExport = e => {

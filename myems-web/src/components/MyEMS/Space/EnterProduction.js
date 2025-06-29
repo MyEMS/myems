@@ -79,7 +79,6 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
   }, []);
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
-
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
@@ -96,7 +95,6 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
           // enable submit button
@@ -105,7 +103,6 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -126,7 +123,6 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
   };
-
 
   const dateRangePickerLocale = {
     sunday: t('sunday'),
@@ -205,14 +201,14 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     await fetch(
       APIBaseURL +
-      '/reports/enterproduction?' +
-      'spaceid=' +
-      selectedSpaceID +
-      '&productid=1' +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+        '/reports/enterproduction?' +
+        'spaceid=' +
+        selectedSpaceID +
+        '&productid=1' +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
       {
         method: 'GET',
         headers: {
@@ -309,33 +305,33 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
 
   const handleSubmitProduction = e => {
     e.preventDefault();
-    let newProductionList = []
-    let length = productionList.length
-    if (length <= 0){
+    let newProductionList = [];
+    let length = productionList.length;
+    if (length <= 0) {
       return;
     }
-    let value = Math.round(production/length)
+    let value = Math.round(production / length);
     productionList.forEach((currentValue, index) => {
       newProductionList.push({
         monthdate: currentValue['monthdate'],
         daily_value: value
       });
-      saveChange(currentValue['daily_value'], value, currentValue)
+      saveChange(currentValue['daily_value'], value, currentValue);
     });
-    setProductionList(newProductionList)
+    setProductionList(newProductionList);
   };
 
-  const onProductionChange = (value) => {
-    if (value == null || value === '' || value < 0 ) {
-      setProduction(0)
+  const onProductionChange = value => {
+    if (value == null || value === '' || value < 0) {
+      setProduction(0);
       return;
     }
     let isNumericInput = /^[0-9]+$/.test(value);
     if (!isNumericInput) {
       return;
     }
-    value = value.replace(/^[0]+/,'');
-    setProduction(value)
+    value = value.replace(/^[0]+/, '');
+    setProduction(value);
   };
 
   return (
@@ -401,11 +397,15 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
             <Row form>
               <Col xs={8} sm={2}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} >
-                    {t('Production')}
-                  </Label>
+                  <Label className={labelClasses}>{t('Production')}</Label>
                   <br />
-                  <Input bsSize="sm" onChange={e => {onProductionChange(e.target.value)}} value={production} />
+                  <Input
+                    bsSize="sm"
+                    onChange={e => {
+                      onProductionChange(e.target.value);
+                    }}
+                    value={production}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
