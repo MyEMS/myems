@@ -197,7 +197,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }, [t]);
+  }, [t, selectedSpaceID]);
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
   const nameFormatter = (dataField, { name, uuid }) => (
