@@ -224,7 +224,7 @@ class SpaceCollection:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
-                       " WHERE name = %s ", (name,))
+                       " WHERE name = %s AND parent_space_id = %s", (name, parent_space_id))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
