@@ -24,7 +24,7 @@ import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import { Link } from 'react-router-dom';
-import blankPage from '../../../assets/img/generic/blank-page.png';
+// import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [cursor, setCursor] = useState(0);
@@ -81,14 +81,12 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       body: null
     })
       .then(response => {
-
         if (response.ok) {
           isResponseOK = true;
         }
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
