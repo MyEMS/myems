@@ -182,7 +182,6 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
         return response.json();
       })
       .then(json => {
-
         if (isResponseOK) {
           // rename keys
           json = JSON.parse(
@@ -216,7 +215,6 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
-
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -352,7 +350,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(selectedSpaceID);
   };
 
-  const loadData = (spaceID) => {
+  const loadData = spaceID => {
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -369,22 +367,22 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-      '/reports/spaceproduction?' +
-      'spaceid=' +
-      spaceID +
-      '&productid=1' +
-      '&periodtype=' +
-      periodType +
-      '&baseperiodstartdatetime=' +
-      (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&baseperiodenddatetime=' +
-      (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-      '&reportingperiodstartdatetime=' +
-      moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&reportingperiodenddatetime=' +
-      moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-      '&language=' +
-      language,
+        '/reports/spaceproduction?' +
+        'spaceid=' +
+        spaceID +
+        '&productid=1' +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
       {
         method: 'GET',
         headers: {
@@ -403,18 +401,16 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-
-
           let cardSummaryItem = {};
-            cardSummaryItem['name'] = json['product']['name'];
-            cardSummaryItem['unit'] = json['product']['unit'];
-            cardSummaryItem['subtotal'] = json['reporting_total_production'];
-            setReportingCardSummaryItem(cardSummaryItem);
+          cardSummaryItem['name'] = json['product']['name'];
+          cardSummaryItem['unit'] = json['product']['unit'];
+          cardSummaryItem['subtotal'] = json['reporting_total_production'];
+          setReportingCardSummaryItem(cardSummaryItem);
           cardSummaryItem = {};
-            cardSummaryItem['name'] = json['product']['name'];
-            cardSummaryItem['unit'] = json['product']['unit'];
-            cardSummaryItem['subtotal'] = json['base_total_production'];
-            setBaseCardSummaryItem(cardSummaryItem);
+          cardSummaryItem['name'] = json['product']['name'];
+          cardSummaryItem['unit'] = json['product']['unit'];
+          cardSummaryItem['subtotal'] = json['base_total_production'];
+          setBaseCardSummaryItem(cardSummaryItem);
 
           let totalInTCE = {};
           totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000; // convert from kg to t
@@ -460,7 +456,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
 
           let base_values = {};
           [json['base_production']['values']].forEach((currentValue, index) => {
-            base_values['a' + index] = currentValue != null ? currentValue : 0;;
+            base_values['a' + index] = currentValue != null ? currentValue : 0;
           });
           setSpaceBaseData(base_values);
 
@@ -496,7 +492,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
 
           let reporting_values = {};
           [json['reporting_production']['values']].forEach((currentValue, index) => {
-            reporting_values['a' + index] =  currentValue != null ? currentValue : 0;
+            reporting_values['a' + index] = currentValue != null ? currentValue : 0;
           });
           setSpaceReportingData(reporting_values);
 
@@ -519,7 +515,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
 
           let options = [];
           [json['product']['name']].forEach((currentValue, index) => {
-            let unit = json['product']['unit']
+            let unit = json['product']['unit'];
             options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
           });
           setSpaceReportingOptions(options);
@@ -532,8 +528,9 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                 detailed_value['id'] = timestampIndex;
                 detailed_value['startdatetime'] = currentTimestamp;
                 [json['product']['names']].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['a' + energyCategoryIndex] =
-                    [json['reporting_production']['values']][energyCategoryIndex][timestampIndex];
+                  detailed_value['a' + energyCategoryIndex] = [json['reporting_production']['values']][
+                    energyCategoryIndex
+                  ][timestampIndex];
                 });
                 detailed_value_list.push(detailed_value);
               });
@@ -562,7 +559,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + index,
                 text: currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -587,9 +584,9 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
 
             detailed_column_list.push({
               dataField: 'a0',
-              text: t('Base Period') + ' ' + t('Production')  + ' (' + json['product']['unit'] + ')',
+              text: t('Base Period') + ' ' + t('Production') + ' (' + json['product']['unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -603,7 +600,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'a' + (index * 2 + 1),
                 text: t('Base Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -613,9 +610,18 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
               });
               detailed_column_list.push({
                 dataField: 'a' + (index * 2 + 2),
-                text: t('Base Period') + '-' + t('Per Unit Production') + currentValue + ' (' + unit + '/' + json['product']['unit'] + ')',
+                text:
+                  t('Base Period') +
+                  '-' +
+                  t('Per Unit Production') +
+                  currentValue +
+                  ' (' +
+                  unit +
+                  '/' +
+                  json['product']['unit'] +
+                  ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -634,7 +640,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
               dataField: 'b0',
               text: t('Base Period') + ' - ' + t('Production') + ' (' + json['product']['unit'] + ')',
               sort: true,
-              formatter: function (decimalValue) {
+              formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {
                   return decimalValue.toFixed(2);
                 } else {
@@ -648,7 +654,7 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                 dataField: 'b' + (index * 2 + 1),
                 text: t('Reporting Period') + ' - ' + currentValue + ' (' + unit + ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -658,9 +664,18 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
               });
               detailed_column_list.push({
                 dataField: 'b' + (index * 2 + 2),
-                text: t('Reporting Period') + ' ' + t('Per Unit Production') + currentValue + ' (' + unit + '/' + json['product']['unit'] + ')',
+                text:
+                  t('Reporting Period') +
+                  ' ' +
+                  t('Per Unit Production') +
+                  currentValue +
+                  ' (' +
+                  unit +
+                  '/' +
+                  json['product']['unit'] +
+                  ')',
                 sort: true,
-                formatter: function (decimalValue) {
+                formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
                     return decimalValue.toFixed(2);
                   } else {
@@ -684,7 +699,8 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                   index < json['base_period']['timestamps'][0].length
                     ? json['base_period']['timestamps'][0][index]
                     : null;
-                detailed_value['a0'] = index < json['base_period']['timestamps'][0].length ? json['base_production']['values'][index] : null;
+                detailed_value['a0'] =
+                  index < json['base_period']['timestamps'][0].length ? json['base_production']['values'][index] : null;
                 json['base_period']['values'].forEach((currentValue, energyCategoryIndex) => {
                   detailed_value['a' + (energyCategoryIndex * 2 + 1)] =
                     index < json['base_period']['values'][energyCategoryIndex].length
@@ -692,24 +708,45 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
                       : null;
                   detailed_value['a' + (energyCategoryIndex * 2 + 2)] =
                     index < json['base_production']['values'].length &&
-                      !Object.is(json['base_period']['values'][energyCategoryIndex][index] / json['base_production']['values'][index], NaN)
-                      ? Number((json['base_period']['values'][energyCategoryIndex][index] / json['base_production']['values'][index]).toFixed(2))
+                    !Object.is(
+                      json['base_period']['values'][energyCategoryIndex][index] /
+                        json['base_production']['values'][index],
+                      NaN
+                    )
+                      ? Number(
+                          (
+                            json['base_period']['values'][energyCategoryIndex][index] /
+                            json['base_production']['values'][index]
+                          ).toFixed(2)
+                        )
                       : 0;
                 });
                 detailed_value['reportingPeriodDatetime'] =
                   index < json['reporting_period']['timestamps'][0].length
                     ? json['reporting_period']['timestamps'][0][index]
                     : null;
-                detailed_value['b0'] = index < json['base_period']['timestamps'][0].length ? json['reporting_production']['values'][index] : null;
+                detailed_value['b0'] =
+                  index < json['base_period']['timestamps'][0].length
+                    ? json['reporting_production']['values'][index]
+                    : null;
                 json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                  detailed_value['b' + (energyCategoryIndex * 2 + 1) ] =
+                  detailed_value['b' + (energyCategoryIndex * 2 + 1)] =
                     index < json['reporting_period']['values'][energyCategoryIndex].length
                       ? json['reporting_period']['values'][energyCategoryIndex][index]
                       : null;
                   detailed_value['b' + (energyCategoryIndex * 2 + 2)] =
                     index < json['reporting_production']['values'].length &&
-                      !Object.is(json['reporting_period']['values'][energyCategoryIndex][index] / json['reporting_production']['values'][index],NaN)
-                      ? Number((json['reporting_period']['values'][energyCategoryIndex][index] / json['reporting_production']['values'][index]).toFixed(2))
+                    !Object.is(
+                      json['reporting_period']['values'][energyCategoryIndex][index] /
+                        json['reporting_production']['values'][index],
+                      NaN
+                    )
+                      ? Number(
+                          (
+                            json['reporting_period']['values'][energyCategoryIndex][index] /
+                            json['reporting_production']['values'][index]
+                          ).toFixed(2)
+                        )
                       : 0;
                 });
                 detailed_value_list.push(detailed_value);
@@ -913,51 +950,51 @@ const SpaceProduction = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div  style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '': 'none' }}>
-          <img className="img-fluid" src={blankPage} alt="" />
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none': ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
-        <CardSummary
-              rate={''}
-              key={'baseCardSummaryItem'}
-              title={t('Base Period Production PRODUCT VALUE UNIT', {
-                VALUE: baseCardSummaryItem['name'],
-                UNIT: '(' + baseCardSummaryItem['unit'] + ')'
-              })}
-              color="success"
-            >
-              {baseCardSummaryItem['subtotal'] && (
-                <CountUp
-                  end={baseCardSummaryItem['subtotal']}
-                  duration={2}
-                  prefix=""
-                  separator=","
-                  decimal="."
-                  decimals={2}
-                />
-              )}
-            </CardSummary>
-            <CardSummary
-              rate={''}
-              key={'reportingCardSummaryItem'}
-              title={t('Reporting Period Production PRODUCT VALUE UNIT', {
-                VALUE: reportingCardSummaryItem['name'],
-                UNIT: '(' + reportingCardSummaryItem['unit'] + ')'
-              })}
-              color="success"
-            >
-              {reportingCardSummaryItem['subtotal'] && (
-                <CountUp
-                  end={reportingCardSummaryItem['subtotal']}
-                  duration={2}
-                  prefix=""
-                  separator=","
-                  decimal="."
-                  decimals={2}
-                />
-              )}
-            </CardSummary>
+          <CardSummary
+            rate={''}
+            key={'baseCardSummaryItem'}
+            title={t('Base Period Production PRODUCT VALUE UNIT', {
+              VALUE: baseCardSummaryItem['name'],
+              UNIT: '(' + baseCardSummaryItem['unit'] + ')'
+            })}
+            color="success"
+          >
+            {baseCardSummaryItem['subtotal'] && (
+              <CountUp
+                end={baseCardSummaryItem['subtotal']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
+          </CardSummary>
+          <CardSummary
+            rate={''}
+            key={'reportingCardSummaryItem'}
+            title={t('Reporting Period Production PRODUCT VALUE UNIT', {
+              VALUE: reportingCardSummaryItem['name'],
+              UNIT: '(' + reportingCardSummaryItem['unit'] + ')'
+            })}
+            color="success"
+          >
+            {reportingCardSummaryItem['subtotal'] && (
+              <CountUp
+                end={reportingCardSummaryItem['subtotal']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={2}
+              />
+            )}
+          </CardSummary>
 
           {settings.showTCEData ? (
             <CardSummary
