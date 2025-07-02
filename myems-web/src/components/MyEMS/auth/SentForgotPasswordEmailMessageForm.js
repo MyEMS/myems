@@ -160,7 +160,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
 
   useEffect(() => {
     setIsSubmitDisabled(!email || !password || !code);
-  }, []);
+  }, [email, password, code]);
 
   const toggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
