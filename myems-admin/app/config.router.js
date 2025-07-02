@@ -899,6 +899,8 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/space/space.service.js',
+                                                    'app/services/settings/microgrid/microgrid.service.js', 
+                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstation.service.js', 
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
@@ -931,6 +933,7 @@ app
                                                     'app/services/settings/space/spacesensor.service.js',
                                                     'app/services/settings/space/spacetenant.service.js',
                                                     'app/services/settings/space/spaceworkingcalendar.service.js',
+                                                    'app/services/settings/space/spacemicrogrid.service.js',
                                                     'app/controllers/settings/space/space.controller.js',
                                                     'app/controllers/settings/space/space.master.controller.js',
                                                     'app/controllers/settings/space/spacecombinedequipment.controller.js',
@@ -949,6 +952,7 @@ app
                                                     'app/controllers/settings/space/spaceworkingcalendar.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
+                                                    'app/controllers/settings/space/spacemicrogrid.controller.js',
                                                 ]
                                             }]);
                                         }
