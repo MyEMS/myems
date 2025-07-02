@@ -159,7 +159,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
 
   useEffect(() => {
     setIsSubmitDisabled(!email || !password || !displayName || !name || !code);
-  }, []);
+  }, [email, password, displayName, name, code]);
 
   const toggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
