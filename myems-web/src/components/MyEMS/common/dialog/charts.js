@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, { useEffect } from 'react';
 import * as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
@@ -23,7 +23,6 @@ export const Charts = props => {
       optionData.timeArr = optionData['timeArr'].map(time => {
         return time.replace('T', ' ').replace('Z', '');
       });
-      optionData.valueArr = optionData['valueArr'];
     }
     const option = {
       textStyle: {
@@ -70,7 +69,7 @@ export const Charts = props => {
     const chart = echarts.init(document.getElementById(id));
     chart.clear();
     chart.setOption(option);
-  }, []);
+  }, [namewithid, optionData]);
 
   return <div id={id} style={{ height: '500px', marginTop: '30px' }} />;
 };

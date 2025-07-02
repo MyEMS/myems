@@ -72,8 +72,18 @@ const getContentClassNames = color => {
   return `${contentClassNames} text-${color}`;
 };
 
-const CardSummary = ({ title, rate, color, children, footnote, footvalue, footunit,
-   secondfootnote, secondfootvalue, secondfootunit }) => {
+const CardSummary = ({
+  title,
+  rate,
+  color,
+  children,
+  footnote,
+  footvalue,
+  footunit,
+  secondfootnote,
+  secondfootvalue,
+  secondfootunit
+}) => {
   return (
     <Card className="mb-3 overflow-hidden" style={{ minWidth: '15rem' }}>
       <Background image={getImage(color)} className="bg-card" />
@@ -93,7 +103,9 @@ const CardSummary = ({ title, rate, color, children, footnote, footvalue, footun
         </h6>
         <h6 className="font-weight-light fs--2 text-nowrap">
           {secondfootnote}{' '}
-          {secondfootvalue && <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
+          {secondfootvalue && (
+            <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
+          )}{' '}
           {secondfootunit}
         </h6>
       </CardBody>

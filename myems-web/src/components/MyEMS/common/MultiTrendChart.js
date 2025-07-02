@@ -16,18 +16,8 @@ import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { number } from 'is_js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Tooltip,
-  Legend,
-  LineController,
-  BarController
-  );
+ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend, LineController, BarController);
 
 const MultiTrendChart = ({
   reportingTitle,
@@ -118,7 +108,7 @@ const MultiTrendChart = ({
       };
       setLineData(chartData);
     }
-  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates]);
+  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark]);
 
   const config = {
     plugins: [ChartDataLabels],
