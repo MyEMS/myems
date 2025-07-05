@@ -726,7 +726,6 @@
 						</div>
 					</uib-tab>
 
-
 					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
 							<div class="row">
@@ -899,60 +898,123 @@
 					</uib-tab>
 
 					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}">
-						<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
-							<div class="row">
+							<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
+								<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
-										<div class="panel-heading">
-											{{'SETTING.SELECT_SPACE' | translate}}
-										</div>
-										<div class="panel-body" style="overflow: auto; max-height: 700px;">
-											<div id="spacetreewithphotovoltaicpowerstation"></div>
-										</div>
+									<div class="panel-heading">
+										{{'SETTING.SELECT_SPACE' | translate}}
+									</div>
+									<div class="panel-body" style="overflow: auto; max-height: 700px;">
+										<div id="spacetreewithphotovoltaicpowerstation"></div>
+									</div>
 									</div>
 								</div>
+
 								<div class="col-lg-4">
 									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'SPACE.N_S_ENERGY_STORAGE_POWER_STATION' | translate}}
-										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
-											x-on-drop="pairPhotovoltaicPowerStation(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
-											<div class="btn btn-primary btn-rounded btn-block"
-												title="{{spacephotovoltaicpowerstation.name}}"
-												ng-repeat="spacephotovoltaicpowerstation in spacephotovoltaicpowerstations" x-hjc-draggable="true">
-												{{spacephotovoltaicpowerstation.name}}</div>
+									<div class="panel-heading">
+										{{'SPACE.N_S_PHOTOVOLTAIC_POWER_STATION' | translate}}
+									</div>
+									<div class="panel-body maxheight"
+										x-hjc-drop-target="true"
+										x-on-drop="pairPhotovoltaicPowerStation(dragEl,dropEl)"
+										uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+										<div class="btn btn-primary btn-rounded btn-block"
+										title="{{spacephotovoltaicpowerstation.name}}"
+										ng-repeat="spacephotovoltaicpowerstation in spacephotovoltaicpowerstations" x-hjc-draggable="true">
+										{{spacephotovoltaicpowerstation.name}}
 										</div>
 									</div>
+									</div>
+
 									<div class="panel panel-danger">
-										<div class="panel-heading">
-											{{'SETTING.TRASH' | translate}}
-										</div>
-										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
-												x-on-drop="deletePhotovoltaicPowerStationPair(dragEl,dropEl)">
-										</div>
-
+									<div class="panel-heading">
+										{{'SETTING.TRASH' | translate}}
+									</div>
+									<div class="panel-body trash">
+										<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+										x-on-drop="deletePhotovoltaicPowerStationPair(dragEl,dropEl)">
+									</div>
 									</div>
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
 									<div class="panel panel-primary">
-										<div class="panel-heading"> {{'SPACE.ENERGY_STORAGE_POWER_STATION_LIST' | translate}} </div>
-										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="760">
-											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="photovoltaicpowerstation in photovoltaicpowerstations" x-hjc-draggable="true">
-												{{photovoltaicpowerstation.name}}
-											</div>
+									<div class="panel-heading"> {{'SPACE.PHOTOVOLTAIC_POWER_STATION_LIST' | translate}} </div>
+									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+										slim-scroll box-height="760">
+										<div class="source btn btn-info btn-rounded btn-block"
+										ng-repeat="photovoltaicpowerstation in photovoltaicpowerstations" x-hjc-draggable="true">
+										{{photovoltaicpowerstation.name}}
 										</div>
 									</div>
+									</div>
+								</div>
+
 								</div>
 							</div>
-						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SPACE.BIND_MICROGRID' | translate}}">
+							<div class="panel-body" ng-controller="SpaceMicrogridController">
+								<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+									<div class="panel-heading">
+										{{'SETTING.SELECT_SPACE' | translate}}
+									</div>
+									<div class="panel-body" style="overflow: auto; max-height: 700px;">
+										<div id="spacetreewithmicrogrid"></div>
+									</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+									<div class="panel-heading">
+										{{'SPACE.N_S_MICROGRID' | translate}}
+									</div>
+									<div class="panel-body maxheight"
+										x-hjc-drop-target="true"
+										x-on-drop="pairMicrogrid(dragEl,dropEl)"
+										uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+										<div class="btn btn-primary btn-rounded btn-block"
+											title="{{spacemicrogrid.name}}"
+											ng-repeat="spacemicrogrid in spacemicrogrids"
+											x-hjc-draggable="true">
+										{{spacemicrogrid.name}}
+										</div>
+									</div>
+									</div>
+									<div class="panel panel-danger">
+									<div class="panel-heading">
+										{{'SETTING.TRASH' | translate}}
+									</div>
+									<div class="panel-body trash">
+										<img class="trashcan" src="img/trashcan.png"
+											x-hjc-drop-target="true"
+											x-on-drop="deleteMicrogridPair(dragEl,dropEl)">
+									</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel -->
+									<div class="panel panel-primary">
+									<div class="panel-heading">
+										{{'SPACE.MICROGRID_LIST' | translate}}
+									</div>
+									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" slim-scroll box-height="760">
+										<div class="source btn btn-info btn-rounded btn-block"
+											ng-repeat="microgrid in microgrids"
+											x-hjc-draggable="true">
+										{{microgrid.name}}
+										</div>
+									</div>
+									</div>
+								</div>
+								</div>
+							</div>
 					</uib-tab>
 
 				</uib-tabset>
