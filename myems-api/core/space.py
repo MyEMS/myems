@@ -522,7 +522,7 @@ class SpaceItem:
                     not isinstance(new_values['data']['parent_space_id'], int) or \
                     int(new_values['data']['parent_space_id']) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_TIMEZONE_ID')
+                                       description='API.INVALID_PARENT_SPACE_ID')
             parent_space_id = int(new_values['data']['parent_space_id'])
 
         if 'area' not in new_values['data'].keys() or \
@@ -625,7 +625,7 @@ class SpaceItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
-                       " WHERE name = %s AND id != %s ", (name, id_))
+                       " WHERE name = %s AND id != %s  AND parent_space_id = %s", (name, id_, parent_space_id))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
