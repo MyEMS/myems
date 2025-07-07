@@ -625,7 +625,7 @@ class SpaceItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
-                       " WHERE name = %s AND id != %s  AND parent_space_id = %s", (name, id_, parent_space_id))
+                       " WHERE name = %s AND id != %s AND parent_space_id = %s", (name, id_, parent_space_id))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
