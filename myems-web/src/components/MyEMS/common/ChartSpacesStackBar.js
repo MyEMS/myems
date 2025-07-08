@@ -19,8 +19,7 @@ import AppContext from '../../../context/Context';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LogarithmicScale);
 
 const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, t }) => {
-  const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
-  const [selectedLabel, setSelectedLabel] = useState('a0');
+  const [setSelectedLabel] = useState('a0');
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
@@ -29,6 +28,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
   });
 
   useEffect(() => {
+    const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
     const chart = chartRef.current;
     let dataArray = [];
     let index = option.substring(1);
@@ -74,7 +74,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
         datasets: dataArray
       });
     }
-  }, [labels, inputData, costData, option]);
+  }, [labels, inputData, costData, option, isDark, t]);
   const options = {
     scales: {
       x: {

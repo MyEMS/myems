@@ -69,7 +69,7 @@ const BarChart = ({ labels, data, compareData, title, compareTitle, footnote, fo
         datasets: datasets
       });
     }
-  }, [data, compareData]);
+  }, [data, compareData, compareTitle, isDark, labels, title, chartRef, setChartData]);
 
   const config = {
     options: {

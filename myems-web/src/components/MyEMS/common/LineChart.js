@@ -39,7 +39,7 @@ const LineChart = ({ reportingTitle, baseTitle, labels, data, options }) => {
       };
       setLineData(chartData);
     }
-  }, [data, option, labels]);
+  }, [data, option, labels, isDark, selectedLabel]);
 
   const config = {
     options: {

@@ -55,7 +55,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     });
 
     map.current.addControl(mapboxLanguage);
-  }, [t, Latitude, Longitude, Zoom]);
+  }, [t, Latitude, Longitude, Zoom, isDark, language, lat, lng, zoom]);
 
   useEffect(() => {
     var lang = language;
@@ -86,13 +86,10 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       map.current.addControl(mapboxLanguage);
 
       map.current.on('load', () => {
-        map.current.loadImage(
-          map_maker,
-            (error, image) => {
-                if (error) throw error;
-                map.current.addImage('map-marker', image);
-            }
-        );
+        map.current.loadImage(map_maker, (error, image) => {
+          if (error) throw error;
+          map.current.addImage('map-marker', image);
+        });
         map.current.addSource('myems', {
           type: 'geojson',
           data: {
@@ -137,9 +134,9 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
           type: 'symbol',
           source: 'myems',
           filter: ['!', ['has', 'point_count']],
-          'layout': {
+          layout: {
             'icon-image': 'map-marker',
-            "icon-size": 0.5
+            'icon-size': 0.5
           }
         });
 
@@ -192,7 +189,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         });
       });
     }
-  }, [language, Geojson]);
+  }, [Geojson, Latitude, Longitude, Zoom, isDark, language, lat, lng, zoom]);
 
   return <div id="container" className="map" style={{ width: '100%', height: '100%' }} ref={mapContainer} />;
 };
