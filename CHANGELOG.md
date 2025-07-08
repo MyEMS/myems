@@ -5,9 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added myems-admin.conf and myems-web.conf for nginx
+- added binding microgrid to space in myems-admin
 ### Changed
+- subspace names under the same parent space cannot be duplicated
 ### Fixed
+- fixed warnings in myems-web
+- fixed warnings in myems-api
 ### Removed
+- None
 
 
 ## [v5.6.0] - 2025-06-22
