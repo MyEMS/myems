@@ -31,7 +31,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectSensorList, setSelectSensorList] = useState([]);
   const len = 8;
-  const [resultDataHidden, setResultDataHidden] = useState(true);//**
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -124,7 +124,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
 
                 setSensorList(json[0]);    
                 setSpinnerHidden(true);
-                setResultDataHidden(json[0].length === 0);  //**
+                setResultDataHidden(json[0].length === 0);
               } else {
                 toast.error(t(json.description));
               }
@@ -173,7 +173,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           setSensorList(json[0]);  
 
           setSpinnerHidden(true);
-          setResultDataHidden(json[0].length === 0);//***
+          setResultDataHidden(json[0].length === 0);
         } else {
           toast.error(t(json.description));
         }
@@ -190,7 +190,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
 
     setCursor(1);
     setMaxCursor(maxCursor);
-  if(sensorLen>0){         //***
+  if(sensorLen>0){
     document.getElementById('cursor_2').hidden = true;
     document.getElementById('cursor_3').hidden = true;
     document.getElementById('cursor_4').hidden = true;
