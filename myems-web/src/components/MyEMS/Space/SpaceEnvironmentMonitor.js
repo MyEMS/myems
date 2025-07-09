@@ -24,13 +24,14 @@ import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import { Link } from 'react-router-dom';
-// import blankPage from '../../../assets/img/generic/blank-page.png';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [cursor, setCursor] = useState(0);
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectSensorList, setSelectSensorList] = useState([]);
   const len = 8;
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -121,8 +122,9 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
               if (isSecondResponseOK) {
                 json = JSON.parse(JSON.stringify([json]));
 
-                setSensorList(json[0]);
+                setSensorList(json[0]);    
                 setSpinnerHidden(true);
+                setResultDataHidden(json[0].length === 0);
               } else {
                 toast.error(t(json.description));
               }
@@ -168,9 +170,10 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           json = JSON.parse(JSON.stringify([json]));
 
-          setSensorList(json[0]);
+          setSensorList(json[0]);  
 
           setSpinnerHidden(true);
+          setResultDataHidden(json[0].length === 0);
         } else {
           toast.error(t(json.description));
         }
@@ -187,7 +190,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
 
     setCursor(1);
     setMaxCursor(maxCursor);
-
+  if(sensorLen>0){
     document.getElementById('cursor_2').hidden = true;
     document.getElementById('cursor_3').hidden = true;
     document.getElementById('cursor_4').hidden = true;
@@ -203,6 +206,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       document.getElementById('cursor_3').hidden = false;
       document.getElementById('cursor_4').hidden = false;
     }
+   }
   }, [sensorList]);
 
   useEffect(() => {
@@ -263,16 +267,19 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
       <div className="card-deck">
         {selectSensorList.map(sensor => (
           <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
         ))}
       </div>
+    {sensorList.length > 0 && (
       <Pagination>
         <PaginationItem>
           <PaginationLink first href="#" onClick={() => setCursor(1)} />
         </PaginationItem>
-
         <PaginationItem>
           <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
         </PaginationItem>
@@ -303,6 +310,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
         </PaginationItem>
       </Pagination>
+    )}
     </Fragment>
   );
 };
