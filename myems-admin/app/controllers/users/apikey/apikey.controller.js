@@ -159,12 +159,10 @@ app.controller('ApiKeyController', function (
 });
 
 app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
-	$scope.isButtonDisabled = function() {
-		if ($scope.apiKey.name && $scope.apiKey.expires_datetime > $scope.apiKey.created_datetime) {
-			return false;
-		} else {
-			return true;
-		}
+	$scope.isButtonDisabled = function () {
+		const created = moment($scope.apiKey.created_datetime);
+		const expires = moment($scope.apiKey.expires_datetime);
+		return !(created.isValid() && expires.isValid() && expires.isAfter(created));
 	};
 	$scope.operation = "USER.ADD_API_KEY";
 	$scope.apiKey = {
@@ -197,13 +195,12 @@ app.controller('ModalAddApiKeyCtrl', function ($scope, $uibModalInstance) {
 app.controller('ModalEditApiKeyCtrl', function ($scope,
 	$uibModalInstance,
 	params) {
-	$scope.isButtonDisabled = function() {
-		if ($scope.apiKey.name && $scope.apiKey.expires_datetime > $scope.apiKey.created_datetime) {
-			return false;
-		} else {
-			return true;
-		}
+	$scope.isButtonDisabled = function () {
+		const created = moment($scope.apiKey.created_datetime);
+		const expires = moment($scope.apiKey.expires_datetime);
+		return !(created.isValid() && expires.isValid() && expires.isAfter(created));
 	};
+
 	$scope.operation = "USER.EDIT_API_KEY";
 	$scope.apiKey = params.apiKey;
 	$scope.flag = false;
