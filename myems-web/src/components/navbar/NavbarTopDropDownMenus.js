@@ -78,7 +78,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
       .then(json => {
         //console.log(json);
         if (isResponseOK) {
-          let showRoutes = [routes[0]];
+          let showRoutes = [];
           for (let i = 0; i < routes.length; i++) {
             let route = routes[i];
             if (route.to in json && 'children' in route) {
