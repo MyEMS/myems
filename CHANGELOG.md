@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added binding microgrid to space in myems-admin
 ### Changed
 - subspace names under the same parent space cannot be duplicated
+- updated power stations
 ### Fixed
 - fixed warnings in myems-web
 - fixed warnings in myems-api

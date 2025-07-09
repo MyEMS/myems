@@ -752,23 +752,23 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">1# PCS</th>
+                          <th className="pl-0">PCS</th>
                           <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">1# Battery</th>
+                          <th className="pl-0">电池</th>
                           <th className="pr-0 text-right ">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# HVAC</th>
+                          <th className="pl-0 pb-0">光伏</th>
                           <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Grid Meter</th>
+                          <th className="pl-0 pb-0">充电桩</th>
                           <th className="pr-0 text-right">Normal</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">1# Load Meter</th>
+                          <th className="pl-0 pb-0">电网表</th>
                           <th className="pr-0 text-right">Normal</th>
                         </tr>
                       </tbody>
@@ -853,7 +853,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchPCSDetails();
             }}
           >
-            <h6>PCS</h6>
+            <h6>{t('PCS')}</h6>
           </NavLink>
         </NavItem>
 
@@ -865,7 +865,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchBMSDetails();
             }}
           >
-            <h6>BMS</h6>
+            <h6>{t('BMS')}</h6>
           </NavLink>
         </NavItem>
 
@@ -877,7 +877,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchPVDetails();
             }}
           >
-            <h6>PV</h6>
+            <h6>{t('PV')}</h6>
           </NavLink>
         </NavItem>
 
@@ -889,7 +889,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchEVChargerDetails();
             }}
           >
-            <h6>EV Charger</h6>
+            <h6>{t('EV Charger')}</h6>
           </NavLink>
         </NavItem>
 
@@ -901,7 +901,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchGeneratorDetails();
             }}
           >
-            <h6>Generators</h6>
+            <h6>{t('Generators')}</h6>
           </NavLink>
         </NavItem>
 
@@ -913,7 +913,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchGridDetails();
             }}
           >
-            <h6>Grids</h6>
+            <h6>{t('Grid Meter')}</h6>
           </NavLink>
         </NavItem>
 
@@ -925,7 +925,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchLoadDetails();
             }}
           >
-            <h6>Loads</h6>
+            <h6>{t('Load Meter')}</h6>
           </NavLink>
         </NavItem>
 
@@ -937,7 +937,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchHeatpumpDetails();
             }}
           >
-            <h6>Heatpumps</h6>
+            <h6>{t('Heatpump')}</h6>
           </NavLink>
         </NavItem>
       </Nav>
