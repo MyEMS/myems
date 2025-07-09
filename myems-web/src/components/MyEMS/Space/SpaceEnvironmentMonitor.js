@@ -31,6 +31,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectSensorList, setSelectSensorList] = useState([]);
   const len = 8;
+  const [resultDataHidden, setResultDataHidden] = useState(true);//**
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -123,6 +124,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
 
                 setSensorList(json[0]);    
                 setSpinnerHidden(true);
+                setResultDataHidden(json[0].length === 0);  //**
               } else {
                 toast.error(t(json.description));
               }
@@ -171,6 +173,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           setSensorList(json[0]);  
 
           setSpinnerHidden(true);
+          setResultDataHidden(json[0].length === 0);//***
         } else {
           toast.error(t(json.description));
         }
@@ -264,6 +267,9 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
       <div className="card-deck">
         {selectSensorList.map(sensor => (
           <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
