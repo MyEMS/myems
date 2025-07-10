@@ -1360,8 +1360,9 @@ class EnergyStoragePowerStationClone:
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
+                 "        address, latitude, longitude, latitude_point_id, longitude_point_id, rated_capacity, "
+                 "        rated_power, contact_id, cost_center_id, svg_id, svg2_id, svg3_id, svg4_id, svg5_id, "
+                 "        is_cost_data_displayed, phase_of_lifecycle, commissioning_date, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -1378,13 +1379,21 @@ class EnergyStoragePowerStationClone:
                            "address": row[3],
                            "latitude": row[4],
                            "longitude": row[5],
-                           "rated_capacity": row[6],
-                           "rated_power": row[7],
-                           "contact_id": row[8],
-                           "cost_center_id": row[9],
-                           "svg_id": row[10],
-                           "is_cost_data_displayed": row[11],
-                           "description": row[12]}
+                           "latitude_point_id": row[6],
+                           "longitude_point_id": row[7],
+                           "rated_capacity": row[8],
+                           "rated_power": row[9],
+                           "contact_id": row[10],
+                           "cost_center_id": row[11],
+                           "svg_id": row[12],
+                           "svg2_id": row[13],
+                           "svg3_id": row[14],
+                           "svg4_id": row[15],
+                           "svg5_id": row[16],
+                           "is_cost_data_displayed": row[17],
+                           "phase_of_lifecycle": row[18],
+                           "commissioning_date": row[19],
+                           "description": row[20]}
 
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
@@ -1393,20 +1402,30 @@ class EnergyStoragePowerStationClone:
                 (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
             add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                          "    (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
-                          "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          "    (name, uuid, address, latitude, longitude, latitude_point_id, longitude_point_id, "
+                          "     rated_capacity, rated_power, contact_id, cost_center_id, svg_id, svg2_id, svg3_id, "
+                          "     svg4_id, svg5_id, is_cost_data_displayed, phase_of_lifecycle, commissioning_date, "
+                          "     description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['address'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
+                                        meta_result['latitude_point_id'],
+                                        meta_result['longitude_point_id'],
                                         meta_result['rated_capacity'],
                                         meta_result['rated_power'],
                                         meta_result['contact_id'],
                                         meta_result['cost_center_id'],
                                         meta_result['svg_id'],
+                                        meta_result['svg2_id'],
+                                        meta_result['svg3_id'],
+                                        meta_result['svg4_id'],
+                                        meta_result['svg5_id'],
                                         meta_result['is_cost_data_displayed'],
+                                        meta_result['phase_of_lifecycle'],
+                                        meta_result['commissioning_date'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()
