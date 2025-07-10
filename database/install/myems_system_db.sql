@@ -618,20 +618,6 @@ CREATE INDEX `tbl_energy_storage_containers_schedules_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_schedules` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_energy_storage_containers_sensors`
--- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_sensors` ;
-
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_sensors` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `energy_storage_container_id` BIGINT NOT NULL,
-  `sensor_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_energy_storage_containers_sensors_index_1`
-ON `myems_system_db`.`tbl_energy_storage_containers_sensors` (`energy_storage_container_id`);
-
-
--- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_stses`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_stses` ;
@@ -2603,7 +2589,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '5.6.0', '2025-06-22');
+(1, '5.7.0RC', '2025-07-21');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
