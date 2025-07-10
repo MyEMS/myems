@@ -245,7 +245,9 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 	$scope.disable=false;
 	$scope.categories = params.categories;
 	$scope.times = [];
-	$scope.controlmode = {};
+	$scope.controlmode = {
+		is_active: false
+	};
 	$scope.t={};
 	$scope.t.start_hour = '00';
 	$scope.t.start_min = '00';
