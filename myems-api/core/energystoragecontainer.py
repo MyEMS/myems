@@ -274,32 +274,69 @@ class EnergyStorageContainerItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
+                       " WHERE bms_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_batteries "
+                       "       WHERE energy_storage_container_id = %s) ", (id_, ))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
                        " WHERE energy_storage_container_id = %s ", (id_,))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
+                       " WHERE dcdc_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_dcdcs "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
+                       " WHERE firecontrol_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_firecontrols "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
                        " WHERE energy_storage_container_id = %s ", (id_,))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
+                       " WHERE grid_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_grids "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
+                       " WHERE hvac_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_hvacs "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
+                       " WHERE load_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_loads "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
+                       " WHERE pcs_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_power_conversion_systems "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_users "
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
+                       " WHERE sts_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_stses "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_power_stations_containers "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers "

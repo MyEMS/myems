@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed warnings in myems-api
 - fixed issue of pop message in myems-admin
 ### Removed
-- None
+- removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
 
 ## [v5.6.0] - 2025-06-22
