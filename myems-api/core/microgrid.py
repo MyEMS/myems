@@ -5500,10 +5500,10 @@ class MicrogridClone:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description "
-                 " FROM tbl_microgrids "
-                 " WHERE id = %s ")
+                    "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                    "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                    " FROM tbl_microgrids "
+                    " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
 
@@ -5518,34 +5518,38 @@ class MicrogridClone:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "serial_number": row[10],
-                           "svg": row[11],
-                           "is_cost_data_displayed": row[12],
-                           "description": row[13]}
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "serial_number": row[11],
+                           "svg_id": row[12],
+                           "is_cost_data_displayed": row[13],
+                           "phase_of_lifecycle": row[14],
+                           "description": row[15]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name']) +
                         (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_microgrids "
-                          "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
-                          "     contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                          "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['address'],
                                         meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
-                                        meta_result['capacity'],
+                                        meta_result['rated_capacity'],
+                                        meta_result['rated_power'], 
                                         meta_result['contact']['id'],
                                         meta_result['cost_center']['id'],
                                         meta_result['serial_number'],
-                                        meta_result['svg'],
+                                        meta_result['svg_id'],
                                         meta_result['is_cost_data_displayed'],
+                                        meta_result['phase_of_lifecycle'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()
