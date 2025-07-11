@@ -110,7 +110,7 @@ app.controller('SpaceSensorController', function (
                     showCloseButton: true,
                 });
                 $scope.getSensorsBySpaceID($scope.currentSpaceID);
-            }else {
+            } else {
                 toaster.pop({
                     type: "error",
                     title: $translate.instant(response.data.title),

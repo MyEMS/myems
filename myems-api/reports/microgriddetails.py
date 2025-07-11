@@ -422,22 +422,24 @@ class Reporting:
                               " FROM tbl_microgrids_evchargers me, tbl_points p "
                               " WHERE me.microgrid_id = %s AND me.power_point_id = p.id ",
                               (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
+        rows_points = cursor_system.fetchall()
+        if rows_points is not None and len(rows_points) > 0:
+            for row_point in rows_points:
+                point_list.append({"id": row_point[0],
+                                   "name": row_point[1]+'.P',
+                                   "units": row_point[2],
+                                   "object_type": row_point[3]})
 
         cursor_system.execute(" SELECT m.id, me.name, m.energy_category_id  "
                               " FROM tbl_microgrids_evchargers me, tbl_meters m "
                               " WHERE me.microgrid_id = %s AND me.meter_id = m.id ",
                               (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
-                               "energy_category_id": row_meter[2]})
+        rows_meters = cursor_system.fetchall()
+        if rows_meters is not None and len(rows_meters) > 0:
+            for row_meter in rows_meters:
+                meter_list.append({"id": row_meter[0],
+                                   "name": row_meter[1],
+                                   "energy_category_id": row_meter[2]})
         ################################################################################################################
         # Step 6: query associated generators
         ################################################################################################################
