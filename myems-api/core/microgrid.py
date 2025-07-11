@@ -5238,9 +5238,21 @@ class MicrogridExport:
                                             "name": row[1],
                                             "uuid": row[2]}
 
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_svgs ")
+        cursor.execute(query)
+        rows_svgs = cursor.fetchall()
+
+        svg_dict = dict()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {"id": row[0],
+                                    "name": row[1],
+                                    "uuid": row[2]}
+
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description "
+                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -5264,9 +5276,10 @@ class MicrogridExport:
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
-                           "svg": row[12],
+                           "svg": svg_dict.get(row[12], None),
                            "is_cost_data_displayed": bool(row[13]),
-                           "description": row[14]}
+                           "phase_of_lifecycle": row[14],
+                           "description": row[15]}
 
         resp.text = json.dumps(meta_result)
 
@@ -5373,17 +5386,26 @@ class MicrogridImport:
         serial_number = str.strip(new_values['serial_number'])
 
         if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
+                not isinstance(new_values['svg'], dict) or \
+                'id' not in new_values['svg'].keys() or \
+                not isinstance(new_values['svg']['id'], int) or \
+                new_values['svg']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
+        svg_id = new_values['svg']['id']
 
-        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
+        if 'is_cost_data_displayed' not in new_values.keys() or \
+                not isinstance(new_values['is_cost_data_displayed'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COST_DATA_DISPLAYED')
-        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
+        is_cost_data_displayed = new_values['is_cost_data_displayed']
+
+        if 'phase_of_lifecycle' not in new_values.keys() or \
+                not isinstance(new_values['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['phase_of_lifecycle'])
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -5395,14 +5417,18 @@ class MicrogridImport:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
+        original_name = name
+        while True:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_microgrids "
+                           " WHERE name = %s ", (name,))
+            if cursor.fetchone() is None:
+                break
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            name = (str.strip(original_name) +
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
 
         cursor.execute(" SELECT name "
                        " FROM tbl_contacts "
@@ -5426,10 +5452,21 @@ class MicrogridImport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -5441,8 +5478,9 @@ class MicrogridImport:
                                     contact_id,
                                     cost_center_id,
                                     serial_number,
-                                    svg,
+                                    svg_id,
                                     is_cost_data_displayed,
+                                    phase_of_lifecycle,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
