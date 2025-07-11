@@ -5238,18 +5238,6 @@ class MicrogridExport:
                                             "name": row[1],
                                             "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-
-        svg_dict = dict()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2]}
-
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
@@ -5276,7 +5264,7 @@ class MicrogridExport:
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
-                           "svg": svg_dict.get(row[12], None),
+                           "svg_id": row[12],
                            "is_cost_data_displayed": bool(row[13]),
                            "phase_of_lifecycle": row[14],
                            "description": row[15]}
@@ -5385,14 +5373,12 @@ class MicrogridImport:
                                    description='API.INVALID_SERIAL_NUMBER')
         serial_number = str.strip(new_values['serial_number'])
 
-        if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], dict) or \
-                'id' not in new_values['svg'].keys() or \
-                not isinstance(new_values['svg']['id'], int) or \
-                new_values['svg']['id'] <= 0:
+        if 'svg_id' not in new_values.keys() or \
+                not isinstance(new_values['svg_id'], int) or \
+                new_values['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg_id = new_values['svg']['id']
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['svg_id']
 
         if 'is_cost_data_displayed' not in new_values.keys() or \
                 not isinstance(new_values['is_cost_data_displayed'], bool):
