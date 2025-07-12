@@ -12,6 +12,7 @@ app.controller('SpaceTenantController', function(
     $scope.tenants = [];
     $scope.spacetenants = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingTenants = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -49,9 +50,12 @@ app.controller('SpaceTenantController', function(
     };
 
 	$scope.getTenantsBySpaceID = function(id) {
+	if ($scope.isLoadingTenants) return;
+	$scope.isLoadingTenants = true;
     $scope.spacetenants=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceTenantService.getTenantsBySpaceID(id, headers, function (response) {
+                    $scope.isLoadingTenants = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
       					$scope.spacetenants = $scope.spacetenants.concat(response.data);
       				} else {

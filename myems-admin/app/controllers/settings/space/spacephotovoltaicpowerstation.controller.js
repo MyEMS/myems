@@ -13,6 +13,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     $scope.photovoltaicpowerstations = [];
     $scope.spacephotovoltaicpowerstations = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingPhotovoltaicpowerstations = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -50,9 +51,12 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     };
 
 	$scope.getPhotovoltaicPowerStationsBySpaceID = function(id) {
+	if ($scope.isLoadingPhotovoltaicpowerstations) return;
+	$scope.isLoadingPhotovoltaicpowerstations = true;
     $scope.spacephotovoltaicpowerstations=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpacePhotovoltaicPowerStationService.getPhotovoltaicPowerStationsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingPhotovoltaicpowerstations = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spacephotovoltaicpowerstations = $scope.spacephotovoltaicpowerstations.concat(response.data);
             } else {

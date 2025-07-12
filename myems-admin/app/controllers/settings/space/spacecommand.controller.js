@@ -12,6 +12,7 @@ app.controller('SpaceCommandController', function(
     $scope.commands = [];
     $scope.spacecommands = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingCommands = true;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -49,9 +50,12 @@ app.controller('SpaceCommandController', function(
     };
 
 	$scope.getCommandsBySpaceID = function(id) {
+	if ($scope.isLoadingCommands) return;
+    $scope.isLoadingCommands = true;
     $scope.spacecommands=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceCommandService.getCommandsBySpaceID(id, headers, function (response) {
+                    $scope.isLoadingCommands = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
       					$scope.spacecommands = $scope.spacecommands.concat(response.data);
       				} else {
