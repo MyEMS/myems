@@ -1524,15 +1524,16 @@ class MeterImport:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['cost_center']['id']
 
-        if 'energy_item' in new_values.keys() and \
-            new_values['energy_item'] is not None and \
-                'id' in new_values['energy_item'].keys() and \
-                new_values['energy_item']['id'] is not None:
-            if not isinstance(new_values['energy_item']['id'], int) or \
-                    new_values['energy_item']['id'] <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_ENERGY_ITEM_ID')
-            energy_item_id = new_values['energy_item']['id']
+        if 'energy_item' in new_values and \
+                new_values['energy_item'] is not None:
+            if 'id' in new_values['energy_item'] and new_values['energy_item']['id'] is not None:
+                if not isinstance(new_values['energy_item']['id'], int) or \
+                        new_values['energy_item']['id'] <= 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_ENERGY_ITEM_ID')
+                energy_item_id = new_values['energy_item']['id']
+            else:
+                energy_item_id = None
         else:
             energy_item_id = None
 
