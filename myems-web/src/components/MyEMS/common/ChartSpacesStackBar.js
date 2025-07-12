@@ -114,7 +114,7 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
         <CardBody className="rounded-soft">
           <Row className="text-white align-items-center no-gutters">
             <Col>
-              <h4 className="text-lightSlateGray mb-0" />
+              <h4 className="text-lightSlateGray mb-0"> </h4>
             </Col>
             {isIterableArray(childSpaces) && (
               <Col xs="auto" className="d-none d-sm-block">

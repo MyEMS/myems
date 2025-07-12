@@ -13,6 +13,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     $scope.energyflowdiagrams = [];
     $scope.spaceenergyflowdiagrams = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingEnergyflowdiagrams = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -50,9 +51,12 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     };
 
 	$scope.getEnergyFlowDiagramsBySpaceID = function(id) {
+	if ($scope.isLoadingEnergyflowdiagrams) return
+	$scope.isLoadingEnergyflowdiagrams = true;
     $scope.spaceenergyflowdiagrams=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceEnergyFlowDiagramService.getEnergyFlowDiagramsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingEnergyflowdiagrams = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spaceenergyflowdiagrams = $scope.spaceenergyflowdiagrams.concat(response.data);
             } else {

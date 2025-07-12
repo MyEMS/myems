@@ -13,6 +13,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope.energystoragepowerstations = [];
     $scope.spaceenergystoragepowerstations = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingEnergystoragepowerstations = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -50,9 +51,12 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     };
 
 	$scope.getEnergyStoragePowerStationsBySpaceID = function(id) {
+	if ($scope.isLoadingEnergystoragepowerstations) return;
+	$scope.isLoadingEnergystoragepowerstations = true;
     $scope.spaceenergystoragepowerstations=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceEnergyStoragePowerStationService.getEnergyStoragePowerStationsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingEnergystoragepowerstations = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spaceenergystoragepowerstations = $scope.spaceenergystoragepowerstations.concat(response.data);
             } else {
