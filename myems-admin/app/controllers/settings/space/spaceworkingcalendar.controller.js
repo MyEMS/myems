@@ -12,6 +12,7 @@ app.controller('SpaceWorkingCalendarController', function(
     $scope.currentSpaceID = 1;
     $scope.spaceworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingWorkingcalendars = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -50,9 +51,12 @@ app.controller('SpaceWorkingCalendarController', function(
     };
 
 	$scope.getWorkingCalendarsBySpaceID = function(id) {
+	  if($scope.isLoadingWorkingcalendars) return;
+	  $scope.isLoadingWorkingcalendars = true;
 	  $scope.spaceworkingcalendars=[];
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SpaceWorkingCalendarService.getWorkingCalendarsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingWorkingcalendars = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spaceworkingcalendars = response.data;
             }

@@ -13,6 +13,7 @@ app.controller('SpaceDistributionSystemController', function(
     $scope.distributionsystems = [];
     $scope.spacedistributionsystems = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingIstributionsystems = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -50,9 +51,12 @@ app.controller('SpaceDistributionSystemController', function(
     };
 
 	$scope.getDistributionSystemsBySpaceID = function(id) {
+	if ($scope.isLoadingIstributionsystems) return;
+	$scope.isLoadingIstributionsystems = true;
     $scope.spacedistributionsystems=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceDistributionSystemService.getDistributionSystemsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingIstributionsystems = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spacedistributionsystems = $scope.spacedistributionsystems.concat(response.data);
             } else {

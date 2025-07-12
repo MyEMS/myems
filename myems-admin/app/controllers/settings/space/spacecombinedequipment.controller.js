@@ -12,6 +12,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     $scope.combinedequipments = [];
     $scope.spacecombinedequipments = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingCombineEquipments = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -49,9 +50,12 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     };
 
 	$scope.getCombinedEquipmentsBySpaceID = function(id) {
+	if ($scope.isLoadingCombineEquipments) return;
+    $scope.isLoadingCombineEquipments = true;
     $scope.spacecombinedequipments=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceCombinedEquipmentService.getCombinedEquipmentsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingCombineEquipments = false;
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.spacecombinedequipments = $scope.spacecombinedequipments.concat(response.data);
             } else {

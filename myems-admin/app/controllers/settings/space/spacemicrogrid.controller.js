@@ -14,6 +14,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.microgrids = [];
     $scope.spacemicrogrids = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingMicrogrids = false;
 
     $scope.getAllSpaces = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -45,9 +46,12 @@ app.controller('SpaceMicrogridController', function(
     };
 
     $scope.getMicrogridsBySpaceID = function(id) {
+        if($scope.isLoadingMicrogrids) return;
+        $scope.isLoadingMicrogrids = true;
         $scope.spacemicrogrids = [];
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SpaceMicrogridService.getMicrogridsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingMicrogrids = false;
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.spacemicrogrids = $scope.spacemicrogrids.concat(response.data);
             } else {
