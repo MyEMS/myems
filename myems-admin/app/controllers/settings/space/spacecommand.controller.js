@@ -12,7 +12,7 @@ app.controller('SpaceCommandController', function(
     $scope.commands = [];
     $scope.spacecommands = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.isLoadingCommands = true;
+    $scope.isLoadingCommands = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
