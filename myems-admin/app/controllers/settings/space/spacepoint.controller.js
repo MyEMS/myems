@@ -69,11 +69,8 @@ app.controller('SpacePointController', function (
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-        if ($scope.isLoadingPoints) return;
-        $scope.isLoadingPoints = true;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
-            $scope.isLoadingPoints = false;
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
             } else {
@@ -83,8 +80,11 @@ app.controller('SpacePointController', function (
     };
 
     $scope.getPointsBySpaceID = function (id) {
+        if ($scope.isLoadingPoints) return;
+        $scope.isLoadingPoints = true;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SpacePointService.getPointsBySpaceID(id, headers, function (response) {
+             $scope.isLoadingPoints = false;
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.spacepoints = response.data;
             } else {
