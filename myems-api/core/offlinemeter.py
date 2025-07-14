@@ -985,7 +985,7 @@ class OfflineMeterClone:
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name']) +
                         (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-
+            energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
             add_values = (" INSERT INTO tbl_offline_meters "
                           "    (name, uuid, energy_category_id, "
                           "     is_counted, hourly_low_limit, hourly_high_limit, "
@@ -998,7 +998,7 @@ class OfflineMeterClone:
                                         meta_result['hourly_low_limit'],
                                         meta_result['hourly_high_limit'],
                                         meta_result['cost_center']['id'],
-                                        meta_result['energy_item_id'],
+                                        energy_item_id,
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()
