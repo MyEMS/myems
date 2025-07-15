@@ -122,9 +122,9 @@ app.controller('VirtualPowerPlantController', function(
 		});
 
 		modalInstance.result.then(function(modifiedVirtualPowerPlant) {
-			modifiedVirtualPowerPlant.cost_center_id= modifiedVirtualPowerPlant.cost_center.id;
+			modifiedVirtualPowerPlant.cost_center_id = modifiedVirtualPowerPlant.cost_center.id;
 			modifiedVirtualPowerPlant.balancing_price_point_id = modifiedVirtualPowerPlant.balancing_price_point.id;
-			modifiedVirtualPowerPlant.svg_id=modifiedVirtualPowerPlant.svg.id;//***
+			modifiedVirtualPowerPlant.svg_id = modifiedVirtualPowerPlant.svg.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			VirtualPowerPlantService.editVirtualPowerPlant(modifiedVirtualPowerPlant, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
