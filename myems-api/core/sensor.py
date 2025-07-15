@@ -684,7 +684,6 @@ class SensorClone:
                     point_result = {"id": row[0], "name": row[1]}
                     result.append(point_result)
                 meta_result['points'] = result
-
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -698,7 +697,7 @@ class SensorClone:
                                     str(uuid.uuid4()),
                                     meta_result['description']))
         new_id = cursor.lastrowid
-        if len(meta_result['points']) > 0:
+        if meta_result['points'] is not None and len(meta_result['points']) > 0:
             for point in meta_result['points']:
                 cursor.execute(" SELECT name "
                                " FROM tbl_points "

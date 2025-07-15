@@ -1047,9 +1047,13 @@ class VirtualMeterImport:
                 len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_NAME')
+
         name = str.strip(new_values['name'])
 
-        if 'id' not in new_values['energy_category'].keys() or new_values['energy_category']['id'] <= 0:
+        if 'energy_category' not in new_values.keys() or \
+            'id' not in new_values['energy_category'].keys() or \
+            not isinstance(new_values['energy_category']['id'], int) or \
+                new_values['energy_category']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['energy_category']['id']
@@ -1059,7 +1063,9 @@ class VirtualMeterImport:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['is_counted']
 
-        if 'id' not in new_values['cost_center'].keys() or \
+        if 'cost_center' not in new_values.keys() or \
+            new_values['cost_center'] is None or \
+            'id' not in new_values['cost_center'].keys() or \
                 not isinstance(new_values['cost_center']['id'], int) or \
                 new_values['cost_center']['id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1067,7 +1073,9 @@ class VirtualMeterImport:
 
         cost_center_id = new_values['cost_center']['id']
 
-        if 'id' in new_values['energy_item'].keys() and \
+        if 'energy_item' in new_values.keys() and \
+            new_values['energy_item'] is not None and \
+                'id' in new_values['energy_item'].keys() and \
                 new_values['energy_item']['id'] is not None:
             if not isinstance(new_values['energy_item']['id'], int) or \
                     new_values['energy_item']['id'] <= 0:
@@ -1369,7 +1377,7 @@ class VirtualMeterClone:
             timezone_offset = -timezone_offset
         new_name = (str.strip(meta_result['name']) +
                     (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
+
         add_values = (" INSERT INTO tbl_virtual_meters "
                       "     (name, uuid, equation, energy_category_id, is_counted, "
                       "      cost_center_id, energy_item_id, description) "
@@ -1380,7 +1388,7 @@ class VirtualMeterClone:
                                     meta_result['energy_category']['id'],
                                     meta_result['is_counted'],
                                     meta_result['cost_center']['id'],
-                                    energy_item_id,
+                                    meta_result['energy_item_id'],
                                     meta_result['description']))
         new_id = cursor.lastrowid
         cnx.commit()

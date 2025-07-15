@@ -12,6 +12,7 @@ app.controller('SpaceShopfloorController', function(
     $scope.shopfloors = [];
     $scope.spaceshopfloors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingShopfloors = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -49,9 +50,12 @@ app.controller('SpaceShopfloorController', function(
     };
 
 	$scope.getShopfloorsBySpaceID = function(id) {
+	if ($scope.isLoadingShopfloors) return;
+	$scope.isLoadingShopfloors = true;
     $scope.spaceshopfloors=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceShopfloorService.getShopfloorsBySpaceID(id, headers, function (response) {
+                    $scope.isLoadingShopfloors = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
       					$scope.spaceshopfloors = $scope.spaceshopfloors.concat(response.data);
       				} else {

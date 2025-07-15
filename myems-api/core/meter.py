@@ -1481,11 +1481,7 @@ class MeterImport:
                 len(str.strip(new_values['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_NAME')
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        name = str.strip(new_values['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        name = str.strip(new_values['name'])
 
         if 'energy_category' not in new_values.keys() or \
             'id' not in new_values['energy_category'].keys() or \

@@ -11,6 +11,7 @@ app.controller('SpaceStoreController', function(
     $scope.stores = [];
     $scope.spacestores = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingStores = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -48,9 +49,12 @@ app.controller('SpaceStoreController', function(
     };
 
 	$scope.getStoresBySpaceID = function(id) {
+	if ($scope.isLoadingStores) return;
+	$scope.isLoadingStores = true;
     $scope.spacestores=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceStoreService.getStoresBySpaceID(id, headers, function (response) {
+                    $scope.isLoadingStores = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
       					$scope.spacestores = $scope.spacestores.concat(response.data);
       				} else {
