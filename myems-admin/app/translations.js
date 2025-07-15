@@ -838,6 +838,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Commissioning Phase',
                 PHASE_3INSTALLATION: 'Construction Phase',
+                COMMISSIONING_DATE: 'Commissioning Date',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -2755,6 +2756,7 @@ function config($translateProvider) {
                 PHASE_1USE: '投用',
                 PHASE_2COMMISSIONING: '调试',
                 PHASE_3INSTALLATION: '在建',
+                COMMISSIONING_DATE: '启用日期',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: '电站代码',
@@ -4698,6 +4700,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Anwendungsphase',
                 PHASE_2COMMISSIONING: 'Phase der Inbetriebnahme',
                 PHASE_3INSTALLATION: 'Bauphase',
+                COMMISSIONING_DATE: 'Inbetriebnahmedatum',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -6656,6 +6659,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Phase d\'utilisation',
                 PHASE_2COMMISSIONING: 'Phase de mise en service',
                 PHASE_3INSTALLATION: 'Phase de construction',
+                COMMISSIONING_DATE: 'date de mise en service',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -8594,6 +8598,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de uso',
                 PHASE_2COMMISSIONING: 'Fase de puesta en marcha',
                 PHASE_3INSTALLATION: 'Fase de construcción',
+                COMMISSIONING_DATE: 'fecha de puesta en servicio',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -10532,6 +10537,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Этап использования',
                 PHASE_2COMMISSIONING: 'Этап отладки',
                 PHASE_3INSTALLATION: 'Этап строительства',
+                COMMISSIONING_DATE: 'дата ввода в эксплуатацию',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -12470,6 +12476,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'استخدام المرحلة',
                 PHASE_2COMMISSIONING: 'مرحلة التصحيح',
                 PHASE_3INSTALLATION: 'مرحلة البناء',
+                COMMISSIONING_DATE: 'تاريخ التشغيل',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -14408,6 +14415,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Giai đoạn sử dụng',
                 PHASE_2COMMISSIONING: 'Giai đoạn gỡ lỗi',
                 PHASE_3INSTALLATION: 'Giai đoạn xây dựng',
+                COMMISSIONING_DATE: 'ngày hoạt động',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -16344,6 +16352,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'ขั้นตอนการใช้งาน',
                 PHASE_2COMMISSIONING: 'ขั้นตอนการว่าจ้าง',
                 PHASE_3INSTALLATION: 'ขั้นตอนการก่อสร้าง',
+                COMMISSIONING_DATE: 'วันที่เปิดใช้งาน',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -18281,6 +18290,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Komisyon Fazi',
                 PHASE_3INSTALLATION: 'Yapılandırma Fazi',
+                COMMISSIONING_DATE: 'giriş tarihi',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -20218,6 +20228,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Guna Tahap',
                 PHASE_2COMMISSIONING: 'Fasa Pemasangan',
                 PHASE_3INSTALLATION: 'Fasa Pembangunan',
+                COMMISSIONING_DATE: 'tarikh penugasan',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -22155,6 +22166,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Gunakan Tahap',
                 PHASE_2COMMISSIONING: 'Fase Komisionasi',
                 PHASE_3INSTALLATION: 'Fase Konstruksi',
+                COMMISSIONING_DATE: 'tanggal komisi',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -24073,6 +24085,7 @@ function config($translateProvider) {
                 PHASE_1USE: '使用階段',
                 PHASE_2COMMISSIONING: '調試階段',
                 PHASE_3INSTALLATION: '施工階段',
+                COMMISSIONING_DATE: '啟用日期',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: '电站代码',
@@ -26038,6 +26051,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de Uso',
                 PHASE_2COMMISSIONING: 'Fase de Comissionamento',
                 PHASE_3INSTALLATION: 'Fase de Instalação',
+                COMMISSIONING_DATE: 'data de comissão',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Código da Estação',
