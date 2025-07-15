@@ -70,9 +70,10 @@ class EnergyStoragePowerStationCollection:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
-                 "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
+                 "        address, latitude, longitude, latitude_point_id, longitude_point_id, "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, "
+                 "        svg_id, svg2_id, svg3_id, svg4_id, svg5_id, "
+                 "        is_cost_data_displayed, phase_of_lifecycle, commissioning_date, description "
                  " FROM tbl_energy_storage_power_stations "
                  " ORDER BY id ")
         cursor.execute(query)
@@ -87,20 +88,21 @@ class EnergyStoragePowerStationCollection:
                                "address": row[3],
                                "latitude": row[4],
                                "longitude": row[5],
-                               "rated_capacity": row[6],
-                               "rated_power": row[7],
-                               "contact": contact_dict.get(row[8], None),
-                               "cost_center": cost_center_dict.get(row[9], None),
-                               "svg": svg_dict.get(row[10], None),
-                               "is_cost_data_displayed": bool(row[11]),
-                               "phase_of_lifecycle": row[12],
-                               "description": row[13],
-                               "latitude_point": point_dict.get(row[14], None),
-                               "longitude_point": point_dict.get(row[15], None),
-                               "svg2": svg_dict.get(row[16], None),
-                               "svg3": svg_dict.get(row[17], None),
-                               "svg4": svg_dict.get(row[18], None),
-                               "svg5": svg_dict.get(row[19], None),
+                               "latitude_point": point_dict.get(row[6], None),
+                               "longitude_point": point_dict.get(row[7], None),
+                               "rated_capacity": row[8],
+                               "rated_power": row[9],
+                               "contact": contact_dict.get(row[10], None),
+                               "cost_center": cost_center_dict.get(row[11], None),
+                               "svg": svg_dict.get(row[12], None),
+                               "svg2": svg_dict.get(row[13], None),
+                               "svg3": svg_dict.get(row[14], None),
+                               "svg4": svg_dict.get(row[15], None),
+                               "svg5": svg_dict.get(row[16], None),
+                               "is_cost_data_displayed": bool(row[17]),
+                               "phase_of_lifecycle": row[18],
+                               "commissioning_date": row[19].isoformat() if row[19] else None,
+                               "description": row[20],
                                "qrcode": 'energystoragepowerstation:' + row[2]}
                 result.append(meta_result)
 
@@ -155,6 +157,20 @@ class EnergyStoragePowerStationCollection:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
+        if 'latitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['latitude_point_id'], int) and \
+                new_values['data']['latitude_point_id'] > 0:
+            latitude_point_id = new_values['data']['latitude_point_id']
+        else:
+            latitude_point_id = None
+
+        if 'longitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['longitude_point_id'], int) and \
+                new_values['data']['longitude_point_id'] > 0:
+            longitude_point_id = new_values['data']['longitude_point_id']
+        else:
+            longitude_point_id = None
+
         if 'rated_capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_capacity'], float) or
                      isinstance(new_values['data']['rated_capacity'], int)) or \
@@ -192,40 +208,6 @@ class EnergyStoragePowerStationCollection:
                                    description='API.INVALID_SVG_ID')
         svg_id = new_values['data']['svg_id']
 
-        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_COST_DATA_DISPLAYED')
-        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
-
-        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
-                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
-        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
-
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
-        else:
-            description = None
-
-        if 'latitude_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['latitude_point_id'], int) and \
-                new_values['data']['latitude_point_id'] > 0:
-            latitude_point_id = new_values['data']['latitude_point_id']
-        else:
-            latitude_point_id = None
-
-        if 'longitude_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['longitude_point_id'], int) and \
-                new_values['data']['longitude_point_id'] > 0:
-            longitude_point_id = new_values['data']['longitude_point_id']
-        else:
-            longitude_point_id = None
-
         if 'svg2_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg2_id'], int) and \
                 new_values['data']['svg2_id'] > 0:
@@ -253,6 +235,33 @@ class EnergyStoragePowerStationCollection:
             svg5_id = new_values['data']['svg5_id']
         else:
             svg5_id = None
+
+        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_COST_DATA_DISPLAYED')
+        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
+
+        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
+
+        if 'commissioning_date' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['commissioning_date'], str) or \
+                len(str.strip(new_values['data']['commissioning_date'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMMISSIONING_DATE')
+        commissioning_date = datetime.strptime(new_values['data']['commissioning_date'], '%Y-%m-%d')
+
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -300,29 +309,31 @@ class EnergyStoragePowerStationCollection:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                      " (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
-                      "  contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
-                      "  latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id ) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " (name, uuid, address, latitude, longitude, latitude_point_id, longitude_point_id, "
+                      "  rated_capacity, rated_power, contact_id, cost_center_id, "
+                      "  svg_id, svg2_id, svg3_id, svg4_id, svg5_id, "
+                      "  is_cost_data_displayed, phase_of_lifecycle, commissioning_date, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
                                     latitude,
                                     longitude,
+                                    latitude_point_id,
+                                    longitude_point_id,
                                     rated_capacity,
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg_id,
-                                    is_cost_data_displayed,
-                                    phase_of_lifecycle,
-                                    description,
-                                    latitude_point_id,
-                                    longitude_point_id,
                                     svg2_id,
                                     svg3_id,
                                     svg4_id,
-                                    svg5_id))
+                                    svg5_id,
+                                    is_cost_data_displayed,
+                                    phase_of_lifecycle,
+                                    commissioning_date,
+                                    description))
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
@@ -398,9 +409,10 @@ class EnergyStoragePowerStationItem:
                                       "name": row[1]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description, "
-                 "        latitude_point_id, longitude_point_id, svg2_id, svg3_id, svg4_id, svg5_id "
+                 "        address, latitude, longitude, latitude_point_id, longitude_point_id, "
+                 "        rated_capacity, rated_power, contact_id, cost_center_id, "
+                 "        svg_id, svg2_id, svg3_id, svg4_id, svg5_id, "
+                 "        is_cost_data_displayed, phase_of_lifecycle, commissioning_date, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -418,20 +430,21 @@ class EnergyStoragePowerStationItem:
                            "address": row[3],
                            "latitude": row[4],
                            "longitude": row[5],
-                           "rated_capacity": row[6],
-                           "rated_power": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "svg": svg_dict.get(row[10], None),
-                           "is_cost_data_displayed": bool(row[11]),
-                           "phase_of_lifecycle": row[12],
-                           "description": row[13],
-                           "latitude_point": point_dict.get(row[14], None),
-                           "longitude_point": point_dict.get(row[15], None),
-                           "svg2": svg_dict.get(row[16], None),
-                           "svg3": svg_dict.get(row[17], None),
-                           "svg4": svg_dict.get(row[18], None),
-                           "svg5": svg_dict.get(row[19], None),
+                           "latitude_point": point_dict.get(row[6], None),
+                           "longitude_point": point_dict.get(row[7], None),
+                           "rated_capacity": row[8],
+                           "rated_power": row[9],
+                           "contact": contact_dict.get(row[10], None),
+                           "cost_center": cost_center_dict.get(row[11], None),
+                           "svg": svg_dict.get(row[12], None),
+                           "svg2": svg_dict.get(row[13], None),
+                           "svg3": svg_dict.get(row[14], None),
+                           "svg4": svg_dict.get(row[15], None),
+                           "svg5": svg_dict.get(row[16], None),
+                           "is_cost_data_displayed": bool(row[17]),
+                           "phase_of_lifecycle": row[18],
+                           "commissioning_date": row[19].isoformat() if row[19] else None,
+                           "description": row[20],
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         resp.text = json.dumps(meta_result)
@@ -518,6 +531,20 @@ class EnergyStoragePowerStationItem:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['data']['longitude']
 
+        if 'latitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['latitude_point_id'], int) and \
+                new_values['data']['latitude_point_id'] > 0:
+            latitude_point_id = new_values['data']['latitude_point_id']
+        else:
+            latitude_point_id = None
+
+        if 'longitude_point_id' in new_values['data'].keys() and \
+                isinstance(new_values['data']['longitude_point_id'], int) and \
+                new_values['data']['longitude_point_id'] > 0:
+            longitude_point_id = new_values['data']['longitude_point_id']
+        else:
+            longitude_point_id = None
+
         if 'rated_capacity' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['rated_capacity'], float) or
                      isinstance(new_values['data']['rated_capacity'], int)) or \
@@ -555,40 +582,6 @@ class EnergyStoragePowerStationItem:
                                    description='API.INVALID_SVG_ID')
         svg_id = new_values['data']['svg_id']
 
-        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_IS_COST_DATA_DISPLAYED_VALUE')
-        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
-
-        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
-                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
-        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
-
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
-        else:
-            description = None
-
-        if 'latitude_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['latitude_point_id'], int) and \
-                new_values['data']['latitude_point_id'] > 0:
-            latitude_point_id = new_values['data']['latitude_point_id']
-        else:
-            latitude_point_id = None
-
-        if 'longitude_point_id' in new_values['data'].keys() and \
-                isinstance(new_values['data']['longitude_point_id'], int) and \
-                new_values['data']['longitude_point_id'] > 0:
-            longitude_point_id = new_values['data']['longitude_point_id']
-        else:
-            longitude_point_id = None
-
         if 'svg2_id' in new_values['data'].keys() and \
                 isinstance(new_values['data']['svg2_id'], int) and \
                 new_values['data']['svg2_id'] > 0:
@@ -616,6 +609,33 @@ class EnergyStoragePowerStationItem:
             svg5_id = new_values['data']['svg5_id']
         else:
             svg5_id = None
+
+        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_COST_DATA_DISPLAYED_VALUE')
+        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
+
+        if 'phase_of_lifecycle' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['data']['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['data']['phase_of_lifecycle'])
+
+        if 'commissioning_date' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['commissioning_date'], str) or \
+                len(str.strip(new_values['data']['commissioning_date'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMMISSIONING_DATE')
+        commissioning_date = datetime.strptime(new_values['data']['commissioning_date'], '%Y-%m-%d')
+
+        if 'description' in new_values['data'].keys() and \
+                new_values['data']['description'] is not None and \
+                len(str(new_values['data']['description'])) > 0:
+            description = str.strip(new_values['data']['description'])
+        else:
+            description = None
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -673,30 +693,32 @@ class EnergyStoragePowerStationItem:
 
         update_row = (" UPDATE tbl_energy_storage_power_stations "
                       " SET name = %s, address = %s, latitude = %s, longitude = %s, "
+                      "     latitude_point_id = %s, longitude_point_id = %s, "
                       "     rated_capacity = %s, rated_power = %s, "
                       "     contact_id = %s, cost_center_id = %s, "
-                      "     svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, description = %s, "
-                      "     latitude_point_id = %s, longitude_point_id = %s, "
-                      "     svg2_id = %s, svg3_id = %s, svg4_id = %s, svg5_id = %s "
+                      "     svg_id = %s, svg2_id = %s, svg3_id = %s, svg4_id = %s, svg5_id = %s, "
+                      "     is_cost_data_displayed = %s, phase_of_lifecycle = %s, commissioning_date = %s, "
+                      "     description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     address,
                                     latitude,
                                     longitude,
+                                    latitude_point_id,
+                                    longitude_point_id,
                                     rated_capacity,
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg_id,
-                                    is_cost_data_displayed,
-                                    phase_of_lifecycle,
-                                    description,
-                                    latitude_point_id,
-                                    longitude_point_id,
                                     svg2_id,
                                     svg3_id,
                                     svg4_id,
                                     svg5_id,
+                                    is_cost_data_displayed,
+                                    phase_of_lifecycle,
+                                    commissioning_date,
+                                    description,
                                     id_))
         cnx.commit()
 
@@ -1122,31 +1144,41 @@ class EnergyStoragePowerStationExport:
                                     "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, description "
+                 "        address, latitude, longitude, latitude_point_id, longitude_point_id, rated_capacity, "
+                 "        rated_power, contact_id, cost_center_id, svg_id, svg2_id, svg3_id, svg4_id, svg5_id, "
+                 "        is_cost_data_displayed, phase_of_lifecycle, commissioning_date, description "
                  " FROM tbl_energy_storage_power_stations "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
         else:
-            meta_result = {"name": row[1],
+            meta_result = {"id": row[0],
+                           "name": row[1],
                            "uuid": row[2],
                            "address": row[3],
                            "latitude": row[4],
                            "longitude": row[5],
-                           "rated_capacity": row[6],
-                           "rated_power": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "svg": svg_dict.get(row[10], None),
-                           "is_cost_data_displayed": bool(row[11]),
-                           "description": row[12]}
+                           "latitude_point_id": row[6],
+                           "longitude_point_id": row[7],
+                           "rated_capacity": row[8],
+                           "rated_power": row[9],
+                           "contact": contact_dict.get(row[10], None),
+                           "cost_center": cost_center_dict.get(row[11], None),
+                           "svg": svg_dict.get(row[12], None),
+                           "svg2": svg_dict.get(row[13], None),
+                           "svg3": svg_dict.get(row[14], None),
+                           "svg4": svg_dict.get(row[15], None),
+                           "svg5": svg_dict.get(row[16], None),
+                           "is_cost_data_displayed": bool(row[17]),
+                           "phase_of_lifecycle": row[18],
+                           "commissioning_date": row[19].isoformat() if row[19] else None,
+                           "description": row[20]}
 
         resp.text = json.dumps(meta_result)
 
@@ -1213,6 +1245,9 @@ class EnergyStoragePowerStationImport:
                                    description='API.INVALID_LONGITUDE_VALUE')
         longitude = new_values['longitude']
 
+        latitude_point_id = None
+        longitude_point_id = None
+
         if 'rated_capacity' not in new_values.keys() or \
                 not (isinstance(new_values['rated_capacity'], float) or
                      isinstance(new_values['rated_capacity'], int)) or \
@@ -1253,11 +1288,73 @@ class EnergyStoragePowerStationImport:
                                    description='API.INVALID_SVG_ID')
         svg_id = new_values['svg']['id']
 
-        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
+        if 'svg2' in new_values.keys() and \
+            new_values['svg2'] is not None and \
+                'id' in new_values['svg2'].keys() and \
+                new_values['svg2']['id'] is not None:
+            if not isinstance(new_values['svg2']['id'], int) or \
+                    new_values['svg2']['id'] <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SVG2_ID')
+            svg2_id = new_values['svg2']['id']
+        else:
+            svg2_id = None
+
+        if 'svg3' in new_values.keys() and \
+                new_values['svg3'] is not None and \
+                'id' in new_values['svg3'].keys() and \
+                new_values['svg3']['id'] is not None:
+            if not isinstance(new_values['svg3']['id'], int) or \
+                    new_values['svg3']['id'] <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SVG3_ID')
+            svg3_id = new_values['svg3']['id']
+        else:
+            svg3_id = None
+
+        if 'svg4' in new_values.keys() and \
+                new_values['svg4'] is not None and \
+                'id' in new_values['svg4'].keys() and \
+                new_values['svg4']['id'] is not None:
+            if not isinstance(new_values['svg4']['id'], int) or \
+                    new_values['svg4']['id'] <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SVG4_ID')
+            svg4_id = new_values['svg4']['id']
+        else:
+            svg4_id = None
+
+        if 'svg5' in new_values.keys() and \
+                new_values['svg5'] is not None and \
+                'id' in new_values['svg5'].keys() and \
+                new_values['svg5']['id'] is not None:
+            if not isinstance(new_values['svg5']['id'], int) or \
+                    new_values['svg5']['id'] <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_SVG5_ID')
+            svg5_id = new_values['svg5']['id']
+        else:
+            svg5_id = None
+
+        if 'is_cost_data_displayed' not in new_values.keys() or \
+                not isinstance(new_values['is_cost_data_displayed'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COST_DATA_DISPLAYED')
-        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
+        is_cost_data_displayed = new_values['is_cost_data_displayed']
+
+        if 'phase_of_lifecycle' not in new_values.keys() or \
+                not isinstance(new_values['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['phase_of_lifecycle'])
+
+        if 'commissioning_date' not in new_values.keys() or \
+                not isinstance(new_values['commissioning_date'], str) or \
+                len(str.strip(new_values['commissioning_date'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COMMISSIONING_DATE')
+        commissioning_date = datetime.strptime(new_values['commissioning_date'], '%Y-%m-%d')
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -1312,21 +1409,33 @@ class EnergyStoragePowerStationImport:
                                    description='API.SVG_NOT_FOUND')
 
         add_values = (" INSERT INTO tbl_energy_storage_power_stations "
-                      "    (name, uuid, address, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, svg_id, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "    (name, uuid, address, latitude, longitude, latitude_point_id, longitude_point_id, "
+                      "     rated_capacity, rated_power, contact_id, cost_center_id, svg_id, svg2_id, svg3_id, "
+                      "     svg4_id, svg5_id, is_cost_data_displayed, phase_of_lifecycle, commissioning_date, "
+                      "     description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
                                     latitude,
                                     longitude,
+                                    latitude_point_id,
+                                    longitude_point_id,
                                     rated_capacity,
                                     rated_power,
                                     contact_id,
                                     cost_center_id,
                                     svg_id,
+                                    svg2_id,
+                                    svg3_id,
+                                    svg4_id,
+                                    svg5_id,
                                     is_cost_data_displayed,
+                                    phase_of_lifecycle,
+                                    commissioning_date,
                                     description))
+
         new_id = cursor.lastrowid
         cnx.commit()
         cursor.close()
