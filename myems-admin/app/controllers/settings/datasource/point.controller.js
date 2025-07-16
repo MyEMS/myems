@@ -198,7 +198,7 @@ app.controller('PointController', function(
 					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.POINT")}),
 					showCloseButton: true,
 				});
-				$scope.getAllDataSources();
+				$scope.getPointsByDataSourceID($scope.currentDataSource);
 				$scope.$emit('handleEmitPointChanged');
 			}else {
 				toaster.pop({
@@ -233,7 +233,7 @@ app.controller('PointController', function(
 						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.POINT")}),
 						showCloseButton: true,
 					});
-					$scope.getAllDataSources();
+					$scope.getPointsByDataSourceID($scope.currentDataSource);
 					$scope.$emit('handleEmitPointChanged');
 				} else {
 					toaster.pop({
