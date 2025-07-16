@@ -22,7 +22,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.nonworkingdays = response.data.filter((item) => {return item.date_local.indexOf($scope.month) > -1});
+                $scope.nonworkingdays = response.data;
                 $scope.handleDays();
             } else {
                 $scope.nonworkingdays = [];
