@@ -193,6 +193,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.COMMISSIONING_DATE' | translate}}</label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="energystoragepowerstation.commissioning_date" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="datelocal" readonly="" />
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.description" type="text" name="energystoragepowerstationdescription" class="form-control">

@@ -128,6 +128,7 @@ class EnergyCategoryItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \

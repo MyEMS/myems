@@ -12,6 +12,7 @@ app.controller('SpaceSensorController', function (
     $scope.sensors = [];
     $scope.spacesensors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingSensors = false;
 
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -60,8 +61,11 @@ app.controller('SpaceSensorController', function (
     };
 
     $scope.getSensorsBySpaceID = function (id) {
+        if ($scope.isLoadingSensors) return;
+        $scope.isLoadingSensors = true;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SpaceSensorService.getSensorsBySpaceID(id, headers, function (response) {
+            $scope.isLoadingSensors = false;
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.spacesensors = response.data;
             } else {
@@ -110,6 +114,7 @@ app.controller('SpaceSensorController', function (
                     showCloseButton: true,
                 });
                 $scope.getSensorsBySpaceID($scope.currentSpaceID);
+            } else {
                 toaster.pop({
                     type: "error",
                     title: $translate.instant(response.data.title),

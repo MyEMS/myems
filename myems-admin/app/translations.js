@@ -838,6 +838,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Commissioning Phase',
                 PHASE_3INSTALLATION: 'Construction Phase',
+                COMMISSIONING_DATE: 'Commissioning Date',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -1114,7 +1115,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Please Input Latitude',
                 INPUT_LONGITUDE: 'Please Input Longitude',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Bind Microgrid',
+                N_S_MICROGRID: 'Bound Microgrid',
+                MICROGRID_LIST: 'Microgrid List',
             },
             STORE: {
                 ADDRESS: 'Address',
@@ -2752,6 +2756,7 @@ function config($translateProvider) {
                 PHASE_1USE: '投用',
                 PHASE_2COMMISSIONING: '调试',
                 PHASE_3INSTALLATION: '在建',
+                COMMISSIONING_DATE: '启用日期',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: '电站代码',
@@ -3049,7 +3054,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: '请输入纬度',
                 INPUT_LONGITUDE: '请输入经度',
                 NUMBER_OF_OCCUPANTS: '人数',
-                INPUT_NUMBER_OF_OCCUPANTS: '请输入人数'
+                INPUT_NUMBER_OF_OCCUPANTS: '请输入人数',
+                BIND_MICROGRID: '绑定微电网',
+                N_S_MICROGRID: '绑定的微电网',
+                MICROGRID_LIST: '微电网列表',
             },
             TENANT: {
                 BUILDINGS: '建筑',
@@ -4692,6 +4700,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Anwendungsphase',
                 PHASE_2COMMISSIONING: 'Phase der Inbetriebnahme',
                 PHASE_3INSTALLATION: 'Bauphase',
+                COMMISSIONING_DATE: 'Inbetriebnahmedatum',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -4989,7 +4998,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Bitte geben Sie den Breitengrad ein',
                 INPUT_LONGITUDE: 'Bitte geben Sie den Längengrad ein',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Mikronetz binden',
+                N_S_MICROGRID: 'Gebundenes Mikronetz',
+                MICROGRID_LIST: 'Mikronetzliste',
             },
             TENANT: {
                 BUILDINGS: 'Gebäude',
@@ -6647,6 +6659,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Phase d\'utilisation',
                 PHASE_2COMMISSIONING: 'Phase de mise en service',
                 PHASE_3INSTALLATION: 'Phase de construction',
+                COMMISSIONING_DATE: 'date de mise en service',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -6922,7 +6935,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Veuillez saisir la latitude',
                 INPUT_LONGITUDE: 'Veuillez saisir la longitude',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Lier la micro-réseau',
+                N_S_MICROGRID: 'Micro-réseau lié',
+                MICROGRID_LIST: 'Liste des micro-réseaux',
             },
             STORE: {
                 ADDRESS: 'Adresse',
@@ -8582,6 +8598,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de uso',
                 PHASE_2COMMISSIONING: 'Fase de puesta en marcha',
                 PHASE_3INSTALLATION: 'Fase de construcción',
+                COMMISSIONING_DATE: 'fecha de puesta en servicio',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -8857,7 +8874,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Por favor, introduzca Latitude',
                 INPUT_LONGITUDE: 'Por favor, introduzca la longitud',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Vincular microred',
+                N_S_MICROGRID: 'Microred vinculada',
+                MICROGRID_LIST: 'Lista de microredes',
             },
             STORE: {
                 ADDRESS: 'Dirección',
@@ -10517,6 +10537,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Этап использования',
                 PHASE_2COMMISSIONING: 'Этап отладки',
                 PHASE_3INSTALLATION: 'Этап строительства',
+                COMMISSIONING_DATE: 'дата ввода в эксплуатацию',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -10792,7 +10813,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Пожалуйста, введите широту',
                 INPUT_LONGITUDE: 'Пожалуйста, введите долготу',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Привязка к микросети',
+                N_S_MICROGRID: 'Привязанная микросеть',
+                MICROGRID_LIST: 'Список микросетей',
             },
             STORE: {
                 ADDRESS: 'Адрес',
@@ -12452,6 +12476,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'استخدام المرحلة',
                 PHASE_2COMMISSIONING: 'مرحلة التصحيح',
                 PHASE_3INSTALLATION: 'مرحلة البناء',
+                COMMISSIONING_DATE: 'تاريخ التشغيل',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -12727,7 +12752,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'يرجى إدخال خط العرض',
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'ربط الشبكة الصغيرة',
+                N_S_MICROGRID: 'شبكة صغيرة مرتبطة',
+                MICROGRID_LIST: 'قائمة الشبكات الصغيرة',
             },
             STORE: {
                 ADDRESS: 'عنوان',
@@ -14387,6 +14415,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Giai đoạn sử dụng',
                 PHASE_2COMMISSIONING: 'Giai đoạn gỡ lỗi',
                 PHASE_3INSTALLATION: 'Giai đoạn xây dựng',
+                COMMISSIONING_DATE: 'ngày hoạt động',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -14662,7 +14691,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Vui lòng nhập Latitude',
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Ràng buộc vi lưới điện',
+                N_S_MICROGRID: 'Vi lưới điện đã ràng buộc',
+                MICROGRID_LIST: 'Danh sách vi lưới điện',
             },
             STORE: {
                 ADDRESS: 'Địa chỉ',
@@ -16320,6 +16352,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'ขั้นตอนการใช้งาน',
                 PHASE_2COMMISSIONING: 'ขั้นตอนการว่าจ้าง',
                 PHASE_3INSTALLATION: 'ขั้นตอนการก่อสร้าง',
+                COMMISSIONING_DATE: 'วันที่เปิดใช้งาน',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -16595,7 +16628,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'กรุณาใส่ละติจูด',
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'การผูกมัดไมโครกริด',
+                N_S_MICROGRID: 'ไมโครกริดที่ผูกมัดแล้ว',
+                MICROGRID_LIST: 'รายชื่อไมโครกริด',
             },
             STORE: {
                 ADDRESS: 'ที่อยู่',
@@ -18254,6 +18290,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Komisyon Fazi',
                 PHASE_3INSTALLATION: 'Yapılandırma Fazi',
+                COMMISSIONING_DATE: 'giriş tarihi',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -18529,7 +18566,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Lütfen Enlemi Girin',
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Mikro şebekeyi bağlamak',
+                N_S_MICROGRID: 'Bağlı mikro şebeke',
+                MICROGRID_LIST: 'Mikro şebeke listesi',
             },
             STORE: {
                 ADDRESS: 'Adres',
@@ -20188,6 +20228,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Guna Tahap',
                 PHASE_2COMMISSIONING: 'Fasa Pemasangan',
                 PHASE_3INSTALLATION: 'Fasa Pembangunan',
+                COMMISSIONING_DATE: 'tarikh penugasan',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -20463,7 +20504,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Sila masukkan latitud',
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Mengikat mikrogrid',
+                N_S_MICROGRID: 'Mikrogrid terikat',
+                MICROGRID_LIST: 'Senarai mikrogrid',
             },
             STORE: {
                 ADDRESS: 'Alamat',
@@ -22122,6 +22166,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Gunakan Tahap',
                 PHASE_2COMMISSIONING: 'Fase Komisionasi',
                 PHASE_3INSTALLATION: 'Fase Konstruksi',
+                COMMISSIONING_DATE: 'tanggal komisi',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Station Code',
@@ -22397,7 +22442,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: 'Silakan masukkan Latitude',
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
                 NUMBER_OF_OCCUPANTS: 'The Number of Occupants',
-                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants'
+                INPUT_NUMBER_OF_OCCUPANTS: 'Please Input The Number of Occupants',
+                BIND_MICROGRID: 'Mengikat mikrogrid',
+                N_S_MICROGRID: 'Mikrogrid terikat',
+                MICROGRID_LIST: 'Daftar mikrogrid',
             },
             STORE: {
                 ADDRESS: 'Alamat',
@@ -24037,6 +24085,7 @@ function config($translateProvider) {
                 PHASE_1USE: '使用階段',
                 PHASE_2COMMISSIONING: '調試階段',
                 PHASE_3INSTALLATION: '施工階段',
+                COMMISSIONING_DATE: '啟用日期',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: '电站代码',
@@ -24337,7 +24386,10 @@ function config($translateProvider) {
                 INPUT_LATITUDE: '請輸入緯度',
                 INPUT_LONGITUDE: '請輸入經度',
                 NUMBER_OF_OCCUPANTS: '人數',
-                INPUT_NUMBER_OF_OCCUPANTS: '請輸入人數'
+                INPUT_NUMBER_OF_OCCUPANTS: '請輸入人數',
+                BIND_MICROGRID: '綁定微電網',
+                N_S_MICROGRID: '綁定的微電網',
+                MICROGRID_LIST: '微電網列表'
             },
             TENANT: {
                 BUILDINGS: '建築',
@@ -25999,6 +26051,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de Uso',
                 PHASE_2COMMISSIONING: 'Fase de Comissionamento',
                 PHASE_3INSTALLATION: 'Fase de Instalação',
+                COMMISSIONING_DATE: 'data de comissão',
             },
             PHOTOVOLTAIC_POWER_STATION: {
                 STATION_CODE: 'Código da Estação',
@@ -26276,6 +26329,12 @@ function config($translateProvider) {
                 INPUT_LONGITUDE: 'Informe a Longitude',
                 NUMBER_OF_OCCUPANTS: 'Número de Ocupantes',
                 INPUT_NUMBER_OF_OCCUPANTS: 'Informe o Número de Ocupantes',
+                BIND_PV_STATION: 'Vincular Estação Fotovoltaica',
+                N_S_PV_STATION: 'Estações Fotovoltaicas Vinculadas',
+                PV_STATION_LIST: 'Lista de Estações Fotovoltaicas',
+                BIND_MICROGRID: 'Vincular Microgrid',
+                N_S_MICROGRID: 'Microgrids Vinculados',
+                MICROGRID_LIST: 'Lista de Microgrids',
             },
             STORE: {
                 ADDRESS: 'Endereço',

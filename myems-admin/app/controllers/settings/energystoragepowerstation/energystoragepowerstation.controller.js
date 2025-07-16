@@ -368,9 +368,22 @@ app.controller('ModalAddEnergyStoragePowerStationCtrl', function($scope, $uibMod
 	$scope.points=params.points;
 	$scope.phaseoflifecycles=params.phaseoflifecycles;
 	$scope.energystoragepowerstation = {
-		is_cost_data_displayed: false
+		is_cost_data_displayed: false,
+		commissioning_date: moment().format('YYYY-MM-DD'),
 	};
+	$scope.dtOptions = {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
 	$scope.ok = function() {
+		$scope.energystoragepowerstation.commissioning_date = moment($scope.energystoragepowerstation.commissioning_date).format('YYYY-MM-DD');
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};
 
@@ -387,7 +400,19 @@ app.controller('ModalEditEnergyStoragePowerStationCtrl', function($scope, $uibMo
 	$scope.svgs=params.svgs;
 	$scope.points=params.points;
 	$scope.phaseoflifecycles=params.phaseoflifecycles;
+	$scope.dtOptions = {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "OK",
+            cancelLabel: "Cancel",
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        singleDatePicker: true,
+    };
 	$scope.ok = function() {
+		$scope.energystoragepowerstation.commissioning_date = moment($scope.energystoragepowerstation.commissioning_date).format('YYYY-MM-DD');
 		$uibModalInstance.close($scope.energystoragepowerstation);
 	};
 

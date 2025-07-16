@@ -785,7 +785,7 @@ const CombinedEquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
             });
             associated_equipment_column_list.push({
               dataField: 'b' + index,
-              text: currentValue + ' ' + '%',
+              text: currentValue + ' %',
               sort: true,
               formatter: function(decimalValue) {
                 if (typeof decimalValue === 'number') {

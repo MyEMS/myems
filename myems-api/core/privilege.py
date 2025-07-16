@@ -12,6 +12,7 @@ class PrivilegeCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -47,6 +48,7 @@ class PrivilegeCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -98,7 +100,9 @@ class PrivilegeItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -150,6 +154,7 @@ class PrivilegeItem:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

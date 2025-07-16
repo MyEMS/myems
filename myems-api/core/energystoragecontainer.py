@@ -195,6 +195,7 @@ class EnergyStorageContainerItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -273,32 +274,69 @@ class EnergyStorageContainerItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
+                       " WHERE bms_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_batteries "
+                       "       WHERE energy_storage_container_id = %s) ", (id_, ))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
                        " WHERE energy_storage_container_id = %s ", (id_,))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
+                       " WHERE dcdc_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_dcdcs "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
+                       " WHERE firecontrol_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_firecontrols "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
                        " WHERE energy_storage_container_id = %s ", (id_,))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
+                       " WHERE grid_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_grids "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
+                       " WHERE hvac_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_hvacs "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
+                       " WHERE load_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_loads "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
+                       " WHERE pcs_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_power_conversion_systems "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_users "
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
+                       " WHERE sts_id IN "
+                       "      (SELECT id FROM tbl_energy_storage_containers_stses "
+                       "       WHERE energy_storage_container_id = %s) ", (id_,))
+        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
+                       " WHERE energy_storage_container_id = %s ", (id_,))
+
+        cursor.execute(" DELETE FROM tbl_energy_storage_power_stations_containers "
                        " WHERE energy_storage_container_id = %s ", (id_, ))
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers "
@@ -445,6 +483,7 @@ class EnergyStorageContainerBatteryCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -711,6 +750,7 @@ class EnergyStorageContainerBatteryItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, bid):
         access_control(req)
@@ -1043,6 +1083,7 @@ class EnergyStorageContainerBatteryPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, bid):
         if 'API-KEY' not in req.headers or \
@@ -1161,7 +1202,9 @@ class EnergyStorageContainerBatteryPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, bid, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1225,7 +1268,9 @@ class EnergyStorageContainerCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1274,6 +1319,7 @@ class EnergyStorageContainerCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1340,7 +1386,9 @@ class EnergyStorageContainerCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1401,7 +1449,9 @@ class EnergyStorageContainerDCDCCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1448,6 +1498,7 @@ class EnergyStorageContainerDCDCCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1522,7 +1573,9 @@ class EnergyStorageContainerDCDCItem:
 
     @staticmethod
     def on_options(req, resp, id_, did):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, did):
@@ -1626,6 +1679,7 @@ class EnergyStorageContainerDCDCItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1697,7 +1751,9 @@ class EnergyStorageContainerDCDCPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, did):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, did):
@@ -1820,6 +1876,7 @@ class EnergyStorageContainerDCDCPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, did, pid):
@@ -1885,6 +1942,7 @@ class EnergyStorageContainerFirecontrolCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2008,6 +2066,7 @@ class EnergyStorageContainerFirecontrolItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, fid):
         access_control(req)
@@ -2185,6 +2244,7 @@ class EnergyStorageContainerFirecontrolPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, fid):
         if 'API-KEY' not in req.headers or \
@@ -2306,6 +2366,7 @@ class EnergyStorageContainerFirecontrolPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, fid, pid):
@@ -2371,6 +2432,7 @@ class EnergyStorageContainerGridCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -2586,6 +2648,7 @@ class EnergyStorageContainerGridItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, gid):
         access_control(req)
@@ -2856,6 +2919,7 @@ class EnergyStorageContainerGridPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, gid):
         if 'API-KEY' not in req.headers or \
@@ -2977,6 +3041,7 @@ class EnergyStorageContainerGridPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
@@ -3042,6 +3107,7 @@ class EnergyStorageContainerHVACCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
@@ -3165,6 +3231,7 @@ class EnergyStorageContainerHVACItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, hid):
         access_control(req)
@@ -3342,6 +3409,7 @@ class EnergyStorageContainerHVACPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+
     @staticmethod
     def on_get(req, resp, id_, hid):
         if 'API-KEY' not in req.headers or \
@@ -3460,7 +3528,9 @@ class EnergyStorageContainerHVACPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, hid, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -3524,7 +3594,9 @@ class EnergyStorageContainerLoadCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3599,6 +3671,7 @@ class EnergyStorageContainerLoadCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3717,7 +3790,9 @@ class EnergyStorageContainerLoadItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -3849,6 +3924,7 @@ class EnergyStorageContainerLoadItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3965,7 +4041,9 @@ class EnergyStorageContainerLoadPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -4021,6 +4099,7 @@ class EnergyStorageContainerLoadPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4084,7 +4163,9 @@ class EnergyStorageContainerLoadPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -4148,7 +4229,9 @@ class EnergyStorageContainerPCSCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4220,6 +4303,7 @@ class EnergyStorageContainerPCSCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4310,7 +4394,9 @@ class EnergyStorageContainerPCSItem:
 
     @staticmethod
     def on_options(req, resp, id_, pcsid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, pcsid):
@@ -4451,6 +4537,7 @@ class EnergyStorageContainerPCSItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4539,7 +4626,9 @@ class EnergyStorageContainerPCSPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, pcsid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, pcsid):
@@ -4595,6 +4684,7 @@ class EnergyStorageContainerPCSPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4658,7 +4748,9 @@ class EnergyStorageContainerPCSPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pcsid, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -4722,7 +4814,9 @@ class EnergyStorageContainerScheduleCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4771,6 +4865,7 @@ class EnergyStorageContainerScheduleCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4828,7 +4923,9 @@ class EnergyStorageContainerScheduleItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, sid):
@@ -4933,6 +5030,7 @@ class EnergyStorageContainerScheduleItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5017,7 +5115,9 @@ class EnergyStorageContainerSTSCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5064,6 +5164,7 @@ class EnergyStorageContainerSTSCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5138,7 +5239,9 @@ class EnergyStorageContainerSTSItem:
 
     @staticmethod
     def on_options(req, resp, id_, fid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, fid):
@@ -5242,6 +5345,7 @@ class EnergyStorageContainerSTSItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5313,7 +5417,9 @@ class EnergyStorageContainerSTSPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_, fid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, fid):
@@ -5369,6 +5475,7 @@ class EnergyStorageContainerSTSPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5432,7 +5539,9 @@ class EnergyStorageContainerSTSPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, fid, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5496,7 +5605,9 @@ class EnergyStorageContainerClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5561,7 +5672,9 @@ class EnergyStorageContainerExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5629,6 +5742,7 @@ class EnergyStorageContainerImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -5639,6 +5753,7 @@ class EnergyStorageContainerImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

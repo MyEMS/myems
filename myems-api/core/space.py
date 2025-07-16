@@ -16,6 +16,7 @@ class SpaceCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -118,6 +119,7 @@ class SpaceCollection:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -222,7 +224,7 @@ class SpaceCollection:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
-                       " WHERE name = %s ", (name,))
+                       " WHERE name = %s AND parent_space_id = %s", (name, parent_space_id))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -307,7 +309,9 @@ class SpaceItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -492,6 +496,7 @@ class SpaceItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -517,7 +522,7 @@ class SpaceItem:
                     not isinstance(new_values['data']['parent_space_id'], int) or \
                     int(new_values['data']['parent_space_id']) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_TIMEZONE_ID')
+                                       description='API.INVALID_PARENT_SPACE_ID')
             parent_space_id = int(new_values['data']['parent_space_id'])
 
         if 'area' not in new_values['data'].keys() or \
@@ -620,7 +625,7 @@ class SpaceItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
-                       " WHERE name = %s AND id != %s ", (name, id_))
+                       " WHERE name = %s AND id != %s AND parent_space_id = %s", (name, id_, parent_space_id))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -705,7 +710,9 @@ class SpaceChildrenCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -843,7 +850,9 @@ class SpaceCombinedEquipmentCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -892,6 +901,7 @@ class SpaceCombinedEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -958,7 +968,9 @@ class SpaceCombinedEquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1019,7 +1031,9 @@ class SpaceEnergyStoragePowerStationCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1107,6 +1121,7 @@ class SpaceEnergyStoragePowerStationCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1173,7 +1188,9 @@ class SpaceEnergyStoragePowerStationItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1234,7 +1251,9 @@ class SpaceEquipmentCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1283,6 +1302,7 @@ class SpaceEquipmentCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1349,7 +1369,9 @@ class SpaceEquipmentItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1409,7 +1431,9 @@ class SpaceMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1471,6 +1495,7 @@ class SpaceMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1537,7 +1562,9 @@ class SpaceMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1599,7 +1626,9 @@ class SpaceMicrogridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1648,6 +1677,7 @@ class SpaceMicrogridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1714,7 +1744,9 @@ class SpaceMicrogridItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1775,7 +1807,9 @@ class SpaceOfflineMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1837,6 +1871,7 @@ class SpaceOfflineMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1903,7 +1938,9 @@ class SpaceOfflineMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -1964,7 +2001,9 @@ class SpacePhotovoltaicPowerStationCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2013,6 +2052,7 @@ class SpacePhotovoltaicPowerStationCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2079,7 +2119,9 @@ class SpacePhotovoltaicPowerStationItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -2140,7 +2182,9 @@ class SpacePointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2201,6 +2245,7 @@ class SpacePointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2267,7 +2312,9 @@ class SpacePointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -2328,7 +2375,9 @@ class SpaceSensorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2377,6 +2426,7 @@ class SpaceSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2443,7 +2493,9 @@ class SpaceSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -2503,7 +2555,9 @@ class SpaceShopfloorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2552,6 +2606,7 @@ class SpaceShopfloorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2618,7 +2673,9 @@ class SpaceShopfloorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -2678,7 +2735,9 @@ class SpaceStoreCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2727,6 +2786,7 @@ class SpaceStoreCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2793,7 +2853,9 @@ class SpaceStoreItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -2853,7 +2915,9 @@ class SpaceTenantCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2902,6 +2966,7 @@ class SpaceTenantCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2968,7 +3033,9 @@ class SpaceTenantItem:
 
     @staticmethod
     def on_options(req, resp, id_, tid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -3028,7 +3095,9 @@ class SpaceVirtualMeterCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3090,6 +3159,7 @@ class SpaceVirtualMeterCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3156,7 +3226,9 @@ class SpaceVirtualMeterItem:
 
     @staticmethod
     def on_options(req, resp, id_, mid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -3217,6 +3289,7 @@ class SpaceTreeCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -3330,7 +3403,9 @@ class SpaceTreeMetersEnergyCategoryCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3402,7 +3477,9 @@ class SpaceWorkingCalendarCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3451,6 +3528,7 @@ class SpaceWorkingCalendarCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3517,7 +3595,9 @@ class SpaceWorkingCalendarItem:
 
     @staticmethod
     def on_options(req, resp, id_, wcid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -3578,7 +3658,9 @@ class SpaceCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3627,6 +3709,7 @@ class SpaceCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3693,7 +3776,9 @@ class SpaceCommandItem:
 
     @staticmethod
     def on_options(req, resp, id_, cid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -3753,7 +3838,9 @@ class SpaceExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4182,6 +4269,7 @@ class SpaceImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -4193,6 +4281,7 @@ class SpaceImport:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4661,7 +4750,9 @@ class SpaceClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5307,7 +5398,9 @@ class SpaceEnergyFlowDiagramCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5356,6 +5449,7 @@ class SpaceEnergyFlowDiagramCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5422,7 +5516,9 @@ class SpaceEnergyFlowDiagramItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5483,7 +5579,9 @@ class DistributionSystemCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5532,6 +5630,7 @@ class DistributionSystemCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5598,7 +5697,9 @@ class DistributionSystemItem:
 
     @staticmethod
     def on_options(req, resp, id_, did):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger

@@ -14,6 +14,7 @@ class SensorCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -54,6 +55,7 @@ class SensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -108,7 +110,9 @@ class SensorItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -243,6 +247,7 @@ class SensorItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -309,7 +314,9 @@ class SensorPointCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -362,6 +369,7 @@ class SensorPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -421,7 +429,9 @@ class SensorPointItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -480,7 +490,9 @@ class SensorExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -536,6 +548,7 @@ class SensorImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -546,6 +559,7 @@ class SensorImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -621,7 +635,9 @@ class SensorClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -668,7 +684,6 @@ class SensorClone:
                     point_result = {"id": row[0], "name": row[1]}
                     result.append(point_result)
                 meta_result['points'] = result
-
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -682,7 +697,7 @@ class SensorClone:
                                     str(uuid.uuid4()),
                                     meta_result['description']))
         new_id = cursor.lastrowid
-        if len(meta_result['points']) > 0:
+        if meta_result['points'] is not None and len(meta_result['points']) > 0:
             for point in meta_result['points']:
                 cursor.execute(" SELECT name "
                                " FROM tbl_points "

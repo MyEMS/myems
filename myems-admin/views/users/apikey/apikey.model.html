@@ -1,48 +1,72 @@
 <div class="inmodal">
-    <div class="modal-header">
-        <h4 class="modal-title">{{operation | translate}}(ID:{{apiKey.id}})</h4>
-    </div>
-    <div class="modal-body">
-        <form role="form" name="form_apikey" novalidate class="form-horizontal">
-            <div class="form-group" ng-show="$scope.flag"><label class="col-sm-3 control-label">{{'GATEWAY.TOKEN' | translate}}</label>
-                <div class="col-sm-7">
-                    <input ng-model="apiKey.token" type="text" name="apikeytoken" class="form-control" disabled required>
-                    <div class="m-t-xs"
-                        ng-show="form_apikey.apikeytoken.$dirty">
-                        <small class="text-danger"
-                            ng-show="form_apikey.apikeytoken.$error.required">{{'GATEWAY.TOKEN' | translate}}</small>
-                    </div>
-                </div>
-            </div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{operation | translate}}(ID:{{apiKey.id}})</h4>
+  </div>
+  <div class="modal-body">
+    <form role="form" name="form_apikey" novalidate class="form-horizontal">
+      <div class="form-group" ng-show="flag">
+        <label class="col-sm-3 control-label">{{'GATEWAY.TOKEN' | translate}}</label>
+        <div class="col-sm-7">
+          <input ng-model="apiKey.token" type="text" name="apikeytoken" class="form-control" disabled required>
+        </div>
+      </div>
 
-            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
-                <div class="col-sm-7">
-                    <input ng-model="apiKey.name" type="text" name="apikeyname" class="form-control" required>
-                </div>
-            </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+        <div class="col-sm-7">
+          <input ng-model="apiKey.name" type="text" name="apikeyname" class="form-control" required>
+          <div ng-show="form_apikey.apikeyname.$invalid && form_apikey.apikeyname.$touched">
+            <small class="text-danger">{{'SETTING.NAME' | translate}} {{'SETTING.REQUIRED' | translate}}</small>
+          </div>
+        </div>
+      </div>
 
-            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.CREATED_TIME' | translate}}</label>
-                <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" disabled type="text" ng-model="apiKey.created_datetime" options="dtOptions"
-                        placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
-                </div>
-            </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">{{'SETTING.CREATED_TIME' | translate}}</label>
+        <div class="col-sm-7">
+          <input date-range-picker
+                 class="form-control date-picker"
+                 disabled
+                 type="text"
+                 ng-model="apiKey.created_datetime"
+                 options="dtOptions"
+                 placeholder="{{'SETTING.SELECT_DATE' | translate}}"
+                 readonly />
+        </div>
+      </div>
 
-            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}</label>
-                <div class="col-sm-7">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="apiKey.expires_datetime" options="dtOptions"
-                        placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
-                </div>
-            </div>
-            <div class="hr-line-dashed"></div>
-            <div class="form-group">
-                <div id="spacetree"></div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" class="btn btn-primary"
-            ng-click="ok()" ng-disabled="isButtonDisabled()">{{'SETTING.SAVE' | translate}}</button>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}</label>
+        <div class="col-sm-7">
+          <input date-range-picker
+                 class="form-control date-picker"
+                 type="text"
+                 name="apikeyexpires"
+                 ng-model="apiKey.expires_datetime"
+                 options="dtOptions"
+                 placeholder="{{'SETTING.SELECT_DATE' | translate}}"
+                 required
+                 ng-change="form_apikey.$setDirty()"
+                 ng-model-options="{ timezone: 'utc', updateOn: 'default blur change' }" />
+          <div ng-show="form_apikey.apikeyexpires.$invalid && form_apikey.apikeyexpires.$touched">
+            <small class="text-danger">{{'SETTING.EXPIRES_TIME' | translate}} {{'SETTING.REQUIRED' | translate}}</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="hr-line-dashed"></div>
+      <div class="form-group">
+        <div id="spacetree"></div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+    <button type="button"
+            class="btn btn-primary"
+            ng-click="ok()"
+            ng-disabled="form_apikey.apikeyname.$invalid || isButtonDisabled()">
+      {{'SETTING.SAVE' | translate}}
+    </button>
+  </div>
 </div>

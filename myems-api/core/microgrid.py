@@ -14,6 +14,7 @@ class MicrogridCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -100,6 +101,7 @@ class MicrogridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -290,7 +292,9 @@ class MicrogridItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -443,6 +447,7 @@ class MicrogridItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -647,7 +652,9 @@ class MicrogridBatteryCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -727,6 +734,7 @@ class MicrogridBatteryCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -907,7 +915,9 @@ class MicrogridBatteryItem:
 
     @staticmethod
     def on_options(req, resp, id_, bid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, bid):
@@ -1045,6 +1055,7 @@ class MicrogridBatteryItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1234,7 +1245,9 @@ class MicrogridCommandCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1278,7 +1291,9 @@ class MicrogridEVChargerCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1352,6 +1367,7 @@ class MicrogridEVChargerCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1470,7 +1486,9 @@ class MicrogridEVChargerItem:
 
     @staticmethod
     def on_options(req, resp, id_, eid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, eid):
@@ -1600,6 +1618,7 @@ class MicrogridEVChargerItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1715,7 +1734,9 @@ class MicrogridGeneratorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1789,6 +1810,7 @@ class MicrogridGeneratorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1906,7 +1928,9 @@ class MicrogridGeneratorItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2037,6 +2061,7 @@ class MicrogridGeneratorItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2152,7 +2177,9 @@ class MicrogridGridCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2227,6 +2254,7 @@ class MicrogridGridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2362,7 +2390,9 @@ class MicrogridGridItem:
 
     @staticmethod
     def on_options(req, resp, id_, gid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2494,6 +2524,7 @@ class MicrogridGridItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2629,7 +2660,9 @@ class MicrogridHeatpumpCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2705,6 +2738,7 @@ class MicrogridHeatpumpCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2859,7 +2893,9 @@ class MicrogridHeatpumpItem:
 
     @staticmethod
     def on_options(req, resp, id_, hid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, hid):
@@ -2993,6 +3029,7 @@ class MicrogridHeatpumpItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3146,7 +3183,9 @@ class MicrogridLoadCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3220,6 +3259,7 @@ class MicrogridLoadCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3337,7 +3377,9 @@ class MicrogridLoadItem:
 
     @staticmethod
     def on_options(req, resp, id_, lid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -3468,6 +3510,7 @@ class MicrogridLoadItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3583,7 +3626,9 @@ class MicrogridPhotovoltaicCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3658,6 +3703,7 @@ class MicrogridPhotovoltaicCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3775,7 +3821,9 @@ class MicrogridPhotovoltaicItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -3906,6 +3954,7 @@ class MicrogridPhotovoltaicItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4021,7 +4070,9 @@ class MicrogridPowerconversionsystemCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4098,6 +4149,7 @@ class MicrogridPowerconversionsystemCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4222,7 +4274,9 @@ class MicrogridPowerconversionsystemItem:
 
     @staticmethod
     def on_options(req, resp, id_, pid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -4370,6 +4424,7 @@ class MicrogridPowerconversionsystemItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4491,7 +4546,9 @@ class MicrogridScheduleCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4540,6 +4597,7 @@ class MicrogridScheduleCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4597,7 +4655,9 @@ class MicrogridScheduleItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, sid):
@@ -4702,6 +4762,7 @@ class MicrogridScheduleItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4786,7 +4847,9 @@ class MicrogridSensorCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4830,6 +4893,7 @@ class MicrogridSensorCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4896,7 +4960,9 @@ class MicrogridSensorItem:
 
     @staticmethod
     def on_options(req, resp, id_, sid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -4957,7 +5023,9 @@ class MicrogridUserCollection:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5002,6 +5070,7 @@ class MicrogridUserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5067,7 +5136,9 @@ class MicrogridUserItem:
 
     @staticmethod
     def on_options(req, resp, id_, uid):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5129,7 +5200,9 @@ class MicrogridExport:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5167,7 +5240,7 @@ class MicrogridExport:
 
         query = (" SELECT id, name, uuid, "
                  "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description "
+                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
                  " FROM tbl_microgrids "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -5191,9 +5264,10 @@ class MicrogridExport:
                            "contact": contact_dict.get(row[9], None),
                            "cost_center": cost_center_dict.get(row[10], None),
                            "serial_number": row[11],
-                           "svg": row[12],
+                           "svg_id": row[12],
                            "is_cost_data_displayed": bool(row[13]),
-                           "description": row[14]}
+                           "phase_of_lifecycle": row[14],
+                           "description": row[15]}
 
         resp.text = json.dumps(meta_result)
 
@@ -5205,6 +5279,7 @@ class MicrogridImport:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -5215,6 +5290,7 @@ class MicrogridImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5297,18 +5373,25 @@ class MicrogridImport:
                                    description='API.INVALID_SERIAL_NUMBER')
         serial_number = str.strip(new_values['serial_number'])
 
-        if 'svg' not in new_values.keys() or \
-                not isinstance(new_values['svg'], str) or \
-                len(str.strip(new_values['svg'])) == 0:
+        if 'svg_id' not in new_values.keys() or \
+                not isinstance(new_values['svg_id'], int) or \
+                new_values['svg_id'] <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SVG')
-        svg = str.strip(new_values['svg'])
+                                   description='API.INVALID_SVG_ID')
+        svg_id = new_values['svg_id']
 
-        if 'is_cost_data_displayed' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['is_cost_data_displayed'], bool):
+        if 'is_cost_data_displayed' not in new_values.keys() or \
+                not isinstance(new_values['is_cost_data_displayed'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COST_DATA_DISPLAYED')
-        is_cost_data_displayed = new_values['data']['is_cost_data_displayed']
+        is_cost_data_displayed = new_values['is_cost_data_displayed']
+
+        if 'phase_of_lifecycle' not in new_values.keys() or \
+                not isinstance(new_values['phase_of_lifecycle'], str) or \
+                len(str.strip(new_values['phase_of_lifecycle'])) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHASE_OF_LIFECYCLE')
+        phase_of_lifecycle = str.strip(new_values['phase_of_lifecycle'])
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
@@ -5320,14 +5403,18 @@ class MicrogridImport:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
+        original_name = name
+        while True:
+            cursor.execute(" SELECT name "
+                           " FROM tbl_microgrids "
+                           " WHERE name = %s ", (name,))
+            if cursor.fetchone() is None:
+                break
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            name = (str.strip(original_name) +
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
 
         cursor.execute(" SELECT name "
                        " FROM tbl_contacts "
@@ -5351,10 +5438,21 @@ class MicrogridImport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
+        cursor.execute(" SELECT name "
+                       " FROM tbl_svgs "
+                       " WHERE id = %s ",
+                       (svg_id,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.SVG_NOT_FOUND')
+
         add_values = (" INSERT INTO tbl_microgrids "
                       "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -5366,8 +5464,9 @@ class MicrogridImport:
                                     contact_id,
                                     cost_center_id,
                                     serial_number,
-                                    svg,
+                                    svg_id,
                                     is_cost_data_displayed,
+                                    phase_of_lifecycle,
                                     description))
         new_id = cursor.lastrowid
         cnx.commit()
@@ -5385,7 +5484,9 @@ class MicrogridClone:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     @user_logger
@@ -5423,10 +5524,10 @@ class MicrogridClone:
                                             "uuid": row[2]}
 
         query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, capacity, "
-                 "        contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description "
-                 " FROM tbl_microgrids "
-                 " WHERE id = %s ")
+                    "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                    "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                    " FROM tbl_microgrids "
+                    " WHERE id = %s ")
         cursor.execute(query, (id_,))
         row = cursor.fetchone()
 
@@ -5441,34 +5542,38 @@ class MicrogridClone:
                            "postal_code": row[4],
                            "latitude": row[5],
                            "longitude": row[6],
-                           "capacity": row[7],
-                           "contact": contact_dict.get(row[8], None),
-                           "cost_center": cost_center_dict.get(row[9], None),
-                           "serial_number": row[10],
-                           "svg": row[11],
-                           "is_cost_data_displayed": row[12],
-                           "description": row[13]}
+                           "rated_capacity": row[7],
+                           "rated_power": row[8],
+                           "contact": contact_dict.get(row[9], None),
+                           "cost_center": cost_center_dict.get(row[10], None),
+                           "serial_number": row[11],
+                           "svg_id": row[12],
+                           "is_cost_data_displayed": row[13],
+                           "phase_of_lifecycle": row[14],
+                           "description": row[15]}
             timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             new_name = (str.strip(meta_result['name']) +
                         (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_microgrids "
-                          "    (name, uuid, address, postal_code, latitude, longitude, capacity, "
-                          "     contact_id, cost_center_id, serial_number, svg, is_cost_data_displayed, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                          "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['address'],
                                         meta_result['postal_code'],
                                         meta_result['latitude'],
                                         meta_result['longitude'],
-                                        meta_result['capacity'],
+                                        meta_result['rated_capacity'],
+                                        meta_result['rated_power'], 
                                         meta_result['contact']['id'],
                                         meta_result['cost_center']['id'],
                                         meta_result['serial_number'],
-                                        meta_result['svg'],
+                                        meta_result['svg_id'],
                                         meta_result['is_cost_data_displayed'],
+                                        meta_result['phase_of_lifecycle'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
             cnx.commit()

@@ -5,9 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added myems-admin.conf and myems-web.conf for nginx
+- added binding microgrid to space in myems-admin
+- added blank page image for space mnvironment monitor in myems-web
 ### Changed
+- subspace names under the same parent space cannot be duplicated
+- updated power stations
 ### Fixed
+- fixed warnings in myems-web
+- fixed warnings in myems-api
+- fixed issue of pop message in myems-admin
+- fixed issue of meter import function in myems-api
+- fixed issue of virtual meter import function in myems-api
 ### Removed
+- removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
 
 ## [v5.6.0] - 2025-06-22

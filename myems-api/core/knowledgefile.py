@@ -17,6 +17,7 @@ class KnowledgeFileCollection:
 
     @staticmethod
     def on_options(req, resp):
+        _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
@@ -97,6 +98,7 @@ class KnowledgeFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
 
@@ -176,7 +178,9 @@ class KnowledgeFileItem:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -263,6 +267,7 @@ class KnowledgeFileItem:
             # remove the file from disk
             os.remove(file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK')
 
@@ -282,7 +287,9 @@ class KnowledgeFileRestore:
 
     @staticmethod
     def on_options(req, resp, id_):
+        _ = req
         resp.status = falcon.HTTP_200
+        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -326,6 +333,7 @@ class KnowledgeFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except Exception as ex:
+            print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         resp.text = json.dumps('success')

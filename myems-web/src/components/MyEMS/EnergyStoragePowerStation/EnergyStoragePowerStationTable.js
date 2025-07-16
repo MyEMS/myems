@@ -11,12 +11,12 @@ import { withTranslation } from 'react-i18next';
 
 const EnergyStoragePowerStationTable = ({ setIsSelected, energyStoragePowerStationList, t }) => {
   const { currency } = useContext(AppContext);
-  const energyFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const capacityFormatter = amount => <Fragment>{amount} kWh</Fragment>;
-  const powerFormatter = amount => <Fragment>{amount} kW</Fragment>;
+  const energyFormatter = amount => <Fragment>{(amount / 1000.0).toFixed(3)} MWH</Fragment>;
+  const capacityFormatter = amount => <Fragment>{amount.toFixed(3)} kWh</Fragment>;
+  const powerFormatter = amount => <Fragment>{amount.toFixed(3)} kW</Fragment>;
   const currencyFormatter = amount => (
     <Fragment>
-      {amount} {currency}
+      {amount.toFixed(2)} {currency}
     </Fragment>
   );
 

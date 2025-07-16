@@ -107,7 +107,7 @@ app.controller('ShopfloorPointController', function (
         ShopfloorPointService.deletePair(shopfloorid, shopfloorpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
-                    type: "error",
+                    type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
                     body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
                     showCloseButton: true,

@@ -13,6 +13,7 @@ app.controller('SpaceMeterController', function(
     $scope.currentSpaceID = 1;
     $scope.spacemeters = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isLoadingMeters = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -51,20 +52,27 @@ app.controller('SpaceMeterController', function(
     };
 
 	$scope.getMetersBySpaceID = function(id) {
-		var metertypes=['meters','virtualmeters','offlinemeters'];
-		$scope.spacemeters=[];
-        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		angular.forEach(metertypes,function(value,index){
-    			SpaceMeterService.getMetersBySpaceID(id,value, headers, function (response) {
-        				if (angular.isDefined(response.status) && response.status === 200) {
-        					angular.forEach(response.data, function(item,indx) {
-                      response.data[indx].metertype = value;
-                  });
-        					$scope.spacemeters = $scope.spacemeters.concat(response.data);
-        				}
-    			});
-		});
-	};
+	    if ($scope.isLoadingMeters) return;
+	    $scope.isLoadingMeters = true;
+	    var metertypes = ['meters', 'virtualmeters', 'offlinemeters'];
+	    var completedRequests = 0;
+	    $scope.spacemeters = [];
+	    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        angular.forEach(metertypes, function(value, index) {
+            SpaceMeterService.getMetersBySpaceID(id, value, headers, function(response) {
+                completedRequests++;
+                if (angular.isDefined(response.status) && response.status === 200) {
+                    angular.forEach(response.data, function(item, indx) {
+                        response.data[indx].metertype = value;
+                    });
+                    $scope.spacemeters = $scope.spacemeters.concat(response.data);
+                }
+                if (completedRequests === metertypes.length) {
+                    $scope.isLoadingMeters = false;
+                }
+            });
+        });
+    };
 
 	$scope.colorMeterType=function(type){
 		if(type=='meters'){
