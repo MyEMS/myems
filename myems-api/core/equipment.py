@@ -2436,14 +2436,12 @@ class EquipmentImport:
                                    description='API.INVALID_COST_CENTER_ID')
         cost_center_id = new_values['cost_center']['id']
 
-        if 'svg' in new_values.keys() and \
-                new_values['svg'] is not None and \
-                'id' in new_values['svg'].keys() and \
-                isinstance(new_values['svg']['id'], int) and \
-                new_values['svg']['id'] > 0:
-            svg_id = new_values['svg']['id']
-        else:
-            svg_id = None
+        svg = new_values.get('svg', None)
+        svg_id = None
+        if isinstance(svg, dict):
+            svg_id = svg.get('id', None)
+            if not (isinstance(svg_id, int) and svg_id > 0):
+                svg_id = None
 
         if 'camera_url' in new_values.keys() and \
                 new_values['camera_url'] is not None and \
