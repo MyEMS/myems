@@ -2437,6 +2437,7 @@ class EquipmentImport:
         cost_center_id = new_values['cost_center']['id']
 
         if 'svg' in new_values.keys() and \
+                new_values['svg'] is not None and \
                 'id' in new_values['svg'].keys() and \
                 isinstance(new_values['svg']['id'], int) and \
                 new_values['svg']['id'] > 0:
