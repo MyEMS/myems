@@ -9,8 +9,6 @@ app.controller('ProtocolController', function($scope,
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-	// $scope.exportdata = '';
-	// $scope.importdata = '';
 
 	$scope.getAllProtocols = function () {
 		let headers = {"User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token};
