@@ -1596,12 +1596,7 @@ class EnergyFlowDiagramClone:
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
-        if 'API-KEY' not in req.headers or \
-                not isinstance(req.headers['API-KEY'], str) or \
-                len(str.strip(req.headers['API-KEY'])) == 0:
-            access_control(req)
-        else:
-            api_key_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
