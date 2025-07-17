@@ -324,6 +324,20 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 		timePickerIncrement: 15,
 		singleDatePicker: true,
 	};
+	
+	$scope.isLeaseDateInvalid = function () {
+		if (!$scope.tenant.lease_start_datetime || !$scope.tenant.lease_end_datetime) {
+			return false;
+		}
+		const start = moment($scope.tenant.lease_start_datetime);
+		const end = moment($scope.tenant.lease_end_datetime);
+		if (!start.isValid() || !end.isValid()) {
+			return false;
+		}
+
+		return end.isBefore(start);
+	};
+
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
 		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
