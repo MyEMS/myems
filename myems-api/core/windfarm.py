@@ -743,7 +743,7 @@ class WindFarmImport:
         add_values = (" INSERT INTO tbl_wind_farms "
                       "    (name, uuid, address, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
