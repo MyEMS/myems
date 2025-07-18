@@ -20,8 +20,24 @@ app.controller('PointController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.datasources = response.data;
 				if ($scope.datasources.length > 0) {
-					$scope.currentDataSource = $scope.datasources[0].id;
-					$scope.getPointsByDataSourceID($scope.currentDataSource);
+					if (!$scope.currentDataSource) {
+						$scope.currentDataSource = $scope.datasources[0].id;
+						$scope.getPointsByDataSourceID($scope.currentDataSource);
+					} else {
+						var found = $scope.datasources.some(function(ds) {
+							return ds.id === $scope.currentDataSource;
+						});
+						if (found) {
+							$scope.getPointsByDataSourceID($scope.currentDataSource);
+						} else {
+							$scope.currentDataSource = null;
+							$scope.points = [];
+						}
+					}
+				} else {
+					$scope.datasources = [];
+					$scope.points = [];
+					$scope.currentDataSource = null;
 				}
 			} else {
 				$scope.datasources = [];
