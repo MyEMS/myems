@@ -1299,7 +1299,6 @@ class VirtualMeterClone:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
-
         query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
                  "        energy_item_id, description "
                  " FROM tbl_virtual_meters "
@@ -1377,7 +1376,7 @@ class VirtualMeterClone:
             timezone_offset = -timezone_offset
         new_name = (str.strip(meta_result['name']) +
                     (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-
+        energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
         add_values = (" INSERT INTO tbl_virtual_meters "
                       "     (name, uuid, equation, energy_category_id, is_counted, "
                       "      cost_center_id, energy_item_id, description) "
@@ -1388,7 +1387,8 @@ class VirtualMeterClone:
                                     meta_result['energy_category']['id'],
                                     meta_result['is_counted'],
                                     meta_result['cost_center']['id'],
-                                    meta_result['energy_item_id'],
+                                    #meta_result['energy_item_id'],
+                                    energy_item_id,
                                     meta_result['description']))
         new_id = cursor.lastrowid
         cnx.commit()
