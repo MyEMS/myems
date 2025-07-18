@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of meter import function in myems-api
 - fixed issue of virtual meter import function in myems-api
 - fixed administrator access control issues of clone functions in myems-api
+- fixed issue of data source in myems-admin
+
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
