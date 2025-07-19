@@ -686,7 +686,6 @@ api.add_route('/protocols',
               protocol.ProtocolCollection())
 api.add_route('/protocols/{id_}',
               protocol.ProtocolItem())
-
 api.add_route('/rules',
               rule.RuleCollection())
 api.add_route('/rules/{id_}',

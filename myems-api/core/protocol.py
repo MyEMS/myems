@@ -163,7 +163,6 @@ class ProtocolItem:
                 title='API.BAD_REQUEST',
                 description='API.INVALID_PROTOCOL_ID'
             )
-
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
