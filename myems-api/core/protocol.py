@@ -183,7 +183,7 @@ class ProtocolItem:
 
         # 第二步：检查是否有数据源使用该协议
         cursor.execute(
-            "SELECT id, name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
+            "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
             (protocol_name,)
         )
         data_source = cursor.fetchone()
