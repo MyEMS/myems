@@ -186,7 +186,7 @@ class ProtocolItem:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title='API.BAD_REQUEST',
-                description='API.PROTOCOL_IS_IN_USE_BY_DATA_SOURCE'
+                description='API.THERE_IS_RELATION_WITH_DATA_SOURCES'
             )
 
         cursor.execute("DELETE FROM tbl_protocols WHERE id = %s", (id_,))
