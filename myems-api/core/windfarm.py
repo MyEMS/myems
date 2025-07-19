@@ -743,7 +743,7 @@ class WindFarmImport:
         add_values = (" INSERT INTO tbl_wind_farms "
                       "    (name, uuid, address, latitude, longitude, rated_power, "
                       "     contact_id, cost_center_id, svg_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     address,
@@ -777,7 +777,7 @@ class WindFarmClone:
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WIND_FARM_ID')

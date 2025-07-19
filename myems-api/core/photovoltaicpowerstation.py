@@ -894,7 +894,7 @@ class PhotovoltaicPowerStationClone:
     @staticmethod
     @user_logger
     def on_post(req, resp, id_):
-        access_control(req)
+        admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
