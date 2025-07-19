@@ -176,12 +176,21 @@ class ProtocolItem:
                 description='API.PROTOCOL_NOT_FOUND'
             )
 
+        # cursor.execute(
+        #     "SELECT p.name, d.name "
+        #     "FROM tbl_protocols p "
+        #     "JOIN tbl_data_sources d ON p.name = d.protocol "
+        #     "WHERE p.name = %s LIMIT 1",
+        #     (id_,)
+        # )
+        # 获取协议名称
+        cursor.execute("SELECT name FROM tbl_protocols WHERE id = %s", (id_,))
+        protocol_name = cursor.fetchone()[0]
+
+        # 通过协议名称检查数据源引用
         cursor.execute(
-            "SELECT p.id, d.name "
-            "FROM tbl_protocols p "
-            "JOIN tbl_data_sources d ON p.name = d.protocol "
-            "WHERE p.id = %s LIMIT 1",
-            (id_,)
+            "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
+            (protocol_name,)
         )
         if cursor.fetchone() is not None:
             cursor.close()
