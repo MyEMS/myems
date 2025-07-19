@@ -177,7 +177,10 @@ class ProtocolItem:
             )
 
         cursor.execute(
-            "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
+            "SELECT p.id, d.name "
+            "FROM tbl_protocols p "
+            "JOIN tbl_data_sources d ON p.name = d.protocol "
+            "WHERE p.id = %s LIMIT 1",
             (id_,)
         )
         if cursor.fetchone() is not None:
