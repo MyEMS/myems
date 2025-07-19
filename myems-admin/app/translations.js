@@ -1246,7 +1246,8 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Login Failure',
                 LOGOUT_SUCCESS: 'Logout Success',
                 LOGOUT_FAILURE: 'Logout Failure',
-
+                LOGIN_FAILURE_WITHOUT_ADMIN: 'Login Failure Without Administrator Privileges.',
+                
                 SUCCESS_ADD_BODY: 'Add {{template}} Success',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} Success',
                 SUCCESS_DELETE_BODY: 'Delete {{template}} Success',
@@ -3185,7 +3186,8 @@ function config($translateProvider) {
                 LOGIN_FAILURE: '登录失败',
                 LOGOUT_SUCCESS: '退出成功',
                 LOGOUT_FAILURE: '退出失败',
-
+                LOGIN_FAILURE_WITHOUT_ADMIN: '普通用户无权限登录管理员后台',
+                
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
                 SUCCESS_DELETE_BODY: '删除 {{template}} 成功',
