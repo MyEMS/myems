@@ -177,7 +177,7 @@ class ProtocolItem:
             )
 
         cursor.execute(
-            "SELECT id FROM tbl_data_sources WHERE protocol_id = %s LIMIT 1",
+            "SELECT name FROM tbl_data_sources WHERE protocol_id = %s LIMIT 1",
             (id_,)
         )
         if cursor.fetchone() is not None:
