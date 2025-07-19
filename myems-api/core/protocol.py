@@ -163,11 +163,14 @@ class ProtocolItem:
                 title='API.BAD_REQUEST',
                 description='API.INVALID_PROTOCOL_ID'
             )
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # 第一步：检查协议是否存在
         cursor.execute("SELECT name FROM tbl_protocols WHERE id = %s", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(
@@ -176,37 +179,49 @@ class ProtocolItem:
                 description='API.PROTOCOL_NOT_FOUND'
             )
 
-        # cursor.execute(
-        #     "SELECT p.name, d.name "
-        #     "FROM tbl_protocols p "
-        #     "JOIN tbl_data_sources d ON p.name = d.protocol "
-        #     "WHERE p.name = %s LIMIT 1",
-        #     (id_,)
-        # )
-        # 获取协议名称
-        cursor.execute("SELECT name FROM tbl_protocols WHERE id = %s", (id_,))
-        protocol_name = cursor.fetchone()[0]
+        protocol_name = row[0]
 
-        # 通过协议名称检查数据源引用
+        # 第二步：检查是否有数据源使用该协议
         cursor.execute(
-            "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
+            "SELECT id, name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
             (protocol_name,)
         )
-        if cursor.fetchone() is not None:
+        data_source = cursor.fetchone()
+
+        if data_source is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title='API.BAD_REQUEST',
-                description='API.THERE_IS_RELATION_WITH_DATA_SOURCES'
+                description='API.THERE_IS_RELATION_WITH_DATA_SOURCES',
+                # 提供更详细的错误信息，包含关联的数据源ID和名称
+                code='RELATION_EXISTS',
+                details={
+                    'related_object': 'DATA_SOURCE',
+                    'object_id': data_source[0],
+                    'object_name': data_source[1]
+                }
             )
 
-        cursor.execute("DELETE FROM tbl_protocols WHERE id = %s", (id_,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+        # 第三步：执行删除操作
+        try:
+            cursor.execute("DELETE FROM tbl_protocols WHERE id = %s", (id_,))
+            cnx.commit()
+        except Exception as ex:
+            cnx.rollback()
+            raise falcon.HTTPError(
+                status=falcon.HTTP_500,
+                title='API.INTERNAL_SERVER_ERROR',
+                description=str(ex)
+            )
+        finally:
+            cursor.close()
+            cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
 
     @staticmethod
     @user_logger
