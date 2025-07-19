@@ -1387,7 +1387,6 @@ class VirtualMeterClone:
                                     meta_result['energy_category']['id'],
                                     meta_result['is_counted'],
                                     meta_result['cost_center']['id'],
-                                    #meta_result['energy_item_id'],
                                     energy_item_id,
                                     meta_result['description']))
         new_id = cursor.lastrowid
