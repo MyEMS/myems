@@ -179,12 +179,12 @@ class ProtocolItem:
                 description='API.PROTOCOL_NOT_FOUND'
             )
 
-        protocol_name = row[0]
+        #protocol_name = row[0]
 
         # 第二步：检查是否有数据源使用该协议
         cursor.execute(
-            "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
-            (protocol_name,)
+            "SELECT id,name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
+            (id_,)
         )
         data_source = cursor.fetchone()
 
