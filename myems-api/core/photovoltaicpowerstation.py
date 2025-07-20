@@ -386,6 +386,18 @@ class PhotovoltaicPowerStationItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
 
+        # check relation with spaces
+        cursor.execute(" SELECT id "
+                       " FROM  tbl_spaces_photovoltaic_power_stations "
+                       " WHERE photovoltaic_power_station_id = %s ", (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         cursor.execute(" DELETE FROM tbl_photovoltaic_power_stations "
                        " WHERE id = %s ", (id_,))
         cnx.commit()

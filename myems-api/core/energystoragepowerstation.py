@@ -468,6 +468,19 @@ class EnergyStoragePowerStationItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+
+        # check relation with spaces
+        cursor.execute(" SELECT id "
+                       " FROM tbl_spaces_energy_storage_power_stations "
+                       " WHERE energy_storage_power_station_id = %s ", (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         cursor.execute(" DELETE FROM tbl_energy_storage_power_stations_containers "
                        " WHERE energy_storage_power_station_id = %s ", (id_,))
 
