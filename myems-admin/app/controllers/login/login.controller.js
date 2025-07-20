@@ -39,8 +39,8 @@ app.controller('LoginController', function (
 				if (!response.data.is_admin) {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_TITLE"),
-						body: $translate.instant('TOASTER.LOGIN_FAILURE_WITHOUT_ADMIN'),
+						title: $translate.instant("TOASTER.LOGIN_FAILURE"),
+						body: $translate.instant('TOASTER.LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES'),
 						showCloseButton: true,
 					});
 					$scope.dataLoading = false;

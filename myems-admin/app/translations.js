@@ -1246,7 +1246,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Login Failure',
                 LOGOUT_SUCCESS: 'Logout Success',
                 LOGOUT_FAILURE: 'Logout Failure',
-                LOGIN_FAILURE_WITHOUT_ADMIN: 'Login Failure Without Administrator Privileges.',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login Failed Without Administrator Privileges',
                 
                 SUCCESS_ADD_BODY: 'Add {{template}} Success',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} Success',
@@ -3186,7 +3186,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: '登录失败',
                 LOGOUT_SUCCESS: '退出成功',
                 LOGOUT_FAILURE: '退出失败',
-                LOGIN_FAILURE_WITHOUT_ADMIN: '普通用户无权限登录管理员后台',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: '普通用户无权限登录管理员后台',
                 
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
@@ -5130,6 +5130,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Login fehlgeschlagen',
                 LOGOUT_SUCCESS: 'Abmeldung erfolgreich',
                 LOGOUT_FAILURE: 'Abmeldefehler',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Anmeldung fehlgeschlagen ohne Administratorrechte',
 
                 SUCCESS_ADD_BODY: 'Fügen Sie {{template}} erfolgreich hinzu',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} erfolgreich',
@@ -7068,6 +7069,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Échec de connexion',
                 LOGOUT_SUCCESS: 'Déconnexion réussie',
                 LOGOUT_FAILURE: 'Échec de déconnexion',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login échoué sans privilèges d’administrateur',
 
                 SUCCESS_ADD_BODY: 'Ajouter {{template}} Succès',
                 SUCCESS_UPDATE_BODY: 'Mettre à jour {{template}} Succès',
@@ -9007,6 +9009,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Error de inicio de sesión',
                 LOGOUT_SUCCESS: 'Cierre de sesión exitoso',
                 LOGOUT_FAILURE: 'Error de cierre de sesión',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Falló el inicio de sesión sin privilegios de administrador',
 
                 SUCCESS_ADD_BODY: 'Agregar {{template}} Éxito',
                 SUCCESS_UPDATE_BODY: 'Actualizar {{template}} Éxito',
@@ -10946,6 +10949,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Ошибка входа в систему',
                 LOGOUT_SUCCESS: 'Успешный выход из системы',
                 LOGOUT_FAILURE: 'Сбой выхода из системы',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Не удалось войти без привилегий администратора',
 
                 SUCCESS_ADD_BODY: 'Добавлять {{template}} Успех',
                 SUCCESS_UPDATE_BODY: 'Обновлять {{template}} Успех',
@@ -12885,6 +12889,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'فشل تسجيل الدخول',
                 LOGOUT_SUCCESS: 'نجاح تسجيل الخروج',
                 LOGOUT_FAILURE: 'فشل تسجيل الخروج',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'فشل الدخول بدون امتيازات المسؤول',
 
                 SUCCESS_ADD_BODY: 'جمع {{template}} نجاح',
                 SUCCESS_UPDATE_BODY: 'تحديث {{template}} نجاح',
@@ -14824,6 +14829,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Đăng nhập thất bại',
                 LOGOUT_SUCCESS: 'Đăng xuất thành công',
                 LOGOUT_FAILURE: 'Đăng xuất thất bại',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Đăng nhập không thành công mà không có đặc quyền quản trị viên',
 
                 SUCCESS_ADD_BODY: 'Thêm {{template}} Sự thành công',
                 SUCCESS_UPDATE_BODY: 'Cập nhật {{template}} Sự thành công',
@@ -16761,6 +16767,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'เข้าสู่ระบบล้มเหลว',
                 LOGOUT_SUCCESS: 'ความสําเร็จในการออกจากระบบ',
                 LOGOUT_FAILURE: 'ออกจากระบบล้มเหลว',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'ล้มเหลวในการเข้าสู่ระบบโดยไม่มีสิทธิพิเศษผู้บริหาร',
 
                 SUCCESS_ADD_BODY: 'เพิ่ม {{template}} ความสําเร็จ',
                 SUCCESS_UPDATE_BODY: 'อัพเดต {{template}} ความสําเร็จ',
@@ -18699,6 +18706,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Oturum Açma Hatası',
                 LOGOUT_SUCCESS: 'Çıkış Başarısı',
                 LOGOUT_FAILURE: 'Oturumu Kapatma Hatası',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Yönetici ayrıcalıkları olmadan giriş başarısız oldu',
 
                 SUCCESS_ADD_BODY: 'Eklemek {{template}} Başarı',
                 SUCCESS_UPDATE_BODY: 'Güncelleştirmek {{template}} Başarı',
@@ -20637,6 +20645,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Kegagalan Log Masuk',
                 LOGOUT_SUCCESS: 'Kejayaan Logout',
                 LOGOUT_FAILURE: 'Kegagalan Log Keluar',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login Gagal Tanpa Privilegi Pentadbir',
 
                 SUCCESS_ADD_BODY: 'Menambah {{template}} Kejayaan',
                 SUCCESS_UPDATE_BODY: 'Kemaskini terakhir {{template}} Kejayaan',
@@ -22575,6 +22584,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Kegagalan Login',
                 LOGOUT_SUCCESS: 'Logout Sukses',
                 LOGOUT_FAILURE: 'Kegagalan Logout',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login Gagal Tanpa Privilege Administrator',
 
                 SUCCESS_ADD_BODY: 'Tambah {{template}} Keberhasilan',
                 SUCCESS_UPDATE_BODY: 'Pemutakhiran {{template}} Keberhasilan',
@@ -24519,6 +24529,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: '登錄失敗',
                 LOGOUT_SUCCESS: '退出成功',
                 LOGOUT_FAILURE: '退出失敗',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: '沒有管理員許可權登入失敗',
 
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
@@ -26464,6 +26475,7 @@ function config($translateProvider) {
                 LOGIN_FAILURE: 'Falha no Login',
                 LOGOUT_SUCCESS: 'Logout Bem-Sucedido',
                 LOGOUT_FAILURE: 'Falha no Logout',
+                LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login falhou sem privilégios de Administrador',
 
                 SUCCESS_ADD_BODY: 'Adicionar {{template}} com Sucesso',
                 SUCCESS_UPDATE_BODY: 'Atualizar {{template}} com Sucesso',
