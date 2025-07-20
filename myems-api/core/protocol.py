@@ -168,7 +168,7 @@ class ProtocolItem:
         cursor = cnx.cursor()
 
         # 第一步：检查协议是否存在
-        cursor.execute("SELECT name FROM tbl_protocols WHERE id = %s", (id_,))
+        cursor.execute("SELECT name,code FROM tbl_protocols WHERE id = %s", (id_,))
         row = cursor.fetchone()
         if row is None:
             cursor.close()
@@ -180,7 +180,7 @@ class ProtocolItem:
             )
 
         #protocol_name = row[0]
-        code=row[2]
+        code=row[1]
         # # 第二步：检查是否有数据源使用该协议
         # cursor.execute(
         #     "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
