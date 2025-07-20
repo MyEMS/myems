@@ -166,8 +166,6 @@ class ProtocolItem:
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
-
-        # 第一步：检查协议是否存在
         cursor.execute("SELECT name,code FROM tbl_protocols WHERE id = %s", (id_,))
         row = cursor.fetchone()
         if row is None:
@@ -179,7 +177,7 @@ class ProtocolItem:
                 description='API.PROTOCOL_NOT_FOUND'
             )
 
-        #protocol_name = row[0]
+        # check if this protocol is being used by any data sources
         code=row[1]
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
