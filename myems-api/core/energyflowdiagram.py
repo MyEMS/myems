@@ -313,6 +313,18 @@ class EnergyFlowDiagramItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # check relation with spaces
+        cursor.execute(" SELECT id "
+                       " FROM  tbl_spaces_energy_flow_diagrams "
+                       " WHERE energy_flow_diagram_id = %s ", (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         # delete all associated nodes
         cursor.execute(" DELETE FROM tbl_energy_flow_diagrams_nodes"
                        " WHERE energy_flow_diagram_id = %s ", (id_,))
