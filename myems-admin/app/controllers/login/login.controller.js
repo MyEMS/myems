@@ -36,6 +36,16 @@ app.controller('LoginController', function (
 		$scope.dataLoading = true;
 		LoginService.login(user, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
+				if (!response.data.is_admin) {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.LOGIN_FAILURE"),
+						body: $translate.instant('TOASTER.LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES'),
+						showCloseButton: true,
+					});
+					$scope.dataLoading = false;
+					return;
+				}
 				// toaster type options: 'error','info','wait','success','warning'
 				toaster.pop({
 					type: "success",
