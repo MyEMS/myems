@@ -215,7 +215,68 @@ class SVGItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
-        # todo: check relations with microgrid and energy storage power station
+        # check if any distribution system is bound to this SVG
+        cursor.execute("SELECT id FROM tbl_distribution_systems WHERE svg_id = %s", (id_,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS')
+        # check if any energy storage power station is bound to this SVG
+        for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
+            cursor.execute(f"SELECT id FROM tbl_energy_storage_power_stations WHERE {col} = %s", (id_,))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
+        # check if any photovoltaic power station is bound to this SVG
+        for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
+            cursor.execute(f"SELECT id FROM tbl_photovoltaic_power_stations WHERE {col} = %s", (id_,))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
+        # check if any microgrid is bound to this SVG
+        for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
+            cursor.execute(f"SELECT id FROM tbl_microgrids WHERE {col} = %s", (id_,))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+        # check if any virtual power plant is bound to this SVG
+        cursor.execute("SELECT id FROM tbl_virtual_power_plants WHERE svg_id = %s", (id_,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
+        # check if any wind farm is bound to this SVG
+        for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
+            cursor.execute(f"SELECT id FROM tbl_wind_farms WHERE {col} = %s", (id_,))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.THERE_IS_RELATION_WITH_WIND_FARMS')
+        # check if any charging station is bound to this SVG
+        for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
+            cursor.execute(f"SELECT id FROM tbl_charging_stations WHERE {col} = %s", (id_,))
+            if cursor.fetchone() is not None:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
+
         cursor.execute(" DELETE FROM tbl_svgs WHERE id = %s ", (id_,))
         cnx.commit()
 
