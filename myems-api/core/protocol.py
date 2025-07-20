@@ -180,11 +180,11 @@ class ProtocolItem:
             )
 
         #protocol_name = row[0]
-
+        code=row[2]
         # 第二步：检查是否有数据源使用该协议
         cursor.execute(
             "SELECT id,name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
-            (id_,)
+            (code,)
         )
         data_source = cursor.fetchone()
 
