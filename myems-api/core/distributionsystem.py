@@ -215,6 +215,18 @@ class DistributionSystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
+        # check relation with spaces
+        cursor.execute(" SELECT id "
+                       " FROM tbl_spaces_distribution_systems "
+                       " WHERE distribution_system_id = %s ", (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id "
                        "IN (SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s) ", (id_,))
         cursor.execute(" DELETE FROM tbl_distribution_circuits WHERE distribution_system_id = %s ", (id_,))
