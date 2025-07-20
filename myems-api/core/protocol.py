@@ -181,39 +181,9 @@ class ProtocolItem:
 
         #protocol_name = row[0]
         code=row[1]
-        # # 第二步：检查是否有数据源使用该协议
-        # cursor.execute(
-        #     "SELECT name FROM tbl_data_sources WHERE protocol = %s LIMIT 1",
-        #     (code,)
-        # )
-        # data_source = cursor.fetchone()
-        #
-        # if data_source is not None:
-        #     cursor.close()
-        #     cnx.close()
-        #     raise falcon.HTTPError(
-        #         status=falcon.HTTP_400,
-        #         title='API.BAD_REQUEST',
-        #         description='API.THERE_IS_RELATION_WITH_DATA_SOURCES'
-        #     )
-        #
-        # # 第三步：执行删除操作
-        # try:
-        #     cursor.execute("DELETE FROM tbl_protocols WHERE id = %s", (id_,))
-        #     cnx.commit()
-        # except Exception as ex:
-        #     cnx.rollback()
-        #     raise falcon.HTTPError(
-        #         status=falcon.HTTP_500,
-        #         title='API.INTERNAL_SERVER_ERROR',
-        #         description=str(ex)
-        #     )
-        # finally:
-        #     cursor.close()
-        #     cnx.close()
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
-                       " WHERE protocol = %s "
+                       " WHERE protocol = 'zhan' "
                        " LIMIT 1 ",
                        (code,))
         if cursor.fetchone() is not None:
@@ -227,8 +197,6 @@ class ProtocolItem:
 
         cursor.close()
         cnx.close()
-        resp.status = falcon.HTTP_204
-
         resp.status = falcon.HTTP_204
 
 
