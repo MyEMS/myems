@@ -19,7 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of virtual meter import function in myems-api
 - fixed administrator access control issues of clone functions in myems-api
 - fixed issue of data source in myems-admin
-
+- fixed issue of virtual meter clone function in myems-api
+- fixed issue of login failed message in myems-admin
+- fixed issue of space import function in myems-api
+- fixed issue of delete distribution system in myems-api
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
