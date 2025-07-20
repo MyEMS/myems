@@ -302,7 +302,7 @@ app.controller('ModalAddPhotovoltaicPowerStationCtrl', function($scope, $uibModa
 	$scope.contacts=params.contacts;
 	$scope.svgs=params.svgs;
 	$scope.phaseoflifecycles=params.phaseoflifecycles;
-	$scope.energystoragepowerstation = {
+	$scope.photovoltaicpowerstation = {
 		is_cost_data_displayed: false
 	};
 	$scope.ok = function() {
