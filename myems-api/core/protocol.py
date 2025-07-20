@@ -183,7 +183,7 @@ class ProtocolItem:
         code=row[1]
         cursor.execute(" SELECT name "
                        " FROM tbl_data_sources "
-                       " WHERE protocol = 'zhan' "
+                       " WHERE protocol = %s "
                        " LIMIT 1 ",
                        (code,))
         if cursor.fetchone() is not None:
