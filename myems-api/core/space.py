@@ -4328,8 +4328,12 @@ class SpaceImport:
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['is_output_counted']
 
-        if 'id' in new_values['contact'].keys():
-            if new_values['contact']['id'] <= 0:
+        if 'contact' in new_values.keys() and \
+            new_values['contact'] is not None and \
+                'id' in new_values['contact'].keys() and \
+                new_values['contact']['id'] is not None:
+            if not isinstance(new_values['contact']['id'], int) or \
+                    new_values['contact']['id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_CONTACT_ID')
             contact_id = new_values['contact']['id']
