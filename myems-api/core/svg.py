@@ -199,6 +199,22 @@ class SVGItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SVG_NOT_FOUND')
+        # check if any equipment is bound to this SVG
+        cursor.execute("SELECT id FROM tbl_equipments WHERE svg_id = %s", (id_,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
+        # check if any combined equipment is bound to this SVG
+        cursor.execute("SELECT id FROM tbl_combined_equipments WHERE svg_id = %s", (id_,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
         # todo: check relations with microgrid and energy storage power station
         cursor.execute(" DELETE FROM tbl_svgs WHERE id = %s ", (id_,))
         cnx.commit()
