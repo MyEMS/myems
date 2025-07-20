@@ -396,6 +396,18 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
+        # check relation with spaces
+        cursor.execute(" SELECT id "
+                       " FROM  tbl_spaces_microgrids "
+                       " WHERE microgrid_id = %s ", (id_,))
+        rows_spaces = cursor.fetchall()
+        if rows_spaces is not None and len(rows_spaces) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+
         # check relation with power plants
         cursor.execute(" SELECT id "
                        " FROM tbl_virtual_power_plants_microgrids "
