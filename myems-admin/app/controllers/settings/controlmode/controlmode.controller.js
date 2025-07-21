@@ -239,7 +239,7 @@ app.controller('ControlModeController', function(
 
 });
 
-app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalInstance, params) {
+app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalInstance, params, toaster, $translate) {
 
 	$scope.operation = "SETTING.ADD_CONTROL_MODE";
 	$scope.disable=false;
@@ -271,6 +271,18 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 	};
 
 	$scope.ok = function() {
+		for (var i = 0; i < $scope.times.length; i++) {
+        	var item = $scope.times[i];
+        	if (item.end_time_of_day < item.start_time_of_day) {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ADD_FAILURE"),
+					body: $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME"),
+					showCloseButton: true,
+				});
+            	return;
+        	}
+    	}
 		$scope.controlmode.times=$scope.times;
 		$uibModalInstance.close($scope.controlmode);
 	};
@@ -284,6 +296,17 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 		}
 		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
 		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
+
+		if (t.end_time_of_day < t.start_time_of_day) {
+			toaster.pop({
+				type: "error",
+				title: $translate.instant("TOASTER.ADD_FAILURE"),
+				body: $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME"),
+				showCloseButton: true,
+			});
+			return;
+		}
+
 		if ($scope.times.length > 0) {
 			$scope.times.unshift(angular.copy(t));
 		} else {

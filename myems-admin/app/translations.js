@@ -306,6 +306,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Command List',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -1241,6 +1242,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Success',
+				ADD_FAILURE: 'ADD Failure',
                 COPY_SUCCESS: 'Copy Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
@@ -2250,6 +2252,7 @@ function config($translateProvider) {
                 COMMAND_LIST: '指令列表',
 
                 CONTROL_MODE_LIST: '控制模式列表',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
                 END_TIME: '结束时间',
@@ -3181,6 +3184,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
+				ADD_FAILURE: '添加失败',
                 COPY_SUCCESS: '复制成功',
                 LOGIN_SUCCESS: '登录成功',
                 LOGIN_FAILURE: '登录失败',
@@ -4193,6 +4197,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Befehlsliste',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -5125,6 +5130,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Erfolg',
+				ADD_FAILURE: 'Hinzufügen fehlgeschlagen',
                 COPY_SUCCESS: 'Kopieren erfolgreich',
                 LOGIN_SUCCESS: 'Anmeldung erfolgreich',
                 LOGIN_FAILURE: 'Login fehlgeschlagen',
@@ -6130,6 +6136,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Liste de commandes',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -7064,6 +7071,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Succès',
+				ADD_FAILURE: 'Échec de l’ajout',
                 COPY_SUCCESS: 'Copie réussie',
                 LOGIN_SUCCESS: 'Réussite de la connexion',
                 LOGIN_FAILURE: 'Échec de connexion',
@@ -8070,6 +8078,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Lista de comandos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -9004,6 +9013,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Éxito',
+				ADD_FAILURE: 'Error al añadir',
                 COPY_SUCCESS: 'Copia exitosa',
                 LOGIN_SUCCESS: 'Inicio de sesión exitoso',
                 LOGIN_FAILURE: 'Error de inicio de sesión',
@@ -10010,6 +10020,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Список команд',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -10944,6 +10955,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Успех',
+				ADD_FAILURE: 'Ошибка добавления',
                 COPY_SUCCESS: 'Копировать успешно',
                 LOGIN_SUCCESS: 'Успешный вход в систему',
                 LOGIN_FAILURE: 'Ошибка входа в систему',
@@ -11950,6 +11962,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'قائمة الأوامر',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -12884,6 +12897,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'نجاح',
+				ADD_FAILURE: 'فشل الإضافة',
                 COPY_SUCCESS: 'نسخة ناجحة',
                 LOGIN_SUCCESS: 'نجاح تسجيل الدخول',
                 LOGIN_FAILURE: 'فشل تسجيل الدخول',
@@ -13890,6 +13904,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Danh sách lệnh',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -14824,6 +14839,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sự thành công',
+				ADD_FAILURE: 'Thêm thất bại',
                 COPY_SUCCESS: 'Sao chép thành công',
                 LOGIN_SUCCESS: 'Đăng nhập thành công',
                 LOGIN_FAILURE: 'Đăng nhập thất bại',
@@ -15829,6 +15845,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'รายการคําสั่ง',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -16762,6 +16779,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'ความสําเร็จ',
+				ADD_FAILURE: 'เพิ่มไม่สำเร็จ',
                 COPY_SUCCESS: 'คัดลอกสำเร็จ',
                 LOGIN_SUCCESS: 'เข้าสู่ระบบสําเร็จ',
                 LOGIN_FAILURE: 'เข้าสู่ระบบล้มเหลว',
@@ -17768,6 +17786,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Komut Listesi',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -18701,6 +18720,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Başarı',
+				ADD_FAILURE: 'Ekleme başarısız',
                 COPY_SUCCESS: 'Başarılı kopyalama',
                 LOGIN_SUCCESS: 'Giriş Başarısı',
                 LOGIN_FAILURE: 'Oturum Açma Hatası',
@@ -19707,6 +19727,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Senarai Perintah',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -20640,6 +20661,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Kejayaan',
+				ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin berjaya',
                 LOGIN_SUCCESS: 'Kejayaan Log Masuk',
                 LOGIN_FAILURE: 'Kegagalan Log Masuk',
@@ -21646,6 +21668,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Daftar Perintah',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -22579,6 +22602,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Keberhasilan',
+				ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin Sukses',
                 LOGIN_SUCCESS: 'Login Berhasil',
                 LOGIN_FAILURE: 'Kegagalan Login',
@@ -23589,6 +23613,7 @@ function config($translateProvider) {
                 COMMAND_LIST: '指令列表',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -24524,6 +24549,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
+				ADD_FAILURE: '新增失敗',
                 COPY_SUCCESS: '覆制成功',
                 LOGIN_SUCCESS: '登錄成功',
                 LOGIN_FAILURE: '登錄失敗',
@@ -25532,6 +25558,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Lista de Comandos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -26470,6 +26497,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sucesso',
+				ADD_FAILURE: 'Falha na adição',
                 COPY_SUCCESS: 'Cópia Bem-Sucedida',
                 LOGIN_SUCCESS: 'Login Bem-Sucedido',
                 LOGIN_FAILURE: 'Falha no Login',
