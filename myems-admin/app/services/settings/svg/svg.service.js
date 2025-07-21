@@ -9,6 +9,14 @@ app.factory('SVGService', function($http) {
                 callback(response);
             });
         },
+        getSVG: function(svg_id, headers, callback) {
+            $http.get(getAPI()+'svgs/'+svg_id, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
         searchSVGs: function(query, headers, callback) {
             $http.get(getAPI()+'svgs', { params: { q: query } }, {headers})
             .then(function (response) {
