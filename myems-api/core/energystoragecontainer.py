@@ -276,7 +276,7 @@ class EnergyStorageContainerItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
         cursor.execute(
-            "SELECT name "
+            "SELECT id "
             "FROM tbl_energy_storage_power_stations_containers "
             "WHERE energy_storage_container_id = %s",
             (id_,)
