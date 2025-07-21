@@ -274,6 +274,14 @@ class EnergyStorageContainerItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+        cursor.excute("select name from tbl_energy_storage_power_stations_containers where energy_storage_container_id = %s",(id_,))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS_CONTAINERS')
+
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
                        " WHERE bms_id IN "
                        "      (SELECT id FROM tbl_energy_storage_containers_batteries "
