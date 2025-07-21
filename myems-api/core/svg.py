@@ -36,7 +36,7 @@ class SVGCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
         if is_quick_mode:
-            query = (" SELECT id, name, uuid "
+            query = (" SELECT id, name, uuid, description "
                      " FROM tbl_svgs "
                      " ORDER BY id ")
             cursor.execute(query)
@@ -48,7 +48,8 @@ class SVGCollection:
 
                     meta_result = {"id": row[0],
                                    "name": row[1],
-                                   "uuid": row[2]}
+                                   "uuid": row[2],
+                                   "description": row[3]}
                     result.append(meta_result)
         else:
             query = (" SELECT id, name, uuid, source_code, description "

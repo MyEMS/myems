@@ -12,9 +12,10 @@ app.controller('SVGController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.current_svg = null;
 
 	$scope.getAllSVGs = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "QUICKMODE": true };
 		SVGService.getAllSVGs(headers, function(response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.svgs = response.data;
@@ -58,44 +59,58 @@ app.controller('SVGController', function(
 	};
 
 	$scope.editSVG = function(svg) {
-		var modalInstance = $uibModal.open({
-			windowClass: "animated fadeIn",
-			templateUrl: 'views/settings/svg/svg.model.html',
-			controller: 'ModalEditSVGCtrl',
-			resolve: {
-				params: function() {
-					return {
-						svg: angular.copy(svg)
-					};
-				}
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		SVGService.getSVG(svg.id, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				console.log(response);
+				$scope.current_svg = response.data;
+				var modalInstance = $uibModal.open({
+					windowClass: "animated fadeIn",
+					templateUrl: 'views/settings/svg/svg.model.html',
+					controller: 'ModalEditSVGCtrl',
+					resolve: {
+						params: function() {
+							return {
+								svg: angular.copy($scope.current_svg )
+							};
+						}
+					}
+				});
+
+				modalInstance.result.then(function(modifiedSVG) {
+					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+					SVGService.editSVG(modifiedSVG, headers, function (response) {
+						if (angular.isDefined(response.status) && response.status === 200) {
+							toaster.pop({
+								type: "success",
+								title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+								body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.SVG")}),
+								showCloseButton: true,
+							});
+							$scope.getAllSVGs();
+							$scope.$emit('handleEmitSVGChanged');
+						} else {
+							toaster.pop({
+								type: "error",
+								title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.SVG")}),
+								body: $translate.instant(response.data.description),
+								showCloseButton: true,
+							});
+						}
+					});
+				}, function() {
+					//do nothing;
+				});
+				$rootScope.modalInstance = modalInstance;
+			} else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.SVG")}),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
 			}
 		});
-
-		modalInstance.result.then(function(modifiedSVG) {
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			SVGService.editSVG(modifiedSVG, headers, function (response) {
-				if (angular.isDefined(response.status) && response.status === 200) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("COMMON.SVG")}),
-						showCloseButton: true,
-					});
-					$scope.getAllSVGs();
-					$scope.$emit('handleEmitSVGChanged');
-				} else {
-					toaster.pop({
-						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("COMMON.SVG")}),
-						body: $translate.instant(response.data.description),
-						showCloseButton: true,
-					});
-				}
-			});
-		}, function() {
-			//do nothing;
-		});
-		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteSVG=function(svg){
