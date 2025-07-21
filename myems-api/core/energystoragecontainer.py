@@ -275,7 +275,7 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.excute(" SELECT name "
+        cursor.execute(" SELECT name "
                     "from tbl_energy_storage_power_stations_containers "
                     "where energy_storage_container_id = %s", (id_,))
         if cursor.fetchone() is not None:
