@@ -1173,6 +1173,19 @@ class EnergyFlowDiagramNodeItem:
                                    title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH')
 
+        # check relation with links
+        cursor.execute(" SELECT id "
+                       " FROM tbl_energy_flow_diagrams_links "
+                       " WHERE energy_flow_diagram_id = %s AND "
+                       " (source_node_id = %s OR target_node_id = %s) ", (id_, nid, nid))
+        rows_links = cursor.fetchall()
+        if rows_links is not None and len(rows_links) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_LINKS')
+
         cursor.execute(" DELETE FROM tbl_energy_flow_diagrams_nodes "
                        " WHERE id = %s ", (nid, ))
         cnx.commit()
