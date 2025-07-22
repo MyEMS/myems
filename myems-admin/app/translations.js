@@ -1144,6 +1144,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Please Input Floors',
                 INPUT_ROOMS: 'Rooms',
                 INPUT_LEASE_NUMBER: 'Please Input Lease Number',
+                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -3074,6 +3075,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '请输入楼层',
                 INPUT_ROOMS: '请输入房间',
                 INPUT_LEASE_NUMBER: '请输入租约编号',
+                END_BEFORE_START_WARNING: '租约结束时间不能早于开始时间',
             },
             STORE: {
                 ADDRESS: '地址',
@@ -5019,6 +5021,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Bitte betreten Sie den Boden',
                 INPUT_ROOMS: 'Bitte betreten Sie den Raum',
                 INPUT_LEASE_NUMBER: 'Bitte geben Sie die Mietnummer ein',
+                END_BEFORE_START_WARNING: 'Die Endzeit darf nicht vor der Startzeit liegen',
             },
             STORE: {
                 ADDRESS: 'Adresse',
@@ -6967,6 +6970,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'S’il vous plaît entrer les étages',
                 INPUT_ROOMS: 'Chambres',
                 INPUT_LEASE_NUMBER: 'Veuillez entrer le numéro de bail',
+                END_BEFORE_START_WARNING: 'L\'heure de fin ne peut pas précéder l\'heure de début',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Ajouter un atelier',
@@ -8907,6 +8911,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Por favor, ingrese pisos',
                 INPUT_ROOMS: 'Local',
                 INPUT_LEASE_NUMBER: 'Por favor, introduzca el número de arrendamiento',
+                END_BEFORE_START_WARNING: 'La hora de finalización no puede ser anterior a la hora de inicio',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Agregar Shopfloor',
@@ -10847,6 +10852,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Пожалуйста, введите полы',
                 INPUT_ROOMS: 'Номера',
                 INPUT_LEASE_NUMBER: 'Пожалуйста, введите номер лизинга',
+                END_BEFORE_START_WARNING: 'Время окончания не может быть раньше времени начала',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Добавить торговый зал',
@@ -12787,6 +12793,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'يرجى إدخال الطوابق',
                 INPUT_ROOMS: 'غرف',
                 INPUT_LEASE_NUMBER: 'يرجى إدخال رقم الإيجار',
+                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'إضافة أرضية متجر',
@@ -14727,6 +14734,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Vui lòng nhập tầng',
                 INPUT_ROOMS: 'Phòng',
                 INPUT_LEASE_NUMBER: 'Vui lòng nhập số hợp đồng thuê',
+                END_BEFORE_START_WARNING: 'Thời gian kết thúc không thể sớm hơn thời gian bắt đầu',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Thêm Shopfloor',
@@ -16665,6 +16673,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'กรุณาใส่ชั้น',
                 INPUT_ROOMS: 'ห้อง พัก',
                 INPUT_LEASE_NUMBER: 'กรุณาใส่หมายเลขสัญญาเช่า',
+                END_BEFORE_START_WARNING: 'เวลาสิ้นสุดต้องไม่ก่อนเวลาเริ่มต้น',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'เพิ่มพื้นที่ร้านค้า',
@@ -18604,6 +18613,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Lütfen Giriş Katları',
                 INPUT_ROOMS: 'Oda -larında',
                 INPUT_LEASE_NUMBER: 'Lütfen Kira Numarasını Girin',
+                END_BEFORE_START_WARNING: 'Bitiş zamanı, başlangıç zamanından önce olamaz',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Atölye Ekle',
@@ -20543,6 +20553,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Sila Masuk Lantai',
                 INPUT_ROOMS: 'Bilik',
                 INPUT_LEASE_NUMBER: 'Sila masukkan nombor pajakan',
+                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Tambah Shopfloor',
@@ -22482,6 +22493,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Silakan Masukkan Lantai',
                 INPUT_ROOMS: 'Kamar',
                 INPUT_LEASE_NUMBER: 'Masukkan Nomor Sewa',
+                END_BEFORE_START_WARNING: 'Masa tamat tidak boleh lebih awal daripada masa mula',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -24417,6 +24429,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '請輸入樓層',
                 INPUT_ROOMS: '請輸入房間',
                 INPUT_LEASE_NUMBER: '請輸入租約編號',
+                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間', 
             },
             STORE: {
                 ADDRESS: '地址',
@@ -26373,6 +26386,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Por favor, insira os andares',
                 INPUT_ROOMS: 'Por favor, insira as salas',
                 INPUT_LEASE_NUMBER: 'Por favor, insira o número do contrato de locação',
+                END_BEFORE_START_WARNING: 'O horário de término não pode ser anterior ao horário de início',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Adicionar Andar de Loja',
