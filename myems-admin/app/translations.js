@@ -1129,6 +1129,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Please Input Address',
                 INPUT_LATITUDE: 'Please Input Latitude',
                 INPUT_LONGITUDE: 'Please Input Longitude',
+                LATITUDE_HINT: 'Positive numbers indicate north latitude, negative numbers indicate south latitude',
+                LONGITUDE_HINT: 'Positive numbers indicate east longitude, negative numbers indicate west longitude',
             },
             TENANT: {
                 BUILDINGS: 'Buildings',
@@ -3084,6 +3086,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: '请输入地址',
                 INPUT_LATITUDE: '请输入纬度',
                 INPUT_LONGITUDE: '请输入经度',
+                LATITUDE_HINT: '正数为北纬，负数为南纬',
+                LONGITUDE_HINT: '正数为东经，负数为西经',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: '添加车间',
@@ -5029,6 +5033,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Bitte geben Sie die Adresse ein',
                 INPUT_LATITUDE: 'Bitte geben Sie den Breitengrad ein',
                 INPUT_LONGITUDE: 'Bitte geben Sie den Längengrad ein',
+                LATITUDE_HINT: 'Positive Zahl für den Norden, negative Zahl für den Süden.',
+                LONGITUDE_HINT: 'Positive ist Ostlänge, negative ist Westlänge.',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Workshop hinzufügen',
@@ -6952,6 +6958,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Veuillez saisir l’adresse',
                 INPUT_LATITUDE: 'Veuillez saisir la latitude',
                 INPUT_LONGITUDE: 'Veuillez saisir la longitude',
+                LATITUDE_HINT: 'Les nombres positifs sont Nord, les nombres négatifs sont Sud',
+                LONGITUDE_HINT: 'Les nombres positifs sont longitudinaux est, les nombres négatifs sont longitudinaux Ouest',
             },
             TENANT: {
                 BUILDINGS: 'Bâtiments',
@@ -8892,6 +8900,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Por favor, introduzca la dirección',
                 INPUT_LATITUDE: 'Por favor, introduzca Latitude',
                 INPUT_LONGITUDE: 'Por favor, introduzca la longitud',
+                LATITUDE_HINT: 'El número positivo es latitud norte y el número negativo es latitud Sur.',
+                LONGITUDE_HINT: 'El número positivo es el meridiano este y el número negativo es el meridiano oeste.',
             },
             TENANT: {
                 BUILDINGS: 'Edificios',
@@ -10832,6 +10842,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Пожалуйста, введите адрес',
                 INPUT_LATITUDE: 'Пожалуйста, введите широту',
                 INPUT_LONGITUDE: 'Пожалуйста, введите долготу',
+                LATITUDE_HINT: 'Положительное число - северная широта, отрицательное - южная широта.',
+                LONGITUDE_HINT: 'Положительное число - восточная долгота, отрицательное - западная долгота.',
             },
             TENANT: {
                 BUILDINGS: 'Зданий',
@@ -12772,6 +12784,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'يرجى إدخال العنوان',
                 INPUT_LATITUDE: 'يرجى إدخال خط العرض',
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
+                LATITUDE_HINT: 'عدد موجب هو خط العرض الشمالي ، عدد سالب هو خط العرض الجنوبي',
+                LONGITUDE_HINT: 'عدد موجب هو الشرق ، عدد سالب هو الغرب',
             },
             TENANT: {
                 BUILDINGS: 'مباني',
@@ -14712,6 +14726,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Vui lòng nhập địa chỉ',
                 INPUT_LATITUDE: 'Vui lòng nhập Latitude',
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
+                LATITUDE_HINT: 'Số dương là vĩ độ bắc và số âm là vĩ độ nam',
+                LONGITUDE_HINT: 'Kinh Đông là số dương, kinh Tây là số âm.',
             },
             TENANT: {
                 BUILDINGS: 'Tòa nhà',
@@ -16650,6 +16666,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'กรุณาใส่ที่อยู่',
                 INPUT_LATITUDE: 'กรุณาใส่ละติจูด',
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
+                LATITUDE_HINT: 'บวกเป็นละติจูดเหนือ ลบเป็นละติจูดใต้',
+                LONGITUDE_HINT: 'บวกเป็นเส้นลองจิจูดตะวันออก ลบเป็นเส้นลองจิจูดตะวันตก',
             },
             TENANT: {
                 BUILDINGS: 'อาคาร',
@@ -18589,6 +18607,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Lütfen Adres Giriniz',
                 INPUT_LATITUDE: 'Lütfen Enlemi Girin',
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
+                LATITUDE_HINT: 'Pozitif Kuzey, Negatif Güney',
+                LONGITUDE_HINT: 'Doğu uzunluğu pozitif, batı uzunluğu negatif.',
             },
             TENANT: {
                 BUILDINGS: 'Bina',
@@ -20528,6 +20548,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Sila Alamat Input',
                 INPUT_LATITUDE: 'Sila masukkan latitud',
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
+                LATITUDE_HINT: 'Positif ialah latitur utara, negatif ialah latitur selatan.',
+                LONGITUDE_HINT: 'Bilangan positif ialah garis timur dan negatif ialah garis barat.',
             },
             TENANT: {
                 BUILDINGS: 'Bangunan',
@@ -22467,6 +22489,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
                 INPUT_LATITUDE: 'Silakan masukkan Latitude',
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
+                LATITUDE_HINT: 'Positif adalah garis lintang utara, negatif adalah garis lintang selatan.',
+                LONGITUDE_HINT: 'Positif adalah garis timur, negatif adalah garis barat.',
             },
             TENANT: {
                 BUILDINGS: 'Bangunan',
@@ -24427,6 +24451,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: '請輸入地址',
                 INPUT_LATITUDE: '請輸入緯度',
                 INPUT_LONGITUDE: '請輸入經度',
+                LATITUDE_HINT: '正數為北緯，負數為南緯',
+                LONGITUDE_HINT: '正數為東經，負數為西經',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: '添加⾞間',
@@ -26358,6 +26384,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Por favor, insira o endereço',
                 INPUT_LATITUDE: 'Por favor, insira a latitude',
                 INPUT_LONGITUDE: 'Por favor, insira a longitude',
+                LATITUDE_HINT: 'Positivo para a latitude norte, negativo para a latitude sul.',
+                LONGITUDE_HINT: 'Positivo é longitude leste, negativo é longitude oeste.',
             },
             TENANT: {
                 BUILDINGS: 'Edifícios',
