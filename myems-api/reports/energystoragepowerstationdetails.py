@@ -106,6 +106,45 @@ class Reporting:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+        energy_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_energy_value_latest ")
+        cursor_historical.execute(query, )
+        energy_value_latest_rows = cursor_historical.fetchall()
+        for row in energy_value_latest_rows:
+            energy_value_latest_dict[row[0]] = row[1]
+
+        analog_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_analog_value_latest ")
+        cursor_historical.execute(query, )
+        analog_value_latest_rows = cursor_historical.fetchall()
+        for row in analog_value_latest_rows:
+            analog_value_latest_dict[row[0]] = row[1]
+
+        digital_value_latest_dict = dict()
+        query = (" SELECT point_id, actual_value "
+                 " FROM tbl_digital_value_latest ")
+        cursor_historical.execute(query, )
+        digital_value_latest_rows = cursor_historical.fetchall()
+        for row in digital_value_latest_rows:
+            digital_value_latest_dict[row[0]] = row[1]
+
+        # get all digital value points definitions
+        point_definition_dict = dict()
+        query = (" SELECT id, definitions "
+                 " FROM tbl_points "
+                 " WHERE object_type = 'DIGITAL_VALUE' AND definitions IS NOT NULL ")
+        cursor_system.execute(query, ())
+        rows_point_definitions = cursor_system.fetchall()
+        if rows_point_definitions is not None and len(rows_point_definitions) > 0:
+            for row in rows_point_definitions:
+                try:
+                    definition = json.loads(row[1])
+                except Exception as e:
+                    print("Invalid point definitions in JSON " + str(e))
+                    continue
+                point_definition_dict[row[0]] = definition
         # Get energy storage power station
         row = None
         if energy_storage_power_station_id is not None:
@@ -132,6 +171,123 @@ class Reporting:
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
         else:
             energy_storage_power_station_id = row[0]
+            # get is_online by data source latest seen datetime
+            query = (" SELECT tds.last_seen_datetime_utc   "
+                     " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                     "      tbl_energy_storage_containers_power_conversion_systems tescpcs, "
+                     "      tbl_points tp, tbl_data_sources tds  "
+                     " WHERE tespsesc.energy_storage_power_station_id  = %s "
+                     "        AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id  "
+                     "        AND tescpcs.run_state_point_id = tp.id  "
+                     "        AND tp.data_source_id = tds.id  "
+                     " LIMIT 1 ")
+            cursor_system.execute(query, (energy_storage_power_station_id,))
+            row_datetime = cursor_system.fetchone()
+
+            is_online = False
+            if row_datetime is not None and len(row_datetime) > 0:
+                if isinstance(row_datetime[0], datetime):
+                    if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                        is_online = True
+
+            # get PCS run state point
+            pcs_run_state_point_value = None
+            pcs_run_state = 'Unknown'
+            if is_online:
+                query = (" SELECT tescpcs.run_state_point_id "
+                         " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                         "     tbl_energy_storage_containers_power_conversion_systems tescpcs "
+                         " WHERE tespsesc.energy_storage_power_station_id  = %s "
+                         "       AND tespsesc.energy_storage_container_id = tescpcs.energy_storage_container_id "
+                         " LIMIT 1 ")
+                cursor_system.execute(query, (energy_storage_power_station_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None and len(row_point) > 0:
+                    if digital_value_latest_dict.get(row_point[0]) is not None:
+                        pcs_run_state_point_value = digital_value_latest_dict.get(row_point[0])
+
+                # 0：关闭 Shutdown
+                # 1：软启动中 Soft Starting
+                # 2：并网充电 On Grid Charging
+                # 3：并网放电 On Grid DisCharging
+                # 4：离网放电 Off Grid DisCharging
+                # 5：降额并网 Derating On Grid
+                # 6：待机 Standby
+                # 7：离网充电 Off Grid Charging
+                print(pcs_run_state_point_value)
+                if point_definition_dict.get(row_point[0]) is not None:
+                    definition = point_definition_dict.get(row_point[0])
+                    print(definition)
+                    pcs_run_state = definition.get(str(pcs_run_state_point_value))
+                else:
+                    if pcs_run_state_point_value is None:
+                        pcs_run_state = 'Unknown'
+                    elif pcs_run_state_point_value == 0:
+                        pcs_run_state = 'Shutdown'
+                    elif pcs_run_state_point_value == 1:
+                        pcs_run_state = 'Running'
+                    elif pcs_run_state_point_value == 2:
+                        pcs_run_state = 'Running'
+                    elif pcs_run_state_point_value == 3:
+                        pcs_run_state = 'Running'
+                    elif pcs_run_state_point_value == 4:
+                        pcs_run_state = 'Running'
+                    elif pcs_run_state_point_value == 5:
+                        pcs_run_state = 'Running'
+                    elif pcs_run_state_point_value == 6:
+                        pcs_run_state = 'Standby'
+                    elif pcs_run_state_point_value == 7:
+                        pcs_run_state = 'Running'
+                    else:
+                        pcs_run_state = 'Running'
+
+            # get battery state point
+            battery_state_point_value = None
+            battery_operating_state = 'Unknown'
+            if is_online:
+                query = (" SELECT tescb.battery_state_point_id "
+                         " FROM tbl_energy_storage_power_stations_containers tespsesc, "
+                         "      tbl_energy_storage_containers_batteries tescb "
+                         " WHERE tespsesc.energy_storage_power_station_id = %s "
+                         "       AND tespsesc.energy_storage_container_id = tescb.energy_storage_container_id "
+                         " LIMIT 1 ")
+                cursor_system.execute(query, (energy_storage_power_station_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None and len(row_point) > 0:
+                    if digital_value_latest_dict.get(row_point[0]) is not None:
+                        battery_state_point_value = digital_value_latest_dict.get(row_point[0])
+
+                # 0预留 1故障  2预警  3待机  4禁放  5禁充  6正常 7充电 8放电 9空闲
+                print(battery_state_point_value)
+                if point_definition_dict.get(row_point[0]) is not None:
+                    definition = point_definition_dict.get(row_point[0])
+                    print(definition)
+                    battery_operating_state = definition.get(str(battery_state_point_value))
+                else:
+                    if battery_state_point_value is None:
+                        battery_operating_state = 'Unknown'
+                    elif battery_state_point_value == 0:
+                        battery_operating_state = 'Reserved'
+                    elif battery_state_point_value == 1:
+                        battery_operating_state = 'Fault'
+                    elif battery_state_point_value == 2:
+                        battery_operating_state = 'Warning'
+                    elif battery_state_point_value == 3:
+                        battery_operating_state = 'Standby'
+                    elif battery_state_point_value == 4:
+                        battery_operating_state = 'ProhibitDisCharging'
+                    elif battery_state_point_value == 5:
+                        battery_operating_state = 'ProhibitCharging'
+                    elif battery_state_point_value == 6:
+                        battery_operating_state = 'Normal'
+                    elif battery_state_point_value == 7:
+                        battery_operating_state = 'Charging'
+                    elif battery_state_point_value == 8:
+                        battery_operating_state = 'Discharging'
+                    elif battery_state_point_value == 9:
+                        battery_operating_state = 'Idle'
+                    else:
+                        battery_operating_state = 'Unknown'
             meta_result = {"id": row[0],
                            "name": row[1],
                            "uuid": row[2],
@@ -145,6 +301,9 @@ class Reporting:
                            "svg": row[10],
                            "description": row[11],
                            "phase_of_lifecycle": row[12],
+                           "is_online": is_online,
+                           "pcs_run_state": pcs_run_state,
+                           "battery_operating_state": battery_operating_state,
                            "qrcode": 'energystoragepowerstation:' + row[2]}
 
         point_list = list()
@@ -192,30 +351,6 @@ class Reporting:
         ################################################################################################################
         # Step 4: query associated batteries on containers
         ################################################################################################################
-        energy_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_energy_value_latest ")
-        cursor_historical.execute(query, )
-        energy_value_latest_rows = cursor_historical.fetchall()
-        for row in energy_value_latest_rows:
-            energy_value_latest_dict[row[0]] = row[1]
-
-        analog_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_analog_value_latest ")
-        cursor_historical.execute(query, )
-        analog_value_latest_rows = cursor_historical.fetchall()
-        for row in analog_value_latest_rows:
-            analog_value_latest_dict[row[0]] = row[1]
-
-        digital_value_latest_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest ")
-        cursor_historical.execute(query, )
-        digital_value_latest_rows = cursor_historical.fetchall()
-        for row in digital_value_latest_rows:
-            digital_value_latest_dict[row[0]] = row[1]
-
         charge_meter_id_list = list()
         discharge_meter_id_list = list()
         for container in container_list:

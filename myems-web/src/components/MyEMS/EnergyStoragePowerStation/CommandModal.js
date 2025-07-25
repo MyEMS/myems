@@ -7,8 +7,8 @@ import { APIBaseURL, settings } from '../../../config';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
-const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, description, set_value, t }) => {
-  const [newValue, setNewValue] = useState(undefined);
+const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, description, payload, t }) => {
+  const [newPayload, setNewPayload] = useState(payload);
   const [commandID, setCommandID] = useState(undefined);
   useEffect(() => {
     setCommandID(id);
@@ -20,18 +20,19 @@ const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, des
       &times;
     </button>
   );
-  const handleInputSetValue = e => {
+  const handleInputPayload = e => {
     e.preventDefault();
-    setNewValue(e.target.value);
+    setNewPayload(e.target.value);
   };
   const handleSubmit = e => {
     e.preventDefault();
+    setNewPayload(e.target.value);
     let isResponseOK = false;
     fetch(APIBaseURL + '/commands/' + commandID + '/send', {
       method: 'PUT',
       body: JSON.stringify({
         data: {
-          set_value: Number(newValue)
+          payload: newPayload
         }
       }),
       headers: {
@@ -48,7 +49,8 @@ const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, des
       })
       .then(json => {
         if (isResponseOK) {
-          toast.success(t('Command has been submitted'));
+          toast.success(t('命令已下发'));
+          // toast.success(t('Command has been submitted'));
         } else {
           toast.error(t(json.description));
         }
@@ -71,15 +73,17 @@ const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, des
         </ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label className="fs-0" for="input_set_value">
-              {t('Set Value')}
+            <Label className="fs-0" for="input_payload">
+              {t('Payload')}
             </Label>
             <Input
-              type="number"
-              name="set_value"
-              id="input_set_value"
-              onChange={handleInputSetValue}
-              defaultValue={set_value}
+              type="textarea"
+              id="input_payload"
+              name="payload"
+              rows="10"
+              cols="50"
+              onChange={handleInputPayload}
+              defaultValue={payload}
             />
             <Label className="fs-0" for="description">
               {description}
@@ -99,8 +103,8 @@ const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, des
 CommandModal.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  payload: PropTypes.string,
   description: PropTypes.string.isRequired,
-  set_value: PropTypes.number
 };
 
 export default withTranslation()(CommandModal);

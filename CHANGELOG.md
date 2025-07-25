@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added binding microgrid to space in myems-admin
 - added blank page image for space mnvironment monitor in myems-web
 - added quick mode for svg in myems-admin and myems-api
+- added `myems_system_db`.`tbl_energy_storage_containers_data_sources` in database
 ### Changed
 - subspace names under the same parent space cannot be duplicated
 - updated power stations
