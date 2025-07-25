@@ -118,10 +118,12 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
 
   const [timeOfUseDataTableData, setTimeOfUseDataTableData] = useState([]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
+  const [timeOfUseDataTableColumns, setTimeOfUseDataTableColumns] = useState([
+    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
+  ]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
-
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -305,6 +307,30 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           setEnergyStoragePowerStationReportingOptions(options);
           setExcelBytesBase64(json['excel_bytes_base64']);
 
+          let timeofuse_data_table_column_list = [];
+
+          timeofuse_data_table_column_list.push({
+            dataField: 'timeofuse',
+            text: t('分时'),
+            sort: true
+          });
+          json['reporting_period']['names'].forEach((currentValue, index) => {
+            let unit = json['reporting_period']['units'][index];
+            timeofuse_data_table_column_list.push({
+              dataField: 'b' + index,
+              text: currentValue + ' (' + unit + ')',
+              sort: true,
+              formatter: function(decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            });
+          });
+          setTimeOfUseDataTableColumns(timeofuse_data_table_column_list);
+
           let detailed_column_list = [];
 
           detailed_column_list.push({
@@ -312,6 +338,14 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             text: t('Datetime'),
             sort: true
           });
+
+          if (periodType === 'hourly') {
+            detailed_column_list.push({
+              dataField: 'timeofuse',
+              text: t('分时'),
+              sort: true
+            });
+          }
 
           json['reporting_period']['names'].forEach((currentValue, index) => {
             let unit = json['reporting_period']['units'][index];
@@ -335,7 +369,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           let time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 
-          time_of_use_value['reportingPeriodDatetime'] = '尖';
+          time_of_use_value['timeofuse'] = '尖';
           json['reporting_period']['toppeaks'].forEach((currentValue, index) => {
             time_of_use_value['b' + index] = currentValue;
           });
@@ -345,7 +379,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 
-          time_of_use_value['reportingPeriodDatetime'] = '峰';
+          time_of_use_value['timeofuse'] = '峰';
           json['reporting_period']['onpeaks'].forEach((currentValue, index) => {
             time_of_use_value['b' + index] = currentValue;
           });
@@ -355,7 +389,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 
-          time_of_use_value['reportingPeriodDatetime'] = '平';
+          time_of_use_value['timeofuse'] = '平';
           json['reporting_period']['midpeaks'].forEach((currentValue, index) => {
             time_of_use_value['b' + index] = currentValue;
           });
@@ -365,7 +399,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 
-          time_of_use_value['reportingPeriodDatetime'] = '谷';
+          time_of_use_value['timeofuse'] = '谷';
           json['reporting_period']['offpeaks'].forEach((currentValue, index) => {
             time_of_use_value['b' + index] = currentValue;
           });
@@ -375,7 +409,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           time_of_use_value = {};
           time_of_use_value['id'] = time_of_use_value_list.length;
 
-          time_of_use_value['reportingPeriodDatetime'] = '深谷';
+          time_of_use_value['timeofuse'] = '深谷';
           json['reporting_period']['deeps'].forEach((currentValue, index) => {
             time_of_use_value['b' + index] = currentValue;
           });
@@ -404,6 +438,14 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
                 index < json['reporting_period']['timestamps'][0].length
                   ? json['reporting_period']['timestamps'][0][index]
                   : null;
+
+              if (periodType === 'hourly') {
+                detailed_value['timeofuse'] =
+                index < json['reporting_period']['timeofuses'][0].length
+                  ? json['reporting_period']['timeofuses'][0][index]
+                  : null;
+              }
+
               json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
                 detailed_value['b' + energyCategoryIndex] =
                   index < json['reporting_period']['values'][energyCategoryIndex].length
@@ -417,6 +459,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             detailed_value['id'] = detailed_value_list.length;
 
             detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+
             json['reporting_period']['subtotals'].forEach((currentValue, index) => {
               detailed_value['b' + index] = currentValue;
             });
@@ -724,7 +767,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
         <DetailedDataTable
           data={timeOfUseDataTableData}
           title="分时数据"
-          columns={detailedDataTableColumns}
+          columns={timeOfUseDataTableColumns}
           pagesize={50}
           hidden={true}
         />

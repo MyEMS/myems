@@ -1450,6 +1450,7 @@ app
                                                     'app/services/settings/energystoragecontainer/energystoragecontainer.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerbattery.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainercommand.service.js',
+                                                    'app/services/settings/energystoragecontainer/energystoragecontainerdatasource.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerdcdc.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainerfirecontrol.service.js',
                                                     'app/services/settings/energystoragecontainer/energystoragecontainergrid.service.js',

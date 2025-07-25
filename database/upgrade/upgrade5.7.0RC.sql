@@ -11,6 +11,14 @@ START TRANSACTION;
 
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_sensors` ;
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_data_sources_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_data_sources` (`energy_storage_container_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.7.0RC', release_date='2025-07-21' WHERE id=1;
 

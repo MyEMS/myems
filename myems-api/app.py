@@ -51,6 +51,7 @@ from reports import energystoragepowerstationdetailsfirecontrol
 from reports import energystoragepowerstationdetailshvac
 from reports import energystoragepowerstationdetailsgrid
 from reports import energystoragepowerstationdetailsload
+from reports import energystoragepowerstationdetailsmeter
 from reports import energystoragepowerstationdetailsdcdc
 from reports import energystoragepowerstationdetailspcs
 from reports import energystoragepowerstationdetailssts
@@ -387,6 +388,12 @@ api.add_route('/energystoragecontainers/{id_}/commands',
               energystoragecontainer.EnergyStorageContainerCommandCollection())
 api.add_route('/energystoragecontainers/{id_}/commands/{cid}',
               energystoragecontainer.EnergyStorageContainerCommandItem())
+api.add_route('/energystoragecontainers/{id_}/datasources',
+              energystoragecontainer.EnergyStorageContainerDataSourceCollection())
+api.add_route('/energystoragecontainers/{id_}/datasources/{dsid}',
+              energystoragecontainer.EnergyStorageContainerDataSourceItem())
+api.add_route('/energystoragecontainers/{id_}/datasourcepoints',
+              energystoragecontainer.EnergyStorageContainerDataSourcePointCollection())
 api.add_route('/energystoragecontainers/{id_}/dcdcs',
               energystoragecontainer.EnergyStorageContainerDCDCCollection())
 api.add_route('/energystoragecontainers/{id_}/dcdcs/{did}',
@@ -460,6 +467,8 @@ api.add_route('/energystoragepowerstations/{id_}/containers',
               energystoragepowerstation.EnergyStoragePowerStationContainerCollection())
 api.add_route('/energystoragepowerstations/{id_}/containers/{sid}',
               energystoragepowerstation.EnergyStoragePowerStationContainerItem())
+api.add_route('/energystoragepowerstations/{id_}/datasourcepoints',
+              energystoragepowerstation.EnergyStoragePowerStationDataSourcePointCollection())
 api.add_route('/energystoragepowerstations/{id_}/users',
               energystoragepowerstation.EnergyStoragePowerStationUserCollection())
 api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
@@ -1120,6 +1129,8 @@ api.add_route('/reports/energystoragepowerstationdetails/{id_}/grid',
               energystoragepowerstationdetailsgrid.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/load',
               energystoragepowerstationdetailsload.Reporting())
+api.add_route('/reports/energystoragepowerstationdetails/{id_}/meter',
+              energystoragepowerstationdetailsmeter.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/dcdc',
               energystoragepowerstationdetailsdcdc.Reporting())
 api.add_route('/reports/energystoragepowerstationdetails/{id_}/pcs',

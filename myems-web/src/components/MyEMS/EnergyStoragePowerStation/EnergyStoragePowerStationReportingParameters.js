@@ -59,8 +59,9 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   //Query Form
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [energyStoragePowerStationList, setEnergyStoragePowerStationList] = useState([]);
-  const [filteredEnergyStoragePowerStationList, setFilteredEnergyStoragePowerStationList] = useState([]);
   const [selectedEnergyStoragePowerStation, setSelectedEnergyStoragePowerStation] = useState(undefined);
+  const [pointList, setPointList] = useState([]);
+  const [selectedPointList, setSelectedPointList] = useState([]);
 
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
 
@@ -98,34 +99,9 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
-  const [energyStoragePowerStationName, setEnergyStoragePowerStationName] = useState();
-  const [energyStoragePowerStationSerialNumber, setEnergyStoragePowerStationSerialNumber] = useState();
-  const [energyStoragePowerStationAddress, setEnergyStoragePowerStationAddress] = useState();
-  const [energyStoragePowerStationRatedCapacity, setEnergyStoragePowerStationRatedCapacity] = useState();
-  const [energyStoragePowerStationRatedPower, setEnergyStoragePowerStationRatedPower] = useState();
-  const [energyStoragePowerStationLatitude, setEnergyStoragePowerStationLatitude] = useState();
-  const [energyStoragePowerStationLongitude, setEnergyStoragePowerStationLongitude] = useState();
-
-  const [cardSummaryList, setCardSummaryList] = useState([]);
-  const [energyStoragePowerStationBaseLabels, setEnergyStoragePowerStationBaseLabels] = useState({ a0: [] });
-  const [energyStoragePowerStationBaseData, setEnergyStoragePowerStationBaseData] = useState({ a0: [] });
-  const [energyStoragePowerStationReportingNames, setEnergyStoragePowerStationReportingNames] = useState({ a0: '' });
-  const [energyStoragePowerStationReportingUnits, setEnergyStoragePowerStationReportingUnits] = useState({ a0: '()' });
-  const [energyStoragePowerStationReportingSubtotals, setEnergyStoragePowerStationReportingSubtotals] = useState({
-    a0: (0).toFixed(2)
-  });
-  const [energyStoragePowerStationReportingLabels, setEnergyStoragePowerStationReportingLabels] = useState({ a0: [] });
-  const [energyStoragePowerStationReportingData, setEnergyStoragePowerStationReportingData] = useState({ a0: [] });
-  const [energyStoragePowerStationReportingOptions, setEnergyStoragePowerStationReportingOptions] = useState([]);
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
-  const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
-    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
-  ]);
-
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -186,30 +162,45 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                     .join('"label":')
                 );
                 setEnergyStoragePowerStationList(json[0]);
-                setFilteredEnergyStoragePowerStationList(json[0]);
                 if (json[0].length > 0) {
                   // select the first station in the list
                   let stationID = json[0][0].value;
                   setSelectedEnergyStoragePowerStation(stationID);
-                  // enable submit button
-                  setSubmitButtonDisabled(false);
-                  // automatically submit with station
-                  let url =
-                    APIBaseURL +
-                    '/reports/energystoragepowerstationreportingparameters?' +
-                    'id=' +
-                    stationID +
-                    '&reportingperiodstartdatetime=' +
-                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-                    '&reportingperiodenddatetime=' +
-                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-                    '&language=' +
-                    language;
-                  loadData(url);
+
+                  // get datasource points by station ID
+                  let isResponseOK = false;
+                  fetch(APIBaseURL + '/energystoragepowerstations/' + stationID + '/datasourcepoints', {
+                    method: 'GET',
+                    headers: {
+                      'Content-type': 'application/json',
+                      'User-UUID': getCookieValue('user_uuid'),
+                      Token: getCookieValue('token')
+                    },
+                    body: null
+                  })
+                    .then(response => {
+                      if (response.ok) {
+                        isResponseOK = true;
+                      }
+                      return response.json();
+                    })
+                    .then(json => {
+                      if (isResponseOK) {
+                        if (json.length > 0) {
+                          setPointList(json);
+                        } else {
+                          setPointList([]);
+                        }
+                      } else {
+                        toast.error(t(json.description));
+                      }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+
                 } else {
                   setSelectedEnergyStoragePowerStation(undefined);
-                  // disable submit button
-                  setSubmitButtonDisabled(true);
                 }
               } else {
                 toast.error(t(json.description));
@@ -238,9 +229,6 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
     // hide export button
     setExportButtonHidden(true);
 
-    // Reinitialize tables
-    setDetailedDataTableData([]);
-
     let isResponseOK = false;
     fetch(url, {
       method: 'GET',
@@ -259,13 +247,6 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
       })
       .then(json => {
         if (isResponseOK) {
-          setEnergyStoragePowerStationName(json['energy_storage_power_station']['name']);
-          setEnergyStoragePowerStationSerialNumber(json['energy_storage_power_station']['serial_number']);
-          setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
-          setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
-          setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
-          setEnergyStoragePowerStationLatitude(json['energy_storage_power_station']['latitude']);
-          setEnergyStoragePowerStationLongitude(json['energy_storage_power_station']['longitude']);
           let timestamps = {};
           json['parameters']['timestamps'].forEach((currentValue, index) => {
             timestamps['a' + index] = currentValue;
@@ -335,15 +316,42 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
               .join('"label":')
           );
           setEnergyStoragePowerStationList(json[0]);
-          setFilteredEnergyStoragePowerStationList(json[0]);
           if (json[0].length > 0) {
             setSelectedEnergyStoragePowerStation(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            // get datasource points by station ID
+            let isResponseOK = false;
+            fetch(APIBaseURL + '/energystoragepowerstations/' + json[0][0].value + '/datasourcepoints', {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
+            })
+              .then(response => {
+                if (response.ok) {
+                  isResponseOK = true;
+                }
+                return response.json();
+              })
+              .then(json => {
+                if (isResponseOK) {
+                  if (json.length > 0) {
+                    setPointList(json);
+                  } else {
+                    setPointList([]);
+                  }
+                } else {
+                  toast.error(t(json.description));
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
           } else {
             setSelectedEnergyStoragePowerStation(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
+            setPointList([]);
           }
         } else {
           toast.error(t(json.description));
@@ -354,24 +362,55 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
       });
   };
 
-  const onSearchEnergyStoragePowerStation = ({ target }) => {
-    const keyword = target.value.toLowerCase();
-    const filteredResult = energyStoragePowerStationList.filter(energyStoragePowerStation =>
-      energyStoragePowerStation.label.toLowerCase().includes(keyword)
-    );
-    setFilteredEnergyStoragePowerStationList(keyword.length ? filteredResult : energyStoragePowerStationList);
-    if (filteredResult.length > 0) {
-      setSelectedEnergyStoragePowerStation(filteredResult[0].value);
+  // Callback fired when value changed
+  let onEnergyStoragePowerStationChange = stationID => {
+    setSelectedEnergyStoragePowerStation(stationID);
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/energystoragepowerstations/' + stationID + '/datasourcepoints', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          if (json.length > 0) {
+            setPointList(json);
+          } else {
+            setPointList([]);
+          }
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  // Callback fired when value changed
+  let onPointsChange = event => {
+    const options = Array.from(event.target.selectedOptions);
+    const values = options.map(option => option.value);
+    if (values.length > 0) {
+      setSelectedPointList(values);
       // enable submit button
       setSubmitButtonDisabled(false);
     } else {
-      setSelectedEnergyStoragePowerStation(undefined);
+      setSelectedPointList([]);
       // disable submit button
       setSubmitButtonDisabled(true);
     }
-    let customInputTarget = document.getElementById('energyStoragePowerStationSelect');
-    customInputTarget.value = filteredResult[0].value;
-  };
+  }
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
@@ -390,30 +429,14 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   let onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
-
-  const isBasePeriodTimestampExists = base_period_data => {
-    const timestamps = base_period_data['timestamps'];
-
-    if (timestamps.length === 0) {
-      return false;
-    }
-
-    for (let i = 0; i < timestamps.length; i++) {
-      if (timestamps[i].length > 0) {
-        return true;
-      }
-    }
-    return false;
-  };
-
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
     let url =
       APIBaseURL +
       '/reports/energystoragepowerstationreportingparameters?' +
-      'id=' +
-      selectedEnergyStoragePowerStation +
+      'pointids=' +
+      selectedPointList +
       '&reportingperiodstartdatetime=' +
       moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
       '&reportingperiodenddatetime=' +
@@ -474,11 +497,35 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                       id="energyStoragePowerStationSelect"
                       name="energyStoragePowerStationSelect"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedEnergyStoragePowerStation(target.value)}
+                      onChange={({ target }) => onEnergyStoragePowerStationChange(target.value)}
                     >
-                      {filteredEnergyStoragePowerStationList.map((energyStoragePowerStation, index) => (
+                      {energyStoragePowerStationList.map((energyStoragePowerStation, index) => (
                         <option value={energyStoragePowerStation.value} key={energyStoragePowerStation.value}>
                           {energyStoragePowerStation.label}
+                        </option>
+                      ))}
+                    </CustomInput>
+                  </Form>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <Label className={labelClasses} for="pointsSelect">
+                    {t('数据点')}
+                  </Label>
+
+                  <Form>
+                    <CustomInput
+                      id="pointsSelect"
+                      type="select"
+                      multiple
+                      name="pointsSelect"
+                      bsSize="sm"
+                      onChange={onPointsChange}
+                    >
+                      {pointList.map((point, index) => (
+                        <option value={point.id} key={point.id}>
+                          {point.name}
                         </option>
                       ))}
                     </CustomInput>
