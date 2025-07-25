@@ -1585,6 +1585,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': '吨标准煤',
       'Ton of Carbon Dioxide Emissions': '吨二氧化碳排放',
+      'Unit Carbon Emission': '单位能耗碳排放',
       'Operating Characteristic Curve': '运行曲线',
       Tariff: '费率',
       'Detailed Data': '详细数据',
