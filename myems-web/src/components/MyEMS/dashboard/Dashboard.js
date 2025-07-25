@@ -734,6 +734,45 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
           )}
         </CardSummary>
+        <CardSummary
+          rate={
+            totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] && totalInTCO2E['increment_rate'] && totalInTCE['increment_rate']
+              ? ((parseFloat(totalInTCO2E['increment_rate']) / parseFloat(totalInTCE['increment_rate'])).toFixed(2) + '%')
+              : ''
+          }
+          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+            CATEGORY: t('Unit Carbon Emission'),
+            UNIT: '(TCO2E/TCE)'
+          })}
+          color="info"
+          footnote={t('Per Unit Area')}
+          footvalue={
+            totalInTCE['value_per_unit_area'] && totalInTCE['value_per_unit_area'] !== 0 && totalInTCO2E['value_per_unit_area']
+              ? (totalInTCO2E['value_per_unit_area'] / totalInTCE['value_per_unit_area']).toFixed(3)
+              : '--'
+          }
+          footunit={t('(TCO2E/TCE/m²)')}
+          secondfootnote={t('Per Capita')}
+          secondfootvalue={
+            totalInTCE['value_per_capita'] && totalInTCE['value_per_capita'] !== 0 && totalInTCO2E['value_per_capita']
+              ? (totalInTCO2E['value_per_capita'] / totalInTCE['value_per_capita']).toFixed(3)
+              : '--'
+          }
+          secondfootunit={t('(TCO2E/TCE)')}
+        >
+          {totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] ? (
+            <CountUp
+              end={totalInTCO2E['value'] / totalInTCE['value']}
+              duration={2}
+              prefix=""
+              separator="," 
+              decimal="."
+              decimals={3}
+            />
+          ) : (
+            '--'
+          )}
+        </CardSummary>
       </div>
       <div className="card-deck">
         <BarChart
