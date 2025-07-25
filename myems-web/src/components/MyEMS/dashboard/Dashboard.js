@@ -744,7 +744,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             CATEGORY: t('Unit Carbon Emission'),
             UNIT: '(TCO2E/TCE)'
           })}
-          color="info"
+          color="warning"
           footnote={t('Per Unit Area')}
           footvalue={
             totalInTCE['value_per_unit_area'] && totalInTCE['value_per_unit_area'] !== 0 && totalInTCO2E['value_per_unit_area']
