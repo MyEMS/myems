@@ -248,7 +248,7 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_charging_stations "
                        " WHERE contact_id = %s ", (id_,))
-        if cursor.fetchone() is not None:
+        if cursor.fetchall() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -259,7 +259,7 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers "
                        " WHERE contact_id = %s ", (id_,))
-        if cursor.fetchone() is not None:
+        if cursor.fetchall() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -271,7 +271,7 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_power_stations "
                        " WHERE contact_id = %s ", (id_,))
-        if cursor.fetchone() is not None:
+        if cursor.fetchall() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -282,7 +282,7 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_microgrids "
                        " WHERE contact_id = %s ", (id_,))
-        if cursor.fetchone() is not None:
+        if cursor.fetchall() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -293,7 +293,7 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations "
                        " WHERE contact_id = %s ", (id_,))
-        if cursor.fetchone() is not None:
+        if cursor.fetchall() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
