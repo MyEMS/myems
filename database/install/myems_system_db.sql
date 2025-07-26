@@ -429,6 +429,19 @@ CREATE INDEX `tbl_energy_storage_containers_commands_index_1`
 ON `myems_system_db`.`tbl_energy_storage_containers_commands` (`energy_storage_container_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_energy_storage_containers_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_data_sources` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_energy_storage_containers_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `energy_storage_container_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_energy_storage_containers_data_sources_index_1`
+ON `myems_system_db`.`tbl_energy_storage_containers_data_sources` (`energy_storage_container_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_energy_storage_containers_dcdcs`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_energy_storage_containers_dcdcs` ;

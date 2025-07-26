@@ -1,17 +1,17 @@
 'use strict';
 
 app.controller('TenantController', function (
-    $scope,
-    $rootScope,
-    $window,
-    $translate,
-    $uibModal,
-    CostCenterService,
-    ContactService,
-    TenantService,
-    TenantTypeService,
-    toaster,
-    SweetAlert) {
+	$scope,
+	$rootScope,
+	$window,
+	$translate,
+	$uibModal,
+	CostCenterService,
+	ContactService,
+	TenantService,
+	TenantTypeService,
+	toaster,
+	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
@@ -309,10 +309,10 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 	$scope.tenanttypes = params.tenanttypes;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
-	$scope.tenant = {
-		lease_start_datetime: moment(),
-		lease_end_datetime_utc: moment(),
-	};
+$scope.tenant = {
+	lease_start_datetime: moment(),
+	lease_end_datetime: null,
+};
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -324,6 +324,19 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 		timePickerIncrement: 15,
 		singleDatePicker: true,
 	};
+	
+	$scope.isLeaseDateInvalid = function () {
+		if (!$scope.tenant.lease_start_datetime || !$scope.tenant.lease_end_datetime) {
+			return false;
+		}
+		const start = moment($scope.tenant.lease_start_datetime);
+		const end = moment($scope.tenant.lease_end_datetime);
+		if (!start.isValid() || !end.isValid()) {
+			return false;
+		}
+		return end.isSameOrBefore(start);
+	};
+
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
 		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
@@ -352,6 +365,18 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 		timePickerIncrement: 15,
 		singleDatePicker: true,
 	};
+	$scope.isLeaseDateInvalid = function () {
+		if (!$scope.tenant.lease_start_datetime || !$scope.tenant.lease_end_datetime) {
+			return false;
+		}
+		const start = moment($scope.tenant.lease_start_datetime);
+		const end = moment($scope.tenant.lease_end_datetime);
+		if (!start.isValid() || !end.isValid()) {
+			return false;
+		}
+		return end.isSameOrBefore(start);
+	};
+	
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
 		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);

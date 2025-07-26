@@ -8,6 +8,7 @@ import config
 import excelexporters.energystoragepowerstationreportingenergy
 from core import utilities
 from core.useractivity import access_control, api_key_control
+from core.utilities import get_translation
 
 
 class Reporting:
@@ -49,7 +50,9 @@ class Reporting:
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
-
+        trans = get_translation(language)
+        trans.install()
+        _ = trans.gettext
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
@@ -254,6 +257,7 @@ class Reporting:
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()
             meta_report['values'] = list()
+            meta_report['timeofuses'] = list()
             meta_report['subtotal'] = Decimal(0.0)
             meta_report['toppeak'] = Decimal(0.0)
             meta_report['onpeak'] = Decimal(0.0)
@@ -288,14 +292,24 @@ class Reporting:
                 peak_type = tariff_dict.get(row[0], None)
                 if peak_type == 'toppeak':
                     meta_report['toppeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('TopPeak'))
                 elif peak_type == 'onpeak':
                     meta_report['onpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('OnPeak'))
                 elif peak_type == 'midpeak':
                     meta_report['midpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('MidPeak'))
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('OffPeak'))
                 elif peak_type == 'deep':
                     meta_report['deep'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('Deep'))
 
             meta_report_list.append(meta_report)
 
@@ -323,6 +337,7 @@ class Reporting:
             meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
             meta_report['timestamps'] = list()
             meta_report['values'] = list()
+            meta_report['timeofuses'] = list()
             meta_report['subtotal'] = Decimal(0.0)
             meta_report['toppeak'] = Decimal(0.0)
             meta_report['onpeak'] = Decimal(0.0)
@@ -357,14 +372,24 @@ class Reporting:
                 peak_type = tariff_dict.get(row[0], None)
                 if peak_type == 'toppeak':
                     meta_report['toppeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('TopPeak'))
                 elif peak_type == 'onpeak':
                     meta_report['onpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('OnPeak'))
                 elif peak_type == 'midpeak':
                     meta_report['midpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('MidPeak'))
                 elif peak_type == 'offpeak':
                     meta_report['offpeak'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('OffPeak'))
                 elif peak_type == 'deep':
                     meta_report['deep'] += row[1]
+                    if period_type == 'hourly':
+                        meta_report['timeofuses'].append(_('Deep'))
 
             meta_report_list.append(meta_report)
 
@@ -602,6 +627,7 @@ class Reporting:
         result['reporting_period']['subtotals'] = list()
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['values'] = list()
+        result['reporting_period']['timeofuses'] = list()
         result['reporting_period']['toppeaks'] = list()
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
@@ -615,6 +641,8 @@ class Reporting:
                 result['reporting_period']['units'].append(meta_report['unit_of_measure'])
                 result['reporting_period']['timestamps'].append(meta_report['timestamps'])
                 result['reporting_period']['values'].append(meta_report['values'])
+                if period_type == 'hourly':
+                    result['reporting_period']['timeofuses'].append(meta_report['timeofuses'])
                 result['reporting_period']['subtotals'].append(meta_report['subtotal'])
                 result['reporting_period']['toppeaks'].append(meta_report['toppeak'])
                 result['reporting_period']['onpeaks'].append(meta_report['onpeak'])

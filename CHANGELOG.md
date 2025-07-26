@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems-admin.conf and myems-web.conf for nginx
 - added binding microgrid to space in myems-admin
 - added blank page image for space mnvironment monitor in myems-web
+- added quick mode for svg in myems-admin and myems-api
+- added `myems_system_db`.`tbl_energy_storage_containers_data_sources` in database
 ### Changed
 - subspace names under the same parent space cannot be duplicated
 - updated power stations
@@ -25,6 +27,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of delete distribution system in myems-api
 - fixed issue of add photovoltaic power station in myems-admin
 - fixed issue of delete svg function in myems-api
+- fixed issue of tanant editor in myems-admin
+- fixed issue of multiplelinechart in myems-web
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 

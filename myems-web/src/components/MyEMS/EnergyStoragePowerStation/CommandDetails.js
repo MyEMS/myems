@@ -5,28 +5,19 @@ import { Button, Card, CardBody, Table } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CommandModal from './CommandModal';
 
-const CommandDetails = ({ id, name, description, set_value, t }) => {
+const CommandDetails = ({ id, name, description, payload, t }) => {
   const [isOpenCommandModal, setIsOpenCommandModal] = useState(false);
 
   return (
     <>
       <Card className="mb-3 fs--1">
         <CardBody className="bg-light">
-          <h6>
-            {id}:{name}
-          </h6>
-          <Table striped className="border-bottom">
+          <Table className="fs--1 mb-0">
             <tbody>
               <tr>
-                <td>
-                  {t('Description')}: {description}
-                </td>
-                <td>
-                  {t('Set Value')}: {set_value}
-                </td>
-                <td>
+                <td className="pr-0 text-left">
                   <Button color="primary" size="sm" onClick={() => setIsOpenCommandModal(true)}>
-                    <FontAwesomeIcon icon="edit" className="mr-1" /> 设置
+                    <FontAwesomeIcon icon="edit" className="mr-1" /> {id}:{name}
                   </Button>
                 </td>
               </tr>
@@ -41,7 +32,7 @@ const CommandDetails = ({ id, name, description, set_value, t }) => {
         id={id}
         name={name}
         description={description}
-        set_value={set_value}
+        payload={payload}
       />
     </>
   );
@@ -50,8 +41,8 @@ const CommandDetails = ({ id, name, description, set_value, t }) => {
 CommandDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  payload: PropTypes.string,
   description: PropTypes.string.isRequired,
-  set_value: PropTypes.number
 };
 
 export default withTranslation()(CommandDetails);

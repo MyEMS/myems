@@ -5,12 +5,9 @@ import { Card, CardBody, Table } from 'reactstrap';
 
 const DeviceStatusDetails = ({
   id,
-  gatewayStatus,
-  PCSStatus,
-  BMSStatus,
-  HVACStatus,
-  gridMeterStatus,
-  loadMeterStatus,
+  isOnline,
+  PCSRunState,
+  batteryOperatingState,
   t
 }) => {
   return (
@@ -21,27 +18,47 @@ const DeviceStatusDetails = ({
             <tbody>
               <tr className="border-bottom">
                 <th className="pl-0 pb-0">{t('Gateway')}</th>
-                <th className="pr-0 text-right">{gatewayStatus}</th>
+                <th className="pr-0 text-right">{isOnline ? t('Communication Online') : t('Communication Offline')}</th>
               </tr>
               <tr className="border-bottom">
                 <th className="pl-0">{t('PCS')}</th>
-                <th className="pr-0 text-right">{PCSStatus}</th>
+                <th className="pr-0 text-right"> {!isOnline ? t('PCS Unknown') :
+                        PCSRunState === 'Running'
+                        ? t('PCS Running')
+                        : PCSRunState === 'Initializing'
+                        ? t('PCS Initializing')
+                        : PCSRunState === 'Standby'
+                        ? t('PCS Standby')
+                        : PCSRunState === 'Shutdown'
+                        ? t('PCS Shutdown')
+                        : PCSRunState === 'Fault'
+                        ? t('PCS Fault')
+                        : PCSRunState}</th>
               </tr>
               <tr className="border-bottom">
                 <th className="pl-0">{t('BMS')}</th>
-                <th className="pr-0 text-right ">{BMSStatus}</th>
-              </tr>
-              <tr className="border-bottom">
-                <th className="pl-0 pb-0">{t('HVAC')}</th>
-                <th className="pr-0 text-right">{HVACStatus}</th>
-              </tr>
-              <tr className="border-bottom">
-                <th className="pl-0 pb-0">{t('Grid Meter')}</th>
-                <th className="pr-0 text-right">{gridMeterStatus}</th>
-              </tr>
-              <tr className="border-bottom">
-                <th className="pl-0 pb-0">{t('Load Meter')}</th>
-                <th className="pr-0 text-right">{loadMeterStatus}</th>
+                <th className="pr-0 text-right "> {!isOnline ? t('Battery Unknown') :
+                        batteryOperatingState === 'Normal'
+                        ? t('Battery Normal')
+                        : batteryOperatingState === 'Standby'
+                        ? t('Battery Standby')
+                        : batteryOperatingState === 'ProhibitDisCharging'
+                        ? t('Battery Prohibit DisCharging')
+                        : batteryOperatingState === 'ProhibitCharging'
+                        ? t('Battery Prohibit Charging')
+                        : batteryOperatingState === 'Fault'
+                        ? t('Battery Fault')
+                        : batteryOperatingState === 'Warning'
+                        ? t('Battery Warning')
+                        : batteryOperatingState === 'Charging'
+                        ? t('Battery Charging')
+                        : batteryOperatingState === 'Discharging'
+                        ? t('Battery Discharging')
+                        : batteryOperatingState === 'Idle'
+                        ? t('Battery Idle')
+                        : batteryOperatingState === 'Reserved'
+                        ? t('Battery Reserved')
+                        : batteryOperatingState}</th>
               </tr>
             </tbody>
           </Table>
@@ -53,12 +70,9 @@ const DeviceStatusDetails = ({
 
 DeviceStatusDetails.propTypes = {
   id: PropTypes.number.isRequired,
-  gateway_status: PropTypes.string.isRequired,
-  pcs_status: PropTypes.string.isRequired,
-  bms_status: PropTypes.string.isRequired,
-  hvac_status: PropTypes.string.isRequired,
-  grid_meter_status: PropTypes.string.isRequired,
-  load_meter_status: PropTypes.string.isRequired
+  isOnline: PropTypes.bool.isRequired,
+  PCSRunState: PropTypes.string.isRequired,
+  batteryOperatingState: PropTypes.string.isRequired,
 };
 
 export default withTranslation()(DeviceStatusDetails);

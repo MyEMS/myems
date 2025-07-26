@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
-from core.useractivity import user_logger, admin_control, access_control
+from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 
 
@@ -919,6 +919,52 @@ class EnergyStoragePowerStationContainerItem:
         cnx.close()
 
         resp.status = falcon.HTTP_204
+
+
+class EnergyStoragePowerStationDataSourcePointCollection:
+    def __init__(self):
+        """Initializes"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_,):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+
+    @staticmethod
+    def on_get(req, resp, id_,):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        query = (" SELECT p.id, p.name "
+                 " FROM tbl_points p, tbl_energy_storage_power_stations_containers espsc, "
+                 "      tbl_energy_storage_containers_data_sources ecds, tbl_data_sources ds "
+                 " WHERE espsc.energy_storage_power_station_id = %s "
+                 "       AND espsc.energy_storage_container_id = ecds.energy_storage_container_id "
+                 "       AND ecds.data_source_id = ds.id  "
+                 "       AND p.data_source_id = ds.id "
+                 " ORDER BY p.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
 
 
 class EnergyStoragePowerStationUserCollection:

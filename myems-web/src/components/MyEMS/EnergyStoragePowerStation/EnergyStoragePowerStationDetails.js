@@ -106,9 +106,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [gatewayStatus, setGatewayStatus] = useState();
   const [PCSStatus, setPCSStatus] = useState();
   const [BMSStatus, setBMSStatus] = useState();
-  const [HVACStatus, setHVACStatus] = useState();
-  const [gridMeterStatus, setGridMeterStatus] = useState();
-  const [loadMeterStatus, setLoadMeterStatus] = useState();
 
   const [todayChargeEnergyValue, setTodayChargeEnergyValue] = useState();
   const [todayDischargeEnergyValue, setTodayDischargeEnergyValue] = useState();
@@ -135,6 +132,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   const [HVACDetailsList, setHVACDetailsList] = useState([]);
   const [DCDCDetailsList, setDCDCDetailsList] = useState([]);
   const [PCSDetailsList, setPCSDetailsList] = useState([]);
+  const [ESSMeterDetailsList, setESSMeterDetailsList] = useState([]);
   const [gridDetailsList, setGridDetailsList] = useState([]);
   const [loadDetailsList, setLoadDetailsList] = useState([]);
   const [STSDetailsList, setSTSDetailsList] = useState([]);
@@ -266,6 +264,10 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
           setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
 
+          setGatewayStatus(json['energy_storage_power_station']['is_online']);
+          setPCSStatus(json['energy_storage_power_station']['pcs_run_state']);
+          setBMSStatus(json['energy_storage_power_station']['battery_operating_state']);
+
           setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
           setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);
           setTotalChargeEnergyValue(json['energy_indicators']['total_charge_energy_value']);
@@ -304,13 +306,6 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
-
-          setGatewayStatus('正常');
-          setPCSStatus('正常');
-          setBMSStatus('正常');
-          setHVACStatus('正常');
-          setGridMeterStatus('正常');
-          setLoadMeterStatus('正常');
           // hide spinner
           setSpinnerHidden(true);
           // show result data
@@ -422,6 +417,43 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
   useInterval(() => {
     refreshSVGData();
   }, 1000 * 10);
+
+
+  const refreshTabBottomData = () => {
+    if(activeTabBottom == '1') {
+      // null
+    } else if (activeTabBottom == '2') {
+      fetchScheduleDetails();
+    } else if (activeTabBottom == '3') {
+      // null
+    } else if (activeTabBottom == '4') {
+      fetchDCDCDetails()
+    } else if (activeTabBottom == '5') {
+      fetchPCSDetails();
+    } else if (activeTabBottom == '6') {
+      fetchBMSDetails();
+    } else if (activeTabBottom == '7') {
+      fetchESSMeterDetails();
+    } else if (activeTabBottom == '8') {
+      fetchGridDetails();
+    } else if (activeTabBottom == '9') {
+      fetchLoadDetails();
+    } else if (activeTabBottom == '10') {
+      fetchHVACDetails();
+    } else if (activeTabBottom == '11') {
+      fetchFireControlDetails();
+    } else if (activeTabBottom == '12') {
+      fetchSTSDetails();
+    } else if (activeTabBottom == '13') {
+      fetchCommandDetails();
+    }
+
+  };
+
+  useInterval(() => {
+    refreshTabBottomData();
+  }, 1000 * 60);
+
 
   // Schedule
   const fetchScheduleDetails = () => {
@@ -664,6 +696,37 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         console.log(err);
       });
   };
+
+  // ESS Meters
+  const fetchESSMeterDetails = () => {
+    let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/meter';
+    let isResponseOK = false;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          setESSMeterDetailsList(json);
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   // HVAC
   const fetchHVACDetails = () => {
     let url = APIBaseURL + '/reports/energystoragepowerstationdetails/' + selectedStation + '/hvac';
@@ -821,6 +884,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               <Spinner color="primary" hidden={spinnerHidden} />
             </FormGroup>
           </Col>
+          <Col xs="auto">
+            <FormGroup>
+              <Button tag={'a'} href="./details" target="_blank" color="primary" bsSize="sm" hidden={!spaceCascaderHidden}  > 更多  </Button>
+            </FormGroup>
+          </Col>
         </Row>
       </Form>
       <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
@@ -972,12 +1040,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               <TabPane tabId="1">
                 <DeviceStatusDetails
                   id={selectedStation}
-                  gatewayStatus={gatewayStatus}
-                  PCSStatus={PCSStatus}
-                  BMSStatus={BMSStatus}
-                  HVACStatus={HVACStatus}
-                  gridMeterStatus={gridMeterStatus}
-                  loadMeterStatus={loadMeterStatus}
+                  isOnline={gatewayStatus}
+                  PCSRunState={PCSStatus}
+                  batteryOperatingState={BMSStatus}
                 />
               </TabPane>
               <TabPane tabId="2">
@@ -1080,10 +1145,20 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               <h6>{t('BMS')}</h6>
             </NavLink>
           </NavItem>
-
           <NavItem className="cursor-pointer">
             <NavLink
               className={classNames({ active: activeTabBottom === '7' })}
+              onClick={() => {
+                setActiveTabBottom('7');
+                fetchESSMeterDetails();
+              }}
+            >
+              <h6>{t('ESS Meter')}</h6>
+            </NavLink>
+          </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={classNames({ active: activeTabBottom === '8' })}
               onClick={() => {
                 setActiveTabBottom('7');
                 fetchGridDetails();
@@ -1094,7 +1169,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </NavItem>
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '8' })}
+              className={classNames({ active: activeTabBottom === '9' })}
               onClick={() => {
                 setActiveTabBottom('8');
                 fetchLoadDetails();
@@ -1106,7 +1181,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '9' })}
+              className={classNames({ active: activeTabBottom === '10' })}
               onClick={() => {
                 setActiveTabBottom('9');
                 fetchHVACDetails();
@@ -1118,7 +1193,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '10' })}
+              className={classNames({ active: activeTabBottom === '11' })}
               onClick={() => {
                 setActiveTabBottom('10');
                 fetchFireControlDetails();
@@ -1130,9 +1205,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '11' })}
+              className={classNames({ active: activeTabBottom === '12' })}
               onClick={() => {
-                setActiveTabBottom('11');
+                setActiveTabBottom('12');
                 fetchSTSDetails();
               }}
             >
@@ -1142,12 +1217,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
 
           <NavItem className="cursor-pointer">
             <NavLink
-              className={classNames({ active: activeTabBottom === '12' })}
+              className={classNames({ active: activeTabBottom === '13' })}
               onClick={() => {
                 let is_pin_valid = getCookieValue('is_pin_valid');
                 if (is_pin_valid) {
-                  fetchCommandDetails();
                   setActiveTabBottom('12');
+                  fetchCommandDetails();
                 } else {
                   setIsOpenPinModal(true);
                 }
@@ -1237,10 +1312,9 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               </CardBody>
             </Card>
           </TabPane>
-          <TabPane tabId="4">
-            {isIterableArray(DCDCDetailsList) &&
-              DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
-          </TabPane>
+          {<TabPane tabId="4">
+            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+          </TabPane>}
           <TabPane tabId="5">
             {isIterableArray(PCSDetailsList) &&
               PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
@@ -1250,26 +1324,29 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               BMSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
           <TabPane tabId="7">
+            {isIterableArray(ESSMeterDetailsList) &&
+              ESSMeterDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
+          </TabPane>
+          <TabPane tabId="8">
             {isIterableArray(gridDetailsList) &&
               gridDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
-          <TabPane tabId="8">
+          <TabPane tabId="9">
             {isIterableArray(loadDetailsList) &&
               loadDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
-          <TabPane tabId="9">
+          <TabPane tabId="10">
             {isIterableArray(HVACDetailsList) &&
               HVACDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
-          <TabPane tabId="10">
+          <TabPane tabId="11">
             {isIterableArray(firecontrolDetailsList) &&
               firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
-          <TabPane tabId="11">
-            {isIterableArray(STSDetailsList) &&
-              STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
-          </TabPane>
-          <TabPane tabId="12">
+          {<TabPane tabId="12">
+            {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
+          </TabPane> }
+          <TabPane tabId="13">
             {isIterableArray(commandDetailsList) &&
               commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} {...rest} />)}
           </TabPane>

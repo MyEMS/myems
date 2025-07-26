@@ -299,7 +299,7 @@ class ContactItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_Photovoltaic_Power_Stations')
-        
+
 
         cursor.execute(" DELETE FROM tbl_contacts WHERE id = %s ", (id_,))
         cnx.commit()

@@ -306,6 +306,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Command List',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -1129,6 +1130,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Please Input Address',
                 INPUT_LATITUDE: 'Please Input Latitude',
                 INPUT_LONGITUDE: 'Please Input Longitude',
+                LATITUDE_HINT: 'Positive numbers indicate north latitude, negative numbers indicate south latitude',
+                LONGITUDE_HINT: 'Positive numbers indicate east longitude, negative numbers indicate west longitude',
             },
             TENANT: {
                 BUILDINGS: 'Buildings',
@@ -1144,6 +1147,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Please Input Floors',
                 INPUT_ROOMS: 'Rooms',
                 INPUT_LEASE_NUMBER: 'Please Input Lease Number',
+                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -1241,6 +1245,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Success',
+				ADD_FAILURE: 'ADD Failure',
                 COPY_SUCCESS: 'Copy Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
@@ -2250,6 +2255,7 @@ function config($translateProvider) {
                 COMMAND_LIST: '指令列表',
 
                 CONTROL_MODE_LIST: '控制模式列表',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
                 END_TIME: '结束时间',
@@ -3074,6 +3080,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '请输入楼层',
                 INPUT_ROOMS: '请输入房间',
                 INPUT_LEASE_NUMBER: '请输入租约编号',
+                END_BEFORE_START_WARNING: '租约结束时间不能早于开始时间',
             },
             STORE: {
                 ADDRESS: '地址',
@@ -3084,6 +3091,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: '请输入地址',
                 INPUT_LATITUDE: '请输入纬度',
                 INPUT_LONGITUDE: '请输入经度',
+                LATITUDE_HINT: '正数为北纬，负数为南纬',
+                LONGITUDE_HINT: '正数为东经，负数为西经',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: '添加车间',
@@ -3181,6 +3190,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
+				ADD_FAILURE: '添加失败',
                 COPY_SUCCESS: '复制成功',
                 LOGIN_SUCCESS: '登录成功',
                 LOGIN_FAILURE: '登录失败',
@@ -3849,7 +3859,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: '与空间有关系',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -4193,6 +4203,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Befehlsliste',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -5019,6 +5030,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Bitte betreten Sie den Boden',
                 INPUT_ROOMS: 'Bitte betreten Sie den Raum',
                 INPUT_LEASE_NUMBER: 'Bitte geben Sie die Mietnummer ein',
+                END_BEFORE_START_WARNING: 'Die Endzeit darf nicht vor der Startzeit liegen',
             },
             STORE: {
                 ADDRESS: 'Adresse',
@@ -5029,6 +5041,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Bitte geben Sie die Adresse ein',
                 INPUT_LATITUDE: 'Bitte geben Sie den Breitengrad ein',
                 INPUT_LONGITUDE: 'Bitte geben Sie den Längengrad ein',
+                LATITUDE_HINT: 'Positive Zahl für den Norden, negative Zahl für den Süden.',
+                LONGITUDE_HINT: 'Positive ist Ostlänge, negative ist Westlänge.',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Workshop hinzufügen',
@@ -5125,6 +5139,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Erfolg',
+				ADD_FAILURE: 'Hinzufügen fehlgeschlagen',
                 COPY_SUCCESS: 'Kopieren erfolgreich',
                 LOGIN_SUCCESS: 'Anmeldung erfolgreich',
                 LOGIN_FAILURE: 'Login fehlgeschlagen',
@@ -5790,7 +5805,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Beziehung zu Räumen',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -6130,6 +6145,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Liste de commandes',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -6952,6 +6968,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Veuillez saisir l’adresse',
                 INPUT_LATITUDE: 'Veuillez saisir la latitude',
                 INPUT_LONGITUDE: 'Veuillez saisir la longitude',
+                LATITUDE_HINT: 'Les nombres positifs sont Nord, les nombres négatifs sont Sud',
+                LONGITUDE_HINT: 'Les nombres positifs sont longitudinaux est, les nombres négatifs sont longitudinaux Ouest',
             },
             TENANT: {
                 BUILDINGS: 'Bâtiments',
@@ -6967,6 +6985,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'S’il vous plaît entrer les étages',
                 INPUT_ROOMS: 'Chambres',
                 INPUT_LEASE_NUMBER: 'Veuillez entrer le numéro de bail',
+                END_BEFORE_START_WARNING: 'L\'heure de fin ne peut pas précéder l\'heure de début',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Ajouter un atelier',
@@ -7064,6 +7083,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Succès',
+				ADD_FAILURE: 'Échec de l’ajout',
                 COPY_SUCCESS: 'Copie réussie',
                 LOGIN_SUCCESS: 'Réussite de la connexion',
                 LOGIN_FAILURE: 'Échec de connexion',
@@ -7730,7 +7750,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Il y a une relation avec les espaces',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -8070,6 +8090,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Lista de comandos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -8892,6 +8913,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Por favor, introduzca la dirección',
                 INPUT_LATITUDE: 'Por favor, introduzca Latitude',
                 INPUT_LONGITUDE: 'Por favor, introduzca la longitud',
+                LATITUDE_HINT: 'El número positivo es latitud norte y el número negativo es latitud Sur.',
+                LONGITUDE_HINT: 'El número positivo es el meridiano este y el número negativo es el meridiano oeste.',
             },
             TENANT: {
                 BUILDINGS: 'Edificios',
@@ -8907,6 +8930,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Por favor, ingrese pisos',
                 INPUT_ROOMS: 'Local',
                 INPUT_LEASE_NUMBER: 'Por favor, introduzca el número de arrendamiento',
+                END_BEFORE_START_WARNING: 'La hora de finalización no puede ser anterior a la hora de inicio',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Agregar Shopfloor',
@@ -9004,6 +9028,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Éxito',
+				ADD_FAILURE: 'Error al añadir',
                 COPY_SUCCESS: 'Copia exitosa',
                 LOGIN_SUCCESS: 'Inicio de sesión exitoso',
                 LOGIN_FAILURE: 'Error de inicio de sesión',
@@ -9670,7 +9695,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Hay relación con los espacios',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -10010,6 +10035,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Список команд',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -10832,6 +10858,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Пожалуйста, введите адрес',
                 INPUT_LATITUDE: 'Пожалуйста, введите широту',
                 INPUT_LONGITUDE: 'Пожалуйста, введите долготу',
+                LATITUDE_HINT: 'Положительное число - северная широта, отрицательное - южная широта.',
+                LONGITUDE_HINT: 'Положительное число - восточная долгота, отрицательное - западная долгота.',
             },
             TENANT: {
                 BUILDINGS: 'Зданий',
@@ -10847,6 +10875,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Пожалуйста, введите полы',
                 INPUT_ROOMS: 'Номера',
                 INPUT_LEASE_NUMBER: 'Пожалуйста, введите номер лизинга',
+                END_BEFORE_START_WARNING: 'Время окончания не может быть раньше времени начала',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Добавить торговый зал',
@@ -10944,6 +10973,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Успех',
+				ADD_FAILURE: 'Ошибка добавления',
                 COPY_SUCCESS: 'Копировать успешно',
                 LOGIN_SUCCESS: 'Успешный вход в систему',
                 LOGIN_FAILURE: 'Ошибка входа в систему',
@@ -11610,7 +11640,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Существует связь с пространствами',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -11950,6 +11980,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'قائمة الأوامر',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -12772,6 +12803,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'يرجى إدخال العنوان',
                 INPUT_LATITUDE: 'يرجى إدخال خط العرض',
                 INPUT_LONGITUDE: 'يرجى إدخال خط الطول',
+                LATITUDE_HINT: 'عدد موجب هو خط العرض الشمالي ، عدد سالب هو خط العرض الجنوبي',
+                LONGITUDE_HINT: 'عدد موجب هو الشرق ، عدد سالب هو الغرب',
             },
             TENANT: {
                 BUILDINGS: 'مباني',
@@ -12787,6 +12820,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'يرجى إدخال الطوابق',
                 INPUT_ROOMS: 'غرف',
                 INPUT_LEASE_NUMBER: 'يرجى إدخال رقم الإيجار',
+                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'إضافة أرضية متجر',
@@ -12884,6 +12918,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'نجاح',
+				ADD_FAILURE: 'فشل الإضافة',
                 COPY_SUCCESS: 'نسخة ناجحة',
                 LOGIN_SUCCESS: 'نجاح تسجيل الدخول',
                 LOGIN_FAILURE: 'فشل تسجيل الدخول',
@@ -13550,7 +13585,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'هناك علاقة مع المساحات',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -13890,6 +13925,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Danh sách lệnh',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -14712,6 +14748,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Vui lòng nhập địa chỉ',
                 INPUT_LATITUDE: 'Vui lòng nhập Latitude',
                 INPUT_LONGITUDE: 'Vui lòng nhập kinh độ',
+                LATITUDE_HINT: 'Số dương là vĩ độ bắc và số âm là vĩ độ nam',
+                LONGITUDE_HINT: 'Kinh Đông là số dương, kinh Tây là số âm.',
             },
             TENANT: {
                 BUILDINGS: 'Tòa nhà',
@@ -14727,6 +14765,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Vui lòng nhập tầng',
                 INPUT_ROOMS: 'Phòng',
                 INPUT_LEASE_NUMBER: 'Vui lòng nhập số hợp đồng thuê',
+                END_BEFORE_START_WARNING: 'Thời gian kết thúc không thể sớm hơn thời gian bắt đầu',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Thêm Shopfloor',
@@ -14824,6 +14863,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sự thành công',
+				ADD_FAILURE: 'Thêm thất bại',
                 COPY_SUCCESS: 'Sao chép thành công',
                 LOGIN_SUCCESS: 'Đăng nhập thành công',
                 LOGIN_FAILURE: 'Đăng nhập thất bại',
@@ -15490,7 +15530,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Có mối quan hệ với không gian',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -15829,6 +15869,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'รายการคําสั่ง',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -16650,6 +16691,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'กรุณาใส่ที่อยู่',
                 INPUT_LATITUDE: 'กรุณาใส่ละติจูด',
                 INPUT_LONGITUDE: 'กรุณาใส่ลองจิจูด',
+                LATITUDE_HINT: 'บวกเป็นละติจูดเหนือ ลบเป็นละติจูดใต้',
+                LONGITUDE_HINT: 'บวกเป็นเส้นลองจิจูดตะวันออก ลบเป็นเส้นลองจิจูดตะวันตก',
             },
             TENANT: {
                 BUILDINGS: 'อาคาร',
@@ -16665,6 +16708,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'กรุณาใส่ชั้น',
                 INPUT_ROOMS: 'ห้อง พัก',
                 INPUT_LEASE_NUMBER: 'กรุณาใส่หมายเลขสัญญาเช่า',
+                END_BEFORE_START_WARNING: 'เวลาสิ้นสุดต้องไม่ก่อนเวลาเริ่มต้น',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'เพิ่มพื้นที่ร้านค้า',
@@ -16762,6 +16806,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'ความสําเร็จ',
+				ADD_FAILURE: 'เพิ่มไม่สำเร็จ',
                 COPY_SUCCESS: 'คัดลอกสำเร็จ',
                 LOGIN_SUCCESS: 'เข้าสู่ระบบสําเร็จ',
                 LOGIN_FAILURE: 'เข้าสู่ระบบล้มเหลว',
@@ -17428,7 +17473,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'มีความสัมพันธ์กับพื้นที่',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -17768,6 +17813,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Komut Listesi',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -18589,6 +18635,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Lütfen Adres Giriniz',
                 INPUT_LATITUDE: 'Lütfen Enlemi Girin',
                 INPUT_LONGITUDE: 'Lütfen Boylamı Girin',
+                LATITUDE_HINT: 'Pozitif Kuzey, Negatif Güney',
+                LONGITUDE_HINT: 'Doğu uzunluğu pozitif, batı uzunluğu negatif.',
             },
             TENANT: {
                 BUILDINGS: 'Bina',
@@ -18604,6 +18652,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Lütfen Giriş Katları',
                 INPUT_ROOMS: 'Oda -larında',
                 INPUT_LEASE_NUMBER: 'Lütfen Kira Numarasını Girin',
+                END_BEFORE_START_WARNING: 'Bitiş zamanı, başlangıç zamanından önce olamaz',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Atölye Ekle',
@@ -18701,6 +18750,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Başarı',
+				ADD_FAILURE: 'Ekleme başarısız',
                 COPY_SUCCESS: 'Başarılı kopyalama',
                 LOGIN_SUCCESS: 'Giriş Başarısı',
                 LOGIN_FAILURE: 'Oturum Açma Hatası',
@@ -19367,7 +19417,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Uzaklarla İlişki Var',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -19707,6 +19757,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Senarai Perintah',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -20528,6 +20579,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Sila Alamat Input',
                 INPUT_LATITUDE: 'Sila masukkan latitud',
                 INPUT_LONGITUDE: 'Sila masukkan longitud',
+                LATITUDE_HINT: 'Positif ialah latitur utara, negatif ialah latitur selatan.',
+                LONGITUDE_HINT: 'Bilangan positif ialah garis timur dan negatif ialah garis barat.',
             },
             TENANT: {
                 BUILDINGS: 'Bangunan',
@@ -20543,6 +20596,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Sila Masuk Lantai',
                 INPUT_ROOMS: 'Bilik',
                 INPUT_LEASE_NUMBER: 'Sila masukkan nombor pajakan',
+                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai', 
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Tambah Shopfloor',
@@ -20640,6 +20694,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Kejayaan',
+				ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin berjaya',
                 LOGIN_SUCCESS: 'Kejayaan Log Masuk',
                 LOGIN_FAILURE: 'Kegagalan Log Masuk',
@@ -21306,7 +21361,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Terdapat hubungan dengan ruang',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -21646,6 +21701,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Daftar Perintah',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -22467,6 +22523,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
                 INPUT_LATITUDE: 'Silakan masukkan Latitude',
                 INPUT_LONGITUDE: 'Silakan masukkan Garis Bujur',
+                LATITUDE_HINT: 'Positif adalah garis lintang utara, negatif adalah garis lintang selatan.',
+                LONGITUDE_HINT: 'Positif adalah garis timur, negatif adalah garis barat.',
             },
             TENANT: {
                 BUILDINGS: 'Bangunan',
@@ -22482,6 +22540,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Silakan Masukkan Lantai',
                 INPUT_ROOMS: 'Kamar',
                 INPUT_LEASE_NUMBER: 'Masukkan Nomor Sewa',
+                END_BEFORE_START_WARNING: 'Masa tamat tidak boleh lebih awal daripada masa mula',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -22579,6 +22638,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Keberhasilan',
+				ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin Sukses',
                 LOGIN_SUCCESS: 'Login Berhasil',
                 LOGIN_FAILURE: 'Kegagalan Login',
@@ -23245,7 +23305,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: 'Ada Hubungan dengan Spaces',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -23589,6 +23649,7 @@ function config($translateProvider) {
                 COMMAND_LIST: '指令列表',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -24417,6 +24478,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '請輸入樓層',
                 INPUT_ROOMS: '請輸入房間',
                 INPUT_LEASE_NUMBER: '請輸入租約編號',
+                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間', 
             },
             STORE: {
                 ADDRESS: '地址',
@@ -24427,6 +24489,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: '請輸入地址',
                 INPUT_LATITUDE: '請輸入緯度',
                 INPUT_LONGITUDE: '請輸入經度',
+                LATITUDE_HINT: '正數為北緯，負數為南緯',
+                LONGITUDE_HINT: '正數為東經，負數為西經',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: '添加⾞間',
@@ -24524,6 +24588,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
+				ADD_FAILURE: '新增失敗',
                 COPY_SUCCESS: '覆制成功',
                 LOGIN_SUCCESS: '登錄成功',
                 LOGIN_FAILURE: '登錄失敗',
@@ -25192,7 +25257,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'There Is Relation With Other Virtual Meters',
                 THERE_IS_RELATION_WITH_SENSORS: 'There Is Relation With Sensors',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'There Is Relation With Shopfloors',
-                THERE_IS_RELATION_WITH_SPACES: 'There Is Relation With Spaces',
+                THERE_IS_RELATION_WITH_SPACES: '與空間有關係',
                 THERE_IS_RELATION_WITH_STORES: 'There Is Relation With Stores',
                 THERE_IS_RELATION_WITH_TENANTS: 'There Is Relation With Tenants',
                 THERE_IS_RELATION_WITH_USERS: 'There Is Relation With Users',
@@ -25532,6 +25597,7 @@ function config($translateProvider) {
                 COMMAND_LIST: 'Lista de Comandos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -26358,6 +26424,8 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Por favor, insira o endereço',
                 INPUT_LATITUDE: 'Por favor, insira a latitude',
                 INPUT_LONGITUDE: 'Por favor, insira a longitude',
+                LATITUDE_HINT: 'Positivo para a latitude norte, negativo para a latitude sul.',
+                LONGITUDE_HINT: 'Positivo é longitude leste, negativo é longitude oeste.',
             },
             TENANT: {
                 BUILDINGS: 'Edifícios',
@@ -26373,6 +26441,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Por favor, insira os andares',
                 INPUT_ROOMS: 'Por favor, insira as salas',
                 INPUT_LEASE_NUMBER: 'Por favor, insira o número do contrato de locação',
+                END_BEFORE_START_WARNING: 'O horário de término não pode ser anterior ao horário de início',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Adicionar Andar de Loja',
@@ -26470,6 +26539,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sucesso',
+				ADD_FAILURE: 'Falha na adição',
                 COPY_SUCCESS: 'Cópia Bem-Sucedida',
                 LOGIN_SUCCESS: 'Login Bem-Sucedido',
                 LOGIN_FAILURE: 'Falha no Login',
@@ -27135,7 +27205,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'Há Relação com Outros Medidores Virtuais',
                 THERE_IS_RELATION_WITH_SENSORS: 'Há Relação com Sensores',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'Há Relação com Andares de Produção',
-                THERE_IS_RELATION_WITH_SPACES: 'Há Relação com Espaços',
+                THERE_IS_RELATION_WITH_SPACES: 'Há uma relação com os espaços',
                 THERE_IS_RELATION_WITH_STORES: 'Há Relação com Lojas',
                 THERE_IS_RELATION_WITH_TENANTS: 'Há Relação com Locatários',
                 THERE_IS_RELATION_WITH_USERS: 'Há Relação com Usuários',
