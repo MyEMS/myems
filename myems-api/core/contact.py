@@ -249,7 +249,7 @@ class ContactItem:
                        " FROM tbl_charging_stations "
                        " WHERE contact_id = %s ", (id_,))
         rows_charging_stations = cursor.fetchall()
-        if cursor.fetchall() is not None and len(rows_charging_stations) > 0:
+        if rows_charging_stations is not None and len(rows_charging_stations) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -261,7 +261,7 @@ class ContactItem:
                        " FROM tbl_energy_storage_containers "
                        " WHERE contact_id = %s ", (id_,))
         rows_energy_storage_containers = cursor.fetchall()
-        if cursor.fetchall() is not None and len(rows_energy_storage_containers) > 0:
+        if rows_energy_storage_containers is not None and len(rows_energy_storage_containers) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -274,7 +274,7 @@ class ContactItem:
                        " FROM tbl_energy_storage_power_stations "
                        " WHERE contact_id = %s ", (id_,))
         rows_energy_storage_power_stations = cursor.fetchall()
-        if cursor.fetchall() is not None and len(rows_energy_storage_power_stations) > 0:
+        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -286,7 +286,7 @@ class ContactItem:
                        " FROM tbl_microgrids "
                        " WHERE contact_id = %s ", (id_,))
         rows_microgrids = cursor.fetchall()
-        if cursor.fetchall() is not None and len(rows_microgrids) > 0:
+        if rows_microgrids is not None and len(rows_microgrids) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -298,7 +298,7 @@ class ContactItem:
                        " FROM tbl_photovoltaic_power_stations "
                        " WHERE contact_id = %s ", (id_,))
         rows_photovoltaic_power_stations = cursor.fetchall()
-        if cursor.fetchall() is not None and len(rows_photovoltaic_power_stations) > 0:
+        if rows_photovoltaic_power_stations  is not None and len(rows_photovoltaic_power_stations) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
