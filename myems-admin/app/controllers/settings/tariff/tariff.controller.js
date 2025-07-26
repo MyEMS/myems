@@ -301,10 +301,23 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		message: ''
 	};
 
+	$scope.isEndTimeBeforeStartTime = function(startTime, endTime) {
+        if (!startTime || !endTime) {
+            return true;
+        }
+        var startParts = startTime.split(':');
+        var endParts = endTime.split(':');
+
+        var startSeconds = parseInt(startParts[0]) * 3600 + parseInt(startParts[1]) * 60 + parseInt(startParts[2]);
+        var endSeconds = parseInt(endParts[0]) * 3600 + parseInt(endParts[1]) * 60 + parseInt(endParts[2]);
+
+        return endSeconds <= startSeconds;
+    };
+
 	$scope.ok = function() {
 		for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
-        	if (item.end_time_of_day <= item.start_time_of_day) {
+        	if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
             	return;
@@ -330,7 +343,7 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
 		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
 
-		if (t.end_time_of_day <= t.start_time_of_day) {
+		if ($scope.isEndTimeBeforeStartTime(t.start_time_of_day, t.end_time_of_day)) {
 			$scope.error.show = true;
 			$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
 			return;
@@ -413,11 +426,25 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
     	message: ''
 	};
 
+	$scope.isEndTimeBeforeStartTime = function(startTime, endTime) {
+        if (!startTime || !endTime) {
+            return true;
+        }
+        var startParts = startTime.split(':');
+        var endParts = endTime.split(':');
+
+        var startSeconds = parseInt(startParts[0]) * 3600 + parseInt(startParts[1]) * 60 + parseInt(startParts[2]);
+        var endSeconds = parseInt(endParts[0]) * 3600 + parseInt(endParts[1]) * 60 + parseInt(endParts[2]);
+
+        return endSeconds <= startSeconds;
+    };
+
+
 	$scope.ok = function() {
 		$scope.error.show = false;
     	for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
-        	if (item.end_time_of_day <= item.start_time_of_day) {
+        	if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)){
             	$scope.error.show = true;
             	$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
             	return;
@@ -442,7 +469,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		t.start_time_of_day= t.start_hour + ':' + t.start_min + ':' + t.start_second;
 		t.end_time_of_day= t.end_hour + ':' + t.end_min + ':' + t.end_second;
 
-		if (t.end_time_of_day <= t.start_time_of_day) {
+		if ($scope.isEndTimeBeforeStartTime(t.start_time_of_day, t.end_time_of_day)) {
         	$scope.error.show = true;
         	$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
         	return;
