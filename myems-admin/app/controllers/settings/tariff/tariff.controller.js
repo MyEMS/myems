@@ -302,8 +302,8 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	};
 
 	$scope.ok = function() {
-		for (var i = 0; i < $scope.times.length; i++) {
-        	var item = $scope.times[i];
+		for (var i = 0; i < $scope.timeofuse.length; i++) {
+        	var item = $scope.timeofuse[i];
         	if (item.end_time_of_day <= item.start_time_of_day) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
@@ -415,8 +415,8 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 
 	$scope.ok = function() {
 		$scope.error.show = false;
-    	for (var i = 0; i < $scope.times.length; i++) {
-        	var item = $scope.times[i];
+    	for (var i = 0; i < $scope.timeofuse.length; i++) {
+        	var item = $scope.timeofuse[i];
         	if (item.end_time_of_day <= item.start_time_of_day) {
             	$scope.error.show = true;
             	$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
@@ -424,7 +424,7 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
         	}
     	}
 
-    	$scope.tariff.times = $scope.times;
+    	$scope.tariff.times = $scope.timeofuse;
 
 		$scope.tariff.valid_from=moment($scope.tariff.valid_from).format().slice(0,19);
 		$scope.tariff.valid_through=moment($scope.tariff.valid_through).format().slice(0,19);
