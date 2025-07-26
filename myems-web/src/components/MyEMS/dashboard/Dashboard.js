@@ -146,8 +146,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
                 cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
                 cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
-                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 labels.push(
                   t('CATEGORY Consumption UNIT', { CATEGORY: null, UNIT: null }) +
                   cardSummaryItem['name'] +
@@ -162,8 +162,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 cardSummaryItem['unit'] = json['reporting_period_cost']['units'][index];
                 cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index];
                 cardSummaryItem['increment_rate'] = parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
-                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 labels.push(
                   t('CATEGORY Costs UNIT', { CATEGORY: null, UNIT: null }) +
                   cardSummaryItem['name'] +
@@ -180,8 +180,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 cardSummaryItem['unit'] = json['base_period_input']['units'][index];
                 cardSummaryItem['subtotal'] = json['base_period_input']['subtotals'][index];
                 cardSummaryItem['increment_rate'] = null;
-                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 lastYearBarList.push(cardSummaryItem);
               });
 
@@ -191,8 +191,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 cardSummaryItem['unit'] = json['base_period_cost']['units'][index];
                 cardSummaryItem['subtotal'] = json['base_period_cost']['subtotals'][index];
                 cardSummaryItem['increment_rate'] = null;
-                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                cardSummaryItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                cardSummaryItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(cardSummaryItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 lastYearBarList.push(cardSummaryItem);
               });
               setLastYearBarList(lastYearBarList);
@@ -241,8 +241,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let totalInTCE = {};
               totalInTCE['value'] = json['reporting_period_input']['total_in_kgce'] / 1000; // convert from kg to t
               totalInTCE['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
-              totalInTCE['value_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0 ;
-              totalInTCE['value_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(totalInTCE['value'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+              totalInTCE['value_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
+              totalInTCE['value_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(totalInTCE['value'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
               setTotalInTCE(totalInTCE);
 
               let costDataArray = [];
@@ -259,8 +259,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let totalInTCO2E = {};
               totalInTCO2E['value'] = json['reporting_period_input']['total_in_kgco2e'] / 1000; // convert from kg to t
               totalInTCO2E['increment_rate'] = parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
-              totalInTCO2E['value_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0 ;
-              totalInTCO2E['value_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+              totalInTCO2E['value_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
+              totalInTCO2E['value_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
               setTotalInTCO2E(totalInTCO2E);
 
               let TCEDataArray = [];
@@ -311,8 +311,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   ];
                 thisMonthItem['increment_rate'] =
                   parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
-                thisMonthItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                thisMonthItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 thisMonthInputArr.push(thisMonthItem);
               });
               setSpaceInputLineChartOptions(names);
@@ -330,8 +330,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['reporting_period_output']['values'][index].length - 1
                   ];
                 thisMonthItem['increment_rate'] = parseFloat(json['reporting_period_output']['increment_rates'][index] * 100).toFixed(2) + '%';
-                thisMonthItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                thisMonthItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
                 thisMonthOutputArr.push(thisMonthItem);
               });
               setThisMonthOutputCardSummaryList(thisMonthOutputArr);
@@ -362,8 +362,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   ];
                 thisMonthItem['increment_rate'] =
                   parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
-                thisMonthItem['subtotal_per_unit_area'] = json['space']['area']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0 ;
-                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants']  > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0 ;
+                thisMonthItem['subtotal_per_unit_area'] = json['space']['area'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['area']).toFixed(3) : 0.0;
+                thisMonthItem['subtotal_per_capita'] = json['space']['number_of_occupants'] > 0 ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3) : 0.0;
 
                 thisMonthCostArr.push(thisMonthItem);
               });
@@ -692,8 +692,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             )}
           </CardSummary>
         ))}
-        </div>
-        <div className="card-deck">
+      </div>
+      <div className="card-deck">
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
@@ -732,6 +732,45 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         >
           {totalInTCO2E['value'] && (
             <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+          )}
+        </CardSummary>
+        <CardSummary
+          rate={
+            totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] && totalInTCO2E['increment_rate'] && totalInTCE['increment_rate']
+              ? ((parseFloat(totalInTCO2E['increment_rate']) / parseFloat(totalInTCE['increment_rate'])).toFixed(2) + '%')
+              : ''
+          }
+          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+            CATEGORY: t('Unit Carbon Emission'),
+            UNIT: '(TCO2E/TCE)'
+          })}
+          color="warning"
+          footnote={t('Per Unit Area')}
+          footvalue={
+            totalInTCE['value_per_unit_area'] && totalInTCE['value_per_unit_area'] !== 0 && totalInTCO2E['value_per_unit_area']
+              ? (totalInTCO2E['value_per_unit_area'] / totalInTCE['value_per_unit_area']).toFixed(3)
+              : '--'
+          }
+          footunit={t('(TCO2E/TCE/m²)')}
+          secondfootnote={t('Per Capita')}
+          secondfootvalue={
+            totalInTCE['value_per_capita'] && totalInTCE['value_per_capita'] !== 0 && totalInTCO2E['value_per_capita']
+              ? (totalInTCO2E['value_per_capita'] / totalInTCE['value_per_capita']).toFixed(3)
+              : '--'
+          }
+          secondfootunit={t('(TCO2E/TCE)')}
+        >
+          {totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] ? (
+            <CountUp
+              end={totalInTCO2E['value'] / totalInTCE['value']}
+              duration={2}
+              prefix=""
+              separator=","
+              decimal="."
+              decimals={3}
+            />
+          ) : (
+            '--'
           )}
         </CardSummary>
       </div>
