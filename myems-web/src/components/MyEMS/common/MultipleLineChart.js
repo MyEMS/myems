@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { CheckPicker } from 'rsuite';
 import { rgbaColor, themeColors, isIterableArray, getGrays } from '../../../helpers/utils';
@@ -18,7 +18,7 @@ import {
 echarts.use([LineChart, GridComponent, ToolboxComponent, DataZoomComponent, MarkLineComponent, MarkPointComponent]);
 
 const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options }) => {
-  const colors = useMemo(() => ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'], []);
+  const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [values, setValues] = useState(['a0']);
   const [oldValues, setOldValues] = useState(['a0']);
   const { isDark } = useContext(AppContext);
@@ -131,7 +131,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
     setInterval(labels[values[0]] ? parseInt(labels[values[0]].length / 20) : 0);
     setValues(['a0']);
     setOldValues(['a0']);
-  }, [data, labels, options, colors, isDark, nodes, values]);
+  }, [data, labels, options]);
 
   useEffect(() => {
     let tempNodes = [...nodes];
@@ -193,7 +193,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
     setNodes(tempNodes);
     setLineLabels(labels[values[0]]);
     setInterval(labels[values[0]] ? parseInt(labels[values[0]].length / 20) : 0);
-  }, [lastMoment, colors, isDark, data, labels, nodes, oldValues, options, values]);
+  }, [lastMoment]);
 
   let getOption = () => {
     return {
