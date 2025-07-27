@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</label>
                 <div class="col-sm-9">
-                    <input ng-model="microgridpowerconversionsystem.rated_output_power" type="number" name="microgridpowerconversionsystemrated_output_power" class="form-control" required="">
+                    <input ng-model="microgridpowerconversionsystem.rated_output_power" type="number" name="microgridpowerconversionsystemrated_output_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemrated_output_power.$invalid && form_microgridpowerconversionsystem.microgridpowerconversionsystemrated_output_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemrated_output_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>

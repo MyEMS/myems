@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}}(kW)</label>
                 <div class="col-sm-9">
-                    <input ng-model="microgridphotovoltaic.rated_power" type="number" name="microgridphotovoltaicrated_power" class="form-control" required="">
+                    <input ng-model="microgridphotovoltaic.rated_power" type="number" name="microgridphotovoltaicrated_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridphotovoltaic.microgridphotovoltaicrated_power.$invalid && form_microgridphotovoltaic.microgridphotovoltaicrated_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridphotovoltaic.microgridphotovoltaicrated_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>

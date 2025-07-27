@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)</label>
                 <div class="col-sm-9">
-                    <input ng-model="microgridgrid.capacity" type="number" name="microgridgridcapacity" class="form-control" required="">
+                    <input ng-model="microgridgrid.capacity" type="number" name="microgridgridcapacity" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridgrid.microgridgridcapacity.$invalid && form_microgridgrid.microgridgridcapacity.$dirty">
                         <small class="text-danger" ng-show="form_microgridgrid.microgridgridcapacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                     </div>
