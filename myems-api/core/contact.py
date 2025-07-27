@@ -307,8 +307,8 @@ class ContactItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_wind_farms "
                        " WHERE contact_id = %s ", (id_,))
-        rows_photovoltaic_power_stations = cursor.fetchall()
-        if rows_photovoltaic_power_stations is not None and len(rows_photovoltaic_power_stations) > 0:
+        rows_wind_farms = cursor.fetchall()
+        if rows_wind_farms is not None and len(rows_wind_farms) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
