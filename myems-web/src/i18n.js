@@ -367,6 +367,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton of Standard Coal',
       'Ton of Carbon Dioxide Emissions': 'Ton of Carbon Dioxide Emissions',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Carbon emissions per unit of energy consumption',
       'Operating Characteristic Curve': 'Operating Characteristic Curve',
       Tariff: 'Tariff',
       'Detailed Data': 'Detailed Data',
@@ -1586,7 +1587,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': '吨标准煤',
       'Ton of Carbon Dioxide Emissions': '吨二氧化碳排放',
-      'Unit Carbon Emission': '单位能耗碳排放',
+      'Carbon Emissions Per Unit Of Energy Consumption': '单位能耗碳排放',
       'Operating Characteristic Curve': '运行曲线',
       Tariff: '费率',
       'Detailed Data': '详细数据',
@@ -2831,6 +2832,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonne Standardkohle',
       'Ton of Carbon Dioxide Emissions': 'Tonne Kohlendioxidemissionen',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Kohlenstoffemissionen pro Einheit Energieverbrauch',
       'Operating Characteristic Curve': 'Betriebscharakteristikkurve',
       Tariff: 'Tarif',
       'Detailed Data': 'Detaillierte Daten',
@@ -4098,6 +4100,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonne de Charbon standard',
       'Ton of Carbon Dioxide Emissions': 'Tonne de Émissions de dioxyde de carbone',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Émissions de carbone par unité de consommation d\'énergie',
       'Operating Characteristic Curve': 'Courbe des caractéristiques de travail',
       Tariff: 'Tarif',
       'Detailed Data': 'Détaillé Données',
@@ -5354,6 +5357,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonelada de carbón estándar',
       'Ton of Carbon Dioxide Emissions': 'Toneladas de emisiones de dióxido de carbono',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Emisiones de carbono por unidad de consumo de energía',
       'Operating Characteristic Curve': 'Curva característica de trabajo',
       Tariff: 'Arancel',
       'Detailed Data': 'Datos detallados',
@@ -6609,6 +6613,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Тонна стандартного угля',
       'Ton of Carbon Dioxide Emissions': 'тонн выбросов углекислого газа',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Выбросы углерода на единицу потребления энергии',
       'Operating Characteristic Curve': 'рабочая характеристика',
       Tariff: 'Тариф',
       'Detailed Data': 'Подробные данные',
@@ -7857,6 +7862,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'طن من الفحم القياسي',
       'Ton of Carbon Dioxide Emissions': 'طن من انبعاثات ثاني أكسيد الكربون',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'انبعاثات الكربون لكل وحدة من استهلاك الطاقة',
       'Operating Characteristic Curve': 'عمل منحنى المميزة',
       Tariff: 'تعريف',
       'Detailed Data': 'بيانات مفصلة',
@@ -9097,6 +9103,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tấn than tiêu chuẩn',
       'Ton of Carbon Dioxide Emissions': 'Tấn khí thải carbon dioxide',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Lượng khí thải carbon trên mỗi đơn vị tiêu thụ năng lượng',
       'Operating Characteristic Curve': 'Đường cong đặc tính làm việc',
       Tariff: 'Thuế quan',
       'Detailed Data': 'Dữ liệu chi tiết',
@@ -10344,6 +10351,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'ตันของถ่านหินมาตรฐาน',
       'Ton of Carbon Dioxide Emissions': 'ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'การปล่อยคาร์บอนต่อหน่วยการบริโภคพลังงาน',
       'Operating Characteristic Curve': 'เส้นโค้งลักษณะการทำงาน',
       Tariff: 'ภาษี',
       'Detailed Data': 'ข้อมูลรายละเอียด',
@@ -11583,6 +11591,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton Standart Kömür',
       'Ton of Carbon Dioxide Emissions': 'Tonlarca karbondioksit emisyonu',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Enerji tüketim birimi başına karbon emisyonları',
       'Operating Characteristic Curve': 'işletim karakteristik eğri',
       Tariff: 'Tarife',
       'Detailed Data': 'Detaylı Veri',
@@ -12832,6 +12841,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tan arang batu standard',
       'Ton of Carbon Dioxide Emissions': 'Tan pelepasan karbon dioksida',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Pelepasan karbon setiap unit penggunaan tenaga',
       'Operating Characteristic Curve': 'Lengkung karakteristik operasi',
       Tariff: 'Tarif',
       'Detailed Data': 'Data terperinci',
@@ -14082,6 +14092,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Ton Batubara Standar',
       'Ton of Carbon Dioxide Emissions': 'Ton Emisi Dioksida Karbon',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Emisi karbon per unit konsumsi energi',
       'Operating Characteristic Curve': 'kurva karakteristik operasi',
       Tariff: 'Kadar',
       'Detailed Data': 'Data Rincian',
@@ -15325,6 +15336,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': '噸標準煤',
       'Ton of Carbon Dioxide Emissions': '噸⼆氧化碳排放',
+      'Carbon Emissions Per Unit Of Energy Consumption': '單位能耗碳排放',
       'Operating Characteristic Curve': '運⾏曲線',
       Tariff: '費率',
       'Detailed Data': '詳細數據',
@@ -16593,6 +16605,7 @@ const resources = {
       //Data Panels
       'Ton of Standard Coal': 'Tonelada de carvão normal',
       'Ton of Carbon Dioxide Emissions': 'Toneladas de emissões de dióxido de carbono',
+      'Carbon Emissions Per Unit Of Energy Consumption': 'Emissões de carbono por unidade de consumo de energia',
       'Operating Characteristic Curve': 'Curva característica operacional',
       Tariff: 'Tarifa',
       'Detailed Data': 'Dados detalhados',
