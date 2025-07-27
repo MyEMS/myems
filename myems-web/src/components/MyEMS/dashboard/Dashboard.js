@@ -741,7 +741,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               : ''
           }
           title={t("This Year's Consumption CATEGORY VALUE UNIT", {
-            CATEGORY: t('Unit Carbon Emission'),
+            CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
             UNIT: '(TCO2E/TCE)'
           })}
           color="warning"
