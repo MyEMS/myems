@@ -258,6 +258,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Is Energy Input Counted In',
                 IS_OUTPUT_COUNTED: 'Is Energy Output Counted',
                 BIND_COMMAND: 'Bind Command Ⓔ',
+                BIND_DATASOURCE: 'Bind Datasource Ⓔ',
                 BIND_METER: 'Bind Meter',
                 BIND_POINT: 'Bind Point',
                 BIND_SENSOR: 'Bind Sensor',
@@ -1265,6 +1266,8 @@ function config($translateProvider) {
                 USER_PASSWORD: 'User Password',
                 BIND_COMMAND_SUCCESS: 'Bind Command Success',
                 UNBIND_COMMAND_SUCCESS: 'Unbind Command Success',
+                BIND_DATASOURCE_SUCCESS: 'Bind DataSource Success',
+                UNBIND_DATASOURCE_SUCCESS: 'Unbind DataSource Success',
                 BIND_METER_SUCCESS: 'Bind Meter Success',
                 UNBIND_METER_SUCCESS: 'Unbind Meter Success',
                 BIND_TARIFF_SUCCESS: 'Bind Tariff Success',
@@ -2206,6 +2209,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '能耗参与汇总',
                 IS_OUTPUT_COUNTED: '能源产出参与汇总',
                 BIND_COMMAND: '绑定指令 ㊭',
+                BIND_DATA_SOURCE: '绑定数据源 ㊭',
                 BIND_METER: '绑定计量表',
                 BIND_POINT: '绑定数据点',
                 BIND_SENSOR: '绑定传感器',
@@ -2244,6 +2248,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: '离线表文件',
                 PRODUCT: '产品',
                 N_S_COMMAND: '绑定的指令',
+                N_S_DATA_SOURCE: '绑定的数据源',
                 N_S_METER: '绑定的表',
                 N_S_POINT: '绑定的数据点',
                 N_S_SENSOR: '绑定的传感器',
@@ -2253,6 +2258,7 @@ function config($translateProvider) {
                 N_S_USER: '绑定的用户',
 
                 COMMAND_LIST: '指令列表',
+                DATA_SOURCE_LIST: '数据源列表',
 
                 CONTROL_MODE_LIST: '控制模式列表',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
@@ -2388,7 +2394,9 @@ function config($translateProvider) {
                 CONNECTION: '连接',
                 LAST_SEEN_DATETIME: '最后在线时间',
                 INPUT_PROTOCOL: '请输入协议类型',
-                INPUT_CONNECTION: '请输入连接地址'
+                INPUT_CONNECTION: '请输入连接地址',
+                ENERGY_STORAGE_CONTAINER: '储能集装箱',
+                PLACEHOLDER: '请选择或搜索...'
             },
             POINT: {
                 OBJECT_TYPE: '对象类型',
@@ -3209,7 +3217,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: '用户密码',
                 BIND_COMMAND_SUCCESS: '绑定指令成功',
+                BIND_DATASOURCE_SUCCESS: '绑定数据源成功',
                 UNBIND_COMMAND_SUCCESS: '解绑指令成功',
+                UNBIND_DATASOURCE_SUCCESS: '解绑数据源成功',
                 BIND_METER_SUCCESS: '绑定计量表成功',
                 UNBIND_METER_SUCCESS: '解绑计量表成功',
                 BIND_TARIFF_SUCCESS: '绑定费率成功',

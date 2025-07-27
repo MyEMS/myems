@@ -1470,6 +1470,7 @@ app
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainer.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerbattery.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainercommand.controller.js',
+                                                    'app/controllers/settings/energystoragecontainer/energystoragecontainerdatasource.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerdcdc.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainerfirecontrol.controller.js',
                                                     'app/controllers/settings/energystoragecontainer/energystoragecontainergrid.controller.js',
