@@ -242,8 +242,6 @@ class ContactItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_TENANTS')
 
-
-
         # check relation with charging_stations
         cursor.execute(" SELECT id "
                        " FROM tbl_charging_stations "
@@ -254,19 +252,19 @@ class ContactItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_CHarging_Stations')
+                                   description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
 
         # check relation with energy_storage_containers
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers "
-                       " WHERE contact_id = %s ", (id_,))
+                       " WHERE contact_id = 15 ", (id_,))
         rows_energy_storage_containers = cursor.fetchall()
         if rows_energy_storage_containers is not None and len(rows_energy_storage_containers) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_Energy_Storage_Containers')
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
 
 
         # check relation with energy_storage_power_stations
@@ -279,7 +277,7 @@ class ContactItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_Energy_Storage_Power_Stations')
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
 
         # check relation with microgrids
         cursor.execute(" SELECT id "
@@ -291,7 +289,7 @@ class ContactItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_Microgrids')
+                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
         # check relation with photovoltaic_power_stations
         cursor.execute(" SELECT id "
@@ -303,7 +301,7 @@ class ContactItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_Photovoltaic_Power_Stations')
+                                   description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
 
 
         cursor.execute(" DELETE FROM tbl_contacts WHERE id = %s ", (id_,))
