@@ -257,7 +257,7 @@ class ContactItem:
         # check relation with energy_storage_containers
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers "
-                       " WHERE contact_id = 15 ", (id_,))
+                       " WHERE contact_id = %s ", (id_,))
         rows_energy_storage_containers = cursor.fetchall()
         if rows_energy_storage_containers is not None and len(rows_energy_storage_containers) > 0:
             cursor.close()
