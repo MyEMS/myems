@@ -303,6 +303,18 @@ class ContactItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
 
+        #check relation with wind_farms
+        cursor.execute(" SELECT id "
+                       " FROM tbl_wind_farms "
+                       " WHERE contact_id = %s ", (id_,))
+        rows_photovoltaic_power_stations = cursor.fetchall()
+        if rows_photovoltaic_power_stations is not None and len(rows_photovoltaic_power_stations) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_WIND_FARMS')
+
 
         cursor.execute(" DELETE FROM tbl_contacts WHERE id = %s ", (id_,))
         cnx.commit()
