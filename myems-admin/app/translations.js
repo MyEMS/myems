@@ -258,7 +258,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Is Energy Input Counted In',
                 IS_OUTPUT_COUNTED: 'Is Energy Output Counted',
                 BIND_COMMAND: 'Bind Command Ⓔ',
-                BIND_DATASOURCE: 'Bind Datasource Ⓔ',
+                BIND_DATASOURCE: 'Bind Data source',
                 BIND_METER: 'Bind Meter',
                 BIND_POINT: 'Bind Point',
                 BIND_SENSOR: 'Bind Sensor',
@@ -296,6 +296,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Offline Meter',
                 OFFLINE_METER_FILE: 'Offline Meter File',
                 N_S_COMMAND: ' Bound Commands',
+                N_S_DATA_SOURCE: 'Bound Data Sources',
                 N_S_METER: ' Bound Meters',
                 N_S_POINT: ' Bound Points',
                 N_S_SENSOR: ' Bound Sensors',
@@ -305,6 +306,7 @@ function config($translateProvider) {
                 N_S_USER: 'Bound User',
 
                 COMMAND_LIST: 'Command List',
+                DATA_SOURCE_LIST: 'Data Source List',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
@@ -464,6 +466,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Last Seen Datetime',
                 INPUT_PROTOCOL: 'Please Input Protocol',
                 INPUT_CONNECTION: 'Please Input Connection',
+                ENERGY_STORAGE_CONTAINER: 'Energy Storage Container',
+                PLACEHOLDER: 'Please select or search...',
             },
             POINT: {
                 OBJECT_TYPE: 'Object Type',
@@ -1266,8 +1270,8 @@ function config($translateProvider) {
                 USER_PASSWORD: 'User Password',
                 BIND_COMMAND_SUCCESS: 'Bind Command Success',
                 UNBIND_COMMAND_SUCCESS: 'Unbind Command Success',
-                BIND_DATASOURCE_SUCCESS: 'Bind DataSource Success',
-                UNBIND_DATASOURCE_SUCCESS: 'Unbind DataSource Success',
+                BIND_DATASOURCE_SUCCESS: 'Bind Data Source Success',
+                UNBIND_DATASOURCE_SUCCESS: 'Unbind Data Source Success',
                 BIND_METER_SUCCESS: 'Bind Meter Success',
                 UNBIND_METER_SUCCESS: 'Unbind Meter Success',
                 BIND_TARIFF_SUCCESS: 'Bind Tariff Success',
@@ -2209,7 +2213,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '能耗参与汇总',
                 IS_OUTPUT_COUNTED: '能源产出参与汇总',
                 BIND_COMMAND: '绑定指令 ㊭',
-                BIND_DATA_SOURCE: '绑定数据源 ㊭',
+                BIND_DATA_SOURCE: '绑定数据源',
                 BIND_METER: '绑定计量表',
                 BIND_POINT: '绑定数据点',
                 BIND_SENSOR: '绑定传感器',
@@ -2396,7 +2400,7 @@ function config($translateProvider) {
                 INPUT_PROTOCOL: '请输入协议类型',
                 INPUT_CONNECTION: '请输入连接地址',
                 ENERGY_STORAGE_CONTAINER: '储能集装箱',
-                PLACEHOLDER: '请选择或搜索...'
+                PLACEHOLDER: '请选择或搜索...',
             },
             POINT: {
                 OBJECT_TYPE: '对象类型',
@@ -4164,6 +4168,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Zusammenfassung der Verbrauchsbeteiligung',
                 IS_OUTPUT_COUNTED: 'Zusammenfassung der Beteiligung an der Energieabgabe',
                 BIND_COMMAND: 'Bindebefehl Ⓔ',
+                BIND_DATA_SOURCE: 'BindeDatenquelle',
                 BIND_METER: 'Bindemessgerät',
                 BIND_POINT: 'Datenpunkte binden',
                 BIND_SENSOR: 'Bindungssensor',
@@ -4202,6 +4207,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: 'Offline Meter Datei',
                 PRODUCT: 'Produkt',
                 N_S_COMMAND: ' Gebundener Befehle',
+                N_S_DATA_SOURCE: 'Gebundene Datenquellen',
                 N_S_METER: ' Gebundener Tisch',
                 N_S_POINT: ' Gebundener Datenpunkt',
                 N_S_SENSOR: ' Gebundener Sensor',
@@ -4211,6 +4217,7 @@ function config($translateProvider) {
                 N_S_USER: 'Gebundene Benutzer',
 
                 COMMAND_LIST: 'Befehlsliste',
+                DATA_SOURCE_LIST: 'Datenquellenliste',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
@@ -4347,6 +4354,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                 INPUT_PROTOCOL: 'Bitte geben Sie den Protokolltyp ein',
                 INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein',
+                ENERGY_STORAGE_CONTAINER: 'Energiespeichercontainer',
+                PLACEHOLDER: 'Bitte auswählen oder suchen...',
             },
             POINT: {
                 OBJECT_TYPE: 'Objekttyp',
@@ -5167,6 +5176,8 @@ function config($translateProvider) {
                 ERROR_UNLOCK_BODY: 'Öffnen {{template}} fehlgeschlagen',
 
                 USER_PASSWORD: 'Benutzer-Passwort',
+                BIND_DATASOURCE_SUCCESS: 'Datenquellebindung erfolgreich',
+                UNBIND_DATASOURCE_SUCCESS: 'Datenquelleentbindung erfolgreich	',
                 BIND_METER_SUCCESS: 'Binden Sie das Messgerät erfolgreich',
                 UNBIND_METER_SUCCESS: 'Binden Sie das Messgerät erfolgreich ab',
                 BIND_TARIFF_SUCCESS: 'Bindungsrate ist erfolgreich',
@@ -6107,6 +6118,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'L’apport d’énergie est-il compté dans',
                 IS_OUTPUT_COUNTED: 'La production d’énergie est-elle comptée',
                 BIND_COMMAND: 'Bind, commande Ⓔ',
+                BIND_DATA_SOURCE: 'Lier la source de données',
                 BIND_METER: 'Compteur de liaison',
                 BIND_POINT: 'Point de liaison',
                 BIND_SENSOR: 'Capteur de liaison',
@@ -6144,6 +6156,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Compteur hors ligne',
                 OFFLINE_METER_FILE: 'Fichier de compteur hors ligne',
                 N_S_COMMAND: ' Commandes liées',
+                N_S_DATA_SOURCE: 'Sources de données liées',
                 N_S_METER: ' Compteurs reliés',
                 N_S_POINT: ' Points liés',
                 N_S_SENSOR: ' Capteurs liés',
@@ -6153,6 +6166,7 @@ function config($translateProvider) {
                 N_S_USER: ' Utilisateurs liés',
 
                 COMMAND_LIST: 'Liste de commandes',
+                DATA_SOURCE_LIST: 'Liste des sources de données',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
@@ -6312,6 +6326,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Date de la dernière vue',
                 INPUT_PROTOCOL: 'S’il vous plaît entrer le protocole',
                 INPUT_CONNECTION: 'Veuillez saisir la connexion',
+                ENERGY_STORAGE_CONTAINER: 'Conteneur de stockage d`énergie',
+                PLACEHOLDER: 'Veuillez sélectionner ou rechercher...',
             },
             POINT: {
                 OBJECT_TYPE: 'Type d’objet',
@@ -7112,7 +7128,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Mot de passe de l’utilisateur',
                 BIND_COMMAND_SUCCESS: 'Succès de la commande de liaison',
+                BIND_DATASOURCE_SUCCESS: 'Liaison de source de données réussie',
                 UNBIND_COMMAND_SUCCESS: 'Échec de la commande Unbind',
+                UNBIND_DATASOURCE_SUCCESS: 'Déliaison de source de données réussie',
                 BIND_METER_SUCCESS: 'Succès du compteur Bind',
                 UNBIND_METER_SUCCESS: 'Délier le succès du compteur',
                 BIND_TARIFF_SUCCESS: 'Succès tarifaire de Bind',
@@ -8052,6 +8070,8 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '¿Se cuenta la entrada de energía en',
                 IS_OUTPUT_COUNTED: '¿Se cuenta la producción de energía?',
                 BIND_COMMAND: 'Comando Enlazar Ⓔ',
+                BIND_DATA_SOURCE: 'Enlazar origen de datos',
+
                 BIND_METER: 'Medidor de enlace',
                 BIND_POINT: 'Punto de enlace',
                 BIND_SENSOR: 'Sensor de enlace',
@@ -8088,7 +8108,8 @@ function config($translateProvider) {
                 VIRTUAL_METER: 'Medidor virtual',
                 OFFLINE_METER: 'Medidor fuera de línea',
                 OFFLINE_METER_FILE: 'Archivo de medidor sin conexión',
-                N_S_COMMAND: ' Comandos enlazados',
+                N_S_COMMAND: 'Comandos enlazados',
+                N_S_DATA_SOURCE: 'Orígenes de datos enlazados',
                 N_S_METER: ' Medidores encuadernados',
                 N_S_POINT: ' Puntos enlazados',
                 N_S_SENSOR: ' Sensores enlazados',
@@ -8098,6 +8119,7 @@ function config($translateProvider) {
                 N_S_USER: ' Usuarios vinculados',
 
                 COMMAND_LIST: 'Lista de comandos',
+                DATA_SOURCE_LIST: 'Lista de orígenes de datos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
@@ -8257,6 +8279,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Fecha y hora de la última vista',
                 INPUT_PROTOCOL: 'Por favor, introduzca el protocolo',
                 INPUT_CONNECTION: 'Por favor, introduzca la conexión',
+                ENERGY_STORAGE_CONTAINER: 'Contenedor de almacenamiento de energía',
+                PLACEHOLDER: 'Por favor, seleccione o busque...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipo de objeto',
@@ -9057,7 +9081,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Contraseña de usuario',
                 BIND_COMMAND_SUCCESS: 'Comando de enlace correcto',
+                BIND_DATASOURCE_SUCCESS: 'Éxito al enlazar origen de datos',
                 UNBIND_COMMAND_SUCCESS: 'Desenlazar comando correctamente',
+                UNBIND_DATASOURCE_SUCCESS: 'Éxito al desvincular origen de datos',
                 BIND_METER_SUCCESS: 'Éxito del medidor de enlace',
                 UNBIND_METER_SUCCESS: 'Éxito del medidor de desvinculación',
                 BIND_TARIFF_SUCCESS: 'Consolidar el éxito arancelario',
@@ -9997,6 +10023,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Учитывается ли подводимая энергия',
                 IS_OUTPUT_COUNTED: 'Учитывается ли выработка энергии',
                 BIND_COMMAND: 'Команда привязки Ⓔ',
+                BIND_DATA_SOURCE: 'Привязать источник данных',
                 BIND_METER: 'Измеритель привязки',
                 BIND_POINT: 'Точка привязки',
                 BIND_SENSOR: 'Датчик привязки',
@@ -10034,6 +10061,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Автономный счетчик',
                 OFFLINE_METER_FILE: 'Автономный файл счетчика',
                 N_S_COMMAND: ' Привязанные команды',
+                N_S_DATA_SOURCE: 'Привязанные источники данных',
                 N_S_METER: ' Связанные счетчики',
                 N_S_POINT: ' Связанные точки',
                 N_S_SENSOR: ' Связанные датчики',
@@ -10043,6 +10071,7 @@ function config($translateProvider) {
                 N_S_USER: ' Связанные пользователи',
 
                 COMMAND_LIST: 'Список команд',
+                DATA_SOURCE_LIST: 'Список источников данных',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
@@ -10202,6 +10231,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Дата и время последнего посещения',
                 INPUT_PROTOCOL: 'Пожалуйста, введите протокол',
                 INPUT_CONNECTION: 'Пожалуйста, введите соединение',
+                ENERGY_STORAGE_CONTAINER: 'Контейнер для хранения энергии',
+                PLACEHOLDER: 'Пожалуйста, выберите или поищите...',
             },
             POINT: {
                 OBJECT_TYPE: 'Тип объекта',
@@ -11002,7 +11033,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Пароль пользователя',
                 BIND_COMMAND_SUCCESS: 'Успешное выполнение команды «Привязка»',
+                BIND_DATASOURCE_SUCCESS: 'Успешная привязка источника данных',
                 UNBIND_COMMAND_SUCCESS: 'Команда «Отмена привязки» выполняется успешно',
+                UNBIND_DATASOURCE_SUCCESS: 'Успешное отключение источника данных',
                 BIND_METER_SUCCESS: 'Успех измерителя привязки',
                 UNBIND_METER_SUCCESS: 'Отвязка счетчика Успех',
                 BIND_TARIFF_SUCCESS: 'Привязка тарифного успеха',
@@ -11942,6 +11975,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'هل يتم احتساب مدخلات الطاقة في',
                 IS_OUTPUT_COUNTED: 'هل يتم حساب ناتج الطاقة',
                 BIND_COMMAND: 'أمر الربط Ⓔ',
+                BIND_DATA_SOURCE: 'ربط مصدر البيانات',
                 BIND_METER: 'ربط متر',
                 BIND_POINT: 'بيند بوينت',
                 BIND_SENSOR: 'ربط الاستشعار',
@@ -11979,6 +12013,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'عداد غير متصل',
                 OFFLINE_METER_FILE: 'ملف عداد غير متصل',
                 N_S_COMMAND: ' الأوامر المنضمة',
+                N_S_DATA_SOURCE: 'مصادر البيانات المرتبطة',
                 N_S_METER: ' عدادات ملزمة',
                 N_S_POINT: ' النقاط المنضمة',
                 N_S_SENSOR: ' مجسات ملزمة',
@@ -11988,6 +12023,7 @@ function config($translateProvider) {
                 N_S_USER: 'ربط المستخدم',
 
                 COMMAND_LIST: 'قائمة الأوامر',
+                DATA_SOURCE_LIST: 'قائمة مصادر البيانات',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
@@ -12147,6 +12183,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'تاريخ آخر ظهور',
                 INPUT_PROTOCOL: 'يرجى إدخال بروتوكول',
                 INPUT_CONNECTION: 'يرجى إدخال اتصال',
+                ENERGY_STORAGE_CONTAINER: 'حاوية تخزين الطاقة',
+                PLACEHOLDER: 'يرجى الاختيار أو البحث...',
             },
             POINT: {
                 OBJECT_TYPE: 'نوع الكائن',
@@ -12947,7 +12985,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'كلمة مرور المستخدم',
                 BIND_COMMAND_SUCCESS: 'ربط نجاح الأمر',
+                BIND_DATASOURCE_SUCCESS: 'نجاح ربط مصدر البيانات',
                 UNBIND_COMMAND_SUCCESS: 'فك ربط نجاح الأمر',
+                UNBIND_DATASOURCE_SUCCESS: 'نجاح فك ربط مصدر البيانات',
                 BIND_METER_SUCCESS: 'ربط نجاح متر',
                 UNBIND_METER_SUCCESS: 'فك ربط متر النجاح',
                 BIND_TARIFF_SUCCESS: 'ربط نجاح التعريفة',
@@ -13887,6 +13927,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Năng lượng đầu vào có được tính vào không',
                 IS_OUTPUT_COUNTED: 'Sản lượng năng lượng có được tính không',
                 BIND_COMMAND: 'Lệnh ràng buộc Ⓔ',
+                BIND_DATA_SOURCE: 'Liên kết nguồn dữ liệu',
                 BIND_METER: 'Máy đo liên kết',
                 BIND_POINT: 'Điểm ràng buộc',
                 BIND_SENSOR: 'Cảm biến liên kết',
@@ -13924,6 +13965,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Đồng hồ ngoại tuyến',
                 OFFLINE_METER_FILE: 'Tệp đồng hồ ngoại tuyến',
                 N_S_COMMAND: ' Lệnh ràng buộc',
+                N_S_DATA_SOURCE: 'Nguồn dữ liệu đã liên kết',
                 N_S_METER: ' Mét giới hạn',
                 N_S_POINT: ' Điểm ràng buộc',
                 N_S_SENSOR: ' Cảm biến ràng buộc',
@@ -13933,6 +13975,7 @@ function config($translateProvider) {
                 N_S_USER: 'người dùng bị ràng buộc',
 
                 COMMAND_LIST: 'Danh sách lệnh',
+                DATA_SOURCE_LIST: 'Danh sách nguồn dữ liệu',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
@@ -14092,6 +14135,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Ngày giờ được nhìn thấy lần cuối',
                 INPUT_PROTOCOL: 'Vui lòng nhập giao thức',
                 INPUT_CONNECTION: 'Vui lòng nhập kết nối',
+                ENERGY_STORAGE_CONTAINER: 'Hộp chứa lưu trữ năng lượng',
+                PLACEHOLDER: 'Vui lòng chọn hoặc tìm kiếm...',
             },
             POINT: {
                 OBJECT_TYPE: 'Loại đối tượng',
@@ -14892,7 +14937,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Mật khẩu người dùng',
                 BIND_COMMAND_SUCCESS: 'Ràng buộc lệnh thành công',
+                BIND_DATASOURCE_SUCCESS: 'Liên kết nguồn dữ liệu thành công',
                 UNBIND_COMMAND_SUCCESS: 'Hủy liên kết lệnh thành công',
+                UNBIND_DATASOURCE_SUCCESS: 'Hủy liên kết nguồn dữ liệu thành công',
                 BIND_METER_SUCCESS: 'Đồng hồ ràng buộc đã thành công',
                 UNBIND_METER_SUCCESS: 'Tháo đồng hồ đo thành công',
                 BIND_TARIFF_SUCCESS: 'Ràng buộc thành công thuế quan',
@@ -15831,6 +15878,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'กําลังป้อนพลังงานนับใน',
                 IS_OUTPUT_COUNTED: 'มีการนับปริมาณพลังงานหรือไม่',
                 BIND_COMMAND: 'ผูกคําสั่ง Ⓔ',
+                BIND_DATA_SOURCE: 'เชื่อมต่อแหล่งข้อมูล',
                 BIND_METER: 'เครื่องวัดการผูก',
                 BIND_POINT: 'จุดผูก',
                 BIND_SENSOR: 'ผูกเซ็นเซอร์',
@@ -15868,6 +15916,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'เครื่องวัดออฟไลน์',
                 OFFLINE_METER_FILE: 'ไฟล์มิเตอร์ออฟไลน์',
                 N_S_COMMAND: ' คําสั่งที่ถูกผูกไว้',
+                N_S_DATA_SOURCE: 'แหล่งข้อมูลที่เชื่อมต่อแล้ว',
                 N_S_METER: ' เมตรที่ถูกผูกไว้',
                 N_S_POINT: ' จุดที่ผูกไว้',
                 N_S_SENSOR: ' เซ็นเซอร์ที่ถูกผูกไว้',
@@ -15877,6 +15926,7 @@ function config($translateProvider) {
                 N_S_USER: 'ผู้ใช้ที่ถูกผูกไว้',
 
                 COMMAND_LIST: 'รายการคําสั่ง',
+                DATA_SOURCE_LIST: 'รายการแหล่งข้อมูล',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
@@ -16036,6 +16086,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'วันที่เห็นล่าสุด',
                 INPUT_PROTOCOL: 'กรุณาป้อนโปรโตคอล',
                 INPUT_CONNECTION: 'กรุณาใส่การเชื่อมต่อ',
+                ENERGY_STORAGE_CONTAINER: 'คอนเทนเนอร์จัดเก็บพลังงาน',
+                PLACEHOLDER: 'โปรดเลือกหรือค้นหา...',
             },
             POINT: {
                 OBJECT_TYPE: 'ประเภทวัตถุ',
@@ -16835,7 +16887,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'รหัสผ่านผู้ใช้',
                 BIND_COMMAND_SUCCESS: 'ผูกคําสั่งสําเร็จ',
+                BIND_DATASOURCE_SUCCESS: 'เชื่อมต่อแหล่งข้อมูลสำเร็จ',
                 UNBIND_COMMAND_SUCCESS: 'ยกเลิกการผูกคําสั่งสําเร็จ',
+                UNBIND_DATASOURCE_SUCCESS: 'ยกเลิกการเชื่อมต่อแหล่งข้อมูลสำเร็จ',
                 BIND_METER_SUCCESS: 'ผูกความสําเร็จของมิเตอร์',
                 UNBIND_METER_SUCCESS: 'มิเตอร์ไม่ถูกผูกเรียบร้อยแล้ว',
                 BIND_TARIFF_SUCCESS: 'ผูกความสําเร็จทางภาษี',
@@ -17775,6 +17829,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Enerji girdisi sayılır mı',
                 IS_OUTPUT_COUNTED: 'Enerji Çıkışı Sayılır mı',
                 BIND_COMMAND: 'Komutu bağlama Ⓔ',
+                BIND_DATA_SOURCE: 'Veri Kaynağı Bağla',
                 BIND_METER: 'Bir metre bağlama',
                 BIND_POINT: 'Veri noktalarını bağlama',
                 BIND_SENSOR: 'Bağlama Sensörü',
@@ -17812,6 +17867,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Çevrimdışı Ölçüm',
                 OFFLINE_METER_FILE: 'Çevrimdışı Ölçüm Dosyası',
                 N_S_COMMAND: ' Bağlı Komutlar',
+                N_S_DATA_SOURCE: 'Bağlı Veri Kaynakları',
                 N_S_METER: ' Bağlı Sayaçlar',
                 N_S_POINT: ' Bağlı Noktalar',
                 N_S_SENSOR: ' Bağlı Sensörler',
@@ -17821,6 +17877,7 @@ function config($translateProvider) {
                 N_S_USER: 'bağlı kullanıcı',
 
                 COMMAND_LIST: 'Komut Listesi',
+                DATA_SOURCE_LIST: 'Veri Kaynağı Listesi',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
@@ -17980,6 +18037,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Son Görülme Datetime',
                 INPUT_PROTOCOL: 'Lütfen Giriş Protokolü',
                 INPUT_CONNECTION: 'Lütfen Giriş Bağlantısı',
+                ENERGY_STORAGE_CONTAINER: 'Enerji Depolama Konteyneri',
+                PLACEHOLDER: 'Lütfen seçin veya arayın...',
             },
             POINT: {
                 OBJECT_TYPE: 'Nesne Türü',
@@ -18779,7 +18838,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kullanıcı Parolası',
                 BIND_COMMAND_SUCCESS: 'Bağlama Komutu Başarısı',
+                BIND_DATASOURCE_SUCCESS: 'Veri Kaynağı Bağlama Başarılı',
                 UNBIND_COMMAND_SUCCESS: 'Unbind Komutu Başarısı',
+                UNBIND_DATASOURCE_SUCCESS: 'Veri Kaynağı Bağlantısını Kaldırma Başarılı',
                 BIND_METER_SUCCESS: 'Bağlama Ölçer Başarısı',
                 UNBIND_METER_SUCCESS: 'Unbind Meter Başarısı',
                 BIND_TARIFF_SUCCESS: 'Bağlayıcı Tarife Başarısı',
@@ -19719,6 +19780,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Adakah input tenaga dikira dalam',
                 IS_OUTPUT_COUNTED: 'Adakah output tenaga dikira',
                 BIND_COMMAND: 'Perintah Mengikat Ⓔ',
+                BIND_DATA_SOURCE: 'Penghubungan Sumber Data Berjaya',
                 BIND_METER: 'Meter mengikat',
                 BIND_POINT: 'Titik Bind',
                 BIND_SENSOR: 'Sensor mengikat',
@@ -19756,6 +19818,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Meter Luar Talian',
                 OFFLINE_METER_FILE: 'Fail Meter Luar Talian',
                 N_S_COMMAND: ' Perintah terikat',
+                N_S_DATA_SOURCE: 'Sumber Data Terhubung',
                 N_S_METER: ' Meter terikat',
                 N_S_POINT: ' Mata Terikat',
                 N_S_SENSOR: ' Sensor terikat',
@@ -19765,6 +19828,7 @@ function config($translateProvider) {
                 N_S_USER: 'Pengguna terikat',
 
                 COMMAND_LIST: 'Senarai Perintah',
+                DATA_SOURCE_LIST: 'Senarai Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
@@ -19924,6 +19988,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Tarikh Dilihat Terakhir',
                 INPUT_PROTOCOL: 'Sila Protokol Input',
                 INPUT_CONNECTION: 'Sila Input Sambungan',
+                ENERGY_STORAGE_CONTAINER: 'Bekas Simpanan Tenaga',
+                PLACEHOLDER: 'Sila pilih atau carikan...',
             },
             POINT: {
                 OBJECT_TYPE: 'Jenis Objek',
@@ -20723,7 +20789,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kata Laluan Pengguna',
                 BIND_COMMAND_SUCCESS: 'Kejayaan Perintah Bind',
+                BIND_DATASOURCE_SUCCESS: 'Penghubungan Sumber Data Berjaya',
                 UNBIND_COMMAND_SUCCESS: 'Kejayaan Perintah Unbind',
+                UNBIND_DATASOURCE_SUCCESS: 'Pencopotan Sumber Data Berjaya',
                 BIND_METER_SUCCESS: 'Kejayaan Meter Bind',
                 UNBIND_METER_SUCCESS: 'Kejayaan Meter Unbind',
                 BIND_TARIFF_SUCCESS: 'Kejayaan Tarif Bind',
@@ -21663,6 +21731,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Apakah input energi dihitung dalam',
                 IS_OUTPUT_COUNTED: 'Apakah output energi dihitung',
                 BIND_COMMAND: 'Perintah Bind Ⓔ',
+                BIND_DATA_SOURCE: 'Penghubungan Sumber Data Berhasil',
                 BIND_METER: 'Pengukur Pengikat',
                 BIND_POINT: 'Titik Ikat',
                 BIND_SENSOR: 'Sensor Pengikat',
@@ -21700,6 +21769,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Meteran Offline',
                 OFFLINE_METER_FILE: 'Offline Meter File',
                 N_S_COMMAND: ' Perintah terikat',
+                N_S_DATA_SOURCE: 'Sumber Data Terhubung',
                 N_S_METER: ' Meter terikat',
                 N_S_POINT: ' Titik Terikat',
                 N_S_SENSOR: ' Sensor Terikat',
@@ -21709,6 +21779,7 @@ function config($translateProvider) {
                 N_S_USER: 'Pengguna Terikat',
 
                 COMMAND_LIST: 'Daftar Perintah',
+                DATA_SOURCE_LIST: 'Daftar Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
@@ -21868,6 +21939,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Waktu Tanggal Terakhir Terlihat',
                 INPUT_PROTOCOL: 'Silakan masukan protokol',
                 INPUT_CONNECTION: 'Silakan masukkan koneksi',
+                ENERGY_STORAGE_CONTAINER: 'Wadah Penyimpanan Energi',
+                PLACEHOLDER: 'Silakan pilih atau cari...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipe Objek',
@@ -22667,7 +22740,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kata Sandi Pengguna',
                 BIND_COMMAND_SUCCESS: 'Mengikat Keberhasilan Perintah',
+                BIND_DATASOURCE_SUCCESS: 'Penghubungan Sumber Data Berhasil',
                 UNBIND_COMMAND_SUCCESS: 'Perintah Unbind Sukses',
+                UNBIND_DATASOURCE_SUCCESS: 'Pencopotan Sumber Data Berhasil',
                 BIND_METER_SUCCESS: 'Keberhasilan Bind Meter',
                 UNBIND_METER_SUCCESS: 'Keberhasilan Unbind Meter',
                 BIND_TARIFF_SUCCESS: 'Mengikat Keberhasilan Tarif',
@@ -23610,6 +23685,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '能耗參與匯總',
                 IS_OUTPUT_COUNTED: '能源產出參與匯總',
                 BIND_COMMAND: '綁定指令 ㊭',
+                BIND_DATA_SOURCE: '綁定資料來源',
                 BIND_METER: '綁定計量表',
                 BIND_POINT: '綁定數據點',
                 BIND_SENSOR: '綁定傳感器',
@@ -23648,6 +23724,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: '離線表⽂件',
                 PRODUCT: '產品',
                 N_S_COMMAND: '綁定的指令',
+                N_S_DATA_SOURCE: '已綁定的資料來源',
                 N_S_METER: '綁定的表',
                 N_S_POINT: '綁定的數據點',
                 N_S_SENSOR: '綁定的傳感器',
@@ -23657,6 +23734,7 @@ function config($translateProvider) {
                 N_S_USER: '綁定的⽤⼾',
 
                 COMMAND_LIST: '指令列表',
+                DATA_SOURCE_LIST: '資料來源清單',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
@@ -23792,7 +23870,9 @@ function config($translateProvider) {
                 CONNECTION: '連接',
                 LAST_SEEN_DATETIME: '最後在線時間',
                 INPUT_PROTOCOL: '請輸入協議類型',
-                INPUT_CONNECTION: '請輸入連接地址'
+                INPUT_CONNECTION: '請輸入連接地址',
+                ENERGY_STORAGE_CONTAINER: '儲能集裝箱',
+                PLACEHOLDER: '請選擇或搜尋...',
             },
             POINT: {
                 OBJECT_TYPE: '對象類型',
@@ -24617,7 +24697,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: '⽤⼾密碼',
                 BIND_COMMAND_SUCCESS: '綁定指令成功',
+                BIND_DATASOURCE_SUCCESS: '綁定資料來源成功',
                 UNBIND_COMMAND_SUCCESS: '解綁指令成功',
+                UNBIND_DATASOURCE_SUCCESS: '解除綁定資料來源成功',
                 BIND_METER_SUCCESS: '綁定計量表成功',
                 UNBIND_METER_SUCCESS: '解綁計量表成功',
                 BIND_TARIFF_SUCCESS: '綁定費率成功',
@@ -25559,6 +25641,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'A Entrada de Energia é Contabilizada',
                 IS_OUTPUT_COUNTED: 'A Saída de Energia é Contabilizada',
                 BIND_COMMAND: 'Vincular Comando Ⓔ',
+                BIND_DATA_SOURCE: 'Vincular Fonte de Dados',
                 BIND_METER: 'Vincular Medidor',
                 BIND_POINT: 'Vincular Ponto',
                 BIND_SENSOR: 'Vincular Sensor',
@@ -25596,6 +25679,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Medidor Offline',
                 OFFLINE_METER_FILE: 'Arquivo do Medidor Offline',
                 N_S_COMMAND: 'Comandos Vinculados',
+                N_S_DATA_SOURCE: 'Fontes de Dados Vinculadas',
                 N_S_METER: 'Medidores Vinculados',
                 N_S_POINT: 'Pontos Vinculados',
                 N_S_SENSOR: 'Sensores Vinculados',
@@ -25605,6 +25689,7 @@ function config($translateProvider) {
                 N_S_USER: 'Usuário Vinculado',
 
                 COMMAND_LIST: 'Lista de Comandos',
+                DATA_SOURCE_LIST: 'Lista de Fontes de Dados',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
@@ -25764,6 +25849,8 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Data e Hora da Última Visualização',
                 INPUT_PROTOCOL: 'Por Favor, Insira o Protocolo',
                 INPUT_CONNECTION: 'Por Favor, Insira a Conexão',
+                ENERGY_STORAGE_CONTAINER: 'Contêiner de Armazenamento de Energia',
+                PLACEHOLDER: 'Selecione ou pesquise...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipo de Objeto',
@@ -26568,7 +26655,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Senha do Usuário',
                 BIND_COMMAND_SUCCESS: 'Comando Vinculado com Sucesso',
+                BIND_DATASOURCE_SUCCESS: 'Vinculação de Fonte de Dados Bem-sucedida',
                 UNBIND_COMMAND_SUCCESS: 'Comando Desvinculado com Sucesso',
+                UNBIND_DATASOURCE_SUCCESS: 'Desvinculação de Fonte de Dados Bem-sucedida',
                 BIND_METER_SUCCESS: 'Medidor Vinculado com Sucesso',
                 UNBIND_METER_SUCCESS: 'Medidor Desvinculado com Sucesso',
                 BIND_TARIFF_SUCCESS: 'Tarifa Vinculada com Sucesso',
