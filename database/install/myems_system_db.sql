@@ -1124,6 +1124,14 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_commands_index_1` ON `myems_system_db`.`tbl_microgrids_commands` (`microgrid_id`);
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_data_sources_index_1`
+ON `myems_system_db`.`tbl_microgrids_data_sources` (`microgrid_id`);
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_power_conversion_systems`
 -- ---------------------------------------------------------------------------------------------------------------------
