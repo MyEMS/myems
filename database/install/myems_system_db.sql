@@ -1124,6 +1124,11 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_microgrids_commands_index_1` ON `myems_system_db`.`tbl_microgrids_commands` (`microgrid_id`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_data_sources`;
+
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_data_sources` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `microgrid_id` BIGINT NOT NULL,
@@ -1431,6 +1436,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_data_sources_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources` (`photovoltaic_power_station_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_grids`
