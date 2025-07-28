@@ -178,18 +178,6 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
-        # check relation with cost_centers_tariffs
-        cursor.execute(" SELECT id "
-                       " FROM tbl_cost_centers_tariffs "
-                       " WHERE cost_center_id = %s ", (id_,))
-        rows_cost_centers_tariffs = cursor.fetchall()
-        if rows_cost_centers_tariffs is not None and len(rows_cost_centers_tariffs) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COST_CENTERS_TARIFFS')
-
 
         # check relation with charging_stations
         cursor.execute(" SELECT id "
