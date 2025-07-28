@@ -494,7 +494,7 @@ class MeterItem:
 
         # check relation with tbl_photovoltaic_power_stations_loads
         cursor.execute("SELECT name "
-                       "FROM tbl_photovoltaic_power_stations_loads "
+                       "FROM tbl_photovoltaic_power_stations_loads "     
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
