@@ -178,7 +178,20 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
-        #check relation with charging_stations
+        # check relation with cost_centers_tariffs
+        cursor.execute(" SELECT id "
+                       " FROM tbl_cost_centers_tariffs "
+                       " WHERE cost_center_id = %s ", (id_,))
+        rows_cost_centers_tariffs = cursor.fetchall()
+        if rows_cost_centers_tariffs is not None and len(rows_cost_centers_tariffs) > 0:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_COST_CENTERS_TARIFFS')
+
+
+        # check relation with charging_stations
         cursor.execute(" SELECT id "
                        " FROM tbl_charging_stations "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -190,7 +203,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
 
-        #ckeck relation with energy_storage_containers
+        # ckeck relation with energy_storage_containers
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -202,7 +215,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
 
-        #check relation with energy_storage_power_stations
+        # check relation with energy_storage_power_stations
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_power_stations "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -214,7 +227,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
 
-        #check relation with microgrids
+        # check relation with microgrids
         cursor.execute(" SELECT id "
                        " FROM tbl_microgrids "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -226,7 +239,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-        #check relation with photovoltaic_power_stations
+        # check relation with photovoltaic_power_stations
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -238,7 +251,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
 
-        #check relation with virtual_power_plants
+        # check relation with virtual_power_plants
         cursor.execute(" SELECT id "
                        " FROM tbl_virtual_power_plants "
                        " WHERE cost_center_id = %s ", (id_,))
@@ -250,7 +263,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
 
-        #check relation with wind_farms
+        # check relation with wind_farms
         cursor.execute(" SELECT id "
                        " FROM tbl_wind_farms "
                        " WHERE cost_center_id = %s ", (id_,))
