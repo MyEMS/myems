@@ -178,7 +178,6 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COST_CENTER_NOT_FOUND')
 
-
         # check relation with charging_stations
         cursor.execute(" SELECT id "
                        " FROM tbl_charging_stations "
@@ -262,8 +261,6 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_WIND_FARMS')
-
-
 
         # check relation with equipments
         cursor.execute(" SELECT id "
