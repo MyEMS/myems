@@ -190,7 +190,7 @@ class CostCenterItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
 
-        # ckeck relation with energy_storage_containers
+        # check relation with energy_storage_containers
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_containers "
                        " WHERE cost_center_id = %s ", (id_,))
