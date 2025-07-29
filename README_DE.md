@@ -1,12 +1,12 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.6.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.7.0</h1>
 <h6 align="center">Fast tausend Projektfälle</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Kostenloser technischer Support innerhalb von QQ- und WeChat-Gruppen</h6>
-<h6 align="center">Bleiben Sie auf dem Laufenden, 1 Nebenversion pro Monat, 1 Hauptversion pro Jahr</h6>
+<h6 align="center">Bleiben Sie auf dem Laufenden mit einer kleinen Version pro Monat und einer großen Version pro Jahr</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)

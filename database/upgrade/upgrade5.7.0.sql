@@ -36,6 +36,6 @@ CREATE INDEX `tbl_photovoltaic_power_stations_data_sources_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources` (`photovoltaic_power_station_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.7.0RC', release_date='2025-07-21' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.7.0', release_date='2025-07-29' WHERE id=1;
 
 COMMIT;
