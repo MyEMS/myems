@@ -1,12 +1,12 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.6.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.7.0</h1>
 <h3 align="center">Industry Leading Open Source Energy Management System</h3>
 <h6 align="center">Nearly a thousand project cases</h6>
 <h6 align="center">Commitment to permanent open source</h6>
 <h6 align="center">Free technical support within QQ and WeChat groups</h6>
-<h6 align="center">Keep updated, 1 minor version per month, 1 major version per year</h6>
+<h6 align="center">Keep updating, release one small version every month and one large version every year</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.7.0] - 2025-07-29
+### Added
 - added myems-admin.conf and myems-web.conf for nginx
 - added binding microgrid to space in myems-admin
 - added blank page image for space mnvironment monitor in myems-web
@@ -2002,7 +2008,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.6.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.7.0...HEAD
+[5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
 [5.6.0]: https://gitee.com/MyEMS/myems/compare/v5.5.0...v5.6.0
 [5.5.0]: https://gitee.com/MyEMS/myems/compare/v5.4.0...v5.5.0
 [5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0
