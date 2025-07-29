@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of multiplelinechart in myems-web
 - fixed issue of tariff in myems-admin
 - fixed issue of delete contact in myems-api
+- fixed issue of delete meter in myems-api
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
