@@ -466,8 +466,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Last Seen Datetime',
                 INPUT_PROTOCOL: 'Please Input Protocol',
                 INPUT_CONNECTION: 'Please Input Connection',
-                ENERGY_STORAGE_CONTAINER: 'Energy Storage Container',
-                PLACEHOLDER: 'Please select or search...',
             },
             POINT: {
                 OBJECT_TYPE: 'Object Type',
@@ -1152,7 +1150,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Please Input Floors',
                 INPUT_ROOMS: 'Rooms',
                 INPUT_LEASE_NUMBER: 'Please Input Lease Number',
-                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time', 
+                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -1257,7 +1255,7 @@ function config($translateProvider) {
                 LOGOUT_SUCCESS: 'Logout Success',
                 LOGOUT_FAILURE: 'Logout Failure',
                 LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login Failed Without Administrator Privileges',
-                
+
                 SUCCESS_ADD_BODY: 'Add {{template}} Success',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} Success',
                 SUCCESS_DELETE_BODY: 'Delete {{template}} Success',
@@ -2399,8 +2397,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: '最后在线时间',
                 INPUT_PROTOCOL: '请输入协议类型',
                 INPUT_CONNECTION: '请输入连接地址',
-                ENERGY_STORAGE_CONTAINER: '储能集装箱',
-                PLACEHOLDER: '请选择或搜索...',
             },
             POINT: {
                 OBJECT_TYPE: '对象类型',
@@ -3209,7 +3205,7 @@ function config($translateProvider) {
                 LOGOUT_SUCCESS: '退出成功',
                 LOGOUT_FAILURE: '退出失败',
                 LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: '普通用户无权限登录管理员后台',
-                
+
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
                 SUCCESS_DELETE_BODY: '删除 {{template}} 成功',
@@ -4354,8 +4350,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                 INPUT_PROTOCOL: 'Bitte geben Sie den Protokolltyp ein',
                 INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein',
-                ENERGY_STORAGE_CONTAINER: 'Energiespeichercontainer',
-                PLACEHOLDER: 'Bitte auswählen oder suchen...',
             },
             POINT: {
                 OBJECT_TYPE: 'Objekttyp',
@@ -6326,8 +6320,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Date de la dernière vue',
                 INPUT_PROTOCOL: 'S’il vous plaît entrer le protocole',
                 INPUT_CONNECTION: 'Veuillez saisir la connexion',
-                ENERGY_STORAGE_CONTAINER: 'Conteneur de stockage d`énergie',
-                PLACEHOLDER: 'Veuillez sélectionner ou rechercher...',
             },
             POINT: {
                 OBJECT_TYPE: 'Type d’objet',
@@ -8279,8 +8271,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Fecha y hora de la última vista',
                 INPUT_PROTOCOL: 'Por favor, introduzca el protocolo',
                 INPUT_CONNECTION: 'Por favor, introduzca la conexión',
-                ENERGY_STORAGE_CONTAINER: 'Contenedor de almacenamiento de energía',
-                PLACEHOLDER: 'Por favor, seleccione o busque...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipo de objeto',
@@ -10231,8 +10221,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Дата и время последнего посещения',
                 INPUT_PROTOCOL: 'Пожалуйста, введите протокол',
                 INPUT_CONNECTION: 'Пожалуйста, введите соединение',
-                ENERGY_STORAGE_CONTAINER: 'Контейнер для хранения энергии',
-                PLACEHOLDER: 'Пожалуйста, выберите или поищите...',
             },
             POINT: {
                 OBJECT_TYPE: 'Тип объекта',
@@ -12183,8 +12171,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'تاريخ آخر ظهور',
                 INPUT_PROTOCOL: 'يرجى إدخال بروتوكول',
                 INPUT_CONNECTION: 'يرجى إدخال اتصال',
-                ENERGY_STORAGE_CONTAINER: 'حاوية تخزين الطاقة',
-                PLACEHOLDER: 'يرجى الاختيار أو البحث...',
             },
             POINT: {
                 OBJECT_TYPE: 'نوع الكائن',
@@ -12868,7 +12854,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'يرجى إدخال الطوابق',
                 INPUT_ROOMS: 'غرف',
                 INPUT_LEASE_NUMBER: 'يرجى إدخال رقم الإيجار',
-                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء', 
+                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'إضافة أرضية متجر',
@@ -14135,8 +14121,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Ngày giờ được nhìn thấy lần cuối',
                 INPUT_PROTOCOL: 'Vui lòng nhập giao thức',
                 INPUT_CONNECTION: 'Vui lòng nhập kết nối',
-                ENERGY_STORAGE_CONTAINER: 'Hộp chứa lưu trữ năng lượng',
-                PLACEHOLDER: 'Vui lòng chọn hoặc tìm kiếm...',
             },
             POINT: {
                 OBJECT_TYPE: 'Loại đối tượng',
@@ -16086,8 +16070,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'วันที่เห็นล่าสุด',
                 INPUT_PROTOCOL: 'กรุณาป้อนโปรโตคอล',
                 INPUT_CONNECTION: 'กรุณาใส่การเชื่อมต่อ',
-                ENERGY_STORAGE_CONTAINER: 'คอนเทนเนอร์จัดเก็บพลังงาน',
-                PLACEHOLDER: 'โปรดเลือกหรือค้นหา...',
             },
             POINT: {
                 OBJECT_TYPE: 'ประเภทวัตถุ',
@@ -18037,8 +18019,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Son Görülme Datetime',
                 INPUT_PROTOCOL: 'Lütfen Giriş Protokolü',
                 INPUT_CONNECTION: 'Lütfen Giriş Bağlantısı',
-                ENERGY_STORAGE_CONTAINER: 'Enerji Depolama Konteyneri',
-                PLACEHOLDER: 'Lütfen seçin veya arayın...',
             },
             POINT: {
                 OBJECT_TYPE: 'Nesne Türü',
@@ -19988,8 +19968,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Tarikh Dilihat Terakhir',
                 INPUT_PROTOCOL: 'Sila Protokol Input',
                 INPUT_CONNECTION: 'Sila Input Sambungan',
-                ENERGY_STORAGE_CONTAINER: 'Bekas Simpanan Tenaga',
-                PLACEHOLDER: 'Sila pilih atau carikan...',
             },
             POINT: {
                 OBJECT_TYPE: 'Jenis Objek',
@@ -20672,7 +20650,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Sila Masuk Lantai',
                 INPUT_ROOMS: 'Bilik',
                 INPUT_LEASE_NUMBER: 'Sila masukkan nombor pajakan',
-                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai', 
+                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Tambah Shopfloor',
@@ -21939,8 +21917,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Waktu Tanggal Terakhir Terlihat',
                 INPUT_PROTOCOL: 'Silakan masukan protokol',
                 INPUT_CONNECTION: 'Silakan masukkan koneksi',
-                ENERGY_STORAGE_CONTAINER: 'Wadah Penyimpanan Energi',
-                PLACEHOLDER: 'Silakan pilih atau cari...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipe Objek',
@@ -23871,8 +23847,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: '最後在線時間',
                 INPUT_PROTOCOL: '請輸入協議類型',
                 INPUT_CONNECTION: '請輸入連接地址',
-                ENERGY_STORAGE_CONTAINER: '儲能集裝箱',
-                PLACEHOLDER: '請選擇或搜尋...',
             },
             POINT: {
                 OBJECT_TYPE: '對象類型',
@@ -24568,7 +24542,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '請輸入樓層',
                 INPUT_ROOMS: '請輸入房間',
                 INPUT_LEASE_NUMBER: '請輸入租約編號',
-                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間', 
+                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間',
             },
             STORE: {
                 ADDRESS: '地址',
@@ -25849,8 +25823,6 @@ function config($translateProvider) {
                 LAST_SEEN_DATETIME: 'Data e Hora da Última Visualização',
                 INPUT_PROTOCOL: 'Por Favor, Insira o Protocolo',
                 INPUT_CONNECTION: 'Por Favor, Insira a Conexão',
-                ENERGY_STORAGE_CONTAINER: 'Contêiner de Armazenamento de Energia',
-                PLACEHOLDER: 'Selecione ou pesquise...',
             },
             POINT: {
                 OBJECT_TYPE: 'Tipo de Objeto',

@@ -819,7 +819,7 @@
 								<div class="col-lg-3">
 									<div class="panel panel-info">
 										<div class="panel-heading">
-											{{'DATA_SOURCE.ENERGY_STORAGE_CONTAINER' | translate}}
+											{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
 										</div>
 										<div class="panel-body" slim-scroll box-height="600px">
 											<form role="form">
@@ -828,7 +828,7 @@
 													<ui-select on-select="changeEnergyStorageContainer($item,$model)"
 														ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'DATA_SOURCE.PLACEHOLDER' | translate}}">
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search">
