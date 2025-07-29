@@ -813,6 +813,78 @@
 							</div>
 						</div>
 					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
+						<div class="panel-body" ng-controller="EnergyStorageContainerDataSourceController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="600px">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
+													<ui-select on-select="changeEnergyStorageContainer($item,$model)"
+														ng-model="currentEnergyStorageContainer.selected" theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search">
+															<div ng-bind-html="energystoragecontainer.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.N_S_DATA_SOURCE' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+											x-hjc-drop-target="true"
+											x-on-drop="pairDataSource(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												ng-repeat="energystoragecontainerdatasource in energystoragecontainerdatasources" x-hjc-draggable="true"
+												title="{{energystoragecontainerdatasource.name}}">
+												{{energystoragecontainerdatasource.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteDataSourcePair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.DATA_SOURCE_LIST' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="datasource in datasources" x-hjc-draggable="true">
+												{{datasource.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
 				</uib-tabset>
 			</div>
 		</div>
