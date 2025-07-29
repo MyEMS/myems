@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems_system_db.tbl_energy_storage_containers_data_sources in database
 - added myems_system_db.tbl_microgrids_data_sources in database
 - added myems_system_db.tbl_photovoltaic_power_stations_data_sources in database
+- added carbon emissions per unit of energy consumption to dashboard and space in myems-web
+- added binding data source to energy storage container in myems-admin
 ### Changed
 - subspace names under the same parent space cannot be duplicated
 - updated power stations
