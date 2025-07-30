@@ -42,6 +42,8 @@
                     <input ng-model="microgridevcharger.rated_output_power" type="number" name="microgridevchargerrated_output_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$invalid && form_microgridevcharger.microgridevchargerrated_output_power.$dirty">
                         <small class="text-danger" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$error.min">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgridevcharger.microgridevchargerrated_output_power.$error.max">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
