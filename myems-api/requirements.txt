@@ -11,6 +11,6 @@ openpyxl
 pillow
 python-decouple
 paho-mqtt==2.1.0
-plotly
-kaleido
+plotly==5.24.0
+kaleido==0.2.1
 requests
