@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Changed
 ### Fixed
+- fixed energy flow diagram issue in myems-api
 ### Removed
 
 ## [v5.7.0] - 2025-07-29
