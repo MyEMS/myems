@@ -617,6 +617,10 @@ api.add_route('/microgrids/import',
               microgrid.MicrogridImport())
 api.add_route('/microgrids/{id_}/clone',
               microgrid.MicrogridClone())
+api.add_route('/microgrids/{id_}/datasources',
+              microgrid.MicrogridDataSourceCollection())
+api.add_route('/microgrids/{id_}/datasources/{dsid}', 
+              microgrid.MicrogridDataSourceItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
