@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added binding data source to microgird in myems-api
+- added binding data source to photovoltaic in myems-api
 ### Changed
 ### Fixed
 - fixed energy flow diagram issue in myems-api
