@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [v5.7.1] - 2025-08-02
 ### Added
-- added binding data source to microgird in myems-api
+- added binding data source to microgrid in myems-api
 - added binding data source to photovoltaic in myems-api
 ### Changed
 ### Fixed
