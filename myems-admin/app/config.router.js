@@ -1581,8 +1581,10 @@ app
                                                     'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstationgrid.service.js',
                                                     'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstationload.service.js',
                                                     'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstationuser.service.js',
+                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstationdatasource.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/svg/svg.service.js',
                                                     'app/services/settings/meter/meter.service.js',
@@ -1593,6 +1595,7 @@ app
                                                     'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstationgrid.controller.js',
                                                     'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstationload.controller.js',
                                                     'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstationuser.controller.js',
+                                                    'app/controllers/settings/photovoltaicpowerstation/photovoltaicpowerstationdatasource.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
                                                 ]
