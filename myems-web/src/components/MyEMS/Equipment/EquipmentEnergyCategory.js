@@ -1118,6 +1118,31 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
             )}
           </CardSummary>
+          <CardSummary
+            rate={
+              totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value']
+                ? ((totalInTCO2E['value'] / totalInTCE['value'] - 1) * 100).toFixed(2) + '%'
+                : '--'
+            }
+            title={t('Reporting Period Consumption CATEGORY UNIT', {
+              CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
+              UNIT: '(TCO2E/TCE)'
+            })}
+            color="warning"
+          >
+            {totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] ? (
+              <CountUp
+                end={totalInTCO2E['value'] / totalInTCE['value']}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={3}
+              />
+            ) : (
+              '--'
+            )}
+          </CardSummary>
         </div>
 
         <Row noGutters>
