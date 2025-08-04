@@ -5,10 +5,15 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainersts" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_STS_NAME' | translate}}</label>
-                <div class="col-sm-9"><input ng-model="energystoragecontainersts.name" type="text" name="energystoragecontainerstsname" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainersts.energystoragecontainerstsname.$invalid && form_energystoragecontainersts.energystoragecontainerstsname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainersts.energystoragecontainerstsname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME' | translate}}</small>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_STS_NAME' |
+                    translate}}</label>
+                <div class="col-sm-9"><input ng-model="energystoragecontainersts.name" type="text"
+                        name="energystoragecontainerstsname" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainersts.energystoragecontainerstsname.$invalid && form_energystoragecontainersts.energystoragecontainerstsname.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainersts.energystoragecontainerstsname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -16,6 +21,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_energystoragecontainersts.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragecontainersts.$invalid" class="btn btn-primary"
+            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>

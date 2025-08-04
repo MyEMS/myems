@@ -5,17 +5,27 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStoragePowerStationController">
-							<a ng-click="addEnergyStoragePowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_ENERGY_STORAGE_POWER_STATION' | translate}}</a>
-							<a ng-click="importEnergyStoragePowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<a ng-click="addEnergyStoragePowerStation()"
+								class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.ADD_ENERGY_STORAGE_POWER_STATION' |
+								translate}}</a>
+							<a ng-click="importEnergyStoragePowerStation()"
+								class="btn btn-primary btn-rounded  btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.ADDRESS' | translate}}</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_CAPACITY' | translate}}(kWh)</th>
-										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_POWER' | translate}}(kW)</th>
-										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.ADDRESS' | translate}}
+										</th>
+										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_CAPACITY' |
+											translate}}(kWh)</th>
+										<th class="text-center">{{'ENERGY_STORAGE_POWER_STATION.RATED_POWER' |
+											translate}}(kW)</th>
+										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}}
+											({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
 								</thead>
@@ -28,10 +38,18 @@
 										<td class="text-center">{{ energystoragepowerstation.rated_power }}</td>
 										<td class="text-center">{{ energystoragepowerstation.description }}</td>
 										<td class="text-center">
-											<a ng-click="editEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deleteEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-											<a ng-click="exportEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
-											<a ng-click="cloneEnergyStoragePowerStation(energystoragepowerstation)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
+											<a ng-click="editEnergyStoragePowerStation(energystoragepowerstation)"
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' |
+												translate}}</a>
+											<a ng-click="deleteEnergyStoragePowerStation(energystoragepowerstation)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
+											<a ng-click="exportEnergyStoragePowerStation(energystoragepowerstation)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.EXPORT' |
+												translate}}</a>
+											<a ng-click="cloneEnergyStoragePowerStation(energystoragepowerstation)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.CLONE' |
+												translate}}</a>
 										</td>
 									</tr>
 								</tbody>
@@ -55,11 +73,19 @@
 										</div>
 										<div class="panel-body">
 											<form role="form">
-												<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_POWER_STATION' | translate}}</label>
-													<ui-select  on-select="changeEnergyStoragePowerStation($item,$model)" ng-model="currentEnergyStoragePowerStation.selected" theme="bootstrap">
-														<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-														<ui-select-choices repeat="energystoragepowerstation.id as energystoragepowerstation in energystoragepowerstations | filter: $select.search">
-															<div ng-bind-html="energystoragepowerstation.name | highlight: $select.search"></div>
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_ENERGY_STORAGE_POWER_STATION' |
+														translate}}</label>
+													<ui-select on-select="changeEnergyStoragePowerStation($item,$model)"
+														ng-model="currentEnergyStoragePowerStation.selected"
+														theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="energystoragepowerstation.id as energystoragepowerstation in energystoragepowerstations | filter: $select.search">
+															<div
+																ng-bind-html="energystoragepowerstation.name | highlight: $select.search">
+															</div>
 														</ui-select-choices>
 													</ui-select>
 												</div>
@@ -70,12 +96,12 @@
 								<div class="col-lg-4">
 									<div class="panel panel-primary">
 										<div class="panel-heading">
-											{{currentEnergyStoragePowerStation.name}}{{'SETTING.N_S_ENERGY_STORAGE_CONTAINER' | translate}}
+											{{currentEnergyStoragePowerStation.name}}{{'SETTING.N_S_ENERGY_STORAGE_CONTAINER'
+											| translate}}
 										</div>
-										<div class="panel-body"
-											x-hjc-drop-target="true"
+										<div class="panel-body" x-hjc-drop-target="true"
 											x-on-drop="pairEnergyStorageContainer(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}:{{energystoragepowerstationcontainer.name}}"
@@ -88,11 +114,9 @@
 										<div class="panel-heading">
 											{{'SETTING.TRASH' | translate}}
 										</div>
-										<div class="panel-body trash" >
-											<img class="trashcan"
-											src="img/trashcan.png"
-											x-hjc-drop-target="true"
-											x-on-drop="deleteEnergyStorageContainerPair(dragEl,dropEl)">
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteEnergyStorageContainerPair(dragEl,dropEl)">
 										</div>
 									</div>
 								</div>
@@ -115,41 +139,48 @@
 						</div>
 					</uib-tab>
 					<uib-tab heading="{{'ENERGY_STORAGE_POWER_STATION.BIND_USER' | translate}}">
-							<div class="panel-body" ng-controller="EnergyStoragePowerStationUserController">
-								<div class="row">
-									<div class="col-lg-3">
-										<div class="panel panel-info">
-											<div class="panel-heading">
-												{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}
-											</div>
-											<div class="panel-body">
-													<form role="form">
-													<div class="form-group no-margin"><label>{{'SETTING.SELECT_ENERGY_STORAGE_POWER_STATION' | translate}}</label>
-														<ui-select  on-select="changeEnergyStoragePowerStation($item,$model)" ng-model="currentEnergyStoragePowerStation.selected" theme="bootstrap">
-															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
-															<ui-select-choices repeat="energystoragepowerstation.id as energystoragepowerstation in energystoragepowerstations | filter: $select.search">
-																<div ng-bind-html="energystoragepowerstation.name | highlight: $select.search"></div>
-															</ui-select-choices>
-														</ui-select>
-													</div>
-												</form>
-											</div>
+						<div class="panel-body" ng-controller="EnergyStoragePowerStationUserController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_ENERGY_STORAGE_POWER_STATION' |
+														translate}}</label>
+													<ui-select on-select="changeEnergyStoragePowerStation($item,$model)"
+														ng-model="currentEnergyStoragePowerStation.selected"
+														theme="bootstrap">
+														<ui-select-match
+															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+														<ui-select-choices
+															repeat="energystoragepowerstation.id as energystoragepowerstation in energystoragepowerstations | filter: $select.search">
+															<div
+																ng-bind-html="energystoragepowerstation.name | highlight: $select.search">
+															</div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
 										</div>
 									</div>
-									<div class="col-lg-4">
-										<div class="panel panel-primary">
-											<div class="panel-heading">
-												{{currentEnergyStoragePowerStation.name}}{{'SETTING.N_S_USER' | translate}}
-											</div>
-											<div class="panel-body"
-											    x-hjc-drop-target="true"
-											    x-on-drop="pairUser(dragEl,dropEl)"
-											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentEnergyStoragePowerStation.name}}{{'SETTING.N_S_USER' | translate}}
+										</div>
+										<div class="panel-body" x-hjc-drop-target="true"
+											x-on-drop="pairUser(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
-												<div class="btn btn-primary btn-rounded btn-block"
-												    title="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}:{{energystoragepowerstationusers.data_source.name}}"
-												    ng-repeat="energystoragepowerstationuser in energystoragepowerstationusers"
-												    x-hjc-draggable="true"> {{energystoragepowerstationuser.name}}
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}:{{energystoragepowerstationusers.data_source.name}}"
+												ng-repeat="energystoragepowerstationuser in energystoragepowerstationusers"
+												x-hjc-draggable="true"> {{energystoragepowerstationuser.name}}
 											</div>
 										</div>
 									</div>
@@ -157,11 +188,9 @@
 										<div class="panel-heading">
 											{{'SETTING.TRASH' | translate}}
 										</div>
-										<div class="panel-body trash" >
-											<img class="trashcan"
-											src="img/trashcan.png"
-											x-hjc-drop-target="true"
-											x-on-drop="deleteUserPair(dragEl,dropEl)">
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteUserPair(dragEl,dropEl)">
 										</div>
 									</div>
 								</div>
@@ -171,11 +200,10 @@
 											{{'USER.SELECT_USER' | translate}}
 										</div>
 										<div class="panel-body" slim-scroll box-height="765px"
-										uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'USER.USER_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-											ng-repeat="user in users"
-											x-hjc-draggable="true"> {{user.name}}</div>
+												ng-repeat="user in users" x-hjc-draggable="true"> {{user.name}}</div>
 										</div>
 									</div>
 								</div>

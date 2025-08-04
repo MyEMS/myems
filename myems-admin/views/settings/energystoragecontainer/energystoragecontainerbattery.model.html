@@ -5,19 +5,27 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerbattery" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME'
+                    | translate}}</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainerbattery.name" type="text" name="energystoragecontainerbatteryname" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_BATTERY_NAME' | translate}}</small>
+                    <input ng-model="energystoragecontainerbattery.name" type="text"
+                        name="energystoragecontainerbatteryname" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryname.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_BATTERY_NAME'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' |
+                    translate}}</label>
                 <div class="col-sm-7">
-                    <ui-select ng-model="energystoragecontainerbattery.battery_state_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                    <ui-select ng-model="energystoragecontainerbattery.battery_state_point.id" theme="bootstrap"
+                        required>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -28,7 +36,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.soc_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -39,7 +48,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.power_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -50,7 +60,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.charge_meter.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
                             <div ng-bind-html="meter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -61,7 +72,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.discharge_meter.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
                             <div ng-bind-html="meter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -69,29 +81,44 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}} (kWh)</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}}
+                    (kWh)</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainerbattery.rated_capacity" type="number" name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
+                    <input ng-model="energystoragecontainerbattery.rated_capacity" type="number"
+                        name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}} (kW)</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}}
+                    (kW)</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainerbattery.rated_power" type="number" name="energystoragecontainerbatteryrated_power" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
+                    <input ng-model="energystoragecontainerbattery.rated_power" type="number"
+                        name="energystoragecontainerbatteryrated_power" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainerbattery.energystoragecontainerbatteryrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}} (V)</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}}
+                    (V)</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainerbattery.nominal_voltage" type="number" name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_NOMINAL_VOLTAGE' | translate}}</small>
+                    <input ng-model="energystoragecontainerbattery.nominal_voltage" type="number"
+                        name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$invalid && form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainerbattery.energystoragecontainerbatterynominal_voltage.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_NOMINAL_VOLTAGE'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -99,6 +126,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_energystoragecontainerbattery.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragecontainerbattery.$invalid" class="btn btn-primary"
+            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
