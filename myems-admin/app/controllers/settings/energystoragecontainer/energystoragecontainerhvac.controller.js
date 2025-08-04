@@ -11,7 +11,7 @@ app.controller(
     EnergyStorageContainerService,
     EnergyStorageContainerHVACService,
     EnergyStorageContainerDataSourceService,
-	PointService,
+    PointService,
     toaster,
     SweetAlert
   ) {
@@ -40,22 +40,22 @@ app.controller(
     };
 
     $scope.getDataSourcesByEnergyStorageContainerID = function (id) {
-		let headers = {
-		  "User-UUID": $scope.cur_user.uuid,
-		  Token: $scope.cur_user.token,
-		};
-		EnergyStorageContainerDataSourceService.getDataSourcesByEnergyStorageContainerID(
-		  id,
-		  headers,
-		  function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-			  $scope.datasources = response.data;
-			} else {
-			  $scope.datasources = [];
-			}
-		  }
-		);
-	  };
+      let headers = {
+        "User-UUID": $scope.cur_user.uuid,
+        Token: $scope.cur_user.token,
+      };
+      EnergyStorageContainerDataSourceService.getDataSourcesByEnergyStorageContainerID(
+        id,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 200) {
+            $scope.datasources = response.data;
+          } else {
+            $scope.datasources = [];
+          }
+        }
+      );
+    };
 
     $scope.getDataSourcePointsByEnergyStorageContainerID = function (id) {
       let headers = {
@@ -102,10 +102,10 @@ app.controller(
       $scope.getEnergyStorageContainerHVACsByEnergyStorageContainerID(
         $scope.currentEnergyStorageContainer.id
       );
-	  $scope.getDataSourcesByEnergyStorageContainerID(
+      $scope.getDataSourcesByEnergyStorageContainerID(
         $scope.currentEnergyStorageContainer.id
       );
-	  $scope.getDataSourcePointsByEnergyStorageContainerID(
+      $scope.getDataSourcePointsByEnergyStorageContainerID(
         $scope.currentEnergyStorageContainer.id
       );
     };
@@ -152,12 +152,12 @@ app.controller(
                 $scope.getEnergyStorageContainerHVACsByEnergyStorageContainerID(
                   $scope.currentEnergyStorageContainer.id
                 );
-				$scope.getDataSourcesByEnergyStorageContainerID(
-				  $scope.currentEnergyStorageContainer.id
-				);
-				$scope.getDataSourcePointsByEnergyStorageContainerID(
-				  $scope.currentEnergyStorageContainer.id
-				);
+                $scope.getDataSourcesByEnergyStorageContainerID(
+                  $scope.currentEnergyStorageContainer.id
+                );
+                $scope.getDataSourcePointsByEnergyStorageContainerID(
+                  $scope.currentEnergyStorageContainer.id
+                );
                 $scope.$emit("handleEmitEnergyStorageContainerHVACChanged");
               } else {
                 toaster.pop({
@@ -227,12 +227,12 @@ app.controller(
                 $scope.getEnergyStorageContainerHVACsByEnergyStorageContainerID(
                   $scope.currentEnergyStorageContainer.id
                 );
-				$scope.getDataSourcesByEnergyStorageContainerID(
-				  $scope.currentEnergyStorageContainer.id
-				);
-				$scope.getDataSourcePointsByEnergyStorageContainerID(
-				  $scope.currentEnergyStorageContainer.id
-				);
+                $scope.getDataSourcesByEnergyStorageContainerID(
+                  $scope.currentEnergyStorageContainer.id
+                );
+                $scope.getDataSourcePointsByEnergyStorageContainerID(
+                  $scope.currentEnergyStorageContainer.id
+                );
                 $scope.$emit("handleEmitEnergyStorageContainerHVACChanged");
               } else {
                 toaster.pop({
@@ -325,12 +325,12 @@ app.controller(
                   $scope.getEnergyStorageContainerHVACsByEnergyStorageContainerID(
                     $scope.currentEnergyStorageContainer.id
                   );
-				  $scope.getDataSourcesByEnergyStorageContainerID(
-					$scope.currentEnergyStorageContainer.id
-				  );
-				  $scope.getDataSourcePointsByEnergyStorageContainerID(
-					$scope.currentEnergyStorageContainer.id
-				  );
+                  $scope.getDataSourcesByEnergyStorageContainerID(
+                    $scope.currentEnergyStorageContainer.id
+                  );
+                  $scope.getDataSourcePointsByEnergyStorageContainerID(
+                    $scope.currentEnergyStorageContainer.id
+                  );
                   $scope.$emit("handleEmitEnergyStorageContainerHVACChanged");
                 } else {
                   toaster.pop({

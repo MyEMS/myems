@@ -11,7 +11,7 @@ app.controller(
     CostCenterService,
     ContactService,
     EnergyStorageContainerService,
-	PointService,
+    PointService,
     toaster,
     SweetAlert
   ) {
