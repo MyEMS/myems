@@ -609,6 +609,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Commissioning Phase',
                 PHASE_3INSTALLATION: 'Construction Phase',
+                INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Balancing Price Point',
@@ -2540,6 +2541,7 @@ function config($translateProvider) {
                 PHASE_1USE: '投用',
                 PHASE_2COMMISSIONING: '调试',
                 PHASE_3INSTALLATION: '在建',
+                INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: '平衡价格数据点',
@@ -4493,6 +4495,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Anwendungsphase',
                 PHASE_2COMMISSIONING: 'Phase der Inbetriebnahme',
                 PHASE_3INSTALLATION: 'Bauphase',
+                INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999.',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Ausgleichspreis',
@@ -6463,6 +6466,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Phase d\'utilisation',
                 PHASE_2COMMISSIONING: 'Phase de mise en service',
                 PHASE_3INSTALLATION: 'Phase de construction',
+                INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Points de prix équilibrés',
@@ -8414,6 +8418,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de uso',
                 PHASE_2COMMISSIONING: 'Fase de puesta en marcha',
                 PHASE_3INSTALLATION: 'Fase de construcción',
+                INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Punto de precio de equilibrio',
@@ -10364,6 +10369,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Этап использования',
                 PHASE_2COMMISSIONING: 'Этап отладки',
                 PHASE_3INSTALLATION: 'Этап строительства',
+                INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Сбалансированные цены',
@@ -12314,6 +12320,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'استخدام المرحلة',
                 PHASE_2COMMISSIONING: 'مرحلة التصحيح',
                 PHASE_3INSTALLATION: 'مرحلة البناء',
+                INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'يرجى إدخال سعة توربينات الرياح ...',
@@ -14264,6 +14271,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Giai đoạn sử dụng',
                 PHASE_2COMMISSIONING: 'Giai đoạn gỡ lỗi',
                 PHASE_3INSTALLATION: 'Giai đoạn xây dựng',
+                INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Cân bằng điểm giá',
@@ -16212,6 +16220,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'ขั้นตอนการใช้งาน',
                 PHASE_2COMMISSIONING: 'ขั้นตอนการว่าจ้าง',
                 PHASE_3INSTALLATION: 'ขั้นตอนการก่อสร้าง',
+                INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'จุดราคาสมดุล',
@@ -18161,6 +18170,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Komisyon Fazi',
                 PHASE_3INSTALLATION: 'Yapılandırma Fazi',
+                INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış.',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Dengeleme Fiyat Noktası',
@@ -20110,6 +20120,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Guna Tahap',
                 PHASE_2COMMISSIONING: 'Fasa Pemasangan',
                 PHASE_3INSTALLATION: 'Fasa Pembangunan',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Mengimbangi Titik Harga',
@@ -22059,6 +22070,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Gunakan Tahap',
                 PHASE_2COMMISSIONING: 'Fase Komisionasi',
                 PHASE_3INSTALLATION: 'Fase Konstruksi',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Menyeimbangkan Titik Harga',
@@ -23989,6 +24001,7 @@ function config($translateProvider) {
                 PHASE_1USE: '使用階段',
                 PHASE_2COMMISSIONING: '調試階段',
                 PHASE_3INSTALLATION: '施工階段',
+                INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: '平衡價格數據點',
@@ -25966,6 +25979,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de Uso',
                 PHASE_2COMMISSIONING: 'Fase de Comissionamento',
                 PHASE_3INSTALLATION: 'Fase de Construção',
+                INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Ponto de Preço de Balanceamento',
