@@ -2,19 +2,18 @@
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragecontainerfirecontrol.id}})</h4>
     </div>
-    <div class="modal-body" >
+    <div class="modal-body">
         <div class="row">
             <div class="col-lg-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         {{energystoragecontainerfirecontrol.name}}{{'SETTING.N_S_POINT' | translate}}
                     </div>
-                    <div class="panel-body" x-hjc-drop-target="true"
-                        x-on-drop="pairPoint(dragEl,dropEl)"
+                    <div class="panel-body" x-hjc-drop-target="true" x-on-drop="pairPoint(dragEl,dropEl)"
                         uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
                         <div class="btn btn-primary btn-rounded btn-block"
-                            title="DataSource:{{boundpoint.data_source.name}}"
-                            ng-repeat="boundpoint in boundpoints" x-hjc-draggable="true">
+                            title="DataSource:{{boundpoint.data_source.name}}" ng-repeat="boundpoint in boundpoints"
+                            x-hjc-draggable="true">
                             {{boundpoint.name}}</div>
 
                     </div>
@@ -41,23 +40,21 @@
                         <form role="form">
                             <div class="form-group no-margin">
                                 <label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
-                                <ui-select on-select="changeDataSource($item, $model)"
-                                    ng-model="currentDataSource" theme="bootstrap">
-                                    <ui-select-match
-                                        placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                                <ui-select on-select="changeDataSource($item, $model)" ng-model="currentDataSource"
+                                    theme="bootstrap">
+                                    <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
                                         {{$select.selected.name}}</ui-select-match>
                                     <ui-select-choices
                                         repeat="datasource.id as datasource in datasources | filter: $select.search">
-                                        <div
-                                            ng-bind-html="datasource.name | highlight: $select.search">
+                                        <div ng-bind-html="datasource.name | highlight: $select.search">
                                         </div>
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
                         </form>
                         <h5>{{'SETTING.POINT_LIST' | translate}}</h5>
-                        <div class="source btn btn-info btn-rounded btn-block"
-                            ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+                        <div class="source btn btn-info btn-rounded btn-block" ng-repeat="point in points"
+                            x-hjc-draggable="true"> {{point.name}}</div>
                     </div>
                 </div>
             </div>

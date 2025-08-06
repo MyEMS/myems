@@ -1,15 +1,15 @@
 "use strict";
 
 app.controller(
-  "EnergyStorageContainerCommandController",
+  "EnergyStorageContainerDataSourceController",
   function (
     $scope,
     $window,
     $timeout,
     $translate,
     EnergyStorageContainerService,
-    CommandService,
-    EnergyStorageContainerCommandService,
+    DataSourceService,
+    EnergyStorageContainerDataSourceService,
     PointService,
     toaster
   ) {
@@ -17,33 +17,34 @@ app.controller(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
     $scope.currentEnergyStorageContainer = { selected: undefined };
-    $scope.getAllCommands = function () {
+
+    $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
         Token: $scope.cur_user.token,
       };
-      CommandService.getAllCommands(headers, function (response) {
+      DataSourceService.getAllDataSources(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
-          $scope.commands = response.data;
+          $scope.datasources = response.data;
         } else {
-          $scope.commands = [];
+          $scope.datasources = [];
         }
       });
     };
 
-    $scope.getCommandsByEnergyStorageContainerID = function (id) {
+    $scope.getDataSourcesByEnergyStorageContainerID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
         Token: $scope.cur_user.token,
       };
-      EnergyStorageContainerCommandService.getCommandsByEnergyStorageContainerID(
+      EnergyStorageContainerDataSourceService.getDataSourcesByEnergyStorageContainerID(
         id,
         headers,
         function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
-            $scope.energystoragecontainercommands = response.data;
+            $scope.energystoragecontainerdatasources = response.data;
           } else {
-            $scope.energystoragecontainercommands = [];
+            $scope.energystoragecontainerdatasources = [];
           }
         }
       );
@@ -52,7 +53,7 @@ app.controller(
     $scope.changeEnergyStorageContainer = function (item, model) {
       $scope.currentEnergyStorageContainer = item;
       $scope.currentEnergyStorageContainer.selected = model;
-      $scope.getCommandsByEnergyStorageContainerID(
+      $scope.getDataSourcesByEnergyStorageContainerID(
         $scope.currentEnergyStorageContainer.id
       );
     };
@@ -68,7 +69,7 @@ app.controller(
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.energystoragecontainers = response.data;
             $timeout(function () {
-              $scope.getCommandsByEnergyStorageContainerID(
+              $scope.getDataSourcesByEnergyStorageContainerID(
                 $scope.currentEnergyStorageContainer.id
               );
             }, 1000);
@@ -79,26 +80,26 @@ app.controller(
       );
     };
 
-    $scope.pairCommand = function (dragEl, dropEl) {
-      var commandid = angular.element("#" + dragEl).scope().command.id;
+    $scope.pairDataSource = function (dragEl, dropEl) {
+      var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
         Token: $scope.cur_user.token,
       };
-      EnergyStorageContainerCommandService.addPair(
+      EnergyStorageContainerDataSourceService.addPair(
         energystoragecontainerid,
-        commandid,
+        datasourceid,
         headers,
         function (response) {
           if (angular.isDefined(response.status) && response.status === 201) {
             toaster.pop({
               type: "success",
               title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-              body: $translate.instant("TOASTER.BIND_COMMAND_SUCCESS"),
+              body: $translate.instant("TOASTER.BIND_DATASOURCE_SUCCESS"),
               showCloseButton: true,
             });
-            $scope.getCommandsByEnergyStorageContainerID(
+            $scope.getDataSourcesByEnergyStorageContainerID(
               $scope.currentEnergyStorageContainer.id
             );
           } else {
@@ -113,31 +114,31 @@ app.controller(
       );
     };
 
-    $scope.deleteCommandPair = function (dragEl, dropEl) {
+    $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;
       }
-      var energystoragecontainercommandid = angular
+      var energystoragecontainerdatasourceid = angular
         .element("#" + dragEl)
-        .scope().energystoragecontainercommand.id;
+        .scope().energystoragecontainerdatasource.id;
       var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
         Token: $scope.cur_user.token,
       };
-      EnergyStorageContainerCommandService.deletePair(
+      EnergyStorageContainerDataSourceService.deletePair(
         energystoragecontainerid,
-        energystoragecontainercommandid,
+        energystoragecontainerdatasourceid,
         headers,
         function (response) {
           if (angular.isDefined(response.status) && response.status === 204) {
             toaster.pop({
               type: "success",
               title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-              body: $translate.instant("TOASTER.UNBIND_COMMAND_SUCCESS"),
+              body: $translate.instant("TOASTER.UNBIND_DATASOURCE_SUCCESS"),
               showCloseButton: true,
             });
-            $scope.getCommandsByEnergyStorageContainerID(
+            $scope.getDataSourcesByEnergyStorageContainerID(
               $scope.currentEnergyStorageContainer.id
             );
           } else {
@@ -152,7 +153,7 @@ app.controller(
       );
     };
 
-    $scope.getAllCommands();
+    $scope.getAllDataSources();
     $scope.getAllEnergyStorageContainers();
 
     $scope.$on(

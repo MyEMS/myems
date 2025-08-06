@@ -1581,7 +1581,7 @@ class EnergyStorageContainerDataSourceItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
+    def on_options(req, resp, id_, dsid):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
@@ -1629,7 +1629,7 @@ class EnergyStorageContainerDataSourceItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_data_sources "
-                       " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, dsid))
+                       " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
         cnx.commit()
 
         cursor.close()

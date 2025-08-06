@@ -5,11 +5,16 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainergrid" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID_NAME' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID_NAME' |
+                    translate}}</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainergrid.name" type="text" name="energystoragecontainergridname" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$invalid && form_energystoragecontainergrid.energystoragecontainergridname.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_GRID_NAME' | translate}}</small>
+                    <input ng-model="energystoragecontainergrid.name" type="text" name="energystoragecontainergridname"
+                        class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$invalid && form_energystoragecontainergrid.energystoragecontainergridname.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainergrid.energystoragecontainergridname.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_ENERGY_STORAGE_CONTAINER_GRID_NAME'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -17,7 +22,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainergrid.power_point.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="point.id as point in points | filter: $select.search">
                             <div ng-bind-html="point.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -28,7 +34,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BUY_METER' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainergrid.buy_meter.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
                             <div ng-bind-html="meter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -39,7 +46,8 @@
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SELL_METER' | translate}}</label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainergrid.sell_meter.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.id as meter in meters | filter: $select.search">
                             <div ng-bind-html="meter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -49,9 +57,13 @@
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CAPACITY' | translate}}(kW)</label>
                 <div class="col-sm-7">
-                    <input ng-model="energystoragecontainergrid.capacity" type="number" name="energystoragecontainergridcapacity" class="form-control" required="">
-                    <div class="m-t-xs" ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$invalid && form_energystoragecontainergrid.energystoragecontainergridcapacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
+                    <input ng-model="energystoragecontainergrid.capacity" type="number"
+                        name="energystoragecontainergridcapacity" class="form-control" required="">
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$invalid && form_energystoragecontainergrid.energystoragecontainergridcapacity.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainergrid.energystoragecontainergridcapacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -59,6 +71,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_energystoragecontainergrid.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragecontainergrid.$invalid" class="btn btn-primary"
+            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
