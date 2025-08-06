@@ -66,8 +66,8 @@
                     <input ng-model="meter.hourly_high_limit" type="number" name="meterhourlyhighlimit" class="form-control" required min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_meter.meterhourlyhighlimit.$invalid && form_meter.meterhourlyhighlimit.$dirty">
                         <small class="text-danger" ng-show="form_meter.meterhourlyhighlimit.$error.required">{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}</small>
-                        <small class="text-danger" ng-show="form_meter.meterhourlylowlimit.$error.min">{{'METER.HOURLY_HIGH_LIMIT_MIN_ERROR' | translate}}</small>
-                        <small class="text-danger" ng-show="form_meter.meterhourlylowlimit.$error.max">{{'METER.HOURLY_HIGH_LIMIT_MAX_ERROR' | translate}}</small>
+                        <small class="text-danger" ng-show="form_meter.meterhourlyhighlimit.$error.min">{{'METER.HOURLY_HIGH_LIMIT_MIN_ERROR' | translate}}</small>
+                        <small class="text-danger" ng-show="form_meter.meterhourlyhighlimit.$error.max">{{'METER.HOURLY_HIGH_LIMIT_MAX_ERROR' | translate}}</small>
                     </div>
                 </div>
             </div>
