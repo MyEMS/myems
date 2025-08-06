@@ -64,6 +64,8 @@
                     <div class="m-t-xs" ng-show="form_microgrid.microgridrated_capacity.$invalid && form_microgrid.microgridrated_capacity.$dirty">
                         <small class="text-danger" ng-show="form_microgrid.microgridrated_capacity.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                         <small class="text-danger" ng-show="form_microgrid.microgridrated_capacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgrid.microgridrated_capacity.$error.min">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgrid.microgridrated_capacity.$error.max">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -74,6 +76,8 @@
                     <div class="m-t-xs" ng-show="form_microgrid.microgridrated_power.$invalid && form_microgrid.microgridrated_power.$dirty">
                         <small class="text-danger" ng-show="form_microgrid.microgridrated_power.$error.required">{{'MICROGRID.INPUT_CAPACITY' | translate}}</small>
                         <small class="text-danger" ng-show="form_microgrid.microgridrated_power.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgrid.microgridrated_power.$error.min">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_microgrid.microgridrated_power.$error.max">{{'MICROGRID.INVALID_INPUT_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
