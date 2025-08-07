@@ -86,5 +86,24 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+    exportEnergyStorageContainer: function (
+      energystoragecontainer, 
+      headers, 
+      callback
+    ) {
+      $http
+        .get(
+          getAPI() + "energystoragecontainers/" + energystoragecontainer.id + "/export",
+          { headers }
+        )
+        .then(
+          function (response) {
+            callback(response);
+          },
+          function (response) {
+            callback(response);
+          }
+        );
+    },
   };
 });
