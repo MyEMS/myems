@@ -62,6 +62,33 @@ app.controller(
         }
       );
     };
+    
+    $scope.exportEnergyStorageContainer = function (container) {
+      let headers = {
+        "User-UUID": $scope.cur_user.uuid,
+        "Token": $scope.cur_user.token,
+      };
+      EnergyStorageContainerService.exportEnergyStorageContainer(container, headers, function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.exportdata = JSON.stringify(response.data); 
+          var modalInstance = $uibModal.open({
+            windowClass: "animated fadeIn",
+            templateUrl: "views/common/export.html",
+            controller: "ModalExportCtrl",
+            resolve: {
+              params: function () {
+                return {
+                  exportdata: angular.copy($scope.exportdata),
+                };
+              },
+            },
+          });
+          $rootScope.modalInstance = modalInstance;
+        } else {
+          $scope.exportdata = null;
+        }
+      });
+    };
 
     $scope.addEnergyStorageContainer = function () {
       var modalInstance = $uibModal.open({
