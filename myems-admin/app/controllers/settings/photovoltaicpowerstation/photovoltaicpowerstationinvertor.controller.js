@@ -8,6 +8,7 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
 	$uibModal,
 	PhotovoltaicPowerStationService,
 	PhotovoltaicPowerStationInvertorService,
+	PhotovoltaicPowerStationDataSourceService,
 	PointService,
 	MeterService,
 	toaster,
@@ -29,16 +30,27 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   		});
   	};
 
-	$scope.getAllPoints = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		PointService.getAllPoints(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.points = response.data;
-			} else {
-				$scope.points = [];
-			}
-		});
-	};
+    $scope.getDataSourcesByPhotovoltaicPowerStationID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      PhotovoltaicPowerStationDataSourceService.getDataSourcesByPhotovoltaicPowerStationID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.datasources = response.data;
+        } else {
+          $scope.datasources = [];
+        }
+      });
+    };
+
+    $scope.getDataSourcePointsByPhotovoltaicPowerStationID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      PhotovoltaicPowerStationDataSourceService.getDataSourcePointsByPhotovoltaicPowerStationID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
 
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -67,6 +79,8 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
     	$scope.currentPhotovoltaicPowerStation.selected=model;
         $scope.is_show_add_photovoltaic_power_station_invertor = true;
     	$scope.getPhotovoltaicPowerStationInvertorsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+    	$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+        $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
   	};
 
   	$scope.addPhotovoltaicPowerStationInvertor = function() {
@@ -529,6 +543,8 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   						showCloseButton: true,
   					});
   					$scope.getPhotovoltaicPowerStationInvertorsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+  					$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+                    $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
             		$scope.$emit('handleEmitPhotovoltaicPowerStationInvertorChanged');
   				} else {
   					toaster.pop({
@@ -1002,6 +1018,8 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   						showCloseButton: true,
   					});
   					$scope.getPhotovoltaicPowerStationInvertorsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+  					$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+                    $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
             		$scope.$emit('handleEmitPhotovoltaicPowerStationInvertorChanged');
   				} else {
   					toaster.pop({
@@ -1057,7 +1075,6 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   	};
 
   	$scope.getAllPhotovoltaicPowerStations();
-	$scope.getAllPoints();
 	$scope.getAllMeters();
     $scope.$on('handleBroadcastPhotovoltaicPowerStationChanged', function(event) {
       $scope.getAllPhotovoltaicPowerStations();

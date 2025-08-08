@@ -25,6 +25,14 @@ app.factory('PhotovoltaicPowerStationDataSourceService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        getDataSourcePointsByPhotovoltaicPowerStationID: function(id, headers, callback) {
+            $http.get(getAPI()+'photovoltaicpowerstations/'+id+'/datasourcepoints', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
