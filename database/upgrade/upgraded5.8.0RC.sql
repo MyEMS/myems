@@ -9,15 +9,15 @@
 
 START TRANSACTION;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_point_set_values` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points_set_values` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,
   `set_value` DECIMAL(21, 6) NOT NULL,
   `is_set` BOOL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_point_set_values_index_1` ON `myems_system_db`.`tbl_point_set_values` (`point_id`, `utc_date_time`);
-CREATE INDEX `tbl_point_set_values_index_2` ON `myems_system_db`.`tbl_point_set_values` (`utc_date_time`);
+CREATE INDEX `tbl_points_set_values_index_1` ON `myems_system_db`.`tbl_points_set_values` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_points_set_values_index_2` ON `myems_system_db`.`tbl_points_set_values` (`utc_date_time`);
 
 
 -- UPDATE VERSION NUMBER

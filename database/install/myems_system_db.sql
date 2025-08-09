@@ -1666,11 +1666,11 @@ CREATE INDEX `tbl_points_index_3` ON `myems_system_db`.`tbl_points` (`id`, `obje
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Table `myems_system_db`.`tbl_point_set_values`
+-- Table `myems_system_db`.`tbl_points_set_values`
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP TABLE IF EXISTS `myems_system_db`.`tbl_point_set_values` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_points_set_values` ;
 
-CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_point_set_values` (
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points_set_values` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `point_id` BIGINT NOT NULL,
   `utc_date_time` DATETIME NOT NULL,

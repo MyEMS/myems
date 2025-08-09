@@ -676,14 +676,14 @@ api.add_route('/photovoltaicpowerstations/{id_}/datasources',
 api.add_route('/photovoltaicpowerstations/{id_}/datasources/{dsid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationDataSourceItem())
 
-
-
 api.add_route('/points',
               point.PointCollection())
 api.add_route('/points/{id_}',
               point.PointItem())
 api.add_route('/pointlimits/{id_}',
               point.PointLimit())
+api.add_route('/pointsetvalues/{id_}',
+              point.PointSetValue())
 api.add_route('/points/{id_}/export',
               point.PointExport())
 api.add_route('/points/import',
