@@ -675,6 +675,8 @@ api.add_route('/photovoltaicpowerstations/{id_}/datasources',
               photovoltaicpowerstation.PhotovoltaicPowerStationDataSourceCollection())
 api.add_route('/photovoltaicpowerstations/{id_}/datasources/{dsid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationDataSourceItem())
+api.add_route('/photovoltaicpowerstations/{id_}/datasourcepoints',
+              photovoltaicpowerstation.PhotovoltaicPowerStationDataSourcePointCollection())
 
 api.add_route('/points',
               point.PointCollection())
