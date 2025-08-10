@@ -1166,6 +1166,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Hourly Low Limit (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Please Input Hourly Low Limit',
+                INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
                 HOURLY_HIGH_LIMIT: 'Hourly High Limit (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Please Input Hourly High Limit',
                 MASTER_METER: 'Master Meter',
@@ -3117,6 +3118,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: '每小时最小值（包含）',
                 INPUT_HOURLY_LOW_LIMIT: '请输入每小时最小值',
+                INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
                 HOURLY_HIGH_LIMIT: '每小时最大值（包含）',
                 INPUT_HOURLY_HIGH_LIMIT: '请输入每小时最大值',
                 MASTER_METER: '上级计量表',
@@ -5073,6 +5075,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Stündliches Minimum (inklusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Bitte geben Sie das stündliche Minimum ein',
+                INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999.',
                 HOURLY_HIGH_LIMIT: 'Stundenmaximum (inklusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Bitte geben Sie das Stundenmaximum ein',
                 MASTER_METER: 'Überlegenes Messgerät',
@@ -7022,6 +7025,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Limite horaire basse (inclus)',
                 INPUT_HOURLY_LOW_LIMIT: 'Veuillez saisir la limite horaire basse',
+                INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
                 HOURLY_HIGH_LIMIT: 'Limite horaire élevée (intégratrice)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Veuillez saisir la limite horaire élevée',
                 MASTER_METER: 'Compteur principal',
@@ -8974,6 +8978,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Límite bajo por hora (Contener)',
                 INPUT_HOURLY_LOW_LIMIT: 'Por favor, introduzca el límite bajo por hora',
+                INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
                 HOURLY_HIGH_LIMIT: 'Límite alto por hora (Contener)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Por favor, introduzca el límite máximo por hora',
                 MASTER_METER: 'Medidor maestro',
@@ -10925,6 +10930,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Почасовой низкий лимит (Включительно)',
                 INPUT_HOURLY_LOW_LIMIT: 'Пожалуйста, введите почасовой низкий лимит',
+                INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
                 HOURLY_HIGH_LIMIT: 'Почасовой максимальный лимит (Включительно)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Пожалуйста, введите почасовой максимальный лимит',
                 MASTER_METER: 'Мастер-метр',
@@ -12876,6 +12882,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'الحد الأدنى لكل ساعة (شامله)',
                 INPUT_HOURLY_LOW_LIMIT: 'يرجى إدخال الحد الأدنى للساعة',
+                INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
                 HOURLY_HIGH_LIMIT: 'الحد الأعلى للساعة (شامل)',
                 INPUT_HOURLY_HIGH_LIMIT: 'يرجى إدخال الحد الأعلى للساعة',
                 MASTER_METER: 'ماستر ميتر',
@@ -14827,6 +14834,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Giới hạn thấp hàng giờ (Bao gồm)',
                 INPUT_HOURLY_LOW_LIMIT: 'Vui lòng nhập giới hạn thấp hàng giờ',
+                INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
                 HOURLY_HIGH_LIMIT: 'Giới hạn cao hàng giờ (Bao gồm)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Vui lòng nhập giới hạn cao hàng giờ',
                 MASTER_METER: 'Đồng hồ tổng thể',
@@ -16776,6 +16784,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'ขีด จํากัด ต่ํารายชั่วโมง (รวม)',
                 INPUT_HOURLY_LOW_LIMIT: 'โปรดป้อนขีด จํากัด ต่ํารายชั่วโมง',
+                INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
                 HOURLY_HIGH_LIMIT: 'ขีด จํากัด สูงรายชั่วโมง (รวม)',
                 INPUT_HOURLY_HIGH_LIMIT: 'กรุณาใส่ขีด จํากัด สูงรายชั่วโมง',
                 MASTER_METER: 'มาสเตอร์มิเตอร์',
@@ -18726,6 +18735,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Saatlik Düşük Limit (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Lütfen saatlik düşük limiti girin',
+                INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış.',
                 HOURLY_HIGH_LIMIT: 'Saatlik Yüksek Limit (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Lütfen saatlik yüksek limiti girin',
                 MASTER_METER: 'Master Metre',
@@ -20676,6 +20686,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Had Rendah Setiap Jam (Termasuk)',
                 INPUT_HOURLY_LOW_LIMIT: 'Sila masukkan had rendah setiap jam',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
                 HOURLY_HIGH_LIMIT: 'Had Tinggi Setiap Jam (Termasuk)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Sila masukkan Had Tinggi Setiap Jam',
                 MASTER_METER: 'Master Meter',
@@ -22626,6 +22637,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Batas Rendah Per Jam (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Harap masukkan Batas Rendah Per Jam',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
                 HOURLY_HIGH_LIMIT: 'Batas Tinggi Per Jam (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Silakan masukkan batas tinggi per jam',
                 MASTER_METER: 'Pengukur Master',
@@ -24582,6 +24594,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: '每⼩時最⼩值（包含）',
                 INPUT_HOURLY_LOW_LIMIT: '請輸入每⼩時最⼩值',
+                INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
                 HOURLY_HIGH_LIMIT: '每⼩時最⼤值（包含）',
                 INPUT_HOURLY_HIGH_LIMIT: '請輸入每⼩時最⼤值',
                 MASTER_METER: '上級計量表',
@@ -26539,6 +26552,7 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Limite Inferior Horário (Inclusivo)',
                 INPUT_HOURLY_LOW_LIMIT: 'Por favor, insira o Limite Inferior Horário',
+                INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
                 HOURLY_HIGH_LIMIT: 'Limite Superior Horário (Inclusivo)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Por favor, insira o Limite Superior Horário',
                 MASTER_METER: 'Medidor Mestre',
