@@ -309,7 +309,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Data Source List',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
+				TARIFF_TIME_PERIODS_OVERLAP: 'Only one pricing method is allowed in the same time period',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'The end date of the rate validity period must be after the start date',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -2265,7 +2269,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: '数据源列表',
 
                 CONTROL_MODE_LIST: '控制模式列表',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一时段只允许有一种计价',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '费率有效期结束期应在开始期之后',
+
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
                 END_TIME: '结束时间',
@@ -4220,7 +4228,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Datenquellenliste',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
+				TARIFF_TIME_PERIODS_OVERLAP:'Im selben Zeitraum ist nur ein Preisberechnungssystem erlaubt',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Das Ende der Tarifgültigkeit muss nach dem Beginn liegen',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -6169,7 +6181,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Liste des sources de données',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
+				TARIFF_TIME_PERIODS_OVERLAP:'Un seul mode de tarification est autorisé pour la même période',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La date de fin de validité du tarif doit être postérieure à la date de début',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -8122,7 +8138,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Lista de orígenes de datos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
+				TARIFF_TIME_PERIODS_OVERLAP:'Solo se permite un método de tarificación en el mismo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La fecha de fin de vigencia de la tarifa debe ser posterior a la fecha de inicio',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -10074,7 +10094,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Список источников данных',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
+				TARIFF_TIME_PERIODS_OVERLAP:'В один и тот же период времени разрешена только одна система расценок',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Дата окончания действия тарифа должна быть после даты начала',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -12026,7 +12050,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'قائمة مصادر البيانات',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
+				TARIFF_TIME_PERIODS_OVERLAP:'يُسمح بنظام تسعير واحد فقط في نفس الفترة الزمنية',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'يجب أن يكون تاريخ انتهاء سريان التعريفة بعد تاريخ البدء',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -13978,7 +14006,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Danh sách nguồn dữ liệu',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
+				TARIFF_TIME_PERIODS_OVERLAP:'Chỉ cho phép một phương pháp tính giá trong cùng một khoảng thời gian',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Ngày kết thúc hiệu lực biểu phí phải sau ngày bắt đầu',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -15929,7 +15961,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'รายการแหล่งข้อมูล',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
+				TARIFF_TIME_PERIODS_OVERLAP:'อนุญาตให้มีวิธีคำนวณราคาเพียงแบบเดียวในช่วงเวลาเดียวกัน',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'วันที่สิ้นสุดอายุอัตราค่าใช้จ่ายต้องอยู่หลังจากวันที่เริ่มต้น',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -17880,7 +17916,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Veri Kaynağı Listesi',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
+				TARIFF_TIME_PERIODS_OVERLAP:'Aynı zaman diliminde yalnızca bir fiyatlandırma yöntemine izin verilir',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarife geçerlilik bitiş tarihi, başlangıç tarihinden sonra olmalıdır',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -19831,7 +19871,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Senarai Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu kaedah penetapan harga dibenarkan dalam tempoh masa yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarikh tamat tempoh kadar mestilah selepas tarikh mula',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -21782,7 +21826,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Daftar Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu metode penetapan harga yang diizinkan dalam periode yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tanggal berakhirnya tarif harus setelah tanggal mulai',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -23737,7 +23785,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: '資料來源清單',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一時段只允許有一種計價方式',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '費率有效期的結束日期應在開始日期之後',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -25692,7 +25744,11 @@ function config($translateProvider) {
                 DATA_SOURCE_LIST: 'Lista de Fontes de Dados',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
+				TARIFF_TIME_PERIODS_OVERLAP:'Apenas um método de precificação é permitido no mesmo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'A data de término da vigência da tarifa deve ser posterior à data de início',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
