@@ -50,6 +50,9 @@
                             placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                         </div>
                     </div>
+                    <div class="alert alert-danger" ng-show="error_rate_validity_period.show" role="alert">
+                        {{ error_rate_validity_period.message }}
+                    </div>
                 </form>
             </div>
             <div class="col-sm-8">

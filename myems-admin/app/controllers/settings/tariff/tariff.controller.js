@@ -301,6 +301,11 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		message: ''
 	};
 
+	$scope.error_rate_validity_period = {
+		show: false,
+		message: ''
+	};
+
 	$scope.isEndTimeBeforeStartTime = function(startTime, endTime) {
         if (!startTime || !endTime) {
             return true;
@@ -314,6 +319,41 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
         return endSeconds <= startSeconds;
     };
 
+	$scope.checkTimeOverlap = function(timeofuseList) {
+		if (!timeofuseList || timeofuseList.length <= 1) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		function isOverlap(start1, end1, start2, end2) {
+			if (end1 <= start1) {
+				return (start2 >= start1 || start2 <= end1) && (end2 >= start1 || end2 <= end1);
+			} else if (end2 <= start2) {
+				return (start1 >= start2 || start1 <= end2) && (end1 >= start2 || end1 <= end2);
+			} else {
+				return Math.max(start1, start2) < Math.min(end1, end2);
+			}
+		}
+		for (var i = 0; i < timeofuseList.length; i++) {
+			var time1 = timeofuseList[i];
+			var start1 = timeToSeconds(time1.start_time_of_day);
+			var end1 = timeToSeconds(time1.end_time_of_day);
+
+			for (var j = i + 1; j < timeofuseList.length; j++) {
+				var time2 = timeofuseList[j];
+				var start2 = timeToSeconds(time2.start_time_of_day);
+				var end2 = timeToSeconds(time2.end_time_of_day);
+
+				if (isOverlap(start1, end1, start2, end2)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	$scope.ok = function() {
 		for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
@@ -323,7 +363,29 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
             	return;
         	}
     	}
+
+		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 1) {
+        	if ($scope.checkTimeOverlap($scope.timeofuse)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+				return;
+			}
+		}
+
+		if ($scope.tariff.valid_from && $scope.tariff.valid_through) {
+			var validFrom = moment($scope.tariff.valid_from);
+			var validThrough = moment($scope.tariff.valid_through);
+			if (validThrough.isSameOrBefore(validFrom)) {
+				$scope.error_rate_validity_period.show = true;
+				$scope.error_rate_validity_period.message = $translate.instant("SETTING.VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME");
+				return;
+			}
+		}
+
 		$scope.error.show = false;
+		$scope.error.message = '';
+		$scope.error_rate_validity_period.show = false;
+		$scope.error_rate_validity_period.message= '';
 
 		if($scope.tariff.tariff_type=='timeofuse'){
 			$scope.tariff.timeofuse=$scope.timeofuse;
@@ -349,8 +411,22 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 			return;
 		}
 
+		if ($scope.tariff.tariff_type == 'timeofuse') {
+			var tempTimeofuse = angular.copy($scope.timeofuse);
+			tempTimeofuse.push(angular.copy(t));
+
+			if (tempTimeofuse.length > 1) {
+				if ($scope.checkTimeOverlap(tempTimeofuse)) {
+					$scope.error.show = true;
+					$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+					return;
+				}
+			}
+		}
+
 		$scope.error.show = false;
-    	$scope.error.message = '';
+		$scope.error.message = '';
+
 
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			if ($scope.timeofuse.length > 0) {
@@ -426,6 +502,11 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
     	message: ''
 	};
 
+	$scope.error_rate_validity_period = {
+		show: false,
+		message: ''
+	};
+
 	$scope.isEndTimeBeforeStartTime = function(startTime, endTime) {
         if (!startTime || !endTime) {
             return true;
@@ -439,9 +520,42 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
         return endSeconds <= startSeconds;
     };
 
+	$scope.checkTimeOverlap = function(timeofuseList) {
+		if (!timeofuseList || timeofuseList.length <= 1) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		function isOverlap(start1, end1, start2, end2) {
+			if (end1 <= start1) {
+				return (start2 >= start1 || start2 <= end1) && (end2 >= start1 || end2 <= end1);
+			} else if (end2 <= start2) {
+				return (start1 >= start2 || start1 <= end2) && (end1 >= start2 || end1 <= end2);
+			} else {
+				return Math.max(start1, start2) < Math.min(end1, end2);
+			}
+		}
+		for (var i = 0; i < timeofuseList.length; i++) {
+			var time1 = timeofuseList[i];
+			var start1 = timeToSeconds(time1.start_time_of_day);
+			var end1 = timeToSeconds(time1.end_time_of_day);
+
+			for (var j = i + 1; j < timeofuseList.length; j++) {
+				var time2 = timeofuseList[j];
+				var start2 = timeToSeconds(time2.start_time_of_day);
+				var end2 = timeToSeconds(time2.end_time_of_day);
+
+				if (isOverlap(start1, end1, start2, end2)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	$scope.ok = function() {
-		$scope.error.show = false;
     	for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
         	if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)){
@@ -451,7 +565,32 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
         	}
     	}
 
-    	$scope.tariff.times = $scope.timeofuse;
+		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 1) {
+        	if ($scope.checkTimeOverlap($scope.timeofuse)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+				return;
+			}
+		}
+
+		if ($scope.tariff.valid_from && $scope.tariff.valid_through) {
+			var validFrom = moment($scope.tariff.valid_from);
+			var validThrough = moment($scope.tariff.valid_through);
+			if (validThrough.isSameOrBefore(validFrom)) {
+				$scope.error_rate_validity_period.show = true;
+				$scope.error_rate_validity_period.message = $translate.instant("SETTING.VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME");
+				return;
+			}
+		}
+
+		$scope.error.show = false;
+		$scope.error.message = '';
+		$scope.error_rate_validity_period.show = false;
+		$scope.error_rate_validity_period.message= '';
+
+		if($scope.tariff.tariff_type=='timeofuse'){
+			$scope.tariff.timeofuse=$scope.timeofuse;
+		}
 
 		$scope.tariff.valid_from=moment($scope.tariff.valid_from).format().slice(0,19);
 		$scope.tariff.valid_through=moment($scope.tariff.valid_through).format().slice(0,19);
@@ -475,8 +614,21 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
         	return;
     	}
 
-    	$scope.error.show = false;
-    	$scope.error.message = '';
+    	if ($scope.tariff.tariff_type == 'timeofuse') {
+			var tempTimeofuse = angular.copy($scope.timeofuse);
+			tempTimeofuse.push(angular.copy(t));
+
+			if (tempTimeofuse.length > 1) {
+				if ($scope.checkTimeOverlap(tempTimeofuse)) {
+					$scope.error.show = true;
+					$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+					return;
+				}
+			}
+		}
+
+		$scope.error.show = false;
+		$scope.error.message = '';
 
 		if ($scope.tariff.tariff_type == 'timeofuse') {
 			if ($scope.timeofuse.length > 0) {
