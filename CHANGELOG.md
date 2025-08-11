@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added action to udpate point set value in myems-api
 ### Changed
 ### Fixed
+- fixed issue of deleting point in myems-api
 ### Removed
 
 ## [v5.7.1] - 2025-08-02
