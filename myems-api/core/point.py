@@ -472,9 +472,9 @@ class PointItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS')
 
-        # check if this point is being used by distribution integrator
+        # check if this point is being used by heat integrator
         cursor.execute(" SELECT name "
-                       " FROM tbl_integrators "
+                       " FROM tbl_heat_integrators "
                        " WHERE high_temperature_point_id = %s "
                        "    OR low_temperature_point_id = %s "
                        "    OR flow_point_id = %s "
