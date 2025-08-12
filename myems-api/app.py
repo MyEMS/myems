@@ -481,8 +481,6 @@ api.add_route('/energystoragepowerstations/import',
               energystoragepowerstation.EnergyStoragePowerStationImport()),
 api.add_route('/energystoragepowerstations/{id_}/clone',
               energystoragepowerstation.EnergyStoragePowerStationClone())
-
-
 api.add_route('/equipments',
               equipment.EquipmentCollection())
 api.add_route('/equipments/{id_}',
