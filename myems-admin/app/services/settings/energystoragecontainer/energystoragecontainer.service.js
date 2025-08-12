@@ -105,5 +105,22 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+    importEnergyStorageContainer: function(
+      importdata, 
+      headers, 
+      callback
+    ) {
+      $http
+        .post(getAPI() + "energystoragecontainers/import", JSON.parse(importdata), 
+        { headers }
+      )
+       .then(
+         function (response) {
+          callback(response);
+         }, 
+         function (response) {
+          callback(response);
+      });
+   },
   };
 });
