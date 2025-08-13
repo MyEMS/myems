@@ -59,7 +59,7 @@
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.required">{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.max">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
-
+                        <small class="text-danger" ng-show="offlinemeter.hourly_low_limit > offlinemeter.hourly_high_limit">{{'METER.INVALID_RANGE_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -70,6 +70,7 @@
                     <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$invalid && form_offlinemeter.offlinemeterhourlyhighlimit.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.required">{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="offlinemeter.hourly_low_limit > offlinemeter.hourly_high_limit">{{'METER.INVALID_RANGE_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.max">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
                     </div>
                 </div>
