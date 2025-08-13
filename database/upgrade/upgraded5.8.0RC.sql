@@ -20,6 +20,15 @@ CREATE INDEX `tbl_points_set_values_index_1` ON `myems_system_db`.`tbl_points_se
 CREATE INDEX `tbl_points_set_values_index_2` ON `myems_system_db`.`tbl_points_set_values` (`utc_date_time`);
 
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `invertor_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_invertors_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (`invertor_id`);
+
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.8.0RC', release_date='2025-08-28' WHERE id=1;
 
