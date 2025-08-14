@@ -7,8 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added carbon emissions per unit of energy consumption to equipment in myems-web
 - added carbon emissions per unit of energy consumption to combined equipment in myems-web
+- added tbl_point_set_values to myems_system_db in database
+- added action to udpate point set value in myems-api
+- added tbl_photovoltaic_power_stations_invertors_points to myems_system_db in database
 ### Changed
 ### Fixed
+- fixed issue of deleting point in myems-api
 ### Removed
 
 ## [v5.7.1] - 2025-08-02

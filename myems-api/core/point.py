@@ -472,9 +472,9 @@ class PointItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS')
 
-        # check if this point is being used by distribution integrator
+        # check if this point is being used by heat integrator
         cursor.execute(" SELECT name "
-                       " FROM tbl_integrators "
+                       " FROM tbl_heat_integrators "
                        " WHERE high_temperature_point_id = %s "
                        "    OR low_temperature_point_id = %s "
                        "    OR flow_point_id = %s "
@@ -1072,6 +1072,62 @@ class PointLimit:
                                     id_,))
         cnx.commit()
 
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_200
+
+
+class PointSetValue:
+    def __init__(self):
+        """"Initializes PointSetValue"""
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+
+    @staticmethod
+    @user_logger
+    def on_put(req, resp, id_):
+        """Handles PUT requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.EXCEPTION', description=str(ex))
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'set_value' not in new_values['data'].keys() or \
+                not (isinstance(new_values['data']['set_value'], float) or
+                     isinstance(new_values['data']['set_value'], int)):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_SET_VALUE')
+        set_value = new_values['data']['set_value']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        add_value = (" INSERT INTO tbl_points_set_values (point_id, set_value, utc_date_time) "
+                     " VALUES (%s, %s, %s) ")
+        cursor.execute(add_value, (id_, set_value, datetime.utcnow()))
+        cnx.commit()
         cursor.close()
         cnx.close()
 
