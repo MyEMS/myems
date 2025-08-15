@@ -122,5 +122,16 @@ app.factory("EnergyStorageContainerService", function ($http) {
           callback(response);
       });
    },
+   cloneEnergyStorageContainer: function(energystoragecontainer, headers, callback) {
+            $http.post(getAPI()+'energystoragecontainers/'+energystoragecontainer.id+'/clone', 
+              {data:null}, 
+              { headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
   };
 });
