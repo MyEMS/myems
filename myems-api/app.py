@@ -478,7 +478,7 @@ api.add_route('/energystoragepowerstations/{id_}/users/{uid}',
 api.add_route('/energystoragepowerstations/{id_}/export',
               energystoragepowerstation.EnergyStoragePowerStationExport())
 api.add_route('/energystoragepowerstations/import',
-              energystoragepowerstation.EnergyStoragePowerStationImport()),
+              energystoragepowerstation.EnergyStoragePowerStationImport())
 api.add_route('/energystoragepowerstations/{id_}/clone',
               energystoragepowerstation.EnergyStoragePowerStationClone())
 api.add_route('/equipments',
