@@ -5214,3 +5214,186 @@ class PhotovoltaicPowerStationDataSourceItem:
 
         resp.status = falcon.HTTP_204
 
+class PhotovoltaicPowerStationInvertorPointCollection:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, iid):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+
+    @staticmethod
+    def on_get(req, resp, id_, iid):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+        if not iid.isdigit() or int(iid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_INVERTOR_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_invertors "
+                       " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_INVERTOR_NOT_FOUND')
+
+        query = (" SELECT p.id, p.name, "
+                 "        ds.id, ds.name, ds.uuid, "
+                 "        p.address "
+                 " FROM tbl_points p, tbl_photovoltaic_invertors_points mp, tbl_data_sources ds "
+                 " WHERE mp.invertor_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                 " ORDER BY p.name ")
+        cursor.execute(query, (iid,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1],
+                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                               "address": row[5]}
+                result.append(meta_result)
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_, iid):
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            print(str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+        if not iid.isdigit() or int(iid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_INVERTOR_ID')
+
+        new_values = json.loads(raw_json)
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_invertors "
+                       " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_INVERTOR_NOT_FOUND')
+
+        cursor.execute(" SELECT name, object_type "
+                       " FROM tbl_points "
+                       " WHERE id = %s ", (new_values['data']['point_id'],))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        query = (" SELECT id "
+                 " FROM tbl_photovoltaic_invertors_points "
+                 " WHERE invertor_id = %s AND point_id = %s")
+        cursor.execute(query, (iid, new_values['data']['point_id'],))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.INVERTOR_POINT_RELATION_EXISTS')
+
+        add_row = (" INSERT INTO tbl_photovoltaic_invertors_points (invertor_id, point_id) "
+                   " VALUES (%s, %s) ")
+        cursor.execute(add_row, (iid, new_values['data']['point_id'],))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/photovoltaicpowerstations/' + str(id_) + '/invertors/' + str(iid) + '/points/' + \
+                        str(new_values['data']['point_id'])
+
+class PhotovoltaicPowerStationInvertorPointItem:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, iid, pid):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, iid, pid):
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID')
+        if not iid.isdigit() or int(iid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_INVERTOR_ID')
+        if not pid.isdigit() or int(pid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_photovoltaic_invertors "
+                       " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.PHOTOVOLTAIC_INVERTOR_NOT_FOUND')
+
+        cursor.execute(" SELECT name "
+                       " FROM tbl_points "
+                       " WHERE id = %s ", (pid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.POINT_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_invertors_points "
+                       " WHERE invertor_id = %s AND point_id = %s ", (iid, pid))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.INVERTOR_POINT_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_photovoltaic_invertors_points "
+                       " WHERE invertor_id = %s AND point_id = %s ", (iid, pid))
+        cnx.commit()
+
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
+
+
