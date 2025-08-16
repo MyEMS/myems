@@ -457,7 +457,9 @@ api.add_route('/energystoragecontainers/{id_}/stses/{fid}/points/{pid}',
 api.add_route('/energystoragecontainers/{id_}/clone',
               energystoragecontainer.EnergyStorageContainerClone())
 api.add_route('/energystoragecontainers/{id_}/export',
-              energystoragecontainer.EnergyStorageContainerExport)
+              energystoragecontainer.EnergyStorageContainerExport())
+api.add_route('/energystoragecontainers/import',
+              energystoragecontainer.EnergyStorageContainerImport())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
@@ -479,8 +481,6 @@ api.add_route('/energystoragepowerstations/import',
               energystoragepowerstation.EnergyStoragePowerStationImport())
 api.add_route('/energystoragepowerstations/{id_}/clone',
               energystoragepowerstation.EnergyStoragePowerStationClone())
-
-
 api.add_route('/equipments',
               equipment.EquipmentCollection())
 api.add_route('/equipments/{id_}',
