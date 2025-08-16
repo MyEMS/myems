@@ -5223,6 +5223,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = iid
 
     @staticmethod
     def on_get(req, resp, id_, iid):
@@ -5243,7 +5244,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_photovoltaic_invertors "
+                       " FROM tbl_photovoltaic_power_stations_invertors "
                        " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -5254,7 +5255,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
         query = (" SELECT p.id, p.name, "
                  "        ds.id, ds.name, ds.uuid, "
                  "        p.address "
-                 " FROM tbl_points p, tbl_photovoltaic_invertors_points mp, tbl_data_sources ds "
+                 " FROM tbl_points p, tbl_photovoltaic_power_stations_invertors_points mp, tbl_data_sources ds "
                  " WHERE mp.invertor_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
                  " ORDER BY p.name ")
         cursor.execute(query, (iid,))
@@ -5294,7 +5295,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_photovoltaic_invertors "
+                       " FROM tbl_photovoltaic_power_stations_invertors "
                        " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -5313,7 +5314,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
                                    description='API.POINT_NOT_FOUND')
 
         query = (" SELECT id "
-                 " FROM tbl_photovoltaic_invertors_points "
+                 " FROM tbl_photovoltaic_power_stations_invertors_points "
                  " WHERE invertor_id = %s AND point_id = %s")
         cursor.execute(query, (iid, new_values['data']['point_id'],))
         if cursor.fetchone() is not None:
@@ -5322,7 +5323,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.INVERTOR_POINT_RELATION_EXISTS')
 
-        add_row = (" INSERT INTO tbl_photovoltaic_invertors_points (invertor_id, point_id) "
+        add_row = (" INSERT INTO tbl_photovoltaic_power_stations_invertors_points (invertor_id, point_id) "
                    " VALUES (%s, %s) ")
         cursor.execute(add_row, (iid, new_values['data']['point_id'],))
         cnx.commit()
@@ -5333,6 +5334,7 @@ class PhotovoltaicPowerStationInvertorPointCollection:
         resp.location = '/photovoltaicpowerstations/' + str(id_) + '/invertors/' + str(iid) + '/points/' + \
                         str(new_values['data']['point_id'])
 
+
 class PhotovoltaicPowerStationInvertorPointItem:
     def __init__(self):
         pass
@@ -5342,6 +5344,8 @@ class PhotovoltaicPowerStationInvertorPointItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = iid
+        _ = pid
 
     @staticmethod
     @user_logger
@@ -5361,7 +5365,7 @@ class PhotovoltaicPowerStationInvertorPointItem:
         cursor = cnx.cursor()
 
         cursor.execute(" SELECT name "
-                       " FROM tbl_photovoltaic_invertors "
+                       " FROM tbl_photovoltaic_power_stations_invertors "
                        " WHERE photovoltaic_power_station_id = %s AND id = %s ", (id_, iid,))
         if cursor.fetchone() is None:
             cursor.close()
@@ -5379,7 +5383,7 @@ class PhotovoltaicPowerStationInvertorPointItem:
                                    description='API.POINT_NOT_FOUND')
 
         cursor.execute(" SELECT id "
-                       " FROM tbl_photovoltaic_invertors_points "
+                       " FROM tbl_photovoltaic_power_stations_invertors_points "
                        " WHERE invertor_id = %s AND point_id = %s ", (iid, pid))
         if cursor.fetchone() is None:
             cursor.close()
@@ -5387,7 +5391,7 @@ class PhotovoltaicPowerStationInvertorPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.INVERTOR_POINT_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_photovoltaic_invertors_points "
+        cursor.execute(" DELETE FROM tbl_photovoltaic_power_stations_invertors_points "
                        " WHERE invertor_id = %s AND point_id = %s ", (iid, pid))
         cnx.commit()
 

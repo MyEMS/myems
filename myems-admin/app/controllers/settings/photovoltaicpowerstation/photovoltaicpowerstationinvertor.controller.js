@@ -1074,6 +1074,29 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   			});
   	};
 
+    $scope.bindPhotovoltaicPowerStationInvertorPoint = function (invertor) {
+      var modalInstance = $uibModal.open({
+        templateUrl:
+          "views/settings/photovoltaicpowerstation/photovoltaicpowerstationinvertorpoint.model.html",
+        controller: "ModalBindPhotovoltaicPowerStationInvertorCtrl",
+        windowClass: "animated fadeIn",
+        resolve: {
+          params: function () {
+            return {
+              user_uuid: $scope.cur_user.uuid,
+              token: $scope.cur_user.token,
+              photovoltaicpowerstationid: $scope.currentPhotovoltaicPowerStation.id,
+              photovoltaicpowerstationinvertor: angular.copy(invertor),
+              meters: angular.copy($scope.meters),
+              datasources: angular.copy($scope.datasources),
+              points: angular.copy($scope.points),
+            };
+          },
+        },
+      });
+      $rootScope.modalInstance = modalInstance;
+    };
+
   	$scope.getAllPhotovoltaicPowerStations();
 	$scope.getAllMeters();
     $scope.$on('handleBroadcastPhotovoltaicPowerStationChanged', function(event) {
@@ -1110,3 +1133,157 @@ app.controller('PhotovoltaicPowerStationInvertorController', function(
   		$uibModalInstance.dismiss('cancel');
   	};
   });
+
+app.controller(
+  "ModalBindPhotovoltaicPowerStationInvertorCtrl",
+  function (
+    $scope,
+    $uibModalInstance,
+    toaster,
+    $translate,
+    PhotovoltaicPowerStationInvertorService,
+    PointService,
+    params
+  ) {
+    $scope.operation = "PHOTOVOLTAIC_POWER_STATION.EDIT_PHOTOVOLTAIC_POWER_STATION_INVERTOR";
+    $scope.photovoltaicpowerstationid = params.photovoltaicpowerstationid;
+    $scope.photovoltaicpowerstationinvertor = params.photovoltaicpowerstationinvertor;
+    $scope.datasources = params.datasources;
+    $scope.boundpoints = params.boundpoints;
+
+    let headers = { "User-UUID": params.user_uuid, Token: params.token };
+    PhotovoltaicPowerStationInvertorService.getPointsByInvertorID(
+      $scope.photovoltaicpowerstationid,
+      $scope.photovoltaicpowerstationinvertor.id,
+      headers,
+      function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.boundpoints = response.data;
+        } else {
+          $scope.boundpoints = [];
+        }
+      }
+    );
+
+    $scope.cancel = function () {
+      $uibModalInstance.dismiss("cancel");
+    };
+
+    $scope.changeDataSource = function (item, model) {
+      console.log("changeDataSource");
+      $scope.currentDataSource = model;
+      console.log($scope.currentDataSource);
+      $scope.getPointsByDataSourceID($scope.currentDataSource);
+    };
+
+    $scope.getPointsByDataSourceID = function (id) {
+      console.log("getPointsByDataSourceID");
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PointService.getPointsByDataSourceID(id, headers, function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
+
+    $scope.pairPoint = function (dragEl, dropEl) {
+      var pointid = angular.element("#" + dragEl).scope().point.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PhotovoltaicPowerStationInvertorService.addPair(
+        params.photovoltaicpowerstationid,
+        params.photovoltaicpowerstationinvertor.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 201) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            PhotovoltaicPowerStationInvertorService.getPointsByInvertorID(
+              params.photovoltaicpowerstationid,
+              params.photovoltaicpowerstationinvertor.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+
+    $scope.deletePointPair = function (dragEl, dropEl) {
+      if (angular.element("#" + dragEl).hasClass("source")) {
+        return;
+      }
+
+      var pointid = angular.element("#" + dragEl).scope().boundpoint.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PhotovoltaicPowerStationInvertorService.deletePair(
+        params.photovoltaicpowerstationid,
+        params.photovoltaicpowerstationinvertor.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 204) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            PhotovoltaicPowerStationInvertorService.getPointsByInvertorID(
+              params.photovoltaicpowerstationid,
+              params.photovoltaicpowerstationinvertor.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+  }
+);
