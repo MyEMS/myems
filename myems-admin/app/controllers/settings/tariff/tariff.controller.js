@@ -354,6 +354,50 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 		return false;
 	}
 
+	$scope.checkFullDayCoverage = function(timeofuseList) {
+		if (!timeofuseList || timeofuseList.length === 0) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		var timeRanges = [];
+		for (var i = 0; i < timeofuseList.length; i++) {
+			var item = timeofuseList[i];
+			timeRanges.push({
+				start: timeToSeconds(item.start_time_of_day),
+				end: timeToSeconds(item.end_time_of_day)
+			});
+		}
+		var normalizedRanges = [];
+		for (var i = 0; i < timeRanges.length; i++) {
+			var range = timeRanges[i];
+			if (range.end <= range.start) {
+				normalizedRanges.push({start: range.start, end: 24 * 3600});
+				normalizedRanges.push({start: 0, end: range.end});
+			} else {
+				normalizedRanges.push(range);
+			}
+		}
+		normalizedRanges.sort(function(a, b) {
+			return a.start - b.start;
+		});
+		if (normalizedRanges[0].start !== 0) {
+			return false;
+		}
+		var currentTime = 0;
+		for (var i = 0; i < normalizedRanges.length; i++) {
+			var range = normalizedRanges[i];
+			if (range.start > currentTime + 1) {
+				return false;
+			}
+			currentTime = Math.max(currentTime, range.end);
+		}
+		return currentTime >= 24 * 3600 - 1;
+	};
+
+
 	$scope.ok = function() {
 		for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
@@ -364,10 +408,15 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
         	}
     	}
 
-		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 1) {
+		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 0) {
         	if ($scope.checkTimeOverlap($scope.timeofuse)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+				return;
+			}
+			if (!$scope.checkFullDayCoverage($scope.timeofuse)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TARIFF_NOT_FULL_DAY_COVERAGE");
 				return;
 			}
 		}
@@ -555,6 +604,49 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
 		return false;
 	}
 
+		$scope.checkFullDayCoverage = function(timeofuseList) {
+		if (!timeofuseList || timeofuseList.length === 0) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		var timeRanges = [];
+		for (var i = 0; i < timeofuseList.length; i++) {
+			var item = timeofuseList[i];
+			timeRanges.push({
+				start: timeToSeconds(item.start_time_of_day),
+				end: timeToSeconds(item.end_time_of_day)
+			});
+		}
+		var normalizedRanges = [];
+		for (var i = 0; i < timeRanges.length; i++) {
+			var range = timeRanges[i];
+			if (range.end <= range.start) {
+				normalizedRanges.push({start: range.start, end: 24 * 3600});
+				normalizedRanges.push({start: 0, end: range.end});
+			} else {
+				normalizedRanges.push(range);
+			}
+		}
+		normalizedRanges.sort(function(a, b) {
+			return a.start - b.start;
+		});
+		if (normalizedRanges[0].start !== 0) {
+			return false;
+		}
+		var currentTime = 0;
+		for (var i = 0; i < normalizedRanges.length; i++) {
+			var range = normalizedRanges[i];
+			if (range.start > currentTime + 1) {
+				return false;
+			}
+			currentTime = Math.max(currentTime, range.end);
+		}
+		return currentTime >= 24 * 3600 -1;
+	};
+
 	$scope.ok = function() {
     	for (var i = 0; i < $scope.timeofuse.length; i++) {
         	var item = $scope.timeofuse[i];
@@ -565,10 +657,15 @@ app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstan
         	}
     	}
 
-		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 1) {
+		if ($scope.tariff.tariff_type == 'timeofuse' && $scope.timeofuse.length > 0) {
         	if ($scope.checkTimeOverlap($scope.timeofuse)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.TARIFF_TIME_PERIODS_OVERLAP");
+				return;
+			}
+			if (!$scope.checkFullDayCoverage($scope.timeofuse)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TARIFF_NOT_FULL_DAY_COVERAGE");
 				return;
 			}
 		}
