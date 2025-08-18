@@ -63,7 +63,7 @@ class TenantTypeCollection:
 
         new_values = json.loads(raw_json)
 
-       if 'name' not in new_values['data'].keys() or \
+        if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, 
@@ -136,7 +136,7 @@ class TenantTypeItem:
         pass
 
     @staticmethod
-     def on_options(req, resp, id_):
+    def on_options(req, resp, id_):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
