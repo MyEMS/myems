@@ -41,5 +41,39 @@ app.factory('PhotovoltaicPowerStationInvertorService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, iid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'photovoltaicpowerstations/'+id+'/invertors/'+iid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, iid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'photovoltaicpowerstations/'+id+'/invertors/'+iid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByInvertorID: function(id, iid, headers, callback) {
+            $http.get(
+                getAPI()+'photovoltaicpowerstations/'+id+'/invertors/'+iid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        }
     };
 });
