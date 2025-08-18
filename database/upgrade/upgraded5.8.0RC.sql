@@ -28,6 +28,13 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_in
 CREATE INDEX `tbl_photovoltaic_power_stations_invertors_points_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (`invertor_id`);
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_loads_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (`load_id`);
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.8.0RC', release_date='2025-08-28' WHERE id=1;
