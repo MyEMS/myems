@@ -1484,6 +1484,19 @@ CREATE INDEX `tbl_photovoltaic_power_stations_grids_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_grids` (`photovoltaic_power_station_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `grid_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_grids_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (`grid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_invertors`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_invertors` ;
@@ -1636,6 +1649,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_lo
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_loads_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads` (`photovoltaic_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_loads_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (`load_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_users`
