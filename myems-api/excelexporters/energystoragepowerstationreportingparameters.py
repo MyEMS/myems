@@ -61,7 +61,7 @@ def generate_excel(report,
     _ = trans.gettext
     wb = Workbook()
     ws = wb.active
-    ws.title = "EnergyStoragePowerStationReportingParameters"
+    ws.title = "ESPSReportingParameters"
 
     ####################################################################################################################
     if 'parameters' not in report.keys() or \

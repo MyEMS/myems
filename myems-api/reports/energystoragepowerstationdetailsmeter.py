@@ -155,6 +155,7 @@ class Reporting:
 
         # query meter parameters
         meter_list = list()
+        point_id_list = list()
         for container in container_list:
             cursor_system.execute(" SELECT charge_meter_id, discharge_meter_id "
                                   " FROM tbl_energy_storage_containers_batteries "
@@ -183,6 +184,10 @@ class Reporting:
                 if rows_points is not None and len(rows_points) > 0:
                     point_list = list()
                     for row in rows_points:
+                        # ignore duplicate point
+                        if row[0] in point_id_list:
+                            continue
+                        point_id_list.append(row[0])
                         point = latest_value_dict.get(row[0], None)
                         if point is not None:
                             point_list.append(point)
@@ -200,4 +205,9 @@ class Reporting:
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        resp.text = json.dumps(meter_list)
+        all_in_one_meter = dict()
+        all_in_one_meter['points'] = list()
+        for meter in meter_list:
+            all_in_one_meter['points'] += meter['points']
+
+        resp.text = json.dumps([all_in_one_meter])
