@@ -141,6 +141,7 @@ class Reporting:
         result = dict()
 
         result['schedule'] = dict()
+        schedule_series_data.append(schedule_series_data[0])
         result['schedule']['series_data'] = schedule_series_data
         result['schedule']['schedule_list'] = schedule_list
 

@@ -141,24 +141,13 @@ class Reporting:
                                                   reporting_start_datetime_utc,
                                                   reporting_end_datetime_utc))
                 rows = cursor_historical.fetchall()
-
                 if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        point_timestamps.append(current_datetime_local.isoformat()[0:19])
+                        point_values.append(row[1])
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
             elif point['object_type'] == 'ANALOG_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_analog_value "
@@ -169,24 +158,12 @@ class Reporting:
                                                   reporting_start_datetime_utc,
                                                   reporting_end_datetime_utc))
                 rows = cursor_historical.fetchall()
-
                 if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
-
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        point_timestamps.append(current_datetime_local.isoformat()[0:19])
+                        point_values.append(row[1])
             elif point['object_type'] == 'DIGITAL_VALUE':
                 query = (" SELECT utc_date_time, actual_value "
                          " FROM tbl_digital_value "
@@ -197,24 +174,12 @@ class Reporting:
                                                   reporting_start_datetime_utc,
                                                   reporting_end_datetime_utc))
                 rows = cursor_historical.fetchall()
-
                 if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
-
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
+                    for row in rows:
+                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        point_timestamps.append(current_datetime_local.isoformat()[0:19])
+                        point_values.append(row[1])
 
             parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
             parameters_data['timestamps'].append(point_timestamps)
