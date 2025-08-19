@@ -1718,8 +1718,8 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points_set_values` (
   `set_value` DECIMAL(21, 6) NOT NULL,
   `is_set` BOOL,
   PRIMARY KEY (`id`));
-CREATE INDEX `tbl_point_set_values_index_1` ON `myems_system_db`.`tbl_point_set_values` (`point_id`, `utc_date_time`);
-CREATE INDEX `tbl_point_set_values_index_2` ON `myems_system_db`.`tbl_point_set_values` (`utc_date_time`);
+CREATE INDEX `tbl_points_set_values_index_1` ON `myems_system_db`.`tbl_points_set_values` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_points_set_values_index_2` ON `myems_system_db`.`tbl_points_set_values` (`utc_date_time`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_power_integrators`
