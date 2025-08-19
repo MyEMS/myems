@@ -257,6 +257,22 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 	$scope.t.end_second = '59';
 	$scope.t.power_value = 5;
 
+	$scope.formatTime = function(timeStr) {
+		if (!timeStr) return '00:00:00';
+		if (timeStr.length === 8 && timeStr.split(':').length === 3) {
+			return timeStr;
+		}
+		const parts = timeStr.split(':');
+		let hour = parts[0] || '00';
+		let minute = parts[1] || '00';
+		let second = parts[2] || '00';
+
+		hour = hour.padStart(2, '0');
+		minute = minute.padStart(2, '0');
+		second = second.padStart(2, '0');
+		return `${hour}:${minute}:${second}`;
+	};
+
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -443,6 +459,23 @@ app.controller('ModalEditControlModeCtrl', function($scope, $timeout, $uibModalI
 	$scope.t.end_min = '59';
 	$scope.t.end_second = '59';
 	$scope.t.power_value = 5;
+
+	$scope.formatTime = function(timeStr) {
+		if (!timeStr) return '00:00:00';
+		if (timeStr.length === 8 && timeStr.split(':').length === 3) {
+			return timeStr;
+		}
+		const parts = timeStr.split(':');
+		let hour = parts[0] || '00';
+		let minute = parts[1] || '00';
+		let second = parts[2] || '00';
+
+		hour = hour.padStart(2, '0');
+		minute = minute.padStart(2, '0');
+		second = second.padStart(2, '0');
+		return `${hour}:${minute}:${second}`;
+	};
+
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
