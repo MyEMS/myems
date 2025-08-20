@@ -69,7 +69,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Next Run Datetime',
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Message Template',
-                CLICK_EDIT_FOR_DETAILS: 'Click "Edit" for details',
                 IS_RUN_IMMEDIATELY: 'Is Run Immediately',
 
                 SMS_ALARM_LIST: 'SMS Alarm List',
@@ -314,8 +313,8 @@ function config($translateProvider) {
 				TARIFF_TIME_PERIODS_OVERLAP: 'Only one pricing method is allowed in the same time period',
 				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'The end date of the rate validity period must be after the start date',
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'The time settings of the rates should cover a full 24-hour period',
-				
-   
+
+
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -2031,7 +2030,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: '下次运行时间',
                 EXPRESSION: '表达式',
                 MESSAGE_TEMPLATE: '消息模板',
-                CLICK_EDIT_FOR_DETAILS: '点击"修改"查看详情',
                 IS_RUN_IMMEDIATELY: '立即运行',
 
                 SMS_ALARM_LIST: '短信报警列表',
@@ -3994,7 +3992,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Nächster Lauf Datetime',
                 EXPRESSION: 'Ausdruck',
                 MESSAGE_TEMPLATE: 'Nachrichtenvorlage',
-                CLICK_EDIT_FOR_DETAILS: 'Klicken Sie auf "Bearbeiten"',
                 IS_RUN_IMMEDIATELY: 'Sofort Ausführen',
 
                 SMS_ALARM_LIST: 'SMS-Alarmliste',
@@ -5955,7 +5952,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Date d’exécution suivante',
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Modèle de message',
-                CLICK_EDIT_FOR_DETAILS: 'Cliquez sur « Modifier » pour plus de détails',
                 IS_RUN_IMMEDIATELY: 'Fonctionnement immédiat',
 
                 SMS_ALARM_LIST: 'Liste d’alarme SMS',
@@ -7915,7 +7911,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Próxima ejecución Datetime',
                 EXPRESSION: 'Expresión',
                 MESSAGE_TEMPLATE: 'Plantilla de mensaje',
-                CLICK_EDIT_FOR_DETAILS: 'Haga clic en "Editar" para obtener más detalles.',
                 IS_RUN_IMMEDIATELY: 'Ejecutar de inmediato',
 
                 SMS_ALARM_LIST: 'Lista de alarmas SMS',
@@ -9876,7 +9871,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Дата и время следующего запуска',
                 EXPRESSION: 'Выражение',
                 MESSAGE_TEMPLATE: 'Шаблон сообщения',
-                CLICK_EDIT_FOR_DETAILS: 'Нажмите «Редактировать» для получения подробной информации',
                 IS_RUN_IMMEDIATELY: 'Немедленно!',
 
                 SMS_ALARM_LIST: 'Список SMS-сигналов тревоги',
@@ -11836,7 +11830,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'تاريخ التشغيل التالي',
                 EXPRESSION: 'تعبير',
                 MESSAGE_TEMPLATE: 'قالب الرسالة',
-                CLICK_EDIT_FOR_DETAILS: 'انقر فوق "تحرير" للحصول على التفاصيل',
                 IS_RUN_IMMEDIATELY: 'تشغيل على الفور',
 
                 SMS_ALARM_LIST: 'قائمة إنذارات الرسائل القصيرة',
@@ -13796,7 +13789,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Lần chạy tiếp theo Datetime',
                 EXPRESSION: 'Biểu thức',
                 MESSAGE_TEMPLATE: 'Mẫu tin nhắn',
-                CLICK_EDIT_FOR_DETAILS: 'Nhấp vào "Chỉnh sửa" để biết chi tiết',
                 IS_RUN_IMMEDIATELY: 'Chạy ngay',
 
                 SMS_ALARM_LIST: 'Danh sách báo động SMS',
@@ -15756,7 +15748,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'วันที่เรียกใช้ถัดไป',
                 EXPRESSION: 'สีหน้า',
                 MESSAGE_TEMPLATE: 'เทมเพลตข้อความ',
-                CLICK_EDIT_FOR_DETAILS: 'คลิก "แก้ไข" เพื่อดูรายละเอียด',
                 IS_RUN_IMMEDIATELY: 'เรียกใช้ตอนนี้',
 
                 SMS_ALARM_LIST: 'รายการปลุก SMS',
@@ -17714,7 +17705,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Sonraki Çalıştırma Datetime',
                 EXPRESSION: 'İfade',
                 MESSAGE_TEMPLATE: 'Mesaj Şablonu',
-                CLICK_EDIT_FOR_DETAILS: 'Ayrıntılar için "Düzenle"ye tıklayın',
                 IS_RUN_IMMEDIATELY: 'Hemen Koş',
 
                 SMS_ALARM_LIST: 'SMS Alarm Listesi',
@@ -19673,7 +19663,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Masa Tarikh Tayangan Seterusnya',
                 EXPRESSION: 'Ungkapan',
                 MESSAGE_TEMPLATE: 'Templat Mesej',
-                CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk maklumat lanjut',
                 IS_RUN_IMMEDIATELY: 'Jalankan Segera',
 
                 SMS_ALARM_LIST: 'Senarai Penggera SMS',
@@ -21632,7 +21621,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Datetime Jalankan Berikutnya',
                 EXPRESSION: 'Ekspresi',
                 MESSAGE_TEMPLATE: 'Template Pesan',
-                CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk detailnya',
                 IS_RUN_IMMEDIATELY: 'Lari Segera',
 
                 SMS_ALARM_LIST: 'Daftar Alarm SMS',
@@ -23591,7 +23579,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: '下次運⾏時間',
                 EXPRESSION: '表達式',
                 MESSAGE_TEMPLATE: '消息模板',
-                CLICK_EDIT_FOR_DETAILS: '點擊"修改"查看詳情',
                 IS_RUN_IMMEDIATELY: '立即運⾏',
 
                 SMS_ALARM_LIST: '短信報警列表',
@@ -25558,7 +25545,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Data e hora da próxima execução',
                 EXPRESSION: 'Expressão',
                 MESSAGE_TEMPLATE: 'Modelo de mensagem',
-                CLICK_EDIT_FOR_DETAILS: 'Clique em "Editar" para mais detalhes',
                 IS_RUN_IMMEDIATELY: 'Corre imediatamente',
 
                 SMS_ALARM_LIST: 'Lista de alarme SMS',
