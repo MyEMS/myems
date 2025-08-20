@@ -34,8 +34,6 @@
 										<td class="text-center">{{ rule.is_enabled==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
                                         <td class="text-center">{{ rule.last_run_datetime }}</td>
                                         <td class="text-center">{{ rule.next_run_datetime }}</td>
-										<td class="text-center"> {{'FDD.CLICK_EDIT_FOR_DETAILS' | translate}} </td>
-										<td class="text-center"> {{'FDD.CLICK_EDIT_FOR_DETAILS' | translate}} </td>
 										<td class="text-center">{{ rule.is_run_immediately==true?'SETTING.ON':'SETTING.OFF' | translate}}</td>
 										<td class="text-center">
 											<a ng-click="editRule(rule)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
