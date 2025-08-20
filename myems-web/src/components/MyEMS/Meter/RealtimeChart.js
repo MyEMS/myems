@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
@@ -15,23 +14,33 @@ const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 const chartOptions = {
   legend: { display: false },
   scales: {
-    yAxes: [
-      {
+    // 替换原 yAxes
+    y: {
+      display: true,
+      stacked: false
+    },
+    // 替换原 xAxes
+    x: {
+      stacked: false,
+      ticks: { 
         display: true,
-        stacked: false
-      }
-    ],
-    xAxes: [
-      {
-        stacked: false,
-        ticks: { display: false },
-        categoryPercentage: 1.0,
-        gridLines: {
-          color: rgbaColor('#fff', 0.1),
-          display: true
+        maxTicksLimit: 10,
+        callback: function(value, index, values) {
+          const timeStr = this.chart.data.labels[index];
+          if (timeStr) {
+            // 用正则提取 HH:mm:ss，兼容各种可能的时间格式
+            const match = timeStr.match(/\d{2}:\d{2}:\d{2}/);
+            return match ? match[0] : '';
+          }
+          return '';
         }
+      },
+      categoryPercentage: 1.0,
+      gridLines: {
+        color: rgbaColor('#fff', 0.1),
+        display: true
       }
-    ]
+    }
   }
 };
 
@@ -41,10 +50,11 @@ class RealtimeChart extends Component {
   refreshTimeout;
   state = {
     trendLog: [],
+    timestamps: [],
     currentEnergyValue: undefined,
     energyValuePointName: undefined,
     chartData: {
-      labels: range(1, 61),
+      labels: [],
       datasets: [
         {
           label: '',
@@ -87,11 +97,13 @@ class RealtimeChart extends Component {
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
+          let timestamps = 
+            length > 60 ? json['energy_value']['timestamps'].slice(length - 60, length) : json['energy_value']['timestamps'];
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
           let pointList = [];
           let chartData = Object.assign(this.state.chartData);
-          chartData.labels = trendLog.length > 60 ? range(1, 61) : range(1, trendLog.length + 1);
+          chartData.labels = timestamps;
           if (trendLog.length > 0) {
             currentEnergyValue = trendLog[trendLog.length - 1];
           }
@@ -109,6 +121,7 @@ class RealtimeChart extends Component {
             this.setState({
               chartData: chartData,
               trendLog: trendLog,
+              timestamps: timestamps,
               currentEnergyValue: floatFormatter(currentEnergyValue),
               energyValuePointName: energyValuePointName,
               pointList: pointList
@@ -144,6 +157,7 @@ class RealtimeChart extends Component {
           if (isResponseOK) {
 
             let trendLog = json['energy_value']['values'];
+            let timestamps = json['energy_value']['timestamps'];
             let currentEnergyValue = undefined;
             let energyValuePointName = json['energy_value']['name'];
             let pointList = [];
@@ -163,6 +177,7 @@ class RealtimeChart extends Component {
             if (this._isMounted) {
               this.setState({
                 trendLog: trendLog,
+                timestamps: timestamps,
                 currentEnergyValue: currentEnergyValue,
                 energyValuePointName: energyValuePointName,
                 pointList: pointList
@@ -182,6 +197,7 @@ class RealtimeChart extends Component {
     const { t } = this.props;
     const chartData = {
       ...this.state.chartData,
+      labels: this.state.timestamps,
       datasets: [
         {
           ...this.state.chartData.datasets[0],
