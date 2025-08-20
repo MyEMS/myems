@@ -15,9 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tbl_photovoltaic_power_stations_grids_points to myems_system_db in database
 - 
 ### Changed
-- 
+- updated meter realtime chart in myems-web
 ### Fixed
 - fixed issue of deleting point in myems-api
+- 
 ### Removed
 - 
 
