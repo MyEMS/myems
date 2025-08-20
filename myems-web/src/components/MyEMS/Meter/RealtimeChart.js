@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
+import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { rgbaColor } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
@@ -14,12 +15,10 @@ const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 const chartOptions = {
   legend: { display: false },
   scales: {
-    // 替换原 yAxes
     y: {
       display: true,
       stacked: false
     },
-    // 替换原 xAxes
     x: {
       stacked: false,
       ticks: { 
@@ -28,7 +27,6 @@ const chartOptions = {
         callback: function(value, index, values) {
           const timeStr = this.chart.data.labels[index];
           if (timeStr) {
-            // 用正则提取 HH:mm:ss，兼容各种可能的时间格式
             const match = timeStr.match(/\d{2}:\d{2}:\d{2}/);
             return match ? match[0] : '';
           }
