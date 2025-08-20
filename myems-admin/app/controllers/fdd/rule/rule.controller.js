@@ -12,6 +12,8 @@ app.controller('RuleController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.showExpressionColumn = false;
+	$scope.showMessageTemplateColumn = false;
 
 	$scope.initExpression = [{
 		"sample_object_id": 1,
