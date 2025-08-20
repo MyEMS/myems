@@ -13,7 +13,11 @@ const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
 const chartOptions = {
-  legend: { display: false },
+  plugins: {
+    legend: { 
+      display: false 
+    }
+  },
   scales: {
     y: {
       display: true,
@@ -120,7 +124,7 @@ class RealtimeChart extends Component {
               chartData: chartData,
               trendLog: trendLog,
               timestamps: timestamps,
-              currentEnergyValue: floatFormatter(currentEnergyValue),
+              currentEnergyValue: currentEnergyValue ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
               energyValuePointName: energyValuePointName,
               pointList: pointList
             });
@@ -176,7 +180,7 @@ class RealtimeChart extends Component {
               this.setState({
                 trendLog: trendLog,
                 timestamps: timestamps,
-                currentEnergyValue: currentEnergyValue,
+                currentEnergyValue: currentEnergyValue ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
                 energyValuePointName: energyValuePointName,
                 pointList: pointList
               });
