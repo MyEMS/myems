@@ -6008,8 +6008,7 @@ class EnergyStorageContainerImport:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        name = str.strip(new_values['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        name = str.strip(new_values['name'])
 
         if 'rated_capacity' not in new_values.keys() or \
                 not (isinstance(new_values['rated_capacity'], float) or

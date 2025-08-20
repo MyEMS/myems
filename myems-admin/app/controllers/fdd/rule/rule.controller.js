@@ -278,6 +278,7 @@ app.controller('ModalAddRuleCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "FDD.ADD_RULE";
 	$scope.rule={};
 	$scope.rule.is_enabled=true;
+	$scope.rule.is_run_immediately=false;
 	$scope.rule.channel='WEB';
 	$scope.rule.expression=JSON.stringify(params.expression);
 	$scope.rule.message_template=params.message_template;
