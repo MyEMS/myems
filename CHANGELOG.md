@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 
 ### Changed
 - updated meter realtime chart in myems-web
+- updated control mode in myems-admin
 ### Fixed
 - fixed issue of deleting point in myems-api
 - 

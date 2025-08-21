@@ -257,6 +257,22 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 	$scope.t.end_second = '59';
 	$scope.t.power_value = 5;
 
+	$scope.formatTime = function(timeStr) {
+		if (!timeStr) return '00:00:00';
+		if (timeStr.length === 8 && timeStr.split(':').length === 3) {
+			return timeStr;
+		}
+		const parts = timeStr.split(':');
+		let hour = parts[0] || '00';
+		let minute = parts[1] || '00';
+		let second = parts[2] || '00';
+
+		hour = hour.padStart(2, '0');
+		minute = minute.padStart(2, '0');
+		second = second.padStart(2, '0');
+		return `${hour}:${minute}:${second}`;
+	};
+
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -288,15 +304,96 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
         return endSeconds <= startSeconds;
     };
 
+	$scope.hasTimeOverlap = function() {
+		for (var i = 0; i < $scope.times.length; i++) {
+			for (var j = i + 1; j < $scope.times.length; j++) {
+				if ($scope.isTimeOverlap($scope.times[i], $scope.times[j])) {
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+
+	$scope.isTimeOverlap = function(time1, time2) {
+		var start1 = $scope.timeToSeconds(time1.start_time_of_day);
+		var end1 = $scope.timeToSeconds(time1.end_time_of_day);
+		var start2 = $scope.timeToSeconds(time2.start_time_of_day);
+		var end2 = $scope.timeToSeconds(time2.end_time_of_day);
+
+		return Math.max(start1, start2) < Math.min(end1, end2);
+	};
+
+	$scope.timeToSeconds = function(timeString) {
+		var parts = timeString.split(':');
+		return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+	};
+
+	$scope.checkFullDayCoverage = function(timeList) {
+		if (!timeList || timeList.length === 0) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		var timeRanges = [];
+		for (var i = 0; i < timeList.length; i++) {
+			var item = timeList[i];
+			timeRanges.push({
+				start: timeToSeconds(item.start_time_of_day),
+				end: timeToSeconds(item.end_time_of_day)
+			});
+		}
+		var normalizedRanges = [];
+		for (var i = 0; i < timeRanges.length; i++) {
+			var range = timeRanges[i];
+			if (range.end <= range.start) {
+				normalizedRanges.push({start: range.start, end: 24 * 3600});
+				normalizedRanges.push({start: 0, end: range.end});
+			} else {
+				normalizedRanges.push(range);
+			}
+		}
+		normalizedRanges.sort(function(a, b) {
+			return a.start - b.start;
+		});
+		if (normalizedRanges[0].start !== 0) {
+			return false;
+		}
+		var currentTime = 0;
+		for (var i = 0; i < normalizedRanges.length; i++) {
+			var range = normalizedRanges[i];
+			if (range.start > currentTime + 1) {
+				return false;
+			}
+			currentTime = Math.max(currentTime, range.end);
+		}
+		return currentTime >= 24 * 3600 - 1;
+	};
+
 	$scope.ok = function() {
 		for (var i = 0; i < $scope.times.length; i++) {
-        	var item = $scope.times[i];
-        	if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)) {
+			var item = $scope.times[i];
+			if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
-            	return;
-        	}
-    	}
+				return;
+			}
+		}
+		if ($scope.times.length > 0) {
+			if ($scope.hasTimeOverlap()) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TIME_PERIOD_OVERLAP_ERROR");
+				return;
+			}
+			if (!$scope.checkFullDayCoverage($scope.times)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.CONTROL_MODE_NOT_FULL_DAY_COVERAGE");
+				return;
+			}
+		}
+
 		$scope.error.show = false;
 		$scope.controlmode.times=$scope.times;
 		$uibModalInstance.close($scope.controlmode);
@@ -362,6 +459,23 @@ app.controller('ModalEditControlModeCtrl', function($scope, $timeout, $uibModalI
 	$scope.t.end_min = '59';
 	$scope.t.end_second = '59';
 	$scope.t.power_value = 5;
+
+	$scope.formatTime = function(timeStr) {
+		if (!timeStr) return '00:00:00';
+		if (timeStr.length === 8 && timeStr.split(':').length === 3) {
+			return timeStr;
+		}
+		const parts = timeStr.split(':');
+		let hour = parts[0] || '00';
+		let minute = parts[1] || '00';
+		let second = parts[2] || '00';
+
+		hour = hour.padStart(2, '0');
+		minute = minute.padStart(2, '0');
+		second = second.padStart(2, '0');
+		return `${hour}:${minute}:${second}`;
+	};
+
 	$scope.dtOptions = {
 		locale:{
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -397,17 +511,96 @@ app.controller('ModalEditControlModeCtrl', function($scope, $timeout, $uibModalI
         return endSeconds <= startSeconds;
     };
 
-	$scope.ok = function() {
-		$scope.error.show = false;
-    	for (var i = 0; i < $scope.times.length; i++) {
-        	var item = $scope.times[i];
-        	if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)) {
-            	$scope.error.show = true;
-            	$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
-            	return;
-        	}
-    	}
+	$scope.hasTimeOverlap = function() {
+		for (var i = 0; i < $scope.times.length; i++) {
+			for (var j = i + 1; j < $scope.times.length; j++) {
+				if ($scope.isTimeOverlap($scope.times[i], $scope.times[j])) {
+					return true;
+				}
+			}
+		}
+		return false;
+	};
 
+	$scope.isTimeOverlap = function(time1, time2) {
+		var start1 = $scope.timeToSeconds(time1.start_time_of_day);
+		var end1 = $scope.timeToSeconds(time1.end_time_of_day);
+		var start2 = $scope.timeToSeconds(time2.start_time_of_day);
+		var end2 = $scope.timeToSeconds(time2.end_time_of_day);
+
+		return Math.max(start1, start2) < Math.min(end1, end2);
+	};
+
+	$scope.timeToSeconds = function(timeString) {
+		var parts = timeString.split(':');
+		return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+	};
+
+	$scope.checkFullDayCoverage = function(timeList) {
+		if (!timeList || timeList.length === 0) {
+			return false;
+		}
+		function timeToSeconds(timeStr) {
+			var parts = timeStr.split(':');
+			return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+		}
+		var timeRanges = [];
+		for (var i = 0; i < timeList.length; i++) {
+			var item = timeList[i];
+			timeRanges.push({
+				start: timeToSeconds(item.start_time_of_day),
+				end: timeToSeconds(item.end_time_of_day)
+			});
+		}
+		var normalizedRanges = [];
+		for (var i = 0; i < timeRanges.length; i++) {
+			var range = timeRanges[i];
+			if (range.end <= range.start) {
+				normalizedRanges.push({start: range.start, end: 24 * 3600});
+				normalizedRanges.push({start: 0, end: range.end});
+			} else {
+				normalizedRanges.push(range);
+			}
+		}
+		normalizedRanges.sort(function(a, b) {
+			return a.start - b.start;
+		});
+		if (normalizedRanges[0].start !== 0) {
+			return false;
+		}
+		var currentTime = 0;
+		for (var i = 0; i < normalizedRanges.length; i++) {
+			var range = normalizedRanges[i];
+			if (range.start > currentTime + 1) {
+				return false;
+			}
+			currentTime = Math.max(currentTime, range.end);
+		}
+		return currentTime >= 24 * 3600 - 1;
+	};
+
+	$scope.ok = function() {
+		for (var i = 0; i < $scope.times.length; i++) {
+			var item = $scope.times[i];
+			if ($scope.isEndTimeBeforeStartTime(item.start_time_of_day, item.end_time_of_day)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
+				return;
+			}
+		}
+		if ($scope.times.length > 0) {
+			if ($scope.hasTimeOverlap()) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.TIME_PERIOD_OVERLAP_ERROR");
+				return;
+			}
+			if (!$scope.checkFullDayCoverage($scope.times)) {
+				$scope.error.show = true;
+				$scope.error.message = $translate.instant("SETTING.CONTROL_MODE_NOT_FULL_DAY_COVERAGE");
+				return;
+			}
+		}
+		$scope.error.show = false;
     	$scope.controlmode.times = $scope.times;
 		$uibModalInstance.close($scope.controlmode);
 	};
