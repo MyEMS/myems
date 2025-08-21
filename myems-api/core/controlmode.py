@@ -49,15 +49,19 @@ class ControlModeCollection:
                 if rows_times is not None and len(rows_times) > 0:
                     for row_time in rows_times:
                         start_time_of_day = str(row_time[0])
-                        if re.search("^\d:", start_time_of_day):
-                            start_time_of_day = '0' + start_time_of_day[:4]
-                        else:
-                            start_time_of_day = start_time_of_day[:5]
+                        parts = start_time_of_day.split(':')
+                        hour = parts[0].zfill(2)
+                        minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                        second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                        start_time_of_day = f"{hour}:{minute}:{second}"
+
                         end_time_of_day = str(row_time[1])
-                        if re.search("^\d:", end_time_of_day):
-                            end_time_of_day = '0' + end_time_of_day[:4]
-                        else:
-                            end_time_of_day = end_time_of_day[:5]
+                        parts = end_time_of_day.split(':')
+                        hour = parts[0].zfill(2)
+                        minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                        second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                        end_time_of_day = f"{hour}:{minute}:{second}"
+
                         meta_data = {"start_time_of_day": start_time_of_day,
                                      "end_time_of_day": end_time_of_day,
                                      "power_value": row_time[2]}
@@ -187,16 +191,19 @@ class ControlModeItem:
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
                 start_time_of_day = str(row_time[0])
-                print('start_time_of_day=' + start_time_of_day)
-                if re.search("^\d:", start_time_of_day):
-                    start_time_of_day = '0' + start_time_of_day[:4]
-                else:
-                    start_time_of_day = start_time_of_day[:5]
+                parts = start_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                start_time_of_day = f"{hour}:{minute}:{second}"
+
                 end_time_of_day = str(row_time[1])
-                if re.search("^\d:", end_time_of_day):
-                    end_time_of_day = '0' + end_time_of_day[:4]
-                else:
-                    end_time_of_day = end_time_of_day[:5]
+                parts = end_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                end_time_of_day = f"{hour}:{minute}:{second}"
+
                 meta_data = {"start_time_of_day": start_time_of_day,
                              "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
@@ -382,15 +389,19 @@ class ControlModeExport:
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
                 start_time_of_day = str(row_time[0])
-                if re.search("^\d:", start_time_of_day):
-                    start_time_of_day = '0' + start_time_of_day[:4]
-                else:
-                    start_time_of_day = start_time_of_day[:5]
+                parts = start_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                start_time_of_day = f"{hour}:{minute}:{second}"
+
                 end_time_of_day = str(row_time[1])
-                if re.search("^\d:", end_time_of_day):
-                    end_time_of_day = '0' + end_time_of_day[:4]
-                else:
-                    end_time_of_day = end_time_of_day[:5]
+                parts = end_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                end_time_of_day = f"{hour}:{minute}:{second}"
+
                 meta_data = {"start_time_of_day": start_time_of_day,
                              "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
@@ -528,15 +539,19 @@ class ControlModeClone:
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
                 start_time_of_day = str(row_time[0])
-                if re.search("^\d:", start_time_of_day):
-                    start_time_of_day = '0' + start_time_of_day[:4]
-                else:
-                    start_time_of_day = start_time_of_day[:5]
+                parts = start_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                start_time_of_day = f"{hour}:{minute}:{second}"
+
                 end_time_of_day = str(row_time[1])
-                if re.search("^\d:", end_time_of_day):
-                    end_time_of_day = '0' + end_time_of_day[:4]
-                else:
-                    end_time_of_day = end_time_of_day[:5]
+                parts = end_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                end_time_of_day = f"{hour}:{minute}:{second}"
+
                 meta_data = {"start_time_of_day": start_time_of_day,
                              "end_time_of_day": end_time_of_day,
                              "power_value": row_time[2]}
@@ -629,15 +644,19 @@ class ControlModeTimeCollection:
         if rows_times is not None and len(rows_times) > 0:
             for row_time in rows_times:
                 start_time_of_day = str(row_time[1])
-                if re.search("^\d:", start_time_of_day):
-                    start_time_of_day = '0' + start_time_of_day[:4]
-                else:
-                    start_time_of_day = start_time_of_day[:5]
+                parts = start_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                start_time_of_day = f"{hour}:{minute}:{second}"
+
                 end_time_of_day = str(row_time[2])
-                if re.search("^\d:", end_time_of_day):
-                    end_time_of_day = '0' + end_time_of_day[:4]
-                else:
-                    end_time_of_day = end_time_of_day[:5]
+                parts = end_time_of_day.split(':')
+                hour = parts[0].zfill(2)
+                minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+                second = parts[2].zfill(2) if len(parts) > 2 else '00'
+                end_time_of_day = f"{hour}:{minute}:{second}"
+
                 meta_result = {"id": row[0],
                                "start_time_of_day": start_time_of_day,
                                "end_time_of_day": end_time_of_day,
@@ -800,15 +819,19 @@ class ControlModeTimeItem:
                                    description='API.CONTROL_MODE_TIME_NOT_FOUND_OR_NOT_MATCH')
         else:
             start_time_of_day = str(row_time[2])
-            if re.search("^\d:", start_time_of_day):
-                start_time_of_day = '0' + start_time_of_day[:4]
-            else:
-                start_time_of_day = start_time_of_day[:5]
+            parts = start_time_of_day.split(':')
+            hour = parts[0].zfill(2)
+            minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+            second = parts[2].zfill(2) if len(parts) > 2 else '00'
+            start_time_of_day = f"{hour}:{minute}:{second}"
+
             end_time_of_day = str(row_time[3])
-            if re.search("^\d:", end_time_of_day):
-                end_time_of_day = '0' + end_time_of_day[:4]
-            else:
-                end_time_of_day = end_time_of_day[:5]
+            parts = end_time_of_day.split(':')
+            hour = parts[0].zfill(2)
+            minute = parts[1].zfill(2) if len(parts) > 1 else '00'
+            second = parts[2].zfill(2) if len(parts) > 2 else '00'
+            end_time_of_day = f"{hour}:{minute}:{second}"
+
             meta_result = {"id": row_time[0],
                            "control_mode_id": row_time[1],
                            "start_time_of_day": start_time_of_day,

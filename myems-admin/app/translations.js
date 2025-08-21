@@ -309,10 +309,14 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
-                TARIFF_TIME_PERIODS_OVERLAP: 'Only one pricing method is allowed in the same time period',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'The end date of the rate validity period must be after the start date',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'The time settings of the rates should cover a full 24-hour period',
+
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
+				TARIFF_TIME_PERIODS_OVERLAP: 'Only one pricing method is allowed in the same time period',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'The end date of the rate validity period must be after the start date',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'The time settings of the rates should cover a full 24-hour period',
+				TIME_PERIOD_OVERLAP_ERROR: 'Only one control operation is allowed in the same time period',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'The time settings for the control mode should cover a full 24-hour period',
+
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -2272,10 +2276,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: '控制模式列表',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
-                TARIFF_TIME_PERIODS_OVERLAP:'同一时段只允许有一种计价',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '费率有效期结束期应在开始期之后',
-                TARIFF_NOT_FULL_DAY_COVERAGE: '费率的时间设置应覆盖完整24小时',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一时段只允许有一种计价',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '费率有效期结束期应在开始期之后',
+				TARIFF_NOT_FULL_DAY_COVERAGE: '费率的时间设置应覆盖完整24小时',
+				TIME_PERIOD_OVERLAP_ERROR: '同一时段只允许有一种控制操作',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的时间设置应覆盖完整24小时',
 
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
@@ -4234,10 +4240,13 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
-                TARIFF_TIME_PERIODS_OVERLAP:'Im selben Zeitraum ist nur ein Preisberechnungssystem erlaubt',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Das Ende der Tarifgültigkeit muss nach dem Beginn liegen',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellung der Tarife sollte einen vollen 24-Stunden-Zeitraum abdecken',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
+				TARIFF_TIME_PERIODS_OVERLAP:'Im selben Zeitraum ist nur ein Preisberechnungssystem erlaubt',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Das Ende der Tarifgültigkeit muss nach dem Beginn liegen',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellung der Tarife sollte einen vollen 24-Stunden-Zeitraum abdecken',
+				TIME_PERIOD_OVERLAP_ERROR: 'Im selben Zeitraum ist nur eine Steuerungsoperation erlaubt',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellungen des Steuerungsmodus müssen einen vollständigen 24-Stunden-Zeitraum abdecken',
+
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -6190,10 +6199,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
-                TARIFF_TIME_PERIODS_OVERLAP:'Un seul mode de tarification est autorisé pour la même période',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La date de fin de validité du tarif doit être postérieure à la date de début',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle des tarifs doit couvrir une période complète de 24 heures',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
+				TARIFF_TIME_PERIODS_OVERLAP:'Un seul mode de tarification est autorisé pour la même période',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La date de fin de validité du tarif doit être postérieure à la date de début',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle des tarifs doit couvrir une période complète de 24 heures',
+				TIME_PERIOD_OVERLAP_ERROR: 'Une seule opération de contrôle est autorisée dans la même période',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle du mode de contrôle doit couvrir une période complète de 24 heures',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -8150,10 +8161,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
-                TARIFF_TIME_PERIODS_OVERLAP:'Solo se permite un método de tarificación en el mismo período',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La fecha de fin de vigencia de la tarifa debe ser posterior a la fecha de inicio',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuración horaria de las tarifas debe cubrir un período completo de 24 horas',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
+				TARIFF_TIME_PERIODS_OVERLAP:'Solo se permite un método de tarificación en el mismo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La fecha de fin de vigencia de la tarifa debe ser posterior a la fecha de inicio',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuración horaria de las tarifas debe cubrir un período completo de 24 horas',
+				TIME_PERIOD_OVERLAP_ERROR: 'Solo se permite una operación de control en el mismo período',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuración horaria del modo de control debe abarcar un ciclo completo de 24 horas',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -10109,10 +10122,13 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
-                TARIFF_TIME_PERIODS_OVERLAP:'В один и тот же период времени разрешена только одна система расценок',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Дата окончания действия тарифа должна быть после даты начала',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Временные настройки тарифов должны охватывать полные 24 часа',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
+				TARIFF_TIME_PERIODS_OVERLAP:'В один и тот же период времени разрешена только одна система расценок',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Дата окончания действия тарифа должна быть после даты начала',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Временные настройки тарифов должны охватывать полные 24 часа',
+				TIME_PERIOD_OVERLAP_ERROR: 'В один и тот же период времени разрешена только одна операция управления',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Временные настройки режима управления должны охватывать полные 24 часа',
+
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -12068,10 +12084,13 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
-                TARIFF_TIME_PERIODS_OVERLAP:'يُسمح بنظام تسعير واحد فقط في نفس الفترة الزمنية',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'يجب أن يكون تاريخ انتهاء سريان التعريفة بعد تاريخ البدء',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية للتعريفات 24 ساعة كاملة',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
+				TARIFF_TIME_PERIODS_OVERLAP:'يُسمح بنظام تسعير واحد فقط في نفس الفترة الزمنية',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'يجب أن يكون تاريخ انتهاء سريان التعريفة بعد تاريخ البدء',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية للتعريفات 24 ساعة كاملة',
+				TIME_PERIOD_OVERLAP_ERROR: 'يُسمح بعملية تحكم واحدة فقط في نفس الفترة الزمنية',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية لوضع التحكم 24 ساعة كاملة',
+
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -14027,10 +14046,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
-                TARIFF_TIME_PERIODS_OVERLAP:'Chỉ cho phép một phương pháp tính giá trong cùng một khoảng thời gian',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Ngày kết thúc hiệu lực biểu phí phải sau ngày bắt đầu',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian biểu phí nên bao phủ đủ 24 giờ',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
+				TARIFF_TIME_PERIODS_OVERLAP:'Chỉ cho phép một phương pháp tính giá trong cùng một khoảng thời gian',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Ngày kết thúc hiệu lực biểu phí phải sau ngày bắt đầu',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian biểu phí nên bao phủ đủ 24 giờ',
+				TIME_PERIOD_OVERLAP_ERROR: 'Chỉ cho phép một thao tác điều khiển trong cùng một khoảng thời gian',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian chế độ điều khiển phải bao phủ trọn vẹn 24 giờ',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -15985,10 +16006,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
-                TARIFF_TIME_PERIODS_OVERLAP:'อนุญาตให้มีวิธีคำนวณราคาเพียงแบบเดียวในช่วงเวลาเดียวกัน',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'วันที่สิ้นสุดอายุอัตราค่าใช้จ่ายต้องอยู่หลังจากวันที่เริ่มต้น',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของอัตราค่าใช้จ่ายควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
+				TARIFF_TIME_PERIODS_OVERLAP:'อนุญาตให้มีวิธีคำนวณราคาเพียงแบบเดียวในช่วงเวลาเดียวกัน',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'วันที่สิ้นสุดอายุอัตราค่าใช้จ่ายต้องอยู่หลังจากวันที่เริ่มต้น',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของอัตราค่าใช้จ่ายควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
+				TIME_PERIOD_OVERLAP_ERROR: 'อนุญาตให้มีการดำเนินการควบคุมเพียงแบบเดียวในช่วงเวลาเดียวกัน',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของโหมดควบคุมควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -17943,10 +17966,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
-                TARIFF_TIME_PERIODS_OVERLAP:'Aynı zaman diliminde yalnızca bir fiyatlandırma yöntemine izin verilir',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarife geçerlilik bitiş tarihi, başlangıç tarihinden sonra olmalıdır',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Tarifelerin zaman ayarları, tam 24 saati kapsamalıdır',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
+				TARIFF_TIME_PERIODS_OVERLAP:'Aynı zaman diliminde yalnızca bir fiyatlandırma yöntemine izin verilir',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarife geçerlilik bitiş tarihi, başlangıç tarihinden sonra olmalıdır',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tarifelerin zaman ayarları, tam 24 saati kapsamalıdır',
+				TIME_PERIOD_OVERLAP_ERROR: 'Aynı zaman diliminde yalnızca bir kontrol işlemine izin verilir',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Kontrol modu zaman ayarları tam 24 saati kapsamalıdır',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -19901,10 +19926,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
-                TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu kaedah penetapan harga dibenarkan dalam tempoh masa yang sama',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarikh tamat tempoh kadar mestilah selepas tarikh mula',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Tetapan masa kadar harus meliputi tempoh 24 jam penuh',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu kaedah penetapan harga dibenarkan dalam tempoh masa yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarikh tamat tempoh kadar mestilah selepas tarikh mula',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tetapan masa kadar harus meliputi tempoh 24 jam penuh',
+				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kawalan dibenarkan dalam tempoh masa yang sama',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Tetapan masa mod kawalan mesti meliputi tempoh 24 jam penuh',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -21859,10 +21886,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
-                TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu metode penetapan harga yang diizinkan dalam periode yang sama',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tanggal berakhirnya tarif harus setelah tanggal mulai',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu tarif harus mencakup periode 24 jam penuh',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu metode penetapan harga yang diizinkan dalam periode yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tanggal berakhirnya tarif harus setelah tanggal mulai',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu tarif harus mencakup periode 24 jam penuh',
+				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kontrol yang diizinkan dalam periode yang sama',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu mode kontrol harus mencakup periode 24 jam penuh',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -23821,10 +23850,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
-                TARIFF_TIME_PERIODS_OVERLAP:'同一時段只允許有一種計價方式',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '費率有效期的結束日期應在開始日期之後',
-                TARIFF_NOT_FULL_DAY_COVERAGE: '費率的時間設置應覆蓋完整24小時',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一時段只允許有一種計價方式',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '費率有效期的結束日期應在開始日期之後',
+				TARIFF_NOT_FULL_DAY_COVERAGE: '費率的時間設置應覆蓋完整24小時',
+				TIME_PERIOD_OVERLAP_ERROR: '同一時段只允許有一種控制操作',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的時間設置應覆蓋完整24小時',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -25783,10 +25814,12 @@ function config($translateProvider) {
 
                 CONTROL_MODE_LIST: 'Control Mode List',
 
-                END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
-                TARIFF_TIME_PERIODS_OVERLAP:'Apenas um método de precificação é permitido no mesmo período',
-                VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'A data de término da vigência da tarifa deve ser posterior à data de início',
-                TARIFF_NOT_FULL_DAY_COVERAGE: 'A configuração temporal das tarifas deve cobrir um período completo de 24 horas',
+				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
+				TARIFF_TIME_PERIODS_OVERLAP:'Apenas um método de precificação é permitido no mesmo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'A data de término da vigência da tarifa deve ser posterior à data de início',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'A configuração temporal das tarifas deve cobrir um período completo de 24 horas',
+				TIME_PERIOD_OVERLAP_ERROR: 'Apenas uma operação de controle é permitida no mesmo período',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'A configuração temporal do modo de controle deve cobrir um período completo de 24 horas',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',

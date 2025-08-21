@@ -357,8 +357,8 @@
                     <tbody>
 
                         <tr ng-repeat="tou in times">
-                            <td class="text-center sm">{{ tou.start_time_of_day }}</td>
-                            <td class="text-center sm">{{ tou.end_time_of_day }}</td>
+                            <td class="text-center sm">{{ formatTime(tou.start_time_of_day) }}</td>
+                            <td class="text-center sm">{{ formatTime(tou.end_time_of_day) }}</td>
                             <td class="text-center sm">{{ tou.power_value }}</td>
                             <td class="text-center sm">
                                 <a ng-click="delete($index)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
