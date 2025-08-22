@@ -28,6 +28,14 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_in
 CREATE INDEX `tbl_photovoltaic_power_stations_invertors_points_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (`invertor_id`);
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `grid_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_grids_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (`grid_id`);
+
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `load_id` BIGINT NOT NULL,
