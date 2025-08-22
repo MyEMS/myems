@@ -5,11 +5,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added carbon emissions per unit of energy consumption to equipment in myems-web
+- added carbon emissions per unit of energy consumption to combined equipment in myems-web
+- added tbl_point_set_values to myems_system_db in database
+- added action to udpate point set value in myems-api
+- added tbl_photovoltaic_power_stations_invertors_points to myems_system_db in database
+- added binding points to photovoltaic power station invertor in myems-api and myems-admin 
+- added tbl_photovoltaic_power_stations_loads_points to myems_system_db in database
+- added tbl_photovoltaic_power_stations_grids_points to myems_system_db in database
+- 
+### Changed
+- updated meter realtime chart in myems-web
+- updated control mode in myems-admin
+### Fixed
+- fixed issue of deleting point in myems-api
+- 
+### Removed
+- 
+
+## [v5.7.1] - 2025-08-02
+### Added
+- added binding data source to microgrid in myems-api
+- added binding data source to photovoltaic in myems-api
+### Changed
+### Fixed
+- fixed energy flow diagram issue in myems-api
+### Removed
+
+## [v5.7.0] - 2025-07-29
+### Added
 - added myems-admin.conf and myems-web.conf for nginx
 - added binding microgrid to space in myems-admin
 - added blank page image for space mnvironment monitor in myems-web
 - added quick mode for svg in myems-admin and myems-api
-- added `myems_system_db`.`tbl_energy_storage_containers_data_sources` in database
+- added myems_system_db.tbl_energy_storage_containers_data_sources in database
+- added myems_system_db.tbl_microgrids_data_sources in database
+- added myems_system_db.tbl_photovoltaic_power_stations_data_sources in database
+- added carbon emissions per unit of energy consumption to dashboard and space in myems-web
+- added binding data source to energy storage container in myems-admin
 ### Changed
 - subspace names under the same parent space cannot be duplicated
 - updated power stations
@@ -30,6 +63,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of tanant editor in myems-admin
 - fixed issue of multiplelinechart in myems-web
 - fixed issue of tariff in myems-admin
+- fixed issue of delete contact in myems-api
+- fixed issue of delete meter in myems-api
 ### Removed
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
@@ -1996,7 +2031,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.6.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.7.1...HEAD
+[5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
+[5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
 [5.6.0]: https://gitee.com/MyEMS/myems/compare/v5.5.0...v5.6.0
 [5.5.0]: https://gitee.com/MyEMS/myems/compare/v5.4.0...v5.5.0
 [5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0

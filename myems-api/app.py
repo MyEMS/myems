@@ -457,7 +457,9 @@ api.add_route('/energystoragecontainers/{id_}/stses/{fid}/points/{pid}',
 api.add_route('/energystoragecontainers/{id_}/clone',
               energystoragecontainer.EnergyStorageContainerClone())
 api.add_route('/energystoragecontainers/{id_}/export',
-              energystoragecontainer.EnergyStorageContainerExport)
+              energystoragecontainer.EnergyStorageContainerExport())
+api.add_route('/energystoragecontainers/import',
+              energystoragecontainer.EnergyStorageContainerImport())
 
 api.add_route('/energystoragepowerstations',
               energystoragepowerstation.EnergyStoragePowerStationCollection())
@@ -617,6 +619,10 @@ api.add_route('/microgrids/import',
               microgrid.MicrogridImport())
 api.add_route('/microgrids/{id_}/clone',
               microgrid.MicrogridClone())
+api.add_route('/microgrids/{id_}/datasources',
+              microgrid.MicrogridDataSourceCollection())
+api.add_route('/microgrids/{id_}/datasources/{dsid}', 
+              microgrid.MicrogridDataSourceItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())
@@ -659,6 +665,10 @@ api.add_route('/photovoltaicpowerstations/{id_}/invertors',
               photovoltaicpowerstation.PhotovoltaicPowerStationInvertorCollection())
 api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationInvertorItem())
+api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}/points',
+              photovoltaicpowerstation.PhotovoltaicPowerStationInvertorPointCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}/points/{pid}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationInvertorPointItem())
 api.add_route('/photovoltaicpowerstations/{id_}/loads',
               photovoltaicpowerstation.PhotovoltaicPowerStationLoadCollection())
 api.add_route('/photovoltaicpowerstations/{id_}/loads/{lid}',
@@ -667,6 +677,12 @@ api.add_route('/photovoltaicpowerstations/{id_}/users',
               photovoltaicpowerstation.PhotovoltaicPowerStationUserCollection())
 api.add_route('/photovoltaicpowerstations/{id_}/users/{uid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationUserItem())
+api.add_route('/photovoltaicpowerstations/{id_}/datasources',
+              photovoltaicpowerstation.PhotovoltaicPowerStationDataSourceCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/datasources/{dsid}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationDataSourceItem())
+api.add_route('/photovoltaicpowerstations/{id_}/datasourcepoints',
+              photovoltaicpowerstation.PhotovoltaicPowerStationDataSourcePointCollection())
 
 api.add_route('/points',
               point.PointCollection())
@@ -674,6 +690,8 @@ api.add_route('/points/{id_}',
               point.PointItem())
 api.add_route('/pointlimits/{id_}',
               point.PointLimit())
+api.add_route('/pointsetvalues/{id_}',
+              point.PointSetValue())
 api.add_route('/points/{id_}/export',
               point.PointExport())
 api.add_route('/points/import',

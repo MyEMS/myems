@@ -1125,6 +1125,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_commands` (
 CREATE INDEX `tbl_microgrids_commands_index_1` ON `myems_system_db`.`tbl_microgrids_commands` (`microgrid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_microgrids_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_data_sources`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_microgrids_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `microgrid_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_microgrids_data_sources_index_1`
+ON `myems_system_db`.`tbl_microgrids_data_sources` (`microgrid_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_microgrids_power_conversion_systems`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_microgrids_power_conversion_systems` ;
@@ -1423,6 +1436,18 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_index_1` ON `myems_system_db`.`tbl_photovoltaic_power_stations` (`name`);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `photovoltaic_power_station_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_data_sources_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_data_sources` (`photovoltaic_power_station_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_grids`
@@ -1457,6 +1482,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_gr
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_grids_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_grids` (`photovoltaic_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `grid_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_grids_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_grids_points` (`grid_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_invertors`
@@ -1564,6 +1602,21 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_in
 CREATE INDEX `tbl_photovoltaic_power_stations_invertors_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors` (`photovoltaic_power_station_id`);
 
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `invertor_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_invertors_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_invertors_points` (`invertor_id`);
+
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_loads`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -1596,6 +1649,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_lo
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_photovoltaic_power_stations_loads_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads` (`photovoltaic_power_station_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `load_id` BIGINT NOT NULL,
+  `point_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_photovoltaic_power_stations_loads_points_index_1`
+ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (`load_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_photovoltaic_power_stations_users`
@@ -1638,6 +1704,22 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
 CREATE INDEX `tbl_points_index_1` ON `myems_system_db`.`tbl_points` (`name`);
 CREATE INDEX `tbl_points_index_2` ON `myems_system_db`.`tbl_points` (`data_source_id`);
 CREATE INDEX `tbl_points_index_3` ON `myems_system_db`.`tbl_points` (`id`, `object_type`);
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_points_set_values`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_points_set_values` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points_set_values` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `point_id` BIGINT NOT NULL,
+  `utc_date_time` DATETIME NOT NULL,
+  `set_value` DECIMAL(21, 6) NOT NULL,
+  `is_set` BOOL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_points_set_values_index_1` ON `myems_system_db`.`tbl_points_set_values` (`point_id`, `utc_date_time`);
+CREATE INDEX `tbl_points_set_values_index_2` ON `myems_system_db`.`tbl_points_set_values` (`utc_date_time`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_power_integrators`
@@ -2602,7 +2684,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '5.7.0RC', '2025-07-21');
+(1, '5.8.0RC', '2025-08-28');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

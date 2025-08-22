@@ -804,6 +804,7 @@ class Reporting:
         result = dict()
 
         result['space'] = dict()
+        result['space']['id'] = space['id']
         result['space']['name'] = space['name']
         result['space']['area'] = space['area']
         result['space']['number_of_occupants'] = space['number_of_occupants']

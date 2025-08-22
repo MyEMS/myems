@@ -10,7 +10,7 @@ app.controller(
     EnergyStorageContainerService,
     CommandService,
     EnergyStorageContainerCommandService,
-	PointService,
+    PointService,
     toaster
   ) {
     $scope.cur_user = JSON.parse(

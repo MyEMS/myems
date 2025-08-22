@@ -54,12 +54,9 @@ const SectionLineChart = ({ xaxisData, seriesName, seriesData, markAreaData}) =>
           name: seriesName,
           type: 'line',
           smooth: false,
-          step: 'step',
+          step: 'end',
           data: seriesData,
           markArea: {
-            itemStyle: {
-              color: 'rgba(255, 173, 177, 0.4)'
-            },
             data: markAreaData
           }
         }

@@ -69,7 +69,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Next Run Datetime',
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Message Template',
-                CLICK_EDIT_FOR_DETAILS: 'Click "Edit" for details',
                 IS_RUN_IMMEDIATELY: 'Is Run Immediately',
 
                 SMS_ALARM_LIST: 'SMS Alarm List',
@@ -258,6 +257,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Is Energy Input Counted In',
                 IS_OUTPUT_COUNTED: 'Is Energy Output Counted',
                 BIND_COMMAND: 'Bind Command Ⓔ',
+                BIND_DATASOURCE: 'Bind Data source',
                 BIND_METER: 'Bind Meter',
                 BIND_POINT: 'Bind Point',
                 BIND_SENSOR: 'Bind Sensor',
@@ -295,6 +295,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Offline Meter',
                 OFFLINE_METER_FILE: 'Offline Meter File',
                 N_S_COMMAND: ' Bound Commands',
+                N_S_DATA_SOURCE: 'Bound Data Sources',
                 N_S_METER: ' Bound Meters',
                 N_S_POINT: ' Bound Points',
                 N_S_SENSOR: ' Bound Sensors',
@@ -304,9 +305,19 @@ function config($translateProvider) {
                 N_S_USER: 'Bound User',
 
                 COMMAND_LIST: 'Command List',
+                DATA_SOURCE_LIST: 'Data Source List',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'The end time must be after the start time',
+				TARIFF_TIME_PERIODS_OVERLAP: 'Only one pricing method is allowed in the same time period',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'The end date of the rate validity period must be after the start date',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'The time settings of the rates should cover a full 24-hour period',
+				TIME_PERIOD_OVERLAP_ERROR: 'Only one control operation is allowed in the same time period',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'The time settings for the control mode should cover a full 24-hour period',
+
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -606,6 +617,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Commissioning Phase',
                 PHASE_3INSTALLATION: 'Construction Phase',
+                INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Balancing Price Point',
@@ -827,6 +839,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Get Coordinate',
                 LATITUDE: 'Latitude',
                 LONGITUDE: 'Longitude',
+                LONGITUDE_POINT: 'Longitude Data Point',
+                LATITUDE_POINT: 'Latitude Data Point',
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Is Cost Data Displayed',
                 INPUT_ADDRESS: 'Input Address',
@@ -1147,7 +1161,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Please Input Floors',
                 INPUT_ROOMS: 'Rooms',
                 INPUT_LEASE_NUMBER: 'Please Input Lease Number',
-                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time', 
+                END_BEFORE_START_WARNING: 'End time cannot be earlier than start time',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Add Shopfloor',
@@ -1162,6 +1176,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Hourly Low Limit (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Please Input Hourly Low Limit',
+                INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
+                INVALID_RANGE_HINT: 'The maximum value should be greater than the minimum value',
                 HOURLY_HIGH_LIMIT: 'Hourly High Limit (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Please Input Hourly High Limit',
                 MASTER_METER: 'Master Meter',
@@ -1245,14 +1261,14 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Success',
-				ADD_FAILURE: 'ADD Failure',
+                ADD_FAILURE: 'ADD Failure',
                 COPY_SUCCESS: 'Copy Success',
                 LOGIN_SUCCESS: 'Login Success',
                 LOGIN_FAILURE: 'Login Failure',
                 LOGOUT_SUCCESS: 'Logout Success',
                 LOGOUT_FAILURE: 'Logout Failure',
                 LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: 'Login Failed Without Administrator Privileges',
-                
+
                 SUCCESS_ADD_BODY: 'Add {{template}} Success',
                 SUCCESS_UPDATE_BODY: 'Update {{template}} Success',
                 SUCCESS_DELETE_BODY: 'Delete {{template}} Success',
@@ -1265,6 +1281,8 @@ function config($translateProvider) {
                 USER_PASSWORD: 'User Password',
                 BIND_COMMAND_SUCCESS: 'Bind Command Success',
                 UNBIND_COMMAND_SUCCESS: 'Unbind Command Success',
+                BIND_DATASOURCE_SUCCESS: 'Bind Data Source Success',
+                UNBIND_DATASOURCE_SUCCESS: 'Unbind Data Source Success',
                 BIND_METER_SUCCESS: 'Bind Meter Success',
                 UNBIND_METER_SUCCESS: 'Unbind Meter Success',
                 BIND_TARIFF_SUCCESS: 'Bind Tariff Success',
@@ -2014,7 +2032,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: '下次运行时间',
                 EXPRESSION: '表达式',
                 MESSAGE_TEMPLATE: '消息模板',
-                CLICK_EDIT_FOR_DETAILS: '点击"修改"查看详情',
                 IS_RUN_IMMEDIATELY: '立即运行',
 
                 SMS_ALARM_LIST: '短信报警列表',
@@ -2206,6 +2223,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '能耗参与汇总',
                 IS_OUTPUT_COUNTED: '能源产出参与汇总',
                 BIND_COMMAND: '绑定指令 ㊭',
+                BIND_DATA_SOURCE: '绑定数据源',
                 BIND_METER: '绑定计量表',
                 BIND_POINT: '绑定数据点',
                 BIND_SENSOR: '绑定传感器',
@@ -2244,6 +2262,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: '离线表文件',
                 PRODUCT: '产品',
                 N_S_COMMAND: '绑定的指令',
+                N_S_DATA_SOURCE: '绑定的数据源',
                 N_S_METER: '绑定的表',
                 N_S_POINT: '绑定的数据点',
                 N_S_SENSOR: '绑定的传感器',
@@ -2253,9 +2272,17 @@ function config($translateProvider) {
                 N_S_USER: '绑定的用户',
 
                 COMMAND_LIST: '指令列表',
+                DATA_SOURCE_LIST: '数据源列表',
 
                 CONTROL_MODE_LIST: '控制模式列表',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: '结束时间应在开始时间之后',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一时段只允许有一种计价',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '费率有效期结束期应在开始期之后',
+				TARIFF_NOT_FULL_DAY_COVERAGE: '费率的时间设置应覆盖完整24小时',
+				TIME_PERIOD_OVERLAP_ERROR: '同一时段只允许有一种控制操作',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的时间设置应覆盖完整24小时',
+
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
                 END_TIME: '结束时间',
@@ -2388,7 +2415,7 @@ function config($translateProvider) {
                 CONNECTION: '连接',
                 LAST_SEEN_DATETIME: '最后在线时间',
                 INPUT_PROTOCOL: '请输入协议类型',
-                INPUT_CONNECTION: '请输入连接地址'
+                INPUT_CONNECTION: '请输入连接地址',
             },
             POINT: {
                 OBJECT_TYPE: '对象类型',
@@ -2532,6 +2559,7 @@ function config($translateProvider) {
                 PHASE_1USE: '投用',
                 PHASE_2COMMISSIONING: '调试',
                 PHASE_3INSTALLATION: '在建',
+                INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: '平衡价格数据点',
@@ -2751,6 +2779,8 @@ function config($translateProvider) {
                 GET_COORDINATE: '拾取坐标',
                 LATITUDE: '纬度',
                 LONGITUDE: '经度',
+                LONGITUDE_POINT: '经度数据点',
+                LATITUDE_POINT: '纬度数据点',
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: '是否显示成本数据',
                 INPUT_ADDRESS: '输入地址',
@@ -3107,6 +3137,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: '每小时最小值（包含）',
                 INPUT_HOURLY_LOW_LIMIT: '请输入每小时最小值',
+                INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
+                INVALID_RANGE_HINT: '最大值应该大于最小值',
                 HOURLY_HIGH_LIMIT: '每小时最大值（包含）',
                 INPUT_HOURLY_HIGH_LIMIT: '请输入每小时最大值',
                 MASTER_METER: '上级计量表',
@@ -3190,14 +3222,14 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
-				ADD_FAILURE: '添加失败',
+                ADD_FAILURE: '添加失败',
                 COPY_SUCCESS: '复制成功',
                 LOGIN_SUCCESS: '登录成功',
                 LOGIN_FAILURE: '登录失败',
                 LOGOUT_SUCCESS: '退出成功',
                 LOGOUT_FAILURE: '退出失败',
                 LOGIN_FAILED_WITHOUT_ADMINISTRATOR_PRIVILEGES: '普通用户无权限登录管理员后台',
-                
+
                 SUCCESS_ADD_BODY: '添加 {{template}} 成功',
                 SUCCESS_UPDATE_BODY: '更新 {{template}} 成功',
                 SUCCESS_DELETE_BODY: '删除 {{template}} 成功',
@@ -3209,7 +3241,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: '用户密码',
                 BIND_COMMAND_SUCCESS: '绑定指令成功',
+                BIND_DATASOURCE_SUCCESS: '绑定数据源成功',
                 UNBIND_COMMAND_SUCCESS: '解绑指令成功',
+                UNBIND_DATASOURCE_SUCCESS: '解绑数据源成功',
                 BIND_METER_SUCCESS: '绑定计量表成功',
                 UNBIND_METER_SUCCESS: '解绑计量表成功',
                 BIND_TARIFF_SUCCESS: '绑定费率成功',
@@ -3962,7 +3996,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Nächster Lauf Datetime',
                 EXPRESSION: 'Ausdruck',
                 MESSAGE_TEMPLATE: 'Nachrichtenvorlage',
-                CLICK_EDIT_FOR_DETAILS: 'Klicken Sie auf "Bearbeiten"',
                 IS_RUN_IMMEDIATELY: 'Sofort Ausführen',
 
                 SMS_ALARM_LIST: 'SMS-Alarmliste',
@@ -4154,6 +4187,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Zusammenfassung der Verbrauchsbeteiligung',
                 IS_OUTPUT_COUNTED: 'Zusammenfassung der Beteiligung an der Energieabgabe',
                 BIND_COMMAND: 'Bindebefehl Ⓔ',
+                BIND_DATA_SOURCE: 'BindeDatenquelle',
                 BIND_METER: 'Bindemessgerät',
                 BIND_POINT: 'Datenpunkte binden',
                 BIND_SENSOR: 'Bindungssensor',
@@ -4192,6 +4226,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: 'Offline Meter Datei',
                 PRODUCT: 'Produkt',
                 N_S_COMMAND: ' Gebundener Befehle',
+                N_S_DATA_SOURCE: 'Gebundene Datenquellen',
                 N_S_METER: ' Gebundener Tisch',
                 N_S_POINT: ' Gebundener Datenpunkt',
                 N_S_SENSOR: ' Gebundener Sensor',
@@ -4201,9 +4236,18 @@ function config($translateProvider) {
                 N_S_USER: 'Gebundene Benutzer',
 
                 COMMAND_LIST: 'Befehlsliste',
+                DATA_SOURCE_LIST: 'Datenquellenliste',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Die Endzeit muss nach der Startzeit liegen',
+				TARIFF_TIME_PERIODS_OVERLAP:'Im selben Zeitraum ist nur ein Preisberechnungssystem erlaubt',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Das Ende der Tarifgültigkeit muss nach dem Beginn liegen',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellung der Tarife sollte einen vollen 24-Stunden-Zeitraum abdecken',
+				TIME_PERIOD_OVERLAP_ERROR: 'Im selben Zeitraum ist nur eine Steuerungsoperation erlaubt',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellungen des Steuerungsmodus müssen einen vollständigen 24-Stunden-Zeitraum abdecken',
+
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -4480,6 +4524,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Anwendungsphase',
                 PHASE_2COMMISSIONING: 'Phase der Inbetriebnahme',
                 PHASE_3INSTALLATION: 'Bauphase',
+                INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999.',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Ausgleichspreis',
@@ -4701,6 +4746,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Koordinate abrufen',
                 LATITUDE: 'Breitengrad',
                 LONGITUDE: 'Längengrad',
+                LONGITUDE_POINT: 'Längengrad Datenpunkt',
+                LATITUDE_POINT: 'Breitengrad Datenpunkt',
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Werden Kostendaten angezeigt',
                 INPUT_ADDRESS: 'Adresse eingeben',
@@ -5057,6 +5104,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Stündliches Minimum (inklusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Bitte geben Sie das stündliche Minimum ein',
+                INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999.',
+                INVALID_RANGE_HINT: 'Der Maximalwert sollte größer als der Minimalwert sein',
                 HOURLY_HIGH_LIMIT: 'Stundenmaximum (inklusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Bitte geben Sie das Stundenmaximum ein',
                 MASTER_METER: 'Überlegenes Messgerät',
@@ -5139,7 +5188,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Erfolg',
-				ADD_FAILURE: 'Hinzufügen fehlgeschlagen',
+                ADD_FAILURE: 'Hinzufügen fehlgeschlagen',
                 COPY_SUCCESS: 'Kopieren erfolgreich',
                 LOGIN_SUCCESS: 'Anmeldung erfolgreich',
                 LOGIN_FAILURE: 'Login fehlgeschlagen',
@@ -5157,6 +5206,8 @@ function config($translateProvider) {
                 ERROR_UNLOCK_BODY: 'Öffnen {{template}} fehlgeschlagen',
 
                 USER_PASSWORD: 'Benutzer-Passwort',
+                BIND_DATASOURCE_SUCCESS: 'Datenquellebindung erfolgreich',
+                UNBIND_DATASOURCE_SUCCESS: 'Datenquelleentbindung erfolgreich',
                 BIND_METER_SUCCESS: 'Binden Sie das Messgerät erfolgreich',
                 UNBIND_METER_SUCCESS: 'Binden Sie das Messgerät erfolgreich ab',
                 BIND_TARIFF_SUCCESS: 'Bindungsrate ist erfolgreich',
@@ -5908,7 +5959,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Date d’exécution suivante',
                 EXPRESSION: 'Expression',
                 MESSAGE_TEMPLATE: 'Modèle de message',
-                CLICK_EDIT_FOR_DETAILS: 'Cliquez sur « Modifier » pour plus de détails',
                 IS_RUN_IMMEDIATELY: 'Fonctionnement immédiat',
 
                 SMS_ALARM_LIST: 'Liste d’alarme SMS',
@@ -6097,6 +6147,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'L’apport d’énergie est-il compté dans',
                 IS_OUTPUT_COUNTED: 'La production d’énergie est-elle comptée',
                 BIND_COMMAND: 'Bind, commande Ⓔ',
+                BIND_DATA_SOURCE: 'Lier la source de données',
                 BIND_METER: 'Compteur de liaison',
                 BIND_POINT: 'Point de liaison',
                 BIND_SENSOR: 'Capteur de liaison',
@@ -6134,6 +6185,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Compteur hors ligne',
                 OFFLINE_METER_FILE: 'Fichier de compteur hors ligne',
                 N_S_COMMAND: ' Commandes liées',
+                N_S_DATA_SOURCE: 'Sources de données liées',
                 N_S_METER: ' Compteurs reliés',
                 N_S_POINT: ' Points liés',
                 N_S_SENSOR: ' Capteurs liés',
@@ -6143,9 +6195,17 @@ function config($translateProvider) {
                 N_S_USER: ' Utilisateurs liés',
 
                 COMMAND_LIST: 'Liste de commandes',
+                DATA_SOURCE_LIST: 'Liste des sources de données',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'L’heure de fin doit être après l’heure de début',
+				TARIFF_TIME_PERIODS_OVERLAP:'Un seul mode de tarification est autorisé pour la même période',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La date de fin de validité du tarif doit être postérieure à la date de début',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle des tarifs doit couvrir une période complète de 24 heures',
+				TIME_PERIOD_OVERLAP_ERROR: 'Une seule opération de contrôle est autorisée dans la même période',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle du mode de contrôle doit couvrir une période complète de 24 heures',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -6445,6 +6505,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Phase d\'utilisation',
                 PHASE_2COMMISSIONING: 'Phase de mise en service',
                 PHASE_3INSTALLATION: 'Phase de construction',
+                INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Points de prix équilibrés',
@@ -6666,6 +6727,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Obtenir les coordonnées',
                 LATITUDE: 'Latitude',
                 LONGITUDE: 'Longitude',
+                LONGITUDE_POINT: "Point de données de longitude",
+                LATITUDE_POINT: "Point de données de latitude",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Les données de coût sont-elles affichées',
                 INPUT_ADDRESS: 'saisir l’adresse',
@@ -7000,6 +7063,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Limite horaire basse (inclus)',
                 INPUT_HOURLY_LOW_LIMIT: 'Veuillez saisir la limite horaire basse',
+                INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
+                INVALID_RANGE_HINT: 'La valeur maximale doit être supérieure à la valeur minimale',
                 HOURLY_HIGH_LIMIT: 'Limite horaire élevée (intégratrice)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Veuillez saisir la limite horaire élevée',
                 MASTER_METER: 'Compteur principal',
@@ -7083,7 +7148,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Succès',
-				ADD_FAILURE: 'Échec de l’ajout',
+                ADD_FAILURE: 'Échec de l’ajout',
                 COPY_SUCCESS: 'Copie réussie',
                 LOGIN_SUCCESS: 'Réussite de la connexion',
                 LOGIN_FAILURE: 'Échec de connexion',
@@ -7102,7 +7167,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Mot de passe de l’utilisateur',
                 BIND_COMMAND_SUCCESS: 'Succès de la commande de liaison',
+                BIND_DATASOURCE_SUCCESS: 'Liaison de source de données réussie',
                 UNBIND_COMMAND_SUCCESS: 'Échec de la commande Unbind',
+                UNBIND_DATASOURCE_SUCCESS: 'Déliaison de source de données réussie',
                 BIND_METER_SUCCESS: 'Succès du compteur Bind',
                 UNBIND_METER_SUCCESS: 'Délier le succès du compteur',
                 BIND_TARIFF_SUCCESS: 'Succès tarifaire de Bind',
@@ -7722,16 +7789,16 @@ function config($translateProvider) {
                 THE_REPORTING_PERIOD_MUST_BE_LONGER_THAN_15_MINUTES: 'The Reporting Period Must Be Longer Than 15 Minutes',
                 THERE_IS_RELATION_WITH_CHILD_METERS: 'Il y a une relation avec les compteurs pour enfants',
                 THERE_IS_RELATION_WITH_CHILDREN_SPACES: 'Relation avec les espaces des enfants',
-                THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS: 'Il y a relation avec les paramètres d'équipement combinés',
+                THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS: 'Il y a relation avec les paramètresd`équipement combinés',
                 THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS: 'Il y a une relation avec les équipements combinés',
                 THERE_IS_RELATION_WITH_DATA_SOURCES: 'Relation avec les sources de données',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Relation avec les circuits de distribution',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Il y a une relation avec le diagramme de flux énergétique Liens',
-                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Il y a une relation avec les conteneurs de stockage d'énergie Batteries',
-                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Il y a une relation avec les réseaux de stockage d'énergie',
-                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS: 'Il y a une relation avec les charges des conteneurs de stockage d'énergie',
-                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS: 'Il y a une relation avec les conteneurs de stockage d'énergie Systèmes de conversion d'énergie',
-                THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS: 'Il y a relation avec les paramètres de l'équipement',
+                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Il y a une relation avec les conteneurs de stockaged`énergie Batteries',
+                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Il y a une relation avec les réseaux de stockaged`énergie',
+                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS: 'Il y a une relation avec les charges des conteneurs de stockaged`énergie',
+                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS: 'Il y a une relation avec les conteneurs de stockaged`énergie Systèmes de conversiond`énergie',
+                THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS: 'Il y a relation avec les paramètres de l`équipement',
                 THERE_IS_RELATION_WITH_EQUIPMENTS: 'Il y a un rapport avec les équipements',
                 THERE_IS_RELATION_WITH_INTEGRATORS: 'Relation avec les intégrateurs',
                 THERE_IS_RELATION_WITH_METER: 'Il y a un rapport avec le mètre',
@@ -7744,10 +7811,10 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS: 'Il y a une relation avec les pompes à chaleur Microgrids',
                 THERE_IS_RELATION_WITH_MICROGRIDS_LOADS: 'Il y a une relation avec les charges des microréseaux',
                 THERE_IS_RELATION_WITH_MICROGRIDS_PHOTOVOLTAICS: 'Il y a une relation avec les microréseaux photovoltaïques',
-                THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS: 'Il y a une relation avec les systèmes de conversion d'énergie des microréseaux',
+                THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS: 'Il y a une relation avec les systèmes de conversiond`énergie des microréseaux',
                 THERE_IS_RELATION_WITH_OFFLINE_METER: 'Il y a une relation avec le compteur hors ligne',
                 THERE_IS_RELATION_WITH_OFFLINE_METERS: 'Il y a une relation avec les compteurs hors ligne',
-                THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'Relation avec d'autres compteurs virtuels',
+                THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'Relation avecd`autres compteurs virtuels',
                 THERE_IS_RELATION_WITH_SENSORS: 'Relation avec les capteurs',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: 'Il y a une relation avec Shopfloors',
                 THERE_IS_RELATION_WITH_SPACES: 'Il y a une relation avec les espaces',
@@ -7853,7 +7920,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Próxima ejecución Datetime',
                 EXPRESSION: 'Expresión',
                 MESSAGE_TEMPLATE: 'Plantilla de mensaje',
-                CLICK_EDIT_FOR_DETAILS: 'Haga clic en "Editar" para obtener más detalles.',
                 IS_RUN_IMMEDIATELY: 'Ejecutar de inmediato',
 
                 SMS_ALARM_LIST: 'Lista de alarmas SMS',
@@ -8042,6 +8108,8 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '¿Se cuenta la entrada de energía en',
                 IS_OUTPUT_COUNTED: '¿Se cuenta la producción de energía?',
                 BIND_COMMAND: 'Comando Enlazar Ⓔ',
+                BIND_DATA_SOURCE: 'Enlazar origen de datos',
+
                 BIND_METER: 'Medidor de enlace',
                 BIND_POINT: 'Punto de enlace',
                 BIND_SENSOR: 'Sensor de enlace',
@@ -8078,7 +8146,8 @@ function config($translateProvider) {
                 VIRTUAL_METER: 'Medidor virtual',
                 OFFLINE_METER: 'Medidor fuera de línea',
                 OFFLINE_METER_FILE: 'Archivo de medidor sin conexión',
-                N_S_COMMAND: ' Comandos enlazados',
+                N_S_COMMAND: 'Comandos enlazados',
+                N_S_DATA_SOURCE: 'Orígenes de datos enlazados',
                 N_S_METER: ' Medidores encuadernados',
                 N_S_POINT: ' Puntos enlazados',
                 N_S_SENSOR: ' Sensores enlazados',
@@ -8088,9 +8157,17 @@ function config($translateProvider) {
                 N_S_USER: ' Usuarios vinculados',
 
                 COMMAND_LIST: 'Lista de comandos',
+                DATA_SOURCE_LIST: 'Lista de orígenes de datos',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'La hora de finalización debe ser posterior a la hora de inicio',
+				TARIFF_TIME_PERIODS_OVERLAP:'Solo se permite un método de tarificación en el mismo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'La fecha de fin de vigencia de la tarifa debe ser posterior a la fecha de inicio',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuración horaria de las tarifas debe cubrir un período completo de 24 horas',
+				TIME_PERIOD_OVERLAP_ERROR: 'Solo se permite una operación de control en el mismo período',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuración horaria del modo de control debe abarcar un ciclo completo de 24 horas',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -8390,6 +8467,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de uso',
                 PHASE_2COMMISSIONING: 'Fase de puesta en marcha',
                 PHASE_3INSTALLATION: 'Fase de construcción',
+                INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Punto de precio de equilibrio',
@@ -8611,6 +8689,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Obtener coordenadas',
                 LATITUDE: 'Latitud',
                 LONGITUDE: 'Longitud',
+                LONGITUDE_POINT: "Punto de datos de longitud",
+                LATITUDE_POINT: "Punto de datos de latitud",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Se muestran los datos de costos',
                 INPUT_ADDRESS: 'Introduzca la dirección',
@@ -8945,6 +9025,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Límite bajo por hora (Contener)',
                 INPUT_HOURLY_LOW_LIMIT: 'Por favor, introduzca el límite bajo por hora',
+                INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
+                INVALID_RANGE_HINT: 'El valor máximo debe ser mayor que el valor mínimo',
                 HOURLY_HIGH_LIMIT: 'Límite alto por hora (Contener)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Por favor, introduzca el límite máximo por hora',
                 MASTER_METER: 'Medidor maestro',
@@ -9028,7 +9110,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Éxito',
-				ADD_FAILURE: 'Error al añadir',
+                ADD_FAILURE: 'Error al añadir',
                 COPY_SUCCESS: 'Copia exitosa',
                 LOGIN_SUCCESS: 'Inicio de sesión exitoso',
                 LOGIN_FAILURE: 'Error de inicio de sesión',
@@ -9047,7 +9129,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Contraseña de usuario',
                 BIND_COMMAND_SUCCESS: 'Comando de enlace correcto',
+                BIND_DATASOURCE_SUCCESS: 'Éxito al enlazar origen de datos',
                 UNBIND_COMMAND_SUCCESS: 'Desenlazar comando correctamente',
+                UNBIND_DATASOURCE_SUCCESS: 'Éxito al desvincular origen de datos',
                 BIND_METER_SUCCESS: 'Éxito del medidor de enlace',
                 UNBIND_METER_SUCCESS: 'Éxito del medidor de desvinculación',
                 BIND_TARIFF_SUCCESS: 'Consolidar el éxito arancelario',
@@ -9798,7 +9882,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Дата и время следующего запуска',
                 EXPRESSION: 'Выражение',
                 MESSAGE_TEMPLATE: 'Шаблон сообщения',
-                CLICK_EDIT_FOR_DETAILS: 'Нажмите «Редактировать» для получения подробной информации',
                 IS_RUN_IMMEDIATELY: 'Немедленно!',
 
                 SMS_ALARM_LIST: 'Список SMS-сигналов тревоги',
@@ -9987,6 +10070,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Учитывается ли подводимая энергия',
                 IS_OUTPUT_COUNTED: 'Учитывается ли выработка энергии',
                 BIND_COMMAND: 'Команда привязки Ⓔ',
+                BIND_DATA_SOURCE: 'Привязать источник данных',
                 BIND_METER: 'Измеритель привязки',
                 BIND_POINT: 'Точка привязки',
                 BIND_SENSOR: 'Датчик привязки',
@@ -10024,6 +10108,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Автономный счетчик',
                 OFFLINE_METER_FILE: 'Автономный файл счетчика',
                 N_S_COMMAND: ' Привязанные команды',
+                N_S_DATA_SOURCE: 'Привязанные источники данных',
                 N_S_METER: ' Связанные счетчики',
                 N_S_POINT: ' Связанные точки',
                 N_S_SENSOR: ' Связанные датчики',
@@ -10033,9 +10118,18 @@ function config($translateProvider) {
                 N_S_USER: ' Связанные пользователи',
 
                 COMMAND_LIST: 'Список команд',
+                DATA_SOURCE_LIST: 'Список источников данных',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Время окончания должно быть после времени начала',
+				TARIFF_TIME_PERIODS_OVERLAP:'В один и тот же период времени разрешена только одна система расценок',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Дата окончания действия тарифа должна быть после даты начала',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Временные настройки тарифов должны охватывать полные 24 часа',
+				TIME_PERIOD_OVERLAP_ERROR: 'В один и тот же период времени разрешена только одна операция управления',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Временные настройки режима управления должны охватывать полные 24 часа',
+
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -10335,6 +10429,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Этап использования',
                 PHASE_2COMMISSIONING: 'Этап отладки',
                 PHASE_3INSTALLATION: 'Этап строительства',
+                INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Сбалансированные цены',
@@ -10556,6 +10651,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Получить координаты',
                 LATITUDE: 'Широта',
                 LONGITUDE: 'Долгота',
+                LONGITUDE_POINT: "Точка данных долготы",
+                LATITUDE_POINT: "Точка данных широты",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Отображаются ли данные о затратах',
                 INPUT_ADDRESS: 'введите адрес',
@@ -10890,6 +10987,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Почасовой низкий лимит (Включительно)',
                 INPUT_HOURLY_LOW_LIMIT: 'Пожалуйста, введите почасовой низкий лимит',
+                INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
+                INVALID_RANGE_HINT: 'Максимальное значение должно быть больше минимальному значению',
                 HOURLY_HIGH_LIMIT: 'Почасовой максимальный лимит (Включительно)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Пожалуйста, введите почасовой максимальный лимит',
                 MASTER_METER: 'Мастер-метр',
@@ -10973,7 +11072,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Успех',
-				ADD_FAILURE: 'Ошибка добавления',
+                ADD_FAILURE: 'Ошибка добавления',
                 COPY_SUCCESS: 'Копировать успешно',
                 LOGIN_SUCCESS: 'Успешный вход в систему',
                 LOGIN_FAILURE: 'Ошибка входа в систему',
@@ -10992,7 +11091,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Пароль пользователя',
                 BIND_COMMAND_SUCCESS: 'Успешное выполнение команды «Привязка»',
+                BIND_DATASOURCE_SUCCESS: 'Успешная привязка источника данных',
                 UNBIND_COMMAND_SUCCESS: 'Команда «Отмена привязки» выполняется успешно',
+                UNBIND_DATASOURCE_SUCCESS: 'Успешное отключение источника данных',
                 BIND_METER_SUCCESS: 'Успех измерителя привязки',
                 UNBIND_METER_SUCCESS: 'Отвязка счетчика Успех',
                 BIND_TARIFF_SUCCESS: 'Привязка тарифного успеха',
@@ -11743,7 +11844,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'تاريخ التشغيل التالي',
                 EXPRESSION: 'تعبير',
                 MESSAGE_TEMPLATE: 'قالب الرسالة',
-                CLICK_EDIT_FOR_DETAILS: 'انقر فوق "تحرير" للحصول على التفاصيل',
                 IS_RUN_IMMEDIATELY: 'تشغيل على الفور',
 
                 SMS_ALARM_LIST: 'قائمة إنذارات الرسائل القصيرة',
@@ -11932,6 +12032,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'هل يتم احتساب مدخلات الطاقة في',
                 IS_OUTPUT_COUNTED: 'هل يتم حساب ناتج الطاقة',
                 BIND_COMMAND: 'أمر الربط Ⓔ',
+                BIND_DATA_SOURCE: 'ربط مصدر البيانات',
                 BIND_METER: 'ربط متر',
                 BIND_POINT: 'بيند بوينت',
                 BIND_SENSOR: 'ربط الاستشعار',
@@ -11969,6 +12070,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'عداد غير متصل',
                 OFFLINE_METER_FILE: 'ملف عداد غير متصل',
                 N_S_COMMAND: ' الأوامر المنضمة',
+                N_S_DATA_SOURCE: 'مصادر البيانات المرتبطة',
                 N_S_METER: ' عدادات ملزمة',
                 N_S_POINT: ' النقاط المنضمة',
                 N_S_SENSOR: ' مجسات ملزمة',
@@ -11978,9 +12080,18 @@ function config($translateProvider) {
                 N_S_USER: 'ربط المستخدم',
 
                 COMMAND_LIST: 'قائمة الأوامر',
+                DATA_SOURCE_LIST: 'قائمة مصادر البيانات',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'يجب أن يكون وقت الانتهاء بعد وقت البدء',
+				TARIFF_TIME_PERIODS_OVERLAP:'يُسمح بنظام تسعير واحد فقط في نفس الفترة الزمنية',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'يجب أن يكون تاريخ انتهاء سريان التعريفة بعد تاريخ البدء',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية للتعريفات 24 ساعة كاملة',
+				TIME_PERIOD_OVERLAP_ERROR: 'يُسمح بعملية تحكم واحدة فقط في نفس الفترة الزمنية',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية لوضع التحكم 24 ساعة كاملة',
+
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -12280,6 +12391,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'استخدام المرحلة',
                 PHASE_2COMMISSIONING: 'مرحلة التصحيح',
                 PHASE_3INSTALLATION: 'مرحلة البناء',
+                INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'يرجى إدخال سعة توربينات الرياح ...',
@@ -12501,6 +12613,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'الحصول على إحداثيات',
                 LATITUDE: 'العرض',
                 LONGITUDE: 'خط الطول',
+                LONGITUDE_POINT: "نقطة بيانات خط الطول",
+                LATITUDE_POINT: "نقطة بيانات خط العرض",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'يتم عرض بيانات التكلفة',
                 INPUT_ADDRESS: 'يرجى إدخال العنوان',
@@ -12820,7 +12934,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'يرجى إدخال الطوابق',
                 INPUT_ROOMS: 'غرف',
                 INPUT_LEASE_NUMBER: 'يرجى إدخال رقم الإيجار',
-                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء', 
+                END_BEFORE_START_WARNING: 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'إضافة أرضية متجر',
@@ -12835,6 +12949,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'الحد الأدنى لكل ساعة (شامله)',
                 INPUT_HOURLY_LOW_LIMIT: 'يرجى إدخال الحد الأدنى للساعة',
+                INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
+                INVALID_RANGE_HINT: 'يجب أن يكون الحد الأقصى أكبر من الحد الأدنى',
                 HOURLY_HIGH_LIMIT: 'الحد الأعلى للساعة (شامل)',
                 INPUT_HOURLY_HIGH_LIMIT: 'يرجى إدخال الحد الأعلى للساعة',
                 MASTER_METER: 'ماستر ميتر',
@@ -12918,7 +13034,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'نجاح',
-				ADD_FAILURE: 'فشل الإضافة',
+                ADD_FAILURE: 'فشل الإضافة',
                 COPY_SUCCESS: 'نسخة ناجحة',
                 LOGIN_SUCCESS: 'نجاح تسجيل الدخول',
                 LOGIN_FAILURE: 'فشل تسجيل الدخول',
@@ -12937,7 +13053,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'كلمة مرور المستخدم',
                 BIND_COMMAND_SUCCESS: 'ربط نجاح الأمر',
+                BIND_DATASOURCE_SUCCESS: 'نجاح ربط مصدر البيانات',
                 UNBIND_COMMAND_SUCCESS: 'فك ربط نجاح الأمر',
+                UNBIND_DATASOURCE_SUCCESS: 'نجاح فك ربط مصدر البيانات',
                 BIND_METER_SUCCESS: 'ربط نجاح متر',
                 UNBIND_METER_SUCCESS: 'فك ربط متر النجاح',
                 BIND_TARIFF_SUCCESS: 'ربط نجاح التعريفة',
@@ -13688,7 +13806,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Lần chạy tiếp theo Datetime',
                 EXPRESSION: 'Biểu thức',
                 MESSAGE_TEMPLATE: 'Mẫu tin nhắn',
-                CLICK_EDIT_FOR_DETAILS: 'Nhấp vào "Chỉnh sửa" để biết chi tiết',
                 IS_RUN_IMMEDIATELY: 'Chạy ngay',
 
                 SMS_ALARM_LIST: 'Danh sách báo động SMS',
@@ -13877,6 +13994,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Năng lượng đầu vào có được tính vào không',
                 IS_OUTPUT_COUNTED: 'Sản lượng năng lượng có được tính không',
                 BIND_COMMAND: 'Lệnh ràng buộc Ⓔ',
+                BIND_DATA_SOURCE: 'Liên kết nguồn dữ liệu',
                 BIND_METER: 'Máy đo liên kết',
                 BIND_POINT: 'Điểm ràng buộc',
                 BIND_SENSOR: 'Cảm biến liên kết',
@@ -13914,6 +14032,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Đồng hồ ngoại tuyến',
                 OFFLINE_METER_FILE: 'Tệp đồng hồ ngoại tuyến',
                 N_S_COMMAND: ' Lệnh ràng buộc',
+                N_S_DATA_SOURCE: 'Nguồn dữ liệu đã liên kết',
                 N_S_METER: ' Mét giới hạn',
                 N_S_POINT: ' Điểm ràng buộc',
                 N_S_SENSOR: ' Cảm biến ràng buộc',
@@ -13923,9 +14042,17 @@ function config($translateProvider) {
                 N_S_USER: 'người dùng bị ràng buộc',
 
                 COMMAND_LIST: 'Danh sách lệnh',
+                DATA_SOURCE_LIST: 'Danh sách nguồn dữ liệu',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Thời gian kết thúc phải sau thời gian bắt đầu',
+				TARIFF_TIME_PERIODS_OVERLAP:'Chỉ cho phép một phương pháp tính giá trong cùng một khoảng thời gian',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Ngày kết thúc hiệu lực biểu phí phải sau ngày bắt đầu',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian biểu phí nên bao phủ đủ 24 giờ',
+				TIME_PERIOD_OVERLAP_ERROR: 'Chỉ cho phép một thao tác điều khiển trong cùng một khoảng thời gian',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian chế độ điều khiển phải bao phủ trọn vẹn 24 giờ',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -14225,6 +14352,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Giai đoạn sử dụng',
                 PHASE_2COMMISSIONING: 'Giai đoạn gỡ lỗi',
                 PHASE_3INSTALLATION: 'Giai đoạn xây dựng',
+                INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Cân bằng điểm giá',
@@ -14446,6 +14574,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Lấy tọa độ',
                 LATITUDE: 'Vĩ độ',
                 LONGITUDE: 'Kinh độ',
+                LONGITUDE_POINT: "Điểm dữ liệu kinh độ",
+                LATITUDE_POINT: "Điểm dữ liệu vĩ độ",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Dữ liệu chi phí có được hiển thị không',
                 INPUT_ADDRESS: 'Vui lòng nhập địa chỉ',
@@ -14780,6 +14910,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Giới hạn thấp hàng giờ (Bao gồm)',
                 INPUT_HOURLY_LOW_LIMIT: 'Vui lòng nhập giới hạn thấp hàng giờ',
+                INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
+                INVALID_RANGE_HINT: 'Giá trị tối đa phải lớn hơn giá trị tối thiểu',
                 HOURLY_HIGH_LIMIT: 'Giới hạn cao hàng giờ (Bao gồm)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Vui lòng nhập giới hạn cao hàng giờ',
                 MASTER_METER: 'Đồng hồ tổng thể',
@@ -14863,7 +14995,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sự thành công',
-				ADD_FAILURE: 'Thêm thất bại',
+                ADD_FAILURE: 'Thêm thất bại',
                 COPY_SUCCESS: 'Sao chép thành công',
                 LOGIN_SUCCESS: 'Đăng nhập thành công',
                 LOGIN_FAILURE: 'Đăng nhập thất bại',
@@ -14882,7 +15014,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Mật khẩu người dùng',
                 BIND_COMMAND_SUCCESS: 'Ràng buộc lệnh thành công',
+                BIND_DATASOURCE_SUCCESS: 'Liên kết nguồn dữ liệu thành công',
                 UNBIND_COMMAND_SUCCESS: 'Hủy liên kết lệnh thành công',
+                UNBIND_DATASOURCE_SUCCESS: 'Hủy liên kết nguồn dữ liệu thành công',
                 BIND_METER_SUCCESS: 'Đồng hồ ràng buộc đã thành công',
                 UNBIND_METER_SUCCESS: 'Tháo đồng hồ đo thành công',
                 BIND_TARIFF_SUCCESS: 'Ràng buộc thành công thuế quan',
@@ -15633,7 +15767,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'วันที่เรียกใช้ถัดไป',
                 EXPRESSION: 'สีหน้า',
                 MESSAGE_TEMPLATE: 'เทมเพลตข้อความ',
-                CLICK_EDIT_FOR_DETAILS: 'คลิก "แก้ไข" เพื่อดูรายละเอียด',
                 IS_RUN_IMMEDIATELY: 'เรียกใช้ตอนนี้',
 
                 SMS_ALARM_LIST: 'รายการปลุก SMS',
@@ -15821,6 +15954,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'กําลังป้อนพลังงานนับใน',
                 IS_OUTPUT_COUNTED: 'มีการนับปริมาณพลังงานหรือไม่',
                 BIND_COMMAND: 'ผูกคําสั่ง Ⓔ',
+                BIND_DATA_SOURCE: 'เชื่อมต่อแหล่งข้อมูล',
                 BIND_METER: 'เครื่องวัดการผูก',
                 BIND_POINT: 'จุดผูก',
                 BIND_SENSOR: 'ผูกเซ็นเซอร์',
@@ -15858,6 +15992,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'เครื่องวัดออฟไลน์',
                 OFFLINE_METER_FILE: 'ไฟล์มิเตอร์ออฟไลน์',
                 N_S_COMMAND: ' คําสั่งที่ถูกผูกไว้',
+                N_S_DATA_SOURCE: 'แหล่งข้อมูลที่เชื่อมต่อแล้ว',
                 N_S_METER: ' เมตรที่ถูกผูกไว้',
                 N_S_POINT: ' จุดที่ผูกไว้',
                 N_S_SENSOR: ' เซ็นเซอร์ที่ถูกผูกไว้',
@@ -15867,9 +16002,17 @@ function config($translateProvider) {
                 N_S_USER: 'ผู้ใช้ที่ถูกผูกไว้',
 
                 COMMAND_LIST: 'รายการคําสั่ง',
+                DATA_SOURCE_LIST: 'รายการแหล่งข้อมูล',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'เวลาสิ้นสุดต้องอยู่หลังจากเวลาเริ่มต้น',
+				TARIFF_TIME_PERIODS_OVERLAP:'อนุญาตให้มีวิธีคำนวณราคาเพียงแบบเดียวในช่วงเวลาเดียวกัน',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'วันที่สิ้นสุดอายุอัตราค่าใช้จ่ายต้องอยู่หลังจากวันที่เริ่มต้น',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของอัตราค่าใช้จ่ายควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
+				TIME_PERIOD_OVERLAP_ERROR: 'อนุญาตให้มีการดำเนินการควบคุมเพียงแบบเดียวในช่วงเวลาเดียวกัน',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของโหมดควบคุมควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -16168,6 +16311,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'ขั้นตอนการใช้งาน',
                 PHASE_2COMMISSIONING: 'ขั้นตอนการว่าจ้าง',
                 PHASE_3INSTALLATION: 'ขั้นตอนการก่อสร้าง',
+                INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'จุดราคาสมดุล',
@@ -16389,6 +16533,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'รับพิกัด',
                 LATITUDE: 'เส้นรุ้ง',
                 LONGITUDE: 'เส้นแวง',
+                LONGITUDE_POINT: "จุดข้อมูลลองจิจูด",
+                LATITUDE_POINT: "จุดข้อมูลละติจูด",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'เป็นข้อมูลต้นทุนที่แสดง',
                 INPUT_ADDRESS: 'กรุณาใส่ที่อยู่',
@@ -16723,6 +16869,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'ขีด จํากัด ต่ํารายชั่วโมง (รวม)',
                 INPUT_HOURLY_LOW_LIMIT: 'โปรดป้อนขีด จํากัด ต่ํารายชั่วโมง',
+                INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
+                INVALID_RANGE_HINT: 'ค่าสูงสุดควรมากกว่าค่าต่ำสุด',
                 HOURLY_HIGH_LIMIT: 'ขีด จํากัด สูงรายชั่วโมง (รวม)',
                 INPUT_HOURLY_HIGH_LIMIT: 'กรุณาใส่ขีด จํากัด สูงรายชั่วโมง',
                 MASTER_METER: 'มาสเตอร์มิเตอร์',
@@ -16806,7 +16954,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'ความสําเร็จ',
-				ADD_FAILURE: 'เพิ่มไม่สำเร็จ',
+                ADD_FAILURE: 'เพิ่มไม่สำเร็จ',
                 COPY_SUCCESS: 'คัดลอกสำเร็จ',
                 LOGIN_SUCCESS: 'เข้าสู่ระบบสําเร็จ',
                 LOGIN_FAILURE: 'เข้าสู่ระบบล้มเหลว',
@@ -16825,7 +16973,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'รหัสผ่านผู้ใช้',
                 BIND_COMMAND_SUCCESS: 'ผูกคําสั่งสําเร็จ',
+                BIND_DATASOURCE_SUCCESS: 'เชื่อมต่อแหล่งข้อมูลสำเร็จ',
                 UNBIND_COMMAND_SUCCESS: 'ยกเลิกการผูกคําสั่งสําเร็จ',
+                UNBIND_DATASOURCE_SUCCESS: 'ยกเลิกการเชื่อมต่อแหล่งข้อมูลสำเร็จ',
                 BIND_METER_SUCCESS: 'ผูกความสําเร็จของมิเตอร์',
                 UNBIND_METER_SUCCESS: 'มิเตอร์ไม่ถูกผูกเรียบร้อยแล้ว',
                 BIND_TARIFF_SUCCESS: 'ผูกความสําเร็จทางภาษี',
@@ -17576,7 +17726,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Sonraki Çalıştırma Datetime',
                 EXPRESSION: 'İfade',
                 MESSAGE_TEMPLATE: 'Mesaj Şablonu',
-                CLICK_EDIT_FOR_DETAILS: 'Ayrıntılar için "Düzenle"ye tıklayın',
                 IS_RUN_IMMEDIATELY: 'Hemen Koş',
 
                 SMS_ALARM_LIST: 'SMS Alarm Listesi',
@@ -17765,6 +17914,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Enerji girdisi sayılır mı',
                 IS_OUTPUT_COUNTED: 'Enerji Çıkışı Sayılır mı',
                 BIND_COMMAND: 'Komutu bağlama Ⓔ',
+                BIND_DATA_SOURCE: 'Veri Kaynağı Bağla',
                 BIND_METER: 'Bir metre bağlama',
                 BIND_POINT: 'Veri noktalarını bağlama',
                 BIND_SENSOR: 'Bağlama Sensörü',
@@ -17802,6 +17952,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Çevrimdışı Ölçüm',
                 OFFLINE_METER_FILE: 'Çevrimdışı Ölçüm Dosyası',
                 N_S_COMMAND: ' Bağlı Komutlar',
+                N_S_DATA_SOURCE: 'Bağlı Veri Kaynakları',
                 N_S_METER: ' Bağlı Sayaçlar',
                 N_S_POINT: ' Bağlı Noktalar',
                 N_S_SENSOR: ' Bağlı Sensörler',
@@ -17811,9 +17962,17 @@ function config($translateProvider) {
                 N_S_USER: 'bağlı kullanıcı',
 
                 COMMAND_LIST: 'Komut Listesi',
+                DATA_SOURCE_LIST: 'Veri Kaynağı Listesi',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Bitiş saati başlangıç saatinden sonra olmalıdır',
+				TARIFF_TIME_PERIODS_OVERLAP:'Aynı zaman diliminde yalnızca bir fiyatlandırma yöntemine izin verilir',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarife geçerlilik bitiş tarihi, başlangıç tarihinden sonra olmalıdır',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tarifelerin zaman ayarları, tam 24 saati kapsamalıdır',
+				TIME_PERIOD_OVERLAP_ERROR: 'Aynı zaman diliminde yalnızca bir kontrol işlemine izin verilir',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Kontrol modu zaman ayarları tam 24 saati kapsamalıdır',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -18112,6 +18271,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Use Phase',
                 PHASE_2COMMISSIONING: 'Komisyon Fazi',
                 PHASE_3INSTALLATION: 'Yapılandırma Fazi',
+                INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış.',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Dengeleme Fiyat Noktası',
@@ -18333,6 +18493,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'รับพิกัด',
                 LATITUDE: 'Enlem',
                 LONGITUDE: 'Boylam',
+                LONGITUDE_POINT: "Boylam Veri Noktası",
+                LATITUDE_POINT: "Enlem Veri Noktası",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Maliyet Verileri Görüntüleniyor mu',
                 INPUT_ADDRESS: 'Lütfen Adres Giriniz',
@@ -18667,6 +18829,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Saatlik Düşük Limit (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Lütfen saatlik düşük limiti girin',
+                INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış.',
+                INVALID_RANGE_HINT: 'Maksimum değer, minimum değerden büyük olmalıdır',
                 HOURLY_HIGH_LIMIT: 'Saatlik Yüksek Limit (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Lütfen saatlik yüksek limiti girin',
                 MASTER_METER: 'Master Metre',
@@ -18750,7 +18914,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Başarı',
-				ADD_FAILURE: 'Ekleme başarısız',
+                ADD_FAILURE: 'Ekleme başarısız',
                 COPY_SUCCESS: 'Başarılı kopyalama',
                 LOGIN_SUCCESS: 'Giriş Başarısı',
                 LOGIN_FAILURE: 'Oturum Açma Hatası',
@@ -18769,7 +18933,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kullanıcı Parolası',
                 BIND_COMMAND_SUCCESS: 'Bağlama Komutu Başarısı',
+                BIND_DATASOURCE_SUCCESS: 'Veri Kaynağı Bağlama Başarılı',
                 UNBIND_COMMAND_SUCCESS: 'Unbind Komutu Başarısı',
+                UNBIND_DATASOURCE_SUCCESS: 'Veri Kaynağı Bağlantısını Kaldırma Başarılı',
                 BIND_METER_SUCCESS: 'Bağlama Ölçer Başarısı',
                 UNBIND_METER_SUCCESS: 'Unbind Meter Başarısı',
                 BIND_TARIFF_SUCCESS: 'Bağlayıcı Tarife Başarısı',
@@ -19520,7 +19686,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Masa Tarikh Tayangan Seterusnya',
                 EXPRESSION: 'Ungkapan',
                 MESSAGE_TEMPLATE: 'Templat Mesej',
-                CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk maklumat lanjut',
                 IS_RUN_IMMEDIATELY: 'Jalankan Segera',
 
                 SMS_ALARM_LIST: 'Senarai Penggera SMS',
@@ -19709,6 +19874,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Adakah input tenaga dikira dalam',
                 IS_OUTPUT_COUNTED: 'Adakah output tenaga dikira',
                 BIND_COMMAND: 'Perintah Mengikat Ⓔ',
+                BIND_DATA_SOURCE: 'Penghubungan Sumber Data Berjaya',
                 BIND_METER: 'Meter mengikat',
                 BIND_POINT: 'Titik Bind',
                 BIND_SENSOR: 'Sensor mengikat',
@@ -19746,6 +19912,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Meter Luar Talian',
                 OFFLINE_METER_FILE: 'Fail Meter Luar Talian',
                 N_S_COMMAND: ' Perintah terikat',
+                N_S_DATA_SOURCE: 'Sumber Data Terhubung',
                 N_S_METER: ' Meter terikat',
                 N_S_POINT: ' Mata Terikat',
                 N_S_SENSOR: ' Sensor terikat',
@@ -19755,9 +19922,17 @@ function config($translateProvider) {
                 N_S_USER: 'Pengguna terikat',
 
                 COMMAND_LIST: 'Senarai Perintah',
+                DATA_SOURCE_LIST: 'Senarai Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Masa tamat mestilah selepas masa mula',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu kaedah penetapan harga dibenarkan dalam tempoh masa yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tarikh tamat tempoh kadar mestilah selepas tarikh mula',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tetapan masa kadar harus meliputi tempoh 24 jam penuh',
+				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kawalan dibenarkan dalam tempoh masa yang sama',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Tetapan masa mod kawalan mesti meliputi tempoh 24 jam penuh',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -20056,6 +20231,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Guna Tahap',
                 PHASE_2COMMISSIONING: 'Fasa Pemasangan',
                 PHASE_3INSTALLATION: 'Fasa Pembangunan',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Mengimbangi Titik Harga',
@@ -20277,6 +20453,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Dapatkan Koordinat',
                 LATITUDE: 'Latitud',
                 LONGITUDE: 'Longitud',
+                LONGITUDE_POINT: "Titik Data Garis Bujur",
+                LATITUDE_POINT: "Titik Data Garis Lintang",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Adakah Data Kos Dipaparkan',
                 INPUT_ADDRESS: 'Sila Alamat Input',
@@ -20596,7 +20774,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: 'Sila Masuk Lantai',
                 INPUT_ROOMS: 'Bilik',
                 INPUT_LEASE_NUMBER: 'Sila masukkan nombor pajakan',
-                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai', 
+                END_BEFORE_START_WARNING: 'Waktu selesai tidak boleh sebelum waktu mulai',
             },
             SHOPFLOOR: {
                 ADD_SHOPFLOOR: 'Tambah Shopfloor',
@@ -20611,6 +20789,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Had Rendah Setiap Jam (Termasuk)',
                 INPUT_HOURLY_LOW_LIMIT: 'Sila masukkan had rendah setiap jam',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
+                INVALID_RANGE_HINT: 'Nilai maksimum mestilah lebih besar daripada nilai minimum',
                 HOURLY_HIGH_LIMIT: 'Had Tinggi Setiap Jam (Termasuk)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Sila masukkan Had Tinggi Setiap Jam',
                 MASTER_METER: 'Master Meter',
@@ -20694,7 +20874,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Kejayaan',
-				ADD_FAILURE: 'Penambahan gagal',
+                ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin berjaya',
                 LOGIN_SUCCESS: 'Kejayaan Log Masuk',
                 LOGIN_FAILURE: 'Kegagalan Log Masuk',
@@ -20713,7 +20893,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kata Laluan Pengguna',
                 BIND_COMMAND_SUCCESS: 'Kejayaan Perintah Bind',
+                BIND_DATASOURCE_SUCCESS: 'Penghubungan Sumber Data Berjaya',
                 UNBIND_COMMAND_SUCCESS: 'Kejayaan Perintah Unbind',
+                UNBIND_DATASOURCE_SUCCESS: 'Pencopotan Sumber Data Berjaya',
                 BIND_METER_SUCCESS: 'Kejayaan Meter Bind',
                 UNBIND_METER_SUCCESS: 'Kejayaan Meter Unbind',
                 BIND_TARIFF_SUCCESS: 'Kejayaan Tarif Bind',
@@ -21464,7 +21646,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Datetime Jalankan Berikutnya',
                 EXPRESSION: 'Ekspresi',
                 MESSAGE_TEMPLATE: 'Template Pesan',
-                CLICK_EDIT_FOR_DETAILS: 'Klik "Edit" untuk detailnya',
                 IS_RUN_IMMEDIATELY: 'Lari Segera',
 
                 SMS_ALARM_LIST: 'Daftar Alarm SMS',
@@ -21653,6 +21834,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Apakah input energi dihitung dalam',
                 IS_OUTPUT_COUNTED: 'Apakah output energi dihitung',
                 BIND_COMMAND: 'Perintah Bind Ⓔ',
+                BIND_DATA_SOURCE: 'Penghubungan Sumber Data Berhasil',
                 BIND_METER: 'Pengukur Pengikat',
                 BIND_POINT: 'Titik Ikat',
                 BIND_SENSOR: 'Sensor Pengikat',
@@ -21690,6 +21872,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Meteran Offline',
                 OFFLINE_METER_FILE: 'Offline Meter File',
                 N_S_COMMAND: ' Perintah terikat',
+                N_S_DATA_SOURCE: 'Sumber Data Terhubung',
                 N_S_METER: ' Meter terikat',
                 N_S_POINT: ' Titik Terikat',
                 N_S_SENSOR: ' Sensor Terikat',
@@ -21699,9 +21882,17 @@ function config($translateProvider) {
                 N_S_USER: 'Pengguna Terikat',
 
                 COMMAND_LIST: 'Daftar Perintah',
+                DATA_SOURCE_LIST: 'Daftar Sumber Data',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'Waktu berakhir harus setelah waktu mulai',
+				TARIFF_TIME_PERIODS_OVERLAP:'Hanya satu metode penetapan harga yang diizinkan dalam periode yang sama',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'Tanggal berakhirnya tarif harus setelah tanggal mulai',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu tarif harus mencakup periode 24 jam penuh',
+				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kontrol yang diizinkan dalam periode yang sama',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu mode kontrol harus mencakup periode 24 jam penuh',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -22000,6 +22191,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Gunakan Tahap',
                 PHASE_2COMMISSIONING: 'Fase Komisionasi',
                 PHASE_3INSTALLATION: 'Fase Konstruksi',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Menyeimbangkan Titik Harga',
@@ -22221,6 +22413,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Dapatkan Koordinat',
                 LATITUDE: 'Lintang',
                 LONGITUDE: 'Bujur',
+                LONGITUDE_POINT: "Titik Data Garis Bujur",
+                LATITUDE_POINT: "Titik Data Garis Lintang",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Apakah Data Biaya Ditampilkan',
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
@@ -22555,6 +22749,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Batas Rendah Per Jam (Inclusive)',
                 INPUT_HOURLY_LOW_LIMIT: 'Harap masukkan Batas Rendah Per Jam',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
+                INVALID_RANGE_HINT: 'Nilai maksimum harus lebih besar dari nilai minimum',
                 HOURLY_HIGH_LIMIT: 'Batas Tinggi Per Jam (Inclusive)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Silakan masukkan batas tinggi per jam',
                 MASTER_METER: 'Pengukur Master',
@@ -22638,7 +22834,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Keberhasilan',
-				ADD_FAILURE: 'Penambahan gagal',
+                ADD_FAILURE: 'Penambahan gagal',
                 COPY_SUCCESS: 'Salin Sukses',
                 LOGIN_SUCCESS: 'Login Berhasil',
                 LOGIN_FAILURE: 'Kegagalan Login',
@@ -22657,7 +22853,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Kata Sandi Pengguna',
                 BIND_COMMAND_SUCCESS: 'Mengikat Keberhasilan Perintah',
+                BIND_DATASOURCE_SUCCESS: 'Penghubungan Sumber Data Berhasil',
                 UNBIND_COMMAND_SUCCESS: 'Perintah Unbind Sukses',
+                UNBIND_DATASOURCE_SUCCESS: 'Pencopotan Sumber Data Berhasil',
                 BIND_METER_SUCCESS: 'Keberhasilan Bind Meter',
                 UNBIND_METER_SUCCESS: 'Keberhasilan Unbind Meter',
                 BIND_TARIFF_SUCCESS: 'Mengikat Keberhasilan Tarif',
@@ -23408,7 +23606,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: '下次運⾏時間',
                 EXPRESSION: '表達式',
                 MESSAGE_TEMPLATE: '消息模板',
-                CLICK_EDIT_FOR_DETAILS: '點擊"修改"查看詳情',
                 IS_RUN_IMMEDIATELY: '立即運⾏',
 
                 SMS_ALARM_LIST: '短信報警列表',
@@ -23600,6 +23797,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: '能耗參與匯總',
                 IS_OUTPUT_COUNTED: '能源產出參與匯總',
                 BIND_COMMAND: '綁定指令 ㊭',
+                BIND_DATA_SOURCE: '綁定資料來源',
                 BIND_METER: '綁定計量表',
                 BIND_POINT: '綁定數據點',
                 BIND_SENSOR: '綁定傳感器',
@@ -23638,6 +23836,7 @@ function config($translateProvider) {
                 OFFLINE_METER_FILE: '離線表⽂件',
                 PRODUCT: '產品',
                 N_S_COMMAND: '綁定的指令',
+                N_S_DATA_SOURCE: '已綁定的資料來源',
                 N_S_METER: '綁定的表',
                 N_S_POINT: '綁定的數據點',
                 N_S_SENSOR: '綁定的傳感器',
@@ -23647,9 +23846,17 @@ function config($translateProvider) {
                 N_S_USER: '綁定的⽤⼾',
 
                 COMMAND_LIST: '指令列表',
+                DATA_SOURCE_LIST: '資料來源清單',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
+				TARIFF_TIME_PERIODS_OVERLAP:'同一時段只允許有一種計價方式',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '費率有效期的結束日期應在開始日期之後',
+				TARIFF_NOT_FULL_DAY_COVERAGE: '費率的時間設置應覆蓋完整24小時',
+				TIME_PERIOD_OVERLAP_ERROR: '同一時段只允許有一種控制操作',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的時間設置應覆蓋完整24小時',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -23782,7 +23989,7 @@ function config($translateProvider) {
                 CONNECTION: '連接',
                 LAST_SEEN_DATETIME: '最後在線時間',
                 INPUT_PROTOCOL: '請輸入協議類型',
-                INPUT_CONNECTION: '請輸入連接地址'
+                INPUT_CONNECTION: '請輸入連接地址',
             },
             POINT: {
                 OBJECT_TYPE: '對象類型',
@@ -23925,6 +24132,7 @@ function config($translateProvider) {
                 PHASE_1USE: '使用階段',
                 PHASE_2COMMISSIONING: '調試階段',
                 PHASE_3INSTALLATION: '施工階段',
+                INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: '平衡價格數據點',
@@ -24146,6 +24354,8 @@ function config($translateProvider) {
                 GET_COORDINATE: '拾取坐標',
                 LATITUDE: '緯度',
                 LONGITUDE: '經度',
+                LONGITUDE_POINT: "經度數據點",
+                LATITUDE_POINT: "緯度數據點",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: '是否顯⽰成本數據',
                 INPUT_ADDRESS: '輸入地址',
@@ -24478,7 +24688,7 @@ function config($translateProvider) {
                 INPUT_FLOORS: '請輸入樓層',
                 INPUT_ROOMS: '請輸入房間',
                 INPUT_LEASE_NUMBER: '請輸入租約編號',
-                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間', 
+                END_BEFORE_START_WARNING: '租約結束時間不能早於開始時間',
             },
             STORE: {
                 ADDRESS: '地址',
@@ -24505,6 +24715,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: '每⼩時最⼩值（包含）',
                 INPUT_HOURLY_LOW_LIMIT: '請輸入每⼩時最⼩值',
+                INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
+                INVALID_RANGE_HINT: '最大值應該大於最小值',
                 HOURLY_HIGH_LIMIT: '每⼩時最⼤值（包含）',
                 INPUT_HOURLY_HIGH_LIMIT: '請輸入每⼩時最⼤值',
                 MASTER_METER: '上級計量表',
@@ -24588,7 +24800,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: '成功',
-				ADD_FAILURE: '新增失敗',
+                ADD_FAILURE: '新增失敗',
                 COPY_SUCCESS: '覆制成功',
                 LOGIN_SUCCESS: '登錄成功',
                 LOGIN_FAILURE: '登錄失敗',
@@ -24607,7 +24819,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: '⽤⼾密碼',
                 BIND_COMMAND_SUCCESS: '綁定指令成功',
+                BIND_DATASOURCE_SUCCESS: '綁定資料來源成功',
                 UNBIND_COMMAND_SUCCESS: '解綁指令成功',
+                UNBIND_DATASOURCE_SUCCESS: '解除綁定資料來源成功',
                 BIND_METER_SUCCESS: '綁定計量表成功',
                 UNBIND_METER_SUCCESS: '解綁計量表成功',
                 BIND_TARIFF_SUCCESS: '綁定費率成功',
@@ -25360,7 +25574,6 @@ function config($translateProvider) {
                 NEXT_RUN_DATETIME: 'Data e hora da próxima execução',
                 EXPRESSION: 'Expressão',
                 MESSAGE_TEMPLATE: 'Modelo de mensagem',
-                CLICK_EDIT_FOR_DETAILS: 'Clique em "Editar" para mais detalhes',
                 IS_RUN_IMMEDIATELY: 'Corre imediatamente',
 
                 SMS_ALARM_LIST: 'Lista de alarme SMS',
@@ -25549,6 +25762,7 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'A Entrada de Energia é Contabilizada',
                 IS_OUTPUT_COUNTED: 'A Saída de Energia é Contabilizada',
                 BIND_COMMAND: 'Vincular Comando Ⓔ',
+                BIND_DATA_SOURCE: 'Vincular Fonte de Dados',
                 BIND_METER: 'Vincular Medidor',
                 BIND_POINT: 'Vincular Ponto',
                 BIND_SENSOR: 'Vincular Sensor',
@@ -25586,6 +25800,7 @@ function config($translateProvider) {
                 OFFLINE_METER: 'Medidor Offline',
                 OFFLINE_METER_FILE: 'Arquivo do Medidor Offline',
                 N_S_COMMAND: 'Comandos Vinculados',
+                N_S_DATA_SOURCE: 'Fontes de Dados Vinculadas',
                 N_S_METER: 'Medidores Vinculados',
                 N_S_POINT: 'Pontos Vinculados',
                 N_S_SENSOR: 'Sensores Vinculados',
@@ -25595,9 +25810,17 @@ function config($translateProvider) {
                 N_S_USER: 'Usuário Vinculado',
 
                 COMMAND_LIST: 'Lista de Comandos',
+                DATA_SOURCE_LIST: 'Lista de Fontes de Dados',
 
                 CONTROL_MODE_LIST: 'Control Mode List',
+
 				END_TIME_SHOULD_BE_AFTER_START_TIME: 'O horário de término deve ser após o horário de início',
+				TARIFF_TIME_PERIODS_OVERLAP:'Apenas um método de precificação é permitido no mesmo período',
+				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: 'A data de término da vigência da tarifa deve ser posterior à data de início',
+				TARIFF_NOT_FULL_DAY_COVERAGE: 'A configuração temporal das tarifas deve cobrir um período completo de 24 horas',
+				TIME_PERIOD_OVERLAP_ERROR: 'Apenas uma operação de controle é permitida no mesmo período',
+				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'A configuração temporal do modo de controle deve cobrir um período completo de 24 horas',
+
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
                 END_TIME: 'End Time',
@@ -25897,6 +26120,7 @@ function config($translateProvider) {
                 PHASE_1USE: 'Fase de Uso',
                 PHASE_2COMMISSIONING: 'Fase de Comissionamento',
                 PHASE_3INSTALLATION: 'Fase de Construção',
+                INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
             },
             VIRTUAL_POWER_PLANT: {
                 BALANCING_PRICE_POINT: 'Ponto de Preço de Balanceamento',
@@ -26118,6 +26342,8 @@ function config($translateProvider) {
                 GET_COORDINATE: 'Obter Coordenada',
                 LATITUDE: 'Latitude',
                 LONGITUDE: 'Longitude',
+                LONGITUDE_POINT: "Ponto de Dados de Longitude",
+                LATITUDE_POINT: "Ponto de Dados de Latitude",
                 SVG: 'SVG',
                 IS_COST_DATA_DISPLAYED: 'Os Dados de Custo São Exibidos',
                 INPUT_ADDRESS: 'Inserir Endereço',
@@ -26456,6 +26682,8 @@ function config($translateProvider) {
             METER: {
                 HOURLY_LOW_LIMIT: 'Limite Inferior Horário (Inclusivo)',
                 INPUT_HOURLY_LOW_LIMIT: 'Por favor, insira o Limite Inferior Horário',
+                INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
+                INVALID_RANGE_HINT: 'O valor máximo deve ser maior do que o valor mínimo',
                 HOURLY_HIGH_LIMIT: 'Limite Superior Horário (Inclusivo)',
                 INPUT_HOURLY_HIGH_LIMIT: 'Por favor, insira o Limite Superior Horário',
                 MASTER_METER: 'Medidor Mestre',
@@ -26539,7 +26767,7 @@ function config($translateProvider) {
             },
             TOASTER: {
                 SUCCESS_TITLE: 'Sucesso',
-				ADD_FAILURE: 'Falha na adição',
+                ADD_FAILURE: 'Falha na adição',
                 COPY_SUCCESS: 'Cópia Bem-Sucedida',
                 LOGIN_SUCCESS: 'Login Bem-Sucedido',
                 LOGIN_FAILURE: 'Falha no Login',
@@ -26558,7 +26786,9 @@ function config($translateProvider) {
 
                 USER_PASSWORD: 'Senha do Usuário',
                 BIND_COMMAND_SUCCESS: 'Comando Vinculado com Sucesso',
+                BIND_DATASOURCE_SUCCESS: 'Vinculação de Fonte de Dados Bem-sucedida',
                 UNBIND_COMMAND_SUCCESS: 'Comando Desvinculado com Sucesso',
+                UNBIND_DATASOURCE_SUCCESS: 'Desvinculação de Fonte de Dados Bem-sucedida',
                 BIND_METER_SUCCESS: 'Medidor Vinculado com Sucesso',
                 UNBIND_METER_SUCCESS: 'Medidor Desvinculado com Sucesso',
                 BIND_TARIFF_SUCCESS: 'Tarifa Vinculada com Sucesso',

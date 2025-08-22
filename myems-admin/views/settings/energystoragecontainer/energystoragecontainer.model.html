@@ -7,29 +7,46 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
                 <div class="col-sm-9">
-                    <input ng-model="energystoragecontainer.name" type="text" name="energystoragecontainername" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainername.$invalid && form_energystoragecontainer.energystoragecontainername.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
+                    <input ng-model="energystoragecontainer.name" type="text" name="energystoragecontainername"
+                        class="form-control" required>
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainer.energystoragecontainername.$invalid && form_energystoragecontainer.energystoragecontainername.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainername.$error.required">{{'SETTING.INPUT_NAME'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}}(kWh)</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' |
+                    translate}}(kWh)</label>
                 <div class="col-sm-9">
-                    <input ng-model="energystoragecontainer.rated_capacity" type="number" name="energystoragecontainerrated_capacity" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$invalid && form_energystoragecontainer.energystoragecontainerrated_capacity.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    <input ng-model="energystoragecontainer.rated_capacity" type="number"
+                        name="energystoragecontainerrated_capacity" class="form-control" required>
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$invalid && form_energystoragecontainer.energystoragecontainerrated_capacity.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY'
+                            | translate}}</small>
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainerrated_capacity.$error">{{'SETTING.INVALID_FORMAT'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}}(kW)</label>
                 <div class="col-sm-9">
-                    <input ng-model="energystoragecontainer.rated_power" type="number" name="energystoragecontainerrated_power" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$invalid && form_energystoragecontainer.energystoragecontainerrated_power.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY' | translate}}</small>
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                    <input ng-model="energystoragecontainer.rated_power" type="number"
+                        name="energystoragecontainerrated_power" class="form-control" required>
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$invalid && form_energystoragecontainer.energystoragecontainerrated_power.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$error.required">{{'ENERGY_STORAGE_CONTAINER.INPUT_CAPACITY'
+                            | translate}}</small>
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainerrated_power.$error">{{'SETTING.INVALID_FORMAT'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -37,14 +54,18 @@
                 <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}</label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainer.contact.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
                             <div ng-bind-html="contact.name | highlight: $select.search"></div>
                             <small>{{contact.email}},{{contact.phone}}</small>
                         </ui-select-choices>
                     </ui-select>
-                    <div class="m-t-xs" ng-show="form_energystoragecontainer.energystoragecontainercontact.$invalid && form_energystoragecontainer.energystoragecontainercontact.$dirty">
-                        <small class="text-danger" ng-show="form_energystoragecontainer.energystoragecontainercontact.$error.required">{{'SETTING.SELECT_CONTACT' | translate}}</small>
+                    <div class="m-t-xs"
+                        ng-show="form_energystoragecontainer.energystoragecontainercontact.$invalid && form_energystoragecontainer.energystoragecontainercontact.$dirty">
+                        <small class="text-danger"
+                            ng-show="form_energystoragecontainer.energystoragecontainercontact.$error.required">{{'SETTING.SELECT_CONTACT'
+                            | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -52,7 +73,8 @@
                 <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragecontainer.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false"
+                            placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -60,22 +82,27 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' |
+                    translate}})</label>
                 <div class="col-sm-9">
-                    <input ng-model="energystoragecontainer.description" type="text" name="energystoragecontainerdescription" class="form-control">
+                    <input ng-model="energystoragecontainer.description" type="text"
+                        name="energystoragecontainerdescription" class="form-control">
                 </div>
             </div>
-            <div class="form-group" ng-show="energystoragecontainer.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
-             <div class="col-sm-10">
-                  <div>
-                       <qrcode data="{{energystoragecontainer.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
-                  </div>
-              </div>
+            <div class="form-group" ng-show="energystoragecontainer.qrcode"><label
+                    class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+                <div class="col-sm-10">
+                    <div>
+                        <qrcode data="{{energystoragecontainer.qrcode}}" version="1" error-correction-level="L"
+                            size="100" color="#fff" background="#000" download></qrcode>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_energystoragecontainer.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_energystoragecontainer.$invalid" class="btn btn-primary"
+            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>

@@ -405,6 +405,107 @@ class MeterItem:
         else:
             meter_uuid = row[0]
 
+        # check relation with tbl_energy_storage_containers_batteries
+        cursor.execute("SELECT name "
+                       "FROM tbl_energy_storage_containers_batteries "
+                       "WHERE charge_meter_id = %s "
+                       "   OR discharge_meter_id = %s "
+                       "LIMIT 1",
+                       (id_, id_))
+        row_energy_storage_containers_batteries = cursor.fetchone()
+        if row_energy_storage_containers_batteries is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES')
+
+        # check relation with tbl_energy_storage_containers_grids
+        cursor.execute("SELECT name "
+                       "FROM tbl_energy_storage_containers_grids "
+                       "WHERE buy_meter_id = %s "
+                       "   OR sell_meter_id = %s "
+                       "LIMIT 1",
+                       (id_, id_))
+        row_energy_storage_containers_grids = cursor.fetchone()
+        if row_energy_storage_containers_grids is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS')
+
+        # check relation with tbl_energy_storage_containers_loads
+        cursor.execute("SELECT name "
+                       "FROM tbl_energy_storage_containers_loads "
+                       "WHERE meter_id = %s "
+                       "LIMIT 1",
+                       (id_,))
+        row_energy_storage_containers_loads = cursor.fetchone()
+        if row_energy_storage_containers_loads is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS')
+
+        # check relation with tbl_meters
+        cursor.execute("SELECT name "
+                       "FROM tbl_meters "
+                       "WHERE master_meter_id = %s "
+                       "LIMIT 1",
+                       (id_,))
+        row_meters = cursor.fetchone()
+        if row_meters is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_METERS')
+
+        # check relation with tbl_photovoltaic_power_stations_grids
+        cursor.execute("SELECT name "
+                       "FROM tbl_photovoltaic_power_stations_grids "
+                       "WHERE buy_meter_id = %s "
+                       "   OR sell_meter_id = %s "
+                       "LIMIT 1",
+                       (id_, id_))
+        row_photovoltaic_power_stations_grids = cursor.fetchone()
+        if row_photovoltaic_power_stations_grids is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS')
+
+        # check relation with tbl_photovoltaic_power_stations_invertors
+        cursor.execute("SELECT name "
+                       "FROM tbl_photovoltaic_power_stations_invertors "
+                       "WHERE generation_meter_id = %s "
+                       "LIMIT 1",
+                       (id_,))
+        row_photovoltaic_power_stations_invertors = cursor.fetchone()
+        if row_photovoltaic_power_stations_invertors is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS')
+
+        # check relation with tbl_photovoltaic_power_stations_loads
+        cursor.execute("SELECT name "
+                       "FROM tbl_photovoltaic_power_stations_loads "     
+                       "WHERE meter_id = %s "
+                       "LIMIT 1",
+                       (id_,))
+        row_photovoltaic_power_stations_loads = cursor.fetchone()
+        if row_photovoltaic_power_stations_loads is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS')
+
         # check if this meter is being used by virtual meters
         cursor.execute(" SELECT vm.name "
                        " FROM tbl_variables va, tbl_virtual_meters vm "

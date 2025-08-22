@@ -1581,7 +1581,7 @@ class EnergyStorageContainerDataSourceItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
+    def on_options(req, resp, id_, dsid):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
@@ -1629,7 +1629,7 @@ class EnergyStorageContainerDataSourceItem:
                                    description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_NOT_FOUND')
 
         cursor.execute(" DELETE FROM tbl_energy_storage_containers_data_sources "
-                       " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, dsid))
+                       " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
         cnx.commit()
 
         cursor.close()
@@ -6008,8 +6008,7 @@ class EnergyStorageContainerImport:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        name = str.strip(new_values['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+        name = str.strip(new_values['name'])
 
         if 'rated_capacity' not in new_values.keys() or \
                 not (isinstance(new_values['rated_capacity'], float) or

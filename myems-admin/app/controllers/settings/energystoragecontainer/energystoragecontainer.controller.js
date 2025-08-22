@@ -11,7 +11,7 @@ app.controller(
     CostCenterService,
     ContactService,
     EnergyStorageContainerService,
-	PointService,
+    PointService,
     toaster,
     SweetAlert
   ) {
@@ -62,6 +62,102 @@ app.controller(
         }
       );
     };
+    
+    $scope.exportEnergyStorageContainer = function (container) {
+      let headers = {
+        "User-UUID": $scope.cur_user.uuid,
+        "Token": $scope.cur_user.token,
+      };
+      EnergyStorageContainerService.exportEnergyStorageContainer(container, headers, function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.exportdata = JSON.stringify(response.data); 
+          var modalInstance = $uibModal.open({
+            windowClass: "animated fadeIn",
+            templateUrl: "views/common/export.html",
+            controller: "ModalExportCtrl",
+            resolve: {
+              params: function () {
+                return {
+                  exportdata: angular.copy($scope.exportdata),
+                };
+              },
+            },
+          });
+          $rootScope.modalInstance = modalInstance;
+        } else {
+          $scope.exportdata = null;
+        }
+      });
+    };
+    $scope.importEnergyStorageContainer = function () {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'views/common/import.html',
+        controller: 'ModalImportCtrl',
+        windowClass: "animated fadeIn",
+        resolve: {
+          params: function () {
+            return {};
+          }
+        }
+      });
+
+      modalInstance.result.then(function (importdata) {
+        let headers = { 
+          "User-UUID": $scope.cur_user.uuid, 
+          "Token": $scope.cur_user.token 
+        };
+        EnergyStorageContainerService.importEnergyStorageContainer(importdata, headers, function (response) {
+          if (angular.isDefined(response.status) && response.status === 201) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {
+                template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")
+              }),
+              showCloseButton: true,
+            });
+            $scope.getAllEnergyStorageContainers();
+            $scope.$emit('handleEmitEnergyStorageContainerChanged');
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant("TOASTER.ERROR_ADD_BODY", {
+                template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")
+              }),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        });
+      }, function () {
+        // do nothing
+      });
+
+      $rootScope.modalInstance = modalInstance;
+    };
+
+    $scope.cloneEnergyStorageContainer = function(energystoragecontainer){
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EnergyStorageContainerService.cloneEnergyStorageContainer(energystoragecontainer, headers, function(response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
+					showCloseButton: true,
+				});
+				$scope.getAllEnergyStorageContainers();
+				$scope.$emit('handleEmitEnergyStorageContainerChanged');
+			}else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("COMMON.ENERGY_STORAGE_CONTAINER")}),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
+			}
+		});
+	};
 
     $scope.addEnergyStorageContainer = function () {
       var modalInstance = $uibModal.open({

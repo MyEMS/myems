@@ -137,7 +137,6 @@ app.controller('SVGController', function(
 							});
 							$scope.getAllSVGs();
           					$scope.$emit('handleEmitSVGChanged');
-							$window.location.reload();
 		            	} else {
 							toaster.pop({
 								type: "error",

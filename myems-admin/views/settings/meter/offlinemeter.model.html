@@ -54,20 +54,24 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_LOW_LIMIT' | translate}}</label>
                 <div class="col-sm-8">
-                    <input ng-model="offlinemeter.hourly_low_limit" type="number" name="offlinemeterhourlylowlimit" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$invalid && form_offlinemeter.offlinemeterhourlylowlimit.$dirty">
+                    <input ng-model="offlinemeter.hourly_low_limit" type="number" name="offlinemeterhourlylowlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }">
+                    <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.required">{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}</small>
-                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.max">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="offlinemeter.hourly_low_limit >= offlinemeter.hourly_high_limit">{{'METER.INVALID_RANGE_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</label>
                 <div class="col-sm-8">
-                    <input ng-model="offlinemeter.hourly_high_limit" type="number" name="offlinemeterhourlyhighlimit" class="form-control" required>
-                    <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$invalid && form_offlinemeter.offlinemeterhourlyhighlimit.$dirty">
+                    <input ng-model="offlinemeter.hourly_high_limit" type="number" name="offlinemeterhourlyhighlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }">
+                    <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.required">{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}</small>
-                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.max">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="offlinemeter.hourly_low_limit >= offlinemeter.hourly_high_limit">{{'METER.INVALID_RANGE_HINT' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -92,6 +96,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_offlinemeter.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_offlinemeter.$invalid || offlinemeter.hourly_low_limit >= offlinemeter.hourly_high_limit" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
