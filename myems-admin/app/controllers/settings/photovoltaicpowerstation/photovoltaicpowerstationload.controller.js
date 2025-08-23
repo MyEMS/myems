@@ -8,6 +8,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 	$uibModal,
 	PhotovoltaicPowerStationService,
 	PhotovoltaicPowerStationLoadService,
+	PhotovoltaicPowerStationDataSourceService,
 	PointService,
 	MeterService,
 	toaster,
@@ -29,16 +30,27 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   		});
   	};
 
-	$scope.getAllPoints = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		PointService.getAllPoints(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.points = response.data;
-			} else {
-				$scope.points = [];
-			}
-		});
-	};
+    $scope.getDataSourcesByPhotovoltaicPowerStationID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      PhotovoltaicPowerStationDataSourceService.getDataSourcesByPhotovoltaicPowerStationID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.datasources = response.data;
+        } else {
+          $scope.datasources = [];
+        }
+      });
+    };
+
+    $scope.getDataSourcePointsByPhotovoltaicPowerStationID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      PhotovoltaicPowerStationDataSourceService.getDataSourcePointsByPhotovoltaicPowerStationID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
 
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -66,6 +78,8 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
     	$scope.currentPhotovoltaicPowerStation.selected=model;
         $scope.is_show_add_photovoltaicpowerstation_load = true;
     	$scope.getPhotovoltaicPowerStationLoadsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+    	$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+        $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
   	};
 
   	$scope.addPhotovoltaicPowerStationLoad = function() {
@@ -176,6 +190,8 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   						showCloseButton: true,
   					});
   					$scope.getPhotovoltaicPowerStationLoadsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+  					$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+                    $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
             		$scope.$emit('handleEmitPhotovoltaicPowerStationLoadChanged');
   				} else {
   					toaster.pop({
@@ -298,6 +314,8 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   						showCloseButton: true,
   					});
   					$scope.getPhotovoltaicPowerStationLoadsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+  					$scope.getDataSourcesByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
+                    $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
             		$scope.$emit('handleEmitPhotovoltaicPowerStationLoadChanged');
   				} else {
   					toaster.pop({
@@ -352,8 +370,30 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   			});
   	};
 
+    $scope.bindPhotovoltaicPowerStationLoadPoint = function (load) {
+      var modalInstance = $uibModal.open({
+        templateUrl:
+          "views/settings/photovoltaicpowerstation/photovoltaicpowerstationloadpoint.model.html",
+        controller: "ModalBindPhotovoltaicPowerStationLoadCtrl",
+        windowClass: "animated fadeIn",
+        resolve: {
+          params: function () {
+            return {
+              user_uuid: $scope.cur_user.uuid,
+              token: $scope.cur_user.token,
+              photovoltaicpowerstationid: $scope.currentPhotovoltaicPowerStation.id,
+              photovoltaicpowerstationload: angular.copy(load),
+              meters: angular.copy($scope.meters),
+              datasources: angular.copy($scope.datasources),
+              points: angular.copy($scope.points),
+            };
+          },
+        },
+      });
+      $rootScope.modalInstance = modalInstance;
+    };
+
   	$scope.getAllPhotovoltaicPowerStations();
-	$scope.getAllPoints();
 	$scope.getAllMeters();
     $scope.$on('handleBroadcastPhotovoltaicPowerStationChanged', function(event) {
       $scope.getAllPhotovoltaicPowerStations();
@@ -389,3 +429,154 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   		$uibModalInstance.dismiss('cancel');
   	};
   });
+
+app.controller(
+  "ModalBindPhotovoltaicPowerStationLoadCtrl",
+  function (
+    $scope,
+    $uibModalInstance,
+    toaster,
+    $translate,
+    PhotovoltaicPowerStationLoadService,
+    PointService,
+    params
+  ) {
+    $scope.operation = "PHOTOVOLTAIC_POWER_STATION.EDIT_LOAD";
+    $scope.photovoltaicpowerstationid = params.photovoltaicpowerstationid;
+    $scope.photovoltaicpowerstationload = params.photovoltaicpowerstationload;
+    $scope.datasources = params.datasources;
+    $scope.boundpoints = [];
+
+    let headers = { "User-UUID": params.user_uuid, Token: params.token };
+    PhotovoltaicPowerStationLoadService.getPointsByLoadID(
+      $scope.photovoltaicpowerstationid,
+      $scope.photovoltaicpowerstationload.id,
+      headers,
+      function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.boundpoints = response.data;
+        } else {
+          $scope.boundpoints = [];
+        }
+      }
+    );
+
+    $scope.cancel = function () {
+      $uibModalInstance.dismiss("cancel");
+    };
+
+    $scope.changeDataSource = function (item, model) {
+      $scope.currentDataSource = model;
+      $scope.getPointsByDataSourceID($scope.currentDataSource);
+    };
+
+    $scope.getPointsByDataSourceID = function (id) {
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PointService.getPointsByDataSourceID(id, headers, function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
+
+    $scope.pairPoint = function (dragEl, dropEl) {
+      var pointid = angular.element("#" + dragEl).scope().point.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PhotovoltaicPowerStationLoadService.addPair(
+        params.photovoltaicpowerstationid,
+        params.photovoltaicpowerstationload.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 201) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            PhotovoltaicPowerStationLoadService.getPointsByLoadID(
+              params.photovoltaicpowerstationid,
+              params.photovoltaicpowerstationload.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+
+    $scope.deletePointPair = function (dragEl, dropEl) {
+      if (angular.element("#" + dragEl).hasClass("source")) {
+        return;
+      }
+
+      var pointid = angular.element("#" + dragEl).scope().boundpoint.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PhotovoltaicPowerStationLoadService.deletePair(
+        params.photovoltaicpowerstationid,
+        params.photovoltaicpowerstationload.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 204) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            PhotovoltaicPowerStationLoadService.getPointsByLoadID(
+              params.photovoltaicpowerstationid,
+              params.photovoltaicpowerstationload.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+  }
+);

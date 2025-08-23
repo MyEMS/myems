@@ -1145,7 +1145,7 @@ app.controller(
     PointService,
     params
   ) {
-    $scope.operation = "PHOTOVOLTAIC_POWER_STATION.EDIT_PHOTOVOLTAIC_POWER_STATION_INVERTOR";
+    $scope.operation = "PHOTOVOLTAIC_POWER_STATION.EDIT_INVERTOR";
     $scope.photovoltaicpowerstationid = params.photovoltaicpowerstationid;
     $scope.photovoltaicpowerstationinvertor = params.photovoltaicpowerstationinvertor;
     $scope.datasources = params.datasources;
@@ -1170,14 +1170,11 @@ app.controller(
     };
 
     $scope.changeDataSource = function (item, model) {
-      console.log("changeDataSource");
       $scope.currentDataSource = model;
-      console.log($scope.currentDataSource);
       $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-      console.log("getPointsByDataSourceID");
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
       PointService.getPointsByDataSourceID(id, headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {

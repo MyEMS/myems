@@ -247,13 +247,14 @@
 										<td class="text-center">{{ photovoltaicpowerstationgrid.capacity }}</td>
 										<td class="text-center">
 										  <a ng-click="editPhotovoltaicPowerStationGrid(photovoltaicpowerstationgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindPhotovoltaicPowerStationGridPoint(photovoltaicpowerstationgrid)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deletePhotovoltaicPowerStationGrid(photovoltaicpowerstationgrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
 									</tbody>
 									<tfoot class="hide-if-no-paging">
 										<tr>
-											<td colspan="6">
+											<td colspan="7">
 												<ul class="pagination pull-right"></ul>
 											</td>
 										</tr>
@@ -316,6 +317,7 @@
 												<td class="text-center">{{ photovoltaicpowerstationload.rated_input_power }}</td>
 												<td class="text-center">
 												<a ng-click="editPhotovoltaicPowerStationLoad(photovoltaicpowerstationload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+												<a ng-click="bindPhotovoltaicPowerStationLoadPoint(photovoltaicpowerstationload)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 												<a ng-click="deletePhotovoltaicPowerStationLoad(photovoltaicpowerstationload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 												</td>
 											</tr>
