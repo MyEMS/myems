@@ -208,16 +208,20 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   }, [meterList, cursor]);
 
   function getCursor(location) {
+    if (maxCursor <= 0) {
+      return 1;
+    }
+    
     switch (location) {
       default:
       case 1:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 3 : cursor;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 3 : cursor;
       case 2:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 2 : cursor + 1;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 2 : cursor + 1;
       case 3:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 1 : cursor + 2;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 1 : cursor + 2;
       case 4:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor : cursor + 3;
+        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor : cursor + 3;
     }
   }
 
