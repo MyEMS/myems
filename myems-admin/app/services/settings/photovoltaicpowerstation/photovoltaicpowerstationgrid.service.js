@@ -41,5 +41,39 @@ app.factory('PhotovoltaicPowerStationGridService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, gid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'photovoltaicpowerstations/'+id+'/grids/'+gid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, gid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'photovoltaicpowerstations/'+id+'/grids/'+gid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByGridID: function(id, gid, headers, callback) {
+            $http.get(
+                getAPI()+'photovoltaicpowerstations/'+id+'/grids/'+gid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

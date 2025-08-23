@@ -667,6 +667,14 @@ api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationInvertorItem())
 api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}/points',
               photovoltaicpowerstation.PhotovoltaicPowerStationInvertorPointCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/grids/{gid}/points',
+              photovoltaicpowerstation.PhotovoltaicPowerStationGridPointCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/grids/{gid}/points/{pid}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationGridPointItem())
+api.add_route('/photovoltaicpowerstations/{id_}/loads/{lid}/points',
+              photovoltaicpowerstation.PhotovoltaicPowerStationLoadPointCollection())
+api.add_route('/photovoltaicpowerstations/{id_}/loads/{lid}/points/{pid}',
+              photovoltaicpowerstation.PhotovoltaicPowerStationLoadPointItem())
 api.add_route('/photovoltaicpowerstations/{id_}/invertors/{iid}/points/{pid}',
               photovoltaicpowerstation.PhotovoltaicPowerStationInvertorPointItem())
 api.add_route('/photovoltaicpowerstations/{id_}/loads',
