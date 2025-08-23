@@ -41,5 +41,39 @@ app.factory('PhotovoltaicPowerStationLoadService', function($http) {
                 callback(response);
             });
         },
+        addPair: function(id, lid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'photovoltaicpowerstations/'+id+'/loads/'+lid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePair: function(id, lid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'photovoltaicpowerstations/'+id+'/loads/'+lid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByLoadID: function(id, lid, headers, callback) {
+            $http.get(
+                getAPI()+'photovoltaicpowerstations/'+id+'/loads/'+lid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });
