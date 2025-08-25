@@ -798,648 +798,648 @@ class PointItem:
                                    description=
                                    'API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
 
-            # check if this point is being used by equipments parameters
-            cursor.execute(" SELECT id "
-                           " FROM tbl_equipments_parameters "
-                           " WHERE point_id = %s "
-                           " LIMIT 1 ",
-                           (id_,))
-            row_equipments_parameters = cursor.fetchone()
-            if row_equipments_parameters is not None:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description=
-                                       'API.THERE_IS_RELATION_WITH_EQUIPMENTS_PARAMETERS')
+        # check if this point is being used by equipments parameters
+        cursor.execute(" SELECT id "
+                       " FROM tbl_equipments_parameters "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_equipments_parameters = cursor.fetchone()
+        if row_equipments_parameters is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_EQUIPMENTS_PARAMETERS')
 
-                # check if this point is being used by fuel integrators
-                cursor.execute(" SELECT id "
-                               " FROM tbl_fuel_integrators "
-                               " WHERE power_point_id = %s "
-                               "OR result_point_id=%s"
-                               " LIMIT 1 ",
-                               (id_,))
-                row_fuel_integrators = cursor.fetchone()
-                if row_fuel_integrators is not None:
-                    cursor.close()
-                    cnx.close()
-                    raise falcon.HTTPError(status=falcon.HTTP_400,
-                                           title='API.BAD_REQUEST',
-                                           description=
-                                           'API.THERE_IS_RELATION_WITH_FUEL_INTEGRATORS')
+        # check if this point is being used by fuel integrators
+        cursor.execute(" SELECT id "
+                       " FROM tbl_fuel_integrators "
+                       " WHERE power_point_id = %s "
+                       "OR result_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_fuel_integrators = cursor.fetchone()
+        if row_fuel_integrators is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_FUEL_INTEGRATORS')
 
-                    # check if this point is being used by heat integrators
-                    cursor.execute(" SELECT id "
-                                   " FROM tbl_heat_integrators "
-                                   " WHERE high_temperature_point_id = %s "
-                                   "OR low_temperature_point_id=%s"
-                                   "OR flow_point_id=%s"
-                                   "OR result_point_id=%s"
-                                   " LIMIT 1 ",
-                                   (id_,))
-                    row_heat_integrators = cursor.fetchone()
-                    if row_heat_integrators is not None:
-                        cursor.close()
-                        cnx.close()
-                        raise falcon.HTTPError(status=falcon.HTTP_400,
-                                               title='API.BAD_REQUEST',
-                                               description=
-                                               'API.THERE_IS_RELATION_WITH_HEAT_INTEGRATORS')
+        # check if this point is being used by heat integrators
+        cursor.execute(" SELECT id "
+                       " FROM tbl_heat_integrators "
+                       " WHERE high_temperature_point_id = %s "
+                       "OR low_temperature_point_id=%s"
+                       "OR flow_point_id=%s"
+                       "OR result_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_heat_integrators = cursor.fetchone()
+        if row_heat_integrators is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_HEAT_INTEGRATORS')
 
-                    # check if this point is being used by meters points
-                    cursor.execute(" SELECT id "
-                                   " FROM tbl_meters_points "
-                                   " WHERE point_id = %s "
-                                   " LIMIT 1 ",
-                                   (id_,))
-                    row_meters_points = cursor.fetchone()
-                    if row_meters_points is not None:
-                        cursor.close()
-                        cnx.close()
-                        raise falcon.HTTPError(status=falcon.HTTP_400,
-                                               title='API.BAD_REQUEST',
-                                               description=
-                                               'API.THERE_IS_RELATION_WITH_METERS_POINTS')
+        # check if this point is being used by meters points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_meters_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_meters_points = cursor.fetchone()
+        if row_meters_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_METERS_POINTS')
 
-                        # check if this point is being used by microgrids
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids "
-                                       " WHERE latitude_point_id = %s "
-                                       "OR longitude_point_id=%s"
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids = cursor.fetchone()
-                        if row_microgrids is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS')
+        # check if this point is being used by microgrids
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids "
+                       " WHERE latitude_point_id = %s "
+                       "OR longitude_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids = cursor.fetchone()
+        if row_microgrids is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-                        # check if this point is being used by microgrids batteries
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_batteries "
-                                       " WHERE battery_state_point_id = %s "
-                                       "OR soc_point_id=%s"
-                                       "OR power_point_id=%s"
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_batteries = cursor.fetchone()
-                        if row_microgrids_batteries is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES')
+        # check if this point is being used by microgrids batteries
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_batteries "
+                       " WHERE battery_state_point_id = %s "
+                       "OR soc_point_id=%s"
+                       "OR power_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_batteries = cursor.fetchone()
+        if row_microgrids_batteries is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES')
 
-                        # check if this point is being used by microgrids bmses points
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_bmses_points "
-                                       " WHERE point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_bmses_points = cursor.fetchone()
-                        if row_microgrids_bmses_points is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_BMSES_POINTS')
+        # check if this point is being used by microgrids bmses points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_bmses_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_bmses_points = cursor.fetchone()
+        if row_microgrids_bmses_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_BMSES_POINTS')
 
-                        # check if this point is being used by microgrids power conversion systems
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_power_conversion_systems "
-                                       " WHERE run_state_point_id = %s "
-                                       "OR today_charge_energy_point_id=%s"
-                                       "OR today_discharge_energy_point_id=%s"
-                                       "OR total_charge_energy_point_id=%s"
-                                       "OR total_discharge_energy_point_id=%s"
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_power_conversion_systems = cursor.fetchone()
-                        if row_microgrids_power_conversion_systems is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS')
+        # check if this point is being used by microgrids power conversion systems
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_power_conversion_systems "
+                       " WHERE run_state_point_id = %s "
+                       "OR today_charge_energy_point_id=%s"
+                       "OR today_discharge_energy_point_id=%s"
+                       "OR total_charge_energy_point_id=%s"
+                       "OR total_discharge_energy_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_power_conversion_systems = cursor.fetchone()
+        if row_microgrids_power_conversion_systems is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS')
 
-                        # check if this point is being used by microgrids pcses points
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_pcses_points "
-                                       " WHERE point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_pcses_points = cursor.fetchone()
-                        if row_microgrids_pcses_points is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_PCSES_POINTS')
+        # check if this point is being used by microgrids pcses points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_pcses_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_pcses_points = cursor.fetchone()
+        if row_microgrids_pcses_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_PCSES_POINTS')
 
-                        # check if this point is being used by microgrids evchargers
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_evchargers "
-                                       " WHERE power_point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_evchargers = cursor.fetchone()
-                        if row_microgrids_evchargers is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS')
+        # check if this point is being used by microgrids evchargers
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_evchargers "
+                       " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_evchargers = cursor.fetchone()
+        if row_microgrids_evchargers is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS')
 
-                        # check if this point is being used by microgrids evchargers points
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_evchargers_points "
-                                       " WHERE point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_evchargers_points = cursor.fetchone()
-                        if row_microgrids_evchargers_points is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS_POINTS')
+        # check if this point is being used by microgrids evchargers points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_evchargers_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_evchargers_points = cursor.fetchone()
+        if row_microgrids_evchargers_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS_POINTS')
 
-                        # check if this point is being used by microgrids generators
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_generators "
-                                       " WHERE power_point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_generators = cursor.fetchone()
-                        if row_microgrids_generators is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GENERATORS')
+        # check if this point is being used by microgrids generators
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_generators "
+                       " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_generators = cursor.fetchone()
+        if row_microgrids_generators is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GENERATORS')
 
-                        # check if this point is being used by microgrids generators points
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_generators_points "
-                                       " WHERE point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_generators_points = cursor.fetchone()
-                        if row_microgrids_generators_points is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GENERATORS_POINTS')
+        # check if this point is being used by microgrids generators points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_generators_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_generators_points = cursor.fetchone()
+        if row_microgrids_generators_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GENERATORS_POINTS')
 
-                        # check if this point is being used by microgrids grids
-                        cursor.execute(" SELECT id "
-                                       " FROM tbl_microgrids_grids "
-                                       " WHERE point_id = %s "
-                                       " LIMIT 1 ",
-                                       (id_,))
-                        row_microgrids_generators_points = cursor.fetchone()
-                        if row_microgrids_generators_points is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.BAD_REQUEST',
-                                                   description=
-                                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GRIDS')
+        # check if this point is being used by microgrids grids
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_grids "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_generators_points = cursor.fetchone()
+        if row_microgrids_generators_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GRIDS')
 
-                            # check if this point is being used by microgrids grids points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_grids_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_grids_points = cursor.fetchone()
-                            if row_microgrids_grids_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_GRIDS_POINTS')
+        # check if this point is being used by microgrids grids points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_grids_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_grids_points = cursor.fetchone()
+        if row_microgrids_grids_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_GRIDS_POINTS')
 
-                            # check if this point is being used by microgrids heatpumps
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_heatpumps "
-                                           " WHERE power_point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_heatpumps = cursor.fetchone()
-                            if row_microgrids_heatpumps is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS')
+        # check if this point is being used by microgrids heatpumps
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_heatpumps "
+                       " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_heatpumps = cursor.fetchone()
+        if row_microgrids_heatpumps is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS')
 
-                            # check if this point is being used by microgrids heatpumps points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_heatpumps_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_heatpumps_points = cursor.fetchone()
-                            if row_microgrids_heatpumps_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS_POINTS')
+        # check if this point is being used by microgrids heatpumps points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_heatpumps_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_heatpumps_points = cursor.fetchone()
+        if row_microgrids_heatpumps_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS_POINTS')
 
-                            # check if this point is being used by microgrids loads
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_loads "
-                                           " WHERE power_point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_loads = cursor.fetchone()
-                            if row_microgrids_loads is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_LOADS')
+        # check if this point is being used by microgrids loads
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_loads "
+                       " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_loads = cursor.fetchone()
+        if row_microgrids_loads is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_LOADS')
 
-                            # check if this point is being used by microgrids loads points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_loads_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_loads_points = cursor.fetchone()
-                            if row_microgrids_loads_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_LOADS_POINTS')
+        # check if this point is being used by microgrids loads points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_loads_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_loads_points = cursor.fetchone()
+        if row_microgrids_loads_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_LOADS_POINTS')
 
-                            # check if this point is being used by microgrids photovoltaics
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_photovoltaics "
-                                           " WHERE power_point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_photovoltaics = cursor.fetchone()
-                            if row_microgrids_photovoltaics is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_PHOTOVOLTAICS')
+        # check if this point is being used by microgrids photovoltaics
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_photovoltaics "
+                       " WHERE power_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_photovoltaics = cursor.fetchone()
+        if row_microgrids_photovoltaics is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_PHOTOVOLTAICS')
 
-                            # check if this point is being used by microgrids pvs points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_microgrids_pvs_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_microgrids_pvs_points = cursor.fetchone()
-                            if row_microgrids_pvs_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_MICROGRIDS_PVS_POINTS')
+        # check if this point is being used by microgrids pvs points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_microgrids_pvs_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_microgrids_pvs_points = cursor.fetchone()
+        if row_microgrids_pvs_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_MICROGRIDS_PVS_POINTS')
 
-                            # check if this point is being used by photovoltaic power stations
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_photovoltaic_power_stations "
-                                           " WHERE latitude_point_id = %s "
-                                           "OR longitude_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_photovoltaic_power_stations = cursor.fetchone()
-                            if row_photovoltaic_power_stations is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
+        # check if this point is being used by photovoltaic power stations
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_power_stations "
+                       " WHERE latitude_point_id = %s "
+                       "OR longitude_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_photovoltaic_power_stations = cursor.fetchone()
+        if row_photovoltaic_power_stations is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
 
-                            # check if this point is being used by photovoltaic power stations grids
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_photovoltaic_power_stations_grids "
-                                           " WHERE power_point_id = %s "
-                                           "OR active_power_a_point_id=%s"
-                                           "OR active_power_b_point_id=%s"
-                                           "OR active_power_c_point_id=%s"
-                                           "OR total_reactive_power_point_id=%s"
-                                           "OR reactive_power_a_point_id=%s"
-                                           "OR reactive_power_b_point_id=%s"
-                                           "OR reactive_power_c_point_id=%s"
-                                           "OR total_apparent_power_point_id=%s"
-                                           "OR apparent_power_a_point_id=%s"
-                                           "OR apparent_power_b_point_id=%s"
-                                           "OR apparent_power_c_point_id=%s"
-                                           "OR total_power_factor_point_id=%s"
-                                           "OR active_energy_import_point_id=%s"
-                                           "OR active_energy_export_point_id=%s"
-                                           "OR active_energy_net_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_photovoltaic_power_stations_grids = cursor.fetchone()
-                            if row_photovoltaic_power_stations_grids is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS')
+        # check if this point is being used by photovoltaic power stations grids
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_power_stations_grids "
+                       " WHERE power_point_id = %s "
+                       "OR active_power_a_point_id=%s"
+                       "OR active_power_b_point_id=%s"
+                       "OR active_power_c_point_id=%s"
+                       "OR total_reactive_power_point_id=%s"
+                       "OR reactive_power_a_point_id=%s"
+                       "OR reactive_power_b_point_id=%s"
+                       "OR reactive_power_c_point_id=%s"
+                       "OR total_apparent_power_point_id=%s"
+                       "OR apparent_power_a_point_id=%s"
+                       "OR apparent_power_b_point_id=%s"
+                       "OR apparent_power_c_point_id=%s"
+                       "OR total_power_factor_point_id=%s"
+                       "OR active_energy_import_point_id=%s"
+                       "OR active_energy_export_point_id=%s"
+                       "OR active_energy_net_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_photovoltaic_power_stations_grids = cursor.fetchone()
+        if row_photovoltaic_power_stations_grids is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS')
 
-                            # check if this point is being used by photovoltaic power stations invertors
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_photovoltaic_power_stations_invertors "
-                                           " WHERE invertor_state_point_id = %s "
-                                           "OR communication_state_point_id=%s"
-                                           "OR total_energy_point_id=%s"
-                                           "OR today_energy_point_id=%s"
-                                           "OR efficiency_point_id=%s"
-                                           "OR temperature_point_id=%s"
-                                           "OR power_factor_point_id=%s"
-                                           "OR active_power_point_id=%s"
-                                           "OR reactive_power_point_id=%s"
-                                           "OR frequency_point_id=%s"
-                                           "OR uab_point_id=%s"
-                                           "OR ubc_point_id=%s"
-                                           "OR uca_point_id=%s"
-                                           "OR ua_point_id=%s"
-                                           "OR ub_point_id=%s"
-                                           "OR uc_point_id=%s"
-                                           "OR ia_point_id=%s"
-                                           "OR ib_point_id=%s"
-                                           "OR ic_point_id=%s"
-                                           "OR pv1_u_point_id=%s"
-                                           "OR pv1_i_point_id=%s"
-                                           "OR pv2_u_point_id=%s"
-                                           "OR pv2_i_point_id=%s"
-                                           "OR pv3_u_point_id=%s"
-                                           "OR pv3_i_point_id=%s"
-                                           "OR pv4_u_point_id=%s"
-                                           "OR pv4_i_point_id=%s"
-                                           "OR pv5_u_point_id=%s"
-                                           "OR pv5_i_point_id=%s"
-                                           "OR pv6_u_point_id=%s"
-                                           "OR pv6_i_point_id=%s"
-                                           "OR pv7_u_point_id=%s"
-                                           "OR pv7_i_point_id=%s"
-                                           "OR pv8_u_point_id=%s"
-                                           "OR pv8_i_point_id=%s"
-                                           "OR pv9_u_point_id=%s"
-                                           "OR pv9_i_point_id=%s"
-                                           "OR pv10_u_point_id=%s"
-                                           "OR pv10_i_point_id=%s"
-                                           "OR pv11_u_point_id=%s"
-                                           "OR pv11_i_point_id=%s"
-                                           "OR pv12_u_point_id=%s"
-                                           "OR pv12_i_point_id=%s"
-                                           "OR pv13_u_point_id=%s"
-                                           "OR pv13_i_point_id=%s"
-                                           "OR pv14_u_point_id=%s"
-                                           "OR pv14_i_point_id=%s"
-                                           "OR pv15_u_point_id=%s"
-                                           "OR pv15_i_point_id=%s"
-                                           "OR pv16_u_point_id=%s"
-                                           "OR pv16_i_point_id=%s"
-                                           "OR pv17_u_point_id=%s"
-                                           "OR pv17_i_point_id=%s"
-                                           "OR pv18_u_point_id=%s"
-                                           "OR pv18_i_point_id=%s"
-                                           "OR pv19_u_point_id=%s"
-                                           "OR pv19_i_point_id=%s"
-                                           "OR pv20_u_point_id=%s"
-                                           "OR pv20_i_point_id=%s"
-                                           "OR pv21_u_point_id=%s"
-                                           "OR pv21_i_point_id=%s"
-                                           "OR pv22_u_point_id=%s"
-                                           "OR pv22_i_point_id=%s"
-                                           "OR pv23_u_point_id=%s"
-                                           "OR pv23_i_point_id=%s"
-                                           "OR pv24_u_point_id=%s"
-                                           "OR pv24_i_point_id=%s"
-                                           "OR pv25_u_point_id=%s"
-                                           "OR pv25_i_point_id=%s"
-                                           "OR pv26_u_point_id=%s"
-                                           "OR pv26_i_point_id=%s"
-                                           "OR pv27_u_point_id=%s"
-                                           "OR pv27_i_point_id=%s"
-                                           "OR pv28_u_point_id=%s"
-                                           "OR pv28_i_point_id=%s"
-                                           "OR mppt_total_energy_point_id=%s"
-                                           "OR mppt_power_point_id=%s"
-                                           "OR mppt_1_energy_point_id=%s"
-                                           "OR mppt_2_energy_point_id=%s"
-                                           "OR mppt_3_energy_point_id=%s"
-                                           "OR mppt_4_energy_point_id=%s"
-                                           "OR mppt_5_energy_point_id=%s"
-                                           "OR mppt_6_energy_point_id=%s"
-                                           "OR mppt_7_energy_point_id=%s"
-                                           "OR mppt_8_energy_point_id=%s"
-                                           "OR mppt_9_energy_point_id=%s"
-                                           "OR mppt_10_energy_point_id=%s"
-                                           "OR startup_time_point_id=%s"
-                                           "OR shutdown_time_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_photovoltaic_power_stations_invertors = cursor.fetchone()
-                            if row_photovoltaic_power_stations_invertors is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS')
+        # check if this point is being used by photovoltaic power stations invertors
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_power_stations_invertors "
+                       " WHERE invertor_state_point_id = %s "
+                       "OR communication_state_point_id=%s"
+                       "OR total_energy_point_id=%s"
+                       "OR today_energy_point_id=%s"
+                       "OR efficiency_point_id=%s"
+                       "OR temperature_point_id=%s"
+                       "OR power_factor_point_id=%s"
+                       "OR active_power_point_id=%s"
+                       "OR reactive_power_point_id=%s"
+                       "OR frequency_point_id=%s"
+                       "OR uab_point_id=%s"
+                       "OR ubc_point_id=%s"
+                       "OR uca_point_id=%s"
+                       "OR ua_point_id=%s"
+                       "OR ub_point_id=%s"
+                       "OR uc_point_id=%s"
+                       "OR ia_point_id=%s"
+                       "OR ib_point_id=%s"
+                       "OR ic_point_id=%s"
+                       "OR pv1_u_point_id=%s"
+                       "OR pv1_i_point_id=%s"
+                       "OR pv2_u_point_id=%s"
+                       "OR pv2_i_point_id=%s"
+                       "OR pv3_u_point_id=%s"
+                       "OR pv3_i_point_id=%s"
+                       "OR pv4_u_point_id=%s"
+                       "OR pv4_i_point_id=%s"
+                       "OR pv5_u_point_id=%s"
+                       "OR pv5_i_point_id=%s"
+                       "OR pv6_u_point_id=%s"
+                       "OR pv6_i_point_id=%s"
+                       "OR pv7_u_point_id=%s"
+                       "OR pv7_i_point_id=%s"
+                       "OR pv8_u_point_id=%s"
+                       "OR pv8_i_point_id=%s"
+                       "OR pv9_u_point_id=%s"
+                       "OR pv9_i_point_id=%s"
+                       "OR pv10_u_point_id=%s"
+                       "OR pv10_i_point_id=%s"
+                       "OR pv11_u_point_id=%s"
+                       "OR pv11_i_point_id=%s"
+                       "OR pv12_u_point_id=%s"
+                       "OR pv12_i_point_id=%s"
+                       "OR pv13_u_point_id=%s"
+                       "OR pv13_i_point_id=%s"
+                       "OR pv14_u_point_id=%s"
+                       "OR pv14_i_point_id=%s"
+                       "OR pv15_u_point_id=%s"
+                       "OR pv15_i_point_id=%s"
+                       "OR pv16_u_point_id=%s"
+                       "OR pv16_i_point_id=%s"
+                       "OR pv17_u_point_id=%s"
+                       "OR pv17_i_point_id=%s"
+                       "OR pv18_u_point_id=%s"
+                       "OR pv18_i_point_id=%s"
+                       "OR pv19_u_point_id=%s"
+                       "OR pv19_i_point_id=%s"
+                       "OR pv20_u_point_id=%s"
+                       "OR pv20_i_point_id=%s"
+                       "OR pv21_u_point_id=%s"
+                       "OR pv21_i_point_id=%s"
+                       "OR pv22_u_point_id=%s"
+                       "OR pv22_i_point_id=%s"
+                       "OR pv23_u_point_id=%s"
+                       "OR pv23_i_point_id=%s"
+                       "OR pv24_u_point_id=%s"
+                       "OR pv24_i_point_id=%s"
+                       "OR pv25_u_point_id=%s"
+                       "OR pv25_i_point_id=%s"
+                       "OR pv26_u_point_id=%s"
+                       "OR pv26_i_point_id=%s"
+                       "OR pv27_u_point_id=%s"
+                       "OR pv27_i_point_id=%s"
+                       "OR pv28_u_point_id=%s"
+                       "OR pv28_i_point_id=%s"
+                       "OR mppt_total_energy_point_id=%s"
+                       "OR mppt_power_point_id=%s"
+                       "OR mppt_1_energy_point_id=%s"
+                       "OR mppt_2_energy_point_id=%s"
+                       "OR mppt_3_energy_point_id=%s"
+                       "OR mppt_4_energy_point_id=%s"
+                       "OR mppt_5_energy_point_id=%s"
+                       "OR mppt_6_energy_point_id=%s"
+                       "OR mppt_7_energy_point_id=%s"
+                       "OR mppt_8_energy_point_id=%s"
+                       "OR mppt_9_energy_point_id=%s"
+                       "OR mppt_10_energy_point_id=%s"
+                       "OR startup_time_point_id=%s"
+                       "OR shutdown_time_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_photovoltaic_power_stations_invertors = cursor.fetchone()
+        if row_photovoltaic_power_stations_invertors is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS')
 
-                            # check if this point is being used by photovoltaic power stations loads
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_photovoltaic_power_stations_loads "
-                                           " WHERE power_point_id = %s "
-                                           "OR total_active_power_point_id=%s"
-                                           "OR active_power_a_point_id=%s"
-                                           "OR active_power_b_point_id=%s"
-                                           "OR active_power_c_point_id=%s"
-                                           "OR total_reactive_power_point_id=%s"
-                                           "OR reactive_power_a_point_id=%s"
-                                           "OR reactive_power_b_point_id=%s"
-                                           "OR reactive_power_c_point_id=%s"
-                                           "OR total_apparent_power_point_id=%s"
-                                           "OR apparent_power_a_point_id=%s"
-                                           "OR apparent_power_b_point_id=%s"
-                                           "OR apparent_power_c_point_id=%s"
-                                           "OR total_power_factor_point_id=%s"
-                                           "OR active_energy_import_point_id=%s"
-                                           "OR active_energy_export_point_id=%s"
-                                           "OR active_energy_net_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_photovoltaic_power_stations_loads = cursor.fetchone()
-                            if row_photovoltaic_power_stations_loads is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS')
+        # check if this point is being used by photovoltaic power stations loads
+        cursor.execute(" SELECT id "
+                       " FROM tbl_photovoltaic_power_stations_loads "
+                       " WHERE power_point_id = %s "
+                       "OR total_active_power_point_id=%s"
+                       "OR active_power_a_point_id=%s"
+                       "OR active_power_b_point_id=%s"
+                       "OR active_power_c_point_id=%s"
+                       "OR total_reactive_power_point_id=%s"
+                       "OR reactive_power_a_point_id=%s"
+                       "OR reactive_power_b_point_id=%s"
+                       "OR reactive_power_c_point_id=%s"
+                       "OR total_apparent_power_point_id=%s"
+                       "OR apparent_power_a_point_id=%s"
+                       "OR apparent_power_b_point_id=%s"
+                       "OR apparent_power_c_point_id=%s"
+                       "OR total_power_factor_point_id=%s"
+                       "OR active_energy_import_point_id=%s"
+                       "OR active_energy_export_point_id=%s"
+                       "OR active_energy_net_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_photovoltaic_power_stations_loads = cursor.fetchone()
+        if row_photovoltaic_power_stations_loads is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS')
 
-                            # check if this point is being used by power integrators
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_power_integrators "
-                                           " WHERE power_point_id = %s "
-                                           "OR result_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_power_integrators = cursor.fetchone()
-                            if row_power_integrators is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_POWER_INTEGRATORS')
+        # check if this point is being used by power integrators
+        cursor.execute(" SELECT id "
+                       " FROM tbl_power_integrators "
+                       " WHERE power_point_id = %s "
+                       "OR result_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_power_integrators = cursor.fetchone()
+        if row_power_integrators is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_POWER_INTEGRATORS')
 
-                            # check if this point is being used by sensors points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_sensors_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_sensors_points = cursor.fetchone()
-                            if row_sensors_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_SENSORS_POINTS')
+        # check if this point is being used by sensors points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_sensors_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_sensors_points = cursor.fetchone()
+        if row_sensors_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_SENSORS_POINTS')
 
-                            # check if this point is being used by shopfloors points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_shopfloors_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_shopfloors_points = cursor.fetchone()
-                            if row_shopfloors_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_SHOPFLOORS_POINTS')
+        # check if this point is being used by shopfloors points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_shopfloors_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_shopfloors_points = cursor.fetchone()
+        if row_shopfloors_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_SHOPFLOORS_POINTS')
 
-                            # check if this point is being used by spaces points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_spaces_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_spaces_points = cursor.fetchone()
-                            if row_spaces_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_SPACES_POINTS')
+        # check if this point is being used by spaces points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_spaces_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_spaces_points = cursor.fetchone()
+        if row_spaces_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_SPACES_POINTS')
 
-                            # check if this point is being used by stores points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_stores_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_stores_points = cursor.fetchone()
-                            if row_stores_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_STORES_POINTS')
+        # check if this point is being used by stores points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_stores_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_stores_points = cursor.fetchone()
+        if row_stores_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_STORES_POINTS')
 
-                            # check if this point is being used by tenants points
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_tenants_points "
-                                           " WHERE point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_tenants_points = cursor.fetchone()
-                            if row_tenants_points is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_TENANTS_POINTS')
+        # check if this point is being used by tenants points
+        cursor.execute(" SELECT id "
+                       " FROM tbl_tenants_points "
+                       " WHERE point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_tenants_points = cursor.fetchone()
+        if row_tenants_points is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_TENANTS_POINTS')
 
-                            # check if this point is being used by virtual power plants
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_virtual_power_plants "
-                                           " WHERE balancing_price_point_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_virtual_power_plants = cursor.fetchone()
-                            if row_virtual_power_plants is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
+        # check if this point is being used by virtual power plants
+        cursor.execute(" SELECT id "
+                       " FROM tbl_virtual_power_plants "
+                       " WHERE balancing_price_point_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_virtual_power_plants = cursor.fetchone()
+        if row_virtual_power_plants is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
 
-                            # check if this point is being used by virtual power plants microgrids
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_virtual_power_plants_microgrids "
-                                           " WHERE virtual_power_plant_id = %s "
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_virtual_power_plants_microgrids = cursor.fetchone()
-                            if row_virtual_power_plants_microgrids is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS')
+        # check if this point is being used by virtual power plants microgrids
+        cursor.execute(" SELECT id "
+                       " FROM tbl_virtual_power_plants_microgrids "
+                       " WHERE virtual_power_plant_id = %s "
+                       " LIMIT 1 ",
+                       (id_,))
+        row_virtual_power_plants_microgrids = cursor.fetchone()
+        if row_virtual_power_plants_microgrids is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS')
 
-                            # check if this point is being used by wind farms
-                            cursor.execute(" SELECT id "
-                                           " FROM tbl_wind_farms "
-                                           " WHERE latitude_point_id = %s "
-                                           "OR longitude_point_id=%s"
-                                           " LIMIT 1 ",
-                                           (id_,))
-                            row_wind_farms = cursor.fetchone()
-                            if row_wind_farms is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                       title='API.BAD_REQUEST',
-                                                       description=
-                                                       'API.THERE_IS_RELATION_WITH_WIND_FARMS')
+        # check if this point is being used by wind farms
+        cursor.execute(" SELECT id "
+                       " FROM tbl_wind_farms "
+                       " WHERE latitude_point_id = %s "
+                       "OR longitude_point_id=%s"
+                       " LIMIT 1 ",
+                       (id_,))
+        row_wind_farms = cursor.fetchone()
+        if row_wind_farms is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description=
+                                   'API.THERE_IS_RELATION_WITH_WIND_FARMS')
         cursor.execute(" DELETE FROM tbl_points WHERE id = %s ", (id_,))
         cnx.commit()
 
