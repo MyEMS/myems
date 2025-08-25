@@ -14,6 +14,7 @@ import leftArrowFromLeft from '../../assets/img/icons/left-arrow-from-left.svg';
 import arrowsH from '../../assets/img/icons/arrows-h.svg';
 import paragraph from '../../assets/img/icons/paragraph.svg';
 import settings from '../../assets/img/illustrations/settings.png';
+import QRcode from '../../assets/img/generic/QRcode.png';
 import Flex from '../common/Flex';
 import ScrollBarCustom from '../common/ScrollBarCustom';
 import { createCookie, getCookieValue, getPageName } from '../../helpers/utils';
@@ -245,7 +246,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         </div>
         <hr />
         <div className="text-center mt-5">
-          <img src={settings} alt="settings" width={120} className="mb-4" />
+          <img src={QRcode} alt="settings" width={120} className="mb-4" />
           <h5>{t('Like What You See?')}</h5>
           <p className="fs--1">{t('Get MyEMS now.')}</p>
           <Button color="primary" href="https://myems.io/docs/enterprise">
