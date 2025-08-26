@@ -159,7 +159,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="verticalNav-radio"
-              label="Vertical"
+              label={t('Vertical')}
               name="NavBarPositionRadioButton"
               checked={!isCombo && isVertical}
               onChange={({ target }) => {
@@ -172,7 +172,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="topNav-radio"
-              label="Top"
+              label={t('Top')}
               name="NavBarPositionRadioButton"
               checked={!isCombo && isTopNav}
               onChange={({ target }) => {
@@ -185,7 +185,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="combo-radio"
-              label="Combo"
+              label={t('Combo')}
               name="NavBarPositionRadioButton"
               checked={isCombo}
               onChange={({ target }) => {
