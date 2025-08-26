@@ -202,12 +202,12 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         <p className="fs--1">{t('Switch between styles for your vertical navbar')}</p>
         <div className="btn-group-toggle btn-block btn-group-navbar-style">
           <ButtonGroup className="btn-block">
-            <VerticalNavRadioBtn img={transparent} btnName={t('transparent')} />
-            <VerticalNavRadioBtn img={invertedImg} btnName={t('inverted')} />
+            <VerticalNavRadioBtn img={transparent} btnName={t('Transparent')} />
+            <VerticalNavRadioBtn img={invertedImg} btnName={t('Inverted')} />
           </ButtonGroup>
           <ButtonGroup className="btn-block mt-3">
-            <VerticalNavRadioBtn img={card} btnName={t('card')} />
-            <VerticalNavRadioBtn img={vibrant} btnName={t('vibrant')} />
+            <VerticalNavRadioBtn img={card} btnName={t('Card')} />
+            <VerticalNavRadioBtn img={vibrant} btnName={t('Vibrant')} />
           </ButtonGroup>
         </div>
         <hr />
