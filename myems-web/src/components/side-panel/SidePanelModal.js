@@ -151,9 +151,6 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
           <Media body>
             <Flex align="center" tag="h5" className="fs-0">
               {t('Navigation Position')}
-              {t('Vertical')}
-              {t('Top')}
-              {t('Combo')}
               <Badge color="success" pill className="badge-soft-success fs--2 ml-2">
                 New
               </Badge>
@@ -162,7 +159,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="verticalNav-radio"
-              label="Vertical"
+              label={t('Vertical')}
               name="NavBarPositionRadioButton"
               checked={!isCombo && isVertical}
               onChange={({ target }) => {
@@ -175,7 +172,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="topNav-radio"
-              label="Top"
+              label={t('Top')}
               name="NavBarPositionRadioButton"
               checked={!isCombo && isTopNav}
               onChange={({ target }) => {
@@ -188,7 +185,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             <CustomInput
               type="radio"
               id="combo-radio"
-              label="Combo"
+              label={t('Combo')}
               name="NavBarPositionRadioButton"
               checked={isCombo}
               onChange={({ target }) => {
