@@ -316,6 +316,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'The time settings of the rates should cover a full 24-hour period',
 				TIME_PERIOD_OVERLAP_ERROR: 'Only one control operation is allowed in the same time period',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'The time settings for the control mode should cover a full 24-hour period',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'The scheduling time settings should cover a full 24-hour period',
 
 
                 IS_ACTIVE: 'Is Active',
@@ -2282,6 +2283,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: '费率的时间设置应覆盖完整24小时',
 				TIME_PERIOD_OVERLAP_ERROR: '同一时段只允许有一种控制操作',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的时间设置应覆盖完整24小时',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: '调度时间的设置应覆盖完整24小时',
 
                 IS_ACTIVE: '是否开启',
                 START_TIME: '开始时间',
@@ -4246,6 +4248,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellung der Tarife sollte einen vollen 24-Stunden-Zeitraum abdecken',
 				TIME_PERIOD_OVERLAP_ERROR: 'Im selben Zeitraum ist nur eine Steuerungsoperation erlaubt',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellungen des Steuerungsmodus müssen einen vollständigen 24-Stunden-Zeitraum abdecken',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Die Zeiteinstellungen für den Zeitplan müssen einen vollständigen 24-Stunden-Zeitraum abdecken',
 
 
                 IS_ACTIVE: 'Is Active',
@@ -6205,6 +6208,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle des tarifs doit couvrir une période complète de 24 heures',
 				TIME_PERIOD_OVERLAP_ERROR: 'Une seule opération de contrôle est autorisée dans la même période',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuration temporelle du mode de contrôle doit couvrir une période complète de 24 heures',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'La configuration horaire de planification doit couvrir une période complète de 24 heures',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -8167,6 +8171,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'La configuración horaria de las tarifas debe cubrir un período completo de 24 horas',
 				TIME_PERIOD_OVERLAP_ERROR: 'Solo se permite una operación de control en el mismo período',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'La configuración horaria del modo de control debe abarcar un ciclo completo de 24 horas',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'La configuración de tiempo de programación debe cubrir un ciclo completo de 24 horas',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -10128,6 +10133,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Временные настройки тарифов должны охватывать полные 24 часа',
 				TIME_PERIOD_OVERLAP_ERROR: 'В один и тот же период времени разрешена только одна операция управления',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Временные настройки режима управления должны охватывать полные 24 часа',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Настройки времени расписания должны охватывать полные 24 часа',
 
 
                 IS_ACTIVE: 'Is Active',
@@ -12090,6 +12096,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية للتعريفات 24 ساعة كاملة',
 				TIME_PERIOD_OVERLAP_ERROR: 'يُسمح بعملية تحكم واحدة فقط في نفس الفترة الزمنية',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي الإعدادات الزمنية لوضع التحكم 24 ساعة كاملة',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'يجب أن تغطي إعدادات وقت الجدولة 24 ساعة كاملة',
 
 
                 IS_ACTIVE: 'Is Active',
@@ -14052,6 +14059,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian biểu phí nên bao phủ đủ 24 giờ',
 				TIME_PERIOD_OVERLAP_ERROR: 'Chỉ cho phép một thao tác điều khiển trong cùng một khoảng thời gian',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian chế độ điều khiển phải bao phủ trọn vẹn 24 giờ',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Thiết lập thời gian lịch trình phải bao phủ trọn vẹn 24 giờ',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -16012,6 +16020,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของอัตราค่าใช้จ่ายควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
 				TIME_PERIOD_OVERLAP_ERROR: 'อนุญาตให้มีการดำเนินการควบคุมเพียงแบบเดียวในช่วงเวลาเดียวกัน',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาของโหมดควบคุมควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'การตั้งค่าเวลาตารางเวลาควรครอบคลุมระยะเวลา 24 ชั่วโมงเต็ม',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -17972,6 +17981,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tarifelerin zaman ayarları, tam 24 saati kapsamalıdır',
 				TIME_PERIOD_OVERLAP_ERROR: 'Aynı zaman diliminde yalnızca bir kontrol işlemine izin verilir',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Kontrol modu zaman ayarları tam 24 saati kapsamalıdır',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Zamanlama ayarları tam 24 saati kapsamalıdır',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -19932,6 +19942,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Tetapan masa kadar harus meliputi tempoh 24 jam penuh',
 				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kawalan dibenarkan dalam tempoh masa yang sama',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Tetapan masa mod kawalan mesti meliputi tempoh 24 jam penuh',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Tetapan masa penjadualan mesti meliputi tempoh 24 jam penuh',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -21892,6 +21903,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu tarif harus mencakup periode 24 jam penuh',
 				TIME_PERIOD_OVERLAP_ERROR: 'Hanya satu operasi kontrol yang diizinkan dalam periode yang sama',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu mode kontrol harus mencakup periode 24 jam penuh',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'Pengaturan waktu penjadwalan harus mencakup periode 24 jam penuh',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -23853,9 +23865,10 @@ function config($translateProvider) {
 				END_TIME_SHOULD_BE_AFTER_START_TIME: '結束時間必須在開始時間之後',
 				TARIFF_TIME_PERIODS_OVERLAP:'同一時段只允許有一種計價方式',
 				VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME: '費率有效期的結束日期應在開始日期之後',
-				TARIFF_NOT_FULL_DAY_COVERAGE: '費率的時間設置應覆蓋完整24小時',
+				NOT_FULL_DAY_COVERAGE: '費率的時間設置應覆蓋完整24小時',
 				TIME_PERIOD_OVERLAP_ERROR: '同一時段只允許有一種控制操作',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: '控制模式的時間設置應覆蓋完整24小時',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: '调度的時間設置應覆蓋完整24小時',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
@@ -25820,6 +25833,7 @@ function config($translateProvider) {
 				TARIFF_NOT_FULL_DAY_COVERAGE: 'A configuração temporal das tarifas deve cobrir um período completo de 24 horas',
 				TIME_PERIOD_OVERLAP_ERROR: 'Apenas uma operação de controle é permitida no mesmo período',
 				CONTROL_MODE_NOT_FULL_DAY_COVERAGE: 'A configuração temporal do modo de controle deve cobrir um período completo de 24 horas',
+				SCHEDULE_NOT_FULL_DAY_COVERAGE: 'A configuração de horário de agendamento deve cobrir um período completo de 24 horas',
 
                 IS_ACTIVE: 'Is Active',
                 START_TIME: 'Start Time',
