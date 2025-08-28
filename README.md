@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.7.1</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.8.0</h1>
 <h3 align="center">Industry Leading Open Source Energy Management System</h3>
 <h6 align="center">Nearly a thousand project cases</h6>
 <h6 align="center">Commitment to permanent open source</h6>

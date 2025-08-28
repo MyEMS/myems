@@ -5,22 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.8.0] - 2025-08-28
+### Added
 - added carbon emissions per unit of energy consumption to equipment in myems-web
 - added carbon emissions per unit of energy consumption to combined equipment in myems-web
 - added action to update point set value in myems-api
-- added tbl_point_set_values to myems_system_db in database
+- added tbl_points_set_values to myems_system_db in database
 - added tbl_photovoltaic_power_stations_invertors_points to myems_system_db in database
 - added tbl_photovoltaic_power_stations_loads_points to myems_system_db in database
 - added tbl_photovoltaic_power_stations_grids_points to myems_system_db in database
-- 
 ### Changed
 - updated meter realtime chart in myems-web
 - updated control mode in myems-admin
 ### Fixed
 - fixed issue of deleting point in myems-api
-- 
 ### Removed
-- 
+- None
 
 ## [v5.7.1] - 2025-08-02
 ### Added
@@ -2030,7 +2034,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.7.1...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.8.0...HEAD
+[5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
 [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
 [5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
 [5.6.0]: https://gitee.com/MyEMS/myems/compare/v5.5.0...v5.6.0
