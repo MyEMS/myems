@@ -786,7 +786,7 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_energy_storage_power_stations "
                        " WHERE latitude_point_id = %s "
-                       "OR longitude_point_id=%s"
+                       " OR longitude_point_id=%s "
                        " LIMIT 1 ",
                        (id_,))
         row_energy_storage_power_stations = cursor.fetchone()
@@ -817,9 +817,9 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_fuel_integrators "
                        " WHERE power_point_id = %s "
-                       "OR result_point_id=%s"
+                       " OR result_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,))
         row_fuel_integrators = cursor.fetchone()
         if row_fuel_integrators is not None:
             cursor.close()
@@ -833,11 +833,11 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_heat_integrators "
                        " WHERE high_temperature_point_id = %s "
-                       "OR low_temperature_point_id=%s"
-                       "OR flow_point_id=%s"
-                       "OR result_point_id=%s"
+                       " OR low_temperature_point_id=%s "
+                       " OR flow_point_id=%s "
+                       " OR result_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,id_,))
         row_heat_integrators = cursor.fetchone()
         if row_heat_integrators is not None:
             cursor.close()
@@ -866,9 +866,9 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_microgrids "
                        " WHERE latitude_point_id = %s "
-                       "OR longitude_point_id=%s"
+                       " OR longitude_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,))
         row_microgrids = cursor.fetchone()
         if row_microgrids is not None:
             cursor.close()
@@ -882,10 +882,10 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_microgrids_batteries "
                        " WHERE battery_state_point_id = %s "
-                       "OR soc_point_id=%s"
-                       "OR power_point_id=%s"
+                       " OR soc_point_id=%s "
+                       " OR power_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,))
         row_microgrids_batteries = cursor.fetchone()
         if row_microgrids_batteries is not None:
             cursor.close()
@@ -914,12 +914,12 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_microgrids_power_conversion_systems "
                        " WHERE run_state_point_id = %s "
-                       "OR today_charge_energy_point_id=%s"
-                       "OR today_discharge_energy_point_id=%s"
-                       "OR total_charge_energy_point_id=%s"
-                       "OR total_discharge_energy_point_id=%s"
+                       " OR today_charge_energy_point_id=%s "
+                       " OR today_discharge_energy_point_id=%s "
+                       " OR total_charge_energy_point_id=%s "
+                       " OR total_discharge_energy_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,id_,id_,))
         row_microgrids_power_conversion_systems = cursor.fetchone()
         if row_microgrids_power_conversion_systems is not None:
             cursor.close()
@@ -1128,9 +1128,9 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations "
                        " WHERE latitude_point_id = %s "
-                       "OR longitude_point_id=%s"
+                       " OR longitude_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,))
         row_photovoltaic_power_stations = cursor.fetchone()
         if row_photovoltaic_power_stations is not None:
             cursor.close()
@@ -1144,23 +1144,23 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations_grids "
                        " WHERE power_point_id = %s "
-                       "OR active_power_a_point_id=%s"
-                       "OR active_power_b_point_id=%s"
-                       "OR active_power_c_point_id=%s"
-                       "OR total_reactive_power_point_id=%s"
-                       "OR reactive_power_a_point_id=%s"
-                       "OR reactive_power_b_point_id=%s"
-                       "OR reactive_power_c_point_id=%s"
-                       "OR total_apparent_power_point_id=%s"
-                       "OR apparent_power_a_point_id=%s"
-                       "OR apparent_power_b_point_id=%s"
-                       "OR apparent_power_c_point_id=%s"
-                       "OR total_power_factor_point_id=%s"
-                       "OR active_energy_import_point_id=%s"
-                       "OR active_energy_export_point_id=%s"
-                       "OR active_energy_net_point_id=%s"
+                       " OR active_power_a_point_id=%s "
+                       " OR active_power_b_point_id=%s "
+                       " OR active_power_c_point_id=%s "
+                       " OR total_reactive_power_point_id=%s "
+                       " OR reactive_power_a_point_id=%s "
+                       " OR reactive_power_b_point_id=%s "
+                       " OR reactive_power_c_point_id=%s "
+                       " OR total_apparent_power_point_id=%s "
+                       " OR apparent_power_a_point_id=%s "
+                       " OR apparent_power_b_point_id=%s "
+                       " OR apparent_power_c_point_id=%s "
+                       " OR total_power_factor_point_id=%s "
+                       " OR active_energy_import_point_id=%s "
+                       " OR active_energy_export_point_id=%s "
+                       " OR active_energy_net_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,))
         row_photovoltaic_power_stations_grids = cursor.fetchone()
         if row_photovoltaic_power_stations_grids is not None:
             cursor.close()
@@ -1174,96 +1174,96 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations_invertors "
                        " WHERE invertor_state_point_id = %s "
-                       "OR communication_state_point_id=%s"
-                       "OR total_energy_point_id=%s"
-                       "OR today_energy_point_id=%s"
-                       "OR efficiency_point_id=%s"
-                       "OR temperature_point_id=%s"
-                       "OR power_factor_point_id=%s"
-                       "OR active_power_point_id=%s"
-                       "OR reactive_power_point_id=%s"
-                       "OR frequency_point_id=%s"
-                       "OR uab_point_id=%s"
-                       "OR ubc_point_id=%s"
-                       "OR uca_point_id=%s"
-                       "OR ua_point_id=%s"
-                       "OR ub_point_id=%s"
-                       "OR uc_point_id=%s"
-                       "OR ia_point_id=%s"
-                       "OR ib_point_id=%s"
-                       "OR ic_point_id=%s"
-                       "OR pv1_u_point_id=%s"
-                       "OR pv1_i_point_id=%s"
-                       "OR pv2_u_point_id=%s"
-                       "OR pv2_i_point_id=%s"
-                       "OR pv3_u_point_id=%s"
-                       "OR pv3_i_point_id=%s"
-                       "OR pv4_u_point_id=%s"
-                       "OR pv4_i_point_id=%s"
-                       "OR pv5_u_point_id=%s"
-                       "OR pv5_i_point_id=%s"
-                       "OR pv6_u_point_id=%s"
-                       "OR pv6_i_point_id=%s"
-                       "OR pv7_u_point_id=%s"
-                       "OR pv7_i_point_id=%s"
-                       "OR pv8_u_point_id=%s"
-                       "OR pv8_i_point_id=%s"
-                       "OR pv9_u_point_id=%s"
-                       "OR pv9_i_point_id=%s"
-                       "OR pv10_u_point_id=%s"
-                       "OR pv10_i_point_id=%s"
-                       "OR pv11_u_point_id=%s"
-                       "OR pv11_i_point_id=%s"
-                       "OR pv12_u_point_id=%s"
-                       "OR pv12_i_point_id=%s"
-                       "OR pv13_u_point_id=%s"
-                       "OR pv13_i_point_id=%s"
-                       "OR pv14_u_point_id=%s"
-                       "OR pv14_i_point_id=%s"
-                       "OR pv15_u_point_id=%s"
-                       "OR pv15_i_point_id=%s"
-                       "OR pv16_u_point_id=%s"
-                       "OR pv16_i_point_id=%s"
-                       "OR pv17_u_point_id=%s"
-                       "OR pv17_i_point_id=%s"
-                       "OR pv18_u_point_id=%s"
-                       "OR pv18_i_point_id=%s"
-                       "OR pv19_u_point_id=%s"
-                       "OR pv19_i_point_id=%s"
-                       "OR pv20_u_point_id=%s"
-                       "OR pv20_i_point_id=%s"
-                       "OR pv21_u_point_id=%s"
-                       "OR pv21_i_point_id=%s"
-                       "OR pv22_u_point_id=%s"
-                       "OR pv22_i_point_id=%s"
-                       "OR pv23_u_point_id=%s"
-                       "OR pv23_i_point_id=%s"
-                       "OR pv24_u_point_id=%s"
-                       "OR pv24_i_point_id=%s"
-                       "OR pv25_u_point_id=%s"
-                       "OR pv25_i_point_id=%s"
-                       "OR pv26_u_point_id=%s"
-                       "OR pv26_i_point_id=%s"
-                       "OR pv27_u_point_id=%s"
-                       "OR pv27_i_point_id=%s"
-                       "OR pv28_u_point_id=%s"
-                       "OR pv28_i_point_id=%s"
-                       "OR mppt_total_energy_point_id=%s"
-                       "OR mppt_power_point_id=%s"
-                       "OR mppt_1_energy_point_id=%s"
-                       "OR mppt_2_energy_point_id=%s"
-                       "OR mppt_3_energy_point_id=%s"
-                       "OR mppt_4_energy_point_id=%s"
-                       "OR mppt_5_energy_point_id=%s"
-                       "OR mppt_6_energy_point_id=%s"
-                       "OR mppt_7_energy_point_id=%s"
-                       "OR mppt_8_energy_point_id=%s"
-                       "OR mppt_9_energy_point_id=%s"
-                       "OR mppt_10_energy_point_id=%s"
-                       "OR startup_time_point_id=%s"
-                       "OR shutdown_time_point_id=%s"
+                       " OR communication_state_point_id=%s "
+                       " OR total_energy_point_id=%s "
+                       " OR today_energy_point_id=%s "
+                       " OR efficiency_point_id=%s "
+                       " OR temperature_point_id=%s "
+                       " OR power_factor_point_id=%s "
+                       " OR active_power_point_id=%s "
+                       " OR reactive_power_point_id=%s "
+                       " OR frequency_point_id=%s "
+                       " OR uab_point_id=%s "
+                       " OR ubc_point_id=%s "
+                       " OR uca_point_id=%s "
+                       " OR ua_point_id=%s "
+                       " OR ub_point_id=%s "
+                       " OR uc_point_id=%s "
+                       " OR ia_point_id=%s "
+                       " OR ib_point_id=%s "
+                       " OR ic_point_id=%s "
+                       " OR pv1_u_point_id=%s "
+                       " OR pv1_i_point_id=%s "
+                       " OR pv2_u_point_id=%s "
+                       " OR pv2_i_point_id=%s "
+                       " OR pv3_u_point_id=%s "
+                       " OR pv3_i_point_id=%s "
+                       " OR pv4_u_point_id=%s "
+                       " OR pv4_i_point_id=%s "
+                       " OR pv5_u_point_id=%s "
+                       " OR pv5_i_point_id=%s "
+                       " OR pv6_u_point_id=%s "
+                       " OR pv6_i_point_id=%s "
+                       " OR pv7_u_point_id=%s "
+                       " OR pv7_i_point_id=%s "
+                       " OR pv8_u_point_id=%s "
+                       " OR pv8_i_point_id=%s "
+                       " OR pv9_u_point_id=%s "
+                       " OR pv9_i_point_id=%s "
+                       " OR pv10_u_point_id=%s "
+                       " OR pv10_i_point_id=%s "
+                       " OR pv11_u_point_id=%s "
+                       " OR pv11_i_point_id=%s "
+                       " OR pv12_u_point_id=%s "
+                       " OR pv12_i_point_id=%s "
+                       " OR pv13_u_point_id=%s "
+                       " OR pv13_i_point_id=%s "
+                       " OR pv14_u_point_id=%s "
+                       " OR pv14_i_point_id=%s "
+                       " OR pv15_u_point_id=%s "
+                       " OR pv15_i_point_id=%s "
+                       " OR pv16_u_point_id=%s "
+                       " OR pv16_i_point_id=%s "
+                       " OR pv17_u_point_id=%s "
+                       " OR pv17_i_point_id=%s "
+                       " OR pv18_u_point_id=%s "
+                       " OR pv18_i_point_id=%s "
+                       " OR pv19_u_point_id=%s "
+                       " OR pv19_i_point_id=%s "
+                       " OR pv20_u_point_id=%s "
+                       " OR pv20_i_point_id=%s "
+                       " OR pv21_u_point_id=%s "
+                       " OR pv21_i_point_id=%s "
+                       " OR pv22_u_point_id=%s "
+                       " OR pv22_i_point_id=%s "
+                       " OR pv23_u_point_id=%s "
+                       " OR pv23_i_point_id=%s "
+                       " OR pv24_u_point_id=%s "
+                       " OR pv24_i_point_id=%s "
+                       " OR pv25_u_point_id=%s "
+                       " OR pv25_i_point_id=%s "
+                       " OR pv26_u_point_id=%s "
+                       " OR pv26_i_point_id=%s "
+                       " OR pv27_u_point_id=%s "
+                       " OR pv27_i_point_id=%s "
+                       " OR pv28_u_point_id=%s "
+                       " OR pv28_i_point_id=%s "
+                       " OR mppt_total_energy_point_id=%s "
+                       " OR mppt_power_point_id=%s "
+                       " OR mppt_1_energy_point_id=%s "
+                       " OR mppt_2_energy_point_id=%s "
+                       " OR mppt_3_energy_point_id=%s "
+                       " OR mppt_4_energy_point_id=%s "
+                       " OR mppt_5_energy_point_id=%s "
+                       " OR mppt_6_energy_point_id=%s "
+                       " OR mppt_7_energy_point_id=%s "
+                       " OR mppt_8_energy_point_id=%s "
+                       " OR mppt_9_energy_point_id=%s "
+                       " OR mppt_10_energy_point_id=%s "
+                       " OR startup_time_point_id=%s "
+                       " OR shutdown_time_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,))
         row_photovoltaic_power_stations_invertors = cursor.fetchone()
         if row_photovoltaic_power_stations_invertors is not None:
             cursor.close()
@@ -1277,24 +1277,24 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_photovoltaic_power_stations_loads "
                        " WHERE power_point_id = %s "
-                       "OR total_active_power_point_id=%s"
-                       "OR active_power_a_point_id=%s"
-                       "OR active_power_b_point_id=%s"
-                       "OR active_power_c_point_id=%s"
-                       "OR total_reactive_power_point_id=%s"
-                       "OR reactive_power_a_point_id=%s"
-                       "OR reactive_power_b_point_id=%s"
-                       "OR reactive_power_c_point_id=%s"
-                       "OR total_apparent_power_point_id=%s"
-                       "OR apparent_power_a_point_id=%s"
-                       "OR apparent_power_b_point_id=%s"
-                       "OR apparent_power_c_point_id=%s"
-                       "OR total_power_factor_point_id=%s"
-                       "OR active_energy_import_point_id=%s"
-                       "OR active_energy_export_point_id=%s"
-                       "OR active_energy_net_point_id=%s"
+                       " OR total_active_power_point_id=%s "
+                       " OR active_power_a_point_id=%s "
+                       " OR active_power_b_point_id=%s "
+                       " OR active_power_c_point_id=%s "
+                       " OR total_reactive_power_point_id=%s "
+                       " OR reactive_power_a_point_id=%s "
+                       " OR reactive_power_b_point_id=%s "
+                       " OR reactive_power_c_point_id=%s "
+                       " OR total_apparent_power_point_id=%s "
+                       " OR apparent_power_a_point_id=%s "
+                       " OR apparent_power_b_point_id=%s "
+                       " OR apparent_power_c_point_id=%s "
+                       " OR total_power_factor_point_id=%s "
+                       " OR active_energy_import_point_id=%s "
+                       " OR active_energy_export_point_id=%s "
+                       " OR active_energy_net_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,id_,))
         row_photovoltaic_power_stations_loads = cursor.fetchone()
         if row_photovoltaic_power_stations_loads is not None:
             cursor.close()
@@ -1308,9 +1308,9 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_power_integrators "
                        " WHERE power_point_id = %s "
-                       "OR result_point_id=%s"
+                       " OR result_point_id=%s " 
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,))
         row_power_integrators = cursor.fetchone()
         if row_power_integrators is not None:
             cursor.close()
@@ -1429,9 +1429,9 @@ class PointItem:
         cursor.execute(" SELECT id "
                        " FROM tbl_wind_farms "
                        " WHERE latitude_point_id = %s "
-                       "OR longitude_point_id=%s"
+                       " OR longitude_point_id=%s "
                        " LIMIT 1 ",
-                       (id_,))
+                       (id_,id_,))
         row_wind_farms = cursor.fetchone()
         if row_wind_farms is not None:
             cursor.close()
