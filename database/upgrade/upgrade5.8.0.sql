@@ -1,8 +1,8 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- 警告：升级前备份数据库
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- 此脚本仅用于将5.6.0升级到5.7.1
--- THIS SCRIPT IS ONLY FOR UPGRADING 5.6.0 TO 5.7.1
+-- 此脚本仅用于将5.7.1升级到5.8.0
+-- THIS SCRIPT IS ONLY FOR UPGRADING 5.7.1 TO 5.8.0
 -- 当前版本号在`myems_system_db`.`tbl_versions`中查看
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -45,6 +45,6 @@ CREATE INDEX `tbl_photovoltaic_power_stations_loads_points_index_1`
 ON `myems_system_db`.`tbl_photovoltaic_power_stations_loads_points` (`load_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.8.0RC', release_date='2025-08-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.8.0', release_date='2025-08-28' WHERE id=1;
 
 COMMIT;
