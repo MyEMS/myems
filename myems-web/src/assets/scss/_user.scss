@@ -280,3 +280,19 @@ grid-row: 2;
   width: 100% !important;
   height: 100% !important;
 }
+
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content > *:last-child {
+  margin-top: auto !important;
+}
+
+.blank-page-image-container {
+  position: fixed;
+  bottom: 20px;
+  z-index: -1;
+}
