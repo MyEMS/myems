@@ -41,5 +41,39 @@ app.factory('MicrogridGeneratorService', function($http) {
                 callback(response);
             });
         },
+        addGeneratorPair: function(id, gid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/generators/'+gid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deleteGeneratorPair: function(id, gid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/generators/'+gid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByGeneratorID: function(id, gid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/generators/'+gid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

@@ -42,5 +42,39 @@ app.factory('MicrogridHeatpumpService', function($http) {
                 callback(response);
             });
         },
+        addHeatPumpPair: function(id, hid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/heatpumps/'+hid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deleteHeatPumpPair: function(id, hid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/heatpumps/'+hid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByHeatPumpID: function(id, hid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/heatpumps/'+hid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

@@ -41,5 +41,39 @@ app.factory('MicrogridLoadService', function($http) {
                 callback(response);
             });
         },
+        addLoadPair: function(id, lid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/loads/'+lid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deleteLoadPair: function(id, lid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/loads/'+lid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByLoadID: function(id, lid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/loads/'+lid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

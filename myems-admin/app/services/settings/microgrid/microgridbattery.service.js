@@ -33,9 +33,42 @@ app.factory('MicrogridBatteryService', function($http) {
                 callback(response);
             });
         },
-
         deleteMicrogridBattery: function(id, microgridbatteryID, headers, callback) {
             $http.delete(getAPI()+'microgrids/'+id+'/batteries/'+microgridbatteryID, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        addBatteryPair: function(id, bid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/batteries/'+bid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deleteBatteryPair: function(id, bid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/batteries/'+bid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByBatteryID: function(id, bid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/batteries/'+bid+'/points',
+                {headers}
+            )
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -8,6 +8,7 @@ app.controller('MicrogridGeneratorController', function(
 	$uibModal,
 	MicrogridService,
 	MicrogridGeneratorService,
+	MicrogridDataSourceService,
 	PointService,
 	MeterService,
 	toaster,
@@ -29,16 +30,27 @@ app.controller('MicrogridGeneratorController', function(
   		});
   	};
 
-	$scope.getAllPoints = function() {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		PointService.getAllPoints(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.points = response.data;
-			} else {
-				$scope.points = [];
-			}
-		});
-	};
+    $scope.getDataSourcesByMicrogridID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      MicrogridDataSourceService.getDataSourcesByMicrogridID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.datasources = response.data;
+        } else {
+          $scope.datasources = [];
+        }
+      });
+    };
+
+    $scope.getDataSourcePointsByMicrogridID = function(id) {
+      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+      MicrogridDataSourceService.getDataSourcePointsByMicrogridID(id, headers, function(response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
 
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -55,6 +67,7 @@ app.controller('MicrogridGeneratorController', function(
   		MicrogridGeneratorService.getMicrogridGeneratorsByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridgenerators = response.data;
+				 console.log("微电网发电机模块对应内容：", $scope.microgridgenerators);
 			} else {
           	$scope.microgridgenerators=[];
         	}
@@ -66,6 +79,8 @@ app.controller('MicrogridGeneratorController', function(
     	$scope.currentMicrogrid.selected=model;
         $scope.is_show_add_microgrid_generator = true;
     	$scope.getMicrogridGeneratorsByMicrogridID($scope.currentMicrogrid.id);
+    	$scope.getDataSourcesByMicrogridID($scope.currentMicrogrid.id);
+        $scope.getDataSourcePointsByMicrogridID($scope.currentMicrogrid.id);
   	};
 
   	$scope.addMicrogridGenerator = function() {
@@ -95,6 +110,8 @@ app.controller('MicrogridGeneratorController', function(
   						showCloseButton: true,
   					});
   					$scope.getMicrogridGeneratorsByMicrogridID($scope.currentMicrogrid.id);
+  					$scope.getDataSourcesByMicrogridID($scope.currentMicrogrid.id);
+                    $scope.getDataSourcePointsByMicrogridID($scope.currentMicrogrid.id);
             		$scope.$emit('handleEmitMicrogridGeneratorChanged');
   				} else {
   					toaster.pop({
@@ -140,6 +157,8 @@ app.controller('MicrogridGeneratorController', function(
   						showCloseButton: true,
   					});
   					$scope.getMicrogridGeneratorsByMicrogridID($scope.currentMicrogrid.id);
+  					$scope.getDataSourcesByMicrogridID($scope.currentMicrogrid.id);
+                    $scope.getDataSourcePointsByMicrogridID($scope.currentMicrogrid.id);
             		$scope.$emit('handleEmitMicrogridGeneratorChanged');
   				} else {
   					toaster.pop({
@@ -194,8 +213,30 @@ app.controller('MicrogridGeneratorController', function(
   			});
   	};
 
+    $scope.bindMicrogridGeneratorPoint = function (generator) {
+      var modalInstance = $uibModal.open({
+        templateUrl:
+          "views/settings/microgrid/microgridgeneratorpoint.model.html",
+        controller: "ModalBindMicrogridGeneratorCtrl",
+        windowClass: "animated fadeIn",
+        resolve: {
+          params: function () {
+            return {
+              user_uuid: $scope.cur_user.uuid,
+              token: $scope.cur_user.token,
+              microgridid: $scope.currentMicrogrid.id,
+              microgridgenerator: angular.copy(generator),
+              meters: angular.copy($scope.meters),
+              datasources: angular.copy($scope.datasources),
+              points: angular.copy($scope.points),
+            };
+          },
+        },
+      });
+      $rootScope.modalInstance = modalInstance;
+    };
+
   	$scope.getAllMicrogrids();
-	$scope.getAllPoints();
 	$scope.getAllMeters();
     $scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
@@ -231,3 +272,154 @@ app.controller('MicrogridGeneratorController', function(
   		$uibModalInstance.dismiss('cancel');
   	};
   });
+
+app.controller(
+  "ModalBindMicrogridGeneratorCtrl",
+  function (
+    $scope,
+    $uibModalInstance,
+    toaster,
+    $translate,
+    MicrogridGeneratorService,
+    PointService,
+    params
+  ) {
+    $scope.operation = "MICROGRID.MICROGRID_GENERATOR";
+    $scope.microgridid = params.microgridid;
+    $scope.microgridgenerator = params.microgridgenerator;
+    $scope.datasources = params.datasources;
+    $scope.boundpoints = [];
+
+    let headers = { "User-UUID": params.user_uuid, Token: params.token };
+    MicrogridGeneratorService.getPointsByGeneratorID(
+      $scope.microgridid,
+      $scope.microgridgenerator.id,
+      headers,
+      function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.boundpoints = response.data;
+        } else {
+          $scope.boundpoints = [];
+        }
+      }
+    );
+
+    $scope.cancel = function () {
+      $uibModalInstance.dismiss("cancel");
+    };
+
+    $scope.changeDataSource = function (item, model) {
+      $scope.currentDataSource = model;
+      $scope.getPointsByDataSourceID($scope.currentDataSource);
+    };
+
+    $scope.getPointsByDataSourceID = function (id) {
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      PointService.getPointsByDataSourceID(id, headers, function (response) {
+        if (angular.isDefined(response.status) && response.status === 200) {
+          $scope.points = response.data;
+        } else {
+          $scope.points = [];
+        }
+      });
+    };
+
+    $scope.pairPoint = function (dragEl, dropEl) {
+      var pointid = angular.element("#" + dragEl).scope().point.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      MicrogridGeneratorService.addGeneratorPair(
+        params.microgridid,
+        params.microgridgenerator.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 201) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            MicrogridGeneratorService.getPointsByGeneratorID(
+              params.microgridid,
+              params.microgridgenerator.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+
+    $scope.deletePointPair = function (dragEl, dropEl) {
+      if (angular.element("#" + dragEl).hasClass("source")) {
+        return;
+      }
+
+      var pointid = angular.element("#" + dragEl).scope().boundpoint.id;
+      let headers = { "User-UUID": params.user_uuid, Token: params.token };
+      MicrogridGeneratorService.deleteGeneratorPair(
+        params.microgridid,
+        params.microgridgenerator.id,
+        pointid,
+        headers,
+        function (response) {
+          if (angular.isDefined(response.status) && response.status === 204) {
+            toaster.pop({
+              type: "success",
+              title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+              body: $translate.instant("TOASTER.UNBIND_POINT_SUCCESS"),
+              showCloseButton: true,
+            });
+            let headers = {
+              "User-UUID": params.user_uuid,
+              Token: params.token,
+            };
+            MicrogridGeneratorService.getPointsByGeneratorID(
+              params.microgridid,
+              params.microgridgenerator.id,
+              headers,
+              function (response) {
+                if (
+                  angular.isDefined(response.status) &&
+                  response.status === 200
+                ) {
+                  $scope.boundpoints = response.data;
+                } else {
+                  $scope.boundpoints = [];
+                }
+              }
+            );
+          } else {
+            toaster.pop({
+              type: "error",
+              title: $translate.instant(response.data.title),
+              body: $translate.instant(response.data.description),
+              showCloseButton: true,
+            });
+          }
+        }
+      );
+    };
+  }
+);
