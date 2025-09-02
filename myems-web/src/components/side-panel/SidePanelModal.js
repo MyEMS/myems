@@ -82,7 +82,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         }}
       >
         <h5 className="fs-0">{t('Color Scheme')}</h5>
-        <p className="fs--1">{t('Choose the perfect color mode for your app.')}</p>
+        <p className="fs--1">{t('Choose the perfect color mode for your app')}</p>
         <ButtonGroup className="btn-group-toggle btn-block">
           <Button color="theme-default" className={classNames('custom-radio-success', { active: !isDark })}>
             <Label for="theme-mode-default" className="cursor-pointer hover-overlay">
@@ -202,12 +202,12 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         <p className="fs--1">{t('Switch between styles for your vertical navbar')}</p>
         <div className="btn-group-toggle btn-block btn-group-navbar-style">
           <ButtonGroup className="btn-block">
-            <VerticalNavRadioBtn img={transparent} btnName={'transparent'} />
-            <VerticalNavRadioBtn img={invertedImg} btnName={'inverted'} />
+            <VerticalNavRadioBtn img={transparent} btnName={t('Transparent')} />
+            <VerticalNavRadioBtn img={invertedImg} btnName={t('Inverted')} />
           </ButtonGroup>
           <ButtonGroup className="btn-block mt-3">
-            <VerticalNavRadioBtn img={card} btnName={'card'} />
-            <VerticalNavRadioBtn img={vibrant} btnName={'vibrant'} />
+            <VerticalNavRadioBtn img={card} btnName={t('Card')} />
+            <VerticalNavRadioBtn img={vibrant} btnName={t('Vibrant')} />
           </ButtonGroup>
         </div>
         <hr />
