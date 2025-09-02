@@ -36,20 +36,37 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=60)
-<<<<<<< HEAD
-
         latest_value_data = list()
+
+        data_source_ids = None
+        if 'data_source_ids' in req.params and len(str.strip(req.params['data_source_ids'])) > 0:
+            try:
+                data_source_ids = [int(x) for x in req.params['data_source_ids'].split(',') if x.strip().isdigit()]
+            except Exception:
+                data_source_ids = None
+
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
         ################################################################################################################
         # Step 2: query analog points latest values
         ################################################################################################################
-
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_analog_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (reporting_start_datetime_utc,))
+        if data_source_ids:
+            placeholder = ','.join(['%s'] * len(data_source_ids))
+            query = (
+                " SELECT v.point_id, v.actual_value "
+                " FROM tbl_analog_value_latest v "
+                " JOIN myems_system_db.tbl_points p ON v.point_id = p.id "
+                " WHERE v.utc_date_time > %s AND p.data_source_id IN (" + placeholder + ")"
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc, *data_source_ids))
+        else:
+            query = (
+                " SELECT point_id, actual_value "
+                " FROM tbl_analog_value_latest "
+                " WHERE utc_date_time > %s "
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc,))
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -61,10 +78,22 @@ class Reporting:
         ################################################################################################################
         # Step 3: query energy points latest values
         ################################################################################################################
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_energy_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (reporting_start_datetime_utc,))
+        if data_source_ids:
+            placeholder = ','.join(['%s'] * len(data_source_ids))
+            query = (
+                " SELECT v.point_id, v.actual_value "
+                " FROM tbl_energy_value_latest v "
+                " JOIN myems_system_db.tbl_points p ON v.point_id = p.id "
+                " WHERE v.utc_date_time > %s AND p.data_source_id IN (" + placeholder + ")"
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc, *data_source_ids))
+        else:
+            query = (
+                " SELECT point_id, actual_value "
+                " FROM tbl_energy_value_latest "
+                " WHERE utc_date_time > %s "
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc,))
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -76,11 +105,22 @@ class Reporting:
         ################################################################################################################
         # Step 4: query digital points latest values
         ################################################################################################################
-
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (reporting_start_datetime_utc,))
+        if data_source_ids:
+            placeholder = ','.join(['%s'] * len(data_source_ids))
+            query = (
+                " SELECT v.point_id, v.actual_value "
+                " FROM tbl_digital_value_latest v "
+                " JOIN myems_system_db.tbl_points p ON v.point_id = p.id "
+                " WHERE v.utc_date_time > %s AND p.data_source_id IN (" + placeholder + ")"
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc, *data_source_ids))
+        else:
+            query = (
+                " SELECT point_id, actual_value "
+                " FROM tbl_digital_value_latest "
+                " WHERE utc_date_time > %s "
+            )
+            cursor_historical.execute(query, (reporting_start_datetime_utc,))
         rows = cursor_historical.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -92,54 +132,6 @@ class Reporting:
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-
-=======
-        latest_value_data = list()
-
-        # 解析 query string 里的 data_source_ids
-        data_source_ids = None
-        if 'data_source_ids' in req.params and req.params['data_source_ids'].strip() != '':
-            try:
-                data_source_ids = [int(x) for x in req.params['data_source_ids'].split(',')]
-            except ValueError:
-                raise falcon.HTTPBadRequest(
-                    description="Invalid data_source_ids parameter")
-
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-
-        
-        for table_name in ['tbl_analog_value_latest','tbl_energy_value_latest','tbl_digital_value_latest']:
-            if data_source_ids:
-                placeholders = ','.join(['%s'] * len(data_source_ids))
-                query = (
-                    f" SELECT v.point_id, v.actual_value "
-                    f" FROM {table_name} v "
-                    f" JOIN myems_system_db.tbl_points p ON v.point_id = p.id "
-                    f" WHERE v.utc_date_time > %s "
-                    f"   AND p.data_source_id IN ({placeholders}) "
-                )
-                params = [reporting_start_datetime_utc] + data_source_ids
-            else:
-                query = (
-                    f" SELECT v.point_id, v.actual_value "
-                    f" FROM {table_name} v "
-                    f" JOIN myems_system_db.tbl_points p ON v.point_id = p.id "
-                    f" WHERE v.utc_date_time > %s "
-                )
-                params = [reporting_start_datetime_utc]
-
-            cursor_historical.execute(query, tuple(params))
-            rows = cursor_historical.fetchall()
-            if rows:
-                for row in rows:
-                    current_value = dict()
-                    current_value['point_id'] = row[0]
-                    current_value['value'] = row[1]
-                    latest_value_data.append(current_value)
-
-      
->>>>>>> 8a62a88a (..)
         if cursor_historical:
             cursor_historical.close()
         if cnx_historical:
