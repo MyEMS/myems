@@ -33,9 +33,42 @@ app.factory('MicrogridEVChargerService', function($http) {
                 callback(response);
             });
         },
-
         deleteMicrogridEVCharger: function(id, microgridevchargeryID, headers, callback) {
             $http.delete(getAPI()+'microgrids/'+id+'/evchargers/'+microgridevchargeryID, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        addEVChargerPair: function(id, eid, pid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/evchargers/'+eid+'/points',
+                {data: {point_id: pid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deleteEVChargerPair: function(id, eid, pid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/evchargers/'+eid+'/points/'+pid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByEVChargerID: function(id, eid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/evchargers/'+eid+'/points',
+                {headers}
+            )
             .then(function (response) {
                 callback(response);
             }, function (response) {
