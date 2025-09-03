@@ -41,5 +41,39 @@ app.factory('MicrogridPhotovoltaicService', function($http) {
                 callback(response);
             });
         },
+        addPhotovoltaicPair: function(id, pid, ptid, headers, callback) {
+            $http.post(
+                getAPI()+'microgrids/'+id+'/photovoltaics/'+pid+'/points',
+                {data: {point_id: ptid}},
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        deletePhotovoltaicPair: function(id, pid, ptid, headers, callback) {
+            $http.delete(
+                getAPI()+'microgrids/'+id+'/photovoltaics/'+pid+'/points/'+ptid,
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getPointsByPhotovoltaicID: function(id, pid, headers, callback) {
+            $http.get(
+                getAPI()+'microgrids/'+id+'/photovoltaics/'+pid+'/points',
+                {headers}
+            )
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
     };
 });

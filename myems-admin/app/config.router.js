@@ -1335,6 +1335,7 @@ app
                                                     'app/services/settings/microgrid/microgridpowerconversionsystem.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/microgrid/microgriduser.service.js',
+                                                    'app/services/settings/microgrid/microgriddatasource.service.js',
                                                     'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
@@ -1342,6 +1343,7 @@ app
                                                     'app/services/settings/meter/meter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
                                                     'app/controllers/settings/microgrid/microgridbattery.controller.js',
@@ -1354,6 +1356,7 @@ app
                                                     'app/controllers/settings/microgrid/microgridpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                     'app/controllers/settings/microgrid/microgriduser.controller.js',
+                                                    'app/controllers/settings/microgrid/microgriddatasource.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
                                                 ]
