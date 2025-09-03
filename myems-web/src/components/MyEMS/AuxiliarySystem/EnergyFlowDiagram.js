@@ -564,7 +564,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div style={{ display: resultDataHidden ? 'block' : 'none' }}>
+      <div className="blank-page-image-container" style={{ display: resultDataHidden ? 'block' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ display: resultDataHidden ? 'none' : 'block' }}>
