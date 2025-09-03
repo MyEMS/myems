@@ -92,7 +92,7 @@ app
                                                         'app/services/settings/combinedequipment/combinedequipment.service.js',
                                                         'app/services/settings/meter/meter.service.js',
                                                         'app/services/fdd/rule.service.js',
-                                                        'app/controllers/fdd/rule/rule.controller.js'
+                                                        'app/controllers/fdd/rule/rule.controller.js',
                                                     ]
                                                 }]);
                                         }
@@ -1012,6 +1012,7 @@ app
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/tenant/tenant.master.controller.js',
                                                     'app/controllers/settings/tenant/tenant.controller.js',
+                                                    'app/controllers/settings/tenant/tenanttype.controller.js',
                                                     'app/controllers/settings/tenant/tenantmeter.controller.js',
                                                     'app/controllers/settings/tenant/tenantpoint.controller.js',
                                                     'app/controllers/settings/tenant/tenantsensor.controller.js',

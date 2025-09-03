@@ -2370,6 +2370,17 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: '调度开始时间',
                 SCHEDULE_END_TIME: '调度结束时间',
                 SCHEDULE_POWER: '调度功率',
+
+                TENANT_TYPE: "租户类型", 
+                ADD_TENANT_TYPE: "添加租户类型", 
+                TENANT_TYPE_NAME: "类型名称",
+                EDIT_TENANT_TYPE: "编辑租户类型",
+                TITLE_CONFIRM_DELETE:"确认删除",
+                ENTER_NAME:"输入名称",
+                ENTER_DESCRIPTION:"输入描述",
+                DESCRIPTION: "描述",
+                SIMPLIFIED_CODE: "简化代码",
+                ENTER_SIMPLIFIED_CODE: "输入简化代码",
             },
             CONTACT: {
                 EMAIL: '邮箱',

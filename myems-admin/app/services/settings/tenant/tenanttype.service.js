@@ -9,16 +9,19 @@ app.factory('TenantTypeService', function($http) {
                 callback(response);
             });
         },
-        searchTenantTypes: function(query, callback) {
-            $http.get(getAPI()+'tenanttypes', { params: { q: query } })
-            .then(function (response) {
+         searchTenantTypes: function(query, headers, callback) { 
+            $http.get(getAPI() + 'tenanttypes', { 
+                params: { q: query }, 
+                headers: headers 
+            })
+            .then(function(response) {
                 callback(response);
-            }, function (response) {
+            }, function(response) {
                 callback(response);
             });
         },
         addTenantType: function(tenant_type, headers, callback) {
-            $http.post(getAPI()+'tenanttypes',{data:tenant}, {headers})
+            $http.post(getAPI()+'tenanttypes',{data:tenant_type}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -42,4 +45,4 @@ app.factory('TenantTypeService', function($http) {
             });
         },
     };
-});
+});    
