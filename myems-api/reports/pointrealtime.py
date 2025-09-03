@@ -24,6 +24,7 @@ class Reporting:
     # Step 4: query digital points latest values
     # Step 5: construct the report
     ####################################################################################################################
+
     @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
