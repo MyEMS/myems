@@ -44,7 +44,19 @@ class Reporting:
             try:
                 data_source_ids = [int(x) for x in req.params['data_source_ids'].split(',') if x.strip().isdigit()]
             except Exception:
-                data_source_ids = None
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.INVALID_DATA_SOURCE_ID'
+                )
+
+            if not data_source_ids:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.INVALID_DATA_SOURCE_ID'
+                )
+
 
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
