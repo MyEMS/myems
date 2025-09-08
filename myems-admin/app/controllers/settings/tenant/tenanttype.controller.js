@@ -8,30 +8,24 @@ app.controller('TenantTypeController', function(
     $uibModal,
     TenantTypeService, 
     toaster,
-    SweetAlert
-) {
-    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")) || {};
-    $scope.tenantTypes = []; 
-
+    SweetAlert) {
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")); 
     $scope.getAllTenantTypes = function() {
-        const headers = { 
+        let headers = { 
             "User-UUID": $scope.cur_user.uuid, 
             "Token": $scope.cur_user.token 
         };
         TenantTypeService.getAllTenantTypes(headers, function(response) {
-            if (response.status === 200) {
+            if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantTypes = response.data; 
             } else {
                 $scope.tenantTypes = [];
-                toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                    $translate.instant("TOASTER.FAILED_TO_FETCH", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                );
             }
         });
     };
 
     $scope.addTenantType = function() {
-        const modalInstance = $uibModal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/tenant/tenanttype.model.html',
             controller: 'ModalAddTenantTypeCtrl',
             windowClass: "animated fadeIn",
@@ -43,31 +37,40 @@ app.controller('TenantTypeController', function(
                 }
             }
         });
-
         modalInstance.result.then(function(tenantType) {
-            const headers = { 
+			let headers = { 
                 "User-UUID": $scope.cur_user.uuid, 
                 "Token": $scope.cur_user.token 
             };
-            TenantTypeService.addTenantType(tenantType, headers, function(response) {
-                if (response.status === 201) {
-                    toaster.pop('success', $translate.instant("TOASTER.SUCCESS_TITLE"), 
-                        $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                    );
-                    $scope.getAllTenantTypes(); 
-                } else {
-                    toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                        $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                    );
-                }
-            });
-        });
+		TenantTypeService.addTenantType(tenantType, headers, function(response) {
+				if (angular.isDefined(response.status) && response.status === 201) {
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY",{template: $translate.instant("SETTING.TENANT_TYPE")}),
+						showCloseButton: true,
+					});
+
+					$scope.getAllTenantTypes(); 
+					$scope.$emit('handleEmitTenantTypeChanged');
+				} else {
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.TENANT_TYPE")}),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function() {
+
+		});
 
         $rootScope.modalInstance = modalInstance;
     };
 
     $scope.editTenantType = function(tenantType) { 
-        const modalInstance = $uibModal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/tenant/tenanttype.model.html',
             controller: 'ModalEditTenantTypeCtrl',
             windowClass: "animated fadeIn",
@@ -82,24 +85,32 @@ app.controller('TenantTypeController', function(
         });
 
         modalInstance.result.then(function(modifiedTenantType) {
-            const headers = { 
+			let headers = { 
                 "User-UUID": $scope.cur_user.uuid, 
-                "Token": $scope.cur_user.token 
-            };
-            TenantTypeService.editTenantType(modifiedTenantType, headers, function(response) {
-                if (response.status === 200) {
-                    toaster.pop('success', $translate.instant("TOASTER.SUCCESS_TITLE"), 
-                        $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                    );
-                    $scope.getAllTenantTypes(); 
-                } else {
-                    toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                        $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                    );
-                }
-            });
-        });
+                "Token": $scope.cur_user.token };
+	        TenantTypeService.editTenantType(modifiedTenantType, headers, function(response) {
+	            if(angular.isDefined(response.status) && response.status === 200){
+					toaster.pop({
+						type: "success",
+						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.TENANT_TYPE")}),
+						showCloseButton: true,
+					});
 
+					$scope.getAllTenantTypes(); 
+					$scope.$emit('handleEmitTenantTypeChanged');
+				}else{
+					toaster.pop({
+						type: "error",
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.TENANT_TYPE")}),
+						body: $translate.instant(response.data.description),
+						showCloseButton: true,
+					});
+				}
+			});
+		}, function () {
+	       
+		});
         $rootScope.modalInstance = modalInstance;
     };
 
@@ -142,30 +153,13 @@ app.controller('TenantTypeController', function(
 app.controller('ModalAddTenantTypeCtrl', function(
     $scope,
     $uibModalInstance,
-    params,
-    toaster,
-    $translate
+    params 
 ) {
     $scope.operation = "SETTING.ADD_TENANT_TYPE"; 
     $scope.tenantTypes = params.tenantTypes; 
     $scope.tenantType = {}; 
 
     $scope.ok = function() {
-        if (!($scope.tenantType.name && $scope.tenantType.name.trim())) {
-            toaster.pop('warning', $translate.instant("TOASTER.WARNING_TITLE"), 
-                $translate.instant("TOASTER.INPUT_NAME")
-            );
-            return;
-        }
-        const isDuplicate = $scope.tenantTypes.some(type => 
-            type.name.toLowerCase() === $scope.tenantType.name.toLowerCase()
-        );
-        if (isDuplicate) {
-            toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                $translate.instant("TOASTER.DUPLICATE_NAME")
-            );
-            return;
-        }
         $uibModalInstance.close($scope.tenantType);
     };
 
@@ -177,34 +171,17 @@ app.controller('ModalAddTenantTypeCtrl', function(
 app.controller('ModalEditTenantTypeCtrl', function(
     $scope,
     $uibModalInstance,
-    params,
-    toaster,
-    $translate
+    params
 ) {
     $scope.operation = "SETTING.EDIT_TENANT_TYPE"; 
     $scope.tenantType = params.tenantType; 
     $scope.tenantTypes = params.tenantTypes; 
 
     $scope.ok = function() {
-        if (!($scope.tenantType.name && $scope.tenantType.name.trim())) {
-            toaster.pop('warning', $translate.instant("TOASTER.WARNING_TITLE"), 
-                $translate.instant("TOASTER.INPUT_NAME")
-            );
-            return;
-        }
-        const isDuplicate = $scope.tenantTypes.some(type => 
-            type.id !== $scope.tenantType.id && 
-            type.name.toLowerCase() === $scope.tenantType.name.toLowerCase()
-        );
-        if (isDuplicate) {
-            toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                $translate.instant("TOASTER.DUPLICATE_NAME")
-            );
-            return;
-        }
         $uibModalInstance.close($scope.tenantType);
     };
+    
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
-}); 
+});
