@@ -238,7 +238,7 @@ class ProtocolItem:
         cursor.execute(" SELECT name "
                        " FROM tbl_protocols "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        if cursor.fetchall() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',

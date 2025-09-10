@@ -412,7 +412,7 @@ class MeterItem:
                        "   OR discharge_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_energy_storage_containers_batteries = cursor.fetchone()
+        row_energy_storage_containers_batteries = cursor.fetchall()
         if row_energy_storage_containers_batteries is not None:
             cursor.close()
             cnx.close()
@@ -427,7 +427,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_energy_storage_containers_grids = cursor.fetchone()
+        row_energy_storage_containers_grids = cursor.fetchall()
         if row_energy_storage_containers_grids is not None:
             cursor.close()
             cnx.close()
@@ -441,7 +441,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_energy_storage_containers_loads = cursor.fetchone()
+        row_energy_storage_containers_loads = cursor.fetchall()
         if row_energy_storage_containers_loads is not None:
             cursor.close()
             cnx.close()
@@ -455,7 +455,7 @@ class MeterItem:
                        "WHERE master_meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_meters = cursor.fetchone()
+        row_meters = cursor.fetchall()
         if row_meters is not None:
             cursor.close()
             cnx.close()
@@ -470,7 +470,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_photovoltaic_power_stations_grids = cursor.fetchone()
+        row_photovoltaic_power_stations_grids = cursor.fetchall()
         if row_photovoltaic_power_stations_grids is not None:
             cursor.close()
             cnx.close()
@@ -484,7 +484,7 @@ class MeterItem:
                        "WHERE generation_meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_photovoltaic_power_stations_invertors = cursor.fetchone()
+        row_photovoltaic_power_stations_invertors = cursor.fetchall()
         if row_photovoltaic_power_stations_invertors is not None:
             cursor.close()
             cnx.close()
@@ -498,7 +498,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_photovoltaic_power_stations_loads = cursor.fetchone()
+        row_photovoltaic_power_stations_loads = cursor.fetchall()
         if row_photovoltaic_power_stations_loads is not None:
             cursor.close()
             cnx.close()
@@ -511,7 +511,7 @@ class MeterItem:
                        " FROM tbl_variables va, tbl_virtual_meters vm "
                        " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.virtual_meter_id = vm.id ",
                        (id_,))
-        row_virtual_meter = cursor.fetchone()
+        row_virtual_meter = cursor.fetchall()
         if row_virtual_meter is not None:
             cursor.close()
             cnx.close()
@@ -647,7 +647,7 @@ class MeterItem:
                        "   OR discharge_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_microgrid_battery = cursor.fetchone()
+        row_microgrid_battery = cursor.fetchall()
         if row_microgrid_battery is not None:
             cursor.close()
             cnx.close()
@@ -661,7 +661,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_evcharger = cursor.fetchone()
+        row_microgrid_evcharger = cursor.fetchall()
         if row_microgrid_evcharger is not None:
             cursor.close()
             cnx.close()
@@ -675,7 +675,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_generators = cursor.fetchone()
+        row_microgrid_generators = cursor.fetchall()
         if row_microgrid_generators is not None:
             cursor.close()
             cnx.close()
@@ -690,7 +690,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_microgrid_grid = cursor.fetchone()
+        row_microgrid_grid = cursor.fetchall()
         if row_microgrid_grid is not None:
             cursor.close()
             cnx.close()
@@ -706,7 +706,7 @@ class MeterItem:
                        "   OR cooling_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_, id_))
-        row_microgrid_heatpump = cursor.fetchone()
+        row_microgrid_heatpump = cursor.fetchall()
         if row_microgrid_heatpump is not None:
             cursor.close()
             cnx.close()
@@ -720,7 +720,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_load = cursor.fetchone()
+        row_microgrid_load = cursor.fetchall()
         if row_microgrid_load is not None:
             cursor.close()
             cnx.close()
@@ -734,7 +734,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_photovoltaic = cursor.fetchone()
+        row_microgrid_photovoltaic = cursor.fetchall()
         if row_microgrid_photovoltaic is not None:
             cursor.close()
             cnx.close()
