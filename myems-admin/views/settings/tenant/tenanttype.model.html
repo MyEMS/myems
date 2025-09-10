@@ -1,0 +1,79 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ operation | translate}}(ID:{{tenantType.id}})</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="tenantTypeForm" novalidate class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ 'SETTING.NAME' | translate }} <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        ng-model="tenantType.name" 
+                        name="tenantTypeName"
+                        required 
+                        placeholder="{{ 'SETTING.INPUT_NAME' | translate }}"
+                        ng-trim="true"
+                    >
+                    <div class="m-t-xs" ng-show="tenantTypeForm.tenantTypeName.$invalid && tenantTypeForm.tenantTypeName.$dirty">
+                        <small class="text-danger" ng-show="tenantTypeForm.tenantTypeName.$error.required">
+                            {{ 'SETTING.INPUT_NAME' | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ 'SETTING.DESCRIPTION' | translate }} <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        ng-model="tenantType.description" 
+                        name="tenantTypeDescription"
+                        required 
+                        placeholder="{{ 'SETTING.ENTER_DESCRIPTION' | translate }}"
+                        ng-trim="true"
+                    >
+                    <div class="m-t-xs" ng-show="tenantTypeForm.tenantTypeDescription.$invalid && tenantTypeForm.tenantTypeDescription.$dirty">
+                        <small class="text-danger" ng-show="tenantTypeForm.tenantTypeDescription.$error.required">
+                            {{ 'SETTING.ENTER_DESCRIPTION' | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ 'SETTING.SIMPLIFIED_CODE' | translate }} <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        ng-model="tenantType.simplified_code" 
+                        name="tenantTypeSimplifiedCode"
+                        required 
+                        placeholder="{{ 'SETTING.ENTER_SIMPLIFIED_CODE' | translate }}"
+                        ng-trim="true"
+                    >
+                    <div class="m-t-xs" ng-show="tenantTypeForm.tenantTypeSimplifiedCode.$invalid && tenantTypeForm.tenantTypeSimplifiedCode.$dirty">
+                        <small class="text-danger" ng-show="tenantTypeForm.tenantTypeSimplifiedCode.$error.required">
+                            {{ 'SETTING.ENTER_SIMPLIFIED_CODE' | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{ 'SETTING.CANCEL' | translate }}</button>
+        <button 
+            type="button" 
+            class="btn btn-primary" 
+            ng-click="ok()" 
+            ng-disabled="tenantTypeForm.$invalid" 
+        >{{ 'SETTING.SAVE' | translate }}</button>
+    </div>
+</div>

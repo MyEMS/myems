@@ -406,6 +406,17 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Schedule Start Time',
                 SCHEDULE_END_TIME: 'Schedule End Time',
                 SCHEDULE_POWER: 'Schedule Power',
+
+                TENANT_TYPE: "Tenant Type",
+                ADD_TENANT_TYPE: "Add Tenant Type",
+                TENANT_TYPE_NAME: "Type Name",
+                EDIT_TENANT_TYPE: "Edit Tenant Type",
+                TITLE_CONFIRM_DELETE: "Confirm Deletion",
+                ENTER_NAME: "Enter Name",
+                ENTER_DESCRIPTION: "Enter Description",
+                DESCRIPTION: "Description",
+                SIMPLIFIED_CODE: "Simplified Code",
+                ENTER_SIMPLIFIED_CODE: "Enter Simplified Code"
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -2371,6 +2382,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: '调度开始时间',
                 SCHEDULE_END_TIME: '调度结束时间',
                 SCHEDULE_POWER: '调度功率',
+
+                TENANT_TYPE: "租户类型", 
+                ADD_TENANT_TYPE: "添加租户类型", 
+                TENANT_TYPE_NAME: "类型名称",
+                EDIT_TENANT_TYPE: "编辑租户类型",
+                TITLE_CONFIRM_DELETE:"确认删除",
+                ENTER_DESCRIPTION:"输入描述",
+                DESCRIPTION: "描述",
+                SIMPLIFIED_CODE: "简化代码",
+                ENTER_SIMPLIFIED_CODE: "输入简化代码",
             },
             CONTACT: {
                 EMAIL: '邮箱',
@@ -4337,6 +4358,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Endzeit',
                 SCHEDULE_END_TIME: 'Anfangszeit',
                 SCHEDULE_POWER: 'Leistung',
+
+                TENANT_TYPE: "Mandantenart",
+                ADD_TENANT_TYPE: "Mandantenart hinzufügen",
+                TENANT_TYPE_NAME: "Typname",
+                EDIT_TENANT_TYPE: "Mandantenart bearbeiten",
+                TITLE_CONFIRM_DELETE: "Löschbestätigung",
+                ENTER_DESCRIPTION: "Beschreibung eingeben",
+                DESCRIPTION: "Beschreibung",
+                SIMPLIFIED_CODE: "Vereinfachter Code",
+                ENTER_SIMPLIFIED_CODE: "Vereinfachten Code eingeben"          
             },
             CONTACT: {
                 EMAIL: 'Briefkasten',
@@ -6297,6 +6328,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Heure de fin',
                 SCHEDULE_END_TIME: 'Heure de départ',
                 SCHEDULE_POWER: 'Pouvoir',
+
+                TENANT_TYPE: "Type de locataire",
+                ADD_TENANT_TYPE: "Ajouter un type de locataire",
+                TENANT_TYPE_NAME: "Nom du type",
+                EDIT_TENANT_TYPE: "Modifier le type de locataire",
+                TITLE_CONFIRM_DELETE: "Confirmer la suppression",
+                ENTER_DESCRIPTION: "Saisir la description",
+                DESCRIPTION: "Description",
+                SIMPLIFIED_CODE: "Code simplifié",
+                ENTER_SIMPLIFIED_CODE: "Saisir le code simplifié"
             },
             CONTACT: {
                 EMAIL: 'Messagerie électronique',
@@ -8260,6 +8301,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Hora de finalización',
                 SCHEDULE_END_TIME: 'Tiempo de empezar',
                 SCHEDULE_POWER: 'Fuerza',
+
+                TENANT_TYPE: "Tipo de inquilino",
+                ADD_TENANT_TYPE: "Agregar tipo de inquilino",
+                TENANT_TYPE_NAME: "Nombre del tipo",
+                EDIT_TENANT_TYPE: "Editar tipo de inquilino",
+                TITLE_CONFIRM_DELETE: "Confirmar eliminación",
+                ENTER_DESCRIPTION: "Ingresar descripción",
+                DESCRIPTION: "Descripción",
+                SIMPLIFIED_CODE: "Código simplificado",
+                ENTER_SIMPLIFIED_CODE: "Ingresar código simplificado"
             },
             CONTACT: {
                 EMAIL: 'Correo electrónico',
@@ -10223,6 +10274,17 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Время окончания',
                 SCHEDULE_END_TIME: 'Время начала',
                 SCHEDULE_POWER: 'власть',
+
+                TENANT_TYPE: "Тип арендатора",
+                ADD_TENANT_TYPE: "Добавить тип арендатора",
+                TENANT_TYPE_NAME: "Название типа",
+                EDIT_TENANT_TYPE: "Редактировать тип арендатора",
+                TITLE_CONFIRM_DELETE: "Подтвердить удаление",
+                ENTER_NAME: "Введите название",
+                ENTER_DESCRIPTION: "Введите описание",
+                DESCRIPTION: "Описание",
+                SIMPLIFIED_CODE: "Упрощенный код",
+                ENTER_SIMPLIFIED_CODE: "Введите упрощенный код"
             },
             CONTACT: {
                 EMAIL: 'Отправить по электронной почте',
@@ -12186,6 +12248,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'وقت النهاية',
                 SCHEDULE_END_TIME: 'وقت البدء',
                 SCHEDULE_POWER: 'قوة',
+
+                TENANT_TYPE: "نوع المستأجر",
+                ADD_TENANT_TYPE: "إضافة نوع مستأجر",
+                TENANT_TYPE_NAME: "اسم النوع",
+                EDIT_TENANT_TYPE: "تحرير نوع المستأجر",
+                TITLE_CONFIRM_DELETE: "تأكيد الحذف",
+                ENTER_DESCRIPTION: "أدخل الوصف",
+                DESCRIPTION: "الوصف",
+                SIMPLIFIED_CODE: "الكود المبسط",
+                ENTER_SIMPLIFIED_CODE: "أدخل الكود المبسط"
             },
             CONTACT: {
                 EMAIL: 'البريد الإلكتروني',
@@ -14148,6 +14220,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Thời gian kết thúc',
                 SCHEDULE_END_TIME: 'Thời gian bắt đầu',
                 SCHEDULE_POWER: 'Quyền lực',
+
+                TENANT_TYPE: "Loại người thuê",
+                ADD_TENANT_TYPE: "Thêm loại người thuê",
+                TENANT_TYPE_NAME: "Tên loại",
+                EDIT_TENANT_TYPE: "Sửa loại người thuê",
+                TITLE_CONFIRM_DELETE: "Xác nhận xóa",
+                ENTER_DESCRIPTION: "Nhập mô tả",
+                DESCRIPTION: "Mô tả",
+                SIMPLIFIED_CODE: "Mã rút gọn",
+                ENTER_SIMPLIFIED_CODE: "Nhập mã rút gọn"
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -16109,6 +16191,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'เวลาสิ้นสุด',
                 SCHEDULE_END_TIME: 'เวลาเริ่มต้น',
                 SCHEDULE_POWER: 'พลัง',
+
+                TENANT_TYPE: "ประเภทผู้เช่า",
+                ADD_TENANT_TYPE: "เพิ่มประเภทผู้เช่า",
+                TENANT_TYPE_NAME: "ชื่อประเภท",
+                EDIT_TENANT_TYPE: "แก้ไขประเภทผู้เช่า",
+                TITLE_CONFIRM_DELETE: "ยืนยันการลบ",
+                ENTER_DESCRIPTION: "ป้อนคำอธิบาย",
+                DESCRIPTION: "คำอธิบาย",
+                SIMPLIFIED_CODE: "รหัสย่อ",
+                ENTER_SIMPLIFIED_CODE: "ป้อนรหัสย่อ"
             },
             CONTACT: {
                 EMAIL: 'อีเมล',
@@ -18070,6 +18162,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Bitiş zamanı',
                 SCHEDULE_END_TIME: 'Başlangıç ​​zamanı',
                 SCHEDULE_POWER: 'Güç',
+
+                TENANT_TYPE: "Kiracı Türü",
+                ADD_TENANT_TYPE: "Kiracı Türü Ekle",
+                TENANT_TYPE_NAME: "Tür Adı",
+                EDIT_TENANT_TYPE: "Kiracı Türünü Düzenle",
+                TITLE_CONFIRM_DELETE: "Silmeyi Onayla",
+                ENTER_DESCRIPTION: "Açıklama Girin",
+                DESCRIPTION: "Tanım",
+                SIMPLIFIED_CODE: "Basitleştirilmiş Kod",
+                ENTER_SIMPLIFIED_CODE: "Basitleştirilmiş Kod Girin"
             },
             CONTACT: {
                 EMAIL: 'E-posta',
@@ -20031,6 +20133,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Masa tamat',
                 SCHEDULE_END_TIME: 'Masa mula',
                 SCHEDULE_POWER: 'Kuasa',
+
+                TENANT_TYPE: "Jenis Penyewa",
+                ADD_TENANT_TYPE: "Tambah Jenis Penyewa",
+                TENANT_TYPE_NAME: "Nama Jenis",
+                EDIT_TENANT_TYPE: "Edit Jenis Penyewa",
+                TITLE_CONFIRM_DELETE: "Sahkan Hapusan",
+                ENTER_DESCRIPTION: "Masukkan Keterangan",
+                DESCRIPTION: "Penerangan",
+                SIMPLIFIED_CODE: "Kod Ringkas",
+                ENTER_SIMPLIFIED_CODE: "Masukkan Kod Ringkas"
             },
             CONTACT: {
                 EMAIL: 'E-mel',
@@ -21992,6 +22104,17 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Akhir waktu',
                 SCHEDULE_END_TIME: 'Waktu mulai',
                 SCHEDULE_POWER: 'Kekuatan',
+
+                TENANT_TYPE: "Jenis Penyewa",
+                ADD_TENANT_TYPE: "Tambah Jenis Penyewa",
+                TENANT_TYPE_NAME: "Nama Jenis",
+                EDIT_TENANT_TYPE: "Edit Jenis Penyewa",
+                TITLE_CONFIRM_DELETE: "Konfirmasi Hapus",
+                ENTER_NAME: "Masukkan Nama",
+                ENTER_DESCRIPTION: "Masukkan Deskripsi",
+                DESCRIPTION: "Deskripsi",
+                SIMPLIFIED_CODE: "Kode Simplifikasi",
+                ENTER_SIMPLIFIED_CODE: "Masukkan Kode Simplifikasi"
             },
             CONTACT: {
                 EMAIL: 'Email',
@@ -23956,6 +24079,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: '結束時間',
                 SCHEDULE_END_TIME: '開始時間',
                 SCHEDULE_POWER: '功率',
+
+                TENANT_TYPE: "租戶類型",
+                ADD_TENANT_TYPE: "添加租戶類型",
+                TENANT_TYPE_NAME: "類型名稱",
+                EDIT_TENANT_TYPE: "編輯租戶類型",
+                TITLE_CONFIRM_DELETE: "確認刪除",
+                ENTER_DESCRIPTION: "輸入描述",
+                DESCRIPTION: "描述",
+                SIMPLIFIED_CODE: "簡化代碼",
+                ENTER_SIMPLIFIED_CODE: "輸入簡化代碼"
             },
             CONTACT: {
                 EMAIL: '郵箱',
@@ -25922,6 +26055,16 @@ function config($translateProvider) {
                 SCHEDULE_START_TIME: 'Horário de início',
                 SCHEDULE_END_TIME: 'Agendar a Hora Final',
                 SCHEDULE_POWER: 'Agendar Potência',
+
+                TENANT_TYPE: "Tipo de Locatário",
+                ADD_TENANT_TYPE: "Adicionar Tipo de Locatário",
+                TENANT_TYPE_NAME: "Nome do Tipo",
+                EDIT_TENANT_TYPE: "Editar Tipo de Locatário",
+                TITLE_CONFIRM_DELETE: "Confirmar Exclusão",
+                ENTER_DESCRIPTION: "Inserir Descrição",
+                DESCRIPTION: "Descrição",
+                SIMPLIFIED_CODE: "Código Simplificado",
+                ENTER_SIMPLIFIED_CODE: "Inserir Código Simplificado"
             },
             CONTACT: {
                 EMAIL: 'E-mail',
