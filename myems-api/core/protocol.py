@@ -184,7 +184,8 @@ class ProtocolItem:
                        " WHERE protocol = %s "
                        " LIMIT 1 ",
                        (code,))
-        if cursor.fetchone() is not None:
+        rows_protocols = cursor.fetchall()
+        if rows_protocols is not None and len(rows_protocols) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -238,7 +239,7 @@ class ProtocolItem:
         cursor.execute(" SELECT name "
                        " FROM tbl_protocols "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchall() is None:
+        if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
