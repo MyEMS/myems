@@ -125,6 +125,8 @@ def main():
 
         # fork worker process for each data source
         # todo: how to restart the process if the process terminated unexpectedly
+        # 测试fork pull by wj
+
         Process(target=acquisition.process,
                 args=(logger, data_source[0], server['host'], server['port'], interval_in_seconds)).start()
 
