@@ -15,6 +15,9 @@ app.controller('TenantController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	
+	// 初始化租户类型数组（共享数据源）
+	$scope.tenantTypes = [];
 
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -49,16 +52,21 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// 修改点1：优化租户类型获取方法 - 保持数组引用不变
 	$scope.getAllTenantTypes = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantTypeService.getAllTenantTypes(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.tenanttypes = response.data;
+				// 清空现有数组并添加新数据（保持引用不变）
+				$scope.tenantTypes.length = 0;
+				Array.prototype.push.apply($scope.tenantTypes, response.data);
 			} else {
-				$scope.tenanttypes = [];
+				$scope.tenantTypes.length = 0;
 			}
 		});
 	};
+	
+	// 修改点2：传递租户类型引用而非拷贝
 	$scope.addTenant = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/tenant/tenant.model.html',
@@ -67,8 +75,8 @@ app.controller('TenantController', function (
 			resolve: {
 				params: function () {
 					return {
-						tenants: angular.copy($scope.tenants),
-						tenanttypes: angular.copy($scope.tenanttypes),
+						// 修改点：传递引用而非拷贝
+						tenantTypes: $scope.tenantTypes,
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 					};
@@ -113,6 +121,7 @@ app.controller('TenantController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// 修改点3：传递租户类型引用而非拷贝
 	$scope.editTenant = function (tenant) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -122,7 +131,8 @@ app.controller('TenantController', function (
 				params: function () {
 					return {
 						tenant: angular.copy(tenant),
-						tenanttypes: angular.copy($scope.tenanttypes),
+						// 修改点：传递引用而非拷贝
+						tenantTypes: $scope.tenantTypes,
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts)
 					};
@@ -294,25 +304,34 @@ app.controller('TenantController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// 初始化加载
 	$scope.getAllTenants();
-	$scope.getAllTenantTypes();
+	$scope.getAllTenantTypes(); // 初始化租户类型共享数组
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	
+	// 修改点4：监听租户类型变更事件
+	$scope.$on('handleBroadcastTenantTypeChanged', function() {
+		// 刷新租户类型共享数组
+		$scope.getAllTenantTypes();
+	});
+	
 	$scope.$on('handleBroadcastTenantChanged', function (event) {
 		$scope.getAllTenants();
 	});
 });
 
+// 模态框控制器保持不变（使用传入的租户类型引用）
 app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params) {
-
 	$scope.operation = "SETTING.ADD_TENANT";
-	$scope.tenanttypes = params.tenanttypes;
+	// 直接使用传入的引用
+	$scope.tenanttypes = params.tenantTypes;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
-$scope.tenant = {
-	lease_start_datetime: moment(),
-	lease_end_datetime: null,
-};
+	$scope.tenant = {
+		lease_start_datetime: moment(),
+		lease_end_datetime: moment()
+	};
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -339,7 +358,11 @@ $scope.tenant = {
 
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+		 if ($scope.tenant.lease_end_datetime) {
+            $scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+        } else {
+            $scope.tenant.lease_end_datetime = null;
+        }
 		$uibModalInstance.close($scope.tenant);
 	};
 
@@ -351,9 +374,13 @@ $scope.tenant = {
 app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_TENANT";
 	$scope.tenant = params.tenant;
-	$scope.tenanttypes = params.tenanttypes;
+	// 直接使用传入的引用
+	$scope.tenanttypes = params.tenantTypes;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
+	  if (!$scope.tenant.lease_end_datetime) {
+        $scope.tenant.lease_end_datetime = moment(); // 设置为当前日期
+    }
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -379,7 +406,11 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 	
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+		 if ($scope.tenant.lease_end_datetime) {
+            $scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+        } else {
+            $scope.tenant.lease_end_datetime = null;
+        }
 		$uibModalInstance.close($scope.tenant);
 	};
 
