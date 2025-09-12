@@ -19,7 +19,7 @@ app.controller('SVGPreviewController', function($scope, $window, SVGService) {
     $scope.changeSVG=function(item,model){
         $scope.currentSVG=item;
         $scope.currentSVG.selected=model;
-        document.getElementById("preview-svg").innerHTML = $scope.currentSVG.svg;
+        document.getElementById("preview-svg").innerHTML = $scope.currentSVG.source_code;
     };
 
     $scope.getAllSVGs();

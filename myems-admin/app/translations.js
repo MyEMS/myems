@@ -1027,6 +1027,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Source Code',
                 INPUT_SOURCE_CODE: 'Input Source Code',
+                PREVIEW: 'Preview',
+                SELECT_SVG: 'Select SVG',
+                N_S_PREVIEW: 'Preview',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Add Equipment',
@@ -2967,6 +2970,9 @@ function config($translateProvider) {
                 EDIT_SVG: '编辑SVG',
                 SOURCE_CODE: '源代码',
                 INPUT_SOURCE_CODE: '输入源代码',
+                PREVIEW: '预览',
+                SELECT_SVG: '请选择SVG',
+                N_S_PREVIEW: '预览',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: '添加能流图',
@@ -4935,6 +4941,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'SVG bearbeiten',
                 SOURCE_CODE: 'Quellcode',
                 INPUT_SOURCE_CODE: 'Quellcode eingeben',
+                PREVIEW: 'Vorschau',
+                SELECT_SVG: 'SVG auswählen',
+                N_S_PREVIEW: 'Vorschau',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: 'Energieflussdiagramm hinzufügen',
@@ -6917,6 +6926,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Modifier le SVG',
                 SOURCE_CODE: 'Code source',
                 INPUT_SOURCE_CODE: 'Code source d\'entrée',
+                PREVIEW: 'Prévue',
+                SELECT_SVG: 'Sélectionner SVG',
+                N_S_PREVIEW: 'Prévue',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Ajouter de l’équipement',
@@ -8880,6 +8892,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Editar SVG',
                 SOURCE_CODE: 'Código fuente',
                 INPUT_SOURCE_CODE: 'Código fuente de entrada',
+                PREVIEW: 'Vista previa',
+                SELECT_SVG: 'Seleccionar SVG',
+                N_S_PREVIEW: 'Vista previa',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Agregar equipo',
@@ -10843,6 +10858,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Изменить SVG',
                 SOURCE_CODE: 'Исходный код',
                 INPUT_SOURCE_CODE: 'Исходный код ввода',
+                PREVIEW: 'Предварительный просмотр',
+                SELECT_SVG: 'Выберите SVG',
+                N_S_PREVIEW: 'Предварительный просмотр',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Добавить оборудование',
@@ -12806,6 +12824,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'تحرير SVG',
                 SOURCE_CODE: 'مصدر الرمز',
                 INPUT_SOURCE_CODE: 'إدخال كود المصدر',
+                PREVIEW: 'المعاينة',
+                SELECT_SVG: 'اختر SVG',
+                N_S_PREVIEW: 'المعاينة',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'إضافة معدات',
@@ -14768,6 +14789,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Chỉnh sửa SVG',
                 SOURCE_CODE: 'Mã nguồn',
                 INPUT_SOURCE_CODE: 'Mã nguồn đầu vào',
+                PREVIEW: 'Xem trước',
+                SELECT_SVG: 'Chọn SVG',
+                N_S_PREVIEW: 'Xem trước',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Thêm thiết bị',
@@ -16728,6 +16752,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'แก้ไข SVG',
                 SOURCE_CODE: 'รหัสแหล่งที่มา',
                 INPUT_SOURCE_CODE: 'ซอร์สโค้ดอินพุต',
+                PREVIEW: 'ดูล่วงหน้า',
+                SELECT_SVG: 'เลือก SVG',
+                N_S_PREVIEW: 'ดูล่วงหน้า',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'เพิ่มอุปกรณ์',
@@ -18689,6 +18716,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Kaynak kodu',
                 INPUT_SOURCE_CODE: 'Giriş Kaynağı Kodu',
+                PREVIEW: 'Önizleme',
+                SELECT_SVG: 'SVG Seçin',
+                N_S_PREVIEW: 'Önizleme',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Ekipman Ekle',
@@ -20650,6 +20680,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Edit SVG',
                 SOURCE_CODE: 'Kod sumber',
                 INPUT_SOURCE_CODE: 'Kod Sumber Input',
+                PREVIEW: 'Pratonton',
+                SELECT_SVG: 'Pilih SVG',
+                N_S_PREVIEW: 'Pratonton',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Tambah Peralatan',
@@ -22611,6 +22644,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Sunting SVG',
                 SOURCE_CODE: 'Kode sumber',
                 INPUT_SOURCE_CODE: 'Kode Sumber Masukan',
+                PREVIEW: 'Pratinjau',
+                SELECT_SVG: 'Pilih SVG',
+                N_S_PREVIEW: 'Pratinjau',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Tambahkan Peralatan',
@@ -24556,6 +24592,9 @@ function config($translateProvider) {
                 EDIT_SVG: '編輯SVG',
                 SOURCE_CODE: '原始碼',
                 INPUT_SOURCE_CODE: '輸入原始碼',
+                PREVIEW: '預覽',
+                SELECT_SVG: '請選擇SVG',
+                N_S_PREVIEW: '預覽',
             },
             ENERGY_FLOW_DIAGRAM: {
                 ADD_ENERGY_FLOW_DIAGRAM: '添加能流圖',
@@ -26543,6 +26582,9 @@ function config($translateProvider) {
                 EDIT_SVG: 'Editar SVG',
                 SOURCE_CODE: 'Código Fonte',
                 INPUT_SOURCE_CODE: 'Informe o Código Fonte',
+                PREVIEW: 'Visualização',
+                SELECT_SVG: 'Selecionar SVG',
+                N_S_PREVIEW: 'Visualização',
             },
             EQUIPMENT: {
                 ADD_EQUIPMENT: 'Adicionar Equipamento',
