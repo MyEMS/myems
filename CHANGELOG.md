@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added tenant type function in myems-admin
+- added svg preview to myems-admin
 ### Changed
 - updated dashboard in myems-web and in myems-api
 ### Fixed
