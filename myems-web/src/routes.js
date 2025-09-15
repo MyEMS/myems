@@ -49,7 +49,8 @@ export const equipmentRoutes = {
     { to: '/equipment/saving', name: 'Saving' },
     { to: '/equipment/plan', name: 'Plan' },
     { to: '/equipment/batch', name: 'Batch Analysis' },
-    { to: '/equipment/tracking', name: 'Equipment Tracking' }
+    { to: '/equipment/tracking', name: 'Equipment Tracking' },
+    { to: '/equipment/comparison', name: 'Equipment Comparison' }
   ]
 };
 
