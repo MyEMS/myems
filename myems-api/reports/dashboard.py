@@ -44,7 +44,6 @@ class Reporting:
         else:
             api_key_control(req)
         user_uuid = req.params.get('useruuid')
-        period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
@@ -60,15 +59,6 @@ class Reporting:
             if len(user_uuid) != 36:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_USER_UUID')
-
-        if period_type is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PERIOD_TYPE')
-        else:
-            period_type = str.strip(period_type)
-            if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_PERIOD_TYPE')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -516,21 +506,11 @@ class Reporting:
                 rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
                                                                                     reporting_start_datetime_utc,
                                                                                     reporting_end_datetime_utc,
-                                                                                    period_type)
+                                                                                    'monthly')
                 for row_space_periodically in rows_space_periodically:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     reporting_input[energy_category_id]['timestamps'].append(current_datetime)
                     reporting_input[energy_category_id]['values'].append(actual_value)
@@ -588,21 +568,11 @@ class Reporting:
                 rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
                                                                                     reporting_start_datetime_utc,
                                                                                     reporting_end_datetime_utc,
-                                                                                    period_type)
+                                                                                    'monthly')
                 for row_space_periodically in rows_space_periodically:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
                     reporting_cost[energy_category_id]['timestamps'].append(current_datetime)
                     reporting_cost[energy_category_id]['values'].append(actual_value)
@@ -661,21 +631,11 @@ class Reporting:
                 rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
                                                                                     reporting_start_datetime_utc,
                                                                                     reporting_end_datetime_utc,
-                                                                                    period_type)
+                                                                                    'monthly')
                 for row_space_periodically in rows_space_periodically:
                     current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                              timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
+                    current_datetime = current_datetime_local.isoformat()[0:7]
                     actual_value = Decimal(0.0) if row_space_periodically[1] is None else \
                         row_space_periodically[1]
                     reporting_output[energy_category_id]['timestamps'].append(current_datetime)
@@ -735,7 +695,7 @@ class Reporting:
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
                                                                                         reporting_start_datetime_utc,
                                                                                         reporting_end_datetime_utc,
-                                                                                        period_type)
+                                                                                        'monthly')
 
                     for row_space_periodically in rows_space_periodically:
                         actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
@@ -775,7 +735,7 @@ class Reporting:
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
                                                                                         reporting_start_datetime_utc,
                                                                                         reporting_end_datetime_utc,
-                                                                                        period_type)
+                                                                                        'monthly')
 
                     for row_space_periodically in rows_space_periodically:
                         actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
@@ -925,7 +885,7 @@ class Reporting:
                 result['reporting_period_input']['deeps'].append(
                     reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
-                    (reporting_input[energy_category_id]['subtotal'] -
+                    (reporting_input[energy_category_id]['values'][12] -
                      base_input[energy_category_id]['subtotal']) /
                     base_input[energy_category_id]['subtotal']
                     if base_input[energy_category_id]['subtotal'] > 0.0 else None)
@@ -983,7 +943,7 @@ class Reporting:
                 result['reporting_period_cost']['deeps'].append(
                     reporting_cost[energy_category_id]['deep'])
                 result['reporting_period_cost']['increment_rates'].append(
-                    (reporting_cost[energy_category_id]['subtotal'] -
+                    (reporting_cost[energy_category_id]['values'][12] -
                      base_cost[energy_category_id]['subtotal']) /
                     base_cost[energy_category_id]['subtotal']
                     if base_cost[energy_category_id]['subtotal'] > 0.0 else None)
@@ -1041,7 +1001,7 @@ class Reporting:
                 result['reporting_period_output']['deeps'].append(
                     reporting_output[energy_category_id]['deep'])
                 result['reporting_period_output']['increment_rates'].append(
-                    (reporting_output[energy_category_id]['subtotal'] -
+                    (reporting_output[energy_category_id]['values'][12] -
                      base_output[energy_category_id]['subtotal']) /
                     base_output[energy_category_id]['subtotal']
                     if base_output[energy_category_id]['subtotal'] > 0.0 else None)

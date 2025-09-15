@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added tenant type function in myems-admin
 ### Changed
+- updated dashboard in myems-web and in myems-api
 ### Fixed
+- fixed blank page image style issue in myems-web
 ### Removed
 
 ## [v5.8.0] - 2025-08-28
