@@ -24,11 +24,9 @@ ChartJS.register(annotationPlugin);
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const [isFetchDashboard, setIsFetchDashboard] = useState(true);
-  const [periodType, setPeriodType] = useState('monthly');
   const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(
     current_moment
       .clone()
-      .subtract(1, 'years')
       .subtract(1, 'years')
       .startOf('month')
   );
@@ -118,8 +116,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             '/reports/dashboard?' +
             'useruuid=' +
             user_uuid +
-            '&periodtype=' +
-            periodType +
             '&baseperiodstartdatetime=' +
             (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
             '&baseperiodenddatetime=' +
@@ -853,7 +849,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           data={lastYearBarList}
           compareData={thisYearBarList}
           title={t('The Same Period Last Year')}
-          compareTitle={t('This Year')}
+          compareTitle={t('This Month')}
           footnote={t('Per Unit Area')}
           footunit={'/m²'}
         />
