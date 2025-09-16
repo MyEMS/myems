@@ -6,8 +6,12 @@
 				<uib-tabset>
 					<uib-tab heading="{{'USER.USER_LIST' | translate}}">
 						<div class="panel-body" ng-controller="UserController">
-							<a ng-click="addUser()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'USER.ADD_USER' | translate}}</a>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<a ng-click="addUser()" class="btn btn-primary btn-rounded btn-outline" href=""><i
+									class="fa fa-plus-circle"></i> {{'USER.ADD_USER' | translate}}</a>
+							<br>
+							<br>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -29,15 +33,23 @@
 										<td class="text-center">{{ user.display_name }}</td>
 										<td class="text-center">{{ user.email }}</td>
 										<td class="text-center">{{ user.is_admin==1?'Y':'N' }}</td>
-										<td class="text-center">{{ user.is_read_only==null? null:(user.is_read_only==1? 'Y': 'N') }}</td>
+										<td class="text-center">{{ user.is_read_only==null? null:(user.is_read_only==1?
+											'Y': 'N') }}</td>
 										<td class="text-center">{{ user.privilege.name }}</td>
 										<td class="text-center">{{ user.account_expiration_datetime }}</td>
 										<td class="text-center">{{ user.password_expiration_datetime }}</td>
 										<td class="text-center">
-											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editUser(user)" >{{'SETTING.EDIT' | translate}}</a>
-											<a ng-hide="user.name=='administrator'" class="btn btn-info btn-rounded btn-xs" ng-click="resetPassword(user)" >{{'USER.RESET_PASSWORD' | translate}}</a>
-											<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
-											<a ng-hide="!user.is_locked" ng-click="unlockUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.UNLOCK' | translate}}</a>
+											<a class="btn btn-primary btn-rounded btn-xs"
+												ng-click="editUser(user)">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-hide="user.name=='administrator'"
+												class="btn btn-info btn-rounded btn-xs"
+												ng-click="resetPassword(user)">{{'USER.RESET_PASSWORD' | translate}}</a>
+											<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
+											<a ng-hide="!user.is_locked" ng-click="unlockUser(user)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.UNLOCK' |
+												translate}}</a>
 										</td>
 									</tr>
 								</tbody>
@@ -53,7 +65,8 @@
 					</uib-tab>
 					<uib-tab heading="{{'USER.NEW_USER_LIST' | translate}}">
 						<div class="panel-body" ng-controller="NewUserController">
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -70,8 +83,12 @@
 										<td class="text-center">{{ user.display_name }}</td>
 										<td class="text-center">{{ user.email }}</td>
 										<td class="text-center">
-											<a ng-hide="user.name=='administrator'" class="btn btn-info btn-rounded btn-xs" ng-click="approveUser(user)" >{{'USER.APPROVE_USER' | translate}}</a>
-											<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a ng-hide="user.name=='administrator'"
+												class="btn btn-info btn-rounded btn-xs"
+												ng-click="approveUser(user)">{{'USER.APPROVE_USER' | translate}}</a>
+											<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
 										</td>
 									</tr>
 								</tbody>
