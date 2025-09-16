@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content" ng-controller="CostCenterMasterController" >
+<div class="wrapper wrapper-content" ng-controller="CostCenterMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
@@ -8,7 +8,10 @@
 						<div class="panel-body" ng-controller="CostCenterController">
 							<a ng-click="addCostCenter()" class="btn btn-primary btn-rounded btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_COSTCENTER' | translate}}</a>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<br>
+							<br>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -23,8 +26,11 @@
 										<td class="text-center">{{ costcenter.name }}</td>
 										<td class="text-center">{{ costcenter.external_id }}</td>
 										<td class="text-center">
-											<a class="btn btn-primary btn-rounded btn-xs" ng-click="editCostCenter(costcenter)" >{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deleteCostCenter(costcenter)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+											<a class="btn btn-primary btn-rounded btn-xs"
+												ng-click="editCostCenter(costcenter)">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteCostCenter(costcenter)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
 
 										</td>
 									</tr>
@@ -49,7 +55,9 @@
 										</div>
 										<div class="panel-body">
 											<div ng-repeat="costcenter in costcenters" class="radio radio-info">
-												<input type="radio" name="radiocostcenter" id="radiocostcenter{{costcenter.id}}" ng-value="costcenter" ng-model="$parent.currentCostCenter" ng-change="changeCostCenter()" >
+												<input type="radio" name="radiocostcenter"
+													id="radiocostcenter{{costcenter.id}}" ng-value="costcenter"
+													ng-model="$parent.currentCostCenter" ng-change="changeCostCenter()">
 												<label for="radiocostcenter{{costcenter.id}}">
 													{{costcenter.name}}
 												</label>
@@ -64,8 +72,7 @@
 										<div class="panel-heading">
 											{{currentCostCenter.name}}{{'SETTING.N_S_TARIFF' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-											x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairTariff(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
@@ -80,11 +87,9 @@
 										<div class="panel-heading">
 											{{'SETTING.TRASH' | translate}}
 										</div>
-										<div class="panel-body trash" >
-											<img class="trashcan"
-											src="img/trashcan.png"
-											x-hjc-drop-target="true"
-											x-on-drop="deleteTariffPair(dragEl,dropEl)">
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteTariffPair(dragEl,dropEl)">
 										</div>
 									</div>
 								</div>
@@ -97,8 +102,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="tariff in tariffs"
-												x-hjc-draggable="true"> {{tariff.name}}
+												ng-repeat="tariff in tariffs" x-hjc-draggable="true"> {{tariff.name}}
 											</div>
 										</div>
 									</div>
@@ -109,8 +113,10 @@
 
 					<uib-tab heading="{{'SETTING.COST_FILE' | translate}}">
 						<div class="panel-body" ng-controller="CostFileController">
-							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
+								ng-dropzone></div>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -130,9 +136,11 @@
 										<td class="text-center">{{ costfile.upload_datetime}}</td>
 										<td class="text-center">
 											<a ng-click="restoreCostFile(costfile)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' |
+												translate}}</a>
 											<a ng-click="deleteCostFile(costfile)"
-												class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
 										</td>
 									</tr>
 								</tbody>
