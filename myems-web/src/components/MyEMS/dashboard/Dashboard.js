@@ -272,9 +272,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
               setTimeOfUseShareData(timeOfUseArray);
               let totalInTCE = {};
-              totalInTCE['value'] = json['reporting_period_input']['total_in_kgce'] / 1000; // convert from kg to t
+              totalInTCE['value'] = json['reporting_period_input']['this_month_total_in_kgce'] / 1000; // convert from kg to t
               totalInTCE['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
+                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgce'] * 100).toFixed(2) + '%';
               totalInTCE['value_per_unit_area'] =
                 json['space']['area'] > 0 ? parseFloat(totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCE['value_per_capita'] =
@@ -295,9 +295,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
               setCostShareData(costDataArray);
               let totalInTCO2E = {};
-              totalInTCO2E['value'] = json['reporting_period_input']['total_in_kgco2e'] / 1000; // convert from kg to t
+              totalInTCO2E['value'] = json['reporting_period_input']['this_month_total_in_kgco2e'] / 1000; // convert from kg to t
               totalInTCO2E['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
+                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
               totalInTCO2E['value_per_unit_area'] =
                 json['space']['area'] > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCO2E['value_per_capita'] =
@@ -760,7 +760,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+            title={t("This Month's Consumption CATEGORY VALUE UNIT", {
               CATEGORY: t('Ton of Standard Coal'),
               UNIT: '(TCE)'
             })}
@@ -781,7 +781,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         )}
         <CardSummary
           rate={totalInTCO2E['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+          title={t("This Month's Consumption CATEGORY VALUE UNIT", {
             CATEGORY: t('Ton of Carbon Dioxide Emissions'),
             UNIT: '(TCO2E)'
           })}
