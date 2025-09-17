@@ -517,6 +517,8 @@ class Reporting:
                     reporting_input[energy_category_id]['subtotal'] += actual_value
                     reporting_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                     reporting_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                    reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
+                    reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
                 energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
                                                                                        energy_category_id,
@@ -854,9 +856,13 @@ class Reporting:
         result['reporting_period_input']['deeps'] = list()
         result['reporting_period_input']['increment_rates'] = list()
         result['reporting_period_input']['total_in_kgce'] = Decimal(0.0)
+        result['reporting_period_input']['this_month_total_in_kgce'] = Decimal(0.0)
         result['reporting_period_input']['total_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period_input']['this_month_total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period_input']['increment_rate_in_kgce'] = Decimal(0.0)
+        result['reporting_period_input']['this_month_increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period_input']['increment_rate_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period_input']['this_month_increment_rate_in_kgco2e'] = Decimal(0.0)
 
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
             for energy_category_id in input_energy_category_set:
@@ -893,14 +899,20 @@ class Reporting:
                     reporting_input[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_input']['total_in_kgco2e'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgco2e']
+                result['reporting_period_input']['this_month_total_in_kgce'] += \
+                    reporting_input[energy_category_id]['this_month_subtotal_in_kgce']
+                result['reporting_period_input']['this_month_total_in_kgco2e'] += \
+                    reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e']
 
-        result['reporting_period_input']['increment_rate_in_kgce'] = \
-            (result['reporting_period_input']['total_in_kgce'] - result['base_period_input']['total_in_kgce']) / \
+        result['reporting_period_input']['this_month_increment_rate_in_kgce'] = \
+            (result['reporting_period_input']['this_month_total_in_kgce'] -
+             result['base_period_input']['total_in_kgce']) / \
             result['base_period_input']['total_in_kgce'] \
             if result['base_period_input']['total_in_kgce'] > Decimal(0.0) else None
 
-        result['reporting_period_input']['increment_rate_in_kgco2e'] = \
-            (result['reporting_period_input']['total_in_kgco2e'] - result['base_period_input']['total_in_kgco2e']) / \
+        result['reporting_period_input']['this_month_increment_rate_in_kgco2e'] = \
+            (result['reporting_period_input']['this_month_total_in_kgco2e'] -
+             result['base_period_input']['total_in_kgco2e']) / \
             result['base_period_input']['total_in_kgco2e'] \
             if result['base_period_input']['total_in_kgco2e'] > Decimal(0.0) else None
 
