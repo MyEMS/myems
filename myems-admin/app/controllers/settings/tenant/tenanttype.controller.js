@@ -137,6 +137,7 @@ app.controller('TenantTypeController', function(
                             $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
                         );
                         $scope.getAllTenantTypes(); 
+                        $scope.$emit('handleEmitTenantTypeChanged');
                     } else {
                         toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
                             $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
