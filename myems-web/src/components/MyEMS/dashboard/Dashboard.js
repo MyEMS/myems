@@ -24,11 +24,9 @@ ChartJS.register(annotationPlugin);
 const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const [isFetchDashboard, setIsFetchDashboard] = useState(true);
-  const [periodType, setPeriodType] = useState('monthly');
   const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(
     current_moment
       .clone()
-      .subtract(1, 'years')
       .subtract(1, 'years')
       .startOf('month')
   );
@@ -118,8 +116,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             '/reports/dashboard?' +
             'useruuid=' +
             user_uuid +
-            '&periodtype=' +
-            periodType +
             '&baseperiodstartdatetime=' +
             (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
             '&baseperiodenddatetime=' +
@@ -276,9 +272,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
               setTimeOfUseShareData(timeOfUseArray);
               let totalInTCE = {};
-              totalInTCE['value'] = json['reporting_period_input']['total_in_kgce'] / 1000; // convert from kg to t
+              totalInTCE['value'] = json['reporting_period_input']['this_month_total_in_kgce'] / 1000; // convert from kg to t
               totalInTCE['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
+                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgce'] * 100).toFixed(2) + '%';
               totalInTCE['value_per_unit_area'] =
                 json['space']['area'] > 0 ? parseFloat(totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCE['value_per_capita'] =
@@ -299,9 +295,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
               setCostShareData(costDataArray);
               let totalInTCO2E = {};
-              totalInTCO2E['value'] = json['reporting_period_input']['total_in_kgco2e'] / 1000; // convert from kg to t
+              totalInTCO2E['value'] = json['reporting_period_input']['this_month_total_in_kgco2e'] / 1000; // convert from kg to t
               totalInTCO2E['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
+                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
               totalInTCO2E['value_per_unit_area'] =
                 json['space']['area'] > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCO2E['value_per_capita'] =
@@ -764,7 +760,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         {settings.showTCEData ? (
           <CardSummary
             rate={totalInTCE['increment_rate'] || ''}
-            title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+            title={t("This Month's Consumption CATEGORY VALUE UNIT", {
               CATEGORY: t('Ton of Standard Coal'),
               UNIT: '(TCE)'
             })}
@@ -785,7 +781,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         )}
         <CardSummary
           rate={totalInTCO2E['increment_rate'] || ''}
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+          title={t("This Month's Consumption CATEGORY VALUE UNIT", {
             CATEGORY: t('Ton of Carbon Dioxide Emissions'),
             UNIT: '(TCO2E)'
           })}
@@ -853,7 +849,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           data={lastYearBarList}
           compareData={thisYearBarList}
           title={t('The Same Period Last Year')}
-          compareTitle={t('This Year')}
+          compareTitle={t('This Month')}
           footnote={t('Per Unit Area')}
           footunit={'/m²'}
         />
