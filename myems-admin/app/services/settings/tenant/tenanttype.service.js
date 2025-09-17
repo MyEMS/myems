@@ -2,7 +2,7 @@
 app.factory('TenantTypeService', function($http) {
     return {
         getAllTenantTypes:function(headers, callback){
-            $http.get(getAPI()+'tenanttypes',  {headers: headers})
+            $http.get(getAPI()+'tenanttypes',  {headers: headers, cache: false})
             .then(function (response) {
                 callback(response);
             }, function (response) {

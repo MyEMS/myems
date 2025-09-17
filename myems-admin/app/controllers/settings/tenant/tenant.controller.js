@@ -15,6 +15,7 @@ app.controller('TenantController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.tenantTypes = [];
 
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -53,12 +54,14 @@ app.controller('TenantController', function (
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantTypeService.getAllTenantTypes(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.tenanttypes = response.data;
+				$scope.tenantTypes.length = 0;
+				Array.prototype.push.apply($scope.tenantTypes, response.data);
 			} else {
-				$scope.tenanttypes = [];
+				$scope.tenantTypes.length = 0;
 			}
 		});
 	};
+	
 	$scope.addTenant = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/tenant/tenant.model.html',
@@ -67,8 +70,7 @@ app.controller('TenantController', function (
 			resolve: {
 				params: function () {
 					return {
-						tenants: angular.copy($scope.tenants),
-						tenanttypes: angular.copy($scope.tenanttypes),
+						tenantTypes: $scope.tenantTypes,
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 					};
@@ -122,7 +124,7 @@ app.controller('TenantController', function (
 				params: function () {
 					return {
 						tenant: angular.copy(tenant),
-						tenanttypes: angular.copy($scope.tenanttypes),
+						tenantTypes: $scope.tenantTypes,
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts)
 					};
@@ -163,7 +165,6 @@ app.controller('TenantController', function (
 				}
 			});
 		}, function () {
-			//do nothing;
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
@@ -223,9 +224,7 @@ app.controller('TenantController', function (
 					}
 				});
 				modalInstance.result.then(function() {
-					//do nothing;
 				}, function() {
-					//do nothing;
 				});
 				$rootScope.modalInstance = modalInstance;
 			} else {
@@ -295,24 +294,28 @@ app.controller('TenantController', function (
 	};
 
 	$scope.getAllTenants();
-	$scope.getAllTenantTypes();
+	$scope.getAllTenantTypes(); 
 	$scope.getAllCostCenters();
 	$scope.getAllContacts();
+	
+	$scope.$on('handleBroadcastTenantTypeChanged', function() {
+		$scope.getAllTenantTypes();
+	});
+	
 	$scope.$on('handleBroadcastTenantChanged', function (event) {
 		$scope.getAllTenants();
 	});
 });
 
 app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params) {
-
 	$scope.operation = "SETTING.ADD_TENANT";
-	$scope.tenanttypes = params.tenanttypes;
+	$scope.tenanttypes = params.tenantTypes;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
-$scope.tenant = {
-	lease_start_datetime: moment(),
-	lease_end_datetime: null,
-};
+	$scope.tenant = {
+		lease_start_datetime: moment(),
+		lease_end_datetime: moment()
+	};
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -339,7 +342,11 @@ $scope.tenant = {
 
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+		 if ($scope.tenant.lease_end_datetime) {
+            $scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+        } else {
+            $scope.tenant.lease_end_datetime = null;
+        }
 		$uibModalInstance.close($scope.tenant);
 	};
 
@@ -351,9 +358,12 @@ $scope.tenant = {
 app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_TENANT";
 	$scope.tenant = params.tenant;
-	$scope.tenanttypes = params.tenanttypes;
+	$scope.tenanttypes = params.tenantTypes;
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
+	  if (!$scope.tenant.lease_end_datetime) {
+        $scope.tenant.lease_end_datetime = moment(); 
+    }
 	$scope.dtOptions = {
 		locale: {
 			format: 'YYYY-MM-DD HH:mm:ss',
@@ -379,7 +389,11 @@ app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, param
 	
 	$scope.ok = function () {
 		$scope.tenant.lease_start_datetime = moment($scope.tenant.lease_start_datetime).format().slice(0, 19);
-		$scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+		 if ($scope.tenant.lease_end_datetime) {
+            $scope.tenant.lease_end_datetime = moment($scope.tenant.lease_end_datetime).format().slice(0, 19);
+        } else {
+            $scope.tenant.lease_end_datetime = null;
+        }
 		$uibModalInstance.close($scope.tenant);
 	};
 
