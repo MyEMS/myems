@@ -19,14 +19,17 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
     };
 
     $scope.t = {};
-    $scope.t.start_hour = "00";
-    $scope.t.start_min = "00";
-    $scope.t.start_second = "00";
-    $scope.t.end_hour = "23";
-    $scope.t.end_min = "59";
-    $scope.t.end_second = "59";
-    $scope.t.peak_type = "midpeak";
-    $scope.t.power = 50;
+    function resetScheduleForm() {
+        $scope.t.start_hour = "00";
+        $scope.t.start_min = "00";
+        $scope.t.start_second = "00";
+        $scope.t.end_hour = "23";
+        $scope.t.end_min = "59";
+        $scope.t.end_second = "59";
+        $scope.t.peak_type = "midpeak";
+        $scope.t.power = 50;
+    }
+    resetScheduleForm();
     $scope.energystoragecontainerschedules = [];
 
     $scope.showPeakType = function (type) {
@@ -35,6 +38,11 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
 
     $scope.error = {
         show: false, message: ''
+    };
+
+    $scope.resetScheduleError = function () {
+        $scope.error.show = false;
+        $scope.error.message = '';
     };
 
     $scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID = function (id) {
@@ -51,6 +59,8 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
     };
 
     $scope.changeEnergyStorageContainer = function (item, model) {
+        $scope.resetScheduleError();
+        resetScheduleForm();
         $scope.currentEnergyStorageContainer = item;
         $scope.currentEnergyStorageContainer.selected = model;
         $scope.is_show_add_energystoragecontainer_schedule = true;
@@ -61,14 +71,32 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         if (!startTime || !endTime) {
             return true;
         }
-        var startParts = startTime.split(':');
-        var endParts = endTime.split(':');
-
-        var startSeconds = parseInt(startParts[0]) * 3600 + parseInt(startParts[1]) * 60 + parseInt(startParts[2]);
-        var endSeconds = parseInt(endParts[0]) * 3600 + parseInt(endParts[1]) * 60 + parseInt(endParts[2]);
-
-        return endSeconds <= startSeconds;
+        return timeToSeconds(endTime) <= timeToSeconds(startTime);
     };
+
+    function timeToSeconds(timeStr) {
+        if (!timeStr) {
+            return 0;
+        }
+        var parts = timeStr.split(':');
+        return parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseInt(parts[2], 10);
+    }
+
+    function hasOverlapWithExisting(startTimeOfDay, endTimeOfDay, excludeId) {
+        if (!$scope.energystoragecontainerschedules || $scope.energystoragecontainerschedules.length === 0) {
+            return false;
+        }
+        var newStart = timeToSeconds(startTimeOfDay);
+        var newEnd = timeToSeconds(endTimeOfDay);
+        return $scope.energystoragecontainerschedules.some(function (schedule) {
+            if (excludeId && schedule.id === excludeId) {
+                return false;
+            }
+            var existingStart = timeToSeconds(schedule.start_time_of_day);
+            var existingEnd = timeToSeconds(schedule.end_time_of_day);
+            return newStart < existingEnd && newEnd > existingStart;
+        });
+    }
 
     $scope.checkFullDayCoverage = function (schedules) {
         if (!schedules || schedules.length === 0) {
@@ -151,19 +179,9 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
                 return;
             }
 
-            var tempSchedules = angular.copy($scope.energystoragecontainerschedules);
-
-            // 更新当前编辑的计划
-            for (var i = 0; i < tempSchedules.length; i++) {
-                if (tempSchedules[i].id === modifiedSchedule.id) {
-                    tempSchedules[i] = angular.copy(modifiedSchedule);
-                    break;
-                }
-            }
-
-            if (!$scope.checkFullDayCoverage(tempSchedules)) {
+            if (hasOverlapWithExisting(modifiedSchedule.start_time_of_day, modifiedSchedule.end_time_of_day, modifiedSchedule.id)) {
                 $scope.error.show = true;
-                $scope.error.message = $translate.instant("SETTING.SCHEDULE_NOT_FULL_DAY_COVERAGE");
+                $scope.error.message = $translate.instant("SETTING.TIME_PERIOD_OVERLAP_ERROR");
                 return;
             }
 
@@ -209,53 +227,58 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         $rootScope.modalInstance = modalInstance;
     };
 
-    $scope.addEnergyStorageContainerSchedule = function () {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerschedule.model.html',
-            controller: 'ModalAddEnergyStorageContainerScheduleCtrl',
-            backdrop: 'static',
-            size: 'lg',
-            resolve: {
-                params: function () {
-                    return {
-                        energystoragecontainerschedule: angular.copy($scope.t)
-                    };
-                }
-            }
-        });
+    $scope.addEnergyStorageContainerSchedule = function (t) {
+        $scope.resetScheduleError();
+        if (!$scope.currentEnergyStorageContainer || !$scope.currentEnergyStorageContainer.id) {
+            $scope.error.show = true;
+            $scope.error.message = $translate.instant("SETTING.SELECT_ENERGY_STORAGE_CONTAINER");
+            return;
+        }
+        if (!t || t.peak_type == null || t.peak_type === "" || t.power === null || t.power === undefined || t.power === "") {
+            $scope.error.show = true;
+            $scope.error.message = $translate.instant("SETTING.INVALID_INPUT_HINT");
+            return;
+        }
 
-        modalInstance.result.then(function (newSchedule) {
-            if (newSchedule.peak_type == null || newSchedule.power == null || newSchedule.peak_type === "") {
-                return false;
-            }
+        var power = Number(t.power);
+        if (isNaN(power) || power < -10000 || power > 10000) {
+            $scope.error.show = true;
+            $scope.error.message = $translate.instant("SETTING.INVALID_INPUT_HINT");
+            return;
+        }
 
-            newSchedule.start_time_of_day = newSchedule.start_hour + ":" + newSchedule.start_min + ":" + newSchedule.start_second;
-            newSchedule.end_time_of_day = newSchedule.end_hour + ":" + newSchedule.end_min + ":" + newSchedule.end_second;
+        var startTimeOfDay = t.start_hour + ":" + t.start_min + ":" + t.start_second;
+        var endTimeOfDay = t.end_hour + ":" + t.end_min + ":" + t.end_second;
 
-            if ($scope.isEndTimeBeforeStartTime(newSchedule.start_time_of_day, newSchedule.end_time_of_day)) {
-                $scope.error.show = true;
-                $scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
-                return;
-            }
+        if ($scope.isEndTimeBeforeStartTime(startTimeOfDay, endTimeOfDay)) {
+            $scope.error.show = true;
+            $scope.error.message = $translate.instant("SETTING.END_TIME_SHOULD_BE_AFTER_START_TIME");
+            return;
+        }
 
-            var tempSchedules = angular.copy($scope.energystoragecontainerschedules);
-            tempSchedules.push(angular.copy(newSchedule));
+        if (hasOverlapWithExisting(startTimeOfDay, endTimeOfDay)) {
+            $scope.error.show = true;
+            $scope.error.message = $translate.instant("SETTING.TIME_PERIOD_OVERLAP_ERROR");
+            return;
+        }
 
-            if (!$scope.checkFullDayCoverage(tempSchedules)) {
-                $scope.error.show = true;
-                $scope.error.message = $translate.instant("SETTING.SCHEDULE_NOT_FULL_DAY_COVERAGE");
-                return;
-            }
+        var payload = {
+            start_time_of_day: startTimeOfDay,
+            end_time_of_day: endTimeOfDay,
+            peak_type: t.peak_type,
+            power: power
+        };
 
-            $scope.error.show = false;
-            $scope.error.message = '';
+        let headers = {
+            "User-UUID": $scope.cur_user.uuid,
+            Token: $scope.cur_user.token,
+        };
 
-            let headers = {
-                "User-UUID": $scope.cur_user.uuid,
-                Token: $scope.cur_user.token,
-            };
-
-            EnergyStorageContainerScheduleService.addEnergyStorageContainerSchedule($scope.currentEnergyStorageContainer.id, newSchedule, headers, function (response) {
+        EnergyStorageContainerScheduleService.addEnergyStorageContainerSchedule(
+            $scope.currentEnergyStorageContainer.id,
+            payload,
+            headers,
+            function (response) {
                 if (angular.isDefined(response.status) && response.status === 201) {
                     toaster.pop({
                         type: "success",
@@ -265,22 +288,29 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
                         }),
                         showCloseButton: true,
                     });
-                    $scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID($scope.currentEnergyStorageContainer.id);
+                    $scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID(
+                        $scope.currentEnergyStorageContainer.id
+                    );
                     $scope.$emit("handleEmitEnergyStorageContainerScheduleChanged");
+                    $scope.resetScheduleError();
+                    resetScheduleForm();
                 } else {
+                    var message = (response && response.data && response.data.description)
+                        ? $translate.instant(response.data.description)
+                        : $translate.instant("SETTING.INVALID_INPUT_HINT");
+                    $scope.error.show = true;
+                    $scope.error.message = message;
                     toaster.pop({
                         type: "error",
                         title: $translate.instant("TOASTER.ERROR_ADD_BODY", {
                             template: $translate.instant("SETTING.SCHEDULE"),
                         }),
-                        body: $translate.instant(response.data.description),
+                        body: message,
                         showCloseButton: true,
                     });
                 }
-            });
-        }, function () {
-        });
-        $rootScope.modalInstance = modalInstance;
+            }
+        );
     };
 
 
