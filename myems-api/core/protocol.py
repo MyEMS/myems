@@ -184,8 +184,7 @@ class ProtocolItem:
                        " WHERE protocol = %s "
                        " LIMIT 1 ",
                        (code,))
-        rows_protocols = cursor.fetchall()
-        if rows_protocols is not None and len(rows_protocols) > 0:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,

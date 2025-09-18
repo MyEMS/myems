@@ -188,8 +188,7 @@ class GatewayItem:
                        " WHERE gateway_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        row_gateways = cursor.fetchall()
-        if row_gateways is not None and len(row_gateways) > 0:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
