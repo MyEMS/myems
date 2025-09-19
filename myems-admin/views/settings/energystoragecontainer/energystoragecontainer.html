@@ -939,32 +939,26 @@
 										<div class="panel-body">
 											<form role="form">
 												<div class="form-group no-margin">
-													<label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' |
-														translate}}</label>
+													<label>{{'SETTING.SELECT_ENERGY_STORAGE_CONTAINER' | translate}}</label>
 													<ui-select on-select="changeEnergyStorageContainer($item,$model)"
 														ng-model="currentEnergyStorageContainer.selected"
 														theme="bootstrap">
-														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+														<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="energystoragecontainer.id as energystoragecontainer in energystoragecontainers | filter: $select.search">
-															<div
-																ng-bind-html="energystoragecontainer.name | highlight: $select.search">
-															</div>
+															<div ng-bind-html="energystoragecontainer.name | highlight: $select.search"></div>
 														</ui-select-choices>
 													</ui-select>
-												</div>
+											</div>
 											</form>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-9">
-									<table id="scheduleTable" class="footable table table-bordered table-hover"
-										data-sort="false" data-page-size="10">
+									<table id="scheduleTable" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10">
 										<thead>
 											<tr>
-												<th class="text-center">{{'SETTING.SCHEDULE_START_TIME' | translate}}
-												</th>
+												<th class="text-center">{{'SETTING.SCHEDULE_START_TIME' | translate}}</th>
 												<th class="text-center">{{'SETTING.SCHEDULE_END_TIME' | translate}}</th>
 												<th class="text-center">{{'SETTING.PEAK_TYPE' | translate}}</th>
 												<th class="text-center">{{'SETTING.SCHEDULE_POWER' | translate}} kW</th>
@@ -973,8 +967,7 @@
 											<tr>
 												<td class="text-center sm">
 													<div>
-														<select ng-model="t.start_hour"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.start_hour" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="01">01</option>
 															<option value="02">02</option>
@@ -1001,15 +994,13 @@
 															<option value="23">23</option>
 														</select>
 														:
-														<select ng-model="t.start_min"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.start_min" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="30">30</option>
 															<option value="59">59</option>
 														</select>
 														:
-														<select ng-model="t.start_second"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.start_second" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="59">59</option>
 														</select>
@@ -1017,8 +1008,7 @@
 												</td>
 												<td class="text-center sm">
 													<div>
-														<select ng-model="t.end_hour"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.end_hour" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="01">01</option>
 															<option value="02">02</option>
@@ -1045,43 +1035,32 @@
 															<option value="23">23</option>
 														</select>
 														:
-														<select ng-model="t.end_min"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.end_min" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="30">30</option>
 															<option value="59">59</option>
 														</select>
 														:
-														<select ng-model="t.end_second"
-															style="background-color: #FFF; border-radius:4px;border:1px solid">
+														<select ng-model="t.end_second" ng-change="resetScheduleError()" style="background-color: #FFF; border-radius:4px;border:1px solid">
 															<option value="00" selected>00</option>
 															<option value="59">59</option>
 														</select>
 													</div>
 												</td>
 												<td class="text-center sm">
-													<select ng-model="t.peak_type" class="form-control  input-sm sm"
-														name="peak">
-														<option value="toppeak">{{'COMMON.TARIFF.TOPPEAK' | translate}}
-														</option>
-														<option value="onpeak">{{'COMMON.TARIFF.ONPEAK' | translate}}
-														</option>
-														<option value="midpeak" selected>{{'COMMON.TARIFF.MIDPEAK' |
-															translate}}</option>
-														<option value="offpeak">{{'COMMON.TARIFF.OFFPEAK' | translate}}
-														</option>
-														<option value="deep">{{'COMMON.TARIFF.DEEP' | translate}}
-														</option>
+													<select ng-model="t.peak_type" ng-change="resetScheduleError()" class="form-control  input-sm sm" name="peak">
+														<option value="toppeak">{{'COMMON.TARIFF.TOPPEAK' | translate}}</option>
+														<option value="onpeak">{{'COMMON.TARIFF.ONPEAK' | translate}}</option>
+														<option value="midpeak" selected>{{'COMMON.TARIFF.MIDPEAK' | translate}}</option>
+														<option value="offpeak">{{'COMMON.TARIFF.OFFPEAK' | translate}}</option>
+														<option value="deep">{{'COMMON.TARIFF.DEEP' | translate}}</option>
 													</select>
 												</td>
 												<td class="text-center sm">
-													<input type="number" min="-10000" step="0.01" ng-model="t.power"
-														class="form-control input-sm">
+													<input type="number" min="-10000" step="0.01" ng-model="t.power" ng-change="resetScheduleError()" class="form-control input-sm">
 												</td>
 												<td class="text-center sm">
-													<a class="btn btn-primary btn-rounded btn-xs"
-														ng-click="addEnergyStorageContainerSchedule(t)">{{'SETTING.ADD'
-														| translate}}</a>
+													<a class="btn btn-primary btn-rounded btn-xs" ng-click="addEnergyStorageContainerSchedule(t)">{{'SETTING.ADD' | translate}}</a>
 												</td>
 											</tr>
 										</thead>
@@ -1089,15 +1068,10 @@
 											<tr ng-repeat="schedule in energystoragecontainerschedules">
 												<td class="text-center sm">{{ schedule.start_time_of_day }}</td>
 												<td class="text-center sm">{{ schedule.end_time_of_day }}</td>
-												<td class="text-center sm">{{ showPeakType(schedule.peak_type) |
-													translate }}</td>
+												<td class="text-center sm">{{ showPeakType(schedule.peak_type) | translate }}</td>
 												<td class="text-center sm">{{ schedule.power }}</td>
 												<td class="text-center sm">
-													<a ng-show="is_show_add_energystoragecontainer_schedule"
-														ng-click="deleteEnergyStorageContainerSchedule(schedule)"
-														class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
-														translate}}
-													</a>
+													<a ng-show="is_show_add_energystoragecontainer_schedule" ng-click="deleteEnergyStorageContainerSchedule(schedule)" class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
 												</td>
 											</tr>
 										</tbody>
@@ -1109,10 +1083,14 @@
 											</tr>
 										</tfoot>
 									</table>
+									<div class="alert alert-danger" ng-show="error.show" role="alert">
+										{{ error.message }}
+									</div>
 								</div>
 							</div>
 						</div>
 					</uib-tab>
+
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerCommandController">
 							<div class="row">
@@ -1169,7 +1147,6 @@
 
 									</div>
 								</div>
-
 								<div class="col-lg-4">
 									<!-- according panel-->
 									<div class="panel panel-primary">
