@@ -504,8 +504,8 @@ class MeterItem:
                        " FROM tbl_variables va, tbl_virtual_meters vm "
                        " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.virtual_meter_id = vm.id ",
                        (id_,))
-        row_virtual_meter = cursor.fetchall()
-        if row_virtual_meter is not None and len(row_virtual_meter)>0:
+        rows_virtual_meters = cursor.fetchall()
+        if rows_virtual_meters is not None and len(rows_virtual_meters)>0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
