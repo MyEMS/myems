@@ -352,7 +352,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_meter = cursor.fetchone()
+        if row_meter is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -365,7 +366,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_sensor = cursor.fetchone()
+        if row_sensor is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -378,7 +380,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_shopfloor = cursor.fetchone()
+        if row_shopfloor is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -391,7 +394,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_store = cursor.fetchone()
+        if row_store is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -404,7 +408,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_space = cursor.fetchone()
+        if row_space is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -417,7 +422,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_tenant = cursor.fetchone()
+        if row_tenant is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -430,7 +436,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_equipment = cursor.fetchone()
+        if row_equipment is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -443,7 +450,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_combined_equipment = cursor.fetchone()
+        if row_combined_equipment is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -456,7 +464,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_distribution_circuit = cursor.fetchone()
+        if row_distribution_circuit is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -472,7 +481,8 @@ class PointItem:
                        "    OR result_point_id = %s "
                        " LIMIT 1",
                        (id_, id_, id_, id_))
-        if cursor.fetchone() is not None:
+        row_integrator = cursor.fetchone()
+        if row_integrator is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -487,7 +497,8 @@ class PointItem:
                        "    OR power_point_id = %s "
                        " LIMIT 1",
                        (id_, id_, id_))
-        if cursor.fetchone() is not None:
+        row_microgrid_battery = cursor.fetchone()
+        if row_microgrid_battery is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -504,7 +515,8 @@ class PointItem:
                        "   OR total_discharge_energy_point_id = %s "
                        "LIMIT 1",
                        (id_, id_, id_, id_, id_))
-        if cursor.fetchone() is not None:
+        row_microgrid_power_conversion_system = cursor.fetchone()
+        if row_microgrid_power_conversion_system is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -517,7 +529,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_evcharger = cursor.fetchone()
+        if row_microgrid_evcharger is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -530,7 +543,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_generator = cursor.fetchone()
+        if row_microgrid_generator is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -543,7 +557,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_grid = cursor.fetchone()
+        if row_microgrid_grid is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -556,7 +571,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_heatpump = cursor.fetchone()
+        if row_microgrid_heatpump is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -569,7 +585,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_load = cursor.fetchone()
+        if row_microgrid_load is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -582,7 +599,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_microgrid_photovoltaic = cursor.fetchone()
+        if row_microgrid_photovoltaic is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -595,7 +613,8 @@ class PointItem:
                        " WHERE balancing_price_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_virtual_power_plant = cursor.fetchone()
+        if row_virtual_power_plant is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -609,7 +628,8 @@ class PointItem:
                        "   OR soc_point_id = %s "
                        "   OR power_point_id = %s "
                        " LIMIT 1 ", (id_, id_, id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_battery = cursor.fetchone()
+        if row_energy_storage_container_battery is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -620,7 +640,8 @@ class PointItem:
                        " FROM tbl_energy_storage_containers_bmses_points "
                        " WHERE point_id = %s "
                        " LIMIT 1 ", (id_, ))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_battery = cursor.fetchone()
+        if row_energy_storage_container_battery is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -631,7 +652,8 @@ class PointItem:
                        " FROM tbl_energy_storage_containers_dcdcs_points "
                        " WHERE point_id = %s "
                        " LIMIT 1 ", (id_, ))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_dcdc = cursor.fetchone()
+        if row_energy_storage_container_dcdc is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -642,7 +664,8 @@ class PointItem:
                        " FROM tbl_energy_storage_containers_firecontrols_points "
                        " WHERE point_id = %s "
                        " LIMIT 1 ", (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_dcdc = cursor.fetchone()
+        if row_energy_storage_container_dcdc is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -655,7 +678,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_grid = cursor.fetchone()
+        if row_energy_storage_container_grid is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -667,7 +691,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_grid = cursor.fetchone()
+        if row_energy_storage_container_grid is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -680,7 +705,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_hvac = cursor.fetchone()
+        if row_energy_storage_container_hvac is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -693,7 +719,8 @@ class PointItem:
                        " WHERE power_point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_load = cursor.fetchone()
+        if row_energy_storage_container_load is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -704,7 +731,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_load = cursor.fetchone()
+        if row_energy_storage_container_load is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -717,7 +745,8 @@ class PointItem:
                        " WHERE run_state_point_id = %s "
                        " LIMIT 1 ",
                        (id_, ))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_power_conversion_system = cursor.fetchone()
+        if row_energy_storage_container_power_conversion_system is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -729,7 +758,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_power_conversion_system = cursor.fetchone()
+        if row_energy_storage_container_power_conversion_system is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -743,7 +773,8 @@ class PointItem:
                        " WHERE point_id = %s "
                        " LIMIT 1 ",
                        (id_,))
-        if cursor.fetchone() is not None:
+        row_energy_storage_container_sts = cursor.fetchone()
+        if row_energy_storage_container_sts is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
