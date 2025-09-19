@@ -2106,7 +2106,7 @@ function config($translateProvider) {
                     KNOWLEDGEFILE: '知识库',
                     WORKING_CALENDAR: '工作日历',
                     COMMAND: '指令 ㊭',
-                    CONTROL_MODE: '控制模式 Ⓔ',
+                    CONTROL_MODE: '控制模式 ㊭',
                     MICROGRID: '微电网 ㊭',
                     VIRTUAL_POWER_PLANT: '虚拟电厂 ㊭',
                     ENERGY_STORAGE_CONTAINER: '储能集装箱 ㊭',
