@@ -412,8 +412,7 @@ class MeterItem:
                        "   OR discharge_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_energy_storage_containers_batteries = cursor.fetchone()
-        if row_energy_storage_containers_batteries is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -427,8 +426,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_energy_storage_containers_grids = cursor.fetchone()
-        if row_energy_storage_containers_grids is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -441,8 +439,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_energy_storage_containers_loads = cursor.fetchone()
-        if row_energy_storage_containers_loads is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -455,8 +452,7 @@ class MeterItem:
                        "WHERE master_meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_meters = cursor.fetchone()
-        if row_meters is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -470,8 +466,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_photovoltaic_power_stations_grids = cursor.fetchone()
-        if row_photovoltaic_power_stations_grids is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -484,8 +479,7 @@ class MeterItem:
                        "WHERE generation_meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_photovoltaic_power_stations_invertors = cursor.fetchone()
-        if row_photovoltaic_power_stations_invertors is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -498,8 +492,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_photovoltaic_power_stations_loads = cursor.fetchone()
-        if row_photovoltaic_power_stations_loads is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -511,8 +504,8 @@ class MeterItem:
                        " FROM tbl_variables va, tbl_virtual_meters vm "
                        " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.virtual_meter_id = vm.id ",
                        (id_,))
-        row_virtual_meter = cursor.fetchone()
-        if row_virtual_meter is not None:
+        rows_virtual_meters = cursor.fetchall()
+        if rows_virtual_meters is not None and len(rows_virtual_meters)>0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -647,8 +640,7 @@ class MeterItem:
                        "   OR discharge_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_microgrid_battery = cursor.fetchone()
-        if row_microgrid_battery is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -661,8 +653,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_evcharger = cursor.fetchone()
-        if row_microgrid_evcharger is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -675,8 +666,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_generators = cursor.fetchone()
-        if row_microgrid_generators is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -690,8 +680,7 @@ class MeterItem:
                        "   OR sell_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_))
-        row_microgrid_grid = cursor.fetchone()
-        if row_microgrid_grid is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -706,8 +695,7 @@ class MeterItem:
                        "   OR cooling_meter_id = %s "
                        "LIMIT 1",
                        (id_, id_, id_))
-        row_microgrid_heatpump = cursor.fetchone()
-        if row_microgrid_heatpump is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -720,8 +708,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_load = cursor.fetchone()
-        if row_microgrid_load is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -734,8 +721,7 @@ class MeterItem:
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
-        row_microgrid_photovoltaic = cursor.fetchone()
-        if row_microgrid_photovoltaic is not None:
+        if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,

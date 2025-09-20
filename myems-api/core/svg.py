@@ -202,7 +202,8 @@ class SVGItem:
                                    description='API.SVG_NOT_FOUND')
         # check if any equipment is bound to this SVG
         cursor.execute("SELECT id FROM tbl_equipments WHERE svg_id = %s", (id_,))
-        if cursor.fetchone() is not None:
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -210,7 +211,8 @@ class SVGItem:
                                    description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
         # check if any combined equipment is bound to this SVG
         cursor.execute("SELECT id FROM tbl_combined_equipments WHERE svg_id = %s", (id_,))
-        if cursor.fetchone() is not None:
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -218,7 +220,8 @@ class SVGItem:
                                    description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
         # check if any distribution system is bound to this SVG
         cursor.execute("SELECT id FROM tbl_distribution_systems WHERE svg_id = %s", (id_,))
-        if cursor.fetchone() is not None:
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -227,7 +230,8 @@ class SVGItem:
         # check if any energy storage power station is bound to this SVG
         for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
             cursor.execute(f"SELECT id FROM tbl_energy_storage_power_stations WHERE {col} = %s", (id_,))
-            if cursor.fetchone() is not None:
+            rows_svgs = cursor.fetchall()
+            if rows_svgs is not None and len(rows_svgs) > 0:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -236,7 +240,8 @@ class SVGItem:
         # check if any photovoltaic power station is bound to this SVG
         for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
             cursor.execute(f"SELECT id FROM tbl_photovoltaic_power_stations WHERE {col} = %s", (id_,))
-            if cursor.fetchone() is not None:
+            rows_svgs = cursor.fetchall()
+            if rows_svgs is not None and len(rows_svgs) > 0:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -245,7 +250,8 @@ class SVGItem:
         # check if any microgrid is bound to this SVG
         for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
             cursor.execute(f"SELECT id FROM tbl_microgrids WHERE {col} = %s", (id_,))
-            if cursor.fetchone() is not None:
+            rows_svgs = cursor.fetchall()
+            if rows_svgs is not None and len(rows_svgs) > 0:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -253,7 +259,8 @@ class SVGItem:
                                        description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
         # check if any virtual power plant is bound to this SVG
         cursor.execute("SELECT id FROM tbl_virtual_power_plants WHERE svg_id = %s", (id_,))
-        if cursor.fetchone() is not None:
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -262,7 +269,8 @@ class SVGItem:
         # check if any wind farm is bound to this SVG
         for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
             cursor.execute(f"SELECT id FROM tbl_wind_farms WHERE {col} = %s", (id_,))
-            if cursor.fetchone() is not None:
+            rows_svgs = cursor.fetchall()
+            if rows_svgs is not None and len(rows_svgs) > 0:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -271,7 +279,8 @@ class SVGItem:
         # check if any charging station is bound to this SVG
         for col in ['svg_id', 'svg2_id', 'svg3_id', 'svg4_id', 'svg5_id']:
             cursor.execute(f"SELECT id FROM tbl_charging_stations WHERE {col} = %s", (id_,))
-            if cursor.fetchone() is not None:
+            rows_svgs = cursor.fetchall()
+            if rows_svgs is not None and len(rows_svgs) > 0:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400,
