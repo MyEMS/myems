@@ -361,7 +361,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Reporting Period Difference {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Trend Values',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fault List',
@@ -1591,7 +1590,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': '报告期差值 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': '趋势值',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': '故障列表',
@@ -2846,7 +2844,6 @@ const resources = {
         'Unterschied im Berichtszeitraum {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Trendwerte',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fehlerliste',
@@ -4124,7 +4121,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Rapports Période Difference {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Tendance Valeurs',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Faute Liste',
@@ -5391,7 +5387,6 @@ const resources = {
         'Diferencia en el período del informe {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Valores de tendencia',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Lista de fallos',
@@ -6657,7 +6652,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Разница в отчетных периодах {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Значения тренда',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Список неисправностей',
@@ -7916,7 +7910,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'فرق الفترة المشمولة بالتقرير {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'قيم الاتجاه',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'قائمة الأعطال',
@@ -9167,7 +9160,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Chênh lệch kỳ báo cáo {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Giá trị xu hướng',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Danh sách lỗi',
@@ -10425,7 +10417,6 @@ const resources = {
         'ความแตกต่างของรอบระยะเวลารายงาน {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'ค่าแนวโน้ม',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'รายการข้อบกพร่อง',
@@ -11675,7 +11666,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'v {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Trend Değerleri',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Arıza Listesi',
@@ -12935,7 +12925,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Perbezaan Tempoh Pelaporan {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Nilai Trend',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Senarai Kesalahan',
@@ -14196,7 +14185,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Perbedaan Periode Laporan {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Nilai Perkembangan',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Daftar Gagal',
@@ -15450,7 +15438,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': '報告期差值 {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': '趨勢值',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': '故障列表',
@@ -16729,7 +16716,6 @@ const resources = {
       'Reporting Period Difference CATEGORY VALUE UNIT': 'Diferença do Período de Relatório {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'Trend Values': 'Valores de tendência',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-      'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Lista de falhas',
