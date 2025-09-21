@@ -3916,7 +3916,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: '与其他虚拟表有关系',
                 THERE_IS_RELATION_WITH_SENSORS: '与传感器有关',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: '与车间有关系',
-                THERE_IS_RELATION_WITH_SPACES: '与空间有关',
+                THERE_IS_RELATION_WITH_SPACES: '与空间有关系',
                 THERE_IS_RELATION_WITH_STORES: '与门店有关系',
                 THERE_IS_RELATION_WITH_TENANTS: '与租户有关系',
                 THERE_IS_RELATION_WITH_USERS: '与用户有关系',
