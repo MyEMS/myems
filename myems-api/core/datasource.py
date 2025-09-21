@@ -274,7 +274,7 @@ class DataSourceItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER' + row_meter[0])
+                                   description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER' +' ' + row_meter[0])
         # todo : check if this data source is being used by any other objects
         cursor.execute(" DELETE FROM tbl_points WHERE data_source_id = %s ", (id_,))
         cursor.execute(" DELETE FROM tbl_data_sources WHERE id = %s ", (id_,))
