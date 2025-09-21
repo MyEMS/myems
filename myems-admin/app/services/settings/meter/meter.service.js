@@ -17,8 +17,11 @@ app.factory('MeterService', function($http) {
                 callback(response);
             });
         },
-        searchMeters: function(query, callback) {
-            $http.get(getAPI()+'meters', { params: { q: query } })
+        searchMeters: function(query, headers, callback) {
+            $http.get(getAPI()+'meters', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
