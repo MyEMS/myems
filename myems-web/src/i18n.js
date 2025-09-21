@@ -362,6 +362,7 @@ const resources = {
       'Trend Values': 'Trend Values',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fault List',
       'Reporting Period Number of Fault VALUE': 'Reporting Period Number of Fault {{VALUE}}',
@@ -1591,6 +1592,7 @@ const resources = {
       'Trend Values': '趋势值',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': '故障列表',
       'Reporting Period Number of Fault VALUE': '报告期故障数: {{VALUE}}',
@@ -2845,6 +2847,7 @@ const resources = {
       'Trend Values': 'Trendwerte',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Fehlerliste',
       'Reporting Period Number of Fault VALUE': 'Berichtszeitraum Anzahl der Fehler: {{VALUE}}',
@@ -4122,6 +4125,7 @@ const resources = {
       'Trend Values': 'Tendance Valeurs',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Faute Liste',
       'Reporting Period Number of Fault VALUE': 'Rapports Période Nombre de Faute {{VALUE}}',
@@ -5388,6 +5392,7 @@ const resources = {
       'Trend Values': 'Valores de tendencia',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Lista de fallos',
       'Reporting Period Number of Fault VALUE': 'Período de informe Número de falla {{VALUE}}',
@@ -6653,6 +6658,7 @@ const resources = {
       'Trend Values': 'Значения тренда',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Список неисправностей',
       'Reporting Period Number of Fault VALUE': 'Номер неисправности за отчетный период {{VALUE}}',
@@ -7911,6 +7917,7 @@ const resources = {
       'Trend Values': 'قيم الاتجاه',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'قائمة الأعطال',
       'Reporting Period Number of Fault VALUE': 'الفترة المشمولة بالتقرير عدد الأعطال {{VALUE}}',
@@ -9161,6 +9168,7 @@ const resources = {
       'Trend Values': 'Giá trị xu hướng',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Danh sách lỗi',
       'Reporting Period Number of Fault VALUE': 'Kỳ báo cáo Số lỗi {{VALUE}}',
@@ -10418,6 +10426,7 @@ const resources = {
       'Trend Values': 'ค่าแนวโน้ม',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'รายการข้อบกพร่อง',
       'Reporting Period Number of Fault VALUE': 'จํานวนรอบระยะเวลารายงานความผิดพลาด {{VALUE}}',
@@ -11667,6 +11676,7 @@ const resources = {
       'Trend Values': 'Trend Değerleri',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Arıza Listesi',
       'Reporting Period Number of Fault VALUE': 'Raporlama Dönemi Hata Sayısı {{VALUE}}',
@@ -12926,6 +12936,7 @@ const resources = {
       'Trend Values': 'Nilai Trend',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Senarai Kesalahan',
       'Reporting Period Number of Fault VALUE': 'Tempoh Pelaporan Bilangan Kesalahan {{VALUE}}',
@@ -14186,6 +14197,7 @@ const resources = {
       'Trend Values': 'Nilai Perkembangan',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Daftar Gagal',
       'Reporting Period Number of Fault VALUE': 'Jumlah Kesalahan Selama Periode Laporan: {{VALUE}}',
@@ -15439,6 +15451,7 @@ const resources = {
       'Trend Values': '趨勢值',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': '故障列表',
       'Reporting Period Number of Fault VALUE': '報告期故障數: {{VALUE}}',
@@ -16717,6 +16730,7 @@ const resources = {
       'Trend Values': 'Valores de tendência',
       'METER CATEGORY VALUE UNIT': '{{METER}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       'DEVICE CATEGORY VALUE UNIT': '{{DEVICE}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+      'EQUIPMENT CATEGORY VALUE UNIT': '{{EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
       //FDD
       'Fault List': 'Lista de falhas',
       'Reporting Period Number of Fault VALUE': 'Período de relatório Número de falhas {{VALUE}}',

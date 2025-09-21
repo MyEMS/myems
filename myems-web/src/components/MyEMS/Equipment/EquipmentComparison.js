@@ -115,11 +115,11 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
-  const [device1, setDevice1] = useState({
+  const [equipment1, setEquipment1] = useState({
     id: undefined,
     name: undefined
   });
-  const [device2, setDevice2] = useState({
+  const [equipment2, setEquipment2] = useState({
     id: undefined,
     name: undefined
   });
@@ -131,10 +131,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [deviceLineChartData1, setDeviceLineChartData1] = useState({ a0: [] });
-  const [deviceLineChartData2, setDeviceLineChartData2] = useState({ a0: [] });
-  const [deviceLineChartLabels1, setDeviceLineChartLabels1] = useState({ a0: [] });
-  const [deviceLineChartLabels2, setDeviceLineChartLabels2] = useState({ a0: [] });
+  const [equipmentLineChartData1, setEquipmentLineChartData1] = useState({ a0: [] });
+  const [equipmentLineChartData2, setEquipmentLineChartData2] = useState({ a0: [] });
+  const [equipmentLineChartLabels1, setEquipmentLineChartLabels1] = useState({ a0: [] });
+  const [equipmentLineChartLabels2, setEquipmentLineChartLabels2] = useState({ a0: [] });
   const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
   const [parameterLineChartData, setParameterLineChartData] = useState({});
   const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
@@ -475,10 +475,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/devicecomparison?' +
-        'deviceid1=' +
+        '/reports/equipmentcomparison?' +
+        'equipmentid1=' +
         selectedEquipment1 +
-        '&deviceid2=' +
+        '&equipmentid2=' +
         selectedEquipment2 +
         '&energycategoryid=' +
         selectedEnergyCategory +
@@ -508,13 +508,13 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          setDevice1({
-            id: json['device1']['id'],
-            name: json['device1']['name']
+          setEquipment1({
+            id: json['equipment1']['id'],
+            name: json['equipment1']['name']
           });
-          setDevice2({
-            id: json['device2']['id'],
-            name: json['device2']['name']
+          setEquipment2({
+            id: json['equipment2']['id'],
+            name: json['equipment2']['name']
           });
           setEnergyCategory({
             id: json['energy_category']['id'],
@@ -532,37 +532,37 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
-          setDeviceLineChartLabels1(timestamps1);
+          setEquipmentLineChartLabels1(timestamps1);
 
           let timestamps2 = {};
           timestamps2['a0'] = json['reporting_period2']['timestamps'];
-          setDeviceLineChartLabels2(timestamps2);
+          setEquipmentLineChartLabels2(timestamps2);
 
           let values1 = { a0: [] };
           json['reporting_period1']['values'].forEach((currentValue, index) => {
             values1['a0'][index] = currentValue.toFixed(2);
           });
-          setDeviceLineChartData1(values1);
+          setEquipmentLineChartData1(values1);
 
           let values2 = { a0: [] };
           json['reporting_period2']['values'].forEach((currentValue, index) => {
             values2['a0'][index] = currentValue.toFixed(2);
           });
-          setDeviceLineChartData2(values2);
+          setEquipmentLineChartData2(values2);
 
           names1 = [];
           let index1 = 0;
           json['parameters1']['names'].forEach((currentValue, index) => {
             names1.push({ 
               value: 'a' + index1, 
-              label: json['device1']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
+              label: json['equipment1']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
             });
             index1 = index1 + 1;
           });
           json['parameters2']['names'].forEach((currentValue, index) => {
             names1.push({ 
               value: 'a' + index1, 
-              label: json['device2']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
+              label: json['equipment2']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
             });
             index1 = index1 + 1;
           });
@@ -601,7 +601,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             {
               dataField: 'a0',
               text:
-                json['device1']['name'] +
+                json['equipment1']['name'] +
                 ' ' +
                 json['energy_category']['name'] +
                 ' (' +
@@ -619,7 +619,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             {
               dataField: 'a1',
               text:
-                json['device2']['name'] +
+                json['equipment2']['name'] +
                 ' ' +
                 json['energy_category']['name'] +
                 ' (' +
@@ -697,7 +697,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'devicecomparison.xlsx';
+    const fileName = 'equipmentcomparison.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
@@ -908,8 +908,8 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
         <div className="card-deck">
           <CardSummary
             id="cardSummary1"
-            title={t('DEVICE CATEGORY VALUE UNIT', {
-              DEVICE: device1['name'],
+            title={t('EQUIPMENT CATEGORY VALUE UNIT', {
+              EQUIPMENT: equipment1['name'],
               CATEGORY: energyCategory['name'],
               UNIT: '(' + energyCategory['unit_of_measure'] + ')'
             })}
@@ -926,8 +926,8 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           </CardSummary>
           <CardSummary
             id="cardSummary2"
-            title={t('DEVICE CATEGORY VALUE UNIT', {
-              DEVICE: device2['name'],
+            title={t('EQUIPMENT CATEGORY VALUE UNIT', {
+              EQUIPMENT: equipment2['name'],
               CATEGORY: energyCategory['name'],
               UNIT: '(' + energyCategory['unit_of_measure'] + ')'
             })}
@@ -963,41 +963,41 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
         <MultiTrendChart
           baseTitle={{
-            name: 'DEVICE CATEGORY VALUE UNIT',
-            substitute: ['DEVICE', 'CATEGORY', 'VALUE', 'UNIT'],
-            DEVICE: { a0: device1['name'] },
+            name: 'EQUIPMENT CATEGORY VALUE UNIT',
+            substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
+            EQUIPMENT: { a0: equipment1['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: { a0: reportingPeriodEnergyConsumptionInCategory1.toFixed(2) },
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
           reportingTitle={{
-            name: 'DEVICE CATEGORY VALUE UNIT',
-            substitute: ['DEVICE', 'CATEGORY', 'VALUE', 'UNIT'],
-            DEVICE: { a0: device2['name'] },
+            name: 'EQUIPMENT CATEGORY VALUE UNIT',
+            substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
+            EQUIPMENT: { a0: equipment2['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: { a0: reportingPeriodEnergyConsumptionInCategory2.toFixed(2) },
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
           baseTooltipTitle={{
-            name: 'DEVICE CATEGORY VALUE UNIT',
-            substitute: ['DEVICE', 'CATEGORY', 'VALUE', 'UNIT'],
-            DEVICE: { a0: device1['name'] },
+            name: 'EQUIPMENT CATEGORY VALUE UNIT',
+            substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
+            EQUIPMENT: { a0: equipment1['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
           reportingTooltipTitle={{
-            name: 'DEVICE CATEGORY VALUE UNIT',
-            substitute: ['DEVICE', 'CATEGORY', 'VALUE', 'UNIT'],
-            DEVICE: { a0: device2['name'] },
+            name: 'EQUIPMENT CATEGORY VALUE UNIT',
+            substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
+            EQUIPMENT: { a0: equipment2['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
-          baseLabels={deviceLineChartLabels1}
-          baseData={deviceLineChartData1}
-          reportingLabels={deviceLineChartLabels2}
-          reportingData={deviceLineChartData2}
+          baseLabels={equipmentLineChartLabels1}
+          baseData={equipmentLineChartData1}
+          reportingLabels={equipmentLineChartLabels2}
+          reportingData={equipmentLineChartData2}
           rates={{ a0: [] }}
         />
 

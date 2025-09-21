@@ -72,7 +72,7 @@ from reports import fddfault
 from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
-from reports import devicecomparison
+from reports import equipmentcomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
@@ -1258,8 +1258,8 @@ api.add_route('/reports/metercarbon',
               metercarbon.Reporting())
 api.add_route('/reports/metercomparison',
               metercomparison.Reporting())
-api.add_route('/reports/devicecomparison',
-              devicecomparison.Reporting())
+api.add_route('/reports/equipmentcomparison',
+              equipmentcomparison.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',

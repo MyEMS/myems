@@ -5,7 +5,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.devicecomparison
+import excelexporters.equipmentcomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -23,7 +23,7 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the device and energy category
+    # Step 2: query the equipment and energy category
     # Step 3: query associated meters for the specific energy category
     # Step 4: query reporting period energy consumption
     # Step 5: query associated points data
@@ -38,11 +38,11 @@ class Reporting:
         else:
             api_key_control(req)
         print(req.params)
-        # this procedure accepts device id or device uuid to identify a device
-        device_id1 = req.params.get('deviceid1')
-        device_uuid1 = req.params.get('deviceuuid1')
-        device_id2 = req.params.get('deviceid2')
-        device_uuid2 = req.params.get('deviceuuid2')
+        # this procedure accepts equipment id or equipment uuid to identify a equipment
+        equipment_id1 = req.params.get('equipmentid1')
+        equipment_uuid1 = req.params.get('equipmentuuid1')
+        equipment_id2 = req.params.get('equipmentid2')
+        equipment_uuid2 = req.params.get('equipmentuuid2')
         energy_category_id = req.params.get('energycategoryid')
         period_type = req.params.get('periodtype')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
@@ -53,38 +53,38 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if device_id1 is None and device_uuid1 is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_DEVICE_ID')
+        if equipment_id1 is None and equipment_uuid1 is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_EQUIPMENT_ID')
 
-        if device_id1 is not None:
-            device_id1 = str.strip(device_id1)
-            if not device_id1.isdigit() or int(device_id1) <= 0:
+        if equipment_id1 is not None:
+            equipment_id1 = str.strip(equipment_id1)
+            if not equipment_id1.isdigit() or int(equipment_id1) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_DEVICE_ID')
+                                       description='API.INVALID_EQUIPMENT_ID')
 
-        if device_uuid1 is not None:
+        if equipment_uuid1 is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(device_uuid1))
+            match = regex.match(str.strip(equipment_uuid1))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_DEVICE_UUID')
+                                       description='API.INVALID_EQUIPMENT_UUID')
 
-        if device_id2 is None and device_uuid2 is None:
+        if equipment_id2 is None and equipment_uuid2 is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DEVICE_ID')
+                                   description='API.INVALID_EQUIPMENT_ID')
 
-        if device_id2 is not None:
-            device_id2 = str.strip(device_id2)
-            if not device_id2.isdigit() or int(device_id2) <= 0:
+        if equipment_id2 is not None:
+            equipment_id2 = str.strip(equipment_id2)
+            if not equipment_id2.isdigit() or int(equipment_id2) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_DEVICE_ID')
+                                       description='API.INVALID_EQUIPMENT_ID')
 
-        if device_uuid2 is not None:
+        if equipment_uuid2 is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(device_uuid2))
+            match = regex.match(str.strip(equipment_uuid2))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_DEVICE_UUID')
+                                       description='API.INVALID_EQUIPMENT_UUID')
 
         if energy_category_id is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -153,7 +153,7 @@ class Reporting:
             is_quick_mode = True
 
         ################################################################################################################
-        # Step 2: query the device and energy category
+        # Step 2: query the equipment and energy category
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
@@ -164,15 +164,15 @@ class Reporting:
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 
-        # Query device 1
-        if device_id1 is not None:
-            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE id = %s ", (device_id1,))
-            row_device1 = cursor_system.fetchone()
-        elif device_uuid1 is not None:
-            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE uuid = %s ", (device_uuid1,))
-            row_device1 = cursor_system.fetchone()
+        # Query equipment 1
+        if equipment_id1 is not None:
+            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE id = %s ", (equipment_id1,))
+            row_equipment1 = cursor_system.fetchone()
+        elif equipment_uuid1 is not None:
+            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE uuid = %s ", (equipment_uuid1,))
+            row_equipment1 = cursor_system.fetchone()
 
-        if row_device1 is None:
+        if row_equipment1 is None:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
@@ -187,21 +187,21 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.DEVICE_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
-        device1 = dict()
-        device1['id'] = row_device1[0]
-        device1['name'] = row_device1[1]
+        equipment1 = dict()
+        equipment1['id'] = row_equipment1[0]
+        equipment1['name'] = row_equipment1[1]
 
-        # Query device 2
-        if device_id2 is not None:
-            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE id = %s ", (device_id2,))
-            row_device2 = cursor_system.fetchone()
-        elif device_uuid2 is not None:
-            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE uuid = %s ", (device_uuid2,))
-            row_device2 = cursor_system.fetchone()
+        # Query equipment 2
+        if equipment_id2 is not None:
+            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE id = %s ", (equipment_id2,))
+            row_equipment2 = cursor_system.fetchone()
+        elif equipment_uuid2 is not None:
+            cursor_system.execute(" SELECT id, name FROM tbl_equipments WHERE uuid = %s ", (equipment_uuid2,))
+            row_equipment2 = cursor_system.fetchone()
 
-        if row_device2 is None:
+        if row_equipment2 is None:
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
@@ -216,11 +216,11 @@ class Reporting:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.DEVICE_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.EQUIPMENT_NOT_FOUND')
 
-        device2 = dict()
-        device2['id'] = row_device2[0]
-        device2['name'] = row_device2[1]
+        equipment2 = dict()
+        equipment2['id'] = row_equipment2[0]
+        equipment2['name'] = row_equipment2[1]
 
         # Query energy category
         cursor_system.execute(" SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ", (energy_category_id,))
@@ -251,12 +251,12 @@ class Reporting:
         ################################################################################################################
         # Step 3: query associated meters for the specific energy category
         ################################################################################################################
-        # Query meters for device 1
+        # Query meters for equipment 1
         cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
                               " FROM tbl_equipments e, tbl_equipments_meters em, tbl_meters m, tbl_energy_categories ec "
                               " WHERE e.id = %s AND e.id = em.equipment_id AND em.meter_id = m.id "
                               " AND m.energy_category_id = %s AND m.energy_category_id = ec.id "
-                              " ORDER BY m.id ", (device1['id'], energy_category_id))
+                              " ORDER BY m.id ", (equipment1['id'], energy_category_id))
         rows_meters1 = cursor_system.fetchall()
 
         if rows_meters1 is None or len(rows_meters1) == 0:
@@ -275,14 +275,14 @@ class Reporting:
             if cnx_historical:
                 cnx_historical.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', 
-                                   description='API.NO_METER_FOUND_FOR_DEVICE_1_AND_ENERGY_CATEGORY')
+                                   description='API.NO_METER_FOUND_FOR_EQUIPMENT_1_AND_ENERGY_CATEGORY')
 
-        # Query meters for device 2
+        # Query meters for equipment 2
         cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
                               " FROM tbl_equipments e, tbl_equipments_meters em, tbl_meters m, tbl_energy_categories ec "
                               " WHERE e.id = %s AND e.id = em.equipment_id AND em.meter_id = m.id "
                               " AND m.energy_category_id = %s AND m.energy_category_id = ec.id "
-                              " ORDER BY m.id ", (device2['id'], energy_category_id))
+                              " ORDER BY m.id ", (equipment2['id'], energy_category_id))
         rows_meters2 = cursor_system.fetchall()
 
         if rows_meters2 is None or len(rows_meters2) == 0:
@@ -301,21 +301,21 @@ class Reporting:
             if cnx_historical:
                 cnx_historical.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', 
-                                   description='API.NO_METER_FOUND_FOR_DEVICE_2_AND_ENERGY_CATEGORY')
+                                   description='API.NO_METER_FOUND_FOR_EQUIPMENT_2_AND_ENERGY_CATEGORY')
 
         ################################################################################################################
         # Step 4: query reporting period energy consumption
         ################################################################################################################
-        # Aggregate energy consumption for device 1
-        device1_energy_data = dict()
-        device1_energy_data['timestamps'] = list()
-        device1_energy_data['values'] = list()
-        device1_energy_data['total_in_category'] = Decimal(0.0)
+        # Aggregate energy consumption for equipment 1
+        equipment1_energy_data = dict()
+        equipment1_energy_data['timestamps'] = list()
+        equipment1_energy_data['values'] = list()
+        equipment1_energy_data['total_in_category'] = Decimal(0.0)
 
-        # Get all meter IDs for device 1
+        # Get all meter IDs for equipment 1
         meter_ids1 = [row[0] for row in rows_meters1]
         
-        # Query energy data for all meters of device 1
+        # Query energy data for all meters of equipment 1
         if len(meter_ids1) > 0:
             placeholders1 = ','.join(['%s'] * len(meter_ids1))
             query1 = (" SELECT start_datetime_utc, SUM(actual_value) as total_value "
@@ -326,15 +326,15 @@ class Reporting:
                       " GROUP BY start_datetime_utc "
                       " ORDER BY start_datetime_utc ")
             cursor_energy.execute(query1, meter_ids1 + [reporting_start_datetime_utc, reporting_end_datetime_utc])
-            rows_device1_hourly = cursor_energy.fetchall()
+            rows_equipment1_hourly = cursor_energy.fetchall()
 
-            rows_device1_periodically = utilities.aggregate_hourly_data_by_period(rows_device1_hourly,
+            rows_equipment1_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment1_hourly,
                                                                                  reporting_start_datetime_utc,
                                                                                  reporting_end_datetime_utc,
                                                                                  period_type)
 
-            for row_device1_periodically in rows_device1_periodically:
-                current_datetime_local = row_device1_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_equipment1_periodically in rows_equipment1_periodically:
+                current_datetime_local = row_equipment1_periodically[0].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.isoformat()[0:19]
@@ -347,22 +347,22 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_device1_periodically[1] is None else row_device1_periodically[1]
+                actual_value = Decimal(0.0) if row_equipment1_periodically[1] is None else row_equipment1_periodically[1]
 
-                device1_energy_data['timestamps'].append(current_datetime)
-                device1_energy_data['values'].append(actual_value)
-                device1_energy_data['total_in_category'] += actual_value
+                equipment1_energy_data['timestamps'].append(current_datetime)
+                equipment1_energy_data['values'].append(actual_value)
+                equipment1_energy_data['total_in_category'] += actual_value
 
-        # Aggregate energy consumption for device 2
-        device2_energy_data = dict()
-        device2_energy_data['timestamps'] = list()
-        device2_energy_data['values'] = list()
-        device2_energy_data['total_in_category'] = Decimal(0.0)
+        # Aggregate energy consumption for equipment 2
+        equipment2_energy_data = dict()
+        equipment2_energy_data['timestamps'] = list()
+        equipment2_energy_data['values'] = list()
+        equipment2_energy_data['total_in_category'] = Decimal(0.0)
 
-        # Get all meter IDs for device 2
+        # Get all meter IDs for equipment 2
         meter_ids2 = [row[0] for row in rows_meters2]
         
-        # Query energy data for all meters of device 2
+        # Query energy data for all meters of equipment 2
         if len(meter_ids2) > 0:
             placeholders2 = ','.join(['%s'] * len(meter_ids2))
             query2 = (" SELECT start_datetime_utc, SUM(actual_value) as total_value "
@@ -373,15 +373,15 @@ class Reporting:
                       " GROUP BY start_datetime_utc "
                       " ORDER BY start_datetime_utc ")
             cursor_energy.execute(query2, meter_ids2 + [reporting_start_datetime_utc, reporting_end_datetime_utc])
-            rows_device2_hourly = cursor_energy.fetchall()
+            rows_equipment2_hourly = cursor_energy.fetchall()
 
-            rows_device2_periodically = utilities.aggregate_hourly_data_by_period(rows_device2_hourly,
+            rows_equipment2_periodically = utilities.aggregate_hourly_data_by_period(rows_equipment2_hourly,
                                                                                  reporting_start_datetime_utc,
                                                                                  reporting_end_datetime_utc,
                                                                                  period_type)
 
-            for row_device2_periodically in rows_device2_periodically:
-                current_datetime_local = row_device2_periodically[0].replace(tzinfo=timezone.utc) + \
+            for row_equipment2_periodically in rows_equipment2_periodically:
+                current_datetime_local = row_equipment2_periodically[0].replace(tzinfo=timezone.utc) + \
                     timedelta(minutes=timezone_offset)
                 if period_type == 'hourly':
                     current_datetime = current_datetime_local.isoformat()[0:19]
@@ -394,23 +394,23 @@ class Reporting:
                 elif period_type == 'yearly':
                     current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_device2_periodically[1] is None else row_device2_periodically[1]
+                actual_value = Decimal(0.0) if row_equipment2_periodically[1] is None else row_equipment2_periodically[1]
 
-                device2_energy_data['timestamps'].append(current_datetime)
-                device2_energy_data['values'].append(actual_value)
-                device2_energy_data['total_in_category'] += actual_value
+                equipment2_energy_data['timestamps'].append(current_datetime)
+                equipment2_energy_data['values'].append(actual_value)
+                equipment2_energy_data['total_in_category'] += actual_value
 
         # Calculate difference
         diff = dict()
         diff['values'] = list()
         diff['total_in_category'] = Decimal(0.0)
 
-        # Ensure both devices have the same number of data points
-        min_length = min(len(device1_energy_data['values']), len(device2_energy_data['values']))
+        # Ensure both equipments have the same number of data points
+        min_length = min(len(equipment1_energy_data['values']), len(equipment2_energy_data['values']))
         for i in range(min_length):
-            device1_value = device1_energy_data['values'][i] if i < len(device1_energy_data['values']) else Decimal(0.0)
-            device2_value = device2_energy_data['values'][i] if i < len(device2_energy_data['values']) else Decimal(0.0)
-            diff_value = device1_value - device2_value
+            equipment1_value = equipment1_energy_data['values'][i] if i < len(equipment1_energy_data['values']) else Decimal(0.0)
+            equipment2_value = equipment2_energy_data['values'][i] if i < len(equipment2_energy_data['values']) else Decimal(0.0)
+            diff_value = equipment1_value - equipment2_value
             diff['values'].append(diff_value)
             diff['total_in_category'] += diff_value
 
@@ -428,7 +428,7 @@ class Reporting:
         parameters_data2['values'] = list()
 
         if not is_quick_mode:
-            # Query points for device 1 meters
+            # Query points for equipment 1 meters
             for meter_row in rows_meters1:
                 meter_id = meter_row[0]
                 meter_name = meter_row[1]
@@ -503,7 +503,7 @@ class Reporting:
                         parameters_data1['timestamps'].append(point_timestamps)
                         parameters_data1['values'].append(point_values)
 
-            # Query points for device 2 meters
+            # Query points for equipment 2 meters
             for meter_row in rows_meters2:
                 meter_id = meter_row[0]
                 meter_name = meter_row[1]
@@ -597,13 +597,13 @@ class Reporting:
             cnx_historical.close()
 
         result = {
-            "device1": {
-                "id": device1['id'],
-                "name": device1['name'],
+            "equipment1": {
+                "id": equipment1['id'],
+                "name": equipment1['name'],
             },
-            "device2": {
-                "id": device2['id'],
-                "name": device2['name'],
+            "equipment2": {
+                "id": equipment2['id'],
+                "name": equipment2['name'],
             },
             "energy_category": {
                 "id": energy_category['id'],
@@ -611,14 +611,14 @@ class Reporting:
                 "unit_of_measure": energy_category['unit_of_measure'],
             },
             "reporting_period1": {
-                "total_in_category": device1_energy_data['total_in_category'],
-                "timestamps": device1_energy_data['timestamps'],
-                "values": device1_energy_data['values'],
+                "total_in_category": equipment1_energy_data['total_in_category'],
+                "timestamps": equipment1_energy_data['timestamps'],
+                "values": equipment1_energy_data['values'],
             },
             "reporting_period2": {
-                "total_in_category": device2_energy_data['total_in_category'],
-                "timestamps": device2_energy_data['timestamps'],
-                "values": device2_energy_data['values'],
+                "total_in_category": equipment2_energy_data['total_in_category'],
+                "timestamps": equipment2_energy_data['timestamps'],
+                "values": equipment2_energy_data['values'],
             },
             "parameters1": {
                 "names": parameters_data1['names'],
@@ -639,9 +639,9 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.devicecomparison.export(result,
-                                                       device1['name'],
-                                                       device2['name'],
+                excelexporters.equipmentcomparison.export(result,
+                                                       equipment1['name'],
+                                                       equipment2['name'],
                                                        energy_category['name'],
                                                        reporting_period_start_datetime_local,
                                                        reporting_period_end_datetime_local,

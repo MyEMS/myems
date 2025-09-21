@@ -17,7 +17,7 @@ from core.utilities import round2
 # Step 2: Generate excel file from the report data
 # Step 3: Encode the excel file to Base64
 ########################################################################################################################
-def export(result, device1_name, device2_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
+def export(result, equipment1_name, equipment2_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, period_type, language):
     ####################################################################################################################
     # Step 1: Validate the report data
     ####################################################################################################################
@@ -28,8 +28,8 @@ def export(result, device1_name, device2_name, energy_category_name, reporting_s
     # Step 2: Generate excel file from the report data
     ####################################################################################################################
     filename = generate_excel(result,
-                              device1_name,
-                              device2_name,
+                              equipment1_name,
+                              equipment2_name,
                               energy_category_name,
                               reporting_start_datetime_local,
                               reporting_end_datetime_local,
@@ -57,7 +57,7 @@ def export(result, device1_name, device2_name, energy_category_name, reporting_s
     return base64_message
 
 
-def generate_excel(report, device1_name, device2_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, period_type,
+def generate_excel(report, equipment1_name, equipment2_name, energy_category_name, reporting_start_datetime_local, reporting_end_datetime_local, period_type,
                    language):
     trans = get_translation(language)
     trans.install()
@@ -65,7 +65,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "DeviceComparison"
+    ws.title = "EquipmentComparison"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -118,16 +118,16 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
 
     # Title
     ws['B3'].alignment = b_r_alignment
-    ws['B3'] = _('Device') + '1:'
+    ws['B3'] = _('Equipment') + '1:'
     ws['C3'].border = b_border
     ws['C3'].alignment = b_c_alignment
-    ws['C3'] = device1_name
+    ws['C3'] = equipment1_name
 
     ws['D3'].alignment = b_r_alignment
-    ws['D3'] = _('Device') + '2:'
+    ws['D3'] = _('Equipment') + '2:'
     ws['E3'].border = b_border
     ws['E3'].alignment = b_c_alignment
-    ws['E3'] = device2_name
+    ws['E3'] = equipment2_name
 
     ws['F3'].alignment = b_r_alignment
     ws['F3'] = _('Energy Category') + ':'
@@ -161,12 +161,12 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         return filename
     ####################################################################################################################
     # First: Consumption
-    # 6: device1 title
-    # 7: device1 table title
-    # 8~9 device1 table_data
-    # 10: device2 title
-    # 11: device2 table title
-    # 12~13: device2 table_data
+    # 6: equipment1 title
+    # 7: equipment1 table title
+    # 8~9 equipment1 table_data
+    # 10: equipment2 title
+    # 11: equipment2 table title
+    # 12~13: equipment2 table_data
     ####################################################################################################################
     if "values" not in report['reporting_period1'].keys() or len(report['reporting_period1']['values']) == 0:
         for i in range(6, 9 + 1):
@@ -177,7 +177,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         ws.row_dimensions[7].height = 60
         ws['B7'].font = title_font
         ws['B7'].alignment = c_c_alignment
-        ws['B7'] = device1_name
+        ws['B7'] = equipment1_name
         ws['B7'].fill = table_fill
         ws['B7'].border = f_border
 
@@ -208,7 +208,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         ws['B11'].alignment = c_c_alignment
         ws['B11'].fill = table_fill
         ws['B11'].border = f_border
-        ws['B11'] = device2_name
+        ws['B11'] = equipment2_name
 
         ws['B12'].font = title_font
         ws['B12'].alignment = c_c_alignment
@@ -262,7 +262,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
             parameters_parameters_datas_len += 1
         start_detail_data_row_num = 15 + (parameters_parameters_datas_len + 1 + 1) * 6
         ws['B14'].font = title_font
-        ws['B14'] = device1_name + ' and ' + device2_name + _('Detailed Data')
+        ws['B14'] = equipment1_name + ' and ' + equipment2_name + _('Detailed Data')
 
         ws.row_dimensions[start_detail_data_row_num].height = 60
 
@@ -294,7 +294,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
             ws[col + str(start_detail_data_row_num)].fill = table_fill
             ws[col + str(start_detail_data_row_num)].font = title_font
             ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
-            ws[col + str(start_detail_data_row_num)] = device1_name + ' ' + energy_category_name + \
+            ws[col + str(start_detail_data_row_num)] = equipment1_name + ' ' + energy_category_name + \
                 " (" + report['energy_category']['unit_of_measure'] + ")"
             ws[col + str(start_detail_data_row_num)].border = f_border
 
@@ -316,7 +316,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
             ws[col + str(start_detail_data_row_num)].fill = table_fill
             ws[col + str(start_detail_data_row_num)].font = title_font
             ws[col + str(start_detail_data_row_num)].alignment = c_c_alignment
-            ws[col + str(start_detail_data_row_num)] = device2_name + ' ' + energy_category_name + \
+            ws[col + str(start_detail_data_row_num)] = equipment2_name + ' ' + energy_category_name + \
                 " (" + report['energy_category']['unit_of_measure'] + ")"
             ws[col + str(start_detail_data_row_num)].border = f_border
 
@@ -461,10 +461,10 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = _('Device') + '1:'
+        parameters_ws['B3'] = _('Equipment') + '1:'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
-        parameters_ws['C3'] = device1_name
+        parameters_ws['C3'] = equipment1_name
 
         parameters_ws['D3'].alignment = b_r_alignment
         parameters_ws['D3'] = _('Energy Category') + ':'
@@ -493,7 +493,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = device1_name + ' ' + _('Parameters')
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = equipment1_name + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -539,7 +539,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
                 try:
                     parameters_ws[col + str(table_current_row_number)] = round2(parameters_data1['values'][i][j], 2)
                 except Exception as e:
-                    print('error 1 in excelexporters\\devicecomparison: ' + str(e))
+                    print('error 1 in excelexporters\\equipmentcomparison: ' + str(e))
 
                 table_current_row_number += 1
 
@@ -577,10 +577,10 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
 
         # Title
         parameters_ws['B3'].alignment = b_r_alignment
-        parameters_ws['B3'] = _('Device') + '2:'
+        parameters_ws['B3'] = _('Equipment') + '2:'
         parameters_ws['C3'].border = b_border
         parameters_ws['C3'].alignment = b_c_alignment
-        parameters_ws['C3'] = device2_name
+        parameters_ws['C3'] = equipment2_name
 
         parameters_ws['D3'].alignment = b_r_alignment
         parameters_ws['D3'] = _('Energy Category') + ':'
@@ -609,7 +609,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         parameters_ws_current_row_number = 6
 
         parameters_ws['B' + str(parameters_ws_current_row_number)].font = title_font
-        parameters_ws['B' + str(parameters_ws_current_row_number)] = device2_name + ' ' + _('Parameters')
+        parameters_ws['B' + str(parameters_ws_current_row_number)] = equipment2_name + ' ' + _('Parameters')
 
         parameters_ws_current_row_number += 1
 
@@ -657,7 +657,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
                 try:
                     parameters_ws[col + str(table_current_row_number)] = round2(parameters_data2['values'][i][j], 2)
                 except Exception as e:
-                    print('error 1 in excelexporters\\devicecomparison: ' + str(e))
+                    print('error 1 in excelexporters\\equipmentcomparison: ' + str(e))
 
                 table_current_row_number += 1
 
@@ -668,7 +668,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
         ################################################################################################################
 
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = device1_name + ' ' + _('Parameters')
+        ws['B' + str(current_sheet_parameters_row_number)] = equipment1_name + ' ' + _('Parameters')
         parameters_names_len = len(report['parameters1']['names'])
         parameters_ws = wb[file_name + 'Parameters1']
 
@@ -712,7 +712,7 @@ def generate_excel(report, device1_name, device2_name, energy_category_name, rep
 
         parameters_ws = wb[file_name + 'Parameters2']
         ws['B' + str(current_sheet_parameters_row_number)].font = title_font
-        ws['B' + str(current_sheet_parameters_row_number)] = device2_name + ' ' + _('Parameters')
+        ws['B' + str(current_sheet_parameters_row_number)] = equipment2_name + ' ' + _('Parameters')
 
         current_sheet_parameters_row_number += 1
 
