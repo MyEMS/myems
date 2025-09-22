@@ -16,28 +16,35 @@ app.controller('EquipmentMeterController', function(
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
-
+    $scope.currentMeterType = "meters";
 	$scope.getAllEquipments = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.equipments = response.data;
-				} else {
+			} else {
 				$scope.equipments = [];
-			 }
+			}
 		});
 	};
 
 	$scope.changeEquipment=function(item,model){
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
-		$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+		if ($scope.currentEquipment && $scope.currentEquipment.id) {
+			$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+		} else {
+			// 如果没有选设备，清空已绑定列表并刷新可用列表
+			$scope.equipmentmeters = [];
+			$scope.filterAvailableMeters();
+		}
 	};
 
 	$scope.getMetersByEquipmentID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.equipmentmeters=[];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		var pending = metertypes.length;
 		angular.forEach(metertypes,function(value,index){
 			EquipmentMeterService.getMetersByEquipmentID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -45,6 +52,10 @@ app.controller('EquipmentMeterController', function(
 						response.data[indx].metertype = value;
 					});
 					$scope.equipmentmeters = $scope.equipmentmeters.concat(response.data);
+				}
+				pending--;
+				if (pending === 0) {
+					$scope.filterAvailableMeters();
 				}
 			});
 		});
@@ -63,17 +74,16 @@ app.controller('EquipmentMeterController', function(
 	$scope.changeMeterType=function(){
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.meters;
+				$scope.currentmeters=$scope.filteredMeters || [];
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.virtualmeters;
+				$scope.currentmeters=$scope.filteredVirtualMeters || [];
 				break;
-			case  'offlinemeters':
-				$scope.currentmeters=$scope.offlinemeters;
+			case 'offlinemeters':
+				$scope.currentmeters=$scope.filteredOfflineMeters || [];
 				break;
 		}
 	};
-
 
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -81,27 +91,26 @@ app.controller('EquipmentMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
+				$scope.filterAvailableMeters();
 				$timeout(function(){
 					$scope.changeMeterType();
-				},1000);
+				},100);
 			} else {
 				$scope.meters = [];
 			}
 		});
-
 	};
-
 
 	$scope.getAllOfflineMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeters = response.data;
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.offlinemeters = [];
 			}
 		});
-
 	};
 
 	$scope.getAllVirtualMeters = function() {
@@ -109,11 +118,35 @@ app.controller('EquipmentMeterController', function(
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.virtualmeters = response.data;
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.virtualmeters = [];
 			}
 		});
+	};
 
+	$scope.filterAvailableMeters = function() {
+		
+		var boundSet = {};
+		($scope.equipmentmeters || []).forEach(function(em) {
+			var keyType = em.metertype || 'meters';
+			// em.id 应为具体表的 id
+			if (angular.isDefined(em.id)) {
+				boundSet[keyType + '_' + em.id] = true;
+			}
+		});
+
+		$scope.filteredMeters = ($scope.meters || []).filter(function(m){
+			return !boundSet['meters_' + m.id];
+		});
+		$scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
+			return !boundSet['virtualmeters_' + vm.id];
+		});
+		$scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
+			return !boundSet['offlinemeters_' + om.id];
+		});
+
+		$scope.changeMeterType();
 	};
 
 	$scope.pairMeter=function(dragEl,dropEl){
@@ -139,6 +172,7 @@ app.controller('EquipmentMeterController', function(
 						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
 						showCloseButton: true,
 					});
+					// 重新获取绑定并触发过滤
 					$scope.getMetersByEquipmentID($scope.currentEquipment.id);
 				} else {
 					toaster.pop({
@@ -170,6 +204,7 @@ app.controller('EquipmentMeterController', function(
                     body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
+                // 重新获取绑定并触发过滤
                 $scope.getMetersByEquipmentID($scope.currentEquipment.id);
             } else {
                 toaster.pop({
@@ -188,8 +223,8 @@ app.controller('EquipmentMeterController', function(
 	$scope.getAllOfflineMeters();
 
   	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
-    $scope.getAllEquipments();
-  });
+    	$scope.getAllEquipments();
+  	});
 });
 
 app.controller('ModalEditEquipmentMeterCtrl', function ($scope, $uibModalInstance) {
