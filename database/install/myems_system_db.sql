@@ -923,6 +923,7 @@ VALUES
 (211,'Equipment Tracking','/equipment/tracking',200,0),
 (212,'Carbon','/equipment/carbon',200,0),
 (213,'Plan','/equipment/plan',200,1),
+(214,'Equipment Comparison','/equipment/comparison',200,0),
 (300,'Meter Data','/meter',NULL,0),
 (301,'Meter Energy','/meter/meterenergy',300,0),
 (302,'Meter Cost','/meter/metercost',300,0),
