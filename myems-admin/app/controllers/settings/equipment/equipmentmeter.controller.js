@@ -34,7 +34,7 @@ app.controller('EquipmentMeterController', function(
 		if ($scope.currentEquipment && $scope.currentEquipment.id) {
 			$scope.getMetersByEquipmentID($scope.currentEquipment.id);
 		} else {
-			// 如果没有选设备，清空已绑定列表并刷新可用列表
+			// If no device is selected, clear the bound list and refresh the available list
 			$scope.equipmentmeters = [];
 			$scope.filterAvailableMeters();
 		}
@@ -130,7 +130,7 @@ app.controller('EquipmentMeterController', function(
 		var boundSet = {};
 		($scope.equipmentmeters || []).forEach(function(em) {
 			var keyType = em.metertype || 'meters';
-			// em.id 应为具体表的 id
+			// em.id should be the id of a specific table
 			if (angular.isDefined(em.id)) {
 				boundSet[keyType + '_' + em.id] = true;
 			}
@@ -172,7 +172,7 @@ app.controller('EquipmentMeterController', function(
 						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
 						showCloseButton: true,
 					});
-					// 重新获取绑定并触发过滤
+					// Reacquire the binding and trigger filtering
 					$scope.getMetersByEquipmentID($scope.currentEquipment.id);
 				} else {
 					toaster.pop({
@@ -204,7 +204,7 @@ app.controller('EquipmentMeterController', function(
                     body: $translate.instant("TOASTER.UNBIND_METER_SUCCESS"),
                     showCloseButton: true,
                 });
-                // 重新获取绑定并触发过滤
+                // Reacquire the binding and trigger filtering
                 $scope.getMetersByEquipmentID($scope.currentEquipment.id);
             } else {
                 toaster.pop({
