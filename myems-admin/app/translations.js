@@ -507,6 +507,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Please Input Ratio',
                 INPUT_OFFSET_CONSTANT: 'Please Input Offset Constant',
                 INPUT_ADDRESS: 'Please Input Address',
+                INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
+                INVALID_RANGE_HINT: 'The maximum value should be greater than the minimum value'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Add Distribution System',
@@ -2465,6 +2467,8 @@ function config($translateProvider) {
                 INPUT_RATIO: '请输入比例系数',
                 INPUT_OFFSET_CONSTANT: '请输入偏移常数',
                 INPUT_ADDRESS: '请输入地址',
+                INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
+                INVALID_RANGE_HINT: '最大值应该大于最小值'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: '添加配电系统',
@@ -4446,6 +4450,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Bitte geben Sie den Skalierungsfaktor ein',
                 INPUT_OFFSET_CONSTANT: 'Bitte geben Sie Offsetkonstante ein',
                 INPUT_ADDRESS: 'Bitte geben Sie die Adresse ein',
+                INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999',
+                INVALID_RANGE_HINT: 'Der Maximalwert sollte größer als der Minimalwert sein'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Distribution System hinzufügen',
@@ -6443,6 +6449,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'S’il vous plaît ratio d’entrée',
                 INPUT_OFFSET_CONSTANT: 'Veuillez entrer la constante de décalage',
                 INPUT_ADDRESS: 'Veuillez saisir l’adresse',
+                INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
+                INVALID_RANGE_HINT: 'La valeur maximale doit être supérieure à la valeur minimale'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Ajouter un système de distribution',
@@ -8421,6 +8429,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Por favor, relación de entrada',
                 INPUT_OFFSET_CONSTANT: 'Introduzca la constante de desplazamiento',
                 INPUT_ADDRESS: 'Por favor, introduzca la dirección',
+                INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
+                INVALID_RANGE_HINT: 'El valor máximo debe ser mayor que el valor mínimo'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Agregar sistema de distribución',
@@ -10400,6 +10410,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Пожалуйста, коэффициент ввода',
                 INPUT_OFFSET_CONSTANT: 'Введите константу смещения',
                 INPUT_ADDRESS: 'Пожалуйста, введите адрес',
+                INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
+                INVALID_RANGE_HINT: 'Максимальное значение должно быть больше минимальному значению'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Добавить систему дистрибуции',
@@ -12378,6 +12390,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'يرجى نسبة الإدخال',
                 INPUT_OFFSET_CONSTANT: 'الرجاء إدخال ثابت الإزاحة',
                 INPUT_ADDRESS: 'يرجى إدخال العنوان',
+                INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
+                INVALID_RANGE_HINT: 'يجب أن يكون الحد الأقصى أكبر من الحد الأدنى'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'إضافة نظام توزيع',
@@ -14355,6 +14369,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Vui lòng tỷ lệ đầu vào',
                 INPUT_OFFSET_CONSTANT: 'Hãy nhập hằng số bù đắp',
                 INPUT_ADDRESS: 'Vui lòng nhập địa chỉ',
+                INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
+                INVALID_RANGE_HINT: 'Giá trị tối đa phải lớn hơn giá trị tối thiểu'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Thêm hệ thống phân phối',
@@ -16331,6 +16347,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'กรุณาใส่อัตราส่วน',
                 INPUT_OFFSET_CONSTANT: 'โปรดป้อนค่าคงที่ออฟเซต',
                 INPUT_ADDRESS: 'กรุณาใส่ที่อยู่',
+                INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
+                INVALID_RANGE_HINT: 'ค่าสูงสุดควรมากกว่าค่าต่ำสุด'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'เพิ่มระบบการจัดจําหน่าย',
@@ -18307,6 +18325,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Lütfen Giriş Oranı',
                 INPUT_OFFSET_CONSTANT: 'Lütfen Girdi Devam',
                 INPUT_ADDRESS: 'Lütfen Adres Giriniz',
+                INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış',
+                INVALID_RANGE_HINT: 'Maksimum değer, minimum değerden büyük olmalıdır'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Dağıtım Sistemi Ekle',
@@ -20283,6 +20303,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Sila Nisbah Input',
                 INPUT_OFFSET_CONSTANT: 'Sila Masukkan Konstant Ofset',
                 INPUT_ADDRESS: 'Sila Alamat Input',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
+                INVALID_RANGE_HINT: 'Nilai maksimum mestilah lebih besar daripada nilai minimum'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Tambah Sistem Pengedaran',
@@ -22260,6 +22282,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Silakan input rasio',
                 INPUT_OFFSET_CONSTANT: 'Silakan Masukkan Konstant Ofset',
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
+                INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
+                INVALID_RANGE_HINT: 'Nilai maksimum harus lebih besar dari nilai minimum'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Tambahkan Sistem Distribusi',
@@ -24217,6 +24241,8 @@ function config($translateProvider) {
                 INPUT_RATIO: '請輸入比例系數',
                 INPUT_OFFSET_CONSTANT: '請輸入偏移常數',
                 INPUT_ADDRESS: '請輸入地址',
+                INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
+                INVALID_RANGE_HINT: '最大值應該大於最小值'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: '添加配電系統',
@@ -26220,6 +26246,8 @@ function config($translateProvider) {
                 INPUT_RATIO: 'Por Favor, Insira a Razão',
                 INPUT_OFFSET_CONSTANT: 'Por Favor, Insira a Constante de Deslocamento',
                 INPUT_ADDRESS: 'Por Favor, Insira o Endereço',
+                INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
+                INVALID_RANGE_HINT: 'O valor máximo deve ser maior do que o valor mínimo'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Adicionar Sistema de Distribuição',
