@@ -25,7 +25,10 @@
 									<tr ng-repeat="gateway in gateways">
 										<td class="text-center">{{ gateway.id }}</td>
 										<td class="text-center">{{ gateway.name }}</td>
-										<td class="text-center">{{ gateway.token}}</td>
+                                        <td class="text-center" style="max-width: 400px; word-wrap: break-word;">
+                                            {{ gateway.token }}
+                                            <button class="btn btn-primary btn-rounded btn-xs" ng-click="copyToClipboardGateway(gateway)">{{'SETTING.COPY' | translate}}</button>
+                                        </td>
 										<td class="text-center">{{ gateway.last_seen_datetime }}</td>
 										<td class="text-center">{{ gateway.description}}</td>
 										<td class="text-center">
