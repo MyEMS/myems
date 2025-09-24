@@ -14,7 +14,7 @@ app.controller('DataSourceController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+	$scope.searchDataSourcesKeyword = '';
 	$scope.getAllDataSources = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.getAllDataSources(headers, function (response) {
@@ -260,8 +260,39 @@ app.controller('DataSourceController', function(
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
+	let searchDebounceTimer = null;
 
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchDataSources = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
 
+		const rawKeyword = $scope.searchDataSourcesKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllDataSources();
+				safeApply($scope);
+				return;
+			}
+
+			DataSourceService.searchDataSources(trimmedKeyword, headers, (response) => {
+				$scope.datasources = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.datasources];
+			});
+		}, 300);
+	};
 
 	$scope.getAllDataSources();
 	$scope.getAllGateways();
