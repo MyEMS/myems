@@ -508,7 +508,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Please Input Offset Constant',
                 INPUT_ADDRESS: 'Please Input Address',
                 INVALID_INPUT_HINT: 'The entered value is incorrect, with a range of 0 to 999999',
-                INVALID_RANGE_HINT: 'The maximum value should be greater than the minimum value'
+                INVALID_RANGE_HINT: 'The upper limit should be greater than the lower limit',
+                INVALID_RANGE_HINT_1: 'The upper-upper limit should be greater than the lower-lower limit'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Add Distribution System',
@@ -2468,7 +2469,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: '请输入偏移常数',
                 INPUT_ADDRESS: '请输入地址',
                 INVALID_INPUT_HINT: '输入的数值不正确，数值范围为0到999999',
-                INVALID_RANGE_HINT: '最大值应该大于最小值'
+                INVALID_RANGE_HINT: '高限应该大于低限',
+                INVALID_RANGE_HINT_1: '上上限应该大于下下限'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: '添加配电系统',
@@ -4451,7 +4453,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Bitte geben Sie Offsetkonstante ein',
                 INPUT_ADDRESS: 'Bitte geben Sie die Adresse ein',
                 INVALID_INPUT_HINT: 'Der eingegebene Wert ist falsch und liegt im Bereich von 0 bis 999999',
-                INVALID_RANGE_HINT: 'Der Maximalwert sollte größer als der Minimalwert sein'
+                INVALID_RANGE_HINT: 'Die Obergrenze sollte größer als die Untergrenze sein',
+                INVALID_RANGE_HINT_1: 'Die Ober-Obergrenze sollte größer als die Unter-Untergrenze sein'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Distribution System hinzufügen',
@@ -6450,7 +6453,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Veuillez entrer la constante de décalage',
                 INPUT_ADDRESS: 'Veuillez saisir l’adresse',
                 INVALID_INPUT_HINT: 'Les valeurs entrées sont incorrectes, les valeurs vont de 0 à 999999',
-                INVALID_RANGE_HINT: 'La valeur maximale doit être supérieure à la valeur minimale'
+                INVALID_RANGE_HINT: 'La limite supérieure doit être supérieure à la limite inférieure',
+                INVALID_RANGE_HINT_1: 'La limite supérieure-supérieure doit être supérieure à la limite inférieure-inférieure'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Ajouter un système de distribution',
@@ -8430,7 +8434,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Introduzca la constante de desplazamiento',
                 INPUT_ADDRESS: 'Por favor, introduzca la dirección',
                 INVALID_INPUT_HINT: 'Los valores introducidos no son correctos, el rango de valores es de 0 a 999999',
-                INVALID_RANGE_HINT: 'El valor máximo debe ser mayor que el valor mínimo'
+                INVALID_RANGE_HINT: 'El límite superior debe ser mayor que el límite inferior',
+                INVALID_RANGE_HINT_1: 'El límite superior-superior debe ser mayor que el límite inferior-inferior'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Agregar sistema de distribución',
@@ -10411,7 +10416,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Введите константу смещения',
                 INPUT_ADDRESS: 'Пожалуйста, введите адрес',
                 INVALID_INPUT_HINT: 'Введите неправильные значения, диапазон значений от 0 до 999999',
-                INVALID_RANGE_HINT: 'Максимальное значение должно быть больше минимальному значению'
+                INVALID_RANGE_HINT: 'Верхний предел должен быть больше нижнего предела',
+                INVALID_RANGE_HINT_1: 'Верхний-верхний предел должен быть больше нижний-нижний предел'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Добавить систему дистрибуции',
@@ -12391,7 +12397,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'الرجاء إدخال ثابت الإزاحة',
                 INPUT_ADDRESS: 'يرجى إدخال العنوان',
                 INVALID_INPUT_HINT: 'القيمة المدخلة غير صحيحة ، مجموعة من 0 إلى 999999',
-                INVALID_RANGE_HINT: 'يجب أن يكون الحد الأقصى أكبر من الحد الأدنى'
+                INVALID_RANGE_HINT: 'الحد الأعلى يجب أن يكون أكبر من الحد الأدنى',
+                INVALID_RANGE_HINT_1: 'الحد الأعلى الأعلى يجب أن يكون أكبر من الحد الأدنى الأدنى'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'إضافة نظام توزيع',
@@ -14370,7 +14377,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Hãy nhập hằng số bù đắp',
                 INPUT_ADDRESS: 'Vui lòng nhập địa chỉ',
                 INVALID_INPUT_HINT: 'Giá trị đầu vào không chính xác, phạm vi từ 0 đến 999999',
-                INVALID_RANGE_HINT: 'Giá trị tối đa phải lớn hơn giá trị tối thiểu'
+                INVALID_RANGE_HINT: 'Giới hạn trên phải lớn hơn giới hạn dưới',
+                INVALID_RANGE_HINT_1: 'Giới hạn trên-trên phải lớn hơn giới hạn dưới-dưới'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Thêm hệ thống phân phối',
@@ -16348,7 +16356,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'โปรดป้อนค่าคงที่ออฟเซต',
                 INPUT_ADDRESS: 'กรุณาใส่ที่อยู่',
                 INVALID_INPUT_HINT: 'ตัวเลขที่ป้อนไม่ถูกต้องโดยมีค่าตั้งแต่ 0 ถึง 999,999',
-                INVALID_RANGE_HINT: 'ค่าสูงสุดควรมากกว่าค่าต่ำสุด'
+                INVALID_RANGE_HINT: 'ขีดจำกัดบนควรมากกว่าขีดจำกัดล่าง',
+                INVALID_RANGE_HINT_1: 'ขีดจำกัดบนบนควรมากกว่าขีดจำกัดล่างล่าง'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'เพิ่มระบบการจัดจําหน่าย',
@@ -18326,7 +18335,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Lütfen Girdi Devam',
                 INPUT_ADDRESS: 'Lütfen Adres Giriniz',
                 INVALID_INPUT_HINT: 'Girilen değer 0 ile 999999 arasında yanlış',
-                INVALID_RANGE_HINT: 'Maksimum değer, minimum değerden büyük olmalıdır'
+                INVALID_RANGE_HINT: 'Üst sınır, alt sınırdan büyük olmalıdır',
+                INVALID_RANGE_HINT_1: 'Üst-üst sınır, alt-alt sınırdan büyük olmalıdır'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Dağıtım Sistemi Ekle',
@@ -20304,7 +20314,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Sila Masukkan Konstant Ofset',
                 INPUT_ADDRESS: 'Sila Alamat Input',
                 INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak betul, dalam julat 0 hingga 999999',
-                INVALID_RANGE_HINT: 'Nilai maksimum mestilah lebih besar daripada nilai minimum'
+                INVALID_RANGE_HINT: 'Had atas mestilah lebih besar daripada had bawah',
+                INVALID_RANGE_HINT_1: 'Had atas-atas mestilah lebih besar daripada had bawah-bawah'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Tambah Sistem Pengedaran',
@@ -22283,7 +22294,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Silakan Masukkan Konstant Ofset',
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
                 INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
-                INVALID_RANGE_HINT: 'Nilai maksimum harus lebih besar dari nilai minimum'
+                INVALID_RANGE_HINT: 'Batas atas harus lebih besar dari batas bawah',
+                INVALID_RANGE_HINT_1: 'Batas atas-atas harus lebih besar dari batas bawah-bawah'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: 'Tambahkan Sistem Distribusi',
@@ -24242,7 +24254,8 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: '請輸入偏移常數',
                 INPUT_ADDRESS: '請輸入地址',
                 INVALID_INPUT_HINT: '輸入的數值不正確，數值範圍為0到999999',
-                INVALID_RANGE_HINT: '最大值應該大於最小值'
+                INVALID_RANGE_HINT: '高限應該大於低限',
+                INVALID_RANGE_HINT_1: '上上限應該大於下下限'
             },
             DISTRIBUTION_SYSTEM: {
                 ADD_DISTRIBUTION_SYSTEM: '添加配電系統',
@@ -26247,9 +26260,11 @@ function config($translateProvider) {
                 INPUT_OFFSET_CONSTANT: 'Por Favor, Insira a Constante de Deslocamento',
                 INPUT_ADDRESS: 'Por Favor, Insira o Endereço',
                 INVALID_INPUT_HINT: 'O valor digitado é incorreto e varia de 0 a 999999',
-                INVALID_RANGE_HINT: 'O valor máximo deve ser maior do que o valor mínimo'
+                INVALID_RANGE_HINT: 'O limite superior deve ser maior que o limite inferior',
+                INVALID_RANGE_HINT_1: 'O limite superior-superior deve ser maior que o limite inferior-inferior'
             },
             DISTRIBUTION_SYSTEM: {
+
                 ADD_DISTRIBUTION_SYSTEM: 'Adicionar Sistema de Distribuição',
                 EDIT_DISTRIBUTION_SYSTEM: 'Editar Sistema de Distribuição',
                 SELECT_DISTRIBUTION_SYSTEM: 'Selecionar Sistema de Distribuição',
