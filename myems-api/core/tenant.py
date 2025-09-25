@@ -25,6 +25,11 @@ class TenantCollection:
             access_control(req)
         else:
             api_key_control(req)
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -69,11 +74,18 @@ class TenantCollection:
                  "        is_input_counted, is_key_tenant, "
                  "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                  "        contact_id, cost_center_id, description "
-                 " FROM tbl_tenants "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_spaces = cursor.fetchall()
+                 " FROM tbl_tenants ")
+        params = []
 
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+
+        cursor.execute(query,params)
+        rows_spaces = cursor.fetchall()
+        cursor.close()
+        cnx.close()
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -105,8 +117,6 @@ class TenantCollection:
                                "qrcode": 'tenant:' + row[2]}
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
