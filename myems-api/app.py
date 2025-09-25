@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -526,6 +526,11 @@ api.add_route('/gateways/import',
               gateway.GatewayImport())
 api.add_route('/gateways/{id_}/clone',
               gateway.GatewayClone())
+
+api.add_route('/iotsimcards',
+              iotsimcard.IoTSIMCardCollection())
+api.add_route('/iotsimcards/{id_}',
+              iotsimcard.IoTSIMCardItem())
 
 api.add_route('/knowledgefiles',
               knowledgefile.KnowledgeFileCollection())
