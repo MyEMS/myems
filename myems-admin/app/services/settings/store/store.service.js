@@ -9,8 +9,8 @@ app.factory('StoreService', function($http) {
                 callback(response);
             });
         },
-        searchStores: function(query, callback) {
-            $http.get(getAPI()+'stores', { params: { q: query } })
+        searchStores: function(query, headers, callback) {
+            $http.get(getAPI()+'stores', { params: { q: query },headers: headers })
             .then(function (response) {
                 callback(response);
             }, function (response) {
