@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added copy token function to gateway in myems-admin
 - added search function to datasource in myems-admin and myems-api
 - added search function to meter in myems-admin and myems-api
+- added iot sim card function
 ### Changed
 - updated dashboard in myems-web and in myems-api
 - added line breaks between button and table in myems-admin

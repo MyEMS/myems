@@ -588,6 +588,42 @@ app
                             ]
                         }
                     })
+                    .state('settings.iotsimcard', {
+                        url: "/iotsimcard",
+                        templateUrl: "views/settings/iotsimcard/iotsimcard.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.IOTSIMCARD',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            },{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/iotsimcard/iotsimcard.service.js',
+                                                    'app/controllers/settings/iotsimcard/iotsimcard.master.controller.js',
+                                                    'app/controllers/settings/iotsimcard/iotsimcard.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.protocol', {
                         url: "/protocol",
                         templateUrl: "views/settings/protocol/protocol.html",
@@ -899,8 +935,8 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/space/space.service.js',
-                                                    'app/services/settings/microgrid/microgrid.service.js', 
-                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstation.service.js', 
+                                                    'app/services/settings/microgrid/microgrid.service.js',
+                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstation.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
