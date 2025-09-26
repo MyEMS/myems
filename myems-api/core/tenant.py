@@ -78,8 +78,8 @@ class TenantCollection:
         params = []
 
         if search_query:
-            query += " WHERE name LIKE %s OR description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
+            query += " WHERE name LIKE %s OR description LIKE %s OR buildings LIKE %s OR floors LIKE %s OR rooms LIKE %s OR lease_number LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%', f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
         query += " ORDER BY id "
 
         cursor.execute(query,params)
