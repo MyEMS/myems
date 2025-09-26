@@ -25,6 +25,13 @@ class StoreCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,9 +74,13 @@ class StoreCollection:
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, area, store_type_id, "
                  "        is_input_counted, contact_id, cost_center_id, description "
-                 " FROM tbl_stores "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_stores ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s OR address LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_spaces = cursor.fetchall()
 
         result = list()

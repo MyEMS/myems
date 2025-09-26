@@ -49,6 +49,29 @@ app.controller('StoreController', function(
 		});
 	};
 
+        let searchDebounceTimer = null;
+	$scope.searchStores = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllStores();
+                        return;
+                    }
+		StoreService.searchStores(trimmedKeyword, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.stores = response.data;
+			} else {
+				$scope.stores = [];
+			}
+		});
+                }, 300);
+	};
+
     $scope.getAllStoreTypes = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreTypeService.getAllStoreTypes(headers, function (response) {
