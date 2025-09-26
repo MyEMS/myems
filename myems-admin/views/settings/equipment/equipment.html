@@ -5,10 +5,19 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.EQUIPMENT' | translate}}">
 						<div class="panel-body" ng-controller="EquipmentController">
-							<a ng-click="addEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'EQUIPMENT.ADD_EQUIPMENT' | translate}}</a>
-							<a ng-click="importEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<br>
-							<br>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addEquipment()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'EQUIPMENT.ADD_EQUIPMENT' | translate}}</a>
+									<a ng-click="importEquipment()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text"
+										   class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchEquipmentKeyword"
+										   ng-keyup="searchEquipments()">
+								</div>
+							</div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
