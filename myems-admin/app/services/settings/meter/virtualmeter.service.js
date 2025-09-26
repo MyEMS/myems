@@ -9,8 +9,11 @@ app.factory('VirtualMeterService', function($http) {
                 callback(response);
             });
         },
-        searchVirtualMeters: function(query, callback) {
-            $http.get(getAPI()+'virtualmeters', { params: { q: query } })
+        searchVirtualMeters: function(query,headers,  callback) {
+            $http.get(getAPI()+'virtualmeters', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -13,7 +13,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+	$scope.searchVirtualMeterKeyword = '';
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -313,6 +313,38 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchVirtualMeters = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchVirtualMeterKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllVirtualMeters();
+				safeApply($scope);
+				return;
+			}
+
+			VirtualMeterService.searchVirtualMeters(trimmedKeyword, headers, (response) => {
+				$scope.virtualmeters = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.virtualmeters];
+			});
+		}, 300);
 	};
 
 	$scope.getAllMeters();
