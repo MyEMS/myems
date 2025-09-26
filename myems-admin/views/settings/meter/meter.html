@@ -220,14 +220,22 @@
 
 					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}">
 						<div class="panel-body" ng-controller="VirtualMeterController">
-							<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
-							<a ng-click="importVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<!-- <div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div>
-									<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
-							<br>
-							<br>
+							<div class="row mb-3">
+								<div class="col-md-3">
+								<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
+									<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_VIRTUAL_METER' | translate}}</a>
+								<a ng-click="importVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
+									<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								<!-- <div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div>
+										<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
+								</div>
+								<div class="col-md-9">
+									<input type="text" class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchVirtualMeterKeyword"
+										   ng-keyup="searchVirtualMeters()">
+								</div>
+							</div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
