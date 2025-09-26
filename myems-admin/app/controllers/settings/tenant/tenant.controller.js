@@ -16,7 +16,7 @@ app.controller('TenantController', function (
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.tenantTypes = [];
-
+	$scope.searchTenantKeyword = '';
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -292,7 +292,38 @@ app.controller('TenantController', function (
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchTenant = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
 
+		const rawKeyword = $scope.searchTenantKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllTenants();
+				safeApply($scope);
+				return;
+			}
+
+			TenantService.searchTenants(trimmedKeyword, headers, (response) => {
+				$scope.tenants = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.tenants];
+			});
+		}, 300);
+	};
 	$scope.getAllTenants();
 	$scope.getAllTenantTypes(); 
 	$scope.getAllCostCenters();
