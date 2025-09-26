@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added search function to meter in myems-admin and myems-api
 - added iot sim card function
 - added search function to tenant in myems-admin and myems-api
+- added search function to store in myems-admin and myems-api
 ### Changed
 - updated dashboard in myems-web and in myems-api
 - added line breaks between button and table in myems-admin
