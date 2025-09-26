@@ -13,14 +13,19 @@ app.controller('CombinedEquipmentEquipmentController', function (
     $scope.currentCombinedEquipment = {selected:undefined};
 
     $scope.getAllEquipments = function () {
-      let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-      EquipmentService.getAllEquipments(headers, function (response) {
-          if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.equipments = response.data;
-          } else {
-              $scope.equipments = [];
-          }
-      });
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        EquipmentService.getAllEquipments(headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                let allEquipments = response.data;
+                $scope.equipments = allEquipments.filter(function (equipment) {
+                    return !$scope.combinedequipmentequipments.some(function (combinedEquipmentEquipment) {
+                        return combinedEquipmentEquipment.id === equipment.id;
+                    });
+                });
+            } else {
+                $scope.equipments = [];
+            }
+        });
     };
 
     $scope.getEquipmentsByCombinedEquipmentID = function (id) {
@@ -28,8 +33,10 @@ app.controller('CombinedEquipmentEquipmentController', function (
         CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.combinedequipmentequipments = response.data;
+                $scope.getAllEquipments(); // Refresh the equipment list after fetching combined equipment equipments
             } else {
                 $scope.combinedequipmentequipments = [];
+                $scope.getAllEquipments(); // Ensure equipment list is refreshed even if no combined equipment equipments are found
             }
         });
     };
@@ -92,7 +99,8 @@ app.controller('CombinedEquipmentEquipmentController', function (
                     showCloseButton: true,
                 });
 
-                $scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                $scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id); // Refresh the combined equipment equipments
+                $scope.getAllEquipments(); // Refresh the equipment list
             } else {
                 toaster.pop({
                     type: "error",

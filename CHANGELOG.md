@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated dashboard in myems-web and in myems-api
 - added line breaks between button and table in myems-admin
 - updated myems-admin to refresh the meter list when binding meter to equipment
+- updated myems-admin to refresh the equipment list when binding equipment to combined equipment
 ### Fixed
 - fixed blank page image style issue in myems-web
 ### Removed
