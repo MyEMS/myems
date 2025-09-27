@@ -9,8 +9,11 @@ app.factory('TenantService', function($http) {
                 callback(response);
             });
         },
-        searchTenants: function(query, callback) {
-            $http.get(getAPI()+'tenants', { params: { q: query } })
+        searchTenants: function(query,headers, callback) {
+            $http.get(getAPI()+'tenants', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -5,11 +5,22 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.TENANT' | translate}}">
 						<div class="panel-body" ng-controller="TenantController">
-							<a ng-click="addTenant()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT' | translate}}</a>
-							<a ng-click="importTenant()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addTenant()" class="btn btn-primary btn-rounded  btn-outline" href="">
+										<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT' | translate}}</a>
+									<a ng-click="importTenant()" class="btn btn-primary btn-rounded  btn-outline" href="">
+										<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text" class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchTenantKeyword"
+										   ng-keyup="searchTenant()">
+								</div>
+							</div>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -27,7 +38,8 @@
 										<th class="text-center">{{'TENANT.LEASE_END_DATETIME' | translate}}</th>
 										<th class="text-center">{{'TENANT.IS_IN_LEASE' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
-										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
+										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}}
+											({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
 								</thead>
@@ -58,11 +70,17 @@
 										<td class="text-center">{{ tenant.description }}</td>
 										<td class="text-center">
 											<a ng-click="editTenant(tenant)"
-												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' |
+												translate}}</a>
 											<a ng-click="deleteTenant(tenant)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-											<a ng-click="exportTenant(tenant)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
-											<a ng-click="cloneTenant(tenant)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
+											<a ng-click="exportTenant(tenant)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.EXPORT' |
+												translate}}</a>
+											<a ng-click="cloneTenant(tenant)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.CLONE' |
+												translate}}</a>
 										</td>
 									</tr>
 								</tbody>
@@ -76,46 +94,50 @@
 							</table>
 						</div>
 					</uib-tab>
-	    			<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}">
-            			<div class="panel-body" ng-controller="TenantTypeController">
-             				 <a ng-click="addTenantType()" class="btn btn-primary btn-rounded btn-outline" href="">
-                				<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT_TYPE' | translate}}
-              				 </a>
-                 			<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
-                		<thead>
-                  		<tr>
-                    	<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th> 
-                 		<th class="text-center">{{'SETTING.TENANT_TYPE_NAME' | translate}}</th> 
-                   		<th class="text-center">{{'SETTING.DESCRIPTION' | translate}}</th> 
-                   		<th class="text-center">{{'SETTING.ACTION' | translate}}</th> 
-                  		</tr>
-                	</thead>
-                 <tbody>
-                  		<tr ng-repeat="tenantType in tenantTypes track by tenantType.id">
-                   		<td class="text-center">{{tenantType.id}}</td>
-                    	<td class="text-center">{{tenantType.name}}</td> 
-                    	<td class="text-center">{{tenantType.description}}</td> 
-                    	<td class="text-center"> 
-                      	  <a ng-click="editTenantType(tenantType)" class="btn btn-primary btn-rounded btn-xs">
-                          {{'SETTING.EDIT' | translate}}
-                      	  </a>
-                      	  <a ng-click="deleteTenantType(tenantType)" class="btn btn-danger btn-rounded btn-xs">
-                          {{'SETTING.DELETE' | translate}}
-                      	  </a>
-                    	</td>
-                 		</tr>
-                		</tbody>
-                			<tfoot class="hide-if-no-paging">
-                  			<tr>
-                   			<td colspan="4"> 
-                      		<ul class="pagination pull-right"></ul>
-                    		</td>
-                  			</tr>
-                			</tfoot>
-              				</table>
-              		       <div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
-            		   </div>
-                    </uib-tab>  
+					<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}">
+						<div class="panel-body" ng-controller="TenantTypeController">
+							<a ng-click="addTenantType()" class="btn btn-primary btn-rounded btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT_TYPE' | translate}}
+							</a>
+							<br>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.TENANT_TYPE_NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="tenantType in tenantTypes track by tenantType.id">
+										<td class="text-center">{{tenantType.id}}</td>
+										<td class="text-center">{{tenantType.name}}</td>
+										<td class="text-center">{{tenantType.description}}</td>
+										<td class="text-center">
+											<a ng-click="editTenantType(tenantType)"
+												class="btn btn-primary btn-rounded btn-xs">
+												{{'SETTING.EDIT' | translate}}
+											</a>
+											<a ng-click="deleteTenantType(tenantType)"
+												class="btn btn-danger btn-rounded btn-xs">
+												{{'SETTING.DELETE' | translate}}
+											</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="4">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+							<div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
+						</div>
+					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
 						<div class="panel-body" ng-controller="TenantMeterController">
 							<div class="row">
@@ -149,15 +171,13 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-rounded btn-block"
 												ng-class="colorMeterType(tenantmeter.metertype)"
-												ng-repeat="tenantmeter in tenantmeters"
-												x-hjc-draggable="true"
+												ng-repeat="tenantmeter in tenantmeters" x-hjc-draggable="true"
 												title="{{tenantmeter.metertype}}">
 												({{tenantmeter.energy_category.name}}){{tenantmeter.name}}</div>
 										</div>
@@ -199,7 +219,7 @@
 										</div>
 									</div>
 								</div>
-						    </div>
+							</div>
 						</div>
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
@@ -235,8 +255,7 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_POINT' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
@@ -263,7 +282,7 @@
 											{{'SETTING.POINT_LIST' | translate}}
 										</div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-										slim-scroll box-height="765px">
+											slim-scroll box-height="765px">
 											<form role="form">
 												<div class="form-group no-margin">
 													<label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
@@ -323,8 +342,7 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairSensor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
@@ -350,7 +368,7 @@
 											{{'SENSOR.SELECT_SENSOR' | translate}}
 										</div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-										slim-scroll box-height="765px">
+											slim-scroll box-height="765px">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
@@ -396,13 +414,12 @@
 										<div class="panel-heading">
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="tenantworkingcalendar in tenantworkingcalendars" x-hjc-draggable="true"
-												title="{{tenantworkingcalendar.name}}">
+												ng-repeat="tenantworkingcalendar in tenantworkingcalendars"
+												x-hjc-draggable="true" title="{{tenantworkingcalendar.name}}">
 												{{tenantworkingcalendar.name}}</div>
 										</div>
 									</div>
@@ -470,8 +487,7 @@
 										<div class="panel-heading">
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
-										<div class="panel-body maxheight"
-											x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"

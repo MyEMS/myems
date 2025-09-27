@@ -9,8 +9,11 @@ app.factory('EquipmentService', function($http) {
                 callback(response);
             });
         },
-        searchEquipments: function(query, callback) {
-            $http.get(getAPI()+'equipments', { params: { q: query } })
+        searchEquipments: function(query, headers, callback) {
+            $http.get(getAPI()+'equipments', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -126,25 +126,29 @@ app.controller('TenantTypeController', function(
             closeOnConfirm: true,
             closeOnCancel: true
         }, function(isConfirm) {
-            if (isConfirm) {
-                const headers = { 
-                    "User-UUID": $scope.cur_user.uuid, 
-                    "Token": $scope.cur_user.token 
-                };
-                TenantTypeService.deleteTenantType(tenantType, headers, function(response) {
-                    if (response.status === 204) {
-                        toaster.pop('success', $translate.instant("TOASTER.SUCCESS_TITLE"), 
-                            $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
+               if (isConfirm) {
+                   const headers = { 
+                       "User-UUID": $scope.cur_user.uuid, 
+                       "Token": $scope.cur_user.token 
+                   };
+                   TenantTypeService.deleteTenantType(tenantType, headers, function(response) {
+                       if (response.status === 204) {
+                           toaster.pop('success', $translate.instant("TOASTER.SUCCESS_TITLE"), 
+                           $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
                         );
-                        $scope.getAllTenantTypes(); 
-                    } else {
-                        toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), 
-                            $translate.instant("TOASTER.ERROR_DELETE_BODY", { template: $translate.instant("SETTING.TENANT_TYPE") })
-                        );
-                    }
-                });
-            }
-        });
+                           $scope.getAllTenantTypes(); 
+                           $scope.$emit('handleEmitTenantTypeChanged');
+                       } else {
+                           toaster.pop({
+                               type: "error",
+                               title: $translate.instant("TOASTER.ERROR_DELETE_BODY", {template: $translate.instant("SETTING.TENANT_TYPE")}),
+                               body: $translate.instant(response.data.description),
+                               showCloseButton: true,
+                               });
+                          }
+                   });
+               }
+           });
     };
 
     $scope.getAllTenantTypes();

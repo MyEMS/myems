@@ -1,0 +1,68 @@
+<div class="wrapper wrapper-content" ng-controller="IoTSIMCardMasterController">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+
+				<uib-tabset>
+					<uib-tab heading="{{'IOTSIMCARD.IOTSIMCARD' | translate}}">
+						<div class="panel-body" ng-controller="IoTSIMCardController">
+							<a ng-click="addIoTSIMCard()" class="btn btn-primary btn-rounded btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'IOTSIMCARD.ADD_IOTSIMCARD' | translate}}</a>
+							<br>
+							<br>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.ICCID' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.IMSI' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.OPERATOR' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.STATUS' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.ACTIVE_TIME' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.OPEN_TIME' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.EXPIRATION_TIME' | translate}}</th>
+										<th class="text-center">{{'IOTSIMCARD.USED_TRAFFIC' | translate}}(MB)</th>
+										<th class="text-center">{{'IOTSIMCARD.TOTAL_TRAFFIC' | translate}}(MB)</th>
+										<th class="text-center">{{'IOTSIMCARD.DESCRIPTION' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="iotsimcard in iotsimcards">
+										<td class="text-center">{{ iotsimcard.id }}</td>
+										<td class="text-center">{{ iotsimcard.iccid }}</td>
+										<td class="text-center">{{ iotsimcard.imsi }}</td>
+										<td class="text-center">{{ iotsimcard.operator }}</td>
+										<td class="text-center">{{ iotsimcard.status }}</td>
+										<td class="text-center">{{ iotsimcard.active_time }}</td>
+										<td class="text-center">{{ iotsimcard.open_time }}</td>
+										<td class="text-center">{{ iotsimcard.expiration_time }}</td>
+										<td class="text-center">{{ iotsimcard.used_traffic }}</td>
+										<td class="text-center">{{ iotsimcard.total_traffic }}</td>
+										<td class="text-center">{{ iotsimcard.description }}</td>
+										<td class="text-center">
+											<a class="btn btn-primary btn-rounded btn-xs"
+												ng-click="editIoTSIMCard(iotsimcard)">{{'SETTING.EDIT' | translate}}</a>
+											<a ng-click="deleteIoTSIMCard(iotsimcard)"
+												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
+												translate}}</a>
+
+										</td>
+									</tr>
+								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="6">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>
