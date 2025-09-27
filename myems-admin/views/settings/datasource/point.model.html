@@ -45,6 +45,7 @@
                         <small class="text-danger" ng-show="form_point.pointhigh_limit.$error.min">{{'POINT.INVALID_INPUT_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="form_point.pointhigh_limit.$error.max">{{'POINT.INVALID_INPUT_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="point.low_limit >= point.high_limit">{{'POINT.INVALID_RANGE_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="point.higher_limit && point.high_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_2' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -57,6 +58,7 @@
                         <small class="text-danger" ng-show="form_point.pointlow_limit.$error.min">{{'POINT.INVALID_INPUT_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="form_point.pointlow_limit.$error.max">{{'POINT.INVALID_INPUT_HINT' | translate}}</small>
                         <small class="text-danger" ng-show="point.low_limit >= point.high_limit">{{'POINT.INVALID_RANGE_HINT' | translate}}</small>
+                        <small class="text-danger" ng-show="point.lower_limit && point.lower_limit >= point.low_limit">{{'POINT.INVALID_RANGE_HINT_3' | translate}}</small>
                     </div>
                 </div>
             </div>
