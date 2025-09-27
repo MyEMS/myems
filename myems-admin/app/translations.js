@@ -22566,7 +22566,7 @@ function config($translateProvider) {
                 INPUT_ADDRESS: 'Silakan masukkan alamat',
                 INVALID_INPUT_HINT: 'Nilai yang dimasukkan tidak benar, berkisar dari 0 hingga 999999',
                 INVALID_RANGE_HINT: 'Batas atas harus lebih besar dari batas bawah',
-                INVALID_RANGE_HINT_1: 'Batas atas-atas harus lebih besar dari batas bawah-bawah',
+                INVALID_RANGE_HINT_1: 'Batas atas-atas harus lebih besar dari batas bawah-bawah', 
                 INVALID_RANGE_HINT_2: 'Batas atas-atas harus lebih besar dari batas atas',
                 INVALID_RANGE_HINT_3: 'Batas bawah-bawah harus lebih kecil dari batas bawah'
             },
