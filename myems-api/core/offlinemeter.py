@@ -25,6 +25,13 @@ class OfflineMeterCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,9 +74,14 @@ class OfflineMeterCollection:
         query = (" SELECT id, name, uuid, energy_category_id, "
                  "        is_counted, hourly_low_limit, hourly_high_limit, "
                  "        energy_item_id, cost_center_id, description "
-                 " FROM tbl_offline_meters "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_offline_meters ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+
+        query += " ORDER BY id "
+        cursor.execute(query,params)
         rows_meters = cursor.fetchall()
 
         result = list()
