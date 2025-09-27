@@ -14,6 +14,7 @@ app.controller('OfflineMeterController', function(
 	SweetAlert) {
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.searchOfflineMeterKeyword = '';
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -289,6 +290,40 @@ app.controller('OfflineMeterController', function(
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchOfflineMeters = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchOfflineMeterKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllOfflineMeters();
+				safeApply($scope);
+				return;
+			}
+
+			OfflineMeterService.searchOfflineMeters(trimmedKeyword, headers, (response) => {
+				$scope.offlinemeters = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.offlinemeters];
+			});
+		}, 300);
+	};
+
 
 	$scope.getAllOfflineMeters();
 	$scope.getAllCategories();
