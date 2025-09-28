@@ -25,6 +25,13 @@ class ShopfloorCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -55,9 +62,13 @@ class ShopfloorCollection:
         query = (" SELECT id, name, uuid, "
                  "        area, is_input_counted, "
                  "        contact_id, cost_center_id, description "
-                 " FROM tbl_shopfloors "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_shopfloors ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_shopfloors = cursor.fetchall()
 
         result = list()

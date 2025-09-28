@@ -5,12 +5,20 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}">
 						<div class="panel-body" ng-controller="ShopfloorController">
-							<a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
+                                                        <div class="col-md-3">
+							    <a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}
-							</a>
-							<a ng-click="importShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
+							    </a>
+							    <a ng-click="importShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}
-							</a>
+							    </a>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control m-b-xs"
+                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                                ng-model="searchKeyword"
+                                                                ng-keyup="searchShopfloors()">
+                                                        </div>
 							<br>
 							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
