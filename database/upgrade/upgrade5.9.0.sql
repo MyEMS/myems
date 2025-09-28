@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_iot_sim_cards` (
 CREATE INDEX `tbl_iot_sim_cards_index_1` ON `myems_system_db`.`tbl_iot_sim_cards` (`iccid`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.9.0RC', release_date='2025-09-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.9.0', release_date='2025-09-28' WHERE id=1;
 
 COMMIT;

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.9.0] - 2025-09-28
+### Added
 - added tenant type function in myems-admin
 - added svg preview to myems-admin
 - added copy token function to gateway in myems-admin
@@ -24,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed blank page image style issue in myems-web
 ### Removed
+- None
 
 ## [v5.8.0] - 2025-08-28
 ### Added
@@ -2050,7 +2057,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.8.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.9.0...HEAD
+[5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
 [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
 [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
 [5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
