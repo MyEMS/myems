@@ -6,8 +6,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="DataSourceController">
-							<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
-							<a ng-click="importDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
+									<a ng-click="importDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text" class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchDataSourcesKeyword"
+										   ng-keyup="searchDataSources()">
+								</div>
+							</div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -51,7 +61,7 @@
 							<form method="get" class="form-horizontal">
 								<div class="form-group"><label
 										class="col-sm-2 control-label">{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}:</label>
-									<div class="col-sm-3">
+									<div class="col-sm-4" >
 										<ui-select on-select="changeDataSource($item, $model)"
 											ng-model="currentDataSource" theme="bootstrap">
 											<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
@@ -69,6 +79,8 @@
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_POINT' | translate}}</a>
 							<a ng-click="importPoint()" class="btn btn-primary btn-rounded  btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<br>
+							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

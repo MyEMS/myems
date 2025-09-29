@@ -14,6 +14,7 @@ app.controller('MeterController', function($scope,
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.searchKeyword = '';
 
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +87,87 @@ app.controller('MeterController', function($scope,
 		});
 
 	};
+
+    let searchDebounceTimer = null;
+
+    function safeApply(scope) {
+        if (!scope.$$phase && !scope.$root.$$phase) {
+            scope.$apply();
+        }
+    }
+
+    $scope.searchMeters = function() {
+        const headers = {
+            "User-UUID": $scope.cur_user?.uuid,
+            "Token": $scope.cur_user?.token
+        };
+
+        const rawKeyword = $scope.searchKeyword || "";
+        const trimmedKeyword = rawKeyword.trim();
+
+        if (searchDebounceTimer) {
+            clearTimeout(searchDebounceTimer);
+        }
+
+        searchDebounceTimer = setTimeout(() => {
+            if (!trimmedKeyword) {
+                $scope.getAllMeters();
+                safeApply($scope);
+                return;
+            }
+
+            MeterService.searchMeters(trimmedKeyword, headers, (response) => {
+                $scope.meters = (response.status === 200) ? response.data : [];
+                $scope.parentmeters = [...$scope.meters];
+
+                const treedata = {
+                    'core': { 'data': [], "multiple": false },
+                    "plugins": ["wholerow"]
+                };
+
+                $scope.meters.forEach(meter => {
+                    const node = {
+                        "id": meter.id.toString(),
+                        "text": meter.name
+                    };
+
+                    if (!meter.master_meter) {
+                        node.parent = '#';
+                        node.state = { 'opened': true, 'selected': false };
+                    } else {
+                        node.parent = meter.master_meter.id.toString();
+                    }
+
+                    treedata.core.data.push(node);
+                });
+
+                const treeElement = angular.element(metertree);
+                const existingTree = treeElement.jstree(true);
+
+                if (existingTree) {
+                    existingTree.settings.core.data = treedata.core.data;
+                    existingTree.refresh();
+                } else {
+                    treeElement.jstree(treedata);
+                }
+
+                treeElement.off("changed.jstree");
+                treeElement.on("changed.jstree", (e, data) => {
+                    if (data.selected?.length) {
+                        $scope.currentMeterID = parseInt(data.selected[0], 10);
+                        $scope.getMeterSubmeters($scope.currentMeterID);
+                    } else {
+                        $scope.currentMeterID = null;
+                        $scope.submeters = [];
+                    }
+                    safeApply($scope);
+                });
+
+                safeApply($scope);
+            });
+        }, 300);
+    };
+
 
 	$scope.refreshMeterTree = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

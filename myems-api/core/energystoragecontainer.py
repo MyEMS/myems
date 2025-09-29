@@ -281,7 +281,8 @@ class EnergyStorageContainerItem:
             " WHERE energy_storage_container_id = %s ",
             (id_,)
         )
-        if cursor.fetchone() is not None:
+        rows_energy_storage_power_stations = cursor.fetchall()
+        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',

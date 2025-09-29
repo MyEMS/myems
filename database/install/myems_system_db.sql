@@ -863,6 +863,26 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_heat_integrators` (
 CREATE INDEX `tbl_heat_integrators_index_1` ON `myems_system_db`.`tbl_heat_integrators` (`name`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_iot_sim_cards`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_iot_sim_cards` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_iot_sim_cards` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `iccid` VARCHAR(255) NOT NULL,
+  `imsi` VARCHAR(255),
+  `operator` VARCHAR(255),
+  `status` VARCHAR(255),
+  `active_time` VARCHAR(255),
+  `open_time` VARCHAR(255),
+  `expiration_time` VARCHAR(255),
+  `used_traffic` DECIMAL(21, 6),
+  `total_traffic` DECIMAL(21, 6),
+  `description` VARCHAR(255),
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_iot_sim_cards_index_1` ON `myems_system_db`.`tbl_iot_sim_cards` (`iccid`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_knowledge_files`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_knowledge_files` ;
@@ -2684,7 +2704,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '5.8.0', '2025-08-28');
+(1, '5.9.0', '2025-09-28');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

@@ -10,7 +10,10 @@ app.factory('DataSourceService', function($http) {
             });
         },
         searchDataSources: function(query, headers, callback) {
-            $http.get(getAPI()+'datasources', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'datasources', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

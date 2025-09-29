@@ -7,6 +7,8 @@
 						<div class="panel-body" ng-controller="MicrogridController">
 							<a ng-click="addMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_MICROGRID' | translate}}</a>
 							<a ng-click="importMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							<br>
+							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -55,6 +57,81 @@
 									</tr>
 								</tfoot>
 							</table>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
+						<div class="panel-body" ng-controller="MicrogridDataSourceController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'COMMON.MICROGRID' | translate}}
+										</div>
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group no-margin">
+													<label>{{'SETTING.SELECT_MICROGRID' | translate}}</label>
+													<ui-select on-select="changeMicrogrid($item,$model)"
+															   ng-model="currentMicrogrid.selected" theme="bootstrap">
+														<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															{{$select.selected.name}}
+														</ui-select-match>
+														<ui-select-choices repeat="microgrid.id as microgrid in microgrids | filter: $select.search">
+															<div ng-bind-html="microgrid.name | highlight: $select.search"></div>
+														</ui-select-choices>
+													</ui-select>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentMicrogrid.name}}{{'SETTING.N_S_DATA_SOURCE' | translate}}
+										</div>
+										<div class="panel-body"
+											 x-hjc-drop-target="true"
+											 x-on-drop="pairDataSource(dragEl,dropEl)"
+											 uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
+											<div class="btn btn-primary btn-rounded btn-block"
+												 title="{{'COMMON.MICROGRID' | translate}}:{{microgriddatasources.name}}"
+												 ng-repeat="microgriddatasource in microgriddatasources"
+												 x-hjc-draggable="true">
+												{{microgriddatasource.name}}
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan"
+												 src="img/trashcan.png"
+												 x-hjc-drop-target="true"
+												 x-on-drop="deleteDataSourcePair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.DATA_SOURCE_LIST' | translate}}
+										</div>
+										<div class="panel-body" slim-scroll box-height="765px"
+											 uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+											<h5>{{'SETTING.DATA_SOURCE_LIST' | translate}}</h5>
+											<div class="source btn btn-info btn-rounded btn-block"
+												 ng-repeat="datasource in datasources"
+												 x-hjc-draggable="true">
+												{{datasource.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</uib-tab>
 					<uib-tab heading="{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}">
@@ -106,6 +183,7 @@
 										<td class="text-center">{{ microgridpowerconversionsystem.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridPowerconversionsystem(microgridpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridPowerConversionSystemPoint(microgridpowerconversionsystem)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridPowerconversionsystem(microgridpowerconversionsystem)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -174,6 +252,7 @@
 										<td class="text-center">{{ microgridphotovoltaic.rated_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridPhotovoltaicPoint(microgridphotovoltaic)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridPhotovoltaic(microgridphotovoltaic)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -252,6 +331,7 @@
 										<td class="text-center">{{ microgridbattery.nominal_voltage }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridBattery(microgridbattery)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridBatteryPoint(microgridbattery)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridBattery(microgridbattery)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -320,6 +400,7 @@
 										<td class="text-center">{{ microgridevcharger.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridEVCharger(microgridevcharger)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridEVChargerPoint(microgridevcharger)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridEVCharger(microgridevcharger)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -390,6 +471,7 @@
 										<td class="text-center">{{ microgridgrid.capacity }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridGrid(microgridgrid)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridGridPoint(microgridgrid)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridGrid(microgridgrid)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -458,6 +540,7 @@
 										<td class="text-center">{{ microgridload.rated_input_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridLoad(microgridload)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridLoadPoint(microgridload)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridLoad(microgridload)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -530,6 +613,7 @@
 										<td class="text-center">{{ microgridheatpump.rated_input_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridHeatpump(microgridheatpump)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridHeatPumpPoint(microgridheatpump)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridHeatpump(microgridheatpump)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>
@@ -666,6 +750,7 @@
 										<td class="text-center">{{ microgridgenerator.rated_output_power }}</td>
 										<td class="text-center">
 										  <a ng-click="editMicrogridGenerator(microgridgenerator)" class="btn btn-primary btn-rounded btn-xs" >{{'SETTING.EDIT' | translate}}</a>
+										  <a ng-click="bindMicrogridGeneratorPoint(microgridgenerator)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.BIND_POINT' | translate}}</a>
 										  <a ng-click="deleteMicrogridGenerator(microgridgenerator)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.DELETE' | translate}}</a>
 										</td>
 									  </tr>

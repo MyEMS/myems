@@ -9,6 +9,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 ### Removed
 
+## [v5.9.0] - 2025-09-28
+### Added
+- added tenant type function in myems-admin
+- added svg preview to myems-admin
+- added copy token function to gateway in myems-admin
+- added search function to datasource in myems-admin and myems-api
+- added search function to meter in myems-admin and myems-api
+- added search function to virtual meter in myems-admin and myems-api
+- added search function to offline meter in myems-admin and myems-api
+- added iot sim card function
+- added search function to equipment in myems-admin and myems-api
+- added search function to tenant in myems-admin and myems-api
+- added search function to store in myems-admin and myems-api
+### Changed
+- updated dashboard in myems-web and in myems-api
+- added line breaks between button and table in myems-admin
+- updated myems-admin to refresh the meter list when binding meter to equipment
+- updated myems-admin to refresh the equipment list when binding equipment to combined equipment
+### Fixed
+- fixed blank page image style issue in myems-web
+### Removed
+- None
+
 ## [v5.8.0] - 2025-08-28
 ### Added
 - added carbon emissions per unit of energy consumption to equipment in myems-web
@@ -2034,7 +2057,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.8.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.9.0...HEAD
+[5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
 [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
 [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
 [5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0

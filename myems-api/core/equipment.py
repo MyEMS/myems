@@ -40,9 +40,9 @@ class EquipmentCollection:
                                             "name": row[1],
                                             "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
+        query_svg = (" SELECT id, name, uuid "
+                     " FROM tbl_svgs ")
+        cursor.execute(query_svg)
         rows_svgs = cursor.fetchall()
 
         svg_dict = dict()
@@ -52,12 +52,20 @@ class EquipmentCollection:
                                     "name": row[1],
                                     "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg_id, camera_url, description "
-                 " FROM tbl_equipments "
-                 " ORDER BY id ")
-        cursor.execute(query)
+        search_query = req.get_param('q')
+        query_base = (" SELECT id, name, uuid, "
+                      "        is_input_counted, is_output_counted, "
+                      "        cost_center_id, svg_id, camera_url, description "
+                      " FROM tbl_equipments ")
+        params = []
+
+        if search_query and isinstance(search_query, str) and len(str.strip(search_query)) > 0:
+            query_base += " WHERE name LIKE %s OR description LIKE %s "
+            trimmed_query = str.strip(search_query)
+            params = [f'%{trimmed_query}%', f'%{trimmed_query}%']
+
+        query_base += " ORDER BY id "
+        cursor.execute(query_base, params)
         rows_equipments = cursor.fetchall()
 
         result = list()

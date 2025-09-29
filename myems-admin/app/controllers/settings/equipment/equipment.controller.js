@@ -14,6 +14,8 @@ app.controller('EquipmentController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.searchEquipmentKeyword = '';
+    $scope.searchTimeout = null;
 
 	$scope.getAllEquipments = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -25,6 +27,29 @@ app.controller('EquipmentController', function(
 			}
 		});
 	};
+
+    $scope.searchEquipments = function() {
+        if ($scope.searchTimeout) {
+            clearTimeout($scope.searchTimeout);
+        }
+
+        $scope.searchTimeout = setTimeout(function() {
+            let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+            var searchQuery = $scope.searchEquipmentKeyword.trim();
+
+            if (searchQuery === '') {
+                $scope.getAllEquipments();
+            } else {
+                EquipmentService.searchEquipments(searchQuery, headers, function (response) {
+                    if (angular.isDefined(response.status) && response.status === 200) {
+                        $scope.equipments = response.data;
+                    } else {
+                        $scope.equipments = [];
+                    }
+                });
+            }
+        }, 300);
+    };
 
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

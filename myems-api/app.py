@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -527,6 +527,11 @@ api.add_route('/gateways/import',
 api.add_route('/gateways/{id_}/clone',
               gateway.GatewayClone())
 
+api.add_route('/iotsimcards',
+              iotsimcard.IoTSIMCardCollection())
+api.add_route('/iotsimcards/{id_}',
+              iotsimcard.IoTSIMCardItem())
+
 api.add_route('/knowledgefiles',
               knowledgefile.KnowledgeFileCollection())
 api.add_route('/knowledgefiles/{id_}',
@@ -599,11 +604,11 @@ api.add_route('/microgrids/{id_}/loads/{lid}',
               microgrid.MicrogridLoadItem())
 api.add_route('/microgrids/{id_}/photovoltaics',
               microgrid.MicrogridPhotovoltaicCollection())
-api.add_route('/microgrids/{id_}/photovoltaics/{pid}',
+api.add_route('/microgrids/{id_}/photovoltaics/{pvid}',
               microgrid.MicrogridPhotovoltaicItem())
 api.add_route('/microgrids/{id_}/powerconversionsystems',
               microgrid.MicrogridPowerconversionsystemCollection())
-api.add_route('/microgrids/{id_}/powerconversionsystems/{pid}',
+api.add_route('/microgrids/{id_}/powerconversionsystems/{pcsid}',
               microgrid.MicrogridPowerconversionsystemItem())
 api.add_route('/microgrids/{id_}/schedules',
               microgrid.MicrogridScheduleCollection())
@@ -623,6 +628,40 @@ api.add_route('/microgrids/{id_}/datasources',
               microgrid.MicrogridDataSourceCollection())
 api.add_route('/microgrids/{id_}/datasources/{dsid}', 
               microgrid.MicrogridDataSourceItem())
+api.add_route('/microgrids/{id_}/datasourcepoints',
+              microgrid.MicrogridDataSourcePointCollection())
+api.add_route('/microgrids/{id_}/batteries/{bid}/points',
+              microgrid.MicrogridBatteryPointCollection())
+api.add_route('/microgrids/{id_}/batteries/{bid}/points/{pid}',
+              microgrid.MicrogridBatteryPointItem())
+api.add_route('/microgrids/{id_}/evchargers/{eid}/points',
+              microgrid.MicrogridEVChargerPointCollection())
+api.add_route('/microgrids/{id_}/evchargers/{eid}/points/{pid}',
+              microgrid.MicrogridEVChargerPointItem())
+api.add_route('/microgrids/{id_}/generators/{gid}/points',
+              microgrid.MicrogridGeneratorPointCollection())
+api.add_route('/microgrids/{id_}/generators/{gid}/points/{pid}',
+              microgrid.MicrogridGeneratorPointItem())
+api.add_route('/microgrids/{id_}/grids/{gid}/points',
+              microgrid.MicrogridGridPointCollection())
+api.add_route('/microgrids/{id_}/grids/{gid}/points/{pid}',
+              microgrid.MicrogridGridPointItem())
+api.add_route('/microgrids/{id_}/heatpumps/{hid}/points',
+              microgrid.MicrogridHeatPumpPointCollection())
+api.add_route('/microgrids/{id_}/heatpumps/{hid}/points/{pid}',
+              microgrid.MicrogridHeatPumpPointItem())
+api.add_route('/microgrids/{id_}/loads/{lid}/points',
+              microgrid.MicrogridLoadPointCollection())
+api.add_route('/microgrids/{id_}/loads/{lid}/points/{pid}',
+              microgrid.MicrogridLoadPointItem())
+api.add_route('/microgrids/{id_}/photovoltaics/{pvid}/points',
+              microgrid.MicrogridPhotovoltaicPointCollection())
+api.add_route('/microgrids/{id_}/photovoltaics/{pvid}/points/{pid}',
+              microgrid.MicrogridPhotovoltaicPointItem())
+api.add_route('/microgrids/{id_}/powerconversionsystems/{pcsid}/points',
+              microgrid.MicrogridPowerConversionSystemPointCollection())
+api.add_route('/microgrids/{id_}/powerconversionsystems/{pcsid}/points/{pid}',
+              microgrid.MicrogridPowerConversionSystemPointItem())
 
 api.add_route('/notifications',
               notification.NotificationCollection())

@@ -92,7 +92,7 @@ app
                                                         'app/services/settings/combinedequipment/combinedequipment.service.js',
                                                         'app/services/settings/meter/meter.service.js',
                                                         'app/services/fdd/rule.service.js',
-                                                        'app/controllers/fdd/rule/rule.controller.js'
+                                                        'app/controllers/fdd/rule/rule.controller.js',
                                                     ]
                                                 }]);
                                         }
@@ -588,6 +588,42 @@ app
                             ]
                         }
                     })
+                    .state('settings.iotsimcard', {
+                        url: "/iotsimcard",
+                        templateUrl: "views/settings/iotsimcard/iotsimcard.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.IOTSIMCARD',
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'ui.checkbox', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            },{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/iotsimcard/iotsimcard.service.js',
+                                                    'app/controllers/settings/iotsimcard/iotsimcard.master.controller.js',
+                                                    'app/controllers/settings/iotsimcard/iotsimcard.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('settings.protocol', {
                         url: "/protocol",
                         templateUrl: "views/settings/protocol/protocol.html",
@@ -899,8 +935,8 @@ app
                                                 serie: true,
                                                 files: [
                                                     'app/services/settings/space/space.service.js',
-                                                    'app/services/settings/microgrid/microgrid.service.js', 
-                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstation.service.js', 
+                                                    'app/services/settings/microgrid/microgrid.service.js',
+                                                    'app/services/settings/photovoltaicpowerstation/photovoltaicpowerstation.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
@@ -1012,6 +1048,7 @@ app
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/tenant/tenant.master.controller.js',
                                                     'app/controllers/settings/tenant/tenant.controller.js',
+                                                    'app/controllers/settings/tenant/tenanttype.controller.js',
                                                     'app/controllers/settings/tenant/tenantmeter.controller.js',
                                                     'app/controllers/settings/tenant/tenantpoint.controller.js',
                                                     'app/controllers/settings/tenant/tenantsensor.controller.js',
@@ -1335,6 +1372,7 @@ app
                                                     'app/services/settings/microgrid/microgridpowerconversionsystem.service.js',
                                                     'app/services/settings/microgrid/microgridsensor.service.js',
                                                     'app/services/settings/microgrid/microgriduser.service.js',
+                                                    'app/services/settings/microgrid/microgriddatasource.service.js',
                                                     'app/services/settings/command/command.service.js',
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/contact/contact.service.js',
@@ -1342,6 +1380,7 @@ app
                                                     'app/services/settings/meter/meter.service.js',
                                                     'app/services/settings/datasource/point.service.js',
                                                     'app/services/settings/sensor/sensor.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
                                                     'app/controllers/settings/microgrid/microgrid.master.controller.js',
                                                     'app/controllers/settings/microgrid/microgrid.controller.js',
                                                     'app/controllers/settings/microgrid/microgridbattery.controller.js',
@@ -1354,6 +1393,7 @@ app
                                                     'app/controllers/settings/microgrid/microgridpowerconversionsystem.controller.js',
                                                     'app/controllers/settings/microgrid/microgridsensor.controller.js',
                                                     'app/controllers/settings/microgrid/microgriduser.controller.js',
+                                                    'app/controllers/settings/microgrid/microgriddatasource.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
                                                 ]

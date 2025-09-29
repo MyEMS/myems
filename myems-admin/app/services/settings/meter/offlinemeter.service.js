@@ -9,8 +9,11 @@ app.factory('OfflineMeterService', function($http) {
                 callback(response);
             });
         },
-        searchOfflineMeters: function(query, callback) {
-            $http.get(getAPI()+'offlinemeters', { params: { q: query } })
+        searchOfflineMeters: function(query, headers,callback) {
+            $http.get(getAPI()+'offlinemeters', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
