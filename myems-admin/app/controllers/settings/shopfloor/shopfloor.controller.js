@@ -48,6 +48,29 @@ app.controller('ShopfloorController', function (
 		});
 	};
 
+        let searchDebounceTimer = null;
+        $scope.searchShopfloors = function() {
+                let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllShopfloors();
+                        return;
+                    }
+                ShopfloorService.searchShopfloors(trimmedKeyword, headers, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 200) {
+                                $scope.shopfloors = response.data;
+                        } else {
+                                $scope.shopfloors = [];
+                        }
+                });
+                }, 300);
+        };
+
 	$scope.addShopfloor = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/shopfloor/shopfloor.model.html',
