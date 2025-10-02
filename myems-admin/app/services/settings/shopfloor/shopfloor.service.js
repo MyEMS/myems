@@ -17,8 +17,8 @@ app.factory('ShopfloorService', function($http) {
                 callback(response);
             });
         },
-        searchShopfloors: function(query, callback) {
-            $http.get(getAPI()+'shopfloors', { params: { q: query } })
+        searchShopfloors: function(query, headers, callback) {
+            $http.get(getAPI()+'shopfloors', { params: { q: query },headers: headers })
             .then(function (response) {
                 callback(response);
             }, function (response) {
