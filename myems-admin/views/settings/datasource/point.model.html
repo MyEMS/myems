@@ -43,7 +43,7 @@
                     <div class="m-t-xs" ng-show="form_point.pointhigh_limit.$dirty">
                         <small class="text-danger" ng-show="form_point.pointhigh_limit.$error.required">{{'POINT.INPUT_HIGH_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="point.low_limit >= point.high_limit">{{'POINT.INVALID_RANGE_HINT' | translate}}</small>
-                        <small class="text-danger" ng-show="point.higher_limit && point.high_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_2' | translate}}</small>
+                        <small class="text-danger" ng-show="point.higher_limit != null && point.high_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_2' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <div class="m-t-xs" ng-show="form_point.pointlow_limit.$dirty">
                         <small class="text-danger" ng-show="form_point.pointlow_limit.$error.required">{{'POINT.INPUT_LOW_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="point.low_limit >= point.high_limit">{{'POINT.INVALID_RANGE_HINT' | translate}}</small>
-                        <small class="text-danger" ng-show="point.lower_limit && point.lower_limit >= point.low_limit">{{'POINT.INVALID_RANGE_HINT_3' | translate}}</small>
+                        <small class="text-danger" ng-show="point.lower_limit != null && point.lower_limit >= point.low_limit">{{'POINT.INVALID_RANGE_HINT_3' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -115,8 +115,8 @@
                 <div class="col-sm-8">
                     <input ng-model="point.higher_limit" type="number" name="pointhigher_limit" class="form-control">
                     <div class="m-t-xs" ng-show="form_point.pointhigher_limit.$dirty">
-                        <small class="text-danger" ng-show="point.lower_limit && point.higher_limit && point.lower_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_1' | translate}}</small>
-                        <small class="text-danger" ng-show="point.higher_limit && point.higher_limit <= point.high_limit">{{'POINT.INVALID_RANGE_HINT_2' | translate}}</small>
+                        <small class="text-danger" ng-show="point.lower_limit != null && point.higher_limit != null && point.lower_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_1' | translate}}</small>
+                        <small class="text-danger" ng-show="point.higher_limit != null && point.higher_limit <= point.high_limit">{{'POINT.INVALID_RANGE_HINT_2' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -124,8 +124,8 @@
                 <div class="col-sm-8">
                     <input ng-model="point.lower_limit" type="number" name="pointlower_limit" class="form-control">
                     <div class="m-t-xs" ng-show="form_point.pointlower_limit.$dirty">
-                        <small class="text-danger" ng-show="point.lower_limit && point.higher_limit && point.lower_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_1' | translate}}</small>
-                        <small class="text-danger" ng-show="point.lower_limit && point.lower_limit >= point.low_limit">{{'POINT.INVALID_RANGE_HINT_3' | translate}}</small>
+                        <small class="text-danger" ng-show="point.lower_limit != null && point.higher_limit != null && point.lower_limit >= point.higher_limit">{{'POINT.INVALID_RANGE_HINT_1' | translate}}</small>
+                        <small class="text-danger" ng-show="point.lower_limit != null && point.lower_limit >= point.low_limit">{{'POINT.INVALID_RANGE_HINT_3' | translate}}</small>
                     </div>
                 </div>
             </div>
