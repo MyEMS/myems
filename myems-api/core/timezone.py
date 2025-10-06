@@ -6,26 +6,56 @@ import config
 
 
 class TimezoneCollection:
+    """
+    Timezone Collection Resource
+
+    This class handles timezone operations for the MyEMS system.
+    It provides functionality to retrieve all available timezones
+    with their names, descriptions, and UTC offsets.
+    """
+
     def __init__(self):
-        """"Initializes TimezoneCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all timezones
+
+        Returns a list of all available timezones with their metadata including:
+        - Timezone ID
+        - Timezone name
+        - Description
+        - UTC offset
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all timezones
         query = (" SELECT id, name, description, utc_offset "
                  " FROM tbl_timezones ")
         cursor.execute(query)
@@ -33,6 +63,7 @@ class TimezoneCollection:
         cursor.close()
         cnx.close()
 
+        # Build result list
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -46,24 +77,55 @@ class TimezoneCollection:
 
 
 class TimezoneItem:
+    """
+    Timezone Item Resource
+
+    This class handles individual timezone operations including:
+    - Retrieving a specific timezone by ID
+    - Updating timezone information
+    """
+
     def __init__(self):
-        """"Initializes TimezoneItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Timezone ID parameter
+        """
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
+        """
+        Handle GET requests to retrieve a specific timezone by ID
+
+        Retrieves a single timezone with its metadata including:
+        - Timezone ID
+        - Timezone name
+        - Description
+        - UTC offset
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Timezone ID to retrieve
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TIMEZONE_ID')
@@ -71,6 +133,7 @@ class TimezoneItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve specific timezone by ID
         query = (" SELECT id, name, description, utc_offset "
                  " FROM tbl_timezones "
                  " WHERE id = %s ")
@@ -82,6 +145,7 @@ class TimezoneItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
+        # Build result object
         result = {"id": row[0],
                   "name": row[1],
                   "description": row[2],
@@ -95,7 +159,17 @@ class TimezoneItem:
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
-        """Handles PUT requests"""
+        """
+        Handle PUT requests to update timezone information
+
+        Updates a specific timezone with new name, description, and UTC offset.
+        Requires admin privileges.
+
+        Args:
+            req: Falcon request object containing update data
+            resp: Falcon response object
+            id_: Timezone ID to update
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -114,6 +188,7 @@ class TimezoneItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Check if timezone exists
         cursor.execute(" SELECT name "
                        " FROM tbl_timezones "
                        " WHERE id = %s ", (id_,))
@@ -123,6 +198,7 @@ class TimezoneItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TIMEZONE_NOT_FOUND')
 
+        # Update timezone information
         update_row = (" UPDATE tbl_timezones "
                       " SET name = %s, description = %s, utc_offset = %s "
                       " WHERE id = %s ")

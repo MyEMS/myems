@@ -123,18 +123,38 @@ POINT_RELATION_CHECKS = [
 
 
 class PointCollection:
+    """
+    Point Collection Resource
+
+    This class handles CRUD operations for point collection.
+    It provides endpoints for listing all points and creating new points.
+    Points represent data collection points in the energy management system.
+    """
     def __init__(self):
-        """"Initializes PointCollection"""
+        """Initialize PointCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
-        """Handles GET requests"""
+        """
+        Handle GET requests to retrieve all points
+
+        Returns a list of all points with their metadata including:
+        - Point ID, name, and UUID
+        - Data source information
+        - Object type and object ID
+        - Description and other attributes
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         admin_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -377,7 +397,6 @@ class PointCollection:
 
 class PointItem:
     def __init__(self):
-        """"Initializes PointItem"""
         pass
 
     @staticmethod
@@ -696,7 +715,6 @@ class PointItem:
 
 class PointLimit:
     def __init__(self):
-        """"Initializes PointLimit"""
         pass
 
     @staticmethod
@@ -779,7 +797,6 @@ class PointLimit:
 
 class PointSetValue:
     def __init__(self):
-        """"Initializes PointSetValue"""
         pass
 
     @staticmethod
@@ -835,7 +852,6 @@ class PointSetValue:
 
 class PointExport:
     def __init__(self):
-        """"Initializes PointExport"""
         pass
 
     @staticmethod
@@ -902,7 +918,6 @@ class PointExport:
 
 class PointImport:
     def __init__(self):
-        """"Initializes PointImport"""
         pass
 
     @staticmethod
@@ -1103,7 +1118,6 @@ class PointImport:
 
 class PointClone:
     def __init__(self):
-        """"Initializes PointClone"""
         pass
 
     @staticmethod

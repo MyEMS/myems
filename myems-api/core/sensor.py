@@ -8,12 +8,20 @@ import config
 
 
 class SensorCollection:
+    """
+    Sensor Collection Resource
+
+    This class handles CRUD operations for sensor collection.
+    It provides endpoints for listing all sensors and creating new sensors.
+    Sensors represent data collection devices in the energy management system.
+    """
     def __init__(self):
-        """"Initializes SensorCollection"""
+        """Initialize SensorCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -105,7 +113,6 @@ class SensorCollection:
 
 class SensorItem:
     def __init__(self):
-        """"Initializes SensorItem"""
         pass
 
     @staticmethod
@@ -309,7 +316,6 @@ class SensorItem:
 
 class SensorPointCollection:
     def __init__(self):
-        """"Initializes SensorPointCollection"""
         pass
 
     @staticmethod
@@ -401,7 +407,7 @@ class SensorPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_sensors_points "
                  " WHERE sensor_id = %s AND point_id = %s")
         cursor.execute(query, (id_, new_values['data']['point_id'],))
@@ -424,7 +430,6 @@ class SensorPointCollection:
 
 class SensorPointItem:
     def __init__(self):
-        """"Initializes SensorPointItem"""
         pass
 
     @staticmethod
@@ -543,7 +548,6 @@ class SensorExport:
 
 class SensorImport:
     def __init__(self):
-        """"Initializes SensorImport"""
         pass
 
     @staticmethod
@@ -630,7 +634,6 @@ class SensorImport:
 class SensorClone:
 
     def __init__(self):
-        """"Initializes SensorClone"""
         pass
 
     @staticmethod

@@ -9,30 +9,43 @@ import gettext
 
 ########################################################################################################################
 # Aggregate hourly data by period
-# rows_hourly: list of (start_datetime_utc, actual_value), should belong to one energy_category_id
-# start_datetime_utc: start datetime in utc
-# end_datetime_utc: end datetime in utc
-# period_type: use one of the period types, 'hourly', 'daily', 'weekly', 'monthly' and 'yearly'
-# Note: this procedure doesn't work with multiple energy categories
+#
+# This function aggregates hourly energy data into different time periods (hourly, daily, weekly, monthly, yearly).
+# It processes raw hourly data and groups it according to the specified period type for reporting and analysis.
+#
+# Args:
+#     rows_hourly: List of tuples containing (start_datetime_utc, actual_value) for hourly data
+#                  Should belong to one energy_category_id
+#     start_datetime_utc: Start datetime in UTC for the aggregation period
+#     end_datetime_utc: End datetime in UTC for the aggregation period
+#     period_type: Period type for aggregation - 'hourly', 'daily', 'weekly', 'monthly', or 'yearly'
+#
+# Returns:
+#     List of tuples containing (datetime_utc, aggregated_value) for the specified period type
+#
+# Note: This procedure doesn't work with multiple energy categories
 ########################################################################################################################
 def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetime_utc, period_type):
-    # todo: validate parameters
+    # Validate input parameters
     if start_datetime_utc is None or \
             end_datetime_utc is None or \
             start_datetime_utc >= end_datetime_utc or \
             period_type not in ('hourly', 'daily', 'weekly', 'monthly', 'yearly'):
         return list()
 
+    # Remove timezone info for consistent processing
     start_datetime_utc = start_datetime_utc.replace(tzinfo=None)
     end_datetime_utc = end_datetime_utc.replace(tzinfo=None)
 
+    # Process hourly aggregation
     if period_type == "hourly":
         result_rows_hourly = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
+        # TODO: add config.working_day_start_time_local
+        # TODO: add config.minutes_to_count
         current_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
         while current_datetime_utc <= end_datetime_utc:
             subtotal = Decimal(0.0)
+            # Sum values within the current hour period
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < current_datetime_utc + \
                         timedelta(minutes=config.minutes_to_count):
@@ -42,11 +55,12 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
 
         return result_rows_hourly
 
+    # Process daily aggregation
     elif period_type == "daily":
         result_rows_daily = list()
-        # todo: add config.working_day_start_time_local
-        # todo: add config.minutes_to_count
-        # calculate the start datetime in utc of the first day in local
+        # TODO: add config.working_day_start_time_local
+        # TODO: add config.minutes_to_count
+        # Calculate the start datetime in UTC of the first day in local timezone
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:

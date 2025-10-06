@@ -9,12 +9,20 @@ import config
 
 
 class CostFileCollection:
+    """
+    Cost File Collection Resource
+
+    This class handles CRUD operations for cost file collection.
+    It provides endpoints for listing all cost files and creating new files.
+    Cost files contain cost data for the energy management system.
+    """
     def __init__(self):
-        """"Initializes CostFileCollection"""
+        """Initialize CostFileCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -148,7 +156,6 @@ class CostFileCollection:
 
 class CostFileItem:
     def __init__(self):
-        """"Initializes CostFileItem"""
         pass
 
     @staticmethod
@@ -238,7 +245,6 @@ class CostFileItem:
 
 class CostFileRestore:
     def __init__(self):
-        """"Initializes CostFileRestore"""
         pass
 
     @staticmethod

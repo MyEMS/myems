@@ -6,21 +6,47 @@ import config
 
 
 class PrivilegeCollection:
+    """
+    Privilege Collection Resource
+
+    This class handles privilege management operations for the MyEMS system.
+    It provides functionality to create and retrieve user privileges
+    that define access permissions and roles.
+    """
+
     def __init__(self):
-        """"Initializes PrivilegeCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all privileges
+
+        Returns a list of all privileges with their metadata including:
+        - Privilege ID and name
+        - Privilege data (JSON configuration)
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         admin_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all privileges ordered by ID descending
         query = (" SELECT id, name, data "
                  " FROM tbl_privileges "
                  " ORDER BY id DESC ")
@@ -29,6 +55,7 @@ class PrivilegeCollection:
         cursor.close()
         cnx.close()
 
+        # Build result list
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
@@ -42,7 +69,18 @@ class PrivilegeCollection:
     @staticmethod
     @user_logger
     def on_post(req, resp):
-        """Handles POST requests"""
+        """
+        Handle POST requests to create a new privilege
+
+        Creates a new privilege with the specified name and data configuration.
+        Requires admin privileges.
+
+        Args:
+            req: Falcon request object containing privilege data:
+                - name: Privilege name (required)
+                - data: Privilege data configuration (required)
+            resp: Falcon response object
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -53,6 +91,7 @@ class PrivilegeCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
+        # Validate privilege name
         if 'name' not in new_values['data'] or \
             not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
@@ -60,6 +99,7 @@ class PrivilegeCollection:
                                    description='API.INVALID_PRIVILEGE_NAME')
         name = str.strip(new_values['data']['name'])
 
+        # Validate privilege data
         if 'data' not in new_values['data'] or \
             not isinstance(new_values['data']['data'], str) or \
                 len(str.strip(new_values['data']['data'])) == 0:
@@ -70,6 +110,7 @@ class PrivilegeCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
+        # Check if privilege name already exists
         cursor.execute(" SELECT name "
                        " FROM tbl_privileges "
                        " WHERE name = %s ", (name,))
@@ -79,6 +120,7 @@ class PrivilegeCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
+        # Insert new privilege into database
         add_row = (" INSERT INTO tbl_privileges "
                    "             (name, data) "
                    " VALUES (%s, %s) ")
@@ -94,12 +136,27 @@ class PrivilegeCollection:
 
 
 class PrivilegeItem:
+    """
+    Privilege Item Resource
+
+    This class handles individual privilege operations including:
+    - Updating privilege information
+    - Deleting privileges (with relationship checks)
+    """
+
     def __init__(self):
-        """"Initializes PrivilegeItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Privilege ID parameter
+        """
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
@@ -107,6 +164,18 @@ class PrivilegeItem:
     @staticmethod
     @user_logger
     def on_delete(req, resp, id_):
+        """
+        Handle DELETE requests to remove a privilege
+
+        Deletes the specified privilege from the database.
+        Checks for existing relationships with users before deletion.
+        Requires admin privileges.
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Privilege ID to delete
+        """
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -115,7 +184,7 @@ class PrivilegeItem:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
-        # check relation with users
+        # Check for relationships with users
         cursor.execute(" SELECT id "
                        " FROM tbl_users "
                        " WHERE privilege_id = %s ", (id_,))
@@ -127,6 +196,7 @@ class PrivilegeItem:
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_USERS')
 
+        # Check if privilege exists
         cursor.execute(" SELECT name "
                        " FROM tbl_privileges "
                        " WHERE id = %s ", (id_,))
@@ -136,7 +206,7 @@ class PrivilegeItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
-        # TODO: delete associated objects
+        # TODO: Delete associated objects before deleting privilege
         cursor.execute(" DELETE FROM tbl_privileges WHERE id = %s ", (id_,))
         cnx.commit()
 
@@ -148,7 +218,19 @@ class PrivilegeItem:
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
-        """Handles PUT requests"""
+        """
+        Handle PUT requests to update privilege information
+
+        Updates an existing privilege with new name and data configuration.
+        Requires admin privileges.
+
+        Args:
+            req: Falcon request object containing update data:
+                - name: New privilege name (required)
+                - data: New privilege data configuration (required)
+            resp: Falcon response object
+            id_: Privilege ID to update
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -162,6 +244,8 @@ class PrivilegeItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_ID')
+
+        # Validate privilege name
         if 'name' not in new_values['data'] or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
@@ -169,6 +253,7 @@ class PrivilegeItem:
                                    description='API.INVALID_PRIVILEGE_NAME')
         name = str.strip(new_values['data']['name'])
 
+        # Validate privilege data
         if 'data' not in new_values['data'] or \
                 not isinstance(new_values['data']['data'], str) or \
                 len(str.strip(new_values['data']['data'])) == 0:
@@ -179,6 +264,7 @@ class PrivilegeItem:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
+        # Check if privilege exists
         cursor.execute(" SELECT name "
                        " FROM tbl_privileges "
                        " WHERE id = %s ", (id_,))
@@ -188,6 +274,7 @@ class PrivilegeItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PRIVILEGE_NOT_FOUND')
 
+        # Check if new name conflicts with existing privileges (excluding current)
         cursor.execute(" SELECT name "
                        " FROM tbl_privileges "
                        " WHERE name = %s AND id != %s ", (name, id_))
@@ -197,6 +284,7 @@ class PrivilegeItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
+        # Update privilege information
         update_row = (" UPDATE tbl_privileges "
                       " SET name = %s, data = %s "
                       " WHERE id = %s ")
