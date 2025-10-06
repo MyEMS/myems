@@ -1,3 +1,22 @@
+"""
+MyEMS Combined Equipment Billing Input Item Aggregation Service
+
+This module handles the calculation of billing costs for combined equipment based on energy input consumption
+by energy items and tariff structures. It processes energy consumption data from various sources
+associated with each combined equipment and calculates the corresponding billing amounts using time-of-use tariffs.
+
+The service follows a systematic approach:
+1. Retrieves all combined equipment from the system database
+2. For each combined equipment, determines the latest processed billing data timestamp
+3. Fetches energy input consumption data by energy items since the last processed timestamp
+4. Retrieves applicable tariffs for the time period and energy items
+5. Calculates billing amounts by multiplying energy consumption with tariffs
+6. Saves the calculated billing data to the billing database
+
+This service runs continuously, processing new energy data as it becomes available and
+ensuring accurate billing calculations for all combined equipment in the system.
+"""
+
 import time
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -21,15 +40,32 @@ import tariff
 
 
 def main(logger):
+    """
+    Main function for combined equipment billing input item aggregation service.
+
+    This function runs continuously and processes billing calculations for all combined equipment
+    based on energy items. It retrieves energy consumption data, applies tariffs, and
+    calculates billing amounts.
+
+    Args:
+        logger: Logger instance for recording activities and errors
+
+    The function follows these steps:
+    1. Connects to system, energy, and billing databases
+    2. Retrieves all combined equipment from the system database
+    3. For each combined equipment, processes billing calculations by energy items
+    4. Sleeps for 300 seconds before the next processing cycle
+    """
 
     while True:
-        # the outermost while loop
+        # Main processing loop - runs continuously
         ################################################################################################################
-        # Step 1: get all combined equipments
+        # Step 1: Get all combined equipment from system database
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
         try:
+            # Connect to MyEMS System Database
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
@@ -38,12 +74,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Connected to MyEMS System Database")
 
+        # Retrieve all combined equipment from the system database
         combined_equipment_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, cost_center_id "
@@ -57,10 +94,11 @@ def main(logger):
                     cursor_system_db.close()
                 if cnx_system_db:
                     cnx_system_db.close()
-                # sleep and continue the outermost while loop
+                # Sleep and continue the main loop
                 time.sleep(60)
                 continue
 
+            # Build combined equipment list with id, name, and cost_center_id
             for row in rows_combined_equipments:
                 combined_equipment_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
 
@@ -70,12 +108,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Step 1.2: Got all combined equipments from MyEMS System Database")
 
+        # Connect to MyEMS Energy Database
         cnx_energy_db = None
         cursor_energy_db = None
         try:
@@ -92,12 +131,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Connected to MyEMS Energy Database")
 
+        # Connect to MyEMS Billing Database
         cnx_billing_db = None
         cursor_billing_db = None
         try:
@@ -119,7 +159,7 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 

@@ -1,3 +1,20 @@
+"""
+MyEMS Modbus TCP Gateway Service - Test Module
+
+This module provides a simple test utility for verifying Modbus TCP connectivity
+and data reading functionality. It can be used to test connections to Modbus TCP
+devices and verify that data can be read correctly.
+
+Usage:
+    python3 test.py HOST PORT
+
+The test performs the following operations:
+1. Tests basic TCP connectivity to the specified host and port
+2. Establishes a Modbus TCP connection
+3. Reads test data from the Modbus device
+4. Demonstrates byte swapping functionality
+"""
+
 import sys
 import telnetlib3
 import asyncio
@@ -9,15 +26,39 @@ import byte_swap
 # Check connectivity to the host and port
 ########################################################################################################################
 async def check_connectivity(host, port):
+    """
+    Test basic TCP connectivity to a host and port.
+
+    This function attempts to establish a TCP connection to verify that the
+    target host and port are reachable before attempting Modbus communication.
+
+    Args:
+        host: Target hostname or IP address
+        port: Target port number
+
+    Raises:
+        Exception: If connection fails
+    """
     reader, writer = await telnetlib3.open_connection(host, port)
-    # Close the connection
+    # Close the connection immediately after establishing it
     writer.close()
 
 
 ########################################################################################################################
-# main procedure
+# Main test procedure
 ########################################################################################################################
 def main():
+    """
+    Main test function for Modbus TCP connectivity and data reading.
+
+    This function tests the complete Modbus TCP communication flow:
+    1. Validates command line arguments
+    2. Tests basic TCP connectivity
+    3. Establishes Modbus TCP connection
+    4. Reads test data from Modbus registers
+    5. Demonstrates byte swapping functionality
+    """
+    # Validate command line arguments
     if len(sys.argv) > 2:
         host = str(sys.argv[1])
         port = int(sys.argv[2])
@@ -26,6 +67,7 @@ def main():
         print('Usage: python3 test.py HOST PORT')
         return
 
+    # Test basic TCP connectivity first
     try:
         asyncio.run(check_connectivity(host, port))
         print("Succeeded to telnet {0}:{1}".format(host, port))
@@ -34,6 +76,8 @@ def main():
         return
 
     """
+    Python struct module format string documentation:
+
     Functions to convert between Python values and C structs.
     Python bytes objects are used to hold the data representing the C struct
     and also as format strings (explained below) to describe the layout of data
@@ -63,16 +107,27 @@ def main():
 
     The variable struct.error is an exception raised on errors.
     """
+
+    # Test Modbus TCP communication
     try:
+        # Create Modbus TCP master connection
         master = modbus_tcp.TcpMaster(host=str(host), port=int(port), timeout_in_sec=5.0)
         master.set_timeout(5.0)
         print("Connected to {0}:{1}".format(host, port))
+
+        # Read test data from Modbus registers
         print("read registers...")
+
+        # Read 1 register (16-bit) from slave 1, starting address 0, big-endian signed short
         result = master.execute(slave=1, function_code=3, starting_address=0, quantity_of_x=1, data_format='>h')
         print("r1 = " + str(result[0]))
+
+        # Read 2 registers (32-bit) from slave 1, starting address 1, big-endian signed int
+        # Then apply byte swapping to demonstrate the byte swap functionality
         result = master.execute(slave=1, function_code=3, starting_address=1, quantity_of_x=2, data_format='>i')
         print("r2 = " + str(byte_swap.byte_swap_32_bit(result[0])))
 
+        # Close the Modbus connection
         master.close()
     except Exception as e:
         print(str(e))

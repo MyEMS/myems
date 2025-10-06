@@ -1,3 +1,24 @@
+"""
+MyEMS Normalization Service - Physical Meter Processing Module
+
+This module handles the normalization of energy consumption data from physical meters.
+It processes raw energy values from the historical database and converts them into
+normalized hourly consumption data for analysis and reporting.
+
+The meter normalization process performs the following functions:
+1. Retrieves all physical meters and their associated energy value points
+2. Uses multiprocessing to process meters in parallel for efficiency
+3. Calculates energy consumption increments from cumulative meter readings
+4. Applies data quality checks and validation rules
+5. Stores normalized hourly consumption data in the energy database
+
+Key features:
+- Handles meter disconnections and reconnections
+- Validates data against configured high/low limits
+- Processes data in configurable time intervals (hourly/half-hourly)
+- Maintains data integrity through comprehensive error handling
+"""
+
 import random
 import time
 from datetime import datetime, timedelta, timezone
@@ -8,35 +29,47 @@ import config
 
 
 ########################################################################################################################
-# PROCEDURES:
-# Step 1: Query all meters and associated energy value points
-# Step 2: Create multiprocessing pool to call worker in parallel
+# Physical Meter Normalization Procedures:
+# Step 1: Query all meters and associated energy value points from system database
+# Step 2: Create multiprocessing pool to call worker processes in parallel
 ########################################################################################################################
 
 
 def calculate_hourly(logger):
+    """
+    Main function for physical meter energy consumption normalization.
 
+    This function runs continuously, retrieving all physical meters from the system database
+    and processing them in parallel to calculate normalized hourly energy consumption data.
+
+    Args:
+        logger: Logger instance for recording normalization activities and errors
+    """
     while True:
         ################################################################################################################
-        # Step 1: Query all meters and associated energy value points
+        # Step 1: Query all meters and associated energy value points from system database
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
+
+        # Connect to system database to retrieve meter configuration
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
             logger.error("Error in step 1.1 of meter.calculate_hourly process " + str(e))
+            # Clean up database connections in case of error
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep several minutes and continue the outer loop to reconnect the database
+            # Sleep several minutes and continue the outer loop to reconnect the database
             time.sleep(60)
             continue
 
         print("Connected to the MyEMS System Database")
 
+        # Retrieve all physical meters with their associated energy value points
         try:
             cursor_system_db.execute(" SELECT m.id, m.name, m.hourly_low_limit, m.hourly_high_limit, "
                                      "        p.id as point_id, p.units "
@@ -46,11 +79,13 @@ def calculate_hourly(logger):
                                      "       AND p.object_type = 'ENERGY_VALUE'")
             rows_meters = cursor_system_db.fetchall()
 
+            # Check if meters were found
             if rows_meters is None or len(rows_meters) == 0:
-                # sleep several minutes and continue the outer loop to reconnect the database
+                # Sleep several minutes and continue the outer loop to reconnect the database
                 time.sleep(60)
                 continue
 
+            # Build meter list with configuration data
             meter_list = list()
             for row in rows_meters:
                 meta_result = {"id": row[0],
@@ -64,55 +99,73 @@ def calculate_hourly(logger):
 
         except Exception as e:
             logger.error("Error in step 1.2 meter.calculate_hourly " + str(e))
-            # sleep several minutes and continue the outer loop to reconnect the database
+            # Sleep several minutes and continue the outer loop to reconnect the database
             time.sleep(60)
             continue
         finally:
+            # Always clean up database connections
             if cursor_system_db:
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
 
-        # shuffle the meter list for randomly calculating the meter hourly value
+        # Shuffle the meter list for randomly calculating the meter hourly values
+        # This helps distribute processing load evenly across time
         random.shuffle(meter_list)
 
         print("Got all meters in MyEMS System Database")
 
         ################################################################################################################
-        # Step 2: Create multiprocessing pool to call worker in parallel
+        # Step 2: Create multiprocessing pool to call worker processes in parallel
         ################################################################################################################
+        # Create process pool with configured size for parallel processing
         p = Pool(processes=config.pool_size)
         error_list = p.map(worker, meter_list)
         p.close()
         p.join()
 
+        # Log any errors from worker processes
         for error in error_list:
             if error is not None and len(error) > 0:
                 logger.error(error)
 
         print("go to sleep ...")
-        time.sleep(60)
+        time.sleep(60)  # Sleep for 1 minute before next processing cycle
         print("wake from sleep, and continue to work...")
-    # end of outer while
+    # End of outer while loop
 
 
 ########################################################################################################################
-# PROCEDURES:
-# Step 1: Determine the start datetime and end datetime
-# Step 2: Get raw data from historical database between start_datetime_utc and end datetime
-# Step 3: Normalize energy values by minutes_to_count
-# Step 4: Insert into energy database
+# Worker Process Procedures for Individual Meter Processing:
+# Step 1: Determine the start datetime and end datetime for processing
+# Step 2: Get raw energy data from historical database between start_datetime_utc and end_datetime_utc
+# Step 3: Normalize energy values by minutes_to_count (calculate consumption increments)
+# Step 4: Insert normalized data into energy database
 #
-# NOTE: returns None or the error string because that the logger object cannot be passed in as parameter
+# NOTE: Returns None on success or error string on failure because the logger object cannot be passed as parameter
 ########################################################################################################################
 
 def worker(meter):
+    """
+    Worker function to process a single meter's energy consumption normalization.
+
+    This function processes one meter at a time, calculating normalized hourly energy
+    consumption from raw cumulative meter readings.
+
+    Args:
+        meter: Dictionary containing meter configuration (id, name, limits, point_id, units)
+
+    Returns:
+        None on success, error string on failure
+    """
     print("Start to process meter: " + "'" + meter['name'] + "'")
     ####################################################################################################################
-    # Step 1: Determine the start datetime and end datetime
+    # Step 1: Determine the start datetime and end datetime for processing
     ####################################################################################################################
     cnx_energy_db = None
     cursor_energy_db = None
+
+    # Connect to energy database to check existing processed data
     try:
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
@@ -125,11 +178,12 @@ def worker(meter):
         print(error_string)
         return error_string
 
-    # get the initial start datetime from config file in case there is no energy data
+    # Get the initial start datetime from config file in case there is no energy data
     start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
     start_datetime_utc = start_datetime_utc.replace(tzinfo=timezone.utc)
     start_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
+    # Check for existing processed data to determine where to continue
     try:
         query = (" SELECT MAX(start_datetime_utc) "
                  " FROM tbl_meter_hourly "
@@ -145,18 +199,21 @@ def worker(meter):
         print(error_string)
         return error_string
 
+    # Update start datetime if existing processed data is found
     if row_datetime is not None and len(row_datetime) > 0 and isinstance(row_datetime[0], datetime):
         start_datetime_utc = row_datetime[0].replace(tzinfo=timezone.utc)
-        # replace second and microsecond with 0
+        # Replace second and microsecond with 0
         # NOTE: DO NOT replace minute in case of calculating in half hourly
         start_datetime_utc = start_datetime_utc.replace(second=0, microsecond=0)
-        # start from the next time slot
+        # Start from the next time slot
         start_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
+    # Calculate end datetime with cleaning service buffer
     end_datetime_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
-    # we should allow myems-cleaning service to take at most [minutes_to_clean] minutes to clean the data
+    # We should allow myems-cleaning service to take at most [minutes_to_clean] minutes to clean the data
     end_datetime_utc -= timedelta(minutes=config.minutes_to_clean)
 
+    # Validate that there's enough time difference to process
     time_difference = end_datetime_utc - start_datetime_utc
     time_difference_in_minutes = time_difference / timedelta(minutes=1)
     if time_difference_in_minutes < config.minutes_to_count:
@@ -164,13 +221,14 @@ def worker(meter):
         print(error_string)
         return error_string
 
-    # trim end_datetime_utc
+    # Trim end_datetime_utc to align with processing intervals
     trimmed_end_datetime_utc = start_datetime_utc + timedelta(minutes=config.minutes_to_count)
     while trimmed_end_datetime_utc <= end_datetime_utc:
         trimmed_end_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
     end_datetime_utc = trimmed_end_datetime_utc - timedelta(minutes=config.minutes_to_count)
 
+    # Final validation of datetime range
     if end_datetime_utc <= start_datetime_utc:
         error_string = "it's too early to calculate" + " for '" + meter['name'] + "'"
         print(error_string)
@@ -180,11 +238,13 @@ def worker(meter):
           + "end_datetime_utc: " + end_datetime_utc.isoformat()[0:19])
 
     ####################################################################################################################
-    # Step 2: Get raw data from historical database between start_datetime_utc and end_datetime_utc
+    # Step 2: Get raw energy data from historical database between start_datetime_utc and end_datetime_utc
     ####################################################################################################################
 
     cnx_historical_db = None
     cursor_historical_db = None
+
+    # Connect to historical database to retrieve raw energy values
     try:
         cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical_db = cnx_historical_db.cursor()
@@ -203,7 +263,7 @@ def worker(meter):
         print(error_string)
         return error_string
 
-    # query latest record before start_datetime_utc
+    # Query latest record before start_datetime_utc to establish baseline for consumption calculation
     energy_value_just_before_start = dict()
     try:
         query = (" SELECT utc_date_time, actual_value "
@@ -232,7 +292,7 @@ def worker(meter):
         print(error_string)
         return error_string
 
-    # query energy values to be normalized
+    # Query energy values to be normalized (only good quality data)
     try:
         query = (" SELECT utc_date_time, actual_value "
                  " FROM tbl_energy_value "
@@ -338,25 +398,31 @@ def worker(meter):
     # 300346191	1003344	2019-03-14 01:25:00	0	            1
     ####################################################################################################################
 
+    # Initialize list to store normalized consumption values
     normalized_values = list()
+
+    # Handle case where no energy values are available (meter offline or all bad data)
     if rows_energy_values is None or len(rows_energy_values) == 0:
-        # NOTE: there isn't any value to be normalized
-        # that means the meter is offline or all values are bad
+        # NOTE: There isn't any value to be normalized
+        # That means the meter is offline or all values are bad
         current_datetime_utc = start_datetime_utc
         while current_datetime_utc < end_datetime_utc:
             normalized_values.append({'start_datetime_utc': current_datetime_utc, 'actual_value': Decimal(0.0)})
             current_datetime_utc += timedelta(minutes=config.minutes_to_count)
     else:
+        # Initialize maximum value from baseline reading
         maximum = Decimal(0.0)
         if energy_value_just_before_start is not None and \
                 len(energy_value_just_before_start) > 0 and \
                 energy_value_just_before_start['actual_value'] > Decimal(0.0):
             maximum = energy_value_just_before_start['actual_value']
 
+        # Process each time slot within the datetime range
         current_datetime_utc = start_datetime_utc
         while current_datetime_utc < end_datetime_utc:
             initial_maximum = maximum
-            # get all energy values in current time slot
+
+            # Get all energy values in current time slot
             current_energy_values = list()
             while len(rows_energy_values) > 0:
                 row_energy_value = rows_energy_values.pop(0)
@@ -367,51 +433,57 @@ def worker(meter):
                     rows_energy_values.insert(0, row_energy_value)
                     break
 
-            # get the energy increment one by one in current time slot
+            # Calculate the energy increment for current time slot
             increment = Decimal(0.0)
-            # maximum should be equal to the maximum value of last time here
+            # Maximum should be equal to the maximum value of last time slot
             for index in range(len(current_energy_values)):
                 current_energy_value = current_energy_values[index]
                 if maximum < current_energy_value[1]:
                     increment += current_energy_value[1] - maximum
                 maximum = current_energy_value[1]
 
-            # omit huge initial value for a new meter
-            # or omit huge value for a recovered meter with zero values during failure
-            # NOTE: this method may cause the lose of energy consumption in this time slot
+            # Omit huge initial value for a new meter
+            # Or omit huge value for a recovered meter with zero values during failure
+            # NOTE: This method may cause the loss of energy consumption in this time slot
             if initial_maximum <= Decimal(0.1):
                 increment = Decimal(0.0)
 
-            # check with hourly low limit
+            # Check with hourly low limit (minimum consumption threshold)
             if increment < meter['hourly_low_limit']:
                 increment = Decimal(0.0)
 
-            # check with hourly high limit
-            # NOTE: this method may cause the lose of energy consumption in this time slot
+            # Check with hourly high limit (maximum consumption threshold)
+            # NOTE: This method may cause the loss of energy consumption in this time slot
             if increment > meter['hourly_high_limit']:
                 increment = Decimal(0.0)
 
+            # Store normalized consumption data
             meta_data = {'start_datetime_utc': current_datetime_utc,
                          'actual_value': increment}
-            # append mete_data
+            # Append meta_data
             normalized_values.append(meta_data)
             current_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
     ####################################################################################################################
-    # Step 4: Insert into energy database
+    # Step 4: Insert normalized data into energy database
     ####################################################################################################################
+    # Process normalized values in batches of 100 to avoid overwhelming the database
     while len(normalized_values) > 0:
-        insert_100 = normalized_values[:100]
-        normalized_values = normalized_values[100:]
+        insert_100 = normalized_values[:100]  # Take first 100 items
+        normalized_values = normalized_values[100:]  # Remove processed items
+
         try:
+            # Build INSERT statement for normalized hourly consumption data
             add_values = (" INSERT INTO tbl_meter_hourly (meter_id, start_datetime_utc, actual_value) "
                           " VALUES  ")
 
+            # Add each normalized value to the INSERT statement
             for meta_data in insert_100:
                 add_values += " (" + str(meter['id']) + ","
                 add_values += "'" + meta_data['start_datetime_utc'].isoformat()[0:19] + "',"
                 add_values += str(meta_data['actual_value']) + "), "
-            # trim ", " at the end of string and then execute
+
+            # Trim ", " at the end of string and then execute
             cursor_energy_db.execute(add_values[:-2])
             cnx_energy_db.commit()
         except Exception as e:
@@ -424,6 +496,7 @@ def worker(meter):
             print(error_string)
             return error_string
 
+    # Clean up database connections
     if cursor_energy_db:
         cursor_energy_db.close()
     if cnx_energy_db:
