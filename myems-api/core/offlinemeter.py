@@ -8,17 +8,42 @@ import config
 
 
 class OfflineMeterCollection:
+    """
+    Offline Meter Collection Resource
+
+    This class handles CRUD operations for offline meter collection.
+    It provides endpoints for listing all offline meters and creating new offline meters.
+    Offline meters are used for manual energy data entry and tracking.
+    """
     def __init__(self):
-        """Initializes OfflineMeterCollection"""
+        """Initialize OfflineMeterCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all offline meters
+
+        Returns a list of all offline meters with their metadata including:
+        - Meter ID, name, and UUID
+        - Energy category and energy item information
+        - Cost center information
+        - Counting status and hourly limits
+        - Description
+
+        Supports optional search query parameter 'q' for filtering by name or description.
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication - use API key if provided, otherwise use access control
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -26,12 +51,14 @@ class OfflineMeterCollection:
         else:
             api_key_control(req)
 
+        # Get search query parameter
         search_query = req.get_param('q', default=None)
         if search_query is not None:
             search_query = search_query.strip()
         else:
             search_query = ''
 
+        # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -252,7 +279,6 @@ class OfflineMeterCollection:
 
 class OfflineMeterItem:
     def __init__(self):
-        """Initializes OfflineMeterItem"""
         pass
 
     @staticmethod
@@ -656,7 +682,6 @@ class OfflineMeterItem:
 
 class OfflineMeterExport:
     def __init__(self):
-        """Initializes OfflineMeterExport"""
         pass
 
     @staticmethod
@@ -746,7 +771,6 @@ class OfflineMeterExport:
 
 class OfflineMeterImport:
     def __init__(self):
-        """Initializes OfflineMeterImport"""
         pass
 
     @staticmethod
@@ -908,7 +932,6 @@ class OfflineMeterImport:
 
 class OfflineMeterClone:
     def __init__(self):
-        """Initializes OfflineMeterClone"""
         pass
 
     @staticmethod

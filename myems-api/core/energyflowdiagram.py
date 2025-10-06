@@ -8,31 +8,64 @@ import config
 
 
 class EnergyFlowDiagramCollection:
+    """
+    Energy Flow Diagram Collection Resource
+
+    This class handles CRUD operations for energy flow diagram collection.
+    It provides endpoints for listing all energy flow diagrams and creating new ones.
+    Energy flow diagrams represent visual representations of energy flows between
+    different nodes in the energy management system, showing how energy moves
+    through various components like meters, equipment, and spaces.
+    """
     def __init__(self):
-        """"Initializes EnergyFlowDiagramCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all energy flow diagrams
+
+        Returns a list of all energy flow diagrams with their complete structure including:
+        - Diagram ID, name, and UUID
+        - Associated nodes (energy flow points)
+        - Links between nodes with meter associations
+        - Meter information (regular, offline, and virtual meters)
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all regular meters for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_meters ")
         cursor.execute(query)
         rows_meters = cursor.fetchall()
 
+        # Build meter dictionary for quick lookup by UUID
         meter_dict = dict()
         if rows_meters is not None and len(rows_meters) > 0:
             for row in rows_meters:
@@ -41,11 +74,13 @@ class EnergyFlowDiagramCollection:
                                       "name": row[1],
                                       "uuid": row[2]}
 
+        # Query to retrieve all offline meters for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_offline_meters ")
         cursor.execute(query)
         rows_offline_meters = cursor.fetchall()
 
+        # Build offline meter dictionary for quick lookup by UUID
         offline_meter_dict = dict()
         if rows_offline_meters is not None and len(rows_offline_meters) > 0:
             for row in rows_offline_meters:
@@ -54,11 +89,13 @@ class EnergyFlowDiagramCollection:
                                               "name": row[1],
                                               "uuid": row[2]}
 
+        # Query to retrieve all virtual meters for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_virtual_meters ")
         cursor.execute(query)
         rows_virtual_meters = cursor.fetchall()
 
+        # Build virtual meter dictionary for quick lookup by UUID
         virtual_meter_dict = dict()
         if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
             for row in rows_virtual_meters:
@@ -131,7 +168,16 @@ class EnergyFlowDiagramCollection:
     @staticmethod
     @user_logger
     def on_post(req, resp):
-        """Handles POST requests"""
+        """
+        Handle POST requests to create a new energy flow diagram
+
+        Creates a new energy flow diagram with the provided name.
+        The diagram will be empty initially and nodes/links can be added separately.
+
+        Args:
+            req: Falcon request object containing diagram data
+            resp: Falcon response object
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -177,8 +223,14 @@ class EnergyFlowDiagramCollection:
 
 
 class EnergyFlowDiagramItem:
+    """
+    Energy Flow Diagram Item Resource
+
+    This class handles CRUD operations for individual energy flow diagrams.
+    It provides endpoints for retrieving, updating, and deleting specific
+    energy flow diagrams by their ID.
+    """
     def __init__(self):
-        """"Initializes EnergyFlowDiagramItem"""
         pass
 
     @staticmethod
@@ -405,7 +457,6 @@ class EnergyFlowDiagramItem:
 
 class EnergyFlowDiagramLinkCollection:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramLinkCollection"""
         pass
 
     @staticmethod
@@ -667,7 +718,6 @@ class EnergyFlowDiagramLinkCollection:
 
 class EnergyFlowDiagramLinkItem:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramLinkItem"""
         pass
 
     @staticmethod
@@ -981,7 +1031,6 @@ class EnergyFlowDiagramLinkItem:
 
 class EnergyFlowDiagramNodeCollection:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramNodeCollection"""
         pass
 
     @staticmethod
@@ -1094,7 +1143,6 @@ class EnergyFlowDiagramNodeCollection:
 
 class EnergyFlowDiagramNodeItem:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramNodeItem"""
         pass
 
     @staticmethod
@@ -1274,7 +1322,6 @@ class EnergyFlowDiagramNodeItem:
 
 class EnergyFlowDiagramExport:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramExport"""
         pass
 
     @staticmethod
@@ -1401,7 +1448,6 @@ class EnergyFlowDiagramExport:
 
 class EnergyFlowDiagramImport:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramImport"""
         pass
 
     @staticmethod
@@ -1609,7 +1655,6 @@ class EnergyFlowDiagramImport:
 
 class EnergyFlowDiagramClone:
     def __init__(self):
-        """"Initializes EnergyFlowDiagramClone"""
         pass
 
     @staticmethod

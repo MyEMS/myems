@@ -8,12 +8,20 @@ import config
 
 
 class GatewayCollection:
+    """
+    Gateway Collection Resource
+
+    This class handles CRUD operations for gateway collection.
+    It provides endpoints for listing all gateways and creating new gateways.
+    Gateways represent communication interfaces for data collection in the energy management system.
+    """
     def __init__(self):
-        """"Initializes GatewayCollection"""
+        """Initialize GatewayCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -112,7 +120,6 @@ class GatewayCollection:
 
 class GatewayItem:
     def __init__(self):
-        """"Initializes GatewayItem"""
         pass
 
     @staticmethod
@@ -272,7 +279,6 @@ class GatewayItem:
 
 class GatewayDataSourceCollection:
     def __init__(self):
-        """"Initializes GatewayDataSourceCollection"""
         pass
 
     @staticmethod
@@ -338,7 +344,6 @@ class GatewayDataSourceCollection:
 class GatewayExport:
 
     def __init__(self):
-        """"Initializes GatewayExport"""
         pass
 
     @staticmethod
@@ -391,7 +396,6 @@ class GatewayExport:
 
 class GatewayImport:
     def __init__(self):
-        """"Initializes GatewayImport"""
         pass
 
     @staticmethod
@@ -457,7 +461,6 @@ class GatewayImport:
 
 class GatewayClone:
     def __init__(self):
-        """"Initializes GatewayClone"""
         pass
 
     @staticmethod

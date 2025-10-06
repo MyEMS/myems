@@ -8,12 +8,20 @@ import config
 
 
 class SVGCollection:
+    """
+    SVG Collection Resource
+
+    This class handles CRUD operations for SVG collection.
+    It provides endpoints for listing all SVGs and creating new SVGs.
+    SVGs are used for displaying graphical representations in the energy management system.
+    """
     def __init__(self):
-        """Initializes SVGCollection"""
+        """Initialize SVGCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -138,7 +146,6 @@ class SVGCollection:
 
 class SVGItem:
     def __init__(self):
-        """Initializes SVGItem"""
         pass
 
     @staticmethod
@@ -364,7 +371,6 @@ class SVGItem:
 
 class SVGExport:
     def __init__(self):
-        """Initializes SVGExport"""
         pass
 
     @staticmethod
@@ -410,7 +416,6 @@ class SVGExport:
 
 class SVGImport:
     def __init__(self):
-        """Initializes SVGImport"""
         pass
 
     @staticmethod
@@ -484,7 +489,6 @@ class SVGImport:
 
 class SVGClone:
     def __init__(self):
-        """Initializes SVGClone"""
         pass
 
     @staticmethod

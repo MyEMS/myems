@@ -7,12 +7,20 @@ import config
 
 
 class StoreTypeCollection:
+    """
+    Store Type Collection Resource
+
+    This class handles CRUD operations for store type collection.
+    It provides endpoints for listing all store types and creating new store types.
+    Store types define categories of retail stores in the energy management system.
+    """
     def __init__(self):
-        """ Initializes StoreTypeCollection"""
+        """Initialize StoreTypeCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 

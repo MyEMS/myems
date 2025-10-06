@@ -8,12 +8,20 @@ import config
 
 
 class ContactCollection:
+    """
+    Contact Collection Resource
+
+    This class handles CRUD operations for contact collection.
+    It provides endpoints for listing all contacts and creating new contacts.
+    Contacts represent individuals or organizations in the energy management system.
+    """
     def __init__(self):
-        """"Initializes ContactCollection"""
+        """Initialize ContactCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -130,7 +138,6 @@ class ContactCollection:
 
 class ContactItem:
     def __init__(self):
-        """"Initializes ContactItem"""
         pass
 
     @staticmethod

@@ -8,8 +8,14 @@ import config
 
 
 class WindFarmCollection:
+    """
+    Wind Farm Collection Resource
+
+    This class handles CRUD operations for wind farm collection.
+    It provides endpoints for listing all wind farms and creating new wind farms.
+    Wind farms represent renewable energy generation facilities in the energy management system.
+    """
     def __init__(self):
-        """"Initializes WindFarmCollection"""
         pass
 
     @staticmethod
@@ -241,7 +247,6 @@ class WindFarmCollection:
 
 class WindFarmItem:
     def __init__(self):
-        """"Initializes WindFarmItem"""
         pass
 
     @staticmethod
@@ -517,7 +522,6 @@ class WindFarmItem:
 
 class WindFarmExport:
     def __init__(self):
-        """"Initializes WindFarmItem"""
         pass
 
     @staticmethod
@@ -603,7 +607,6 @@ class WindFarmExport:
 
 class WindFarmImport:
     def __init__(self):
-        """"Initializes WindFarmCollection"""
         pass
 
     @staticmethod
@@ -765,7 +768,6 @@ class WindFarmImport:
 
 class WindFarmClone:
     def __init__(self):
-        """"Initializes WindFarmItem"""
         pass
 
     @staticmethod
@@ -834,4 +836,4 @@ class WindFarmClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/windfarms/' + str(new_id)
-            
+

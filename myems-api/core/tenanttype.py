@@ -7,12 +7,20 @@ import config
 
 
 class TenantTypeCollection:
+    """
+    Tenant Type Collection Resource
+
+    This class handles CRUD operations for tenant type collection.
+    It provides endpoints for listing all tenant types and creating new tenant types.
+    Tenant types define categories of tenants in the energy management system.
+    """
     def __init__(self):
-        """Initializes TenantTypeCollection"""
+        """Initialize TenantTypeCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -66,7 +74,7 @@ class TenantTypeCollection:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_NAME')
 
@@ -75,7 +83,7 @@ class TenantTypeCollection:
         if 'description' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['description'], str) or \
                 len(str.strip(new_values['data']['description'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_DESCRIPTION')
 
@@ -84,7 +92,7 @@ class TenantTypeCollection:
         if 'simplified_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
 
@@ -99,7 +107,7 @@ class TenantTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
@@ -109,7 +117,7 @@ class TenantTypeCollection:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
@@ -132,7 +140,6 @@ class TenantTypeCollection:
 
 class TenantTypeItem:
     def __init__(self):
-        """Initializes TenantTypeItem"""
         pass
 
     @staticmethod
@@ -150,7 +157,7 @@ class TenantTypeItem:
         else:
             api_key_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
@@ -165,7 +172,7 @@ class TenantTypeItem:
         cursor.close()
         cnx.close()
         if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
         result = {"id": row[0],
@@ -181,7 +188,7 @@ class TenantTypeItem:
         """Handles DELETE requests"""
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
@@ -194,7 +201,7 @@ class TenantTypeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, 
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
@@ -230,7 +237,7 @@ class TenantTypeItem:
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
         if not id_.isdigit() or int(id_) <= 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
@@ -238,7 +245,7 @@ class TenantTypeItem:
         if 'name' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['name'], str) or \
                 len(str.strip(new_values['data']['name'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_NAME')
 
@@ -256,7 +263,7 @@ class TenantTypeItem:
         if 'simplified_code' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['simplified_code'], str) or \
                 len(str.strip(new_values['data']['simplified_code'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_SIMPLIFIED_CODE')
 
@@ -271,7 +278,7 @@ class TenantTypeItem:
         if cursor.fetchone() is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, 
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.NOT_FOUND',
                                    description='API.TENANT_TYPE_NOT_FOUND')
 
@@ -281,7 +288,7 @@ class TenantTypeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
@@ -291,7 +298,7 @@ class TenantTypeItem:
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, 
+            raise falcon.HTTPError(status=falcon.HTTP_404,
                                    title='API.BAD_REQUEST',
                                    description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 

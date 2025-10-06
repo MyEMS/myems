@@ -6,32 +6,63 @@ import config
 
 
 class MenuCollection:
+    """
+    Menu Collection Resource
+
+    This class handles menu operations for the MyEMS system.
+    It provides functionality to retrieve all menus and their hierarchical structure
+    used for navigation in the MyEMS web interface.
+    """
+
     def __init__(self):
-        """"Initializes MenuCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all menus
+
+        Returns a list of all menus with their metadata including:
+        - Menu ID and name
+        - Route path
+        - Parent menu ID (for hierarchical structure)
+        - Hidden status
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all menus ordered by ID
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " ORDER BY id ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
+        # Build result list
         result = list()
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
@@ -49,24 +80,55 @@ class MenuCollection:
 
 
 class MenuItem:
+    """
+    Menu Item Resource
+
+    This class handles individual menu operations including:
+    - Retrieving a specific menu by ID
+    - Updating menu visibility status
+    """
+
     def __init__(self):
-        """"Initializes MenuItem"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Menu ID parameter
+        """
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
+        """
+        Handle GET requests to retrieve a specific menu by ID
+
+        Retrieves a single menu with its metadata including:
+        - Menu ID and name
+        - Route path
+        - Parent menu ID
+        - Hidden status
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Menu ID to retrieve
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MENU_ID')
@@ -74,12 +136,14 @@ class MenuItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve specific menu by ID
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " WHERE id= %s ")
         cursor.execute(query, (id_,))
         rows_menu = cursor.fetchone()
 
+        # Build result object
         result = None
         if rows_menu is not None and len(rows_menu) > 0:
             result = {"id": rows_menu[0],
@@ -95,7 +159,18 @@ class MenuItem:
     @staticmethod
     @user_logger
     def on_put(req, resp, id_):
-        """Handles PUT requests"""
+        """
+        Handle PUT requests to update menu visibility
+
+        Updates the hidden status of a specific menu.
+        Requires admin privileges.
+
+        Args:
+            req: Falcon request object containing update data:
+                - is_hidden: Boolean value for menu visibility
+            resp: Falcon response object
+            id_: Menu ID to update
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -111,6 +186,7 @@ class MenuItem:
 
         new_values = json.loads(raw_json)
 
+        # Validate hidden status
         if 'is_hidden' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_hidden'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -119,6 +195,8 @@ class MenuItem:
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
+
+        # Update menu visibility status
         update_row = (" UPDATE tbl_menus "
                       " SET is_hidden = %s "
                       " WHERE id = %s ")
@@ -133,24 +211,55 @@ class MenuItem:
 
 
 class MenuChildrenCollection:
+    """
+    Menu Children Collection Resource
+
+    This class handles retrieval of menu hierarchy including:
+    - Current menu information
+    - Parent menu information
+    - Child menus
+    """
+
     def __init__(self):
-        """"Initializes MenuChildrenCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp, id_):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Menu ID parameter
+        """
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
+        """
+        Handle GET requests to retrieve menu hierarchy
+
+        Returns detailed menu information including:
+        - Current menu details
+        - Parent menu information
+        - List of child menus
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+            id_: Menu ID to retrieve hierarchy for
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MENU_ID')
@@ -158,6 +267,7 @@ class MenuChildrenCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve current menu
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " WHERE id = %s ")
@@ -169,18 +279,21 @@ class MenuChildrenCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MENU_NOT_FOUND')
 
+        # Query to retrieve all menus for parent lookup
         query = (" SELECT id, name "
                  " FROM tbl_menus "
                  " ORDER BY id ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
+        # Build menu dictionary for parent lookup
         menu_dict = dict()
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
                 menu_dict[row[0]] = {"id": row[0],
                                      "name": row[1]}
 
+        # Build result structure
         result = dict()
         result['current'] = dict()
         result['current']['id'] = row_current_menu[0]
@@ -190,6 +303,7 @@ class MenuChildrenCollection:
 
         result['children'] = list()
 
+        # Query to retrieve child menus
         query = (" SELECT id, name, route, parent_menu_id, is_hidden "
                  " FROM tbl_menus "
                  " WHERE parent_menu_id = %s "
@@ -197,6 +311,7 @@ class MenuChildrenCollection:
         cursor.execute(query, (id_, ))
         rows_menus = cursor.fetchall()
 
+        # Build children list
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
                 meta_result = {"id": row[0],
@@ -211,32 +326,61 @@ class MenuChildrenCollection:
 
 
 class MenuWebCollection:
+    """
+    Menu Web Collection Resource
+
+    This class provides menu data specifically formatted for web interface.
+    It returns a hierarchical structure of routes organized by parent-child relationships.
+    """
+
     def __init__(self):
-        """"Initializes MenuWebCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve web menu structure
+
+        Returns a hierarchical menu structure formatted for web interface:
+        - First level routes (parent menus)
+        - Child routes organized under their parents
+        - Only non-hidden menus are included
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve first level menus (parent menus)
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
                  " WHERE parent_menu_id IS NULL AND is_hidden = 0 ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
+        # Build first level routes dictionary
         first_level_routes = {}
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
@@ -245,17 +389,20 @@ class MenuWebCollection:
                     'children': []
                 }
 
+        # Query to retrieve child menus
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
                  " WHERE parent_menu_id IS NOT NULL AND is_hidden = 0 ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
+        # Add child routes to their parents
         if rows_menus is not None and len(rows_menus) > 0:
             for row in rows_menus:
                 if row[2] in first_level_routes.keys():
                     first_level_routes[row[2]]['children'].append(row[1])
 
+        # Build final result structure
         result = dict()
         for _id, item in first_level_routes.items():
             result[item['route']] = item['children']

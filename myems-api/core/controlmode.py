@@ -9,8 +9,14 @@ import config
 
 
 class ControlModeCollection:
+    """
+    Control Mode Collection Resource
+
+    This class handles CRUD operations for control mode collection.
+    It provides endpoints for listing all control modes and creating new control modes.
+    Control modes define power control strategies for energy management systems.
+    """
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -144,7 +150,6 @@ class ControlModeCollection:
 
 class ControlModeItem:
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -342,7 +347,6 @@ class ControlModeItem:
 
 class ControlModeExport:
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -415,7 +419,6 @@ class ControlModeExport:
 
 class ControlModeImport:
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -497,7 +500,6 @@ class ControlModeImport:
 
 class ControlModeClone:
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -588,7 +590,6 @@ class ControlModeClone:
 
 class ControlModeTimeCollection:
     def __init__(self):
-        """Initializes"""
         pass
 
     @staticmethod
@@ -766,7 +767,6 @@ class ControlModeTimeItem:
     @staticmethod
     @user_logger
     def __init__():
-        """Initializes"""
         pass
 
     @staticmethod

@@ -7,12 +7,20 @@ import config
 
 
 class WorkingCalendarCollection:
+    """
+    Working Calendar Collection Resource
+
+    This class handles CRUD operations for working calendar collection.
+    It provides endpoints for listing all working calendars and creating new calendars.
+    Working calendars define business days and holidays for the energy management system.
+    """
     def __init__(self):
-        """"Initializes WorkingCalendarCollection"""
+        """Initialize WorkingCalendarCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -39,7 +47,7 @@ class WorkingCalendarCollection:
                                "name": row[1],
                                "description": row[2]}
                 result.append(meta_result)
-    
+
         cursor.close()
         cnx.close()
         resp.text = json.dumps(result)
@@ -99,7 +107,6 @@ class WorkingCalendarCollection:
 
 class WorkingCalendarItem:
     def __init__(self):
-        """"Initializes WorkingCalendarItem"""
         pass
 
     @staticmethod
@@ -119,7 +126,7 @@ class WorkingCalendarItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
-        
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -133,7 +140,7 @@ class WorkingCalendarItem:
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
-    
+
         meta_result = {"id": row[0],
                        "name": row[1],
                        "description": row[2]}
@@ -193,7 +200,7 @@ class WorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.THERE_IS_RELATION_WITH_STORES')
-        
+
         # check relation with shopfloors
         cursor.execute(" SELECT shopfloor_id "
                        " FROM tbl_shopfloors_working_calendars "
@@ -285,7 +292,6 @@ class WorkingCalendarItem:
 
 class NonWorkingDayCollection:
     def __init__(self):
-        """"Initializes NonWorkingDayCollection"""
         pass
 
     @staticmethod
@@ -305,7 +311,7 @@ class NonWorkingDayCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
-                                   
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -389,7 +395,6 @@ class NonWorkingDayCollection:
 
 class NonWorkingDayItem:
     def __init__(self):
-        """"Initializes NonWorkingDayItem"""
         pass
 
     @staticmethod
@@ -409,7 +414,7 @@ class NonWorkingDayItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
-        
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -436,7 +441,7 @@ class NonWorkingDayItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
-        
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -523,7 +528,6 @@ class NonWorkingDayItem:
 
 class WorkingCalendarExport:
     def __init__(self):
-        """"Initializes WorkingCalendarExport"""
         pass
 
     @staticmethod
@@ -582,7 +586,6 @@ class WorkingCalendarExport:
 
 class WorkingCalendarImport:
     def __init__(self):
-        """"Initializes WorkingCalendarImport"""
         pass
 
     @staticmethod
@@ -675,7 +678,6 @@ class WorkingCalendarImport:
 
 class WorkingCalendarClone:
     def __init__(self):
-        """"Initializes WorkingCalendarClone"""
         pass
 
     @staticmethod
@@ -743,4 +745,4 @@ class WorkingCalendarClone:
 
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)
-        
+

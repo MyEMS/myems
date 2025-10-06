@@ -7,12 +7,20 @@ from core.useractivity import user_logger, admin_control, access_control, api_ke
 
 
 class NotificationCollection:
+    """
+    Notification Collection Resource
+
+    This class handles CRUD operations for notification collection.
+    It provides endpoints for listing all notifications and creating new notifications.
+    Notifications are alerts and messages displayed to users in the energy management system.
+    """
     def __init__(self):
-        """"Initializes NotificationCollection"""
+        """Initialize NotificationCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -156,7 +164,6 @@ class NotificationCollection:
 
 class NotificationItem:
     def __init__(self):
-        """"Initializes NotificationItem"""
         pass
 
     @staticmethod

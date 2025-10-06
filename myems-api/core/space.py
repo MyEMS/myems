@@ -10,8 +10,14 @@ import config
 
 
 class SpaceCollection:
+    """
+    Space Collection Resource
+
+    This class handles CRUD operations for space collection.
+    It provides endpoints for listing all spaces and creating new spaces.
+    Spaces represent physical locations or areas in the energy management system.
+    """
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -304,7 +310,6 @@ class SpaceCollection:
 
 class SpaceItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -705,7 +710,6 @@ class SpaceItem:
 
 class SpaceChildrenCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -845,7 +849,6 @@ class SpaceChildrenCollection:
 
 class SpaceCombinedEquipmentCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -940,7 +943,7 @@ class SpaceCombinedEquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_combined_equipments "
                  " WHERE space_id = %s AND combined_equipment_id = %s")
         cursor.execute(query, (id_, combined_equipment_id,))
@@ -963,7 +966,6 @@ class SpaceCombinedEquipmentCollection:
 
 class SpaceCombinedEquipmentItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1026,7 +1028,6 @@ class SpaceCombinedEquipmentItem:
 
 class SpaceEnergyStoragePowerStationCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1160,7 +1161,7 @@ class SpaceEnergyStoragePowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_energy_storage_power_stations "
                  " WHERE space_id = %s AND energy_storage_power_station_id = %s")
         cursor.execute(query, (id_, energy_storage_power_station_id,))
@@ -1183,7 +1184,6 @@ class SpaceEnergyStoragePowerStationCollection:
 
 class SpaceEnergyStoragePowerStationItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1246,7 +1246,6 @@ class SpaceEnergyStoragePowerStationItem:
 
 class SpaceEquipmentCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1341,7 +1340,7 @@ class SpaceEquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_equipments "
                  " WHERE space_id = %s AND equipment_id = %s")
         cursor.execute(query, (id_, equipment_id,))
@@ -1364,7 +1363,6 @@ class SpaceEquipmentCollection:
 
 class SpaceEquipmentItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1426,7 +1424,6 @@ class SpaceEquipmentItem:
 
 class SpaceMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1534,7 +1531,7 @@ class SpaceMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_meters "
                  " WHERE space_id = %s AND meter_id = %s")
         cursor.execute(query, (id_, meter_id,))
@@ -1557,7 +1554,6 @@ class SpaceMeterCollection:
 
 class SpaceMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1621,7 +1617,6 @@ class SpaceMeterItem:
 
 class SpaceMicrogridCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1716,7 +1711,7 @@ class SpaceMicrogridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_microgrids "
                  " WHERE space_id = %s AND microgrid_id = %s")
         cursor.execute(query, (id_, microgrid_id,))
@@ -1739,7 +1734,6 @@ class SpaceMicrogridCollection:
 
 class SpaceMicrogridItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1802,7 +1796,6 @@ class SpaceMicrogridItem:
 
 class SpaceOfflineMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1910,7 +1903,7 @@ class SpaceOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_offline_meters "
                  " WHERE space_id = %s AND offline_meter_id = %s")
         cursor.execute(query, (id_, offline_meter_id,))
@@ -1933,7 +1926,6 @@ class SpaceOfflineMeterCollection:
 
 class SpaceOfflineMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1996,7 +1988,6 @@ class SpaceOfflineMeterItem:
 
 class SpacePhotovoltaicPowerStationCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2091,7 +2082,7 @@ class SpacePhotovoltaicPowerStationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_photovoltaic_power_stations "
                  " WHERE space_id = %s AND photovoltaic_power_station_id = %s")
         cursor.execute(query, (id_, photovoltaic_power_station_id,))
@@ -2114,7 +2105,6 @@ class SpacePhotovoltaicPowerStationCollection:
 
 class SpacePhotovoltaicPowerStationItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2177,7 +2167,6 @@ class SpacePhotovoltaicPowerStationItem:
 
 class SpacePointCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2284,7 +2273,7 @@ class SpacePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_points "
                  " WHERE space_id = %s AND point_id = %s")
         cursor.execute(query, (id_, point_id,))
@@ -2307,7 +2296,6 @@ class SpacePointCollection:
 
 class SpacePointItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2370,7 +2358,6 @@ class SpacePointItem:
 
 class SpaceSensorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2465,7 +2452,7 @@ class SpaceSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_sensors "
                  " WHERE space_id = %s AND sensor_id = %s")
         cursor.execute(query, (id_, sensor_id,))
@@ -2488,7 +2475,6 @@ class SpaceSensorCollection:
 
 class SpaceSensorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2550,7 +2536,6 @@ class SpaceSensorItem:
 
 class SpaceShopfloorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2645,7 +2630,7 @@ class SpaceShopfloorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_shopfloors "
                  " WHERE space_id = %s AND shopfloor_id = %s")
         cursor.execute(query, (id_, shopfloor_id,))
@@ -2668,7 +2653,6 @@ class SpaceShopfloorCollection:
 
 class SpaceShopfloorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2730,7 +2714,6 @@ class SpaceShopfloorItem:
 
 class SpaceStoreCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2825,7 +2808,7 @@ class SpaceStoreCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.STORE_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_stores "
                  " WHERE space_id = %s AND store_id = %s")
         cursor.execute(query, (id_, store_id,))
@@ -2848,7 +2831,6 @@ class SpaceStoreCollection:
 
 class SpaceStoreItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2910,7 +2892,6 @@ class SpaceStoreItem:
 
 class SpaceTenantCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3005,7 +2986,7 @@ class SpaceTenantCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TENANT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_tenants "
                  " WHERE space_id = %s AND tenant_id = %s")
         cursor.execute(query, (id_, tenant_id,))
@@ -3028,7 +3009,6 @@ class SpaceTenantCollection:
 
 class SpaceTenantItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3090,7 +3070,6 @@ class SpaceTenantItem:
 
 class SpaceVirtualMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3198,7 +3177,7 @@ class SpaceVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_virtual_meters "
                  " WHERE space_id = %s AND virtual_meter_id = %s")
         cursor.execute(query, (id_, virtual_meter_id,))
@@ -3221,7 +3200,6 @@ class SpaceVirtualMeterCollection:
 
 class SpaceVirtualMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3284,7 +3262,6 @@ class SpaceVirtualMeterItem:
 
 class SpaceTreeCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3398,7 +3375,6 @@ class SpaceTreeCollection:
 # Get energy categories of all meters in the space tree
 class SpaceTreeMetersEnergyCategoryCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3472,7 +3448,6 @@ class SpaceTreeMetersEnergyCategoryCollection:
 
 class SpaceWorkingCalendarCollection:
     def __init__(self):
-        """Initializes SpaceWorkingCalendarCollection Class"""
         pass
 
     @staticmethod
@@ -3567,7 +3542,7 @@ class SpaceWorkingCalendarCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_working_calendars "
                  " WHERE space_id = %s AND working_calendar_id = %s")
         cursor.execute(query, (id_, working_calendar_id,))
@@ -3590,7 +3565,6 @@ class SpaceWorkingCalendarCollection:
 
 class SpaceWorkingCalendarItem:
     def __init__(self):
-        """Initializes SpaceWorkingCalendarItem Class"""
         pass
 
     @staticmethod
@@ -3653,7 +3627,6 @@ class SpaceWorkingCalendarItem:
 
 class SpaceCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3748,7 +3721,7 @@ class SpaceCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_commands "
                  " WHERE space_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -3771,7 +3744,6 @@ class SpaceCommandCollection:
 
 class SpaceCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3833,7 +3805,6 @@ class SpaceCommandItem:
 
 class SpaceExport:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4264,7 +4235,6 @@ class SpaceExport:
 
 class SpaceImport:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4749,7 +4719,6 @@ class SpaceImport:
 
 class SpaceClone:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5392,7 +5361,6 @@ class SpaceClone:
 
 class SpaceEnergyFlowDiagramCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5487,7 +5455,7 @@ class SpaceEnergyFlowDiagramCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_energy_flow_diagrams "
                  " WHERE space_id = %s AND energy_flow_diagram_id = %s")
         cursor.execute(query, (id_, energy_flow_diagram_id,))
@@ -5510,7 +5478,6 @@ class SpaceEnergyFlowDiagramCollection:
 
 class SpaceEnergyFlowDiagramItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5573,7 +5540,6 @@ class SpaceEnergyFlowDiagramItem:
 
 class DistributionSystemCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5668,7 +5634,7 @@ class DistributionSystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_spaces_distribution_systems "
                  " WHERE space_id = %s AND distribution_system_id = %s")
         cursor.execute(query, (id_, distribution_system_id,))
@@ -5691,7 +5657,6 @@ class DistributionSystemCollection:
 
 class DistributionSystemItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

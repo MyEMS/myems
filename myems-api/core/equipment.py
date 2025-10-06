@@ -8,12 +8,20 @@ import config
 
 
 class EquipmentCollection:
+    """
+    Equipment Collection Resource
+
+    This class handles CRUD operations for equipment collection.
+    It provides endpoints for listing all equipment and creating new equipment.
+    Equipment represents physical devices and systems in the energy management system.
+    """
     def __init__(self):
-        """Initializes EquipmentCollection"""
+        """Initialize EquipmentCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -208,7 +216,6 @@ class EquipmentCollection:
 
 class EquipmentItem:
     def __init__(self):
-        """Initializes EquipmentItem"""
         pass
 
     @staticmethod
@@ -629,7 +636,6 @@ class EquipmentItem:
 
 class EquipmentParameterCollection:
     def __init__(self):
-        """Initializes EquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -953,7 +959,6 @@ class EquipmentParameterItem:
     @staticmethod
     @user_logger
     def __init__():
-        """Initializes EquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1340,7 +1345,6 @@ class EquipmentParameterItem:
 
 class EquipmentMeterCollection:
     def __init__(self):
-        """Initializes EquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1457,7 +1461,7 @@ class EquipmentMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_equipments_meters "
                  " WHERE equipment_id = %s AND meter_id = %s")
         cursor.execute(query, (id_, meter_id,))
@@ -1480,7 +1484,6 @@ class EquipmentMeterCollection:
 
 class EquipmentMeterItem:
     def __init__(self):
-        """Initializes EquipmentMeterItem"""
         pass
 
     @staticmethod
@@ -1543,7 +1546,6 @@ class EquipmentMeterItem:
 
 class EquipmentOfflineMeterCollection:
     def __init__(self):
-        """Initializes EquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1660,7 +1662,7 @@ class EquipmentOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_equipments_offline_meters "
                  " WHERE equipment_id = %s AND offline_meter_id = %s")
         cursor.execute(query, (id_, offline_meter_id,))
@@ -1683,7 +1685,6 @@ class EquipmentOfflineMeterCollection:
 
 class EquipmentOfflineMeterItem:
     def __init__(self):
-        """Initializes EquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1747,7 +1748,6 @@ class EquipmentOfflineMeterItem:
 
 class EquipmentVirtualMeterCollection:
     def __init__(self):
-        """Initializes EquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1864,7 +1864,7 @@ class EquipmentVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_equipments_virtual_meters "
                  " WHERE equipment_id = %s AND virtual_meter_id = %s")
         cursor.execute(query, (id_, virtual_meter_id,))
@@ -1887,7 +1887,6 @@ class EquipmentVirtualMeterCollection:
 
 class EquipmentVirtualMeterItem:
     def __init__(self):
-        """Initializes EquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
@@ -1951,7 +1950,6 @@ class EquipmentVirtualMeterItem:
 
 class EquipmentCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2048,7 +2046,7 @@ class EquipmentCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_equipments_commands "
                  " WHERE equipment_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -2071,7 +2069,6 @@ class EquipmentCommandCollection:
 
 class EquipmentCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2134,7 +2131,6 @@ class EquipmentCommandItem:
 
 class EquipmentExport:
     def __init__(self):
-        """Initializes EquipmentExport"""
         pass
 
     @staticmethod
@@ -2396,7 +2392,6 @@ class EquipmentExport:
 
 class EquipmentImport:
     def __init__(self):
-        """Initializes EquipmentImport"""
         pass
 
     @staticmethod
@@ -2750,7 +2745,6 @@ class EquipmentImport:
 
 class EquipmentClone:
     def __init__(self):
-        """Initializes EquipmentClone"""
         pass
 
     @staticmethod
