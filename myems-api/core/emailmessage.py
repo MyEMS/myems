@@ -8,12 +8,20 @@ import config
 
 
 class EmailMessageCollection:
+    """
+    Email Message Collection Resource
+
+    This class handles CRUD operations for email message collection.
+    It provides endpoints for listing all email messages and creating new messages.
+    Email messages are notifications sent via email in the energy management system.
+    """
     def __init__(self):
-        """"Initializes EmailMessageCollection"""
+        """Initialize EmailMessageCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -243,7 +251,6 @@ class EmailMessageCollection:
 
 class EmailMessageItem:
     def __init__(self):
-        """"Initializes EmailMessageItem"""
         pass
 
     @staticmethod

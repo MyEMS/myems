@@ -7,12 +7,20 @@ import config
 
 
 class EnergyItemCollection:
+    """
+    Energy Item Collection Resource
+
+    This class handles CRUD operations for energy item collection.
+    It provides endpoints for listing all energy items and creating new items.
+    Energy items represent specific energy types within energy categories.
+    """
     def __init__(self):
-        """"Initializes EnergyItemCollection"""
+        """Initialize EnergyItemCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -126,7 +134,6 @@ class EnergyItemCollection:
 
 class EnergyItemItem:
     def __init__(self):
-        """"Initializes EnergyItemItem"""
         pass
 
     @staticmethod

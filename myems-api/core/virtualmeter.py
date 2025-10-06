@@ -8,12 +8,20 @@ import config
 
 
 class VirtualMeterCollection:
+    """
+    Virtual Meter Collection Resource
+
+    This class handles CRUD operations for virtual meter collection.
+    It provides endpoints for listing all virtual meters and creating new virtual meters.
+    Virtual meters are calculated meters that derive their values from other meters.
+    """
     def __init__(self):
-        """"Initializes VirtualMeterCollection"""
+        """Initialize VirtualMeterCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -357,7 +365,6 @@ class VirtualMeterCollection:
 
 class VirtualMeterItem:
     def __init__(self):
-        """"Initializes VirtualMeterItem"""
         pass
 
     @staticmethod
@@ -890,7 +897,6 @@ class VirtualMeterItem:
 
 class VirtualMeterExport:
     def __init__(self):
-        """"Initializes VirtualMeterItem"""
         pass
 
     @staticmethod
@@ -1030,7 +1036,6 @@ class VirtualMeterExport:
 
 class VirtualMeterImport:
     def __init__(self):
-        """"Initializes VirtualMeterImport"""
         pass
 
     @staticmethod
@@ -1250,7 +1255,6 @@ class VirtualMeterImport:
 
 class VirtualMeterClone:
     def __init__(self):
-        """"Initializes VirtualMeterClone"""
         pass
 
     @staticmethod
@@ -1414,4 +1418,3 @@ class VirtualMeterClone:
         resp.status = falcon.HTTP_201
         resp.location = '/virtualmeters/' + str(new_id)
 
-        

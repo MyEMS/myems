@@ -8,12 +8,20 @@ import config
 
 
 class WebMessageCollection:
+    """
+    Web Message Collection Resource
+
+    This class handles CRUD operations for web message collection.
+    It provides endpoints for listing all web messages and creating new messages.
+    Web messages are notifications displayed in the web interface.
+    """
     def __init__(self):
-        """"Initializes WebMessageCollection"""
+        """Initialize WebMessageCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -71,7 +79,7 @@ class WebMessageCollection:
             else:
                 if status == 'all':
                     status_query = ""
-                else: 
+                else:
                     status_query = "status = '" + status + "' AND "
 
         if priority is None:
@@ -153,7 +161,7 @@ class WebMessageCollection:
                  " FROM tbl_web_messages "
                  " WHERE user_id = %s AND "
                  "       created_datetime_utc >= %s AND created_datetime_utc < %s AND "
-                 + status_query + priority_query + 
+                 + status_query + priority_query +
                  " 1 = 1 ORDER BY created_datetime_utc DESC ")
 
         cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc))
@@ -183,7 +191,6 @@ class WebMessageCollection:
 
 class WebMessageStatusNewCollection:
     def __init__(self):
-        """"Initializes WebMessageStatusNewCollection"""
         pass
 
     @staticmethod
@@ -404,7 +411,6 @@ class WebMessageStatusNewCollection:
 
 class WebMessageItem:
     def __init__(self):
-        """"Initializes WebMessageItem"""
         pass
 
     @staticmethod
@@ -721,7 +727,6 @@ class WebMessageItem:
 
 class WebMessageBatch:
     def __init__(self):
-        """"Initializes WebMessageBatch"""
         pass
 
     @staticmethod

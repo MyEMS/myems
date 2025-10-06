@@ -11,12 +11,20 @@ import config
 
 
 class KnowledgeFileCollection:
+    """
+    Knowledge File Collection Resource
+
+    This class handles CRUD operations for knowledge file collection.
+    It provides endpoints for listing all knowledge files and creating new files.
+    Knowledge files contain documentation and reference materials for the energy management system.
+    """
     def __init__(self):
-        """"Initializes KnowledgeFileCollection"""
+        """Initialize KnowledgeFileCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -173,7 +181,6 @@ class KnowledgeFileCollection:
 
 class KnowledgeFileItem:
     def __init__(self):
-        """"Initializes KnowledgeFileItem"""
         pass
 
     @staticmethod
@@ -282,7 +289,6 @@ class KnowledgeFileItem:
 
 class KnowledgeFileRestore:
     def __init__(self):
-        """"Initializes KnowledgeFileRestore"""
         pass
 
     @staticmethod

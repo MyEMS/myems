@@ -9,17 +9,44 @@ from decimal import Decimal
 
 
 class EnergyStorageContainerCollection:
+    """
+    Energy Storage Container Collection Resource
+
+    This class handles CRUD operations for energy storage container collection.
+    It provides endpoints for listing all energy storage containers and creating new ones.
+    Energy storage containers represent physical or logical containers that store
+    energy (batteries, capacitors, etc.) in the energy management system.
+    """
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all energy storage containers
+
+        Returns a list of all energy storage containers with their complete information including:
+        - Container ID, name, and UUID
+        - Associated contact and cost center information
+        - Container specifications and parameters
+        - Related equipment and meter associations
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -76,7 +103,16 @@ class EnergyStorageContainerCollection:
     @staticmethod
     @user_logger
     def on_post(req, resp):
-        """Handles POST requests"""
+        """
+        Handle POST requests to create a new energy storage container
+
+        Creates a new energy storage container with the provided specifications.
+        The container will be empty initially and equipment/meters can be added separately.
+
+        Args:
+            req: Falcon request object containing container data
+            resp: Falcon response object
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -186,8 +222,14 @@ class EnergyStorageContainerCollection:
 
 
 class EnergyStorageContainerItem:
+    """
+    Energy Storage Container Item Resource
+
+    This class handles CRUD operations for individual energy storage containers.
+    It provides endpoints for retrieving, updating, and deleting specific
+    energy storage containers by their ID.
+    """
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -489,7 +531,6 @@ class EnergyStorageContainerItem:
 
 class EnergyStorageContainerBatteryCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -756,7 +797,6 @@ class EnergyStorageContainerBatteryCollection:
 
 class EnergyStorageContainerBatteryItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1089,7 +1129,6 @@ class EnergyStorageContainerBatteryItem:
 
 class EnergyStorageContainerBatteryPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerBatteryPointCollection"""
         pass
 
     @staticmethod
@@ -1187,7 +1226,7 @@ class EnergyStorageContainerBatteryPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_bmses_points "
                  " WHERE bms_id = %s AND point_id = %s")
         cursor.execute(query, (bid, new_values['data']['point_id'],))
@@ -1211,7 +1250,6 @@ class EnergyStorageContainerBatteryPointCollection:
 
 class EnergyStorageContainerBatteryPointItem:
     def __init__(self):
-        """Initializes MeterPointItem"""
         pass
 
     @staticmethod
@@ -1277,7 +1315,6 @@ class EnergyStorageContainerBatteryPointItem:
 
 class EnergyStorageContainerCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1372,7 +1409,7 @@ class EnergyStorageContainerCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_commands "
                  " WHERE energy_storage_container_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -1395,7 +1432,6 @@ class EnergyStorageContainerCommandCollection:
 
 class EnergyStorageContainerCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1458,7 +1494,6 @@ class EnergyStorageContainerCommandItem:
 
 class EnergyStorageContainerDataSourceCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1554,7 +1589,7 @@ class EnergyStorageContainerDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_data_sources "
                  " WHERE energy_storage_container_id = %s AND data_source_id = %s")
         cursor.execute(query, (id_, data_source_id,))
@@ -1578,7 +1613,6 @@ class EnergyStorageContainerDataSourceCollection:
 
 class EnergyStorageContainerDataSourceItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1641,7 +1675,6 @@ class EnergyStorageContainerDataSourceItem:
 
 class EnergyStorageContainerDataSourcePointCollection:
     def __init__(self):
-        """Initializes"""
         pass
 
     @staticmethod
@@ -1685,7 +1718,6 @@ class EnergyStorageContainerDataSourcePointCollection:
 
 class EnergyStorageContainerDCDCCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1809,7 +1841,6 @@ class EnergyStorageContainerDCDCCollection:
 
 class EnergyStorageContainerDCDCItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1987,7 +2018,6 @@ class EnergyStorageContainerDCDCItem:
 
 class EnergyStorageContainerDCDCPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerDCDCPointCollection"""
         pass
 
     @staticmethod
@@ -2085,7 +2115,7 @@ class EnergyStorageContainerDCDCPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_dcdcs_points "
                  " WHERE dcdc_id = %s AND point_id = %s")
         cursor.execute(query, (did, new_values['data']['point_id'],))
@@ -2109,7 +2139,6 @@ class EnergyStorageContainerDCDCPointCollection:
 
 class EnergyStorageContainerDCDCPointItem:
     def __init__(self):
-        """Initializes MeterPointItem"""
         pass
 
     @staticmethod
@@ -2175,7 +2204,6 @@ class EnergyStorageContainerDCDCPointItem:
 
 class EnergyStorageContainerFirecontrolCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2299,7 +2327,6 @@ class EnergyStorageContainerFirecontrolCollection:
 
 class EnergyStorageContainerFirecontrolItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2477,7 +2504,6 @@ class EnergyStorageContainerFirecontrolItem:
 
 class EnergyStorageContainerFirecontrolPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerFirecontrolPointCollection"""
         pass
 
     @staticmethod
@@ -2575,7 +2601,7 @@ class EnergyStorageContainerFirecontrolPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_firecontrols_points "
                  " WHERE firecontrol_id = %s AND point_id = %s")
         cursor.execute(query, (fid, new_values['data']['point_id'],))
@@ -2599,7 +2625,6 @@ class EnergyStorageContainerFirecontrolPointCollection:
 
 class EnergyStorageContainerFirecontrolPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerFirecontrolPointItem"""
         pass
 
     @staticmethod
@@ -2665,7 +2690,6 @@ class EnergyStorageContainerFirecontrolPointItem:
 
 class EnergyStorageContainerGridCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2881,7 +2905,6 @@ class EnergyStorageContainerGridCollection:
 
 class EnergyStorageContainerGridItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3152,7 +3175,6 @@ class EnergyStorageContainerGridItem:
 
 class EnergyStorageContainerGridPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerGridPointCollection"""
         pass
 
     @staticmethod
@@ -3250,7 +3272,7 @@ class EnergyStorageContainerGridPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_grids_points "
                  " WHERE grid_id = %s AND point_id = %s")
         cursor.execute(query, (gid, new_values['data']['point_id'],))
@@ -3274,7 +3296,6 @@ class EnergyStorageContainerGridPointCollection:
 
 class EnergyStorageContainerGridPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerGridPointItem"""
         pass
 
     @staticmethod
@@ -3340,7 +3361,6 @@ class EnergyStorageContainerGridPointItem:
 
 class EnergyStorageContainerHVACCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3464,7 +3484,6 @@ class EnergyStorageContainerHVACCollection:
 
 class EnergyStorageContainerHVACItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -3642,7 +3661,6 @@ class EnergyStorageContainerHVACItem:
 
 class EnergyStorageContainerHVACPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerHVACPointCollection"""
         pass
 
     @staticmethod
@@ -3740,7 +3758,7 @@ class EnergyStorageContainerHVACPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_hvacs_points "
                  " WHERE hvac_id = %s AND point_id = %s")
         cursor.execute(query, (hid, new_values['data']['point_id'],))
@@ -3764,7 +3782,6 @@ class EnergyStorageContainerHVACPointCollection:
 
 class EnergyStorageContainerHVACPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerHVACPointItem"""
         pass
 
     @staticmethod
@@ -3830,7 +3847,6 @@ class EnergyStorageContainerHVACPointItem:
 
 class EnergyStorageContainerLoadCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4026,7 +4042,6 @@ class EnergyStorageContainerLoadCollection:
 
 class EnergyStorageContainerLoadItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4277,7 +4292,6 @@ class EnergyStorageContainerLoadItem:
 
 class EnergyStorageContainerLoadPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerLoadPointCollection"""
         pass
 
     @staticmethod
@@ -4375,7 +4389,7 @@ class EnergyStorageContainerLoadPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_loads_points "
                  " WHERE load_id = %s AND point_id = %s")
         cursor.execute(query, (lid, new_values['data']['point_id'],))
@@ -4399,7 +4413,6 @@ class EnergyStorageContainerLoadPointCollection:
 
 class EnergyStorageContainerLoadPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerLoadPointItem"""
         pass
 
     @staticmethod
@@ -4465,7 +4478,6 @@ class EnergyStorageContainerLoadPointItem:
 
 class EnergyStorageContainerPCSCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4630,7 +4642,6 @@ class EnergyStorageContainerPCSCollection:
 
 class EnergyStorageContainerPCSItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4862,7 +4873,6 @@ class EnergyStorageContainerPCSItem:
 
 class EnergyStorageContainerPCSPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerPCSPointCollection"""
         pass
 
     @staticmethod
@@ -4960,7 +4970,7 @@ class EnergyStorageContainerPCSPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_pcses_points "
                  " WHERE pcs_id = %s AND point_id = %s")
         cursor.execute(query, (pcsid, new_values['data']['point_id'],))
@@ -4984,7 +4994,6 @@ class EnergyStorageContainerPCSPointCollection:
 
 class EnergyStorageContainerPCSPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerPCSPointItem"""
         pass
 
     @staticmethod
@@ -5050,7 +5059,6 @@ class EnergyStorageContainerPCSPointItem:
 
 class EnergyStorageContainerScheduleCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5159,7 +5167,6 @@ class EnergyStorageContainerScheduleCollection:
 
 class EnergyStorageContainerScheduleItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5351,7 +5358,6 @@ class EnergyStorageContainerScheduleItem:
 
 class EnergyStorageContainerSTSCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5475,7 +5481,6 @@ class EnergyStorageContainerSTSCollection:
 
 class EnergyStorageContainerSTSItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5653,7 +5658,6 @@ class EnergyStorageContainerSTSItem:
 
 class EnergyStorageContainerSTSPointCollection:
     def __init__(self):
-        """Initializes EnergyStorageContainerSTSPointCollection"""
         pass
 
     @staticmethod
@@ -5751,7 +5755,7 @@ class EnergyStorageContainerSTSPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_containers_stses_points "
                  " WHERE sts_id = %s AND point_id = %s")
         cursor.execute(query, (fid, new_values['data']['point_id'],))
@@ -5775,7 +5779,6 @@ class EnergyStorageContainerSTSPointCollection:
 
 class EnergyStorageContainerSTSPointItem:
     def __init__(self):
-        """Initializes EnergyStorageContainerSTSPointItem"""
         pass
 
     @staticmethod
@@ -5841,7 +5844,6 @@ class EnergyStorageContainerSTSPointItem:
 
 class EnergyStorageContainerClone:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5908,7 +5910,6 @@ class EnergyStorageContainerClone:
 
 class EnergyStorageContainerExport:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -5978,7 +5979,6 @@ class EnergyStorageContainerExport:
 
 class EnergyStorageContainerImport:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod

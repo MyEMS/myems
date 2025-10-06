@@ -9,12 +9,20 @@ from decimal import Decimal
 
 
 class DataSourceCollection:
+    """
+    Data Source Collection Resource
+
+    This class handles CRUD operations for data source collection.
+    It provides endpoints for listing all data sources and creating new data sources.
+    Data sources represent external systems that provide data to the energy management system.
+    """
     def __init__(self):
-        """"Initializes DataSourceCollection"""
+        """Initialize DataSourceCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -186,7 +194,6 @@ class DataSourceCollection:
 
 class DataSourceItem:
     def __init__(self):
-        """"Initializes DataSourceItem"""
         pass
 
     @staticmethod
@@ -405,7 +412,6 @@ class DataSourceItem:
 
 class DataSourcePointCollection:
     def __init__(self):
-        """"Initializes DataSourcePointCollection"""
         pass
 
     @staticmethod
@@ -524,7 +530,6 @@ class DataSourcePointCollection:
 
 class DataSourceExport:
     def __init__(self):
-        """"Initializes DataSourceExport"""
         pass
 
     @staticmethod
@@ -622,7 +627,6 @@ class DataSourceExport:
 
 class DataSourceImport:
     def __init__(self):
-        """"Initializes DataSourceImport"""
         pass
 
     @staticmethod
@@ -758,7 +762,6 @@ class DataSourceImport:
 
 class DataSourceClone:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

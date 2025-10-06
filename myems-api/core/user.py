@@ -12,8 +12,14 @@ import config
 
 
 class UserCollection:
+    """
+    User Collection Resource
+
+    This class handles CRUD operations for user collection.
+    It provides endpoints for listing all users and creating new users.
+    Users represent individuals who can access the energy management system.
+    """
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -217,7 +223,6 @@ class UserCollection:
 
 class UserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -474,7 +479,6 @@ class UserItem:
 
 class UserLogin:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -656,7 +660,6 @@ class UserLogin:
 
 class UserLogout:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -701,7 +704,6 @@ class UserLogout:
 
 class ChangePassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -831,7 +833,6 @@ class ChangePassword:
 
 class ResetPassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -955,7 +956,6 @@ class ResetPassword:
 
 class Unlock:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1027,7 +1027,6 @@ class Unlock:
 
 class ForgotPassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1140,7 +1139,6 @@ class ForgotPassword:
 
 class EmailMessageCollection:
     def __init__(self):
-        """"Initializes EmailMessageCollection"""
         pass
 
     @staticmethod
@@ -1354,7 +1352,6 @@ class EmailMessageCollection:
 
 class EmailMessageItem:
     def __init__(self):
-        """"Initializes EmailMessageItem"""
         pass
 
     @staticmethod
@@ -1574,7 +1571,6 @@ class EmailMessageItem:
 
 class NewUserCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1754,7 +1750,6 @@ class NewUserCollection:
 
 class NewUserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1932,7 +1927,6 @@ class NewUserItem:
 
 class NewUserApprove:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
