@@ -1,3 +1,30 @@
+"""
+MyEMS Cleaning Service - Energy Values Cleaning Module
+
+This module handles the cleaning and quality control of energy values (cumulative energy consumption
+data like kWh readings from meters) in the historical database. Unlike analog and digital values,
+energy values are never deleted but are instead marked as "bad" when they fail quality checks.
+
+The cleaning process identifies and tags bad energy values using multiple detection algorithms:
+
+1. **Step 1**: Determine the time slot to clean based on existing processed data
+2. **Step 2**: Check for bad values using high/low limit validation (Class 1 errors)
+3. **Step 3**: Check for bad values using concave shape detection (Class 2 errors)
+4. **Step 4**: Tag remaining unchecked values as good (is_bad = 0)
+
+Class 1 errors include:
+- Values exceeding configured high/low limits
+- Extreme values (very large numbers, negative values, zero values)
+- Values that are clearly outside normal operating ranges
+
+Class 2 errors include:
+- Concave shape patterns where energy values decrease unexpectedly
+- Sudden drops in cumulative energy readings that violate monotonic behavior
+- Values that create unrealistic energy consumption patterns
+
+This process runs continuously to maintain data quality for billing and analysis purposes.
+"""
+
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -7,68 +34,91 @@ import config
 
 
 ########################################################################################################################
-# This procedure will find and tag the bad energy values.
+# Energy Values Quality Control Process
 #
-# Step 1: get the time slot to clean.
-# Step 2: check bad case class 1 with high limits and low limits.
-# Step 3: check bad case class 2 which is in concave shape model.
-# Step 4: tag the is_bad property of energy values.
+# This procedure will find and tag bad energy values using multiple detection algorithms:
+#
+# Step 1: Get the time slot to clean based on existing processed data
+# Step 2: Check bad case class 1 with high limits and low limits validation
+# Step 3: Check bad case class 2 which uses concave shape model detection
+# Step 4: Tag the is_bad property of energy values (mark remaining as good)
 ########################################################################################################################
 
 def process(logger):
+    """
+    Main process function for energy values quality control.
 
+    This function runs continuously to identify and tag bad energy values using multiple
+    detection algorithms. It processes energy data in time slots to ensure comprehensive
+    quality control while maintaining system performance.
+
+    Args:
+        logger: Logger instance for recording process activities and errors
+    """
     while True:
-        # the outermost loop to reconnect server if there is a connection error
+        # The outermost loop to reconnect to database server if there is a connection error
         cnx_historical = None
         cursor_historical = None
+
+        # Establish connection to historical database
         try:
             cnx_historical = mysql.connector.connect(**config.myems_historical_db)
             cursor_historical = cnx_historical.cursor()
         except Exception as e:
             logger.error("Error at the begin of clean_energy_value.process " + str(e))
+            # Clean up database connections in case of error
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            time.sleep(60)
+            time.sleep(60)  # Wait before retrying connection
             continue
 
-        # Note:
-        # the default value of unchecked values' is_bad property is NULL
-        # if a value is checked and the result is bad then is_bad would be set to 1
-        # else if a value is checked and the result is good then is_bad would be set to 0
+        # Data Quality Control Notes:
+        # The default value of unchecked values' is_bad property is NULL
+        # If a value is checked and the result is bad then is_bad would be set to 1
+        # Else if a value is checked and the result is good then is_bad would be set to 0
 
         ################################################################################################################
-        # Step 1: get the time slot to clean.
+        # Step 1: Get the time slot to clean based on existing processed data
         ################################################################################################################
 
         min_datetime = None
         max_datetime = None
+
         try:
+            # Find the latest processed energy value to determine where to continue cleaning
+            # This ensures we don't reprocess already checked data
             query = (" SELECT MAX(utc_date_time) "
                      " FROM tbl_energy_value "
                      " WHERE is_bad IS NOT NULL ")
             cursor_historical.execute(query, ())
             row_datetime = cursor_historical.fetchone()
+
             if row_datetime is not None and len(row_datetime) == 1 and isinstance(row_datetime[0], datetime):
-                # NOTE: To avoid omission mistakes, we start one hour early
+                # Start one hour before the last processed value to avoid omission mistakes
+                # This ensures we don't miss any values due to timing issues
                 min_datetime = row_datetime[0] - timedelta(hours=1)
             else:
-                # all is_bad properties are null
+                # All is_bad properties are null - this is the first run
+                # Use the configured start datetime from configuration
                 min_datetime = datetime.strptime(config.start_datetime_utc,
                                                  '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
 
+            # Find the latest unprocessed energy value to determine the end of cleaning range
             query = (" SELECT MAX(utc_date_time) "
                      " FROM tbl_energy_value "
                      " WHERE is_bad IS NULL ")
             cursor_historical.execute(query, ())
             row_datetime = cursor_historical.fetchone()
+
             if row_datetime is not None and len(row_datetime) == 1 and isinstance(row_datetime[0], datetime):
                 max_datetime = row_datetime[0]
 
         except Exception as e:
             print("Error in Step 1 of clean_energy_value.process " + str(e))
             logger.error("Error in Step 1 of clean_energy_value.process " + str(e))
+            # Clean up database connections in case of error
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
@@ -76,8 +126,10 @@ def process(logger):
             time.sleep(60)
             continue
 
+        # Validate that we have valid datetime range for processing
         if min_datetime is None or max_datetime is None:
             print("min_datetime or max_datetime is None")
+            # Clean up database connections
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
@@ -85,11 +137,16 @@ def process(logger):
             time.sleep(60)
             continue
         else:
+            # Log the processing time range for monitoring
             print("min_datetime: " + min_datetime.isoformat()[0:19])
             print("max_datetime: " + max_datetime.isoformat()[0:19])
 
         ################################################################################################################
-        # Step 2: check bad case class 1 with high limits and low limits.
+        # Step 2: Check bad case class 1 with high limits and low limits validation
+        #
+        # This step identifies energy values that exceed configured high/low limits or show
+        # clearly abnormal patterns like extreme values, negative readings, or zero values.
+        # These are obvious data quality issues that need to be flagged.
         ################################################################################################################
 
         ################################################################################################################
@@ -193,20 +250,25 @@ def process(logger):
         #       3333      2018-02-08 00:55:20    165599.015625          good
         #       3333      2018-02-08 00:54:16    165599.015625          good
         ################################################################################################################
-        print("Step 2: Processing bad case 1.x")
+        print("Step 2: Processing bad case 1.x - High/Low limit validation")
+
+        # Connect to system database to get point configuration (high/low limits)
         cnx_system = None
         cursor_system = None
         point_dict = dict()
+
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
             cursor_system = cnx_system.cursor()
 
+            # Get high and low limits for all energy value points
             query = (" SELECT id, high_limit, low_limit "
                      " FROM tbl_points "
                      " WHERE object_type='ENERGY_VALUE'")
             cursor_system.execute(query)
             rows_points = cursor_system.fetchall()
 
+            # Build dictionary of point limits for quick lookup
             if rows_points is not None and len(rows_points) > 0:
                 for row in rows_points:
                     point_dict[row[0]] = {"high_limit": row[1],
@@ -216,11 +278,13 @@ def process(logger):
             time.sleep(60)
             continue
         finally:
+            # Always clean up system database connections
             if cursor_system:
                 cursor_system.close()
             if cnx_system:
                 cnx_system.close()
 
+        # Get energy values in the processing time range that haven't been marked as bad
         try:
             query = (" SELECT id, point_id, actual_value "
                      " FROM tbl_energy_value "
@@ -236,22 +300,32 @@ def process(logger):
             time.sleep(60)
             continue
 
-        # initialize bad list
+        # Initialize list to collect IDs of bad energy values
         bad_list = list()
 
+        # Check each energy value against its configured limits
         if rows_energy_values is not None and len(rows_energy_values) > 0:
             for row_energy_value in rows_energy_values:
                 point_id = row_energy_value[1]
                 actual_value = row_energy_value[2]
                 point = point_dict.get(point_id, None)
+
+                # Mark as bad if:
+                # 1. Point configuration not found (point_dict.get returns None)
+                # 2. Value exceeds high limit
+                # 3. Value is below low limit
                 if point is None or actual_value > point['high_limit'] or actual_value < point['low_limit']:
                     bad_list.append(row_energy_value[0])
 
         print('bad list: ' + str(bad_list))
+
+        # Update bad values in batches of 100 to avoid overwhelming the database
         while len(bad_list) > 0:
-            update_100 = bad_list[:100]
-            bad_list = bad_list[100:]
+            update_100 = bad_list[:100]  # Take first 100 items
+            bad_list = bad_list[100:]    # Remove processed items from list
+
             try:
+                # Mark the identified values as bad (is_bad = 1)
                 update = (" UPDATE tbl_energy_value "
                           " SET is_bad = 1 "
                           " WHERE id IN (" + ', '.join(map(str, update_100)) + ")")
@@ -267,9 +341,14 @@ def process(logger):
                 continue
 
         ################################################################################################################
-        # Step 3: check bad case class 2 which is in concave shape model.
+        # Step 3: Check bad case class 2 which uses concave shape model detection
+        #
+        # This step identifies energy values that create concave patterns in the time series.
+        # Energy values should generally be monotonically increasing (cumulative), so sudden
+        # decreases or concave patterns indicate data quality issues like meter resets,
+        # communication errors, or sensor malfunctions.
         ################################################################################################################
-        print("Step 3: Processing bad case 2.x")
+        print("Step 3: Processing bad case 2.x - Concave shape detection")
         ################################################################################################################
         # bad case 2.1
         # id    point_id  utc_date_time          actual_value       is_bad (expected)
@@ -404,6 +483,8 @@ def process(logger):
         # 17304233 11       2020-3-15 05:51:33     33600          good
         ################################################################################################################
 
+        # Get energy values in the processing time range that haven't been marked as bad
+        # Order by point_id and utc_date_time to process each point's time series sequentially
         try:
             query = (" SELECT point_id, id, utc_date_time, actual_value "
                      " FROM tbl_energy_value "
@@ -420,6 +501,7 @@ def process(logger):
             time.sleep(60)
             continue
 
+        # Group energy values by point_id for time series analysis
         point_value_dict = dict()
         current_point_value_list = list()
         current_point_id = 0
@@ -427,57 +509,68 @@ def process(logger):
         if rows_energy_values is not None and len(rows_energy_values) > 0:
             for row_energy_value in rows_energy_values:
                 previous_point_id = current_point_id
-                current_point_id = row_energy_value[0]
+                current_point_id = row_energy_value[0]  # point_id
+
                 if current_point_id not in point_value_dict.keys():
-                    # new point id found
-                    # save previous point values
+                    # New point id found - save previous point's values
                     if len(current_point_value_list) > 0:
                         point_value_dict[previous_point_id] = current_point_value_list
                         current_point_value_list = list()
 
+                    # Add current value to the new point's list
                     current_point_value_list.append({'id': row_energy_value[1],
                                                      'actual_value': row_energy_value[3]})
                 else:
+                    # Same point - add to current point's list
                     current_point_value_list.append({'id': row_energy_value[1],
                                                      'actual_value': row_energy_value[3]})
-            # end of for loop
-            # save rest point values
+
+            # Save the last point's values
             if len(current_point_value_list) > 0:
                 point_value_dict[current_point_id] = current_point_value_list
 
-        # reinitialize bad list
+        # Reinitialize bad list for concave shape detection results
         bad_list = list()
 
+        # Analyze each point's time series for concave patterns
         for point_id, point_value_list in point_value_dict.items():
             if len(point_value_list) <= 1:
+                # Need at least 2 values to detect concave patterns
                 continue
             elif len(point_value_list) == 2:
+                # Simple case: if second value is less than first, mark as bad
                 if point_value_list[1]['actual_value'] < point_value_list[0]['actual_value']:
                     bad_list.append(point_value_list[1]['id'])
                 continue
             else:
+                # Complex case: detect concave patterns in longer time series
                 base_point_value = point_value_list[0]['actual_value']
                 concave_point_value_list = list()
+
                 for i in range(len(point_value_list)):
                     if point_value_list[i]['actual_value'] < base_point_value:
-                        # candidate concave value found
+                        # Candidate concave value found (value is lower than base)
                         concave_point_value_list.append(point_value_list[i]['id'])
                     else:
-                        # normal value found
+                        # Normal value found (value is higher than or equal to base)
                         if len(concave_point_value_list) > 0:
-                            # save confirmed concave value(s) to bad value(s)
+                            # Save confirmed concave values to bad list
                             bad_list.extend(concave_point_value_list)
 
-                        # prepare for next candidate concave value list
+                        # Prepare for next candidate concave value list
                         base_point_value = point_value_list[i]['actual_value']
                         concave_point_value_list.clear()
                 continue
 
         print('bad list: ' + str(bad_list))
+
+        # Update bad values in batches of 100 to avoid overwhelming the database
         while len(bad_list) > 0:
-            update_100 = bad_list[:100]
-            bad_list = bad_list[100:]
+            update_100 = bad_list[:100]  # Take first 100 items
+            bad_list = bad_list[100:]    # Remove processed items from list
+
             try:
+                # Mark the identified concave values as bad (is_bad = 1)
                 update = (" UPDATE tbl_energy_value "
                           " SET is_bad = 1 "
                           " WHERE id IN (" + ', '.join(map(str, update_100)) + ")")
@@ -569,13 +662,19 @@ def process(logger):
         # 3336102  21       2020-01-07 08:52:34    7990	          good
         # 3335968  21       2020-01-07 08:51:30    7990	          good
         ################################################################################################################
-        # Step 4: tag the is_bad property of energy values.
+        # Step 4: Tag the is_bad property of energy values (mark remaining as good)
+        #
+        # After running all quality control checks, mark any remaining unchecked values
+        # (is_bad IS NULL) as good (is_bad = 0). This ensures all values in the processing
+        # time range have been evaluated and tagged appropriately.
         ################################################################################################################
         try:
+            # Mark all remaining unchecked values as good
             update = (" UPDATE tbl_energy_value "
                       " SET is_bad = 0 "
                       " WHERE utc_date_time >= %s AND utc_date_time < %s AND is_bad IS NULL ")
-            # NOTE: use '<' instead of '<=' in WHERE statement because there may be some new inserted values
+            # NOTE: Use '<' instead of '<=' in WHERE statement because there may be some new inserted values
+            # during processing that we don't want to affect
             cursor_historical.execute(update, (min_datetime, max_datetime,))
             cnx_historical.commit()
         except Exception as e:
@@ -583,9 +682,12 @@ def process(logger):
             time.sleep(60)
             continue
         finally:
+            # Always clean up database connections
             if cursor_historical:
                 cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
 
+        # Wait 15 minutes (900 seconds) before starting the next cleaning cycle
+        # This prevents the process from running too frequently and overwhelming the database
         time.sleep(900)

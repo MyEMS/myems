@@ -1,3 +1,26 @@
+"""
+MyEMS Normalization Service - Virtual Point Processing Module
+
+This module handles the calculation of virtual point values using mathematical expressions.
+Virtual points are computed points that derive their values from combinations of other points
+(analog points, digital points, and other virtual points) using algebraic equations and piecewise functions.
+
+The virtual point processing performs the following functions:
+1. Retrieves all virtual points and their mathematical expressions from the system database
+2. Uses multiprocessing to process virtual points in parallel for efficiency
+3. Parses mathematical expressions and identifies dependent points
+4. Retrieves latest values from dependent points in the historical database
+5. Evaluates mathematical expressions using SymPy library
+6. Stores calculated virtual point values in the historical database
+
+Key features:
+- Supports complex mathematical expressions with multiple variables
+- Handles different point types (analog, digital, virtual) in expressions
+- Uses SymPy for robust mathematical expression evaluation including piecewise functions
+- Maintains data integrity through comprehensive error handling
+- Processes virtual points continuously to provide real-time calculated values
+"""
+
 import json
 import random
 import re
@@ -11,16 +34,28 @@ import config
 
 
 ########################################################################################################################
-# PROCEDURES:
-# Step 1: Query all virtual points
-# Step 2: Create multiprocessing pool to call worker in parallel
+# Virtual Point Calculation Procedures:
+# Step 1: Query all virtual points and their mathematical expressions from system database
+# Step 2: Create multiprocessing pool to call worker processes in parallel
 ########################################################################################################################
 
 def calculate(logger):
+    """
+    Main function for virtual point calculation using mathematical expressions.
+
+    This function runs continuously, retrieving all virtual points from the system database
+    and processing them in parallel to calculate virtual point values using their
+    configured mathematical expressions.
+
+    Args:
+        logger: Logger instance for recording calculation activities and errors
+    """
     while True:
-        # the outermost while loop to reconnect server if there is a connection error
+        # The outermost while loop to reconnect to server if there is a connection error
         cnx_system_db = None
         cursor_system_db = None
+
+        # Connect to system database to retrieve virtual point configuration
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
@@ -30,12 +65,13 @@ def calculate(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outer loop to reconnect the database
+            # Sleep and continue the outer loop to reconnect the database
             time.sleep(60)
             continue
 
         print("Connected to MyEMS System Database")
 
+        # Retrieve all virtual points with their configuration data
         virtual_point_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, data_source_id, object_type, high_limit, low_limit, address "
@@ -43,11 +79,13 @@ def calculate(logger):
                                      " WHERE is_virtual = 1 ")
             rows_virtual_points = cursor_system_db.fetchall()
 
+            # Check if virtual points were found
             if rows_virtual_points is None or len(rows_virtual_points) == 0:
-                # sleep several minutes and continue the outer loop to reconnect the database
+                # Sleep several minutes and continue the outer loop to reconnect the database
                 time.sleep(60)
                 continue
 
+            # Build virtual point list with configuration data
             for row in rows_virtual_points:
                 meta_result = {"id": row[0],
                                "name": row[1],
@@ -69,39 +107,57 @@ def calculate(logger):
             if cnx_system_db:
                 cnx_system_db.close()
 
-        # shuffle the virtual point list for randomly calculating
+        # Shuffle the virtual point list for randomly calculating point values
+        # This helps distribute processing load evenly across time
         random.shuffle(virtual_point_list)
 
         print("Got all virtual points in MyEMS System Database")
         ################################################################################################################
-        # Step 2: Create multiprocessing pool to call worker in parallel
+        # Step 2: Create multiprocessing pool to call worker processes in parallel
         ################################################################################################################
+        # Create process pool with configured size for parallel processing
         p = Pool(processes=config.pool_size)
         error_list = p.map(worker, virtual_point_list)
         p.close()
         p.join()
 
+        # Log any errors from worker processes
         for error in error_list:
             if error is not None and len(error) > 0:
                 logger.error(error)
 
         print("go to sleep ")
-        time.sleep(60)
+        time.sleep(60)  # Sleep for 1 minute before next processing cycle
         print("wake from sleep, and continue to work")
 
 
 ########################################################################################################################
-# Step 1: get start datetime and end datetime
-# Step 2: parse the expression and get all points in substitutions
-# Step 3: query points type from system database
-# Step 4: query points value from historical database
-# Step 5: evaluate the equation with points values
+# Worker Process Procedures for Individual Virtual Point Processing:
+# Step 1: Get start datetime and end datetime for processing
+# Step 2: Parse the expression and get all points in substitutions
+# Step 3: Query points type from system database
+# Step 4: Query points value from historical database
+# Step 5: Evaluate the equation with points values and store results
+# Returns the error string for logging or returns None on success
 ########################################################################################################################
 
 def worker(virtual_point):
+    """
+    Worker function to process a single virtual point's calculation.
+
+    This function processes one virtual point at a time, evaluating its mathematical
+    expression using data from dependent points and storing the calculated results.
+
+    Args:
+        virtual_point: Dictionary containing virtual point configuration (id, name, object_type, address, etc.)
+
+    Returns:
+        None on success, error string on failure
+    """
     cnx_historical_db = None
     cursor_historical_db = None
 
+    # Connect to historical database to check existing processed data
     try:
         cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical_db = cnx_historical_db.cursor()
@@ -115,8 +171,9 @@ def worker(virtual_point):
     print("Start to process virtual point: " + "'" + virtual_point['name'] + "'")
 
     ####################################################################################################################
-    # step 1: get start datetime and end datetime
+    # Step 1: Get start datetime and end datetime for processing
     ####################################################################################################################
+    # Determine the appropriate table based on virtual point object type
     if virtual_point['object_type'] == 'ANALOG_VALUE':
         table_name = "tbl_analog_value"
     elif virtual_point['object_type'] == 'ENERGY_VALUE':

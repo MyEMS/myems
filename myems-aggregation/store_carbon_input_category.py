@@ -1,3 +1,22 @@
+"""
+MyEMS Store Carbon Input Category Aggregation Service
+
+This module handles the calculation of carbon dioxide emissions for stores based on energy input consumption
+and emission factors. It processes energy consumption data from various sources associated with
+each store and calculates the corresponding carbon dioxide emissions using emission factors.
+
+The service follows a systematic approach:
+1. Retrieves all stores from the system database
+2. For each store, determines the latest processed carbon emissions data timestamp
+3. Fetches energy input consumption data since the last processed timestamp
+4. Retrieves applicable emission factors for the energy categories
+5. Calculates carbon dioxide emissions by multiplying energy consumption with emission factors
+6. Saves the calculated carbon emissions data to the carbon database
+
+This service runs continuously, processing new energy data as it becomes available and
+ensuring accurate carbon footprint calculations for all stores in the system.
+"""
+
 import time
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -21,15 +40,32 @@ import config
 
 
 def main(logger):
+    """
+    Main function for store carbon input category aggregation service.
+
+    This function runs continuously and processes carbon emissions calculations for all stores
+    based on energy input. It retrieves energy consumption data, applies emission factors, and
+    calculates carbon dioxide emissions.
+
+    Args:
+        logger: Logger instance for recording activities and errors
+
+    The function follows these steps:
+    1. Connects to system, energy, and carbon databases
+    2. Retrieves all stores from the system database
+    3. For each store, processes carbon emissions calculations for energy input
+    4. Sleeps for 300 seconds before the next processing cycle
+    """
 
     while True:
-        # the outermost while loop
+        # Main processing loop - runs continuously
         ################################################################################################################
-        # Step 1: get all stores
+        # Step 1: Get all stores from system database
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
         try:
+            # Connect to MyEMS System Database
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
@@ -38,12 +74,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Connected to MyEMS System Database")
 
+        # Retrieve all stores from the system database
         store_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name, cost_center_id "
@@ -57,10 +94,11 @@ def main(logger):
                     cursor_system_db.close()
                 if cnx_system_db:
                     cnx_system_db.close()
-                # sleep and continue the outermost while loop
+                # Sleep and continue the main loop
                 time.sleep(60)
                 continue
 
+            # Build store list with id, name, and cost_center_id
             for row in rows_stores:
                 store_list.append({"id": row[0], "name": row[1], "cost_center_id": row[2]})
 
@@ -70,12 +108,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Step 1.2: Got all stores from MyEMS System Database")
 
+        # Connect to MyEMS Energy Database
         cnx_energy_db = None
         cursor_energy_db = None
         try:
@@ -92,12 +131,13 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 
         print("Connected to MyEMS Energy Database")
 
+        # Connect to MyEMS Carbon Database
         cnx_carbon_db = None
         cursor_carbon_db = None
         try:
@@ -119,7 +159,7 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outermost while loop
+            # Sleep and continue the main loop
             time.sleep(60)
             continue
 

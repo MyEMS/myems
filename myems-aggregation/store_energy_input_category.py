@@ -1,3 +1,24 @@
+"""
+MyEMS Store Energy Input Category Aggregation Service
+
+This module handles the aggregation of energy input consumption data for stores by energy categories.
+It processes energy consumption data from various sources (meters, virtual meters, offline meters, equipment, spaces)
+associated with each store and aggregates them into hourly energy consumption by categories.
+
+The service follows a systematic approach:
+1. Retrieves all stores from the system database
+2. Creates a multiprocessing pool to process stores in parallel
+3. For each store, retrieves associated input sources (meters, virtual meters, offline meters, equipment, spaces)
+4. Determines the time range for data aggregation
+5. Fetches energy consumption data from all input sources
+6. Finds the common time slot across all sources
+7. Aggregates energy data by energy categories and time slots
+8. Saves the aggregated data to the energy database
+
+This service runs continuously, processing new energy data as it becomes available and
+ensuring accurate energy consumption aggregation for all stores in the system.
+"""
+
 import random
 import time
 from datetime import datetime, timedelta
@@ -17,15 +38,30 @@ import config
 
 
 def main(logger):
+    """
+    Main function for store energy input category aggregation service.
+
+    This function runs continuously and processes energy aggregation for all stores.
+    It uses multiprocessing to handle multiple stores in parallel for better performance.
+
+    Args:
+        logger: Logger instance for recording activities and errors
+
+    The function follows these steps:
+    1. Connects to the system database and retrieves all stores
+    2. Creates a multiprocessing pool to process stores in parallel
+    3. Sleeps for 300 seconds before the next processing cycle
+    """
 
     while True:
-        # the outermost while loop
+        # Main processing loop - runs continuously
         ################################################################################################################
-        # Step 1: get all stores
+        # Step 1: Get all stores from system database
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
         try:
+            # Connect to MyEMS System Database
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
@@ -34,11 +70,12 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outer loop to reconnect the database
+            # Sleep and continue the main loop to reconnect the database
             time.sleep(60)
             continue
         print("Connected to MyEMS System Database")
 
+        # Retrieve all stores from the system database
         store_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name "
@@ -48,16 +85,17 @@ def main(logger):
 
             if rows_stores is None or len(rows_stores) == 0:
                 print("There isn't any stores ")
-                # sleep and continue the outer loop to reconnect the database
+                # Sleep and continue the main loop to reconnect the database
                 time.sleep(60)
                 continue
 
+            # Build store list with id and name
             for row in rows_stores:
                 store_list.append({"id": row[0], "name": row[1]})
 
         except Exception as e:
             logger.error("Error in step 1.2 of store_energy_input_category.main " + str(e))
-            # sleep and continue the outer loop to reconnect the database
+            # Sleep and continue the main loop to reconnect the database
             time.sleep(60)
             continue
         finally:
@@ -68,25 +106,28 @@ def main(logger):
 
         print("Got all stores in MyEMS System Database")
 
-        # shuffle the store list for randomly calculating the meter hourly value
+        # Shuffle the store list for randomly calculating the meter hourly value
         random.shuffle(store_list)
 
         ################################################################################################################
         # Step 2: Create multiprocessing pool to call worker in parallel
         ################################################################################################################
+        # Create multiprocessing pool to process stores in parallel
         p = Pool(processes=config.pool_size)
         error_list = p.map(worker, store_list)
         p.close()
         p.join()
 
+        # Log any errors that occurred during processing
         for error in error_list:
             if error is not None and len(error) > 0:
                 logger.error(error)
 
+        # Sleep for 300 seconds before the next processing cycle
         print("go to sleep 300 seconds...")
         time.sleep(300)
         print("wake from sleep, and continue to work...")
-    # end of outer while
+    # End of main processing loop
 
 
 ########################################################################################################################
@@ -106,6 +147,19 @@ def main(logger):
 ########################################################################################################################
 
 def worker(store):
+    """
+    Worker function to process energy aggregation for a single store.
+
+    This function handles the complete energy aggregation process for one store,
+    including retrieving associated input sources, fetching energy data, and saving
+    aggregated results to the database.
+
+    Args:
+        store: Dictionary containing store information (id, name)
+
+    Returns:
+        None if successful, error string if an error occurred
+    """
     ####################################################################################################################
     # Step 1: get all input meters associated with the store
     ####################################################################################################################
