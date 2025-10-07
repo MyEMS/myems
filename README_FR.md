@@ -2,11 +2,11 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.9.0</h1>
-<h3 align="center">行业领先的开源能源管理系统</h3>
-<h6 align="center">近千个项目案例</h6>
-<h6 align="center">承诺永久开源</h6>
-<h6 align="center">QQ群和微信群内技术支持免费</h6>
-<h6 align="center">保持更新，每月发布1个小版本，每年发布1个大版本</h6>
+<h3 align="center">Système de gestion de l'énergie open source leader de l'industrie</h3>
+<h6 align="center">Près de mille projets de cas</h6>
+<h6 align="center">Engagement à rester open source pour toujours</h6>
+<h6 align="center">Support technique gratuit dans les groupes QQ et WeChat</h6>
+<h6 align="center">Mise à jour continue, 1 version mineure par mois, 1 version majeure par an</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
@@ -14,13 +14,13 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
+简体中文 | [English](./README.md) | [German](./README_DE.md) | Français
 
-## MyEMS 介绍
+## Introduction à MyEMS
 
-MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-2020），适用于建筑、工厂、商场、医院、园区、能碳管理中心的电、水、气、冷、热等能源和碳排放采集、分析、报表，还有光伏、储能、充电桩、微电网、虚拟电厂、设备控制、故障诊断、工单管理、人工智能优化等企业版可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+Le système de gestion de l'énergie open source MyEMS fait référence à la norme ISO 50001 de gestion de l'énergie (GB/T 23331-2020), applicable aux bâtiments, usines, centres commerciaux, hôpitaux, parcs industriels et centres de gestion énergétique et carbone pour la collecte, l'analyse et les rapports d'énergie et d'émissions de carbone pour l'électricité, l'eau, le gaz, le froid, la chaleur, etc. Il inclut également des fonctions optionnelles de version entreprise telles que le photovoltaïque, le stockage d'énergie, les bornes de recharge, les micro-réseaux, les centrales électriques virtuelles, le contrôle des équipements, le diagnostic des pannes, la gestion des bons de travail et l'optimisation par intelligence artificielle. Développé et maintenu par une entreprise professionnelle expérimentée, garantissant un support à long terme. Utilisez l'open source pour aider les groupes d'entreprises, les parcs industriels et les opérateurs énergétiques dans leur développement bas carbone !
 
-## MyEMS架构
+## Architecture MyEMS
 
 ![MyEMS Architecture Function View](./docs/images/architecture-function-view-cn.png)
 
@@ -28,7 +28,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 ![MyEMS Data Flow](./docs/images/myems-data-flow-cn.svg)
 
-## MyEMS Web UI 展示
+## Démonstration de l'interface utilisateur Web MyEMS
 
 ![MyEMS Web 0](./docs/images/myems_web_0.png)
 ![MyEMS Web 1](./docs/images/myems_web_1.png)
@@ -61,7 +61,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Web 28](./docs/images/myems_web_28.png)
 ![MyEMS Web 29](./docs/images/myems_web_29.png)
 
-## MyEMS Admin UI 展示
+## Démonstration de l'interface utilisateur Admin MyEMS
 
 ![MyEMS Admin 0](./docs/images/myems_admin_0.png)
 ![MyEMS Admin 1](./docs/images/myems_admin_1.png)
@@ -81,25 +81,25 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Admin 15](./docs/images/myems_admin_15.png)
 ![MyEMS Admin 16](./docs/images/myems_admin_16.png)
 
-## MyEMS Dashboard UI 展示
+## Démonstration de l'interface utilisateur Dashboard MyEMS
 
 ![MyEMS Large Screen Dashboard](./docs/images/myems-large-screen-dashboard.gif)
 
 ![MyEMS Dashboard GCC](./docs/images/myems-dashboard-gcc.png)
 
 
-## MyEMS社区版功能
+## Fonctionnalités de la version communautaire MyEMS
 
-详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+Voir [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) pour plus de détails
 
-## MyEMS企业版功能
+## Fonctionnalités de la version entreprise MyEMS
 
-详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+Voir [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) pour plus de détails
 
 
-## MyEMS下载(社区版)
+## Téléchargement MyEMS (version communautaire)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推荐)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (recommandé)
 
 [2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
@@ -119,45 +119,45 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 [10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
-## MyEMS安装(社区版)
+## Installation MyEMS (version communautaire)
 
-详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+Voir [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) pour plus de détails
 
-## MyEMS组件构成
+## Composition des composants MyEMS
 
-### MyEMS 数据库 (SQL)
+### Base de données MyEMS (SQL)
 
-详见 [database](./database/README.md)介绍
+Voir l'introduction [database](./database/README.md)
 
-### MyEMS API 应用程序接口 (Python)
+### Interface d'application API MyEMS (Python)
 
-详见 [myems-api](./myems-api/README.md)介绍
+Voir l'introduction [myems-api](./myems-api/README.md)
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### Interface utilisateur d'administration MyEMS (AngularJS version 1.x)
 
-详见 [myems-admin](myems-admin/README.md)介绍
+Voir l'introduction [myems-admin](myems-admin/README.md)
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### Service de collecte de données Modbus TCP MyEMS (Python)
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+Voir l'introduction [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS 数据清洗服务 (Python)
+### Service de nettoyage des données MyEMS (Python)
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+Voir l'introduction [myems-cleaning](./myems-cleaning/README.md)
 
-### MyEMS 数据规范化服务 (Python)
+### Service de normalisation des données MyEMS (Python)
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+Voir l'introduction [myems-normalization](./myems-normalization/README.md)
 
-### MyEMS 数据汇总服务 (Python)
+### Service d'agrégation des données MyEMS (Python)
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+Voir l'introduction [myems-aggregation](./myems-aggregation/README.md)
 
-### MyEMS Web UI (ReactJS)
+### Interface utilisateur Web MyEMS (ReactJS)
 
-详见 [myems-web](myems-web/README.md)介绍
+Voir l'introduction [myems-web](myems-web/README.md)
 
-### 默认端口号
+### Ports par défaut
 
 MyEMS Web UI: 80
 
@@ -165,30 +165,30 @@ MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
-### 默认密码
+### Mots de passe par défaut
 
 Admin UI:
 
-用户名：administrator
+Nom d'utilisateur : administrator
 
-密码：!MyEMS1
+Mot de passe : !MyEMS1
 
 
 Web UI:
 
-用户名：administrator@myems.io
+Nom d'utilisateur : administrator@myems.io
 
-密码：!MyEMS1
+Mot de passe : !MyEMS1
 
 
-## 联系我们
+## Nous contacter
 
-- 公司: 海识软件
-- 联系人: 张能远
-- 电话微信: (+86) 13011132526
-- Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
+- Entreprise : Haishi Software
+- Contact : Zhang Nengyuan
+- Téléphone WeChat : (+86) 13011132526
+- Email : zny@myems.org
+- LINE ID : myems
+- WhatsApp : https://wa.me/message/6HB55A46RVAJP1
 
 ![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
 
@@ -198,34 +198,34 @@ Web UI:
 
 ![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
 
-## 微信公众号
+## Compte officiel WeChat
 
-![开源能源管理系统](./docs/images/qr_code_mp_weixin.png)
+![Système de gestion de l'énergie open source](./docs/images/qr_code_mp_weixin.png)
 
 
-## 微信群
+## Groupe WeChat
 
-![微信群](./docs/images/qr_code_wechat_group.png)
+![Groupe WeChat](./docs/images/qr_code_wechat_group.png)
 
-## QQ群
+## Groupe QQ
 
-群号: 792528967
+Numéro de groupe : 792528967
 
-![QQ群](./docs/images/qr_code_qq_group.png)
+![Groupe QQ](./docs/images/qr_code_qq_group.png)
 
-## 小红书
+## Xiaohongshu
 
 ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
 
-## 视频
+## Vidéos
 
 [BiliBili](https://space.bilibili.com/539108162)
 
 [YouTube](https://www.youtube.com/@myems)
 
-## 🔖 友情链接
+## 🔖 Liens d'amitié
 
-- 👉 驰骋BPM低代码工作流表单： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
-- 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
-- 👉 乐联iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
+- 👉 BPM Chichang low-code workflow form : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 IoTGateway : Passerelle IoT multiplateforme basée sur .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
+- 👉 Plateforme iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
 

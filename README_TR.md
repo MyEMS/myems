@@ -2,11 +2,11 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.9.0</h1>
-<h3 align="center">行业领先的开源能源管理系统</h3>
-<h6 align="center">近千个项目案例</h6>
-<h6 align="center">承诺永久开源</h6>
-<h6 align="center">QQ群和微信群内技术支持免费</h6>
-<h6 align="center">保持更新，每月发布1个小版本，每年发布1个大版本</h6>
+<h3 align="center">Endüstrinin önde gelen açık kaynak enerji yönetim sistemi</h3>
+<h6 align="center">Neredeyse bin proje vakası</h6>
+<h6 align="center">Sonsuza kadar açık kaynak kalma taahhüdü</h6>
+<h6 align="center">QQ ve WeChat gruplarında ücretsiz teknik destek</h6>
+<h6 align="center">Sürekli bakım, ayda 1 küçük sürüm, yılda 1 büyük sürüm</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
@@ -14,13 +14,13 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
+简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文 | العربية | ไทย | हिन्दी | Bahasa Indonesia | Bahasa Melayu | Tiếng Việt | Türkçe
 
-## MyEMS 介绍
+## MyEMS'ye Giriş
 
-MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-2020），适用于建筑、工厂、商场、医院、园区、能碳管理中心的电、水、气、冷、热等能源和碳排放采集、分析、报表，还有光伏、储能、充电桩、微电网、虚拟电厂、设备控制、故障诊断、工单管理、人工智能优化等企业版可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+Açık kaynak enerji yönetim sistemi MyEMS, ISO 50001 enerji yönetim standardına (GB/T 23331-2020) atıfta bulunur, binalar, fabrikalar, alışveriş merkezleri, hastaneler, endüstriyel parklar ve enerji ve karbon yönetim merkezleri için elektrik, su, gaz, soğuk, sıcak vb. için enerji ve karbon emisyonlarının toplanması, analizi ve raporlanması için uygulanabilir. Ayrıca fotovoltaik, enerji depolama, şarj istasyonları, mikro şebekeler, sanal güç santralleri, ekipman kontrolü, arıza teşhisi, iş emri yönetimi ve yapay zeka optimizasyonu gibi kurumsal sürüm isteğe bağlı işlevlerini de içerir. Deneyimli profesyonel bir şirket tarafından geliştirilmiş ve sürdürülmektedir, uzun vadeli desteği garanti eder. Kurumsal gruplar, endüstriyel parklar ve enerji operatörlerinin düşük karbonlu gelişimine yardımcı olmak için açık kaynak kullanın!
 
-## MyEMS架构
+## MyEMS Mimarisi
 
 ![MyEMS Architecture Function View](./docs/images/architecture-function-view-cn.png)
 
@@ -28,7 +28,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 ![MyEMS Data Flow](./docs/images/myems-data-flow-cn.svg)
 
-## MyEMS Web UI 展示
+## MyEMS Web UI Gösterimi
 
 ![MyEMS Web 0](./docs/images/myems_web_0.png)
 ![MyEMS Web 1](./docs/images/myems_web_1.png)
@@ -61,7 +61,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Web 28](./docs/images/myems_web_28.png)
 ![MyEMS Web 29](./docs/images/myems_web_29.png)
 
-## MyEMS Admin UI 展示
+## MyEMS Admin UI Gösterimi
 
 ![MyEMS Admin 0](./docs/images/myems_admin_0.png)
 ![MyEMS Admin 1](./docs/images/myems_admin_1.png)
@@ -81,25 +81,25 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Admin 15](./docs/images/myems_admin_15.png)
 ![MyEMS Admin 16](./docs/images/myems_admin_16.png)
 
-## MyEMS Dashboard UI 展示
+## MyEMS Dashboard UI Gösterimi
 
 ![MyEMS Large Screen Dashboard](./docs/images/myems-large-screen-dashboard.gif)
 
 ![MyEMS Dashboard GCC](./docs/images/myems-dashboard-gcc.png)
 
 
-## MyEMS社区版功能
+## MyEMS Topluluk Sürümü Özellikleri
 
-详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+Detaylar için [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) bakın
 
-## MyEMS企业版功能
+## MyEMS Kurumsal Sürümü Özellikleri
 
-详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+Detaylar için [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) bakın
 
 
-## MyEMS下载(社区版)
+## MyEMS İndirme (Topluluk Sürümü)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推荐)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (önerilen)
 
 [2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
@@ -119,45 +119,45 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 [10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
-## MyEMS安装(社区版)
+## MyEMS Kurulum (Topluluk Sürümü)
 
-详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+Detaylar için [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) bakın
 
-## MyEMS组件构成
+## MyEMS Bileşen Kompozisyonu
 
-### MyEMS 数据库 (SQL)
+### MyEMS Veritabanı (SQL)
 
-详见 [database](./database/README.md)介绍
+Giriş için [database](./database/README.md) bakın
 
-### MyEMS API 应用程序接口 (Python)
+### MyEMS API Uygulama Arayüzü (Python)
 
-详见 [myems-api](./myems-api/README.md)介绍
+Giriş için [myems-api](./myems-api/README.md) bakın
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### MyEMS Admin UI (AngularJS sürüm 1.x)
 
-详见 [myems-admin](myems-admin/README.md)介绍
+Giriş için [myems-admin](myems-admin/README.md) bakın
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### MyEMS Modbus TCP Veri Toplama Servisi (Python)
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+Giriş için [myems-modbus-tcp](./myems-modbus-tcp/README.md) bakın
 
-### MyEMS 数据清洗服务 (Python)
+### MyEMS Veri Temizleme Servisi (Python)
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+Giriş için [myems-cleaning](./myems-cleaning/README.md) bakın
 
-### MyEMS 数据规范化服务 (Python)
+### MyEMS Veri Normalizasyon Servisi (Python)
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+Giriş için [myems-normalization](./myems-normalization/README.md) bakın
 
-### MyEMS 数据汇总服务 (Python)
+### MyEMS Veri Toplama Servisi (Python)
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+Giriş için [myems-aggregation](./myems-aggregation/README.md) bakın
 
 ### MyEMS Web UI (ReactJS)
 
-详见 [myems-web](myems-web/README.md)介绍
+Giriş için [myems-web](myems-web/README.md) bakın
 
-### 默认端口号
+### Varsayılan Port Numaraları
 
 MyEMS Web UI: 80
 
@@ -165,28 +165,28 @@ MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
-### 默认密码
+### Varsayılan Şifreler
 
 Admin UI:
 
-用户名：administrator
+Kullanıcı adı: administrator
 
-密码：!MyEMS1
+Şifre: !MyEMS1
 
 
 Web UI:
 
-用户名：administrator@myems.io
+Kullanıcı adı: administrator@myems.io
 
-密码：!MyEMS1
+Şifre: !MyEMS1
 
 
-## 联系我们
+## Bizimle İletişime Geçin
 
-- 公司: 海识软件
-- 联系人: 张能远
-- 电话微信: (+86) 13011132526
-- Email: zny@myems.org
+- Şirket: Haishi Software
+- İletişim: Zhang Nengyuan
+- Telefon WeChat: (+86) 13011132526
+- E-posta: zny@myems.org
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
@@ -198,34 +198,33 @@ Web UI:
 
 ![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
 
-## 微信公众号
+## Resmi WeChat Hesabı
 
-![开源能源管理系统](./docs/images/qr_code_mp_weixin.png)
+![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png)
 
 
-## 微信群
+## WeChat Grubu
 
-![微信群](./docs/images/qr_code_wechat_group.png)
+![WeChat Grubu](./docs/images/qr_code_wechat_group.png)
 
-## QQ群
+## QQ Grubu
 
-群号: 792528967
+Grup numarası: 792528967
 
-![QQ群](./docs/images/qr_code_qq_group.png)
+![QQ Grubu](./docs/images/qr_code_qq_group.png)
 
-## 小红书
+## Xiaohongshu
 
 ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
 
-## 视频
+## Videolar
 
 [BiliBili](https://space.bilibili.com/539108162)
 
 [YouTube](https://www.youtube.com/@myems)
 
-## 🔖 友情链接
+## 🔖 Dostluk Bağlantıları
 
-- 👉 驰骋BPM低代码工作流表单： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
-- 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
-- 👉 乐联iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
-
+- 👉 Chichang BPM düşük kod iş akışı formu : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 IoTGateway: .NET6 tabanlı çapraz platform IoT ağ geçidi [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
+- 👉 Enjoy iot platformu [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
