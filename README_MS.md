@@ -2,11 +2,11 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.9.0</h1>
-<h3 align="center">行业领先的开源能源管理系统</h3>
-<h6 align="center">近千个项目案例</h6>
-<h6 align="center">承诺永久开源</h6>
-<h6 align="center">QQ群和微信群内技术支持免费</h6>
-<h6 align="center">保持更新，每月发布1个小版本，每年发布1个大版本</h6>
+<h3 align="center">Sistem pengurusan tenaga sumber terbuka terkemuka industri</h3>
+<h6 align="center">Hampir seribu kes projek</h6>
+<h6 align="center">Berkomitmen untuk kekal sumber terbuka selama-lamanya</h6>
+<h6 align="center">Sokongan teknikal percuma dalam kumpulan QQ dan WeChat</h6>
+<h6 align="center">Penyelenggaraan berterusan, 1 versi minor setiap bulan, 1 versi major setiap tahun</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
@@ -14,13 +14,13 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
+简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文 | العربية | ไทย | हिन्दी | Bahasa Indonesia | Bahasa Melayu
 
-## MyEMS 介绍
+## Pengenalan MyEMS
 
-MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-2020），适用于建筑、工厂、商场、医院、园区、能碳管理中心的电、水、气、冷、热等能源和碳排放采集、分析、报表，还有光伏、储能、充电桩、微电网、虚拟电厂、设备控制、故障诊断、工单管理、人工智能优化等企业版可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+Sistem pengurusan tenaga sumber terbuka MyEMS merujuk kepada piawaian ISO 50001 pengurusan tenaga (GB/T 23331-2020), terpakai untuk bangunan, kilang, pusat membeli-belah, hospital, taman perindustrian, dan pusat pengurusan tenaga dan karbon untuk pengumpulan, analisis, dan pelaporan tenaga dan pelepasan karbon untuk elektrik, air, gas, sejuk, haba, dll. Juga termasuk fungsi pilihan versi enterprise seperti fotovoltaik, penyimpanan tenaga, stesen pengecasan, mikrogrid, loji kuasa maya, kawalan peralatan, diagnostik kesilapan, pengurusan pesanan kerja, dan pengoptimuman kecerdasan buatan. Dibangunkan dan dikekalkan oleh syarikat profesional berpengalaman, menjamin sokongan jangka panjang. Gunakan sumber terbuka untuk membantu kumpulan korporat, taman perindustrian, dan pengendali tenaga dalam pembangunan rendah karbon!
 
-## MyEMS架构
+## Seni bina MyEMS
 
 ![MyEMS Architecture Function View](./docs/images/architecture-function-view-cn.png)
 
@@ -28,7 +28,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 ![MyEMS Data Flow](./docs/images/myems-data-flow-cn.svg)
 
-## MyEMS Web UI 展示
+## Demonstrasi antara muka pengguna web MyEMS
 
 ![MyEMS Web 0](./docs/images/myems_web_0.png)
 ![MyEMS Web 1](./docs/images/myems_web_1.png)
@@ -61,7 +61,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Web 28](./docs/images/myems_web_28.png)
 ![MyEMS Web 29](./docs/images/myems_web_29.png)
 
-## MyEMS Admin UI 展示
+## Demonstrasi antara muka pengguna Admin MyEMS
 
 ![MyEMS Admin 0](./docs/images/myems_admin_0.png)
 ![MyEMS Admin 1](./docs/images/myems_admin_1.png)
@@ -81,25 +81,25 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Admin 15](./docs/images/myems_admin_15.png)
 ![MyEMS Admin 16](./docs/images/myems_admin_16.png)
 
-## MyEMS Dashboard UI 展示
+## Demonstrasi antara muka pengguna Dashboard MyEMS
 
 ![MyEMS Large Screen Dashboard](./docs/images/myems-large-screen-dashboard.gif)
 
 ![MyEMS Dashboard GCC](./docs/images/myems-dashboard-gcc.png)
 
 
-## MyEMS社区版功能
+## Ciri-ciri versi komuniti MyEMS
 
-详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+Lihat [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) untuk butiran
 
-## MyEMS企业版功能
+## Ciri-ciri versi enterprise MyEMS
 
-详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+Lihat [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) untuk butiran
 
 
-## MyEMS下载(社区版)
+## Muat turun MyEMS (versi komuniti)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推荐)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (disyorkan)
 
 [2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
@@ -119,45 +119,45 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 [10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
-## MyEMS安装(社区版)
+## Pemasangan MyEMS (versi komuniti)
 
-详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+Lihat [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) untuk butiran
 
-## MyEMS组件构成
+## Komposisi komponen MyEMS
 
-### MyEMS 数据库 (SQL)
+### Pangkalan data MyEMS (SQL)
 
-详见 [database](./database/README.md)介绍
+Lihat pengenalan [database](./database/README.md)
 
-### MyEMS API 应用程序接口 (Python)
+### Antara muka aplikasi API MyEMS (Python)
 
-详见 [myems-api](./myems-api/README.md)介绍
+Lihat pengenalan [myems-api](./myems-api/README.md)
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### Antara muka pengguna Admin MyEMS (AngularJS versi 1.x)
 
-详见 [myems-admin](myems-admin/README.md)介绍
+Lihat pengenalan [myems-admin](myems-admin/README.md)
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### Perkhidmatan pengumpulan data Modbus TCP MyEMS (Python)
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+Lihat pengenalan [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS 数据清洗服务 (Python)
+### Perkhidmatan pembersihan data MyEMS (Python)
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+Lihat pengenalan [myems-cleaning](./myems-cleaning/README.md)
 
-### MyEMS 数据规范化服务 (Python)
+### Perkhidmatan penormalan data MyEMS (Python)
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+Lihat pengenalan [myems-normalization](./myems-normalization/README.md)
 
-### MyEMS 数据汇总服务 (Python)
+### Perkhidmatan agregasi data MyEMS (Python)
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+Lihat pengenalan [myems-aggregation](./myems-aggregation/README.md)
 
-### MyEMS Web UI (ReactJS)
+### Antara muka pengguna web MyEMS (ReactJS)
 
-详见 [myems-web](myems-web/README.md)介绍
+Lihat pengenalan [myems-web](myems-web/README.md)
 
-### 默认端口号
+### Nombor port lalai
 
 MyEMS Web UI: 80
 
@@ -165,28 +165,28 @@ MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
-### 默认密码
+### Kata laluan lalai
 
 Admin UI:
 
-用户名：administrator
+Nama pengguna: administrator
 
-密码：!MyEMS1
+Kata laluan: !MyEMS1
 
 
 Web UI:
 
-用户名：administrator@myems.io
+Nama pengguna: administrator@myems.io
 
-密码：!MyEMS1
+Kata laluan: !MyEMS1
 
 
-## 联系我们
+## Hubungi kami
 
-- 公司: 海识软件
-- 联系人: 张能远
-- 电话微信: (+86) 13011132526
-- Email: zny@myems.org
+- Syarikat: Haishi Software
+- Kenalan: Zhang Nengyuan
+- Telefon WeChat: (+86) 13011132526
+- E-mel: zny@myems.org
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
@@ -198,34 +198,33 @@ Web UI:
 
 ![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
 
-## 微信公众号
+## Akaun rasmi WeChat
 
-![开源能源管理系统](./docs/images/qr_code_mp_weixin.png)
+![Sistem pengurusan tenaga sumber terbuka](./docs/images/qr_code_mp_weixin.png)
 
 
-## 微信群
+## Kumpulan WeChat
 
-![微信群](./docs/images/qr_code_wechat_group.png)
+![Kumpulan WeChat](./docs/images/qr_code_wechat_group.png)
 
-## QQ群
+## Kumpulan QQ
 
-群号: 792528967
+Nombor kumpulan: 792528967
 
-![QQ群](./docs/images/qr_code_qq_group.png)
+![Kumpulan QQ](./docs/images/qr_code_qq_group.png)
 
-## 小红书
+## Xiaohongshu
 
 ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
 
-## 视频
+## Video
 
 [BiliBili](https://space.bilibili.com/539108162)
 
 [YouTube](https://www.youtube.com/@myems)
 
-## 🔖 友情链接
+## 🔖 Pautan persahabatan
 
-- 👉 驰骋BPM低代码工作流表单： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
-- 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
-- 👉 乐联iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
-
+- 👉 Borang alur kerja BPM Chichang kod rendah : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 IoTGateway: Gerbang IoT merentas platform berdasarkan .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
+- 👉 Platform iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

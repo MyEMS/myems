@@ -2,11 +2,11 @@
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.9.0</h1>
-<h3 align="center">行业领先的开源能源管理系统</h3>
-<h6 align="center">近千个项目案例</h6>
-<h6 align="center">承诺永久开源</h6>
-<h6 align="center">QQ群和微信群内技术支持免费</h6>
-<h6 align="center">保持更新，每月发布1个小版本，每年发布1个大版本</h6>
+<h3 align="center">業界領先的開源能源管理系統</h3>
+<h6 align="center">近千個專案案例</h6>
+<h6 align="center">承諾永久開源</h6>
+<h6 align="center">QQ群和微信群內技術支援免費</h6>
+<h6 align="center">保持更新，每月發布1個小版本，每年發布1個大版本</h6>
 
 [![CodeQL Scanning](https://github.com/MyEMS/myems/actions/workflows/codeql.yml/badge.svg)](https://github.com/MyEMS/myems/security/code-scanning)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MyEMS/myems/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/?branch=master)
@@ -14,13 +14,13 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
+简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文
 
-## MyEMS 介绍
+## MyEMS 介紹
 
-MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-2020），适用于建筑、工厂、商场、医院、园区、能碳管理中心的电、水、气、冷、热等能源和碳排放采集、分析、报表，还有光伏、储能、充电桩、微电网、虚拟电厂、设备控制、故障诊断、工单管理、人工智能优化等企业版可选功能。资深专业公司开发维护，保障长期支持。用开源助力企业集团、产业园区、能源运营商低碳发展!
+MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-2020），適用於建築、工廠、商場、醫院、園區、能碳管理中心的電、水、氣、冷、熱等能源和碳排放採集、分析、報表，還有光伏、儲能、充電樁、微電網、虛擬電廠、設備控制、故障診斷、工單管理、人工智慧優化等企業版可選功能。資深專業公司開發維護，保障長期支援。用開源助力企業集團、產業園區、能源運營商低碳發展!
 
-## MyEMS架构
+## MyEMS架構
 
 ![MyEMS Architecture Function View](./docs/images/architecture-function-view-cn.png)
 
@@ -88,18 +88,18 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Dashboard GCC](./docs/images/myems-dashboard-gcc.png)
 
 
-## MyEMS社区版功能
+## MyEMS社區版功能
 
-详见 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+詳見 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
 
-## MyEMS企业版功能
+## MyEMS企業版功能
 
-详见 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+詳見 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
 
 
-## MyEMS下载(社区版)
+## MyEMS下載(社區版)
 
-[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推荐)
+[1]. [https://gitee.com/myems/myems](https://gitee.com/myems/myems) (推薦)
 
 [2]. [https://github.com/myems/myems](https://github.com/myems/myems)
 
@@ -119,45 +119,45 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 [10]. [https://git.launchpad.net/myems](https://git.launchpad.net/myems)
 
-## MyEMS安装(社区版)
+## MyEMS安裝(社區版)
 
-详见 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+詳見 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
 
-## MyEMS组件构成
+## MyEMS組件構成
 
-### MyEMS 数据库 (SQL)
+### MyEMS 資料庫 (SQL)
 
-详见 [database](./database/README.md)介绍
+詳見 [database](./database/README.md)介紹
 
-### MyEMS API 应用程序接口 (Python)
+### MyEMS API 應用程式介面 (Python)
 
-详见 [myems-api](./myems-api/README.md)介绍
+詳見 [myems-api](./myems-api/README.md)介紹
 
 ### MyEMS 管理 UI (AngularJS version 1.x)
 
-详见 [myems-admin](myems-admin/README.md)介绍
+詳見 [myems-admin](myems-admin/README.md)介紹
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### MyEMS Modbus TCP 資料採集服務 (Python)
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+詳見 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介紹
 
-### MyEMS 数据清洗服务 (Python)
+### MyEMS 資料清洗服務 (Python)
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+詳見 [myems-cleaning](./myems-cleaning/README.md)介紹
 
-### MyEMS 数据规范化服务 (Python)
+### MyEMS 資料規範化服務 (Python)
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+詳見 [myems-normalization](./myems-normalization/README.md)介紹
 
-### MyEMS 数据汇总服务 (Python)
+### MyEMS 資料匯總服務 (Python)
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+詳見 [myems-aggregation](./myems-aggregation/README.md)介紹
 
 ### MyEMS Web UI (ReactJS)
 
-详见 [myems-web](myems-web/README.md)介绍
+詳見 [myems-web](myems-web/README.md)介紹
 
-### 默认端口号
+### 預設連接埠號
 
 MyEMS Web UI: 80
 
@@ -165,27 +165,27 @@ MyEMS API: 8000
 
 MyEMS Admin UI: 8001
 
-### 默认密码
+### 預設密碼
 
 Admin UI:
 
-用户名：administrator
+使用者名稱：administrator
 
-密码：!MyEMS1
+密碼：!MyEMS1
 
 
 Web UI:
 
-用户名：administrator@myems.io
+使用者名稱：administrator@myems.io
 
-密码：!MyEMS1
+密碼：!MyEMS1
 
 
-## 联系我们
+## 聯絡我們
 
-- 公司: 海识软件
-- 联系人: 张能远
-- 电话微信: (+86) 13011132526
+- 公司: 海識軟體
+- 聯絡人: 張能遠
+- 電話微信: (+86) 13011132526
 - Email: zny@myems.org
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
@@ -198,9 +198,9 @@ Web UI:
 
 ![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
 
-## 微信公众号
+## 微信公眾號
 
-![开源能源管理系统](./docs/images/qr_code_mp_weixin.png)
+![開源能源管理系統](./docs/images/qr_code_mp_weixin.png)
 
 
 ## 微信群
@@ -209,23 +209,22 @@ Web UI:
 
 ## QQ群
 
-群号: 792528967
+群號: 792528967
 
 ![QQ群](./docs/images/qr_code_qq_group.png)
 
-## 小红书
+## 小紅書
 
 ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
 
-## 视频
+## 影片
 
 [BiliBili](https://space.bilibili.com/539108162)
 
 [YouTube](https://www.youtube.com/@myems)
 
-## 🔖 友情链接
+## 🔖 友情連結
 
-- 👉 驰骋BPM低代码工作流表单： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
-- 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
-- 👉 乐联iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
-
+- 👉 馳騁BPM低程式碼工作流程表單： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 IoTGateway:基於.NET6的跨平台物聯網閘道 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
+- 👉 樂聯iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
