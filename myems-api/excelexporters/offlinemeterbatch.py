@@ -1,3 +1,24 @@
+"""
+Offline Meter Batch Excel Exporter
+
+This module provides functionality to export offline meter batch data to Excel format.
+It generates comprehensive reports showing energy consumption data for multiple offline meters
+within a specific time period.
+
+Key Features:
+- Multi-offline meter energy consumption comparison
+- Energy category breakdown with units
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Offline meter names and associated spaces
+- Energy consumption by category
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os

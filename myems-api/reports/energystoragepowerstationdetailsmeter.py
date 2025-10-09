@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details Meter Report API
+
+This module provides REST API endpoints for generating energy storage power station meter reports.
+It analyzes meter data and performance metrics to provide insights into metering
+system performance, accuracy, and optimization opportunities.
+
+Key Features:
+- Meter performance analysis
+- Metering accuracy analysis
+- Performance metrics calculation
+- Metering optimization insights
+- Performance monitoring
+- Metering system analysis
+
+Report Components:
+- Meter performance summary
+- Metering accuracy metrics
+- Performance indicators
+- Metering optimization recommendations
+- Metering system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for meter data
+- Performance analysis algorithms
+- Metering monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

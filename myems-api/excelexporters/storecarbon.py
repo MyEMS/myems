@@ -1,3 +1,29 @@
+"""
+Store Carbon Excel Exporter
+
+This module provides functionality to export store carbon emissions data to Excel format.
+It generates comprehensive reports showing carbon dioxide emissions for stores
+with detailed analysis including base period comparison, time-of-use breakdown,
+and proportion analysis.
+
+Key Features:
+- Store carbon emissions analysis
+- Base period vs reporting period comparison
+- Time-of-use electricity carbon breakdown
+- Carbon emissions proportion charts
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Store carbon emissions summary
+- Base period comparison data
+- Time-of-use carbon breakdown
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

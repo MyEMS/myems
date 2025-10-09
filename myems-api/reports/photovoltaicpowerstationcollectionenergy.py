@@ -1,3 +1,34 @@
+"""
+Photovoltaic Power Station Collection Energy Report API
+
+This module provides REST API endpoints for generating photovoltaic power station collection energy reports.
+It analyzes energy generation data from photovoltaic power stations, providing comprehensive insights
+into solar generation patterns, performance trends, and optimization opportunities.
+
+Key Features:
+- Photovoltaic power station energy generation analysis
+- Base period vs reporting period comparison
+- Solar generation trends and patterns
+- Generation optimization insights
+- Performance metrics calculation
+- Solar generation analysis
+
+Report Components:
+- Photovoltaic power station energy generation summary
+- Base period comparison data
+- Solar generation trends
+- Generation optimization recommendations
+- Performance indicators
+- Generation pattern analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy generation data
+- Energy generation calculations
+- Trend analysis algorithms
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

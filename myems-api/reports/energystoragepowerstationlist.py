@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station List Report API
+
+This module provides REST API endpoints for generating energy storage power station list reports.
+It provides a comprehensive list of energy storage power stations with their basic information,
+status, and key performance indicators for management and monitoring purposes.
+
+Key Features:
+- Energy storage power station listing and overview
+- Status monitoring and tracking
+- Key performance indicators
+- Basic information management
+- Performance summary
+- Status reporting
+
+Report Components:
+- Energy storage power station list summary
+- Status information
+- Key performance indicators
+- Basic configuration data
+- Performance metrics
+- Status indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy storage power station list data
+- Status monitoring algorithms
+- Performance tracking tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import falcon
 from datetime import datetime, timedelta, timezone
 import mysql.connector

@@ -1,3 +1,35 @@
+"""
+Virtual Meter Batch Report API
+
+This module provides REST API endpoints for generating virtual meter batch reports.
+It analyzes energy consumption data for multiple virtual meters within a space hierarchy,
+providing comprehensive insights into virtual meter performance and energy usage patterns.
+
+Key Features:
+- Multi-virtual meter energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Virtual meter energy consumption summary
+- Space-based virtual meter grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for virtual meter data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector

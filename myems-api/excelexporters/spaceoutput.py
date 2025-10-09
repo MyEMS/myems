@@ -1,3 +1,30 @@
+"""
+Space Output Excel Exporter
+
+This module provides functionality to export space output data to Excel format.
+It generates comprehensive reports showing output analysis for spaces
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Space output analysis
+- Base period vs reporting period comparison
+- Output breakdown by energy categories
+- Output proportion analysis with charts
+- Detailed data with line charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Space output summary
+- Base period comparison data
+- Output breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

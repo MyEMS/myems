@@ -1,3 +1,34 @@
+"""
+Microgrid Details PV Report API
+
+This module provides REST API endpoints for generating microgrid photovoltaic (PV) reports.
+It analyzes PV system data and performance metrics to provide insights into solar
+generation performance, efficiency, and optimization opportunities.
+
+Key Features:
+- PV system performance analysis
+- Solar generation efficiency analysis
+- Performance metrics calculation
+- Solar generation optimization insights
+- Performance monitoring
+- PV system analysis
+
+Report Components:
+- PV system performance summary
+- Solar generation efficiency metrics
+- Performance indicators
+- Solar generation optimization recommendations
+- PV system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for PV data
+- Performance analysis algorithms
+- Solar generation monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

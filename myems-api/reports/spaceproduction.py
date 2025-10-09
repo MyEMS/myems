@@ -1,3 +1,34 @@
+"""
+Space Production Report API
+
+This module provides REST API endpoints for generating space production reports.
+It analyzes production data and performance metrics for spaces to provide
+insights into production efficiency and optimization opportunities.
+
+Key Features:
+- Space production analysis
+- Production performance metrics
+- Production efficiency analysis
+- Production optimization insights
+- Performance monitoring
+- Production trend analysis
+
+Report Components:
+- Space production summary
+- Production performance data
+- Production efficiency metrics
+- Production optimization recommendations
+- Production trends and patterns
+- Performance indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for production data
+- Production analysis algorithms
+- Performance monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon
@@ -48,26 +79,26 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
-        
+
         if space_id is not None:
             space_id = str.strip(space_id)
             if not space_id.isdigit() or int(space_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_SPACE_ID')
-            
+
         if product_id is None:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_PRODUCT_ID')
-        
+
         if product_id is not None:
             product_id = str.strip(product_id)
             if not product_id.isdigit() or int(product_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_PRODUCT_ID')
-            
+
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -98,7 +129,7 @@ class Reporting:
                                        description='API.INVALID_BASE_PERIOD_END_DATETIME')
             base_end_datetime_utc = \
                 base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            
+
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -143,16 +174,16 @@ class Reporting:
             if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_PERIOD_TYPE')
-        
+
         is_quick_mode = False
         if quick_mode is not None and \
             len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
-        
+
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
-        
+
         cursor_system.execute(" SELECT name, area, number_of_occupants, cost_center_id "
                               " FROM tbl_spaces "
                               " WHERE id = %s ", (space_id,))
@@ -173,7 +204,7 @@ class Reporting:
 
         cnx_production = mysql.connector.connect(**config.myems_production_db)
         cursor_production = cnx_production.cursor()
-        
+
         cursor_production.execute(" SELECT name "
                                   " FROM tbl_products "
                                   " WHERE id = %s ", (product_id,))
@@ -355,7 +386,7 @@ class Reporting:
         product_dict['unit'] = row_product[1]
         product_dict['tag'] = row_product[2]
         product_dict['coefficient'] = row_product[3]
-        
+
         ################################################################################################################
         # Step 5: query base period production
         ################################################################################################################
@@ -533,7 +564,7 @@ class Reporting:
         reporting_result_values = []
         base_result_values = []
         result = dict()
-        
+
         result['space'] = dict()
         result['space']['name'] = space_name
         result['space']['area'] = space_area
@@ -603,7 +634,7 @@ class Reporting:
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
                     if base[energy_category_id]['subtotal'] > 0.0 else None)
-                
+
         reporting_period_total_production = 0
         for date, daily_value in zip(reporting_date_list, reporting_daily_values):
             reporting_period_total_production += daily_value if daily_value is not None else 0
@@ -629,7 +660,7 @@ class Reporting:
             (result['reporting_period']['total_in_kgco2e'] - result['base_period']['total_in_kgco2e']) / \
             result['base_period']['total_in_kgco2e'] \
             if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
-        
+
         rates = list()
         result['base_production'] = dict()
         result['base_production']['timestamps'] = base_date_list

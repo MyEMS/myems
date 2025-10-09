@@ -1,3 +1,35 @@
+"""
+Tenant Statistics Report API
+
+This module provides REST API endpoints for generating tenant statistics reports.
+It analyzes statistical data and performance metrics for tenants to provide
+comprehensive insights into tenant performance and operational patterns.
+
+Key Features:
+- Tenant statistical analysis
+- Performance metrics calculation
+- Statistical trend analysis
+- Performance benchmarking
+- Excel export functionality
+- Statistical insights and patterns
+
+Report Components:
+- Tenant statistics summary
+- Performance metrics and KPIs
+- Statistical trend analysis
+- Benchmarking data
+- Performance indicators
+- Statistical patterns and insights
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for statistical data
+- Statistical calculation algorithms
+- Performance analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

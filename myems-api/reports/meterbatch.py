@@ -1,3 +1,35 @@
+"""
+Meter Batch Report API
+
+This module provides REST API endpoints for generating meter batch reports.
+It analyzes energy consumption data for multiple meters within a space hierarchy,
+providing comprehensive insights into meter performance and energy usage patterns.
+
+Key Features:
+- Multi-meter energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Meter energy consumption summary
+- Space-based meter grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for meter data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector

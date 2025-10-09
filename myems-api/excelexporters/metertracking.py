@@ -1,3 +1,22 @@
+"""
+Meter Tracking Excel Exporter
+
+This module provides functionality to export meter tracking data to Excel format.
+It generates comprehensive reports showing meter tracking information
+with detailed data and proper formatting.
+
+Key Features:
+- Meter tracking data export
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Meter tracking information
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os

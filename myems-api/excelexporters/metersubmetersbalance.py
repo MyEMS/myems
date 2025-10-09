@@ -1,3 +1,24 @@
+"""
+Meter Sub-meters Balance Excel Exporter
+
+This module provides functionality to export meter sub-meters balance data to Excel format.
+It generates comprehensive reports showing balance analysis between main meters
+and their sub-meters with detailed breakdown and visualizations.
+
+Key Features:
+- Meter sub-meters balance analysis
+- Balance breakdown by energy categories
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Meter sub-meters balance summary
+- Balance breakdown by energy categories
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

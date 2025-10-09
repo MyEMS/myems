@@ -1,3 +1,28 @@
+"""
+Space Load Excel Exporter
+
+This module provides functionality to export space load data to Excel format.
+It generates comprehensive reports showing load analysis for spaces
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Space load analysis
+- Base period vs reporting period comparison
+- Load breakdown by energy categories
+- Detailed data with line charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Space load summary
+- Base period comparison data
+- Load breakdown by energy categories
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

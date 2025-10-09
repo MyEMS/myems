@@ -1,3 +1,35 @@
+"""
+Shop Floor Plan Report API
+
+This module provides REST API endpoints for generating shop floor plan reports.
+It analyzes shop floor planning data and performance against planned targets,
+providing insights into plan execution and optimization opportunities.
+
+Key Features:
+- Shop floor plan analysis
+- Plan vs actual performance comparison
+- Planning accuracy assessment
+- Plan optimization insights
+- Excel export functionality
+- Planning performance metrics
+
+Report Components:
+- Shop floor plan summary
+- Plan vs actual comparison data
+- Planning accuracy metrics
+- Plan execution indicators
+- Plan optimization recommendations
+- Planning trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for plan data
+- Plan calculation algorithms
+- Planning analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

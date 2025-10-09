@@ -1,3 +1,35 @@
+"""
+Equipment Energy Category Report API
+
+This module provides REST API endpoints for generating equipment energy category reports.
+It analyzes energy consumption by different energy categories for equipment,
+providing insights into energy usage patterns and category-specific optimizations.
+
+Key Features:
+- Equipment energy consumption by category analysis
+- Base period vs reporting period comparison
+- Energy category breakdown and trends
+- Category-specific optimization insights
+- Excel export functionality
+- Energy mix analysis
+
+Report Components:
+- Equipment energy consumption by category summary
+- Base period comparison data
+- Energy category breakdown
+- Category-specific performance metrics
+- Energy mix analysis
+- Optimization recommendations by category
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy category data
+- Category-specific calculations
+- Energy mix analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

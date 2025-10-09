@@ -1,3 +1,34 @@
+"""
+Photovoltaic Power Station Item Billing Report API
+
+This module provides REST API endpoints for generating photovoltaic power station item billing reports.
+It analyzes billing information and energy costs for specific photovoltaic power station items,
+providing insights into billing patterns, cost optimization opportunities, and financial performance.
+
+Key Features:
+- Photovoltaic power station item billing analysis
+- Base period vs reporting period comparison
+- Bill breakdown by energy categories
+- Billing optimization insights
+- Financial performance metrics
+- Cost analysis and reporting
+
+Report Components:
+- Photovoltaic power station item bill summary
+- Base period comparison data
+- Bill breakdown by energy categories
+- Billing optimization recommendations
+- Financial performance indicators
+- Billing trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for billing data
+- Billing calculation algorithms
+- Financial analysis tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

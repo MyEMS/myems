@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details Fire Control Report API
+
+This module provides REST API endpoints for generating energy storage power station fire control reports.
+It analyzes fire control system data and performance metrics to provide insights into fire safety
+system performance, monitoring effectiveness, and optimization opportunities.
+
+Key Features:
+- Fire control system performance analysis
+- Fire safety monitoring analysis
+- Performance metrics calculation
+- Fire control optimization insights
+- Performance monitoring
+- Fire control system analysis
+
+Report Components:
+- Fire control system performance summary
+- Fire safety monitoring metrics
+- Performance indicators
+- Fire control optimization recommendations
+- Fire control system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for fire control data
+- Performance analysis algorithms
+- Fire control monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

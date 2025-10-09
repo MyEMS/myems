@@ -1,3 +1,35 @@
+"""
+Equipment Load Report API
+
+This module provides REST API endpoints for generating equipment load reports.
+It analyzes equipment load patterns and capacity utilization to provide
+insights into load optimization and capacity planning opportunities.
+
+Key Features:
+- Equipment load analysis
+- Base period vs reporting period comparison
+- Load pattern identification
+- Capacity utilization analysis
+- Excel export functionality
+- Load optimization insights
+
+Report Components:
+- Equipment load summary
+- Base period comparison data
+- Load pattern analysis
+- Capacity utilization metrics
+- Load optimization recommendations
+- Peak load identification
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for load data
+- Load calculation algorithms
+- Capacity analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

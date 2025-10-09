@@ -1,3 +1,28 @@
+"""
+Tenant Plan Excel Exporter
+
+This module provides functionality to export tenant plan data to Excel format.
+It generates comprehensive reports showing planned vs actual energy consumption
+for tenants with detailed analysis and visualizations.
+
+Key Features:
+- Tenant plan vs actual analysis
+- Base period vs reporting period comparison
+- Plan breakdown by energy categories
+- Plan proportion analysis with charts
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Tenant plan summary
+- Base period comparison data
+- Plan breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

@@ -1,3 +1,34 @@
+"""
+Photovoltaic Power Station Item Carbon Report API
+
+This module provides REST API endpoints for generating photovoltaic power station item carbon emissions reports.
+It analyzes carbon dioxide emissions from specific photovoltaic power station items, providing insights
+into environmental impact and carbon footprint reduction opportunities.
+
+Key Features:
+- Photovoltaic power station item carbon emissions analysis
+- Base period vs reporting period comparison
+- Time-of-use carbon breakdown
+- Carbon footprint calculations
+- Environmental impact assessment
+- Reduction opportunity analysis
+
+Report Components:
+- Photovoltaic power station item carbon emissions summary
+- Base period comparison data
+- Time-of-use carbon breakdown
+- Carbon footprint metrics
+- Environmental impact indicators
+- Reduction opportunity analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for carbon data
+- Carbon emission calculations
+- Time-of-use analysis
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

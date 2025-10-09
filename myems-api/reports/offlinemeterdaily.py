@@ -1,3 +1,34 @@
+"""
+Offline Meter Daily Report API
+
+This module provides REST API endpoints for generating offline meter daily reports.
+It analyzes daily energy consumption data from offline meters to provide
+insights into daily usage patterns and performance trends.
+
+Key Features:
+- Offline meter daily energy consumption analysis
+- Daily consumption pattern identification
+- Daily performance metrics calculation
+- Daily trend analysis
+- Performance monitoring
+- Daily optimization insights
+
+Report Components:
+- Offline meter daily consumption summary
+- Daily consumption patterns
+- Daily performance metrics
+- Daily trend analysis
+- Performance indicators
+- Daily optimization recommendations
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for daily data
+- Daily analysis algorithms
+- Performance monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 import falcon
 import simplejson as json
@@ -163,7 +194,7 @@ class Reporting:
             reporting_daily_values.append(subtotal)
             current_datetime_utc += timedelta(days=1)
             start_datetime_local += timedelta(days=1)
-        
+
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################

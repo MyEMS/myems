@@ -1,3 +1,24 @@
+"""
+Photovoltaic Power Station Reporting Energy Excel Exporter
+
+This module provides functionality to export photovoltaic power station energy reporting data to Excel format.
+It generates comprehensive reports showing photovoltaic power station energy performance
+with detailed analysis and visualizations.
+
+Key Features:
+- Photovoltaic power station energy performance analysis
+- Base period vs reporting period comparison
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Photovoltaic power station energy performance summary
+- Base period comparison data
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os

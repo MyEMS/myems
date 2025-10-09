@@ -1,3 +1,35 @@
+"""
+Meter Real-time Report API
+
+This module provides REST API endpoints for generating meter real-time reports.
+It monitors and reports on real-time meter data and readings to provide
+immediate insights into current energy consumption and system performance.
+
+Key Features:
+- Real-time meter data monitoring
+- Live energy consumption tracking
+- Real-time performance metrics
+- Current system status reporting
+- Performance monitoring
+- Alert generation
+
+Report Components:
+- Real-time meter readings
+- Current energy consumption data
+- Live performance metrics
+- System status indicators
+- Performance alerts
+- Real-time trends
+
+The module uses Falcon framework for REST API and includes:
+- Real-time data queries
+- Live monitoring capabilities
+- Performance tracking
+- Alert management
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 import falcon

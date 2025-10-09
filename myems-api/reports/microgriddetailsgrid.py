@@ -1,3 +1,34 @@
+"""
+Microgrid Details Grid Report API
+
+This module provides REST API endpoints for generating microgrid grid reports.
+It analyzes grid connection data and performance metrics to provide insights into grid
+integration performance, power quality, and optimization opportunities.
+
+Key Features:
+- Grid connection performance analysis
+- Power quality analysis
+- Performance metrics calculation
+- Grid integration optimization insights
+- Performance monitoring
+- Grid system analysis
+
+Report Components:
+- Grid connection performance summary
+- Power quality metrics
+- Performance indicators
+- Grid integration optimization recommendations
+- Grid system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for grid data
+- Performance analysis algorithms
+- Grid monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector
