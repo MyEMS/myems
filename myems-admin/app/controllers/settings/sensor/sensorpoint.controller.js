@@ -11,10 +11,13 @@ app.controller('SensorPointController', function (
     SensorPointService,
     toaster,
     SweetAlert) {
+
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentSensor = {selected:undefined};
+    $scope.currentSensor = { selected: undefined };
+
+    // 获取所有数据源
     $scope.getAllDataSources = function () {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
@@ -26,37 +29,48 @@ app.controller('SensorPointController', function (
                 $scope.datasources = [];
             }
         });
-
     };
 
+    // 根据数据源获取点位（新增过滤逻辑）
     $scope.getPointsByDataSourceID = function (id) {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.points = response.data;
+                let allPoints = response.data;
+                // 若当前传感器已绑定点位，过滤掉这些点
+                if ($scope.sensorpoints && $scope.sensorpoints.length > 0) {
+                    const boundIds = $scope.sensorpoints.map(p => p.id);
+                    $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
+                } else {
+                    $scope.points = allPoints;
+                }
             } else {
                 $scope.points = [];
             }
         });
-
     };
 
+    // 获取某传感器绑定的点位
     $scope.getPointsBySensorID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorPointService.getPointsBySensorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensorpoints = response.data;
+
+                // 每次更新已绑定点后，重新刷新右侧待选点列表
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
             } else {
                 $scope.sensorpoints = [];
             }
         });
-
     };
 
-    $scope.changeSensor=function(item,model){
-  	  $scope.currentSensor=item;
-  	  $scope.currentSensor.selected=model;
-  	  $scope.getPointsBySensorID($scope.currentSensor.id);
+    $scope.changeSensor = function (item, model) {
+        $scope.currentSensor = item;
+        $scope.currentSensor.selected = model;
+        $scope.getPointsBySensorID($scope.currentSensor.id);
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -64,21 +78,24 @@ app.controller('SensorPointController', function (
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // 获取所有传感器
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensors = response.data;
                 $timeout(function () {
-                    $scope.getPointsBySensorID($scope.currentSensor.id);
+                    if ($scope.currentSensor.id) {
+                        $scope.getPointsBySensorID($scope.currentSensor.id);
+                    }
                 }, 1000);
             } else {
                 $scope.sensors = [];
             }
         });
-
     };
 
+    // 绑定点位
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var sensorid = $scope.currentSensor.id;
@@ -103,6 +120,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // 解绑点位
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -133,7 +151,7 @@ app.controller('SensorPointController', function (
     $scope.getAllDataSources();
     $scope.getAllSensors();
 
-  	$scope.$on('handleBroadcastSensorChanged', function(event) {
-      $scope.getAllSensors();
-  	});
+    $scope.$on('handleBroadcastSensorChanged', function (event) {
+        $scope.getAllSensors();
+    });
 });
