@@ -15,7 +15,6 @@ app.controller('SensorPointController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentSensor = { selected: undefined };
 
-    // 获取所有数据源
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -31,13 +30,11 @@ app.controller('SensorPointController', function (
         });
     };
 
-    // 根据数据源获取点位（新增过滤逻辑）
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 let allPoints = response.data;
-                // 若当前传感器已绑定点位，过滤掉这些点
                 if ($scope.sensorpoints && $scope.sensorpoints.length > 0) {
                     const boundIds = $scope.sensorpoints.map(p => p.id);
                     $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
@@ -50,14 +47,12 @@ app.controller('SensorPointController', function (
         });
     };
 
-    // 获取某传感器绑定的点位
     $scope.getPointsBySensorID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorPointService.getPointsBySensorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensorpoints = response.data;
 
-                // 每次更新已绑定点后，重新刷新右侧待选点列表
                 if ($scope.currentDataSource) {
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
                 }
@@ -78,7 +73,6 @@ app.controller('SensorPointController', function (
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
-    // 获取所有传感器
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -95,7 +89,6 @@ app.controller('SensorPointController', function (
         });
     };
 
-    // 绑定点位
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var sensorid = $scope.currentSensor.id;
@@ -120,7 +113,6 @@ app.controller('SensorPointController', function (
         });
     };
 
-    // 解绑点位
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
