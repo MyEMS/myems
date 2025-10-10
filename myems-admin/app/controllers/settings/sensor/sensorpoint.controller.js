@@ -11,10 +11,12 @@ app.controller('SensorPointController', function (
     SensorPointService,
     toaster,
     SweetAlert) {
+
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentSensor = {selected:undefined};
+    $scope.currentSensor = { selected: undefined };
+
     $scope.getAllDataSources = function () {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
@@ -26,19 +28,23 @@ app.controller('SensorPointController', function (
                 $scope.datasources = [];
             }
         });
-
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.points = response.data;
+                let allPoints = response.data;
+                if ($scope.sensorpoints && $scope.sensorpoints.length > 0) {
+                    const boundIds = $scope.sensorpoints.map(p => p.id);
+                    $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
+                } else {
+                    $scope.points = allPoints;
+                }
             } else {
                 $scope.points = [];
             }
         });
-
     };
 
     $scope.getPointsBySensorID = function (id) {
@@ -46,17 +52,20 @@ app.controller('SensorPointController', function (
         SensorPointService.getPointsBySensorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensorpoints = response.data;
+
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
             } else {
                 $scope.sensorpoints = [];
             }
         });
-
     };
 
-    $scope.changeSensor=function(item,model){
-  	  $scope.currentSensor=item;
-  	  $scope.currentSensor.selected=model;
-  	  $scope.getPointsBySensorID($scope.currentSensor.id);
+    $scope.changeSensor = function (item, model) {
+        $scope.currentSensor = item;
+        $scope.currentSensor.selected = model;
+        $scope.getPointsBySensorID($scope.currentSensor.id);
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -70,13 +79,14 @@ app.controller('SensorPointController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensors = response.data;
                 $timeout(function () {
-                    $scope.getPointsBySensorID($scope.currentSensor.id);
+                    if ($scope.currentSensor.id) {
+                        $scope.getPointsBySensorID($scope.currentSensor.id);
+                    }
                 }, 1000);
             } else {
                 $scope.sensors = [];
             }
         });
-
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
@@ -133,7 +143,7 @@ app.controller('SensorPointController', function (
     $scope.getAllDataSources();
     $scope.getAllSensors();
 
-  	$scope.$on('handleBroadcastSensorChanged', function(event) {
-      $scope.getAllSensors();
-  	});
+    $scope.$on('handleBroadcastSensorChanged', function (event) {
+        $scope.getAllSensors();
+    });
 });
