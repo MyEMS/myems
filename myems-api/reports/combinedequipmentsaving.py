@@ -1,3 +1,35 @@
+"""
+Combined Equipment Saving Report API
+
+This module provides REST API endpoints for generating combined equipment saving reports.
+It analyzes energy savings achieved through combined equipment optimization and efficiency
+improvements, providing insights into saving opportunities and ROI calculations.
+
+Key Features:
+- Combined equipment energy saving analysis
+- Base period vs reporting period comparison
+- Saving calculation and verification
+- ROI analysis and metrics
+- Excel export functionality
+- Saving optimization insights
+
+Report Components:
+- Combined equipment saving summary
+- Base period comparison data
+- Saving calculation details
+- ROI analysis and metrics
+- Saving optimization recommendations
+- Cost-benefit analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for saving data
+- Saving calculation algorithms
+- ROI analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

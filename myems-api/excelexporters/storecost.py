@@ -1,3 +1,28 @@
+"""
+Store Cost Excel Exporter
+
+This module provides functionality to export store cost data to Excel format.
+It generates comprehensive reports showing cost analysis for stores
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Store cost analysis
+- Base period vs reporting period comparison
+- Cost breakdown by energy categories
+- Cost proportion analysis with charts
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Store cost summary
+- Base period comparison data
+- Cost breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

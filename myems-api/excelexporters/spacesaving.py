@@ -1,3 +1,30 @@
+"""
+Space Saving Excel Exporter
+
+This module provides functionality to export space saving data to Excel format.
+It generates comprehensive reports showing energy saving analysis for spaces
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Space energy saving analysis
+- Base period vs reporting period comparison
+- Saving breakdown by energy categories
+- Saving proportion analysis with charts
+- Detailed data with line charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Space saving summary
+- Base period comparison data
+- Saving breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -349,7 +376,7 @@ def generate_excel(report,
         ws['D' + str(current_row_number)].font = name_font
         ws['D' + str(current_row_number)].alignment = c_c_alignment
         ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)] = _('Ton of Standard Coal(TCE) by Energy Category') 
+        ws['D' + str(current_row_number)] = _('Ton of Standard Coal(TCE) by Energy Category')
 
         current_row_number += 1
 

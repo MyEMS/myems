@@ -1,3 +1,35 @@
+"""
+Shop Floor Batch Report API
+
+This module provides REST API endpoints for generating shop floor batch reports.
+It analyzes energy consumption data for multiple shop floors within a space hierarchy,
+providing comprehensive insights into shop floor performance and energy usage patterns.
+
+Key Features:
+- Multi-shop floor energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Shop floor energy consumption summary
+- Space-based shop floor grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for shop floor data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

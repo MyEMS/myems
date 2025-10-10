@@ -1,3 +1,26 @@
+"""
+Shop Floor Energy Item Excel Exporter
+
+This module provides functionality to export shop floor energy item data to Excel format.
+It generates comprehensive reports showing energy consumption by specific energy items
+for shop floors with detailed analysis and visualizations.
+
+Key Features:
+- Shop floor energy consumption by energy items
+- Base period vs reporting period comparison
+- Energy item proportion analysis
+- Detailed data with charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy consumption summary by energy items
+- Base period comparison data
+- Item proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

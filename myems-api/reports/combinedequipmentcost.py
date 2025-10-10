@@ -1,3 +1,35 @@
+"""
+Combined Equipment Cost Report API
+
+This module provides REST API endpoints for generating combined equipment cost reports.
+It analyzes energy costs associated with combined equipment operations, providing insights
+into cost optimization opportunities and financial performance metrics.
+
+Key Features:
+- Combined equipment energy cost analysis
+- Base period vs reporting period comparison
+- Cost breakdown by energy categories
+- Cost optimization insights
+- Excel export functionality
+- Financial performance metrics
+
+Report Components:
+- Combined equipment energy cost summary
+- Base period comparison data
+- Cost breakdown by energy categories
+- Cost optimization recommendations
+- Financial performance indicators
+- Budget vs actual analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for cost data
+- Cost calculation algorithms
+- Financial analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

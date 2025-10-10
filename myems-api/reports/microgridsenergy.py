@@ -1,3 +1,34 @@
+"""
+Microgrids Energy Report API
+
+This module provides REST API endpoints for generating microgrids energy reports.
+It analyzes energy consumption data from microgrids, providing comprehensive insights
+into energy usage patterns, consumption trends, and optimization opportunities.
+
+Key Features:
+- Microgrids energy consumption analysis
+- Base period vs reporting period comparison
+- Energy consumption trends and patterns
+- Consumption optimization insights
+- Performance metrics calculation
+- Energy generation analysis
+
+Report Components:
+- Microgrids energy consumption summary
+- Base period comparison data
+- Energy consumption trends
+- Consumption optimization recommendations
+- Performance indicators
+- Usage pattern analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy data
+- Energy consumption calculations
+- Trend analysis algorithms
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

@@ -1,3 +1,34 @@
+"""
+Microgrid Details Generator Report API
+
+This module provides REST API endpoints for generating microgrid generator reports.
+It analyzes generator data and performance metrics to provide insights into generation
+system performance, efficiency, and optimization opportunities.
+
+Key Features:
+- Generator performance analysis
+- Generation efficiency analysis
+- Performance metrics calculation
+- Generation optimization insights
+- Performance monitoring
+- Generator system analysis
+
+Report Components:
+- Generator performance summary
+- Generation efficiency metrics
+- Performance indicators
+- Generation optimization recommendations
+- Generator system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for generator data
+- Performance analysis algorithms
+- Generation monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

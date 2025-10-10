@@ -1,3 +1,35 @@
+"""
+Tenant Energy Item Report API
+
+This module provides REST API endpoints for generating tenant energy item reports.
+It analyzes energy consumption by specific energy items for tenants,
+providing detailed insights into energy usage patterns and item-specific optimizations.
+
+Key Features:
+- Tenant energy consumption by energy item analysis
+- Base period vs reporting period comparison
+- Energy item breakdown and trends
+- Item-specific optimization insights
+- Excel export functionality
+- Detailed energy item analysis
+
+Report Components:
+- Tenant energy consumption by energy item summary
+- Base period comparison data
+- Energy item breakdown
+- Item-specific performance metrics
+- Detailed energy item analysis
+- Optimization recommendations by item
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy item data
+- Item-specific calculations
+- Detailed energy analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

@@ -1,3 +1,35 @@
+"""
+Combined Equipment Carbon Report API
+
+This module provides REST API endpoints for generating combined equipment carbon emissions reports.
+It analyzes carbon dioxide emissions from combined equipment operations, providing insights
+into environmental impact and carbon footprint reduction opportunities.
+
+Key Features:
+- Combined equipment carbon emissions analysis
+- Base period vs reporting period comparison
+- Time-of-use carbon breakdown
+- Carbon footprint calculations
+- Excel export functionality
+- Environmental impact assessment
+
+Report Components:
+- Combined equipment carbon emissions summary
+- Base period comparison data
+- Time-of-use carbon breakdown
+- Carbon footprint metrics
+- Environmental impact indicators
+- Reduction opportunity analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for carbon data
+- Carbon emission calculations
+- Time-of-use analysis
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

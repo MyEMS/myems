@@ -1,3 +1,35 @@
+"""
+Virtual Meter Carbon Report API
+
+This module provides REST API endpoints for generating virtual meter carbon emissions reports.
+It analyzes carbon dioxide emissions from virtual meter readings, providing insights
+into environmental impact and carbon footprint reduction opportunities.
+
+Key Features:
+- Virtual meter carbon emissions analysis
+- Base period vs reporting period comparison
+- Time-of-use carbon breakdown
+- Carbon footprint calculations
+- Excel export functionality
+- Environmental impact assessment
+
+Report Components:
+- Virtual meter carbon emissions summary
+- Base period comparison data
+- Time-of-use carbon breakdown
+- Carbon footprint metrics
+- Environmental impact indicators
+- Reduction opportunity analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for carbon data
+- Carbon emission calculations
+- Time-of-use analysis
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

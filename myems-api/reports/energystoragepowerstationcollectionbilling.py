@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Collection Billing Report API
+
+This module provides REST API endpoints for generating energy storage power station collection billing reports.
+It analyzes billing information and energy costs for energy storage power stations, providing insights
+into billing patterns, cost optimization opportunities, and financial performance.
+
+Key Features:
+- Energy storage power station billing analysis
+- Base period vs reporting period comparison
+- Bill breakdown by energy categories
+- Billing optimization insights
+- Financial performance metrics
+- Cost analysis and reporting
+
+Report Components:
+- Energy storage power station bill summary
+- Base period comparison data
+- Bill breakdown by energy categories
+- Billing optimization recommendations
+- Financial performance indicators
+- Billing trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for billing data
+- Billing calculation algorithms
+- Financial analysis tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

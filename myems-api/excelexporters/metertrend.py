@@ -1,3 +1,26 @@
+"""
+Meter Trend Excel Exporter
+
+This module provides functionality to export meter trend data to Excel format.
+It generates comprehensive reports showing energy consumption trends for meters
+with detailed analysis and visualizations.
+
+Key Features:
+- Meter energy consumption trend analysis
+- Base period vs reporting period comparison
+- Trend breakdown by energy categories
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Meter trend summary
+- Base period comparison data
+- Trend breakdown by energy categories
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -382,7 +405,7 @@ def generate_excel(report,
                     parameters_ws[col + str(table_current_row_number)] = round2(parameters_data['values'][i][j], 2)
                 except Exception as e:
                     print('error 2 in excelexporters\\metertrend: ' + str(e))
-                
+
                 table_current_row_number += 1
 
             table_current_col_number = table_current_col_number + 3

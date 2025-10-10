@@ -1,3 +1,24 @@
+"""
+Microgrid Reporting Excel Exporter
+
+This module provides functionality to export microgrid reporting data to Excel format.
+It generates comprehensive reports showing microgrid performance
+with detailed analysis and visualizations.
+
+Key Features:
+- Microgrid performance analysis
+- Base period vs reporting period comparison
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Microgrid performance summary
+- Base period comparison data
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os

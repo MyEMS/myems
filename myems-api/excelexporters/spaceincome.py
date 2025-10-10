@@ -1,3 +1,30 @@
+"""
+Space Income Excel Exporter
+
+This module provides functionality to export space income data to Excel format.
+It generates comprehensive reports showing income analysis for spaces
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Space income analysis
+- Base period vs reporting period comparison
+- Income breakdown by energy categories
+- Income proportion analysis with charts
+- Detailed data with line charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Space income summary
+- Base period comparison data
+- Income breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

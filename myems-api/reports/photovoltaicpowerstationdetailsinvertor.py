@@ -1,3 +1,34 @@
+"""
+Photovoltaic Power Station Details Inverter Report API
+
+This module provides REST API endpoints for generating photovoltaic power station inverter reports.
+It analyzes inverter data and performance metrics to provide insights into inverter
+system performance, efficiency, and optimization opportunities.
+
+Key Features:
+- Inverter performance analysis
+- Power conversion efficiency analysis
+- Performance metrics calculation
+- Inverter optimization insights
+- Performance monitoring
+- Inverter system analysis
+
+Report Components:
+- Inverter performance summary
+- Power conversion efficiency metrics
+- Performance indicators
+- Inverter optimization recommendations
+- Inverter system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for inverter data
+- Performance analysis algorithms
+- Inverter monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

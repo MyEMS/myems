@@ -1,3 +1,26 @@
+"""
+Store Statistics Excel Exporter
+
+This module provides functionality to export store statistics data to Excel format.
+It generates comprehensive reports showing statistical analysis for stores
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Store statistical analysis
+- Base period vs reporting period comparison
+- Statistics breakdown by energy categories
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Store statistics summary
+- Base period comparison data
+- Statistics breakdown by energy categories
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

@@ -1,3 +1,35 @@
+"""
+Meter Sub-meters Balance Report API
+
+This module provides REST API endpoints for generating meter sub-meters balance reports.
+It analyzes energy balance between main meters and their sub-meters to identify
+discrepancies, losses, and optimization opportunities in the metering system.
+
+Key Features:
+- Main meter vs sub-meter balance analysis
+- Energy balance verification
+- Loss identification and analysis
+- Balance discrepancy reporting
+- Excel export functionality
+- Metering system optimization
+
+Report Components:
+- Meter balance summary
+- Main meter vs sub-meter comparison
+- Energy balance verification
+- Loss analysis and identification
+- Balance optimization recommendations
+- Metering system performance metrics
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for balance data
+- Balance calculation algorithms
+- Loss analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

@@ -1,3 +1,35 @@
+"""
+Meter Saving Report API
+
+This module provides REST API endpoints for generating meter saving reports.
+It analyzes energy savings achieved through meter optimization and efficiency
+improvements, providing insights into saving opportunities and ROI calculations.
+
+Key Features:
+- Meter energy saving analysis
+- Base period vs reporting period comparison
+- Saving calculation and verification
+- ROI analysis and metrics
+- Excel export functionality
+- Saving optimization insights
+
+Report Components:
+- Meter saving summary
+- Base period comparison data
+- Saving calculation details
+- ROI analysis and metrics
+- Saving optimization recommendations
+- Cost-benefit analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for saving data
+- Saving calculation algorithms
+- ROI analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

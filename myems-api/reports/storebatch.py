@@ -1,3 +1,35 @@
+"""
+Store Batch Report API
+
+This module provides REST API endpoints for generating store batch reports.
+It analyzes energy consumption data for multiple stores within a space hierarchy,
+providing comprehensive insights into store performance and energy usage patterns.
+
+Key Features:
+- Multi-store energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Store energy consumption summary
+- Space-based store grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for store data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

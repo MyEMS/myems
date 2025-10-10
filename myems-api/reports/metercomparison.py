@@ -1,3 +1,35 @@
+"""
+Meter Comparison Report API
+
+This module provides REST API endpoints for generating meter comparison reports.
+It compares energy consumption data between different meters or time periods,
+providing insights into performance differences and optimization opportunities.
+
+Key Features:
+- Meter-to-meter comparison analysis
+- Time period comparison
+- Performance difference identification
+- Comparative metrics calculation
+- Excel export functionality
+- Benchmarking insights
+
+Report Components:
+- Meter comparison summary
+- Performance difference analysis
+- Comparative metrics and KPIs
+- Benchmarking data
+- Performance gap identification
+- Optimization recommendations
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for comparison data
+- Comparative analysis algorithms
+- Performance benchmarking tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -326,7 +358,7 @@ class Reporting:
             reporting2['timestamps'].append(current_datetime)
             reporting2['values'].append(actual_value)
             reporting2['total_in_category'] += actual_value
-        
+
         for meter1_value, meter2_value in zip(reporting1['values'], reporting2['values']):
             diff['values'].append(meter1_value - meter2_value)
             diff['total_in_category'] += meter1_value - meter2_value

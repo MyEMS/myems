@@ -1,3 +1,28 @@
+"""
+Space Energy Category Excel Exporter
+
+This module provides functionality to export space energy category data to Excel format.
+It generates comprehensive reports showing energy consumption breakdown by categories
+for spaces with detailed analysis and visualizations.
+
+Key Features:
+- Space energy consumption by category
+- Base period vs reporting period comparison
+- Energy category proportion analysis
+- Detailed data with charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy consumption summary by category
+- Base period comparison data
+- Category proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -614,7 +639,7 @@ def generate_excel(report,
     else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + _('Base Period Consumption')
-        
+
         current_row_number += 1
 
         ws.row_dimensions[current_row_number].height = 60
@@ -661,7 +686,7 @@ def generate_excel(report,
                 report['base_period']['working_days_subtotals'][i] > 0 else '-'
 
             current_row_number += 1
-        
+
         current_row_number += 1
 
     if "non_working_days_subtotals" not in report['reporting_period'].keys() or \
@@ -674,7 +699,7 @@ def generate_excel(report,
     else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Consumption')
-        
+
         current_row_number += 1
 
         ws.row_dimensions[current_row_number].height = 60
@@ -854,7 +879,7 @@ def generate_excel(report,
 
             if len(base_period_timestamps[0]) or len(reporting_period_timestamps[0]) > 0:
                 has_data = True
- 
+
             if has_data:
                 ws.row_dimensions[current_row_number].height = 60
                 current_col_number = 2

@@ -1,3 +1,34 @@
+"""
+Microgrid Details Load Report API
+
+This module provides REST API endpoints for generating microgrid load reports.
+It analyzes load data and performance metrics to provide insights into load
+patterns, consumption behavior, and optimization opportunities.
+
+Key Features:
+- Load pattern analysis
+- Consumption behavior analysis
+- Performance metrics calculation
+- Load optimization insights
+- Performance monitoring
+- Load system analysis
+
+Report Components:
+- Load performance summary
+- Consumption pattern metrics
+- Performance indicators
+- Load optimization recommendations
+- Load system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for load data
+- Performance analysis algorithms
+- Load monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

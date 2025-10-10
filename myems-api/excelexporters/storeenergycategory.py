@@ -1,3 +1,26 @@
+"""
+Store Energy Category Excel Exporter
+
+This module provides functionality to export store energy category data to Excel format.
+It generates comprehensive reports showing energy consumption breakdown by categories
+for stores with detailed analysis and visualizations.
+
+Key Features:
+- Store energy consumption by category
+- Base period vs reporting period comparison
+- Energy category proportion analysis
+- Detailed data with charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy consumption summary by category
+- Base period comparison data
+- Category proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -531,7 +554,7 @@ def generate_excel(report,
             current_row_number += 1
 
     ####################################################################################################################
-    
+
     if "non_working_days_subtotals" not in report['base_period'].keys() or \
             report['base_period']['non_working_days_subtotals'] is None or \
             len(report['base_period']['non_working_days_subtotals']) == 0 or \
@@ -546,7 +569,7 @@ def generate_excel(report,
     else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + _('Base Period Consumption')
-        
+
         current_row_number += 1
 
         ws.row_dimensions[current_row_number].height = 60
@@ -593,7 +616,7 @@ def generate_excel(report,
                 report['base_period']['working_days_subtotals'][i] > 0 else '-'
 
             current_row_number += 1
-        
+
         current_row_number += 1
 
     if "non_working_days_subtotals" not in report['reporting_period'].keys() or \
@@ -606,7 +629,7 @@ def generate_excel(report,
     else:
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)] = name + ' ' + _('Reporting Period Consumption')
-        
+
         current_row_number += 1
 
         ws.row_dimensions[current_row_number].height = 60

@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Collection Energy Report API
+
+This module provides REST API endpoints for generating energy storage power station collection energy reports.
+It analyzes energy storage data from energy storage power stations, providing comprehensive insights
+into energy storage patterns, performance trends, and optimization opportunities.
+
+Key Features:
+- Energy storage power station energy analysis
+- Base period vs reporting period comparison
+- Energy storage trends and patterns
+- Storage optimization insights
+- Performance metrics calculation
+- Energy storage analysis
+
+Report Components:
+- Energy storage power station energy summary
+- Base period comparison data
+- Energy storage trends
+- Storage optimization recommendations
+- Performance indicators
+- Storage pattern analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy storage data
+- Energy storage calculations
+- Trend analysis algorithms
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

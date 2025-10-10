@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details DC-DC Report API
+
+This module provides REST API endpoints for generating energy storage power station DC-DC converter reports.
+It analyzes DC-DC converter data and performance metrics to provide insights into converter
+system performance, efficiency, and optimization opportunities.
+
+Key Features:
+- DC-DC converter performance analysis
+- Power conversion efficiency analysis
+- Performance metrics calculation
+- Converter optimization insights
+- Performance monitoring
+- DC-DC converter system analysis
+
+Report Components:
+- DC-DC converter performance summary
+- Power conversion efficiency metrics
+- Performance indicators
+- Converter optimization recommendations
+- DC-DC converter system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for DC-DC converter data
+- Performance analysis algorithms
+- Converter monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

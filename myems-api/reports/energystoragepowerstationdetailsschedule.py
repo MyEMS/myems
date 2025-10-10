@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details Schedule Report API
+
+This module provides REST API endpoints for generating energy storage power station schedule reports.
+It analyzes scheduling data and performance metrics to provide insights into scheduling
+system performance, execution efficiency, and optimization opportunities.
+
+Key Features:
+- Schedule performance analysis
+- Scheduling execution analysis
+- Performance metrics calculation
+- Scheduling optimization insights
+- Performance monitoring
+- Scheduling system analysis
+
+Report Components:
+- Schedule performance summary
+- Scheduling execution metrics
+- Performance indicators
+- Scheduling optimization recommendations
+- Scheduling system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for scheduling data
+- Performance analysis algorithms
+- Scheduling monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import timedelta
 import falcon
 import mysql.connector

@@ -1,3 +1,24 @@
+"""
+Meter Energy Excel Exporter
+
+This module provides functionality to export meter energy data to Excel format.
+It generates comprehensive reports showing energy consumption for meters
+with detailed analysis including base period comparison and time-series data.
+
+Key Features:
+- Meter energy consumption analysis
+- Base period vs reporting period comparison
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Meter energy consumption summary
+- Base period comparison data
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

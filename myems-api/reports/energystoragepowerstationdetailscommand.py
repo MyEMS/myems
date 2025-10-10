@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details Command Report API
+
+This module provides REST API endpoints for generating energy storage power station command reports.
+It analyzes command data and execution metrics to provide insights into command
+system performance, execution efficiency, and optimization opportunities.
+
+Key Features:
+- Command performance analysis
+- Command execution analysis
+- Performance metrics calculation
+- Command optimization insights
+- Performance monitoring
+- Command system analysis
+
+Report Components:
+- Command performance summary
+- Command execution metrics
+- Performance indicators
+- Command optimization recommendations
+- Command system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for command data
+- Performance analysis algorithms
+- Command monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

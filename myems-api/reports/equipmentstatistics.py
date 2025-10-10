@@ -1,3 +1,35 @@
+"""
+Equipment Statistics Report API
+
+This module provides REST API endpoints for generating equipment statistics reports.
+It analyzes statistical data and performance metrics for equipment to provide
+comprehensive insights into equipment performance and operational patterns.
+
+Key Features:
+- Equipment statistical analysis
+- Performance metrics calculation
+- Statistical trend analysis
+- Performance benchmarking
+- Excel export functionality
+- Statistical insights and patterns
+
+Report Components:
+- Equipment statistics summary
+- Performance metrics and KPIs
+- Statistical trend analysis
+- Benchmarking data
+- Performance indicators
+- Statistical patterns and insights
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for statistical data
+- Statistical calculation algorithms
+- Performance analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

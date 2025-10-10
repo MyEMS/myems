@@ -1,3 +1,33 @@
+"""
+Energy Storage Power Station Item Dashboard Report API
+
+This module provides REST API endpoints for generating energy storage power station item dashboard reports.
+It aggregates data from multiple sources for specific energy storage power station items to provide
+a complete overview of energy storage performance and system status.
+
+Key Features:
+- Energy storage power station item analysis
+- Energy storage performance tracking
+- Energy category breakdown and trends
+- Sensor data integration and monitoring
+- Base period vs reporting period comparison
+- Real-time data processing
+
+Report Components:
+- Energy storage power station item performance analysis
+- Energy storage calculations
+- System performance tracking
+- Sensor monitoring data
+- Performance metrics and KPIs
+- System status indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for historical data
+- Real-time data aggregation
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from decimal import Decimal
 import falcon

@@ -1,3 +1,30 @@
+"""
+Space Plan Excel Exporter
+
+This module provides functionality to export space plan data to Excel format.
+It generates comprehensive reports showing planned vs actual energy consumption
+for spaces with detailed analysis and visualizations.
+
+Key Features:
+- Space plan vs actual analysis
+- Base period vs reporting period comparison
+- Plan breakdown by energy categories
+- Plan proportion analysis with charts
+- Detailed data with line charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Space plan summary
+- Base period comparison data
+- Plan breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -349,7 +376,7 @@ def generate_excel(report,
         ws['D' + str(current_row_number)].font = name_font
         ws['D' + str(current_row_number)].alignment = c_c_alignment
         ws['D' + str(current_row_number)].border = f_border
-        ws['D' + str(current_row_number)] = _('Ton of Standard Coal(TCE) by Energy Category') 
+        ws['D' + str(current_row_number)] = _('Ton of Standard Coal(TCE) by Energy Category')
 
         current_row_number += 1
 
