@@ -30,6 +30,14 @@ class UserCollection:
     @staticmethod
     def on_get(req, resp):
         admin_control(req)
+
+        search_query = req.get_param('q', default=None)
+
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
@@ -37,8 +45,15 @@ class UserCollection:
                  "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc, u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
-                 " ORDER BY u.name ")
-        cursor.execute(query)
+                )
+        params=[]
+        if search_query:
+            query += " WHERE u.name LIKE %s OR u.email LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query +=  " ORDER BY u.name "
+
+
+        cursor.execute(query,params)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()

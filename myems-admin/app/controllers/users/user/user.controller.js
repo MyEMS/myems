@@ -10,6 +10,7 @@ app.controller('UserController', function ($scope,
 	$translate,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.searchKeyword = '';
 	$scope.getAllUsers = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		UserService.getAllUsers(headers, function (response) {
@@ -229,6 +230,39 @@ app.controller('UserController', function ($scope,
 	$scope.$on('handleBroadcastNewUserChanged', function(event) {
 		$scope.getAllUsers();
 	});
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchUser = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllUsers();
+				safeApply($scope);
+				return;
+			}
+
+			UserService.searchUsers(trimmedKeyword, headers, (response) => {
+				$scope.users = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.users];
+			});
+		}, 300);
+	};
+
 
 	$scope.getAllUsers();
 	$scope.getAllPrivileges();
