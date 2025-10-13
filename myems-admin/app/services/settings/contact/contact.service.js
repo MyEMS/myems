@@ -10,7 +10,10 @@ app.factory('ContactService', function($http) {
             });
         },
         searchContacts: function(query, headers, callback) {
-            $http.get(getAPI()+'contacts', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'contacts', {
+                params: {q: query},
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
