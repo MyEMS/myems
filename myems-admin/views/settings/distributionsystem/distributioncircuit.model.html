@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_distributioncircuit" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME' | translate}}</label>
+              <label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributioncircuit.name" type="text" name="distributioncircuitname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitname.$invalid && form_distributioncircuit.distributioncircuitname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributioncircuit.distribution_room" type="text" name="distributioncircuitdistributionroom" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitdistributionroom.$invalid && form_distributioncircuit.distributioncircuitdistributionroom.$dirty">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributioncircuit.switchgear" type="text" name="distributioncircuitswitchgear" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitswitchgear.$invalid && form_distributioncircuit.distributioncircuitswitchgear.$dirty">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_LOAD' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_LOAD' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributioncircuit.peak_load" type="number" name="distributioncircuitpeakload" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitpeakload.$invalid && form_distributioncircuit.distributioncircuitpeakload.$dirty">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_CURRENT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_CURRENT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributioncircuit.peak_current" type="number" name="distributioncircuitpeakcurrent" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitpeakcurrent.$invalid && form_distributioncircuit.distributioncircuitpeakcurrent.$dirty">

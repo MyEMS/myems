@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_space" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}</label>
+                <label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="space.name" type="text" name="spacename" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_space.spacename.$invalid && form_space.spacename.$dirty">
@@ -16,7 +16,7 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{'SPACE.AREA' | translate}}</label>
+                <label class="col-sm-4 control-label">{{'SPACE.AREA' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="space.area" type="number" name="spacearea" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_space.spacearea.$invalid && form_space.spacearea.$dirty">
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{'SETTING.NUMBER_OF_OCCUPANTS' | translate}}</label>
+                <label class="col-sm-4 control-label">{{'SETTING.NUMBER_OF_OCCUPANTS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="space.number_of_occupants" type="number" name="spacenumberofoccupants" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_space.spacenumberofoccupants.$invalid && form_space.spacenumberofoccupants.$dirty">
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.TIMEZONE' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.TIMEZONE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.timezone.id" name="spacetimezone" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
@@ -96,7 +96,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.cost_center.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="flase" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
