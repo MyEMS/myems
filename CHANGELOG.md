@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added search function to shopfloor setting in myems-admin and myems-api
 - added search function to user setting in myems-admin and myems-api
+- added search function to energy storage container setting in myems-admin and myems-api
 ### Changed
 - updated myems-admin to refresh the point list when binding point to sensor
 - display the username when hovering over the user avatar in myems-web
