@@ -63,6 +63,29 @@ app.controller(
       );
     };
     
+    let searchDebounceTimer = null;
+    $scope.searchEnergyStorageContainers = function() {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        const rawKeyword = $scope.searchKeyword || "";
+        const trimmedKeyword = rawKeyword.trim();
+        if (searchDebounceTimer) {
+            clearTimeout(searchDebounceTimer);
+        }
+        searchDebounceTimer = setTimeout(() => {
+            if (!trimmedKeyword) {
+                $scope.getAllEnergyStorageContainers();
+                return;
+            }
+            EnergyStorageContainerService.searchEnergyStorageContainers(trimmedKeyword, headers, function (response) {
+                if (angular.isDefined(response.status) && response.status === 200) {
+                        $scope.energystoragecontainers = response.data;
+                } else {
+                        $scope.energystoragecontainers = [];
+                }
+            });
+        }, 300);
+    };
+
     $scope.exportEnergyStorageContainer = function (container) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
