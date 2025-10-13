@@ -143,16 +143,12 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-            <button type="button"
-            ng-disabled="form_point.$invalid ||
+        <button type="button" ng-disabled="form_point.$invalid ||
                         (point.lower_limit != null && point.lower_limit >= point.low_limit) ||
                         point.low_limit >= point.high_limit ||
                         (point.lower_limit != null && point.higher_limit != null && point.lower_limit >= point.higher_limit) ||
                         (point.higher_limit != null && point.higher_limit <= point.high_limit)"
-            class="btn btn-primary"
-            ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
-</div>
+                class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}
+        </button>
     </div>
 </div>
