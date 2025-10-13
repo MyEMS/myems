@@ -540,13 +540,13 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
           let values1 = { a0: [] };
           json['reporting_period1']['values'].forEach((currentValue, index) => {
-            values1['a0'][index] = currentValue.toFixed(2);
+            values1['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
           setEquipmentLineChartData1(values1);
 
           let values2 = { a0: [] };
           json['reporting_period2']['values'].forEach((currentValue, index) => {
-            values2['a0'][index] = currentValue.toFixed(2);
+            values2['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
           setEquipmentLineChartData2(values2);
 

@@ -419,15 +419,12 @@ class Reporting:
             elif period_type == "yearly":
                 current_datetime = current_datetime_local.isoformat()[0:4]
 
-            actual_value = (
-                Decimal(0.0)
-                if row_equipment1_periodically[1] is None
-                else row_equipment1_periodically[1]
-            )
+            actual_value = row_equipment1_periodically[1]
 
             equipment1_energy_data["timestamps"].append(current_datetime)
             equipment1_energy_data["values"].append(actual_value)
-            equipment1_energy_data["total_in_category"] += actual_value
+            if actual_value is not None:
+                equipment1_energy_data["total_in_category"] += actual_value
 
         # Aggregate energy consumption for equipment 2
         equipment2_energy_data = dict()
@@ -458,15 +455,12 @@ class Reporting:
             elif period_type == "yearly":
                 current_datetime = current_datetime_local.isoformat()[0:4]
 
-            actual_value = (
-                Decimal(0.0)
-                if row_equipment2_periodically[1] is None
-                else row_equipment2_periodically[1]
-            )
+            actual_value = row_equipment2_periodically[1]
 
             equipment2_energy_data["timestamps"].append(current_datetime)
             equipment2_energy_data["values"].append(actual_value)
-            equipment2_energy_data["total_in_category"] += actual_value
+            if actual_value is not None:
+                equipment2_energy_data["total_in_category"] += actual_value
 
         # Calculate difference
         diff = dict()
@@ -481,16 +475,26 @@ class Reporting:
             equipment1_value = (
                 equipment1_energy_data["values"][i]
                 if i < len(equipment1_energy_data["values"])
-                else Decimal(0.0)
+                else None
             )
             equipment2_value = (
                 equipment2_energy_data["values"][i]
                 if i < len(equipment2_energy_data["values"])
-                else Decimal(0.0)
+                else None
             )
-            diff_value = equipment1_value - equipment2_value
+            
+            # Calculate difference, handling None values
+            if equipment1_value is None and equipment2_value is None:
+                diff_value = None
+            elif equipment1_value is None:
+                diff_value = None  # Cannot calculate difference when one value is missing
+            elif equipment2_value is None:
+                diff_value = None  # Cannot calculate difference when one value is missing
+            else:
+                diff_value = equipment1_value - equipment2_value
+                diff["total_in_category"] += diff_value
+                
             diff["values"].append(diff_value)
-            diff["total_in_category"] += diff_value
 
         ################################################################################################################
         # Step 5: query equipment associated points data (for detailed parameters)
