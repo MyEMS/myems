@@ -44,12 +44,16 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         # TODO: add config.minutes_to_count
         current_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
         while current_datetime_utc <= end_datetime_utc:
-            subtotal = Decimal(0.0)
+            subtotal = None
             # Sum values within the current hour period
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < current_datetime_utc + \
                         timedelta(minutes=config.minutes_to_count):
-                    subtotal += row[1]
+                    if row[1] is not None:
+                        if subtotal is None:
+                            subtotal = row[1]
+                        else:
+                            subtotal += row[1]
             result_rows_hourly.append((current_datetime_utc, subtotal))
             current_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
@@ -64,10 +68,14 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
         current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
         while current_datetime_utc <= end_datetime_utc:
-            subtotal = Decimal(0.0)
+            subtotal = None
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    subtotal += row[1]
+                    if row[1] is not None:
+                        if subtotal is None:
+                            subtotal = row[1]
+                        else:
+                            subtotal += row[1]
             result_rows_daily.append((current_datetime_utc, subtotal))
             current_datetime_utc += timedelta(days=1)
 
@@ -85,10 +93,14 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
         while current_datetime_utc <= end_datetime_utc:
 
             next_datetime_utc = current_datetime_utc + timedelta(days=7)
-            subtotal = Decimal(0.0)
+            subtotal = None
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
+                    if row[1] is not None:
+                        if subtotal is None:
+                            subtotal = row[1]
+                        else:
+                            subtotal += row[1]
             result_rows_weekly.append((current_datetime_utc, subtotal))
             current_datetime_utc = next_datetime_utc
 
@@ -115,10 +127,14 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
                                                day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
             current_datetime_utc = current_datetime_local - timedelta(hours=int(config.utc_offset[1:3]))
             next_datetime_utc = next_datetime_local - timedelta(hours=int(config.utc_offset[1:3]))
-            subtotal = Decimal(0.0)
+            subtotal = None
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
+                    if row[1] is not None:
+                        if subtotal is None:
+                            subtotal = row[1]
+                        else:
+                            subtotal += row[1]
 
             result_rows_monthly.append((current_datetime_utc, subtotal))
             current_datetime_local = next_datetime_local
@@ -145,10 +161,14 @@ def aggregate_hourly_data_by_period(rows_hourly, start_datetime_utc, end_datetim
                                          second=current_datetime_utc.second,
                                          microsecond=current_datetime_utc.microsecond,
                                          tzinfo=current_datetime_utc.tzinfo) - timedelta(days=1)
-            subtotal = Decimal(0.0)
+            subtotal = None
             for row in rows_hourly:
                 if current_datetime_utc <= row[0] < next_datetime_utc:
-                    subtotal += row[1]
+                    if row[1] is not None:
+                        if subtotal is None:
+                            subtotal = row[1]
+                        else:
+                            subtotal += row[1]
 
             result_rows_yearly.append((current_datetime_utc, subtotal))
             current_datetime_utc = next_datetime_utc
