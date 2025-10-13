@@ -1944,7 +1944,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'There Is Relation With Distribution Circuits Points',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'There Is Relation With Distribution Systems',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'There Is Relation With Energy Flow Diagram Links',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Related to energy storage container batteries',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Related to energy storage container power grids',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Related to energy storage container grid data points',
@@ -2000,8 +2000,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Related to wind farms',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'This data source is being used by a meter',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'This meter is being used by a virtual meter',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'This offline meter is being used by a virtual meter'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'This offline meter is being used by a virtual meter',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -4023,7 +4023,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: '与配电回路点有关',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: '与配电系统有关',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: '与能流图链接有关',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: '与储能集装箱电池有关',
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: '与储能集装箱电网有关',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: '与储能集装箱电网数据点有关',
@@ -4037,7 +4037,7 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS: '与储能集装箱消防有关',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS: '与储能集装箱DCDC有关',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS: '与储能电站有关',
-				
+
 				THERE_IS_RELATION_WITH_MICROGRIDS_BMSES_POINTS: '与微电网电池数据点有关',
 				THERE_IS_RELATION_WITH_MICROGRIDS_PCSES_POINTS: '与微电网PCS数据点有关',
 				THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS_POINTS: '与微电网充电桩数据点有关',
@@ -4046,21 +4046,21 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS_POINTS: '与微电网热泵数据点有关',
 				THERE_IS_RELATION_WITH_MICROGRIDS_LOADS_POINTS: '与微电网负载数据点有关',
 				THERE_IS_RELATION_WITH_MICROGRIDS_PVS_POINTS: '与微电网光伏数据点有关',
-				
+
 				THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS: '与光伏电站有关',
 				THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS: '与光伏电站有关',
 				THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS: '与光伏电站逆变器有关',
 				THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS: '与光伏电站负载有关',
-				
-				
+
+
 				THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS: '与设备参数有关',
                 THERE_IS_RELATION_WITH_EQUIPMENTS: '与设备有关',
-				
+
                 THERE_IS_RELATION_WITH_INTEGRATORS: '与积分仪有关系',
 				THERE_IS_RELATION_WITH_POWER_INTEGRATORS: '与功率积分仪有关',
 				THERE_IS_RELATION_WITH_HEAT_INTEGRATORS: '与热量积分仪有关系',
 				THERE_IS_RELATION_WITH_FUEL_INTEGRATORS: '与燃料积分仪有关',
-				
+
                 THERE_IS_RELATION_WITH_METER: '与计量表有关',
                 THERE_IS_RELATION_WITH_METERS: '与计量表有关',
                 THERE_IS_RELATION_WITH_MICROGRIDS: '与微电网有关',
@@ -4076,8 +4076,8 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_OFFLINE_METER: '与离线表有关',
                 THERE_IS_RELATION_WITH_OFFLINE_METERS: '与离线表有关',
                 THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: '与其他虚拟表有关系',
-				
-				
+
+
                 THERE_IS_RELATION_WITH_SENSORS: '与传感器有关',
                 THERE_IS_RELATION_WITH_SHOPFLOORS: '与车间有关系',
                 THERE_IS_RELATION_WITH_SPACES: '与空间有关系',
@@ -4089,9 +4089,7 @@ function config($translateProvider) {
                 THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: '此数据源正被计量表使用',
                 THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: '此计量表正被虚拟表使用',
                 THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: '此离线表正被虚拟表使用',
-				
-				
-				
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -6112,7 +6110,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Es gibt Beziehung zu Verteilungsschaltkreisen Punkte',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Es besteht eine Beziehung zum Verteilungssystem',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Es gibt einen Zusammenhang mit Energieflussdiagramm Links',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Steht in Beziehung zu Batterien von Energiespeicher-Containern',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Steht in Beziehung zum Stromnetz von Energiespeicher-Containern',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Steht in Beziehung zu Stromnetz-Datenpunkten von Energiespeicher-Containern',
@@ -6168,8 +6166,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Steht in Beziehung zu Windparks',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Diese Datenquelle wird von einem Messgerät verwendet',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Dieses Messgerät wird von einem virtuellen Messgerät verwendet',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Dieses Offline-Messgerät wird von einem virtuellen Messgerät verwendet'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Dieses Offline-Messgerät wird von einem virtuellen Messgerät verwendet',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -8188,20 +8186,20 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Relation avec les circuits de distribution',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Il y a une relation avec le système de distribution',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Il y a une relation avec le diagramme de flux énergétique Liens',
-				
-                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'En relation avec les batteries des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'En relation avec le réseau électrique des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'En relation avec les points de données du réseau électrique des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS: 'En relation avec la charge des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS: 'En relation avec les systèmes de conversion de puissance des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES: 'En relation avec le BMS des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES_POINTS: 'En relation avec les points de données du BMS des conteneurs de stockage d'énergie',
+
+                THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'En relation avec les batteries des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'En relation avec le réseau électrique des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'En relation avec les points de données du réseau électrique des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS: 'En relation avec la charge des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS: 'En relation avec les systèmes de conversion de puissance des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES: 'En relation avec le BMS des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES_POINTS: 'En relation avec les points de données du BMS des conteneurs de stockage d`énergie',
 				THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS: 'En relation avec les centrales électriques virtuelles',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES: 'En relation avec les STS des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS: 'En relation avec les systèmes CVC des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS: 'En relation avec la lutte contre l'incendie des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS: 'En relation avec les convertisseurs DCDC des conteneurs de stockage d'énergie',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS: 'En relation avec les centrales de stockage d'énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES: 'En relation avec les STS des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS: 'En relation avec les systèmes CVC des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS: 'En relation avec la lutte contre l`incendie des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS: 'En relation avec les convertisseurs DCDC des conteneurs de stockage d`énergie',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS: 'En relation avec les centrales de stockage d`énergie',
 				THERE_IS_RELATION_WITH_MICROGRIDS_BMSES_POINTS: 'En relation avec les points de données du BMS des micro-réseaux',
 				THERE_IS_RELATION_WITH_MICROGRIDS_PCSES_POINTS: 'En relation avec les points de données du PCS des micro-réseaux',
 				THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS_POINTS: 'En relation avec les points de données des bornes de recharge des micro-réseaux',
@@ -8233,7 +8231,7 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS: 'En relation avec les systèmes de conversion de puissance des micro-réseaux',
 				THERE_IS_RELATION_WITH_OFFLINE_METER: 'En relation avec les compteurs hors ligne',
 				THERE_IS_RELATION_WITH_OFFLINE_METERS: 'En relation avec les compteurs hors ligne',
-				THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'En relation avec d'autres compteurs virtuels',
+				THERE_IS_RELATION_WITH_OTHER_VIRTUAL_METERS: 'En relation avec d`autres compteurs virtuels',
 				THERE_IS_RELATION_WITH_SENSORS: 'En relation avec les capteurs',
 				THERE_IS_RELATION_WITH_SHOPFLOORS: 'En relation avec les ateliers',
 				THERE_IS_RELATION_WITH_SPACES: 'En relation avec les espaces',
@@ -8244,8 +8242,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'En relation avec les parcs éoliens',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Cette source de données est utilisée par un compteur',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Ce compteur est utilisé par un compteur virtuel',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Ce compteur hors ligne est utilisé par un compteur virtuel'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Ce compteur hors ligne est utilisé par un compteur virtuel',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -10265,8 +10263,8 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Hay relación con los puntos de los circuitos de distribución',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Hay relación con el sistema de distribución',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Hay relación con el diagrama de flujo de energía Enlaces',
-				
-				
+
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Relacionado con las baterías de contenedores de almacenamiento de energía',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Relacionado con las redes eléctricas de contenedores de almacenamiento de energía',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Relacionado con los puntos de datos de red de contenedores de almacenamiento de energía',
@@ -10322,8 +10320,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Relacionado con los parques eólicos',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Esta fuente de datos está siendo utilizada por un contador',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este contador está siendo utilizado por un contador virtual',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este contador fuera de línea está siendo utilizado por un contador virtual'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este contador fuera de línea está siendo utilizado por un contador virtual',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -12344,7 +12342,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Существует связь с точками схем распределения',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Существует связь с системой распределения',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Существует связь с диаграммой потока энергии',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Связано с аккумуляторами контейнеров накопления энергии',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Связано с электросетями контейнеров накопления энергии',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Связано с точками данных сети контейнеров накопления энергии',
@@ -12400,8 +12398,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Связано с ветропарками',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Этот источник данных используется счетчиком',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Этот счетчик используется виртуальным счетчиком',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Этот автономный счетчик используется виртуальным счетчиком'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Этот автономный счетчик используется виртуальным счетчиком',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -14421,7 +14419,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'هناك علاقة مع نقاط دوائر التوزيع',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'هناك علاقة مع نظام التوزيع',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'There Is Relation With Energy Flow Diagram Links',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'مرتبط ببطاريات حاويات تخزين الطاقة',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'مرتبط بشبكات الكهرباء لحاويات تخزين الطاقة',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'مرتبط بنقاط بيانات الشبكة لحاويات تخزين الطاقة',
@@ -14477,8 +14475,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'مرتبط بمزارع الرياح',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'مصدر البيانات هذا مستخدم بواسطة عداد',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'هذا العداد مستخدم بواسطة عداد افتراضي',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'هذا العداد غير المتصل مستخدم بواسطة عداد افتراضي'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'هذا العداد غير المتصل مستخدم بواسطة عداد افتراضي',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -16497,7 +16495,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Có mối quan hệ với các điểm mạch phân phối',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Có mối quan hệ với hệ thống phân phối',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Có mối quan hệ với Liên kết biểu đồ dòng chảy năng lượng',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Liên quan đến pin của container lưu trữ năng lượng',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Liên quan đến lưới điện của container lưu trữ năng lượng',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Liên quan đến điểm dữ liệu lưới điện của container lưu trữ năng lượng',
@@ -16553,8 +16551,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Liên quan đến trang trại điện gió',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Nguồn dữ liệu này đang được sử dụng bởi một đồng hồ đo',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Đồng hồ đo này đang được sử dụng bởi một đồng hồ ảo',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Đồng hồ đo ngoại tuyến này đang được sử dụng bởi một đồng hồ ảo'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Đồng hồ đo ngoại tuyến này đang được sử dụng bởi một đồng hồ ảo',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -18571,7 +18569,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'มีความสัมพันธ์กับจุดวงจรกระจาย',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'มีความสัมพันธ์กับระบบจ่ายไฟ',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'มีความสัมพันธ์กับภาพการไหลของพลังงาน',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'เกี่ยวข้องกับแบตเตอรี่ของคอนเทนเนอร์กักเก็บพลังงาน',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'เกี่ยวข้องกับกริดไฟฟ้าของคอนเทนเนอร์กักเก็บพลังงาน',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'เกี่ยวข้องกับจุดข้อมูลกริดของคอนเทนเนอร์กักเก็บพลังงาน',
@@ -18627,8 +18625,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'เกี่ยวข้องกับฟาร์มกังหันลม',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'แหล่งข้อมูลนี้กำลังถูกใช้โดยมิเตอร์',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'มิเตอร์นี้กำลังถูกใช้โดยมิเตอร์เสมือน',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'มิเตอร์ออฟไลน์นี้กำลังถูกใช้โดยมิเตอร์เสมือน'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'มิเตอร์ออฟไลน์นี้กำลังถูกใช้โดยมิเตอร์เสมือน',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -20646,16 +20644,16 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Dağıtım Devreleri Noktaları ile İlişki Var',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Dağıtım sistemi ile ilişki vardır',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Enerji Akışı Diagramı Bağlantıları ile İlişki Var',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Enerji depolama konteynerlerinin bataryaları ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Enerji depolama konteynerlerinin elektrik şebekesi ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Enerji depolama konteynerlerinin şebeke veri noktaları ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS: 'Enerji depolama konteynerlerinin yükü ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS: 'Enerji depolama konteynerlerinin güç dönüşüm sistemleri ile ilişkili',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES: 'Enerji depolama konteynerlerinin BMS''i ile ilişkili',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES: 'Enerji depolama konteynerlerinin BMS`i ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES_POINTS: 'Enerji depolama konteynerlerinin BMS veri noktaları ile ilişkili',
 				THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS: 'Sanal güç santralleri ile ilişkili',
-				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES: 'Enerji depolama konteynerlerinin STS''si ile ilişkili',
+				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES: 'Enerji depolama konteynerlerinin STS`si ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS: 'Enerji depolama konteynerlerinin HVAC sistemleri ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS: 'Enerji depolama konteynerlerinin yangın kontrol sistemleri ile ilişkili',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS: 'Enerji depolama konteynerlerinin DCDC dönüştürücüleri ile ilişkili',
@@ -20702,8 +20700,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Rüzgar çiftlikleri ile ilişkili',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Bu veri kaynağı bir sayaç tarafından kullanılıyor',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Bu sayaç, sanal bir sayaç tarafından kullanılıyor',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Bu çevrimdışı sayaç, sanal bir sayaç tarafından kullanılıyor'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Bu çevrimdışı sayaç, sanal bir sayaç tarafından kullanılıyor',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -22721,7 +22719,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Terdapat Hubungan Dengan Titik Litar Pengedaran',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Terdapat hubungan dengan sistem pengagihan',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Terdapat Hubungan Dengan Pautan Diagram Aliran Tenaga',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Berkaitan dengan bateri kontena penyimpanan tenaga',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Berkaitan dengan grid elektrik kontena penyimpanan tenaga',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Berkaitan dengan titik data grid kontena penyimpanan tenaga',
@@ -22777,8 +22775,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Berkaitan dengan ladang angin',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Sumber data ini sedang digunakan oleh meter',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter ini sedang digunakan oleh meter maya',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter luar talian ini sedang digunakan oleh meter maya'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter luar talian ini sedang digunakan oleh meter maya',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -24797,7 +24795,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Ada Hubungan Dengan Titik Sirkuit Distribusi',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Ada hubungan dengan sistem distribusi',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Ada Hubungan Dengan Diagram Aliran Energi Link',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Berkaitan dengan bateri kontena penyimpanan tenaga',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Berkaitan dengan grid elektrik kontena penyimpanan tenaga',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Berkaitan dengan titik data grid kontena penyimpanan tenaga',
@@ -24853,8 +24851,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Berkaitan dengan ladang angin',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Sumber data ini sedang digunakan oleh meter',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter ini sedang digunakan oleh meter maya',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter luar talian ini sedang digunakan oleh meter maya'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Meter luar talian ini sedang digunakan oleh meter maya',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -26880,7 +26878,7 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: '與配電回路點有關',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: '與配電系統有關',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: '與能流圖連結有關',
-				
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: '與儲能集裝箱電池有關',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: '與儲能集裝箱電網有關',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: '與儲能集裝箱電網數據點有關',
@@ -26936,8 +26934,8 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: '與風電場有關',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: '此數據源正被計量表使用',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: '此計量表正被虛擬表使用',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: '此離線表正被虛擬表使用'
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: '此離線表正被虛擬表使用',
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'This Space Cannot Be Cloned',
                 THIS_SPACE_CANNOT_BE_DELETED: 'This Space Cannot Be Deleted',
                 TIMEZONE_NOT_FOUND: 'Timezone Not Found',
@@ -28960,8 +28958,8 @@ function config($translateProvider) {
                 THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS: 'Há Relação com Pontos de Circuitos de Distribuição',
                 THERE_IS_RELATION_WITH_DISTRIBUTION_SYSTEMS: 'Existe relação com o sistema de distribuição',
                 THERE_IS_RELATION_WITH_ENERGY_FLOW_DIAGRAM_LINKS: 'Há Relação com Links de Diagrama de Fluxo de Energia',
-				
-				
+
+
                 THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES: 'Relacionado com as baterias de contêineres de armazenamento de energia',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS: 'Relacionado com a rede elétrica de contêineres de armazenamento de energia',
 				THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS: 'Relacionado com pontos de dados da rede elétrica de contêineres de armazenamento de energia',
@@ -29017,9 +29015,9 @@ function config($translateProvider) {
 				THERE_IS_RELATION_WITH_WIND_FARMS: 'Relacionado com parques eólicos',
 				THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER: 'Esta fonte de dados está sendo usada por um medidor',
 				THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este medidor está sendo usado por um medidor virtual',
-				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este medidor offline está sendo usado por um medidor virtual'
-				
-				
+				THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER: 'Este medidor offline está sendo usado por um medidor virtual',
+
+
                 THIS_SPACE_CANNOT_BE_CLONED: 'Este Espaço Não Pode Ser Clonado',
                 THIS_SPACE_CANNOT_BE_DELETED: 'Este Espaço Não Pode Ser Excluído',
                 TIMEZONE_NOT_FOUND: 'Fuso Horário Não Encontrado',
