@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragecontainerpowerconversionsystem" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerpowerconversionsystem.name" type="text"
                         name="energystoragecontainerpowerconversionsystemname" class="form-control" required="">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RUN_STATE_POINT' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RUN_STATE_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerpowerconversionsystem.run_state_point.id"
                         theme="bootstrap" required>
@@ -32,7 +32,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_OUTPUT_POWER' |
-                    translate}}(kW)</label>
+                    translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerpowerconversionsystem.rated_output_power" type="number"
                         name="energystoragecontainerpowerconversionsystemrated_output_power" class="form-control"

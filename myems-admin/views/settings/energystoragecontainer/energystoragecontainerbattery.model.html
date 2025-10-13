@@ -6,7 +6,7 @@
         <form role="form" name="form_energystoragecontainerbattery" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY_NAME'
-                    | translate}}</label>
+                    | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerbattery.name" type="text"
                         name="energystoragecontainerbatteryname" class="form-control" required="">
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.BATTERY_STATE_POINT' |
-                    translate}}</label>
+                    translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.battery_state_point.id" theme="bootstrap"
                         required>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.SOC_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.soc_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.CHARGE_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.charge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.DISCHARGE_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerbattery.discharge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -82,7 +82,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_CAPACITY' | translate}}
-                    (kWh)</label>
+                    (kWh)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerbattery.rated_capacity" type="number"
                         name="energystoragecontainerbatteryrated_capacity" class="form-control" required="">
@@ -96,7 +96,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_POWER' | translate}}
-                    (kW)</label>
+                    (kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerbattery.rated_power" type="number"
                         name="energystoragecontainerbatteryrated_power" class="form-control" required="">
@@ -110,7 +110,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.NOMINAL_VOLTAGE' | translate}}
-                    (V)</label>
+                    (V)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerbattery.nominal_voltage" type="number"
                         name="energystoragecontainerbatterynominal_voltage" class="form-control" required="">

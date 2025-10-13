@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_distributionsystem" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="distributionsystem.name" type="text" name="distributionsystemname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_distributionsystem.distributionsystemname.$invalid && form_distributionsystem.distributionsystemname.$dirty">
@@ -14,7 +14,7 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.SVG' | translate}}</label>
+                <label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.SVG' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="distributionsystem.svg.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

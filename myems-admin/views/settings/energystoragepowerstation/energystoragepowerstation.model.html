@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_energystoragepowerstation" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.name" type="text" name="energystoragepowerstationname"
                         class="form-control" required>
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.ADDRESS' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.ADDRESS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.address" type="text"
                         name="energystoragepowerstationaddress" class="form-control" required>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LONGITUDE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.longitude" type="number"
                         name="energystoragepowerstationlatitude" class="form-control" required>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.LATITUDE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.latitude" type="number"
                         name="energystoragepowerstationlatitude" class="form-control" required>
@@ -98,7 +98,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.RATED_CAPACITY' |
-                    translate}}(kWh)</label>
+                    translate}}(kWh)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.rated_capacity" type="number"
                         name="energystoragepowerstationrated_capacity" class="form-control" required>
@@ -115,7 +115,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.RATED_POWER' |
-                    translate}}(kW)</label>
+                    translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="energystoragepowerstation.rated_power" type="number"
                         name="energystoragepowerstationrated_power" class="form-control" required>
@@ -131,7 +131,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragepowerstation.contact.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -150,7 +150,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragepowerstation.cost_center.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragepowerstation.svg.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -241,7 +241,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'ENERGY_STORAGE_POWER_STATION.PHASE_OF_LIFECYCLE' |
-                    translate}}</label>
+                    translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="energystoragepowerstation.phase_of_lifecycle" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"

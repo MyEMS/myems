@@ -6,7 +6,7 @@
         <form role="form" name="form_energystoragecontainerload" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD_NAME' |
-                    translate}}</label>
+                    translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerload.name" type="text" name="energystoragecontainerloadname"
                         class="form-control" required="">
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerload.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}</label>
+                <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <ui-select ng-model="energystoragecontainerload.meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false"
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.RATED_INPUT_POWER' |
-                    translate}}(kW)</label>
+                    translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input ng-model="energystoragecontainerload.rated_input_power" type="number"
                         name="energystoragecontainerloadrated_input_power" class="form-control" required="">

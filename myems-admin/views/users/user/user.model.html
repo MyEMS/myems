@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_user" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.USERNAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.USERNAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="user.name" type="text" name="username" class="form-control" ng-disabled="operation=='USER.EDIT_USER'" required>
                     <div class="m-t-xs" ng-show="form_user.username.$invalid && form_user.username.$dirty">
@@ -19,7 +19,7 @@
                 </div>
             </div>
             
-            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.DISPLAY_NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.DISPLAY_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="user.display_name" type="text" name="userdispaly_name" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_user.userdisplay_name.$invalid && form_user.userdisplay_name.$dirty">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             
-            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.EMAIL' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.EMAIL' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="user.email" type="email" name="useremail" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_user.useremail.$invalid && form_user.useremail.$dirty">

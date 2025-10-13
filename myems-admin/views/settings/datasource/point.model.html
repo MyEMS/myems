@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_point" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.name" type="text" name="pointname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_point.pointname.$invalid && form_point.pointname.$dirty">
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.UNIT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.UNIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.units" type="text" name="pointunits" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_point.pointunits.$invalid && form_point.pointunits.$dirty">
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.HIGH_LIMIT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.HIGH_LIMIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.high_limit" type="number" name="pointhigh_limit" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_point.pointhigh_limit.$dirty">
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.LOW_LIMIT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.LOW_LIMIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.low_limit" type="number" name="pointlow_limit" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_point.pointlow_limit.$dirty">
@@ -61,7 +61,7 @@
 
             <div class="form-group">
                 <h3 style="text-align: center;">{{'POINT.OUTPUT_FUNCTION' | translate}}</h3>
-                <label class="col-sm-4 control-label">{{'POINT.RATIO' | translate}}</label>
+                <label class="col-sm-4 control-label">{{'POINT.RATIO' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.ratio" type="number" name="pointratio" class="form-control"  required="">
                     <div class="m-t-xs" ng-show="form_point.pointratio.$invalid && form_point.pointratio.$dirty">
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.OFFSET_CONSTANT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.OFFSET_CONSTANT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="point.offset_constant" type="number" name="pointoffset_constant" class="form-control"  required="">
                     <div class="m-t-xs" ng-show="form_point.pointoffset_constant.$invalid && form_point.pointoffset_constant.$dirty">
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.ADDRESS' | translate}}</label>
+            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.ADDRESS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <textarea rows="3" ng-model="point.address" type="text" name="pointaddress" class="form-control" required=""></textarea>
                     <div class="m-t-xs" ng-show="form_point.pointaddress.$invalid && form_point.pointaddress.$dirty">

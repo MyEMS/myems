@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_store" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
                   <input ng-model="store.name" type="text" name="storename" class="form-control" required>
                   <div class="m-t-xs" ng-show="form_store.storename.$invalid && form_store.storename.$dirty">
@@ -12,7 +12,7 @@
                   </div>
               </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="store.area" type="number" name="storearea" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_store.storearea.$invalid && form_store.storearea.$dirty">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.ADDRESS' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.ADDRESS' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
                   <input ng-model="store.address" type="text" name="storeaddress" class="form-control" required>
                   <div class="m-t-xs" ng-show="form_store.storeaddress.$invalid && form_store.storeaddress.$dirty">
@@ -35,7 +35,7 @@
                     <a class="btn btn-primary btn-rounded btn-outline" href="https://docs.mapbox.com/playground/geocoding-v6/" target="_blank">Mapbox</a>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LONGITUDE' | translate}}(°)</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LONGITUDE' | translate}}(°)<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="store.longitude" type="number" name="storelongitude" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_store.storelongitude.$invalid && form_store.storelongitude.$dirty">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LATITUDE' | translate}}(°)</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LATITUDE' | translate}}(°)<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="store.latitude" type="number" name="storelatitude" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_store.storelatitude.$invalid && form_store.storelatitude.$dirty">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.TYPE' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.TYPE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.store_type.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -69,7 +69,7 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.contact.id" name="storecontact" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -92,7 +92,7 @@
 
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.cost_center.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

@@ -5,7 +5,7 @@
         <div class="modal-body">
             <form role="form" name="form_webmessage" novalidate class="form-horizontal">
                 <div class="hr-line-dashed"></div>
-                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.TOPIC' | translate}}</label>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.TOPIC' | translate}}<span class="text-danger">*</span></label>
 
                     <div class="col-sm-8"><textarea rows="2" ng-model="webmessage.subject" type="text" name="webmessagesubject" class="form-control" disabled required=""></textarea>
                         <div class="m-t-xs" ng-show="form_webmessage.webmessagesubject.$invalid && form_webmessage.webmessagesubject.$dirty">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
-                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ALARM_MESSAGE' | translate}}</label>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ALARM_MESSAGE' | translate}}<span class="text-danger">*</span></label>
 
                     <div class="col-sm-8"><textarea rows="4" ng-model="webmessage.message" type="text" name="webmessagemessage" class="form-control" disabled required=""></textarea>
                         <div class="m-t-xs" ng-show="form_webmessage.webmessagemessage.$invalid && form_webmessage.webmessagemessage.$dirty">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="hr-line-dashed"></div>
-                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ACKNOWLEDGE_MESSAGE' | translate}}</label>
+                <div class="form-group"><label class="col-sm-4 control-label">{{'FDD.ACKNOWLEDGE_MESSAGE' | translate}}<span class="text-danger">*</span></label>
 
                     <div class="col-sm-8"><textarea rows="３" ng-model="webmessage.reply" type="text" name="webmessagereply" class="form-control" required=""></textarea>
                         <div class="m-t-xs" ng-show="form_webmessage.webmessagereply.$invalid && form_webmessage.webmessagereply.$dirty">

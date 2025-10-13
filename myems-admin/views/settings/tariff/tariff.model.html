@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.CATEGORY' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.CATEGORY' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <ui-select ng-model="tariff.energy_category.id" theme="bootstrap" required>
                                 <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

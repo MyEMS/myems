@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgrid" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.name" type="text" name="microgridname" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridname.$invalid && form_microgrid.microgridname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.ADDRESS' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.ADDRESS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.address" type="text" name="microgridaddress" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridaddress.$invalid && form_microgrid.microgridaddress.$dirty">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.POSTAL_CODE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.POSTAL_CODE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.postal_code" type="text" name="microgridpostal_code" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridpostal_code.$invalid && form_microgrid.microgridpostal_code.$dirty">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.LONGITUDE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.LONGITUDE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.longitude" type="number" name="microgridlatitude" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridlongitude.$invalid && form_microgrid.microgridlongitude.$dirty">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.LATITUDE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.LATITUDE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.latitude" type="number" name="microgridlatitude" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridlatitude.$invalid && form_microgrid.microgridlatitude.$dirty">
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}}(kWh)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}}(kWh)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.rated_capacity" type="number" name="microgridrated_capacity" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridrated_capacity.$invalid && form_microgrid.microgridrated_capacity.$dirty">
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}}(kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.rated_power" type="number" name="microgridrated_power" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridrated_power.$invalid && form_microgrid.microgridrated_power.$dirty">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.CONTACT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgrid.contact.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgrid.cost_center.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.SERIAL_NUMBER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.SERIAL_NUMBER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgrid.serial_number" type="text" name="microgridserial_number" class="form-control" required>
                     <div class="m-t-xs" ng-show="form_microgrid.microgridserial_number.$invalid && form_microgrid.microgridserial_number.$dirty">
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'COMMON.SVG' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgrid.svg.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -138,7 +138,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.PHASE_OF_LIFECYCLE' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.PHASE_OF_LIFECYCLE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgrid.phase_of_lifecycle" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

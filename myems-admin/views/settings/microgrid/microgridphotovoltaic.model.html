@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgridphotovoltaic" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_PHOTOVOLTAIC_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridphotovoltaic.name" type="text" name="microgridphotovoltaicname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridphotovoltaic.microgridphotovoltaicname.$invalid && form_microgridphotovoltaic.microgridphotovoltaicname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridphotovoltaic.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridphotovoltaic.meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}}(kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridphotovoltaic.rated_power" type="number" name="microgridphotovoltaicrated_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridphotovoltaic.microgridphotovoltaicrated_power.$invalid && form_microgridphotovoltaic.microgridphotovoltaicrated_power.$dirty">
