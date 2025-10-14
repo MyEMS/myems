@@ -60,7 +60,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  });
+  }, []);
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -548,8 +548,8 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     ]
   );
 
+  // Initialize spaces and equipment list only once
   useEffect(() => {
-    let isResponseOK = false;
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
       fetch(APIBaseURL + '/spaces/tree', {
@@ -563,76 +563,79 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       })
         .then(response => {
           if (response.ok) {
-            isResponseOK = true;
+            return response.json();
           }
-          return response.json();
+          throw new Error('Network response was not ok');
         })
         .then(json => {
-          if (isResponseOK) {
-            // rename keys
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            setCascaderOptions(json);
-            setSelectedSpaceName([json[0]].map(o => o.label));
-            let selectedSpaceID = [json[0]].map(o => o.value);
-            // get Equipments by root Space ID
-            let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
-            })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOK = true;
-                }
-                return response.json();
-              })
-              .then(json => {
-                if (isResponseOK) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  setEquipmentList(json[0]);
-                  if (json[0].length > 0) {
-                    setSelectedEquipment(json[0][0].value);
-                    // enable submit button
-                    setSubmitButtonDisabled(false);
-                  } else {
-                    setSelectedEquipment(undefined);
-                    // disable submit button
-                    setSubmitButtonDisabled(true);
-                  }
-                } else {
-                  toast.error(t(json.description));
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            // end of get Equipments by root Space ID
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          setSelectedSpaceName([json[0]].map(o => o.label));
+          let selectedSpaceID = [json[0]].map(o => o.value);
+          // get Equipments by root Space ID
+          return fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
+            method: 'GET',
+            headers: {
+              'Content-type': 'application/json',
+              'User-UUID': getCookieValue('user_uuid'),
+              Token: getCookieValue('token')
+            },
+            body: null
+          });
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok');
+        })
+        .then(json => {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setEquipmentList(json[0]);
+          if (json[0].length > 0) {
+            setSelectedEquipment(json[0][0].value);
+            // enable submit button
+            setSubmitButtonDisabled(false);
           } else {
-            toast.error(t(json.description));
+            setSelectedEquipment(undefined);
+            // disable submit button
+            setSubmitButtonDisabled(true);
           }
         })
         .catch(err => {
           console.log(err);
+          toast.error(t('Failed to load spaces and equipment data'));
         });
     } else {
       setSpaceCascaderHidden(true);
+    }
+  }, [
+    uuid,
+    t,
+    setSpaceCascaderHidden,
+    setCascaderOptions,
+    setSelectedSpaceName,
+    setEquipmentList,
+    setSelectedEquipment,
+    setSubmitButtonDisabled
+  ]);
+
+  // Load data when uuid is provided
+  useEffect(() => {
+    if (uuid !== null && uuid) {
       let url =
         APIBaseURL +
         '/reports/equipmentenergycategory?' +
@@ -654,14 +657,11 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }, [
     uuid,
-    loadData,
-    setSpaceCascaderHidden,
-    basePeriodDateRange,
-    language,
     periodType,
+    basePeriodDateRange,
     reportingPeriodDateRange,
-    t,
-    setSubmitButtonDisabled
+    language,
+    loadData
   ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
