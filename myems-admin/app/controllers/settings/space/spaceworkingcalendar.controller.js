@@ -12,7 +12,6 @@ app.controller('SpaceWorkingCalendarController', function(
     $scope.currentSpaceID = 1;
     $scope.spaceworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentSpace = {selected:undefined};
 
     $scope.isLoadingWorkingcalendars = false;
     $scope.getAllSpaces = function() {
