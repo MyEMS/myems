@@ -5,13 +5,21 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStoragePowerStationController">
-							<a ng-click="addEnergyStoragePowerStation()"
+                                                        <div class="col-md-3">
+							    <a ng-click="addEnergyStoragePowerStation()"
 								class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_ENERGY_STORAGE_POWER_STATION' |
 								translate}}</a>
-							<a ng-click="importEnergyStoragePowerStation()"
+							    <a ng-click="importEnergyStoragePowerStation()"
 								class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control m-b-xs"
+                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                                ng-model="searchKeyword"
+                                                                ng-keyup="searchEnergystoragepowerstations()">
+                                                        </div>
 							<br>
 							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true"
