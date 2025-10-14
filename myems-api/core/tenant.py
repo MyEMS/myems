@@ -8,17 +8,47 @@ import config
 
 
 class TenantCollection:
+    """
+    Tenant Collection Resource
+
+    This class handles CRUD operations for tenant collection.
+    It provides endpoints for listing all tenants and creating new ones.
+    Tenants represent organizations or entities that occupy spaces within
+    facilities, with associated energy consumption patterns, billing,
+    and management requirements.
+    """
     def __init__(self):
-        """"Initializes TenantCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all tenants
+
+        Returns a list of all tenants with their complete information including:
+        - Tenant ID, name, and UUID
+        - Associated tenant type, contact, and cost center information
+        - Tenant specifications and parameters
+        - Related spaces and meter associations
+        - Billing and contract information
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -315,7 +345,6 @@ class TenantCollection:
 
 class TenantItem:
     def __init__(self):
-        """"Initializes TenantItem"""
         pass
 
     @staticmethod
@@ -689,7 +718,6 @@ class TenantItem:
 
 class TenantMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -799,7 +827,7 @@ class TenantMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_meters "
                  " WHERE tenant_id = %s AND meter_id = %s")
         cursor.execute(query, (id_, meter_id,))
@@ -822,7 +850,6 @@ class TenantMeterCollection:
 
 class TenantMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -884,7 +911,6 @@ class TenantMeterItem:
 
 class TenantOfflineMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -994,7 +1020,7 @@ class TenantOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_offline_meters "
                  " WHERE tenant_id = %s AND offline_meter_id = %s")
         cursor.execute(query, (id_, offline_meter_id,))
@@ -1017,7 +1043,6 @@ class TenantOfflineMeterCollection:
 
 class TenantOfflineMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1080,7 +1105,6 @@ class TenantOfflineMeterItem:
 
 class TenantPointCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1189,7 +1213,7 @@ class TenantPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_points "
                  " WHERE tenant_id = %s AND point_id = %s")
         cursor.execute(query, (id_, point_id,))
@@ -1212,7 +1236,6 @@ class TenantPointCollection:
 
 class TenantPointItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1275,7 +1298,6 @@ class TenantPointItem:
 
 class TenantSensorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1372,7 +1394,7 @@ class TenantSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_sensors "
                  " WHERE tenant_id = %s AND sensor_id = %s")
         cursor.execute(query, (id_, sensor_id,))
@@ -1395,7 +1417,6 @@ class TenantSensorCollection:
 
 class TenantSensorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1457,7 +1478,6 @@ class TenantSensorItem:
 
 class TenantVirtualMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1567,7 +1587,7 @@ class TenantVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_virtual_meters "
                  " WHERE tenant_id = %s AND virtual_meter_id = %s")
         cursor.execute(query, (id_, virtual_meter_id,))
@@ -1590,7 +1610,6 @@ class TenantVirtualMeterCollection:
 
 class TenantVirtualMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1653,7 +1672,6 @@ class TenantVirtualMeterItem:
 
 class TenantWorkingCalendarCollection:
     def __init__(self):
-        """Initializes TenantWorkingCalendarCollection Class"""
         pass
 
     @staticmethod
@@ -1750,7 +1768,7 @@ class TenantWorkingCalendarCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_working_calendars "
                  " WHERE tenant_id = %s AND working_calendar_id = %s")
         cursor.execute(query, (id_, working_calendar_id,))
@@ -1773,7 +1791,6 @@ class TenantWorkingCalendarCollection:
 
 class TenantWorkingCalendarItem:
     def __init__(self):
-        """Initializes TenantWorkingCalendarItem Class"""
         pass
 
     @staticmethod
@@ -1836,7 +1853,6 @@ class TenantWorkingCalendarItem:
 
 class TenantCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1933,7 +1949,7 @@ class TenantCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_tenants_commands "
                  " WHERE tenant_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -1956,7 +1972,6 @@ class TenantCommandCollection:
 
 class TenantCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2018,7 +2033,6 @@ class TenantCommandItem:
 
 class TenantExport:
     def __init__(self):
-        """"Initializes TenantExport"""
         pass
 
     @staticmethod
@@ -2277,7 +2291,6 @@ class TenantExport:
 
 class TenantImport:
     def __init__(self):
-        """"Initializes TenantImport"""
         pass
 
     @staticmethod
@@ -2649,7 +2662,6 @@ class TenantImport:
 
 class TenantClone:
     def __init__(self):
-        """"Initializes TenantClone"""
         pass
 
     @staticmethod

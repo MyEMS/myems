@@ -8,17 +8,47 @@ import config
 
 
 class StoreCollection:
+    """
+    Store Collection Resource
+
+    This class handles CRUD operations for store collection.
+    It provides endpoints for listing all stores and creating new ones.
+    Stores represent retail or commercial spaces within facilities,
+    containing equipment, meters, and other components for monitoring
+    and managing commercial operations and energy consumption.
+    """
     def __init__(self):
-        """"Initializes StoreCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all stores
+
+        Returns a list of all stores with their complete information including:
+        - Store ID, name, and UUID
+        - Associated store type, contact, and cost center information
+        - Store specifications and parameters
+        - Related equipment and meter associations
+        - Working calendar configurations
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -266,7 +296,6 @@ class StoreCollection:
 
 class StoreItem:
     def __init__(self):
-        """"Initializes StoreItem"""
         pass
 
     @staticmethod
@@ -592,7 +621,6 @@ class StoreItem:
 
 class StoreMeterCollection:
     def __init__(self):
-        """"Initializes StoreMeterCollection"""
         pass
 
     @staticmethod
@@ -700,7 +728,7 @@ class StoreMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_meters "
                  " WHERE store_id = %s AND meter_id = %s")
         cursor.execute(query, (id_, meter_id,))
@@ -723,7 +751,6 @@ class StoreMeterCollection:
 
 class StoreMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -785,7 +812,6 @@ class StoreMeterItem:
 
 class StoreOfflineMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -893,7 +919,7 @@ class StoreOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_offline_meters "
                  " WHERE store_id = %s AND offline_meter_id = %s")
         cursor.execute(query, (id_, offline_meter_id,))
@@ -916,7 +942,6 @@ class StoreOfflineMeterCollection:
 
 class StoreOfflineMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -979,7 +1004,6 @@ class StoreOfflineMeterItem:
 
 class StorePointCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1086,7 +1110,7 @@ class StorePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_points "
                  " WHERE store_id = %s AND point_id = %s")
         cursor.execute(query, (id_, point_id,))
@@ -1109,7 +1133,6 @@ class StorePointCollection:
 
 class StorePointItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1172,7 +1195,6 @@ class StorePointItem:
 
 class StoreSensorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1267,7 +1289,7 @@ class StoreSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_sensors "
                  " WHERE store_id = %s AND sensor_id = %s")
         cursor.execute(query, (id_, sensor_id,))
@@ -1290,7 +1312,6 @@ class StoreSensorCollection:
 
 class StoreSensorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1352,7 +1373,6 @@ class StoreSensorItem:
 
 class StoreVirtualMeterCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1460,7 +1480,7 @@ class StoreVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_virtual_meters "
                  " WHERE store_id = %s AND virtual_meter_id = %s")
         cursor.execute(query, (id_, virtual_meter_id,))
@@ -1483,7 +1503,6 @@ class StoreVirtualMeterCollection:
 
 class StoreVirtualMeterItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1546,7 +1565,6 @@ class StoreVirtualMeterItem:
 
 class StoreWorkingCalendarCollection:
     def __init__(self):
-        """Initializes StoreWorkingCalendarCollection Class"""
         pass
 
     @staticmethod
@@ -1641,7 +1659,7 @@ class StoreWorkingCalendarCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_working_calendars "
                  " WHERE store_id = %s AND working_calendar_id = %s")
         cursor.execute(query, (id_, working_calendar_id,))
@@ -1664,7 +1682,6 @@ class StoreWorkingCalendarCollection:
 
 class StoreWorkingCalendarItem:
     def __init__(self):
-        """Initializes StoreWorkingCalendarItem Class"""
         pass
 
     @staticmethod
@@ -1727,7 +1744,6 @@ class StoreWorkingCalendarItem:
 
 class StoreCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1822,7 +1838,7 @@ class StoreCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_stores_commands "
                  " WHERE store_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -1845,7 +1861,6 @@ class StoreCommandCollection:
 
 class StoreCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1907,7 +1922,6 @@ class StoreCommandItem:
 
 class StoreExport:
     def __init__(self):
-        """"Initializes StoreExport"""
         pass
 
     @staticmethod
@@ -2150,7 +2164,6 @@ class StoreExport:
 
 class StoreImport:
     def __init__(self):
-        """"Initializes StoreImport"""
         pass
 
     @staticmethod
@@ -2486,7 +2499,6 @@ class StoreImport:
 
 class StoreClone:
     def __init__(self):
-        """"Initializes StoreClone"""
         pass
 
     @staticmethod

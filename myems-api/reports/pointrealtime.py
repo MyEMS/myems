@@ -1,3 +1,35 @@
+"""
+Point Real-time Report API
+
+This module provides REST API endpoints for generating real-time point data reports.
+It monitors and reports on real-time sensor data, point values, and system status
+to provide immediate insights into current system performance and conditions.
+
+Key Features:
+- Real-time data monitoring
+- Point value tracking
+- System status reporting
+- Live data streaming
+- Performance monitoring
+- Alert generation
+
+Report Components:
+- Real-time point values
+- System status indicators
+- Performance metrics
+- Alert notifications
+- Data trends
+- System health status
+
+The module uses Falcon framework for REST API and includes:
+- Real-time data queries
+- Live monitoring capabilities
+- Performance tracking
+- Alert management
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

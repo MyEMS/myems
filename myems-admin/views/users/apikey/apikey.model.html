@@ -5,14 +5,14 @@
   <div class="modal-body">
     <form role="form" name="form_apikey" novalidate class="form-horizontal">
       <div class="form-group" ng-show="flag">
-        <label class="col-sm-3 control-label">{{'GATEWAY.TOKEN' | translate}}</label>
+        <label class="col-sm-3 control-label">{{'GATEWAY.TOKEN' | translate}}<span class="text-danger">*</span></label>
         <div class="col-sm-7">
           <input ng-model="apiKey.token" type="text" name="apikeytoken" class="form-control" disabled required>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+        <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
         <div class="col-sm-7">
           <input ng-model="apiKey.name" type="text" name="apikeyname" class="form-control" required>
           <div ng-show="form_apikey.apikeyname.$invalid && form_apikey.apikeyname.$touched">
@@ -36,7 +36,7 @@
       </div>
 
       <div class="form-group">
-        <label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}</label>
+        <label class="col-sm-3 control-label">{{'SETTING.EXPIRES_TIME' | translate}}<span class="text-danger">*</span></label>
         <div class="col-sm-7">
           <input date-range-picker
                  class="form-control date-picker"

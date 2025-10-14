@@ -9,12 +9,20 @@ import config
 
 
 class EnergyPlanFileCollection:
+    """
+    Energy Plan File Collection Resource
+
+    This class handles CRUD operations for energy plan file collection.
+    It provides endpoints for listing all energy plan files and creating new files.
+    Energy plan files contain energy planning data for the energy management system.
+    """
     def __init__(self):
-        """"Initializes EnergyPlanFileCollection"""
+        """Initialize EnergyPlanFileCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -157,7 +165,6 @@ class EnergyPlanFileCollection:
 
 class EnergyPlanFileItem:
     def __init__(self):
-        """"Initializes EnergyPlanFileItem"""
         pass
 
     @staticmethod
@@ -245,7 +252,6 @@ class EnergyPlanFileItem:
 
 class EnergyPlanFileRestore:
     def __init__(self):
-        """"Initializes EnergyPlanFileRestore"""
         pass
 
     @staticmethod

@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgridgrid" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_GRID_NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_GRID_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridgrid.name" type="text" name="microgridgridname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridgrid.microgridgridname.$invalid && form_microgridgrid.microgridgridname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridgrid.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.BUY_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.BUY_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridgrid.buy_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.SELL_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.SELL_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridgrid.sell_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -48,7 +48,7 @@
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.CAPACITY' | translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridgrid.capacity" type="number" name="microgridgridcapacity" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridgrid.microgridgridcapacity.$invalid && form_microgridgrid.microgridgridcapacity.$dirty">

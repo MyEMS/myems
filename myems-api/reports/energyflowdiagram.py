@@ -1,3 +1,35 @@
+"""
+Energy Flow Diagram Report API
+
+This module provides REST API endpoints for generating energy flow diagram reports.
+It creates visual representations of energy flow patterns, consumption paths,
+and distribution networks to help understand energy usage and identify optimization opportunities.
+
+Key Features:
+- Energy flow visualization
+- Consumption path analysis
+- Distribution network mapping
+- Flow pattern identification
+- Optimization recommendations
+- Interactive diagram generation
+
+Report Components:
+- Energy flow paths and directions
+- Consumption patterns by category
+- Distribution network topology
+- Flow intensity measurements
+- Bottleneck identification
+- Efficiency analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy flow data
+- Visualization algorithms
+- Excel export via excelexporters
+- Interactive diagram generation
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector

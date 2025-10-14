@@ -1,3 +1,35 @@
+"""
+Microgrid Reporting Revenue Report API
+
+This module provides REST API endpoints for generating microgrid reporting revenue reports.
+It analyzes revenue generation from microgrid operations with detailed reporting,
+providing insights into financial performance and revenue optimization opportunities.
+
+Key Features:
+- Microgrid revenue analysis
+- Base period vs reporting period comparison
+- Revenue breakdown and trends
+- Revenue optimization insights
+- Excel export functionality
+- Financial performance metrics
+
+Report Components:
+- Microgrid revenue summary
+- Base period comparison data
+- Revenue breakdown and trends
+- Revenue optimization recommendations
+- Financial performance indicators
+- Revenue pattern analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for revenue data
+- Revenue calculation algorithms
+- Financial analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

@@ -32,6 +32,7 @@ import EquipmentSaving from '../components/MyEMS/Equipment/EquipmentSaving';
 import EquipmentPlan from '../components/MyEMS/Equipment/EquipmentPlan';
 import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
+import EquipmentComparison from '../components/MyEMS/Equipment/EquipmentComparison';
 // Meter
 import MeterBatch from '../components/MyEMS/Meter/MeterBatch';
 import MeterCarbon from '../components/MyEMS/Meter/MeterCarbon';
@@ -150,6 +151,7 @@ const MyEMSRoutes = () => (
     <Route path="/equipment/plan" exact component={EquipmentPlan} />
     <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
+    <Route path="/equipment/comparison" exact component={EquipmentComparison} />
 
     {/*Meter*/}
     <Route path="/meter/meterenergy" exact component={MeterEnergy} />

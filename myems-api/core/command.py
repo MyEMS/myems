@@ -11,8 +11,14 @@ import config
 
 
 class CommandCollection:
+    """
+    Command Collection Resource
+
+    This class handles CRUD operations for command collection.
+    It provides endpoints for listing all commands and creating new commands.
+    Commands represent MQTT-based control instructions for energy management systems.
+    """
     def __init__(self):
-        """"Initializes CommandCollection"""
         pass
 
     @staticmethod
@@ -139,7 +145,6 @@ class CommandCollection:
 
 class CommandItem:
     def __init__(self):
-        """"Initializes CommandItem"""
         pass
 
     @staticmethod
@@ -427,7 +432,6 @@ class CommandItem:
 
 class CommandSend:
     def __init__(self):
-        """"Initializes CommandSend"""
         pass
 
     @staticmethod
@@ -528,7 +532,6 @@ class CommandSend:
 
 class CommandExport:
     def __init__(self):
-        """"Initializes CommandItem"""
         pass
 
     @staticmethod
@@ -576,7 +579,6 @@ class CommandExport:
 
 class CommandImport:
     def __init__(self):
-        """"Initializes CommandCollection"""
         pass
 
     @staticmethod
@@ -669,7 +671,6 @@ class CommandImport:
 
 class CommandClone:
     def __init__(self):
-        """"Initializes CommandItem"""
         pass
 
     @staticmethod

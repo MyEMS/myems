@@ -1,3 +1,28 @@
+"""
+Space Energy Item Excel Exporter
+
+This module provides functionality to export space energy item data to Excel format.
+It generates comprehensive reports showing energy consumption by specific energy items
+for spaces with detailed analysis and visualizations.
+
+Key Features:
+- Space energy consumption by energy items
+- Base period vs reporting period comparison
+- Energy item proportion analysis
+- Detailed data with charts
+- Child spaces analysis
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy consumption summary by energy items
+- Base period comparison data
+- Item proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Child spaces data with charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

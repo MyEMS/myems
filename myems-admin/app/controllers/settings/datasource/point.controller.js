@@ -154,7 +154,7 @@ app.controller('PointController', function(
 				if (isConfirm) {
 					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 					PointService.deletePoint(point, headers, function (response) {
-						if (angular.isDefined(response.status) && response.status === 204) {
+						if (angular.isDefined(response.status) && (response.status === 204)) {
                             toaster.pop({
                                 type: "success",
                                 title: $translate.instant("TOASTER.SUCCESS_TITLE"),
@@ -311,3 +311,4 @@ app.controller('ModalEditPointCtrl', function($scope, $uibModalInstance, params)
 		$uibModalInstance.dismiss('cancel');
 	};
 });
+

@@ -11,21 +11,13 @@ app.factory("EnergyStorageContainerService", function ($http) {
         }
       );
     },
-    searchEnergyStorageContainers: function (query, headers, callback) {
-      $http
-        .get(
-          getAPI() + "energystoragecontainers",
-          { params: { q: query } },
-          { headers }
-        )
-        .then(
-          function (response) {
+    searchEnergyStorageContainers: function(query, headers, callback) {
+        $http.get(getAPI()+'energystoragecontainers', { params: { q: query },headers: headers })
+        .then(function (response) {
             callback(response);
-          },
-          function (response) {
+        }, function (response) {
             callback(response);
-          }
-        );
+        });
     },
     addEnergyStorageContainer: function (
       energystoragecontainer,

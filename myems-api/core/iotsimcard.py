@@ -8,8 +8,14 @@ import config
 
 
 class IoTSIMCardCollection:
+    """
+    IoT SIM Card Collection Resource
+
+    This class handles CRUD operations for IoT SIM card collection.
+    It provides endpoints for listing all IoT SIM cards and creating new SIM cards.
+    IoT SIM cards represent cellular communication modules for IoT devices.
+    """
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod
@@ -112,7 +118,6 @@ class IoTSIMCardCollection:
 
 class IoTSIMCardItem:
     def __init__(self):
-        """"Initializes"""
         pass
 
     @staticmethod

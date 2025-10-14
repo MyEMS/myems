@@ -7,12 +7,20 @@ import config
 
 
 class EnergyCategoryCollection:
+    """
+    Energy Category Collection Resource
+
+    This class handles CRUD operations for energy category collection.
+    It provides endpoints for listing all energy categories and creating new categories.
+    Energy categories define types of energy (electricity, gas, water, etc.) in the system.
+    """
     def __init__(self):
-        """"Initializes EnergyCategoryCollection"""
+        """Initialize EnergyCategoryCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -120,7 +128,6 @@ class EnergyCategoryCollection:
 
 class EnergyCategoryItem:
     def __init__(self):
-        """"Initializes EnergyCategoryItem"""
         pass
 
     @staticmethod

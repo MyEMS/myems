@@ -1,3 +1,35 @@
+"""
+Equipment Efficiency Report API
+
+This module provides REST API endpoints for generating equipment efficiency reports.
+It analyzes equipment performance metrics and efficiency indicators to provide
+insights into optimization opportunities and performance improvements.
+
+Key Features:
+- Equipment efficiency analysis
+- Base period vs reporting period comparison
+- Efficiency metrics calculation
+- Performance optimization insights
+- Excel export functionality
+- Performance benchmarking
+
+Report Components:
+- Equipment efficiency summary
+- Base period comparison data
+- Efficiency metrics and KPIs
+- Performance optimization recommendations
+- Benchmarking analysis
+- Efficiency trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for efficiency data
+- Efficiency calculation algorithms
+- Performance analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

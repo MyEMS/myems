@@ -12,8 +12,14 @@ import config
 
 
 class UserCollection:
+    """
+    User Collection Resource
+
+    This class handles CRUD operations for user collection.
+    It provides endpoints for listing all users and creating new users.
+    Users represent individuals who can access the energy management system.
+    """
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -24,6 +30,14 @@ class UserCollection:
     @staticmethod
     def on_get(req, resp):
         admin_control(req)
+
+        search_query = req.get_param('q', default=None)
+
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
@@ -31,8 +45,15 @@ class UserCollection:
                  "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc, u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
-                 " ORDER BY u.name ")
-        cursor.execute(query)
+                )
+        params=[]
+        if search_query:
+            query += " WHERE u.name LIKE %s OR u.email LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query +=  " ORDER BY u.name "
+
+
+        cursor.execute(query,params)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
@@ -217,7 +238,6 @@ class UserCollection:
 
 class UserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -474,7 +494,6 @@ class UserItem:
 
 class UserLogin:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -656,7 +675,6 @@ class UserLogin:
 
 class UserLogout:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -701,7 +719,6 @@ class UserLogout:
 
 class ChangePassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -831,7 +848,6 @@ class ChangePassword:
 
 class ResetPassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -955,7 +971,6 @@ class ResetPassword:
 
 class Unlock:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1027,7 +1042,6 @@ class Unlock:
 
 class ForgotPassword:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1140,7 +1154,6 @@ class ForgotPassword:
 
 class EmailMessageCollection:
     def __init__(self):
-        """"Initializes EmailMessageCollection"""
         pass
 
     @staticmethod
@@ -1354,7 +1367,6 @@ class EmailMessageCollection:
 
 class EmailMessageItem:
     def __init__(self):
-        """"Initializes EmailMessageItem"""
         pass
 
     @staticmethod
@@ -1574,7 +1586,6 @@ class EmailMessageItem:
 
 class NewUserCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1754,7 +1765,6 @@ class NewUserCollection:
 
 class NewUserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1932,7 +1942,6 @@ class NewUserItem:
 
 class NewUserApprove:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

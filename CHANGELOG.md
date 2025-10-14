@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added search function to shopfloor setting in myems-admin and myems-api
+- added search function to user setting in myems-admin and myems-api
+- added search function to energy storage container setting in myems-admin and myems-api
+- added equipment comparison report
+- added search function to contact setting in myems-admin and myems-api
+- added asterisks to all required fields in myems-admin
+### Changed
+- updated myems-admin to refresh the point list when binding point to sensor
+- display the username when hovering over the user avatar in myems-web
+### Fixed
+- fixed translations of menu setting page in myems-admin
+- fixed value range issues of point in myems-admin
+### Removed
+
+## [v5.9.0] - 2025-09-28
+### Added
 - added tenant type function in myems-admin
 - added svg preview to myems-admin
 - added copy token function to gateway in myems-admin
@@ -24,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed blank page image style issue in myems-web
 ### Removed
+- None
 
 ## [v5.8.0] - 2025-08-28
 ### Added
@@ -2050,7 +2067,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.8.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.9.0...HEAD
+[5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
 [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
 [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
 [5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0

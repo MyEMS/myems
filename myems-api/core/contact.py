@@ -8,12 +8,20 @@ import config
 
 
 class ContactCollection:
+    """
+    Contact Collection Resource
+
+    This class handles CRUD operations for contact collection.
+    It provides endpoints for listing all contacts and creating new contacts.
+    Contacts represent individuals or organizations in the energy management system.
+    """
     def __init__(self):
-        """"Initializes ContactCollection"""
+        """Initialize ContactCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -25,14 +33,26 @@ class ContactCollection:
             access_control(req)
         else:
             api_key_control(req)
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
         query = (" SELECT id, name, uuid, "
                  "        email, phone, description "
-                 " FROM tbl_contacts "
-                 " ORDER BY name ")
-        cursor.execute(query)
+                 " FROM tbl_contacts " )
+
+        params=[]
+        if search_query:
+            query += " WHERE name LIKE %s OR  description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query +=  " ORDER BY name "
+
+        cursor.execute(query,params)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
@@ -130,7 +150,6 @@ class ContactCollection:
 
 class ContactItem:
     def __init__(self):
-        """"Initializes ContactItem"""
         pass
 
     @staticmethod

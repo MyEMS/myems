@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_command" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
 
                 <div class="col-sm-9">
                     <input ng-model="command.name" type="text" name="commandname" class="form-control" required="">
@@ -19,7 +19,7 @@
                     <input ng-model="command.topic" type="text" name="commandtopic" class="form-control">
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.PAYLOAD' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMMAND.PAYLOAD' | translate}}<span class="text-danger">*</span></label>
 
                 <div class="col-sm-9"><textarea rows="3" ng-model="command.payload" type="text" name="commandpayload" class="form-control" required=""></textarea>
                     <div class="m-t-xs" ng-show="form_command.commandpayload.$invalid && form_command.commandpayload.$dirty">

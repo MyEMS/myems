@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_iotsimcard" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-3 control-label">{{'IOTSIMCARD.ICCID' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'IOTSIMCARD.ICCID' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="iotsimcard.iccid" type="text" name="iotsimcardiccid" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_iotsimcard.iotsimcardiccid.$invalid && form_iotsimcard.iotsimcardiccid.$dirty">

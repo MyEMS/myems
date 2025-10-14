@@ -7,12 +7,20 @@ import config
 
 
 class CostCenterCollection:
+    """
+    Cost Center Collection Resource
+
+    This class handles CRUD operations for cost center collection.
+    It provides endpoints for listing all cost centers and creating new cost centers.
+    Cost centers represent organizational units for cost allocation in the energy management system.
+    """
     def __init__(self):
-        """"Initializes CostCenterCollection"""
+        """Initialize CostCenterCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -56,7 +64,7 @@ class CostCenterCollection:
             raw_json = req.stream.read().decode('utf-8')
 
         except Exception as ex:
-            print(ex)    
+            print(ex)
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -114,7 +122,6 @@ class CostCenterCollection:
 
 class CostCenterItem:
     def __init__(self):
-        """"Initializes CostCenterItem"""
         pass
 
     @staticmethod
@@ -472,7 +479,6 @@ class CostCenterItem:
 
 class CostCenterTariffCollection:
     def __init__(self):
-        """"Initializes CostCenterTariffCollection"""
         pass
 
     @staticmethod
@@ -585,7 +591,6 @@ class CostCenterTariffCollection:
 
 class CostCenterTariffItem:
     def __init__(self):
-        """"Initializes CostCenterTariffItem"""
         pass
 
     @staticmethod

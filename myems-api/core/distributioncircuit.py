@@ -7,12 +7,20 @@ import config
 
 
 class DistributionCircuitCollection:
+    """
+    Distribution Circuit Collection Resource
+
+    This class handles CRUD operations for distribution circuit collection.
+    It provides endpoints for listing all distribution circuits and creating new ones.
+    Distribution circuits represent electrical circuits within distribution systems.
+    """
     def __init__(self):
-        """Initializes DistributionCircuitCollection"""
+        """Initialize DistributionCircuitCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -182,7 +190,6 @@ class DistributionCircuitCollection:
 
 class DistributionCircuitItem:
     def __init__(self):
-        """Initializes DistributionCircuitItem"""
         pass
 
     @staticmethod
@@ -405,7 +412,6 @@ class DistributionCircuitItem:
 
 class DistributionCircuitPointCollection:
     def __init__(self):
-        """Initializes DistributionCircuitPointCollection"""
         pass
 
     @staticmethod
@@ -511,7 +517,7 @@ class DistributionCircuitPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_distribution_circuits_points "
                  " WHERE distribution_circuit_id = %s AND point_id = %s")
         cursor.execute(query, (id_, new_values['data']['point_id'],))
@@ -534,7 +540,6 @@ class DistributionCircuitPointCollection:
 
 class DistributionCircuitPointItem:
     def __init__(self):
-        """Initializes DistributionCircuitPointItem"""
         pass
 
     @staticmethod

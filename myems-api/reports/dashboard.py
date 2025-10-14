@@ -1,3 +1,35 @@
+"""
+Dashboard Report API
+
+This module provides REST API endpoints for generating comprehensive dashboard reports.
+It aggregates data from multiple sources including spaces, energy categories, sensors,
+and child spaces to provide a complete overview of energy consumption and performance.
+
+Key Features:
+- Multi-space energy consumption analysis
+- Energy category breakdown and trends
+- Sensor data integration and monitoring
+- Child space hierarchy analysis
+- Base period vs reporting period comparison
+- Real-time data processing
+- Excel export functionality
+
+Report Components:
+- Space energy input analysis
+- Energy cost calculations
+- Energy output tracking
+- Child space consumption breakdown
+- Sensor monitoring data
+- Performance metrics and KPIs
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for historical data
+- Real-time data aggregation
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon
@@ -353,7 +385,7 @@ class Reporting:
                 if rows_analog_values is not None and len(rows_analog_values) > 0:
                     for row in rows_analog_values:
                         point_data_dict[row[0]] = row[1]
-                
+
                 cursor_historical.execute(" SELECT point_id, actual_value "
                                           " FROM tbl_digital_value_latest "
                                           " WHERE point_id in ({}) "
@@ -693,7 +725,7 @@ class Reporting:
                                            energy_category_id,
                                            reporting_start_datetime_utc,
                                            reporting_end_datetime_utc))
-                    row_subtotal = cursor_energy.fetchall() 
+                    row_subtotal = cursor_energy.fetchall()
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
                                                                                         reporting_start_datetime_utc,
                                                                                         reporting_end_datetime_utc,
@@ -733,7 +765,7 @@ class Reporting:
                                             energy_category_id,
                                             reporting_start_datetime_utc,
                                             reporting_end_datetime_utc))
-                    row_subtotal = cursor_billing.fetchall() 
+                    row_subtotal = cursor_billing.fetchall()
                     rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
                                                                                         reporting_start_datetime_utc,
                                                                                         reporting_end_datetime_utc,
@@ -795,7 +827,7 @@ class Reporting:
                     base_input[energy_category_id]['subtotal_in_kgce']
                 result['base_period_input']['total_in_kgco2e'] += \
                     base_input[energy_category_id]['subtotal_in_kgco2e']
-        
+
         result['sensor'] = dict()
         result['point'] = dict()
         result['sensor'] = sensor_dict

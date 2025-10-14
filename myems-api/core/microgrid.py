@@ -8,26 +8,58 @@ import config
 
 
 class MicrogridCollection:
+    """
+    Microgrid Collection Resource
+
+    This class handles CRUD operations for microgrid collection.
+    It provides endpoints for listing all microgrids and creating new ones.
+    Microgrids represent localized energy systems that can operate independently
+    or in conjunction with the main electrical grid, typically including
+    distributed generation, energy storage, and load management capabilities.
+    """
     def __init__(self):
-        """"Initializes MicrogridCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all microgrids
+
+        Returns a list of all microgrids with their complete information including:
+        - Microgrid ID, name, and UUID
+        - Associated contact and cost center information
+        - Microgrid specifications and parameters
+        - Related equipment and meter associations
+        - SVG diagram information for visualization
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         access_control(req)
+        # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all contacts for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_contacts ")
         cursor.execute(query)
         rows_contacts = cursor.fetchall()
 
+        # Build contact dictionary for quick lookup by ID
         contact_dict = dict()
         if rows_contacts is not None and len(rows_contacts) > 0:
             for row in rows_contacts:
@@ -35,17 +67,21 @@ class MicrogridCollection:
                                         "name": row[1],
                                         "uuid": row[2]}
 
+        # Query to retrieve all cost centers for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor.execute(query)
         rows_cost_centers = cursor.fetchall()
 
+        # Build cost center dictionary for quick lookup by ID
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        # Initialize SVG dictionary for diagram references
         svg_dict = dict()
 
         query = (" SELECT id, name, uuid "
@@ -287,7 +323,6 @@ class MicrogridCollection:
 
 class MicrogridItem:
     def __init__(self):
-        """"Initializes MicrogridItem"""
         pass
 
     @staticmethod
@@ -659,7 +694,6 @@ class MicrogridItem:
 
 class MicrogridBatteryCollection:
     def __init__(self):
-        """Initializes MicrogridBatteryCollection"""
         pass
 
     @staticmethod
@@ -922,7 +956,6 @@ class MicrogridBatteryCollection:
 
 class MicrogridBatteryItem:
     def __init__(self):
-        """Initializes MicrogridBatteryItem"""
         pass
 
     @staticmethod
@@ -1252,7 +1285,6 @@ class MicrogridBatteryItem:
 
 class MicrogridCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1298,7 +1330,6 @@ class MicrogridCommandCollection:
 
 class MicrogridEVChargerCollection:
     def __init__(self):
-        """Initializes MicrogridEVChargerCollection"""
         pass
 
     @staticmethod
@@ -1493,7 +1524,6 @@ class MicrogridEVChargerCollection:
 
 class MicrogridEVChargerItem:
     def __init__(self):
-        """Initializes MicrogridEVChargerItem"""
         pass
 
     @staticmethod
@@ -1741,7 +1771,6 @@ class MicrogridEVChargerItem:
 
 class MicrogridGeneratorCollection:
     def __init__(self):
-        """Initializes MicrogridGeneratorCollection"""
         pass
 
     @staticmethod
@@ -1935,7 +1964,6 @@ class MicrogridGeneratorCollection:
 
 class MicrogridGeneratorItem:
     def __init__(self):
-        """Initializes MicrogridGeneratorItem"""
         pass
 
     @staticmethod
@@ -2184,7 +2212,6 @@ class MicrogridGeneratorItem:
 
 class MicrogridGridCollection:
     def __init__(self):
-        """Initializes MicrogridGridCollection"""
         pass
 
     @staticmethod
@@ -2397,7 +2424,6 @@ class MicrogridGridCollection:
 
 class MicrogridGridItem:
     def __init__(self):
-        """Initializes MicrogridGridItem"""
         pass
 
     @staticmethod
@@ -2667,7 +2693,6 @@ class MicrogridGridItem:
 
 class MicrogridHeatpumpCollection:
     def __init__(self):
-        """Initializes MicrogridHeatpumpCollection"""
         pass
 
     @staticmethod
@@ -2900,7 +2925,6 @@ class MicrogridHeatpumpCollection:
 
 class MicrogridHeatpumpItem:
     def __init__(self):
-        """Initializes MicrogridHeatpumpItem"""
         pass
 
     @staticmethod
@@ -3190,7 +3214,6 @@ class MicrogridHeatpumpItem:
 
 class MicrogridLoadCollection:
     def __init__(self):
-        """Initializes MicrogridLoadCollection"""
         pass
 
     @staticmethod
@@ -3384,7 +3407,6 @@ class MicrogridLoadCollection:
 
 class MicrogridLoadItem:
     def __init__(self):
-        """Initializes MicrogridLoadItem"""
         pass
 
     @staticmethod
@@ -3633,7 +3655,6 @@ class MicrogridLoadItem:
 
 class MicrogridPhotovoltaicCollection:
     def __init__(self):
-        """Initializes MicrogridPhotovoltaicCollection"""
         pass
 
     @staticmethod
@@ -3828,7 +3849,6 @@ class MicrogridPhotovoltaicCollection:
 
 class MicrogridPhotovoltaicItem:
     def __init__(self):
-        """Initializes MicrogridPhotovoltaicItem"""
         pass
 
     @staticmethod
@@ -4077,7 +4097,6 @@ class MicrogridPhotovoltaicItem:
 
 class MicrogridPowerconversionsystemCollection:
     def __init__(self):
-        """Initializes MicrogridPowerconversionsystemCollection"""
         pass
 
     @staticmethod
@@ -4281,7 +4300,6 @@ class MicrogridPowerconversionsystemCollection:
 
 class MicrogridPowerconversionsystemItem:
     def __init__(self):
-        """Initializes MicrogridPowerconversionsystemItem"""
         pass
 
     @staticmethod
@@ -4553,7 +4571,6 @@ class MicrogridPowerconversionsystemItem:
 
 class MicrogridScheduleCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4662,7 +4679,6 @@ class MicrogridScheduleCollection:
 
 class MicrogridScheduleItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4854,7 +4870,6 @@ class MicrogridScheduleItem:
 
 class MicrogridSensorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4944,7 +4959,7 @@ class MicrogridSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_microgrids_sensors "
                  " WHERE microgrid_id = %s AND sensor_id = %s")
         cursor.execute(query, (id_, sensor_id,))
@@ -4967,7 +4982,6 @@ class MicrogridSensorCollection:
 
 class MicrogridSensorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5030,7 +5044,6 @@ class MicrogridSensorItem:
 
 class MicrogridUserCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5143,7 +5156,6 @@ class MicrogridUserCollection:
 
 class MicrogridUserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5207,7 +5219,6 @@ class MicrogridUserItem:
 
 class MicrogridExport:
     def __init__(self):
-        """"Initializes MicrogridExport"""
         pass
 
     @staticmethod
@@ -5286,7 +5297,6 @@ class MicrogridExport:
 
 class MicrogridImport:
     def __init__(self):
-        """"Initializes MicrogridImport"""
         pass
 
     @staticmethod
@@ -5491,7 +5501,6 @@ class MicrogridImport:
 
 class MicrogridClone:
     def __init__(self):
-        """"Initializes MicrogridClone"""
         pass
 
     @staticmethod
@@ -5579,7 +5588,7 @@ class MicrogridClone:
                                         meta_result['latitude'],
                                         meta_result['longitude'],
                                         meta_result['rated_capacity'],
-                                        meta_result['rated_power'], 
+                                        meta_result['rated_power'],
                                         meta_result['contact']['id'],
                                         meta_result['cost_center']['id'],
                                         meta_result['serial_number'],
@@ -5594,7 +5603,7 @@ class MicrogridClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/microgrids/' + str(new_id)
-            
+
 class MicrogridDataSourceCollection:
     def __init__(self):
         pass
@@ -5766,7 +5775,6 @@ class MicrogridDataSourceItem:
 
 class MicrogridDataSourcePointCollection:
     def __init__(self):
-        """Initializes"""
         pass
 
     @staticmethod

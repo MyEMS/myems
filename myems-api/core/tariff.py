@@ -8,12 +8,20 @@ import config
 
 
 class TariffCollection:
+    """
+    Tariff Collection Resource
+
+    This class handles CRUD operations for tariff collection.
+    It provides endpoints for listing all tariffs and creating new tariffs.
+    Tariffs define pricing structures for energy consumption in the energy management system.
+    """
     def __init__(self):
-        """"Initializes TariffCollection"""
+        """Initialize TariffCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -203,7 +211,6 @@ class TariffCollection:
 
 class TariffItem:
     def __init__(self):
-        """"Initializes TariffItem"""
         pass
 
     @staticmethod
@@ -384,8 +391,8 @@ class TariffItem:
         cursor = cnx.cursor()
 
         # check if the tariff exist
-        query = (" SELECT name " 
-                 " FROM tbl_tariffs " 
+        query = (" SELECT name "
+                 " FROM tbl_tariffs "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
         cursor.fetchone()
@@ -459,7 +466,6 @@ class TariffItem:
 
 class TariffExport:
     def __init__(self):
-        """"Initializes TariffExport"""
         pass
 
     @staticmethod
@@ -538,7 +544,6 @@ class TariffExport:
 
 class TariffImport:
     def __init__(self):
-        """"Initializes TariffImport"""
         pass
 
     @staticmethod
@@ -663,7 +668,6 @@ class TariffImport:
 
 class TariffClone:
     def __init__(self):
-        """"Initializes TariffClone"""
         pass
 
     @staticmethod

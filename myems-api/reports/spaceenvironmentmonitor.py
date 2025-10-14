@@ -1,3 +1,35 @@
+"""
+Space Environment Monitor Report API
+
+This module provides REST API endpoints for generating space environment monitoring reports.
+It monitors and reports on environmental conditions within spaces including temperature,
+humidity, air quality, and other environmental parameters.
+
+Key Features:
+- Space environment monitoring
+- Environmental parameter tracking
+- Environmental condition analysis
+- Environmental alert generation
+- Performance monitoring
+- Environmental trend analysis
+
+Report Components:
+- Space environment summary
+- Environmental parameter data
+- Environmental condition analysis
+- Environmental alerts and notifications
+- Environmental trends and patterns
+- Environmental performance metrics
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for environmental data
+- Environmental monitoring capabilities
+- Environmental analysis tools
+- Alert management
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
@@ -44,14 +76,14 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
-        
+
         if sensor_id is not None:
             sensor_id = str.strip(sensor_id)
             if not sensor_id.isdigit() or int(sensor_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_SENSOR_UUID')
-            
+
         is_quick_mode = False
         if quick_mode is not None and \
                 len(str.strip(quick_mode)) > 0 and \
@@ -64,7 +96,7 @@ class Reporting:
 
         reporting_end_datetime_utc = datetime.utcnow()
         reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(minutes=60)
-            
+
         ################################################################################################################
         # Step 2: query the sensor
         ################################################################################################################

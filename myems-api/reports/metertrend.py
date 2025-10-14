@@ -1,3 +1,35 @@
+"""
+Meter Trend Report API
+
+This module provides REST API endpoints for generating meter trend reports.
+It analyzes energy consumption trends and patterns over time to provide
+insights into usage patterns, seasonal variations, and optimization opportunities.
+
+Key Features:
+- Meter energy consumption trend analysis
+- Time-series trend identification
+- Seasonal pattern analysis
+- Trend-based optimization insights
+- Excel export functionality
+- Predictive analysis capabilities
+
+Report Components:
+- Meter trend summary
+- Time-series trend data
+- Seasonal pattern analysis
+- Trend-based predictions
+- Optimization recommendations
+- Pattern identification
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for trend data
+- Trend analysis algorithms
+- Pattern recognition tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 import falcon

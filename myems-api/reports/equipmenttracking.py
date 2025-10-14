@@ -1,3 +1,35 @@
+"""
+Equipment Tracking Report API
+
+This module provides REST API endpoints for generating equipment tracking reports.
+It tracks equipment performance over time and provides insights into
+operational patterns, maintenance needs, and performance trends.
+
+Key Features:
+- Equipment performance tracking
+- Time-series data analysis
+- Performance trend identification
+- Maintenance scheduling insights
+- Excel export functionality
+- Performance monitoring
+
+Report Components:
+- Equipment tracking summary
+- Time-series performance data
+- Performance trend analysis
+- Maintenance indicators
+- Performance alerts
+- Operational patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for tracking data
+- Time-series analysis algorithms
+- Performance monitoring tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import falcon
 import mysql.connector
 import simplejson as json

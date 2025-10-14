@@ -11,6 +11,7 @@ app.controller('ContactController', function(
     SweetAlert) {
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.searchKeyword = '';
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -137,6 +138,39 @@ app.controller('ContactController', function(
 		            });
 		        }
 		    });
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchContact = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllContacts();
+				safeApply($scope);
+				return;
+			}
+
+			ContactService.searchContacts(trimmedKeyword, headers, (response) => {
+				$scope.contacts = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.contacts];
+			});
+		}, 300);
 	};
 
 	$scope.getAllContacts();

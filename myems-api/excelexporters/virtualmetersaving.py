@@ -1,3 +1,26 @@
+"""
+Virtual Meter Saving Excel Exporter
+
+This module provides functionality to export virtual meter saving data to Excel format.
+It generates comprehensive reports showing energy saving analysis for virtual meters
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Virtual meter energy saving analysis
+- Base period vs reporting period comparison
+- Saving breakdown by energy categories
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Virtual meter saving summary
+- Base period comparison data
+- Saving breakdown by energy categories
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

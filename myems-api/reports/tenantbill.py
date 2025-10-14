@@ -1,3 +1,35 @@
+"""
+Tenant Bill Report API
+
+This module provides REST API endpoints for generating tenant bill reports.
+It analyzes billing information and energy costs for tenants, providing insights
+into billing patterns, cost optimization opportunities, and financial performance.
+
+Key Features:
+- Tenant billing analysis
+- Base period vs reporting period comparison
+- Bill breakdown by energy categories
+- Billing optimization insights
+- Excel export functionality
+- Financial performance metrics
+
+Report Components:
+- Tenant bill summary
+- Base period comparison data
+- Bill breakdown by energy categories
+- Billing optimization recommendations
+- Financial performance indicators
+- Billing trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for billing data
+- Billing calculation algorithms
+- Financial analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

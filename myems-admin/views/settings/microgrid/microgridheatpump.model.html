@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgridheatpump" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_HEATPUMP_NAME' | translate}}</label>
+              <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_HEATPUMP_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridheatpump.name" type="text" name="microgridheatpumpname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumpname.$invalid && form_microgridheatpump.microgridheatpumpname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridheatpump.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.ELECTRICITY_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.ELECTRICITY_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridheatpump.electricity_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.HEAT_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.HEAT_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridheatpump.heat_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.COOLING_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.COOLING_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridheatpump.cooling_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_INPUT_POWER' | translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridheatpump.rated_input_power" type="number" name="microgridheatpumprated_input_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridheatpump.microgridheatpumprated_input_power.$invalid && form_microgridheatpump.microgridheatpumprated_input_power.$dirty">

@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_virtualpowerplant" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
                   <input ng-model="virtualpowerplant.name" type="text" name="virtualpowerplantname" class="form-control" required>
                   <div class="m-t-xs" ng-show="form_virtualpowerplant.virtualpowerplantname.$invalid && form_virtualpowerplant.virtualpowerplantname.$dirty">
@@ -12,7 +12,7 @@
                   </div>
               </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="virtualpowerplant.cost_center.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -22,7 +22,7 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'VIRTUAL_POWER_PLANT.BALANCING_PRICE_POINT' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'VIRTUAL_POWER_PLANT.BALANCING_PRICE_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="virtualpowerplant.balancing_price_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">{{'VIRTUAL_POWER_PLANT.SVG' | translate}}</label>
+                <label class="col-sm-2 control-label">{{'VIRTUAL_POWER_PLANT.SVG' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="virtualpowerplant.svg.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

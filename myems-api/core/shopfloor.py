@@ -8,23 +8,60 @@ import config
 
 
 class ShopfloorCollection:
+    """
+    Shopfloor Collection Resource
+
+    This class handles CRUD operations for shopfloor collection.
+    It provides endpoints for listing all shopfloors and creating new ones.
+    Shopfloors represent manufacturing or production areas within facilities,
+    containing equipment, sensors, meters, and other operational components
+    for monitoring and managing industrial processes.
+    """
     def __init__(self):
-        """Initializes ShopfloorCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         resp.status = falcon.HTTP_200
         _ = req
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all shopfloors
+
+        Returns a list of all shopfloors with their complete information including:
+        - Shopfloor ID, name, and UUID
+        - Associated contact and cost center information
+        - Shopfloor specifications and parameters
+        - Related equipment, sensors, and meter associations
+        - Working calendar and command configurations
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -55,9 +92,13 @@ class ShopfloorCollection:
         query = (" SELECT id, name, uuid, "
                  "        area, is_input_counted, "
                  "        contact_id, cost_center_id, description "
-                 " FROM tbl_shopfloors "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_shopfloors ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_shopfloors = cursor.fetchall()
 
         result = list()
@@ -195,7 +236,6 @@ class ShopfloorCollection:
 
 class ShopfloorItem:
     def __init__(self):
-        """Initializes ShopfloorItem"""
         pass
 
     @staticmethod
@@ -462,7 +502,6 @@ class ShopfloorItem:
 
 class ShopfloorEquipmentCollection:
     def __init__(self):
-        """Initializes ShopfloorEquipmentCollection"""
         pass
 
     @staticmethod
@@ -557,7 +596,7 @@ class ShopfloorEquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EQUIPMENT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_equipments "
                  " WHERE shopfloor_id = %s AND equipment_id = %s")
         cursor.execute(query, (id_, equipment_id,))
@@ -580,7 +619,6 @@ class ShopfloorEquipmentCollection:
 
 class ShopfloorEquipmentItem:
     def __init__(self):
-        """Initializes ShopfloorEquipmentItem"""
         pass
 
     @staticmethod
@@ -644,7 +682,6 @@ class ShopfloorEquipmentItem:
 
 class ShopfloorMeterCollection:
     def __init__(self):
-        """Initializes ShopfloorMeterCollection"""
         pass
 
     @staticmethod
@@ -752,7 +789,7 @@ class ShopfloorMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_meters "
                  " WHERE shopfloor_id = %s AND meter_id = %s")
         cursor.execute(query, (id_, meter_id,))
@@ -775,7 +812,6 @@ class ShopfloorMeterCollection:
 
 class ShopfloorMeterItem:
     def __init__(self):
-        """Initializes ShopfloorMeterItem"""
         pass
 
     @staticmethod
@@ -838,7 +874,6 @@ class ShopfloorMeterItem:
 
 class ShopfloorOfflineMeterCollection:
     def __init__(self):
-        """Initializes ShopfloorOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -946,7 +981,7 @@ class ShopfloorOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_offline_meters "
                  " WHERE shopfloor_id = %s AND offline_meter_id = %s")
         cursor.execute(query, (id_, offline_meter_id,))
@@ -969,7 +1004,6 @@ class ShopfloorOfflineMeterCollection:
 
 class ShopfloorOfflineMeterItem:
     def __init__(self):
-        """Initializes ShopfloorOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1033,7 +1067,6 @@ class ShopfloorOfflineMeterItem:
 
 class ShopfloorPointCollection:
     def __init__(self):
-        """Initializes ShopfloorPointCollection"""
         pass
 
     @staticmethod
@@ -1140,7 +1173,7 @@ class ShopfloorPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_points "
                  " WHERE shopfloor_id = %s AND point_id = %s")
         cursor.execute(query, (id_, point_id,))
@@ -1163,7 +1196,6 @@ class ShopfloorPointCollection:
 
 class ShopfloorPointItem:
     def __init__(self):
-        """Initializes ShopfloorPointItem"""
         pass
 
     @staticmethod
@@ -1227,7 +1259,6 @@ class ShopfloorPointItem:
 
 class ShopfloorSensorCollection:
     def __init__(self):
-        """Initializes ShopfloorSensorCollection"""
         pass
 
     @staticmethod
@@ -1322,7 +1353,7 @@ class ShopfloorSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_sensors "
                  " WHERE shopfloor_id = %s AND sensor_id = %s")
         cursor.execute(query, (id_, sensor_id,))
@@ -1345,7 +1376,6 @@ class ShopfloorSensorCollection:
 
 class ShopfloorSensorItem:
     def __init__(self):
-        """Initializes ShopfloorSensorItem"""
         pass
 
     @staticmethod
@@ -1408,7 +1438,6 @@ class ShopfloorSensorItem:
 
 class ShopfloorVirtualMeterCollection:
     def __init__(self):
-        """Initializes ShopfloorVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -1516,7 +1545,7 @@ class ShopfloorVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_METER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_virtual_meters "
                  " WHERE shopfloor_id = %s AND virtual_meter_id = %s")
         cursor.execute(query, (id_, virtual_meter_id,))
@@ -1539,7 +1568,6 @@ class ShopfloorVirtualMeterCollection:
 
 class ShopfloorVirtualMeterItem:
     def __init__(self):
-        """Initializes ShopfloorVirtualMeterItem"""
         pass
 
     @staticmethod
@@ -1603,7 +1631,6 @@ class ShopfloorVirtualMeterItem:
 
 class ShopfloorWorkingCalendarCollection:
     def __init__(self):
-        """Initializes ShopfloorWorkingCalendarCollection Class"""
         pass
 
     @staticmethod
@@ -1698,7 +1725,7 @@ class ShopfloorWorkingCalendarCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_working_calendars "
                  " WHERE shopfloor_id = %s AND working_calendar_id = %s")
         cursor.execute(query, (id_, working_calendar_id,))
@@ -1721,7 +1748,6 @@ class ShopfloorWorkingCalendarCollection:
 
 class ShopfloorWorkingCalendarItem:
     def __init__(self):
-        """Initializes ShopfloorWorkingCalendarItem Class"""
         pass
 
     @staticmethod
@@ -1785,7 +1811,6 @@ class ShopfloorWorkingCalendarItem:
 
 class ShopfloorCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1880,7 +1905,7 @@ class ShopfloorCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_shopfloors_commands "
                  " WHERE shopfloor_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -1903,7 +1928,6 @@ class ShopfloorCommandCollection:
 
 class ShopfloorCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1966,7 +1990,6 @@ class ShopfloorCommandItem:
 
 class ShopfloorExport:
     def __init__(self):
-        """Initializes ShopfloorExport"""
         pass
 
     @staticmethod
@@ -2214,7 +2237,6 @@ class ShopfloorExport:
 
 class ShopfloorImport:
     def __init__(self):
-        """Initializes ShopfloorImport"""
         pass
 
     @staticmethod
@@ -2531,7 +2553,6 @@ class ShopfloorImport:
 
 class ShopfloorClone:
     def __init__(self):
-        """Initializes Shopfloorclone"""
         pass
 
     @staticmethod

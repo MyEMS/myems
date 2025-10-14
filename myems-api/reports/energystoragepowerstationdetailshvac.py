@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details HVAC Report API
+
+This module provides REST API endpoints for generating energy storage power station HVAC reports.
+It analyzes HVAC system data and performance metrics to provide insights into heating, ventilation,
+and air conditioning system performance, efficiency, and optimization opportunities.
+
+Key Features:
+- HVAC system performance analysis
+- Climate control efficiency analysis
+- Performance metrics calculation
+- HVAC optimization insights
+- Performance monitoring
+- HVAC system analysis
+
+Report Components:
+- HVAC system performance summary
+- Climate control efficiency metrics
+- Performance indicators
+- HVAC optimization recommendations
+- HVAC system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for HVAC data
+- Performance analysis algorithms
+- HVAC monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

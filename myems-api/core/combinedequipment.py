@@ -8,42 +8,79 @@ import config
 
 
 class CombinedEquipmentCollection:
+    """
+    Combined Equipment Collection Resource
+
+    This class handles CRUD operations for combined equipment collection.
+    It provides endpoints for listing all combined equipments and creating new ones.
+    Combined equipments represent groups of related equipment that work together
+    in the energy management system, such as HVAC systems, lighting groups, etc.
+    """
     def __init__(self):
-        """ Initializes CombinedEquipmentCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all combined equipments
+
+        Returns a list of all combined equipments with their metadata including:
+        - Equipment ID, name, and UUID
+        - Input/output counting status
+        - Cost center information
+        - SVG diagram reference
+        - Camera URL for monitoring
+        - Description and QR code
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        # Check authentication method (API key or session)
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Connect to database and retrieve cost centers
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        # Query to retrieve all cost centers for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_cost_centers ")
         cursor.execute(query)
         rows_cost_centers = cursor.fetchall()
 
+        # Build cost center dictionary for quick lookup
         cost_center_dict = dict()
         if rows_cost_centers is not None and len(rows_cost_centers) > 0:
             for row in rows_cost_centers:
                 cost_center_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
+
+        # Query to retrieve all SVG diagrams for reference
         query = (" SELECT id, name, uuid "
                  " FROM tbl_svgs ")
         cursor.execute(query)
         rows_svgs = cursor.fetchall()
 
+        # Build SVG dictionary for quick lookup
         svg_dict = dict()
         if rows_svgs is not None and len(rows_svgs) > 0:
             for row in rows_svgs:
@@ -51,6 +88,7 @@ class CombinedEquipmentCollection:
                                     "name": row[1],
                                     "uuid": row[2]}
 
+        # Query to retrieve all combined equipments
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
                  "        cost_center_id, svg_id, camera_url, description "
@@ -59,6 +97,7 @@ class CombinedEquipmentCollection:
         cursor.execute(query)
         rows_combined_equipments = cursor.fetchall()
 
+        # Build result list with all combined equipment data
         result = list()
         if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
             for row in rows_combined_equipments:
@@ -199,7 +238,6 @@ class CombinedEquipmentCollection:
 
 class CombinedEquipmentItem:
     def __init__(self):
-        """Initializes CombinedEquipmentItem"""
         pass
 
     @staticmethod
@@ -600,7 +638,6 @@ class CombinedEquipmentItem:
 
 class CombinedEquipmentEquipmentCollection:
     def __init__(self):
-        """Initializes CombinedEquipmentEquipmentCollection"""
         pass
 
     @staticmethod
@@ -720,7 +757,6 @@ class CombinedEquipmentEquipmentCollection:
 
 class CombinedEquipmentEquipmentItem:
     def __init__(self):
-        """Initializes CombinedEquipmentEquipmentItem"""
         pass
 
     @staticmethod
@@ -783,7 +819,6 @@ class CombinedEquipmentEquipmentItem:
 
 class CombinedEquipmentParameterCollection:
     def __init__(self):
-        """Initializes CombinedEquipmentParameterCollection"""
         pass
 
     @staticmethod
@@ -1119,7 +1154,6 @@ class CombinedEquipmentParameterCollection:
 
 class CombinedEquipmentParameterItem:
     def __init__(self):
-        """"Initializes CombinedEquipmentParameterItem"""
         pass
 
     @staticmethod
@@ -1515,7 +1549,6 @@ class CombinedEquipmentParameterItem:
 
 class CombinedEquipmentMeterCollection:
     def __init__(self):
-        """"Initializes CombinedEquipmentMeterCollection"""
         pass
 
     @staticmethod
@@ -1656,7 +1689,6 @@ class CombinedEquipmentMeterCollection:
 
 class CombinedEquipmentMeterItem:
     def __init__(self):
-        """"Initializes CombinedEquipmentMeterItem"""
         pass
 
     @staticmethod
@@ -1719,7 +1751,6 @@ class CombinedEquipmentMeterItem:
 
 class CombinedEquipmentOfflineMeterCollection:
     def __init__(self):
-        """"Initializes CombinedEquipmentOfflineMeterCollection"""
         pass
 
     @staticmethod
@@ -1861,7 +1892,6 @@ class CombinedEquipmentOfflineMeterCollection:
 
 class CombinedEquipmentOfflineMeterItem:
     def __init__(self):
-        """"Initializes CombinedEquipmentOfflineMeterItem"""
         pass
 
     @staticmethod
@@ -1924,7 +1954,6 @@ class CombinedEquipmentOfflineMeterItem:
 
 class CombinedEquipmentVirtualMeterCollection:
     def __init__(self):
-        """"Initializes CombinedEquipmentVirtualMeterCollection"""
         pass
 
     @staticmethod
@@ -2065,7 +2094,6 @@ class CombinedEquipmentVirtualMeterCollection:
 
 class CombinedEquipmentVirtualMeterItem:
     def __init__(self):
-        """"Initializes CombinedEquipmentVirtualMeterItem"""
         pass
 
     @staticmethod
@@ -2128,7 +2156,6 @@ class CombinedEquipmentVirtualMeterItem:
 
 class CombinedEquipmentCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2223,7 +2250,7 @@ class CombinedEquipmentCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_combined_equipments_commands "
                  " WHERE combined_equipment_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -2246,7 +2273,6 @@ class CombinedEquipmentCommandCollection:
 
 class CombinedEquipmentCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2309,7 +2335,6 @@ class CombinedEquipmentCommandItem:
 
 class CombinedEquipmentExport:
     def __init__(self):
-        """Initializes CombinedEquipmentExport"""
         pass
 
     @staticmethod
@@ -2995,7 +3020,6 @@ class CombinedEquipmentImport:
 
 class CombinedEquipmentClone:
     def __init__(self):
-        """Initializes CombinedEquipmentClone"""
         pass
 
     @staticmethod

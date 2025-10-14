@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_energyflowdiagram" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}</label>
+            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input ng-model="energyflowdiagram.name" type="text" name="energyflowdiagramname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_energyflowdiagram.energyflowdiagramname.$invalid && form_energyflowdiagram.energyflowdiagramname.$dirty">

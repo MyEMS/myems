@@ -1,3 +1,35 @@
+"""
+Photovoltaic Power Station Reporting Parameters Report API
+
+This module provides REST API endpoints for generating photovoltaic power station reporting parameters reports.
+It analyzes system parameters and performance metrics with detailed reporting,
+providing insights into system configuration and optimization opportunities.
+
+Key Features:
+- Photovoltaic power station parameters analysis
+- System configuration analysis
+- Performance parameters tracking
+- Parameter optimization insights
+- Excel export functionality
+- System performance metrics
+
+Report Components:
+- Photovoltaic power station parameters summary
+- System configuration data
+- Performance parameters analysis
+- Parameter optimization recommendations
+- System performance indicators
+- Configuration analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for parameters data
+- Parameter analysis algorithms
+- System monitoring tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 import falcon

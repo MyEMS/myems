@@ -1,3 +1,34 @@
+"""
+Microgrid Details Heat Pump Report API
+
+This module provides REST API endpoints for generating microgrid heat pump reports.
+It analyzes heat pump data and performance metrics to provide insights into heating
+system performance, efficiency, and optimization opportunities.
+
+Key Features:
+- Heat pump performance analysis
+- Heating efficiency analysis
+- Performance metrics calculation
+- Heating optimization insights
+- Performance monitoring
+- Heat pump system analysis
+
+Report Components:
+- Heat pump performance summary
+- Heating efficiency metrics
+- Performance indicators
+- Heating optimization recommendations
+- Heat pump system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for heat pump data
+- Performance analysis algorithms
+- Heating monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

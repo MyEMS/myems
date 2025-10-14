@@ -1,3 +1,34 @@
+"""
+Photovoltaic Power Station List Report API
+
+This module provides REST API endpoints for generating photovoltaic power station list reports.
+It provides a comprehensive list of photovoltaic power stations with their basic information,
+status, and key performance indicators for management and monitoring purposes.
+
+Key Features:
+- Photovoltaic power station listing and overview
+- Status monitoring and tracking
+- Key performance indicators
+- Basic information management
+- Performance summary
+- Status reporting
+
+Report Components:
+- Photovoltaic power station list summary
+- Status information
+- Key performance indicators
+- Basic configuration data
+- Performance metrics
+- Status indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for photovoltaic power station list data
+- Status monitoring algorithms
+- Performance tracking tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import falcon
 from datetime import datetime, timedelta, timezone
 import mysql.connector
@@ -175,7 +206,7 @@ class Reporting:
                     invertor_run_state = 'Running'
                 else:
                     invertor_run_state = 'Running'
-                    
+
                 # complete the generation_report_dict
                 if photovoltaic_power_station_id not in generation_report_dict.keys():
                     generation_report_dict[photovoltaic_power_station_id] = dict()

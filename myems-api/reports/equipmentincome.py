@@ -1,3 +1,35 @@
+"""
+Equipment Income Report API
+
+This module provides REST API endpoints for generating equipment income reports.
+It analyzes revenue generation from equipment operations, providing insights
+into financial performance and income optimization opportunities.
+
+Key Features:
+- Equipment income analysis
+- Base period vs reporting period comparison
+- Income breakdown by energy categories
+- Revenue optimization insights
+- Excel export functionality
+- Financial performance metrics
+
+Report Components:
+- Equipment income summary
+- Base period comparison data
+- Income breakdown by energy categories
+- Revenue optimization recommendations
+- Financial performance indicators
+- Income trends and patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for income data
+- Revenue calculation algorithms
+- Financial analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

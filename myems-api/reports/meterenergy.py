@@ -1,3 +1,35 @@
+"""
+Meter Energy Report API
+
+This module provides REST API endpoints for generating meter energy reports.
+It analyzes energy consumption data from meters, providing comprehensive insights
+into energy usage patterns, consumption trends, and optimization opportunities.
+
+Key Features:
+- Meter energy consumption analysis
+- Base period vs reporting period comparison
+- Energy consumption trends and patterns
+- Consumption optimization insights
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Meter energy consumption summary
+- Base period comparison data
+- Energy consumption trends
+- Consumption optimization recommendations
+- Performance indicators
+- Usage pattern analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy data
+- Energy consumption calculations
+- Trend analysis algorithms
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

@@ -1,3 +1,35 @@
+"""
+Offline Meter Batch Report API
+
+This module provides REST API endpoints for generating offline meter batch reports.
+It analyzes energy consumption data for multiple offline meters within a space hierarchy,
+providing comprehensive insights into offline meter performance and energy usage patterns.
+
+Key Features:
+- Multi-offline meter energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Offline meter energy consumption summary
+- Space-based offline meter grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for offline meter data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector

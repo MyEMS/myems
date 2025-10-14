@@ -1,3 +1,26 @@
+"""
+Combined Equipment Efficiency Excel Exporter
+
+This module provides functionality to export combined equipment efficiency data to Excel format.
+It generates comprehensive reports showing efficiency analysis for combined equipment
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Combined equipment efficiency analysis
+- Base period vs reporting period comparison
+- Efficiency breakdown by energy categories
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Combined equipment efficiency summary
+- Base period comparison data
+- Efficiency breakdown by energy categories
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

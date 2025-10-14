@@ -9,8 +9,11 @@ app.factory('UserService', function($http) {
                 callback(response);
             });
         },
-        searchUsers: function(query, callback) {  
-            $http.get(getAPI()+'users', { params: { q: query } })  
+        searchUsers: function(query,headers, callback) {
+            $http.get(getAPI()+'users', {
+                params: { q: query },
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -1,3 +1,24 @@
+"""
+Energy Flow Diagram Excel Exporter
+
+This module provides functionality to export energy flow diagram data to Excel format.
+It generates comprehensive reports showing energy flow visualization
+with detailed analysis and interactive charts.
+
+Key Features:
+- Energy flow diagram visualization
+- Interactive charts using Plotly
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy flow diagram summary
+- Interactive visualization charts
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -209,9 +230,9 @@ def generate_excel(report, name, reporting_start_datetime_local, reporting_end_d
     )])
 
     fig.update_layout(title_text=name, font_size=10)
-    
+
     # Save image file
-    fig.write_image("sankey.png")  
+    fig.write_image("sankey.png")
 
     # Insert image
     img = Image("sankey.png")

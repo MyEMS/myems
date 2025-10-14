@@ -1,3 +1,24 @@
+"""
+Meter Comparison Excel Exporter
+
+This module provides functionality to export meter comparison data to Excel format.
+It generates comprehensive reports showing energy consumption comparison between
+base period and reporting period for meters.
+
+Key Features:
+- Meter energy consumption comparison
+- Base period vs reporting period analysis
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Meter comparison summary
+- Base period vs reporting period data
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

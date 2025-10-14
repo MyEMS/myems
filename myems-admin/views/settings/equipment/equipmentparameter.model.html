@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_equipmentparameter" novalidate class="form-horizontal">
             <div class="form-group">
-              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NAME' | translate}}</label>
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <input ng-model="equipmentparameter.name" type="text" name="equipmentparametername" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_equipmentparameter.equipmentparametername.$invalid && form_equipmentparameter.equipmentparametername.$dirty">
@@ -54,7 +54,7 @@
             </div>
             <div class="hr-line-dashed"  ng-show=" equipmentparameter.parameter_type=='fraction' "></div>
             <div class="form-group"  ng-show=" equipmentparameter.parameter_type=='fraction' ">
-              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NUMERATOR_METER' | translate}}</label>
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_NUMERATOR_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="equipmentparameter.numerator_meter.uuid" name="equipmentparameter.numerator_meter_uuid" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -66,7 +66,7 @@
             </div>
             <div class="hr-line-dashed"  ng-show=" equipmentparameter.parameter_type=='fraction' "></div>
             <div class="form-group"  ng-show=" equipmentparameter.parameter_type=='fraction' ">
-              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_DENOMINATOR_METER' | translate}}</label>
+              <label class="col-sm-4 control-label">{{'EQUIPMENT.PARAMETER_DENOMINATOR_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="equipmentparameter.denominator_meter.uuid" name="equipmentparameter.denominator_meter_uuid" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

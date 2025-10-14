@@ -1,3 +1,26 @@
+"""
+Tenant Bill Excel Exporter
+
+This module provides functionality to export tenant bill data to Excel format.
+It generates comprehensive reports showing billing information for tenants
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Tenant billing analysis
+- Base period vs reporting period comparison
+- Bill breakdown by energy categories
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Tenant billing summary
+- Base period comparison data
+- Bill breakdown by energy categories
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 import datetime
 from core.utilities import get_translation

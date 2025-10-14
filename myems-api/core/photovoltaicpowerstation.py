@@ -9,17 +9,45 @@ import config
 
 
 class PhotovoltaicPowerStationCollection:
+    """
+    Photovoltaic Power Station Collection Resource
+
+    This class handles CRUD operations for photovoltaic power station collection.
+    It provides endpoints for listing all photovoltaic power stations and creating new ones.
+    Photovoltaic power stations represent solar energy generation facilities that convert
+    sunlight into electrical energy using photovoltaic panels and associated equipment.
+    """
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all photovoltaic power stations
+
+        Returns a list of all photovoltaic power stations with their complete information including:
+        - Station ID, name, and UUID
+        - Associated contact and cost center information
+        - Station specifications and parameters
+        - Related equipment and meter associations
+        - SVG diagram information for visualization
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -279,7 +307,6 @@ class PhotovoltaicPowerStationCollection:
 
 class PhotovoltaicPowerStationItem:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -607,7 +634,6 @@ class PhotovoltaicPowerStationItem:
 
 class PhotovoltaicPowerStationDataSourcePointCollection:
     def __init__(self):
-        """Initializes"""
         pass
 
     @staticmethod
@@ -633,9 +659,9 @@ class PhotovoltaicPowerStationDataSourcePointCollection:
 
         query = (" SELECT p.id, p.name "
                  " FROM tbl_points p, tbl_photovoltaic_power_stations_data_sources ppds, tbl_data_sources ds "
-                 " WHERE ppds.photovoltaic_power_station_id = %s "  
-                 "       AND ppds.data_source_id = ds.id "          
-                 "       AND p.data_source_id = ds.id "             
+                 " WHERE ppds.photovoltaic_power_station_id = %s "
+                 "       AND ppds.data_source_id = ds.id "
+                 "       AND p.data_source_id = ds.id "
                  " ORDER BY p.id ")
         cursor.execute(query, (id_,))
         rows = cursor.fetchall()
@@ -653,7 +679,6 @@ class PhotovoltaicPowerStationDataSourcePointCollection:
 
 class PhotovoltaicPowerStationExport:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -742,7 +767,6 @@ class PhotovoltaicPowerStationExport:
 
 class PhotovoltaicPowerStationImport:
     def __init__(self):
-        """"Initializes PhotovoltaicPowerStationImport"""
         pass
 
     @staticmethod
@@ -940,7 +964,6 @@ class PhotovoltaicPowerStationImport:
 
 class PhotovoltaicPowerStationClone:
     def __init__(self):
-        """"Initializes PhotovoltaicPowerStationClone"""
         pass
 
     @staticmethod
@@ -1026,7 +1049,6 @@ class PhotovoltaicPowerStationClone:
 
 class PhotovoltaicPowerStationGridCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1405,7 +1427,6 @@ class PhotovoltaicPowerStationGridCollection:
 
 class PhotovoltaicPowerStationGridItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1840,7 +1861,6 @@ class PhotovoltaicPowerStationGridItem:
 
 class PhotovoltaicPowerStationInvertorCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -2945,7 +2965,6 @@ class PhotovoltaicPowerStationInvertorCollection:
 
 class PhotovoltaicPowerStationInvertorItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4084,7 +4103,6 @@ class PhotovoltaicPowerStationInvertorItem:
 
 class PhotovoltaicPowerStationLoadCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4442,7 +4460,6 @@ class PhotovoltaicPowerStationLoadCollection:
 
 class PhotovoltaicPowerStationLoadItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4855,7 +4872,6 @@ class PhotovoltaicPowerStationLoadItem:
 
 class PhotovoltaicPowerStationUserCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -4968,7 +4984,6 @@ class PhotovoltaicPowerStationUserCollection:
 
 class PhotovoltaicPowerStationUserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5033,7 +5048,6 @@ class PhotovoltaicPowerStationUserItem:
 
 class PhotovoltaicPowerStationDataSourceCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -5129,7 +5143,7 @@ class PhotovoltaicPowerStationDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATA_SOURCE_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_photovoltaic_power_stations_data_sources "
                  " WHERE photovoltaic_power_station_id = %s AND data_source_id = %s")
         cursor.execute(query, (id_, data_source_id,))
@@ -5153,7 +5167,6 @@ class PhotovoltaicPowerStationDataSourceCollection:
 
 class PhotovoltaicPowerStationDataSourceItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

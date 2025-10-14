@@ -6,9 +6,15 @@
 				<uib-tabset>
 						<uib-tab heading="{{'SETTING.CONTACT' | translate}}">
 							<div class="panel-body" ng-controller="ContactController">
-								<a ng-click="addContact()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTACT' | translate}}</a>
-								<br>
-								<br>
+								<div class="col-md-3">
+								   <a ng-click="addContact()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTACT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text" class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchKeyword"
+										   ng-keyup="searchContact()">
+								</div>
 								<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 										<tr>

@@ -1,3 +1,33 @@
+"""
+Photovoltaic Power Station Dashboard Report API
+
+This module provides REST API endpoints for generating comprehensive photovoltaic power station dashboard reports.
+It aggregates data from multiple sources including photovoltaic power stations, energy categories, sensors,
+and child spaces to provide a complete overview of solar generation performance and system status.
+
+Key Features:
+- Multi-photovoltaic power station analysis
+- Solar generation performance tracking
+- Energy category breakdown and trends
+- Sensor data integration and monitoring
+- Base period vs reporting period comparison
+- Real-time data processing
+
+Report Components:
+- Photovoltaic power station generation analysis
+- Energy generation calculations
+- System performance tracking
+- Sensor monitoring data
+- Performance metrics and KPIs
+- System status indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for historical data
+- Real-time data aggregation
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 from decimal import Decimal
 import falcon

@@ -8,17 +8,45 @@ import config
 
 
 class EnergyStoragePowerStationCollection:
+    """
+    Energy Storage Power Station Collection Resource
+
+    This class handles CRUD operations for energy storage power station collection.
+    It provides endpoints for listing all energy storage power stations and creating new ones.
+    Energy storage power stations represent large-scale energy storage facilities
+    that can store and discharge significant amounts of energy for grid applications.
+    """
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """
+        Handle OPTIONS request for CORS preflight
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         _ = req
         resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
+        """
+        Handle GET requests to retrieve all energy storage power stations
+
+        Returns a list of all energy storage power stations with their complete information including:
+        - Station ID, name, and UUID
+        - Associated contact and cost center information
+        - Station specifications and parameters
+        - Related equipment and meter associations
+        - SVG diagram information for visualization
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
         access_control(req)
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -113,7 +141,16 @@ class EnergyStoragePowerStationCollection:
     @staticmethod
     @user_logger
     def on_post(req, resp):
-        """Handles POST requests"""
+        """
+        Handle POST requests to create a new energy storage power station
+
+        Creates a new energy storage power station with the provided specifications.
+        The station will be empty initially and equipment/meters can be added separately.
+
+        Args:
+            req: Falcon request object containing station data
+            resp: Falcon response object
+        """
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
@@ -344,8 +381,14 @@ class EnergyStoragePowerStationCollection:
 
 
 class EnergyStoragePowerStationItem:
+    """
+    Energy Storage Power Station Item Resource
+
+    This class handles CRUD operations for individual energy storage power stations.
+    It provides endpoints for retrieving, updating, and deleting specific
+    energy storage power stations by their ID.
+    """
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -743,7 +786,6 @@ class EnergyStoragePowerStationItem:
 
 class EnergyStoragePowerStationContainerCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -836,7 +878,7 @@ class EnergyStoragePowerStationContainerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_energy_storage_power_stations_containers "
                  " WHERE energy_storage_power_station_id = %s AND energy_storage_container_id = %s")
         cursor.execute(query, (id_, energy_storage_container_id,))
@@ -860,7 +902,6 @@ class EnergyStoragePowerStationContainerCollection:
 
 class EnergyStoragePowerStationContainerItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -923,7 +964,6 @@ class EnergyStoragePowerStationContainerItem:
 
 class EnergyStoragePowerStationDataSourcePointCollection:
     def __init__(self):
-        """Initializes"""
         pass
 
     @staticmethod
@@ -969,7 +1009,6 @@ class EnergyStoragePowerStationDataSourcePointCollection:
 
 class EnergyStoragePowerStationUserCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1082,7 +1121,6 @@ class EnergyStoragePowerStationUserCollection:
 
 class EnergyStoragePowerStationUserItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1147,7 +1185,6 @@ class EnergyStoragePowerStationUserItem:
 
 class EnergyStoragePowerStationExport:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -1244,7 +1281,6 @@ class EnergyStoragePowerStationExport:
 
 class EnergyStoragePowerStationImport:
     def __init__(self):
-        """"Initializes Class"""
         pass
 
     @staticmethod
@@ -1506,7 +1542,6 @@ class EnergyStoragePowerStationImport:
 
 class EnergyStoragePowerStationClone:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

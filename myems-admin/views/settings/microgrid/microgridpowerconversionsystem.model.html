@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgridpowerconversionsystem" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridpowerconversionsystem.name" type="text" name="microgridpowerconversionsystemname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$invalid && form_microgridpowerconversionsystem.microgridpowerconversionsystemname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RUN_STATE_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RUN_STATE_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridpowerconversionsystem.run_state_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_OUTPUT_POWER' | translate}}(kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridpowerconversionsystem.rated_output_power" type="number" name="microgridpowerconversionsystemrated_output_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridpowerconversionsystem.microgridpowerconversionsystemrated_output_power.$invalid && form_microgridpowerconversionsystem.microgridpowerconversionsystemrated_output_power.$dirty">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.TODAY_CHARGE_ENERGY_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.TODAY_CHARGE_ENERGY_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridpowerconversionsystem.today_charge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.TODAY_DISCHARGE_ENERGY_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.TODAY_DISCHARGE_ENERGY_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridpowerconversionsystem.today_discharge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.TOTAL_CHARGE_ENERGY_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.TOTAL_CHARGE_ENERGY_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridpowerconversionsystem.total_charge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.TOTAL_DISCHARGE_ENERGY_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.TOTAL_DISCHARGE_ENERGY_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridpowerconversionsystem.total_discharge_energy_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>

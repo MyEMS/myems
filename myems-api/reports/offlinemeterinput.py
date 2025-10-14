@@ -1,3 +1,34 @@
+"""
+Offline Meter Input Report API
+
+This module provides REST API endpoints for generating offline meter input reports.
+It analyzes input data from offline meters to provide insights into
+data collection patterns and input validation opportunities.
+
+Key Features:
+- Offline meter input data analysis
+- Input pattern identification
+- Data validation and verification
+- Input quality assessment
+- Performance monitoring
+- Input optimization insights
+
+Report Components:
+- Offline meter input summary
+- Input data patterns
+- Data validation results
+- Input quality metrics
+- Performance indicators
+- Input optimization recommendations
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for input data
+- Input analysis algorithms
+- Data validation tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import json
 import config
 import mysql.connector

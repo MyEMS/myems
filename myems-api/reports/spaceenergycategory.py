@@ -1,3 +1,35 @@
+"""
+Space Energy Category Report API
+
+This module provides REST API endpoints for generating space energy category reports.
+It analyzes energy consumption by different energy categories for spaces,
+providing insights into energy usage patterns and category-specific optimizations.
+
+Key Features:
+- Space energy consumption by category analysis
+- Base period vs reporting period comparison
+- Energy category breakdown and trends
+- Category-specific optimization insights
+- Excel export functionality
+- Energy mix analysis
+
+Report Components:
+- Space energy consumption by category summary
+- Base period comparison data
+- Energy category breakdown
+- Category-specific performance metrics
+- Energy mix analysis
+- Optimization recommendations by category
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy category data
+- Category-specific calculations
+- Energy mix analysis tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -321,7 +353,7 @@ class Reporting:
         rows = cursor_system.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                working_calendar_list.append(row[0])        
+                working_calendar_list.append(row[0])
 
         ################################################################################################################
         # Step 7: query child spaces
@@ -412,7 +444,7 @@ class Reporting:
                         base[energy_category_id]['non_working_days_subtotal'] += actual_value
                     else:
                         base[energy_category_id]['working_days_subtotal'] += actual_value
-            
+
         ################################################################################################################
         # Step 9: query reporting period energy input
         ################################################################################################################

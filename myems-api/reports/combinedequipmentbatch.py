@@ -1,3 +1,35 @@
+"""
+Combined Equipment Batch Report API
+
+This module provides REST API endpoints for generating combined equipment batch reports.
+It analyzes energy consumption data for multiple combined equipment within a space hierarchy,
+providing comprehensive insights into combined equipment performance and energy usage patterns.
+
+Key Features:
+- Multi-combined equipment energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Combined equipment energy consumption summary
+- Space-based combined equipment grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for combined equipment data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

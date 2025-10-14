@@ -1,3 +1,33 @@
+"""
+Microgrid Dashboard Report API
+
+This module provides REST API endpoints for generating comprehensive microgrid dashboard reports.
+It aggregates data from multiple sources including microgrids, energy categories, sensors,
+and child spaces to provide a complete overview of microgrid energy consumption and performance.
+
+Key Features:
+- Multi-microgrid energy consumption analysis
+- Energy category breakdown and trends
+- Sensor data integration and monitoring
+- Child space hierarchy analysis
+- Base period vs reporting period comparison
+- Real-time data processing
+
+Report Components:
+- Microgrid energy input analysis
+- Energy cost calculations
+- Energy output tracking
+- Child space consumption breakdown
+- Sensor monitoring data
+- Performance metrics and KPIs
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for historical data
+- Real-time data aggregation
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

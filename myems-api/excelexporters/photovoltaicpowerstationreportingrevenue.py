@@ -1,3 +1,24 @@
+"""
+Photovoltaic Power Station Reporting Revenue Excel Exporter
+
+This module provides functionality to export photovoltaic power station revenue reporting data to Excel format.
+It generates comprehensive reports showing photovoltaic power station revenue performance
+with detailed analysis and visualizations.
+
+Key Features:
+- Photovoltaic power station revenue performance analysis
+- Base period vs reporting period comparison
+- Formatted Excel output with proper styling
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Photovoltaic power station revenue performance summary
+- Base period comparison data
+- Proper formatting and borders
+- Logo and header information
+"""
+
 import base64
 from core.utilities import get_translation
 import os

@@ -1,3 +1,34 @@
+"""
+Microgrid Details Report API
+
+This module provides REST API endpoints for generating detailed microgrid reports.
+It analyzes comprehensive microgrid data including energy consumption, generation,
+storage, and distribution to provide detailed insights into microgrid performance.
+
+Key Features:
+- Comprehensive microgrid analysis
+- Energy generation and consumption tracking
+- Storage system monitoring
+- Distribution network analysis
+- Performance optimization insights
+- Detailed component analysis
+
+Report Components:
+- Microgrid energy generation summary
+- Energy consumption analysis
+- Storage system performance
+- Distribution network metrics
+- Component performance indicators
+- Optimization recommendations
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for detailed microgrid data
+- Comprehensive analysis algorithms
+- Performance monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal

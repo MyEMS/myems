@@ -11,10 +11,22 @@ import config
 
 def admin_control(req):
     """
-    Check administrator privilege in request headers to protect resources from invalid access
-    :param req: HTTP request
-    :return: HTTPError if invalid else None
+    Check administrator privilege in request headers to protect resources from invalid access.
+
+    This function validates that the request contains valid administrator credentials
+    by checking the USER-UUID and TOKEN headers against the user database sessions.
+    It ensures that only authenticated administrators can access protected resources.
+
+    Args:
+        req: HTTP request object containing headers with USER-UUID and TOKEN
+
+    Raises:
+        falcon.HTTPError: If invalid credentials or expired session
+
+    Returns:
+        None: If validation passes
     """
+    # Validate USER-UUID header
     if 'USER-UUID' not in req.headers or \
             not isinstance(req.headers['USER-UUID'], str) or \
             len(str.strip(req.headers['USER-UUID'])) == 0:
@@ -22,6 +34,7 @@ def admin_control(req):
                                description='API.INVALID_USER_UUID')
     admin_user_uuid = str.strip(req.headers['USER-UUID'])
 
+    # Validate TOKEN header
     if 'TOKEN' not in req.headers or \
             not isinstance(req.headers['TOKEN'], str) or \
             len(str.strip(req.headers['TOKEN'])) == 0:
@@ -29,7 +42,7 @@ def admin_control(req):
                                description='API.INVALID_TOKEN')
     admin_token = str.strip(req.headers['TOKEN'])
 
-    # Check administrator session
+    # Check administrator session in user database
     cnx = mysql.connector.connect(**config.myems_user_db)
     cursor = cnx.cursor()
     query = (" SELECT utc_expires "
@@ -45,6 +58,7 @@ def admin_control(req):
                                description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
     else:
         utc_expires = row[0]
+        # Check if session has expired
         if datetime.utcnow() > utc_expires:
             cursor.close()
             cnx.close()

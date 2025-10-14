@@ -1,3 +1,35 @@
+"""
+Meter Tracking Report API
+
+This module provides REST API endpoints for generating meter tracking reports.
+It tracks meter performance over time and provides insights into
+operational patterns, maintenance needs, and performance trends.
+
+Key Features:
+- Meter performance tracking
+- Time-series data analysis
+- Performance trend identification
+- Maintenance scheduling insights
+- Excel export functionality
+- Performance monitoring
+
+Report Components:
+- Meter tracking summary
+- Time-series performance data
+- Performance trend analysis
+- Maintenance indicators
+- Performance alerts
+- Operational patterns
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for tracking data
+- Time-series analysis algorithms
+- Performance monitoring tools
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

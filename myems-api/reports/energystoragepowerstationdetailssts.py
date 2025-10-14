@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details STS Report API
+
+This module provides REST API endpoints for generating energy storage power station static transfer switch (STS) reports.
+It analyzes STS data and performance metrics to provide insights into static transfer switch
+system performance, reliability, and optimization opportunities.
+
+Key Features:
+- STS performance analysis
+- Static transfer switch reliability analysis
+- Performance metrics calculation
+- STS optimization insights
+- Performance monitoring
+- STS system analysis
+
+Report Components:
+- STS performance summary
+- Static transfer switch reliability metrics
+- Performance indicators
+- STS optimization recommendations
+- STS system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for STS data
+- Performance analysis algorithms
+- STS monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

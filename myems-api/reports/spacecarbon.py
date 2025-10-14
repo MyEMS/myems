@@ -1,3 +1,35 @@
+"""
+Space Carbon Report API
+
+This module provides REST API endpoints for generating space carbon emissions reports.
+It analyzes carbon dioxide emissions from space energy consumption, providing insights
+into environmental impact and carbon footprint reduction opportunities.
+
+Key Features:
+- Space carbon emissions analysis
+- Base period vs reporting period comparison
+- Time-of-use carbon breakdown
+- Carbon footprint calculations
+- Excel export functionality
+- Environmental impact assessment
+
+Report Components:
+- Space carbon emissions summary
+- Base period comparison data
+- Time-of-use carbon breakdown
+- Carbon footprint metrics
+- Environmental impact indicators
+- Reduction opportunity analysis
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for carbon data
+- Carbon emission calculations
+- Time-of-use analysis
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 import re
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -649,7 +681,7 @@ class Reporting:
 
         result['reporting_period']['total_per_unit_area'] = \
             result['reporting_period']['total'] / space['area'] if space['area'] > 0.0 else None
-            
+
         result['reporting_period']['total_per_capita'] = \
             result['reporting_period']['total'] / space['number_of_occupants'] \
             if space['number_of_occupants'] > 0.0 else None

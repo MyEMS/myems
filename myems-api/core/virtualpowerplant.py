@@ -8,12 +8,20 @@ import config
 
 
 class VirtualPowerPlantCollection:
+    """
+    Virtual Power Plant Collection Resource
+
+    This class handles CRUD operations for virtual power plant collection.
+    It provides endpoints for listing all virtual power plants and creating new ones.
+    Virtual power plants aggregate distributed energy resources for grid services.
+    """
     def __init__(self):
-        """"Initializes VirtualPowerPlantCollection"""
+        """Initialize VirtualPowerPlantCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -200,7 +208,6 @@ class VirtualPowerPlantCollection:
 
 class VirtualPowerPlantItem:
     def __init__(self):
-        """"Initializes VirtualPowerPlantItem"""
         pass
 
     @staticmethod
@@ -439,7 +446,6 @@ class VirtualPowerPlantItem:
 
 class VirtualPowerPlantMicrogridCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -534,7 +540,7 @@ class VirtualPowerPlantMicrogridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_virtual_power_plants_microgrids "
                  " WHERE virtual_power_plant_id = %s AND microgrid_id = %s")
         cursor.execute(query, (id_, microgrid_id,))
@@ -557,7 +563,6 @@ class VirtualPowerPlantMicrogridCollection:
 
 class VirtualPowerPlantMicrogridItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -620,7 +625,6 @@ class VirtualPowerPlantMicrogridItem:
 
 class VirtualPowerPlantExport:
     def __init__(self):
-        """"Initializes VirtualPowerPlantExport"""
         pass
 
     @staticmethod
@@ -705,7 +709,6 @@ class VirtualPowerPlantExport:
 
 class VirtualPowerPlantImport:
     def __init__(self):
-        """"Initializes VirtualPowerPlantImport"""
         pass
 
     @staticmethod
@@ -828,7 +831,6 @@ class VirtualPowerPlantImport:
 
 class VirtualPowerPlantClone:
     def __init__(self):
-        """"Initializes VirtualPowerPlantExport"""
         pass
 
     @staticmethod
@@ -888,4 +890,3 @@ class VirtualPowerPlantClone:
             resp.status = falcon.HTTP_201
             resp.location = '/virtualpowerplants/' + str(new_id)
 
-            

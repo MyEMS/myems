@@ -8,12 +8,20 @@ import config
 
 
 class EmailServerCollection:
+    """
+    Email Server Collection Resource
+
+    This class handles CRUD operations for email server collection.
+    It provides endpoints for listing all email servers and creating new servers.
+    Email servers configure SMTP settings for sending notifications.
+    """
     def __init__(self):
-        """"Initializes EmailServerCollection"""
+        """Initialize EmailServerCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -146,7 +154,6 @@ class EmailServerCollection:
 
 class EmailServerItem:
     def __init__(self):
-        """"Initializes EmailServerItem"""
         pass
 
     @staticmethod

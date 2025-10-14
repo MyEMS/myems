@@ -1,3 +1,26 @@
+"""
+Combined Equipment Energy Category Excel Exporter
+
+This module provides functionality to export combined equipment energy category data to Excel format.
+It generates comprehensive reports showing energy consumption breakdown by categories
+for combined equipment with detailed analysis and visualizations.
+
+Key Features:
+- Combined equipment energy consumption by category
+- Base period vs reporting period comparison
+- Energy category proportion analysis
+- Detailed data with charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Energy consumption summary by category
+- Base period comparison data
+- Category proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os
@@ -839,7 +862,7 @@ def generate_excel(report,
             ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
             ws['B' + row].border = f_border
             for j in range(0, ca_len):
-                
+
                 col = chr(ord('C') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
@@ -858,7 +881,7 @@ def generate_excel(report,
 
     associated_reporting_period_data_list = report['associated_report_period_list']
     for associated_reporting_period_data in associated_reporting_period_data_list:
-        current_row_number = current_row_number + 1 
+        current_row_number = current_row_number + 1
         times = associated_reporting_period_data['timestamps']
         ca_len = len(associated_reporting_period_data['names'])
         table_row = current_row_number + 2 + ca_len * 6

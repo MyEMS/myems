@@ -1,3 +1,28 @@
+"""
+Equipment Saving Excel Exporter
+
+This module provides functionality to export equipment saving data to Excel format.
+It generates comprehensive reports showing energy saving analysis for equipment
+with detailed breakdown by energy categories and time periods.
+
+Key Features:
+- Equipment energy saving analysis
+- Base period vs reporting period comparison
+- Saving breakdown by energy categories
+- Saving proportion analysis with charts
+- Detailed data with line charts
+- Multi-language support
+- Base64 encoding for file transmission
+
+The exported Excel file includes:
+- Equipment saving summary
+- Base period comparison data
+- Saving breakdown by energy categories
+- Proportion analysis with pie charts
+- Detailed time-series data with line charts
+- Parameter data (if available)
+"""
+
 import base64
 from core.utilities import get_translation
 import os

@@ -7,12 +7,20 @@ import config
 
 
 class TextMessageCollection:
+    """
+    Text Message Collection Resource
+
+    This class handles CRUD operations for text message collection.
+    It provides endpoints for listing all text messages and creating new messages.
+    Text messages are SMS notifications sent to mobile devices.
+    """
     def __init__(self):
-        """"Initializes TextMessageCollection"""
+        """Initialize TextMessageCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -227,7 +235,6 @@ class TextMessageCollection:
 
 class TextMessageItem:
     def __init__(self):
-        """"Initializes TextMessageItem"""
         pass
 
     @staticmethod

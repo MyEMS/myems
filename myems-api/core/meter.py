@@ -8,12 +8,20 @@ import config
 
 
 class MeterCollection:
+    """
+    Meter Collection Resource
+
+    This class handles CRUD operations for meter collection.
+    It provides endpoints for listing all meters and creating new meters.
+    Meters are used for measuring energy consumption and production.
+    """
     def __init__(self):
-        """Initializes MeterCollection"""
+        """Initialize MeterCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -293,7 +301,6 @@ class MeterCollection:
 
 class MeterItem:
     def __init__(self):
-        """Initializes MeterItem"""
         pass
 
     @staticmethod
@@ -500,7 +507,7 @@ class MeterItem:
 
         # check relation with tbl_photovoltaic_power_stations_loads
         cursor.execute("SELECT name "
-                       "FROM tbl_photovoltaic_power_stations_loads "     
+                       "FROM tbl_photovoltaic_power_stations_loads "
                        "WHERE meter_id = %s "
                        "LIMIT 1",
                        (id_,))
@@ -958,7 +965,6 @@ class MeterItem:
 
 class MeterSubmeterCollection:
     def __init__(self):
-        """Initializes MeterSubmeterCollection"""
         pass
 
     @staticmethod
@@ -1064,7 +1070,6 @@ class MeterSubmeterCollection:
 
 class MeterPointCollection:
     def __init__(self):
-        """Initializes MeterPointCollection"""
         pass
 
     @staticmethod
@@ -1166,7 +1171,7 @@ class MeterPointCollection:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                        description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_meters_points "
                  " WHERE meter_id = %s AND point_id = %s")
         cursor.execute(query, (id_, new_values['data']['point_id'],))
@@ -1189,7 +1194,6 @@ class MeterPointCollection:
 
 class MeterPointItem:
     def __init__(self):
-        """Initializes MeterPointItem"""
         pass
 
     @staticmethod
@@ -1253,7 +1257,6 @@ class MeterPointItem:
 
 class MeterCommandCollection:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1348,7 +1351,7 @@ class MeterCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        query = (" SELECT id " 
+        query = (" SELECT id "
                  " FROM tbl_meters_commands "
                  " WHERE meter_id = %s AND command_id = %s")
         cursor.execute(query, (id_, command_id,))
@@ -1371,7 +1374,6 @@ class MeterCommandCollection:
 
 class MeterCommandItem:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod
@@ -1434,7 +1436,6 @@ class MeterCommandItem:
 
 class MeterExport:
     def __init__(self):
-        """Initializes MeterExport"""
         pass
 
     @staticmethod
@@ -1552,7 +1553,6 @@ class MeterExport:
 
 class MeterImport:
     def __init__(self):
-        """Initializes MeterImport"""
         pass
 
     @staticmethod
@@ -1786,7 +1786,6 @@ class MeterImport:
 
 class MeterClone:
     def __init__(self):
-        """Initializes Class"""
         pass
 
     @staticmethod

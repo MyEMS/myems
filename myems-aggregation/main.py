@@ -1,3 +1,25 @@
+"""
+MyEMS Aggregation Service - Main Module
+
+This module is the main entry point for the MyEMS aggregation service.
+It initializes logging and starts multiple parallel processes to handle different types
+of data aggregation and calculation tasks.
+
+The service runs these processes in parallel to efficiently aggregate energy data:
+
+1. **Combined Equipment Processing**: Energy consumption, billing, and carbon emissions for combined equipment
+2. **Equipment Processing**: Energy consumption, billing, and carbon emissions for individual equipment
+3. **Meter Processing**: Billing and carbon emissions calculations for physical meters
+4. **Offline Meter Processing**: Billing and carbon emissions for offline meters
+5. **Virtual Meter Processing**: Billing and carbon emissions for virtual meters
+6. **Space Processing**: Energy consumption, billing, and carbon emissions for spaces
+7. **Store Processing**: Energy consumption, billing, and carbon emissions for stores
+8. **Tenant Processing**: Energy consumption, billing, and carbon emissions for tenants
+9. **Shopfloor Processing**: Energy consumption, billing, and carbon emissions for shopfloors
+
+Each process runs independently to ensure robust data aggregation and system reliability.
+"""
+
 import logging
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
@@ -47,115 +69,155 @@ import virtual_meter_carbon
 
 
 def main():
-    """main"""
-    # create logger
+    """
+    Main function to initialize the MyEMS aggregation service.
+
+    Sets up logging configuration and starts multiple parallel processes for different
+    types of data aggregation and calculation tasks including energy consumption,
+    billing calculations, and carbon emissions tracking.
+    """
+    # Create logger for the aggregation service
     logger = logging.getLogger('myems-aggregation')
-    # specifies the lowest-severity log message a logger will handle,
+
+    # Set logging level to ERROR to capture only error messages and above
+    # This specifies the lowest-severity log message a logger will handle,
     # where debug is the lowest built-in severity level and critical is the highest built-in severity.
     # For example, if the severity level is INFO, the logger will handle only INFO, WARNING, ERROR, and CRITICAL
     # messages and will ignore DEBUG messages.
     logger.setLevel(logging.ERROR)
-    # create file handler which logs messages
+
+    # Create rotating file handler which logs messages to a file
+    # maxBytes=1024*1024 means 1MB, backupCount=1 means keep 1 backup file
     fh = RotatingFileHandler('myems-aggregation.log', maxBytes=1024*1024, backupCount=1)
-    # create formatter and add it to the handlers
+
+    # Create formatter for log messages and add it to the file handler
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
-    # add the handlers to logger
+
+    # Add the file handler to logger
     logger.addHandler(fh)
-    # send logging output to sys.stderr
+
+    # Add console handler to send logging output to sys.stderr
     logger.addHandler(logging.StreamHandler())
 
-    # combined equipment billing input by energy categories
+    ####################################################################################################################
+    # Start Combined Equipment Processing Processes
+    ####################################################################################################################
+    # Combined equipment billing input by energy categories
     Process(target=combined_equipment_billing_input_category.main, args=(logger,)).start()
-    # combined equipment billing input by energy items
+    # Combined equipment billing input by energy items
     Process(target=combined_equipment_billing_input_item.main, args=(logger,)).start()
-    # combined equipment billing output by energy categories
+    # Combined equipment billing output by energy categories
     Process(target=combined_equipment_billing_output_category.main, args=(logger,)).start()
-    # combined equipment carbon dioxide emissions by energy categories
+    # Combined equipment carbon dioxide emissions by energy categories
     Process(target=combined_equipment_carbon_input_category.main, args=(logger,)).start()
-    # combined equipment energy input by energy categories
+    # Combined equipment energy input by energy categories
     Process(target=combined_equipment_energy_input_category.main, args=(logger,)).start()
-    # combined equipment energy input by energy items
+    # Combined equipment energy input by energy items
     Process(target=combined_equipment_energy_input_item.main, args=(logger,)).start()
-    # combined equipment energy output by energy categories
+    # Combined equipment energy output by energy categories
     Process(target=combined_equipment_energy_output_category.main, args=(logger,)).start()
 
-    # equipment billing input by energy categories
+    ####################################################################################################################
+    # Start Equipment Processing Processes
+    ####################################################################################################################
+    # Equipment billing input by energy categories
     Process(target=equipment_billing_input_category.main, args=(logger,)).start()
-    # equipment billing input by energy items
+    # Equipment billing input by energy items
     Process(target=equipment_billing_input_item.main, args=(logger,)).start()
-    # equipment billing output by energy categories
+    # Equipment billing output by energy categories
     Process(target=equipment_billing_output_category.main, args=(logger,)).start()
-    # equipment carbon dioxide emissions by energy categories
+    # Equipment carbon dioxide emissions by energy categories
     Process(target=equipment_carbon_input_category.main, args=(logger,)).start()
-    # equipment energy input by energy categories
+    # Equipment energy input by energy categories
     Process(target=equipment_energy_input_category.main, args=(logger,)).start()
-    # equipment energy input by energy items
+    # Equipment energy input by energy items
     Process(target=equipment_energy_input_item.main, args=(logger,)).start()
-    # equipment energy output by energy categories
+    # Equipment energy output by energy categories
     Process(target=equipment_energy_output_category.main, args=(logger,)).start()
 
-    # meter carbon dioxide emissions
+    ####################################################################################################################
+    # Start Meter Processing Processes
+    ####################################################################################################################
+    # Meter carbon dioxide emissions calculation
     Process(target=meter_carbon.main, args=(logger,)).start()
-    # meter billing
+    # Meter billing calculation
     Process(target=meter_billing.main, args=(logger,)).start()
 
-    # offline meter carbon dioxide emissions
+    ####################################################################################################################
+    # Start Offline Meter Processing Processes
+    ####################################################################################################################
+    # Offline meter carbon dioxide emissions calculation
     Process(target=offline_meter_carbon.main, args=(logger,)).start()
-    # offline meter billing
+    # Offline meter billing calculation
     Process(target=offline_meter_billing.main, args=(logger,)).start()
 
-    # shopfloor billing input by energy categories
+    ####################################################################################################################
+    # Start Shopfloor Processing Processes
+    ####################################################################################################################
+    # Shopfloor billing input by energy categories
     Process(target=shopfloor_billing_input_category.main, args=(logger,)).start()
-    # shopfloor billing input by energy items
+    # Shopfloor billing input by energy items
     Process(target=shopfloor_billing_input_item.main, args=(logger,)).start()
-    # shopfloor carbon dioxide emissions by energy categories
+    # Shopfloor carbon dioxide emissions by energy categories
     Process(target=shopfloor_carbon_input_category.main, args=(logger,)).start()
-    # shopfloor energy input by energy categories
+    # Shopfloor energy input by energy categories
     Process(target=shopfloor_energy_input_category.main, args=(logger,)).start()
-    # shopfloor energy input by energy items
+    # Shopfloor energy input by energy items
     Process(target=shopfloor_energy_input_item.main, args=(logger,)).start()
 
-    # space billing input by energy categories
+    ####################################################################################################################
+    # Start Space Processing Processes
+    ####################################################################################################################
+    # Space billing input by energy categories
     Process(target=space_billing_input_category.main, args=(logger,)).start()
-    # space billing input by energy items
+    # Space billing input by energy items
     Process(target=space_billing_input_item.main, args=(logger,)).start()
-    # space billing output by energy categories
+    # Space billing output by energy categories
     Process(target=space_billing_output_category.main, args=(logger,)).start()
-    # space carbon dioxide emissions by energy categories
+    # Space carbon dioxide emissions by energy categories
     Process(target=space_carbon_input_category.main, args=(logger,)).start()
-    # space energy input by energy categories
+    # Space energy input by energy categories
     Process(target=space_energy_input_category.main, args=(logger,)).start()
-    # space energy input by energy items
+    # Space energy input by energy items
     Process(target=space_energy_input_item.main, args=(logger,)).start()
-    # space energy output by energy categories
+    # Space energy output by energy categories
     Process(target=space_energy_output_category.main, args=(logger,)).start()
 
-    # store billing input by energy categories
+    ####################################################################################################################
+    # Start Store Processing Processes
+    ####################################################################################################################
+    # Store billing input by energy categories
     Process(target=store_billing_input_category.main, args=(logger,)).start()
-    # store billing input by energy items
+    # Store billing input by energy items
     Process(target=store_billing_input_item.main, args=(logger,)).start()
-    # store carbon dioxide emissions by energy categories
+    # Store carbon dioxide emissions by energy categories
     Process(target=store_carbon_input_category.main, args=(logger,)).start()
-    # store energy input by energy categories
+    # Store energy input by energy categories
     Process(target=store_energy_input_category.main, args=(logger,)).start()
-    # store energy input by energy items
+    # Store energy input by energy items
     Process(target=store_energy_input_item.main, args=(logger,)).start()
 
-    # tenant billing input by energy categories
+    ####################################################################################################################
+    # Start Tenant Processing Processes
+    ####################################################################################################################
+    # Tenant billing input by energy categories
     Process(target=tenant_billing_input_category.main, args=(logger,)).start()
-    # tenant billing input by energy items
+    # Tenant billing input by energy items
     Process(target=tenant_billing_input_item.main, args=(logger,)).start()
-    # tenant carbon dioxide emissions by energy categories
+    # Tenant carbon dioxide emissions by energy categories
     Process(target=tenant_carbon_input_category.main, args=(logger,)).start()
-    # tenant energy input by energy categories
+    # Tenant energy input by energy categories
     Process(target=tenant_energy_input_category.main, args=(logger,)).start()
-    # tenant energy input by energy items
+    # Tenant energy input by energy items
     Process(target=tenant_energy_input_item.main, args=(logger,)).start()
 
-    # virtual meter carbon dioxide emission
+    ####################################################################################################################
+    # Start Virtual Meter Processing Processes
+    ####################################################################################################################
+    # Virtual meter carbon dioxide emissions calculation
     Process(target=virtual_meter_carbon.main, args=(logger,)).start()
-    # virtual meter billing (cost or income)
+    # Virtual meter billing calculation (cost or income)
     Process(target=virtual_meter_billing.main, args=(logger,)).start()
 
 

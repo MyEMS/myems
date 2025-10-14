@@ -5,7 +5,7 @@
     <div class="modal-body">
         <form role="form" name="form_microgridbattery" novalidate class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.MICROGRID_BATTERY_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridbattery.name" type="text" name="microgridbatteryname" class="form-control" required="">
                     <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatteryname.$invalid && form_microgridbattery.microgridbatteryname.$dirty">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.BATTERY_STATE_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.BATTERY_STATE_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridbattery.battery_state_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.SOC_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.SOC_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridbattery.soc_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.POWER_POINT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridbattery.power_point.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.CHARGE_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.CHARGE_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridbattery.charge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.DISCHARGE_METER' | translate}}</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.DISCHARGE_METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="microgridbattery.discharge_meter.id" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}} (kWh)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_CAPACITY' | translate}} (kWh)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridbattery.rated_capacity" type="number" name="microgridbatteryrated_capacity" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatteryrated_capacity.$invalid && form_microgridbattery.microgridbatteryrated_capacity.$dirty">
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}} (kW)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.RATED_POWER' | translate}} (kW)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridbattery.rated_power" type="number" name="microgridbatteryrated_power" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatteryrated_power.$invalid && form_microgridbattery.microgridbatteryrated_power.$dirty">
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}} (V)</label>
+                <label class="col-sm-3 control-label">{{'MICROGRID.NOMINAL_VOLTAGE' | translate}} (V)<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input ng-model="microgridbattery.nominal_voltage" type="number" name="microgridbatterynominal_voltage" class="form-control" required="" min="0" max="999999">
                     <div class="m-t-xs" ng-show="form_microgridbattery.microgridbatterynominal_voltage.$invalid && form_microgridbattery.microgridbatterynominal_voltage.$dirty">

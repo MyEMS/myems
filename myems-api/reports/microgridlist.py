@@ -1,3 +1,34 @@
+"""
+Microgrid List Report API
+
+This module provides REST API endpoints for generating microgrid list reports.
+It provides a comprehensive list of microgrids with their basic information,
+status, and key performance indicators for management and monitoring purposes.
+
+Key Features:
+- Microgrid listing and overview
+- Status monitoring and tracking
+- Key performance indicators
+- Basic information management
+- Performance summary
+- Status reporting
+
+Report Components:
+- Microgrid list summary
+- Status information
+- Key performance indicators
+- Basic configuration data
+- Performance metrics
+- Status indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for microgrid list data
+- Status monitoring algorithms
+- Performance tracking tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 import falcon
 from datetime import datetime, timedelta
 import mysql.connector

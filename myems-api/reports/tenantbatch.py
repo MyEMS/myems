@@ -1,3 +1,35 @@
+"""
+Tenant Batch Report API
+
+This module provides REST API endpoints for generating tenant batch reports.
+It analyzes energy consumption data for multiple tenants within a space hierarchy,
+providing comprehensive insights into tenant performance and energy usage patterns.
+
+Key Features:
+- Multi-tenant energy consumption analysis
+- Space hierarchy traversal and analysis
+- Energy category breakdown
+- Base period vs reporting period comparison
+- Excel export functionality
+- Performance metrics calculation
+
+Report Components:
+- Tenant energy consumption summary
+- Space-based tenant grouping
+- Energy category analysis
+- Performance comparison metrics
+- Consumption trends and patterns
+- Efficiency indicators
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for tenant data
+- Space tree traversal algorithms
+- Energy consumption calculations
+- Excel export via excelexporters
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon

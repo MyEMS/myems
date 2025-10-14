@@ -1,3 +1,34 @@
+"""
+Microgrid Details EV Charger Report API
+
+This module provides REST API endpoints for generating microgrid electric vehicle (EV) charger reports.
+It analyzes EV charger data and performance metrics to provide insights into charging
+system performance, usage patterns, and optimization opportunities.
+
+Key Features:
+- EV charger performance analysis
+- Charging usage pattern analysis
+- Performance metrics calculation
+- Charging optimization insights
+- Performance monitoring
+- EV charging system analysis
+
+Report Components:
+- EV charger performance summary
+- Charging usage metrics
+- Performance indicators
+- Charging optimization recommendations
+- EV charging system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for EV charger data
+- Performance analysis algorithms
+- Charging monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector

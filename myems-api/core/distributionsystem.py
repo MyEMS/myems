@@ -8,12 +8,20 @@ import config
 
 
 class DistributionSystemCollection:
+    """
+    Distribution System Collection Resource
+
+    This class handles CRUD operations for distribution system collection.
+    It provides endpoints for listing all distribution systems and creating new ones.
+    Distribution systems represent electrical distribution networks in the energy management system.
+    """
     def __init__(self):
-        """Initializes DistributionSystemCollection"""
+        """Initialize DistributionSystemCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -139,7 +147,6 @@ class DistributionSystemCollection:
 
 class DistributionSystemItem:
     def __init__(self):
-        """Initializes DistributionSystemItem"""
         pass
 
     @staticmethod
@@ -318,7 +325,6 @@ class DistributionSystemItem:
 
 class DistributionSystemDistributionCircuitCollection:
     def __init__(self):
-        """Initializes DistributionSystemDistributionCircuitCollection"""
         pass
 
     @staticmethod
@@ -373,7 +379,6 @@ class DistributionSystemDistributionCircuitCollection:
 
 class DistributionSystemExport:
     def __init__(self):
-        """Initializes DistributionSystemExport"""
         pass
 
     @staticmethod
@@ -469,7 +474,6 @@ class DistributionSystemExport:
 
 class DistributionSystemImport:
     def __init__(self):
-        """Initializes DistributionSystemImport"""
         pass
 
     @staticmethod
@@ -596,7 +600,6 @@ class DistributionSystemImport:
 
 class DistributionSystemClone:
     def __init__(self):
-        """Initializes DistributionSystemClone"""
         pass
 
     @staticmethod

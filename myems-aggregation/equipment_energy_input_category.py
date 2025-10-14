@@ -1,3 +1,24 @@
+"""
+MyEMS Equipment Energy Input Category Aggregation Service
+
+This module handles the aggregation of energy input consumption data for equipment by energy categories.
+It processes energy consumption data from various sources (meters, virtual meters, offline meters)
+associated with each equipment and aggregates them into hourly energy consumption by categories.
+
+The service follows a systematic approach:
+1. Retrieves all equipment from the system database
+2. Creates a multiprocessing pool to process equipment in parallel
+3. For each equipment, retrieves associated input sources (meters, virtual meters, offline meters)
+4. Determines the time range for data aggregation
+5. Fetches energy consumption data from all input sources
+6. Finds the common time slot across all sources
+7. Aggregates energy data by energy categories and time slots
+8. Saves the aggregated data to the energy database
+
+This service runs continuously, processing new energy data as it becomes available and
+ensuring accurate energy consumption aggregation for all equipment in the system.
+"""
+
 import random
 import time
 from datetime import datetime, timedelta
@@ -17,15 +38,30 @@ import config
 
 
 def main(logger):
+    """
+    Main function for equipment energy input category aggregation service.
+
+    This function runs continuously and processes energy aggregation for all equipment.
+    It uses multiprocessing to handle multiple equipment in parallel for better performance.
+
+    Args:
+        logger: Logger instance for recording activities and errors
+
+    The function follows these steps:
+    1. Connects to the system database and retrieves all equipment
+    2. Creates a multiprocessing pool to process equipment in parallel
+    3. Sleeps for 300 seconds before the next processing cycle
+    """
 
     while True:
-        # the outermost while loop
+        # Main processing loop - runs continuously
         ################################################################################################################
-        # Step 1: get all equipments
+        # Step 1: Get all equipment from system database
         ################################################################################################################
         cnx_system_db = None
         cursor_system_db = None
         try:
+            # Connect to MyEMS System Database
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cursor_system_db = cnx_system_db.cursor()
         except Exception as e:
@@ -34,11 +70,12 @@ def main(logger):
                 cursor_system_db.close()
             if cnx_system_db:
                 cnx_system_db.close()
-            # sleep and continue the outer loop to reconnect the database
+            # Sleep and continue the main loop to reconnect the database
             time.sleep(60)
             continue
         print("Connected to MyEMS System Database")
 
+        # Retrieve all equipment from the system database
         equipment_list = list()
         try:
             cursor_system_db.execute(" SELECT id, name "
@@ -48,16 +85,17 @@ def main(logger):
 
             if rows_equipments is None or len(rows_equipments) == 0:
                 print("There isn't any equipments ")
-                # sleep and continue the outer loop to reconnect the database
+                # Sleep and continue the main loop to reconnect the database
                 time.sleep(60)
                 continue
 
+            # Build equipment list with id and name
             for row in rows_equipments:
                 equipment_list.append({"id": row[0], "name": row[1]})
 
         except Exception as e:
             logger.error("Error in step 1.2 of equipment_energy_input_category.main " + str(e))
-            # sleep and continue the outer loop to reconnect the database
+            # Sleep and continue the main loop to reconnect the database
             time.sleep(60)
             continue
         finally:
@@ -68,25 +106,28 @@ def main(logger):
 
         print("Got all equipments in MyEMS System Database")
 
-        # shuffle the equipment list for randomly calculating the meter hourly value
+        # Shuffle the equipment list for randomly calculating the meter hourly value
         random.shuffle(equipment_list)
 
         ################################################################################################################
         # Step 2: Create multiprocessing pool to call worker in parallel
         ################################################################################################################
+        # Create multiprocessing pool to process equipment in parallel
         p = Pool(processes=config.pool_size)
         error_list = p.map(worker, equipment_list)
         p.close()
         p.join()
 
+        # Log any errors that occurred during processing
         for error in error_list:
             if error is not None and len(error) > 0:
                 logger.error(error)
 
+        # Sleep for 300 seconds before the next processing cycle
         print("go to sleep 300 seconds...")
         time.sleep(300)
         print("wake from sleep, and continue to work...")
-    # end of outer while
+    # End of main processing loop
 
 
 ########################################################################################################################
@@ -106,8 +147,21 @@ def main(logger):
 ########################################################################################################################
 
 def worker(equipment):
+    """
+    Worker function to process energy aggregation for a single equipment.
+
+    This function handles the complete energy aggregation process for one equipment,
+    including retrieving associated input sources, fetching energy data, and saving
+    aggregated results to the database.
+
+    Args:
+        equipment: Dictionary containing equipment information (id, name)
+
+    Returns:
+        None if successful, error string if an error occurred
+    """
     ####################################################################################################################
-    # Step 1: get all input meters associated with the equipment
+    # Step 1: Get all input meters associated with the equipment
     ####################################################################################################################
     print("Step 1: get all input meters associated with the equipment " + str(equipment['name']))
 
@@ -115,6 +169,7 @@ def worker(equipment):
     cnx_system_db = None
     cursor_system_db = None
     try:
+        # Connect to MyEMS System Database
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
     except Exception as e:
@@ -127,6 +182,7 @@ def worker(equipment):
         return error_string
 
     try:
+        # Query input meters associated with this equipment
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_meters m, tbl_equipments_meters em "
                                  " WHERE m.id = em.meter_id "
@@ -152,12 +208,13 @@ def worker(equipment):
         return error_string
 
     ####################################################################################################################
-    # Step 2: get all input virtual meters associated with the equipment
+    # Step 2: Get all input virtual meters associated with the equipment
     ####################################################################################################################
     print("Step 2: get all input virtual meters associated with the equipment")
     virtual_meter_list = list()
 
     try:
+        # Query input virtual meters associated with this equipment
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_virtual_meters m, tbl_equipments_virtual_meters em "
                                  " WHERE m.id = em.virtual_meter_id "
@@ -183,13 +240,14 @@ def worker(equipment):
         return error_string
 
     ####################################################################################################################
-    # Step 3: get all input offline meters associated with the equipment
+    # Step 3: Get all input offline meters associated with the equipment
     ####################################################################################################################
     print("Step 3: get all input offline meters associated with the equipment")
 
     offline_meter_list = list()
 
     try:
+        # Query input offline meters associated with this equipment
         cursor_system_db.execute(" SELECT m.id, m.name, m.energy_category_id "
                                  " FROM tbl_offline_meters m, tbl_equipments_offline_meters em "
                                  " WHERE m.id = em.offline_meter_id "
@@ -216,7 +274,7 @@ def worker(equipment):
             cnx_system_db.close()
 
     ####################################################################################################################
-    # stop to the next equipment if this equipment is empty
+    # Check if this equipment has any input sources - skip if empty
     ####################################################################################################################
     if (meter_list is None or len(meter_list) == 0) and \
             (virtual_meter_list is None or len(virtual_meter_list) == 0) and \
@@ -225,12 +283,13 @@ def worker(equipment):
         return None
 
     ####################################################################################################################
-    # Step 4: determine start datetime and end datetime to aggregate
+    # Step 4: Determine start datetime and end datetime to aggregate
     ####################################################################################################################
     print("Step 4: determine start datetime and end datetime to aggregate")
     cnx_energy_db = None
     cursor_energy_db = None
     try:
+        # Connect to MyEMS Energy Database
         cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
         cursor_energy_db = cnx_energy_db.cursor()
     except Exception as e:
@@ -243,21 +302,26 @@ def worker(equipment):
         return error_string
 
     try:
+        # Find the latest processed timestamp for this equipment
         query = (" SELECT MAX(start_datetime_utc) "
                  " FROM tbl_equipment_input_category_hourly "
                  " WHERE equipment_id = %s ")
         cursor_energy_db.execute(query, (equipment['id'],))
         row_datetime = cursor_energy_db.fetchone()
+
+        # Initialize start_datetime_utc with configured start time
         start_datetime_utc = datetime.strptime(config.start_datetime_utc, '%Y-%m-%d %H:%M:%S')
         start_datetime_utc = start_datetime_utc.replace(minute=0, second=0, microsecond=0, tzinfo=None)
 
         if row_datetime is not None and len(row_datetime) > 0 and isinstance(row_datetime[0], datetime):
-            # replace second and microsecond with 0
-            # note: do not replace minute in case of calculating in half hourly
+            # Use the latest processed timestamp as starting point
+            # Replace second and microsecond with 0
+            # Note: do not replace minute in case of calculating in half hourly
             start_datetime_utc = row_datetime[0].replace(second=0, microsecond=0, tzinfo=None)
-            # start from the next time slot
+            # Start from the next time slot
             start_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
+        # Set end datetime to current UTC time
         end_datetime_utc = datetime.utcnow().replace(second=0, microsecond=0, tzinfo=None)
 
         print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19]
@@ -273,7 +337,7 @@ def worker(equipment):
         return error_string
 
     ####################################################################################################################
-    # Step 5: for each meter in list, get energy input data from energy database
+    # Step 5: For each meter in list, get energy input data from energy database
     ####################################################################################################################
     energy_meter_hourly = dict()
     try:
@@ -281,6 +345,7 @@ def worker(equipment):
             for meter in meter_list:
                 meter_id = str(meter['id'])
 
+                # Query energy consumption data for this meter
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_meter_hourly "
                          " WHERE meter_id = %s "
@@ -305,7 +370,7 @@ def worker(equipment):
         return error_string
 
     ####################################################################################################################
-    # Step 6: for each virtual meter in list, get energy input data from energy database
+    # Step 6: For each virtual meter in list, get energy input data from energy database
     ####################################################################################################################
     energy_virtual_meter_hourly = dict()
     if virtual_meter_list is not None and len(virtual_meter_list) > 0:
@@ -313,6 +378,7 @@ def worker(equipment):
             for virtual_meter in virtual_meter_list:
                 virtual_meter_id = str(virtual_meter['id'])
 
+                # Query energy consumption data for this virtual meter
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_virtual_meter_hourly "
                          " WHERE virtual_meter_id = %s "
@@ -337,7 +403,7 @@ def worker(equipment):
             return error_string
 
     ####################################################################################################################
-    # Step 7: for each offline meter in list, get energy input data from energy database
+    # Step 7: For each offline meter in list, get energy input data from energy database
     ####################################################################################################################
     energy_offline_meter_hourly = dict()
     if offline_meter_list is not None and len(offline_meter_list) > 0:
@@ -345,6 +411,7 @@ def worker(equipment):
             for offline_meter in offline_meter_list:
                 offline_meter_id = str(offline_meter['id'])
 
+                # Query energy consumption data for this offline meter
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_offline_meter_hourly "
                          " WHERE offline_meter_id = %s "
@@ -370,12 +437,14 @@ def worker(equipment):
             return error_string
 
     ####################################################################################################################
-    # Step 8: determine common time slot to aggregate
+    # Step 8: Determine common time slot to aggregate
     ####################################################################################################################
 
+    # Initialize common time slot with the processing time range
     common_start_datetime_utc = start_datetime_utc
     common_end_datetime_utc = end_datetime_utc
 
+    # Find the intersection of time slots across all energy sources
     print("Getting common time slot of energy values for all meters")
     if energy_meter_hourly is not None and len(energy_meter_hourly) > 0:
         for meter_id, energy_hourly in energy_meter_hourly.items():
@@ -384,11 +453,13 @@ def worker(equipment):
                 common_end_datetime_utc = None
                 break
             else:
+                # Adjust common time slot to match available data
                 if common_start_datetime_utc < min(energy_hourly.keys()):
                     common_start_datetime_utc = min(energy_hourly.keys())
                 if common_end_datetime_utc > max(energy_hourly.keys()):
                     common_end_datetime_utc = max(energy_hourly.keys())
 
+    # Find common time slot for virtual meter energy data
     print("Getting common time slot of energy values for all virtual meters")
     if common_start_datetime_utc is not None and common_end_datetime_utc is not None:
         if energy_virtual_meter_hourly is not None and len(energy_virtual_meter_hourly) > 0:
@@ -398,11 +469,13 @@ def worker(equipment):
                     common_end_datetime_utc = None
                     break
                 else:
+                    # Adjust common time slot to match available data
                     if common_start_datetime_utc < min(energy_hourly.keys()):
                         common_start_datetime_utc = min(energy_hourly.keys())
                     if common_end_datetime_utc > max(energy_hourly.keys()):
                         common_end_datetime_utc = max(energy_hourly.keys())
 
+    # Find common time slot for offline meter energy data
     print("Getting common time slot of energy values for all offline meters")
     if common_start_datetime_utc is not None and common_end_datetime_utc is not None:
         if energy_offline_meter_hourly is not None and len(energy_offline_meter_hourly) > 0:
@@ -412,17 +485,19 @@ def worker(equipment):
                     common_end_datetime_utc = None
                     break
                 else:
+                    # Adjust common time slot to match available data
                     if common_start_datetime_utc < min(energy_hourly.keys()):
                         common_start_datetime_utc = min(energy_hourly.keys())
                     if common_end_datetime_utc > max(energy_hourly.keys()):
                         common_end_datetime_utc = max(energy_hourly.keys())
 
+    # Check if there's any energy data available for aggregation
     if (energy_meter_hourly is None or len(energy_meter_hourly) == 0) and \
             (energy_virtual_meter_hourly is None or len(energy_virtual_meter_hourly) == 0) and \
             (energy_offline_meter_hourly is None or len(energy_offline_meter_hourly) == 0):
-        # There isn't any energy data
+        # No energy data available for processing
         print("There isn't any energy data")
-        # continue the for equipment loop to the next equipment
+        # Continue to the next equipment
         print("continue the for equipment loop to the next equipment")
         if cursor_energy_db:
             cursor_energy_db.close()
@@ -434,49 +509,60 @@ def worker(equipment):
     print("common_end_datetime_utc: " + str(common_end_datetime_utc))
 
     ####################################################################################################################
-    # Step 9: aggregate energy data in the common time slot by energy categories and hourly
+    # Step 9: Aggregate energy data in the common time slot by energy categories and hourly
     ####################################################################################################################
 
     print("Step 9: aggregate energy data in the common time slot by energy categories and hourly")
     aggregated_values = list()
     try:
+        # Process each hour in the common time slot
         current_datetime_utc = common_start_datetime_utc
         while common_start_datetime_utc is not None \
                 and common_end_datetime_utc is not None \
                 and current_datetime_utc <= common_end_datetime_utc:
+            # Initialize aggregated value structure for current hour
             aggregated_value = dict()
             aggregated_value['start_datetime_utc'] = current_datetime_utc
             aggregated_value['meta_data'] = dict()
 
+            # Aggregate energy data from meters
             if meter_list is not None and len(meter_list) > 0:
                 for meter in meter_list:
                     meter_id = str(meter['id'])
                     energy_category_id = meter['energy_category_id']
                     actual_value = energy_meter_hourly[meter_id].get(current_datetime_utc, Decimal(0.0))
+                    # Sum energy values by category
                     aggregated_value['meta_data'][energy_category_id] = \
                         aggregated_value['meta_data'].get(energy_category_id, Decimal(0.0)) + actual_value
 
+            # Aggregate energy data from virtual meters
             if virtual_meter_list is not None and len(virtual_meter_list) > 0:
                 for virtual_meter in virtual_meter_list:
                     virtual_meter_id = str(virtual_meter['id'])
                     energy_category_id = virtual_meter['energy_category_id']
                     actual_value = energy_virtual_meter_hourly[virtual_meter_id].get(current_datetime_utc, Decimal(0.0))
+                    # Sum energy values by category
                     aggregated_value['meta_data'][energy_category_id] = \
                         aggregated_value['meta_data'].get(energy_category_id, Decimal(0.0)) + actual_value
 
+            # Aggregate energy data from offline meters
             if offline_meter_list is not None and len(offline_meter_list) > 0:
                 for offline_meter in offline_meter_list:
                     offline_meter_id = str(offline_meter['id'])
                     energy_category_id = offline_meter['energy_category_id']
                     actual_value = energy_offline_meter_hourly[offline_meter_id].get(current_datetime_utc, Decimal(0.0))
+                    # Sum energy values by category
                     aggregated_value['meta_data'][energy_category_id] = \
                         aggregated_value['meta_data'].get(energy_category_id, Decimal(0.0)) + actual_value
 
+            # Add aggregated value to the list
             aggregated_values.append(aggregated_value)
 
+            # Move to next time slot
             current_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
     except Exception as e:
+        # Handle any errors during aggregation
         error_string = "Error in step 9 of equipment_energy_input_category.worker " + str(e)
         if cursor_energy_db:
             cursor_energy_db.close()
@@ -486,14 +572,16 @@ def worker(equipment):
         return error_string
 
     ####################################################################################################################
-    # Step 10: save energy data to energy database
+    # Step 10: Save energy data to energy database
     ####################################################################################################################
     print("Step 10: save energy data to energy database")
 
+    # Save aggregated values to database in batches of 100
     while len(aggregated_values) > 0:
         insert_100 = aggregated_values[:100]
         aggregated_values = aggregated_values[100:]
         try:
+            # Prepare SQL statement for bulk insert
             add_values = (" INSERT INTO tbl_equipment_input_category_hourly "
                           "             (equipment_id, "
                           "              energy_category_id, "
@@ -501,6 +589,7 @@ def worker(equipment):
                           "              actual_value) "
                           " VALUES  ")
 
+            # Build values for bulk insert
             for aggregated_value in insert_100:
                 for energy_category_id, actual_value in aggregated_value['meta_data'].items():
                     add_values += " (" + str(equipment['id']) + ","
@@ -508,11 +597,12 @@ def worker(equipment):
                     add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
                     add_values += str(actual_value) + "), "
             # print("add_values:" + add_values)
-            # trim ", " at the end of string and then execute
+            # Remove trailing comma and space, then execute the query
             cursor_energy_db.execute(add_values[:-2])
             cnx_energy_db.commit()
 
         except Exception as e:
+            # Handle database insertion errors
             error_string = "Error in step 10.1 of equipment_energy_input_category.worker " + str(e)
             print(error_string)
             if cursor_energy_db:
@@ -521,6 +611,7 @@ def worker(equipment):
                 cnx_energy_db.close()
             return error_string
 
+    # Close database connections
     if cursor_energy_db:
         cursor_energy_db.close()
     if cnx_energy_db:

@@ -8,12 +8,20 @@ from core.useractivity import user_logger, admin_control
 
 
 class WechatMessageCollection(object):
+    """
+    WeChat Message Collection Resource
+
+    This class handles CRUD operations for WeChat message collection.
+    It provides endpoints for listing all WeChat messages and creating new messages.
+    WeChat messages are notifications sent via WeChat platform.
+    """
     def __init__(self):
-        """"Initializes WechatMessageCollection"""
+        """Initialize WechatMessageCollection"""
         pass
 
     @staticmethod
     def on_options(req, resp):
+        """Handle OPTIONS requests for CORS preflight"""
         _ = req
         resp.status = falcon.HTTP_200
 
@@ -252,7 +260,6 @@ class WechatMessageCollection(object):
 
 class WechatMessageItem:
     def __init__(self):
-        """"Initializes WechatMessageItem"""
         pass
 
     @staticmethod

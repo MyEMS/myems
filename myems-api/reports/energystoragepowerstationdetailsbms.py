@@ -1,3 +1,34 @@
+"""
+Energy Storage Power Station Details BMS Report API
+
+This module provides REST API endpoints for generating energy storage power station battery management system (BMS) reports.
+It analyzes BMS data and performance metrics to provide insights into battery system
+performance, health monitoring, and optimization opportunities.
+
+Key Features:
+- BMS performance analysis
+- Battery health monitoring
+- Performance metrics calculation
+- System optimization insights
+- Performance monitoring
+- Battery system analysis
+
+Report Components:
+- BMS performance summary
+- Battery health metrics
+- Performance indicators
+- System optimization recommendations
+- Battery system analysis
+- Performance trends
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for BMS data
+- Performance analysis algorithms
+- Battery monitoring tools
+- Multi-language support
+- User authentication and authorization
+"""
+
 from datetime import datetime, timedelta
 import falcon
 import mysql.connector
