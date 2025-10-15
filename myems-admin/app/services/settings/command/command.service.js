@@ -10,7 +10,10 @@ app.factory('CommandService', function($http) {
             });
         },
         searchCommands: function(query, headers, callback) {
-            $http.get(getAPI()+'commands', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'commands', {
+                params: {q: query},
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
