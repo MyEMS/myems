@@ -100,6 +100,29 @@ app.controller(
       );
     };
 
+    let searchDebounceTimer = null;
+    $scope.searchEnergystoragepowerstations = function() {
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        const rawKeyword = $scope.searchKeyword || "";
+        const trimmedKeyword = rawKeyword.trim();
+        if (searchDebounceTimer) {
+            clearTimeout(searchDebounceTimer);
+        }
+        searchDebounceTimer = setTimeout(() => {
+            if (!trimmedKeyword) {
+                $scope.getAllEnergyStoragePowerStations();
+                return;
+            }
+            EnergyStoragePowerStationService.searchEnergyStoragePowerStations(trimmedKeyword, headers, function (response) {
+                if (angular.isDefined(response.status) && response.status === 200) {
+                        $scope.energystoragepowerstations = response.data;
+                } else {
+                        $scope.energystoragepowerstations = [];
+                }
+            });
+        }, 300);
+    };
+
     $scope.getAllPhaseOfLifecycles = function () {
       $scope.phaseoflifecycles = [
         {
