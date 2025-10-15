@@ -12,7 +12,7 @@ app.controller('CommandController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+	$scope.searchKeyword = '';
 	$scope.getAllCommands = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -247,6 +247,39 @@ app.controller('CommandController', function(
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchCommands = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllCommands();
+				safeApply($scope);
+				return;
+			}
+
+			CommandService.searchCommands(trimmedKeyword, headers, (response) => {
+				$scope.commands = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.commands];
+			});
+		}, 300);
 	};
 
 	$scope.getAllCommands();
