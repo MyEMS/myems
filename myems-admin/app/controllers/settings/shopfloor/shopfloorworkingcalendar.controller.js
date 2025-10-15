@@ -12,6 +12,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
     $scope.currentShopfloorID = 1;
     $scope.shopfloorworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.currentShopfloor = {selected:undefined};
 
     $scope.changeShopfloor=function(item,model){
       $scope.currentShopfloor=item;
