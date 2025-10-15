@@ -12,7 +12,7 @@ app.controller('SensorController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+	$scope.searchKeyword = '';
 	$scope.getAllSensors = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SensorService.getAllSensors(headers, function (response) {
@@ -234,6 +234,39 @@ app.controller('SensorController', function(
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchSensors = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllSensors();
+				safeApply($scope);
+				return;
+			}
+
+			SensorService.searchSensors(trimmedKeyword, headers, (response) => {
+				$scope.sensors = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.sensors];
+			});
+		}, 300);
 	};
 
 	$scope.getAllSensors();
