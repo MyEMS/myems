@@ -12,6 +12,7 @@ app.controller('StoreWorkingCalendarController', function(
     $scope.currentStoreID = 1;
     $scope.storeworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.currentStore = {selected:undefined};
 
     $scope.changeStore=function(item,model){
       $scope.currentStore=item;

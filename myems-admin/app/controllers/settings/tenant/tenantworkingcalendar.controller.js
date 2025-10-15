@@ -12,7 +12,7 @@ app.controller('TenantWorkingCalendarController', function(
     $scope.currentTenantID = 1;
     $scope.tenantworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-
+    $scope.currentTenant = {selected:undefined};
     $scope.changeTenant=function(item,model){
       $scope.currentTenant=item;
       $scope.currentTenant.selected=model;

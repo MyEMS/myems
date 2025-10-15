@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed translations of menu setting page in myems-admin
 - fixed value range issues of point in myems-admin
+- fixed pop error issues when binding working calendar to store, shopfloor, and teant in myems-admin
 ### Removed
 
 ## [v5.9.0] - 2025-09-28
