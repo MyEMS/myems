@@ -10,7 +10,10 @@ app.factory('SensorService', function($http) {
             });
         },
         searchSensors: function(query, headers, callback) {
-            $http.get(getAPI()+'sensors', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'sensors', {
+                params: {q: query},
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
