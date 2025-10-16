@@ -11,7 +11,6 @@ app.controller('CostCenterTariffController', function (
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
-    // 获取所有成本中心
     $scope.getAllCostCenters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostCenterService.getAllCostCenters(headers, function (response) {
@@ -27,13 +26,11 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-    // 根据成本中心ID获取绑定费率
     $scope.getTariffsByCostCenterID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostCenterTariffService.getTariffsByCostCenterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.costcentertariffs = response.data;
-                // 重新加载未绑定费率列表（右侧）
                 $scope.getAllTariffs();
             } else {
                 $scope.costcentertariffs = [];
@@ -42,12 +39,10 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-    // 切换成本中心
     $scope.changeCostCenter = function () {
         $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
     };
 
-    // 获取所有费率（右侧未绑定列表）
     $scope.getAllTariffs = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TariffService.getAllTariffs(headers, function (response) {
@@ -55,7 +50,6 @@ app.controller('CostCenterTariffController', function (
                 let allTariffs = response.data;
                 if ($scope.costcentertariffs && $scope.costcentertariffs.length > 0) {
                     const boundIds = $scope.costcentertariffs.map(t => t.id);
-                    // 过滤掉已绑定的费率
                     $scope.tariffs = allTariffs.filter(t => !boundIds.includes(t.id));
                 } else {
                     $scope.tariffs = allTariffs;
@@ -66,7 +60,6 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-    // 绑定费率
     $scope.pairTariff = function (dragEl, dropEl) {
         var tariffid = angular.element('#' + dragEl).scope().tariff.id;
         var costcenterid = $scope.currentCostCenter.id;
@@ -81,7 +74,6 @@ app.controller('CostCenterTariffController', function (
                     }),
                     showCloseButton: true,
                 });
-                // 刷新绑定与未绑定列表
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
             } else {
                 toaster.pop({
@@ -94,7 +86,6 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-    // 解绑费率
     $scope.deleteTariffPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -112,7 +103,7 @@ app.controller('CostCenterTariffController', function (
                     }),
                     showCloseButton: true,
                 });
-                // 刷新绑定与未绑定列表
+                
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
             } else {
                 toaster.pop({
@@ -125,11 +116,9 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-    // 初始化加载
     $scope.getAllCostCenters();
     $scope.getAllTariffs();
 
-    // 当其他控制器广播更新时刷新
     $scope.$on('handleBroadcastCostCenterChanged', function (event) {
         $scope.getAllCostCenters();
     });
